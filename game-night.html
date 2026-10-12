@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Game Night — the Curator deals your night — Button Mash</title>
-<meta name="description" content="Headcount, hours, mood — the Curator scores all 213 verified browser games and deals your game night like a good set: warm-up, main events, showdown, cool-down. Runs in your browser, nothing stored.">
+<meta name="description" content="Headcount, hours, mood — the Curator scores all 213 verified browser games and deals your game night like a good set: warm-up, main events, showdown, cool-down. Save the good nights in your browser, rematch them with fresh picks.">
 <!-- the curator's deck is stacked. don't tell the regulars. -->
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
@@ -48,8 +48,9 @@
       <h1>Game night, <span class="pink">dealt.</span></h1>
       <p class="lede">Tell the Curator the headcount, the hours, and the mood. The engine scores
       all <strong>213 verified browser games</strong> and deals your night like a good set —
-      a warm-up, main events, a showdown, a cool-down. Everything below runs in your
-      browser; nothing is stored, nothing is sent anywhere.</p>
+      a warm-up, main events, a showdown, a cool-down. A night worth repeating? Shelve it —
+      saved nights live in this browser only, and the rematch re-deals the same setup
+      with fresh picks. Nothing is ever sent anywhere.</p>
       <div class="marquee-bulbs bottom" aria-hidden="true"></div>
     </div>
 
@@ -112,6 +113,12 @@
     <p id="cn-announcer" class="sr-only" aria-live="polite"></p>
     <section class="cn-stage" id="cn-stage" aria-label="Your dealt lineup"></section>
 
+    <section class="cn-shelf" id="cn-shelf" aria-labelledby="cn-shelf-h" hidden>
+      <h2 id="cn-shelf-h">» Your saved nights</h2>
+      <p class="cn-hint" id="cn-shelf-note" role="status"></p>
+      <div class="cn-shelf-list" id="cn-shelf-list"></div>
+    </section>
+
   </div>
 </main>
 
@@ -162,6 +169,7 @@
 <script src="assets/js/store.js"></script>
 <script src="assets/js/arcade.js"></script>
 <script src="assets/js/curator-night.js"></script>
+<script src="assets/js/curator-night-lineups.js"></script>
 <script src="assets/js/curator-night-ui.js"></script>
 </body>
 </html>

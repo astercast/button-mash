@@ -2,6 +2,91 @@
 
 Running record of build waves. Newest first.
 
+## Wave 23 — 2026-10-12 — "Game Night 2.1": saved lineups & the rematch
+
+**What shipped** — wave 22 calibrated the buckets and left every dealt night
+ephemeral: close the tab, lose the night. Game Night now has a shelf.
+
+- **Saved lineups** (`assets/js/curator-night-lineups.js`, new UMD module,
+  DOM-free, same discipline as the Trophy Room core): a dealt night can be
+  shelved under a name you pick (blank name → a suggested one from the
+  setup, e.g. "Fri 16 Oct — 4 players · party + chaotic"). Storage is
+  browser-local only — localStorage key `bm.lineups.v1`, cap 12 nights,
+  in-memory fallback with a plain on-page notice when storage is blocked.
+  Nothing is sent anywhere; there is no account and no server copy. The
+  page's old "nothing is stored" copy was corrected everywhere it appeared
+  (page lede + meta, AGENT.md, llms.txt/llms-full.txt via build_site.py).
+- **Snapshots, not re-scores**: a saved record carries the lineup exactly
+  as dealt — picks, order, curator estimates, score breakdowns, the setup
+  that produced it, scoring version. Later calibration waves never reach
+  into the shelf. Records validate field by field on load: one corrupt or
+  tampered entry is dropped, the rest of the shelf survives; unparseable
+  storage reads as an empty shelf, never a crash.
+- **The rematch**: load a shelved night and deal its rematch — the same
+  setup re-dealt with every saved pick held out of the deck, so each slot
+  comes back fresh on the same role curve (warm-up → mains → intermission
+  → peak → cool-down). The main-event count follows the timebox exactly as
+  on a fresh deal — at identical totals (~120 of 120 min) the probe night
+  and its rematch filled the night in 8 and 7 slots respectively — and the
+  rematch never overruns to force a count. Kids rematches stay inside the
+  kid-safe corpus. A rematch can itself be shelved ("… — the rematch").
+- **Copy-as-text card** for every saved night: name, saved date, setup
+  line, every slot in order with role, estimates and URL, and the
+  estimates disclaimer — paste-ready for the group chat, same format
+  family as the dealt night's copy.
+- **The shelf UI** (progressive disclosure, cabinet styling): the "Your
+  saved nights" section stays hidden until the first night is shelved.
+  Each card shows name, date, setup, total estimate and the pick order,
+  with Load / Rematch / Copy card / Retire. Loading renders the snapshot
+  on the ceremony stage under a SAVED NIGHT banner with its own actions
+  (copy card, deal the rematch, retire, print); print still hides the
+  shelf — paper gets the night, not the cabinet. A screenshot review
+  caught one real bug mid-wave: the `.btn` display rule overrode the
+  `hidden` attribute, so "Save this night" stayed visible after shelving;
+  fixed with an explicit `[hidden]` rule in the actions row.
+
+**Validation:**
+- `scripts/build.py`: **BUILD OK — 213 games, 24 collections, 10 emulators, 22 guides**; **LEGAL GATE OK (42 pages, 0 piracy links)**
+- `scripts/check_links.py`: **0 broken (41 pages, 1378 local links)**
+- `node scripts/check_api_workflows.js`: **224/224 pass (WF1–WF25)** — new WF25 (7 checks: shelf module surface + storage key, page wiring + honest copy, UI actions wired, save/snapshot round-trip over the real catalog, rematch freshness + curve + card disclaimer, shelf CSS + print rule, legal lane)
+- `node scripts/test_lineups23.js`: **ALL PASS (41 checks)** — shelf unit checks (save/snapshot/reload persistence, cap refusal, per-record corruption survival, unparseable storage, rematch freshness/curve/kids, card contents) + headless flow (deal → name → shelve → reload → load → rematch → retire, zero pageerrors) + mobile 390px shelf (zero overflow)
+- `node scripts/test_gamenight22.js`: **ALL PASS (20 checks)** — 1,680-night grid sweep still clean; engine untouched this wave
+- `node scripts/test_curatornight21.js`: **43/43 ALL PASS, zero pageerrors**
+- `node scripts/test_wave19.js`: **37/37 ALL PASS, zero pageerrors**
+- `node scripts/test_gamenight_parity.js`: **256/256 PARITY OK** (v1 engine untouched, as designed)
+- `tests/api.test.sh`: **40/40 green**
+- Regression: `test_party_planner11` ALL PASS; `test_tournament10` ALL PASS (26/26); `test_trophy18` ALL PASSED; `test_player21` ALL PASSED; `test_wave17` ALL PASS; `test_wow1` desktop/motion/mobile/player ALL PASS + powerunit ALL PASS + playertail ALL PASS; `test_bracket` 82/82; `test_bracket_double` 105/105; `test_party11` 36/36; `test_converter12` 66/66
+- `~/workspace/smoke/test.js`: exit 0, zero errors (known CDN tunnel noise only)
+- `node --check`: clean on every new/edited JS file
+- Screenshots inspected: desktop shelf after shelving "Friday With The Cousins" (card meta + pick order + honest browser-only note legible; post-save actions correctly reduced to copy/print), desktop rematch hero with the new lede, mobile 390px hero (zero overflow)
+
+**test_identity16 — PASSES CLEAN (41/41) in a quieter window; the stall is
+real, load-bound, and still there at loadavg ~10.** Two attempts, no code
+changed between them, no assertion touched. Attempt 1 at loadavg ~9.6
+(2 CPUs shared with parallel agents' renders) reproduced the documented
+stall exactly: 28/41 checks green, zero assertion failures, then a
+harness `TimeoutError` in `waitCards` at check 16.29 — the 213-card
+re-render after clearing filters starved past its 15s poll window.
+Attempt 2, after idling down to loadavg 5.59 (the quietest window the
+box offered), ran **41/41 ALL PASS, exit 0, zero pageerrors** in ~60s.
+Same tree, same suite: the variable is renderer CPU, exactly as wave 21
+documented on the pristine tree. A genuinely quiet VM (loadavg near
+idle) remains the standing recommendation for a load-independent read.
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links; the
+shelf stores only catalog ids, titles and the Curator's own estimates,
+all already public page data.
+
+**Self-assessment**: the night no longer dies with the tab. The design
+choices that matter: snapshots over re-scores (a saved night is a memory,
+not a query), a cap that refuses out loud instead of silently dropping
+the oldest night, and a rematch that holds the saved picks out of the
+deck rather than shuffling until it looks different — fresh is guaranteed,
+not probable. The one honest wrinkle is the fill count: a rematch can
+deal one main more or fewer than the night it answers, because the
+timebox — not the slot count — is the house rule. The curve, the setup
+and the minutes are the night; the count is arithmetic.
+
 ## Wave 22 — 2026-10-12 — "Game Night 2.0": the buckets, calibrated + test_wave19 to green
 
 **What shipped** — the wave-21 self-assessment asked for "a second pair of eyes

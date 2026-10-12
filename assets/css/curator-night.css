@@ -235,10 +235,66 @@
 .cn-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin: 0 0 2rem; }
 .cn-copy-note { font-size: 0.85rem; color: var(--ink-dim); overflow-wrap: anywhere; }
 
+/* ============ Saved nights: the shelf (wave 23) ============ */
+.cn-saved-banner {
+  font-family: "VT323", ui-monospace, monospace;
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+  color: var(--neon-cyan);
+  margin: 0 0 0.9rem;
+}
+.cn-save-form {
+  display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;
+  width: 100%;
+  border: 2px dashed var(--edge-bright);
+  border-radius: var(--r-md);
+  padding: 0.7rem 0.9rem;
+}
+.cn-save-form[hidden], .cn-actions [hidden] { display: none !important; }
+.cn-save-form label { font-weight: 600; display: flex; align-items: center; gap: 0.6rem; flex: 1 1 16rem; }
+.cn-save-name {
+  flex: 1 1 12rem;
+  font: inherit;
+  color: var(--ink);
+  background: var(--bg);
+  border: 2px solid var(--edge-bright);
+  border-radius: 6px;
+  padding: 0.45rem 0.6rem;
+}
+.cn-save-name:focus-visible { outline: 3px solid var(--neon-lime); outline-offset: 2px; }
+.cn-shelf { margin: 0 0 2rem; }
+.cn-shelf h2 {
+  font-family: "VT323", ui-monospace, monospace;
+  font-size: 1.25rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--neon-cyan);
+  margin: 0 0 0.4rem;
+}
+.cn-shelf-list { display: grid; gap: 0.8rem; margin-top: 0.8rem; }
+@media (min-width: 720px) { .cn-shelf-list { grid-template-columns: repeat(2, 1fr); } }
+.cn-shelf-card {
+  border: 2px solid var(--edge-bright);
+  border-radius: var(--r-md);
+  background: var(--panel);
+  padding: 0.9rem 1.1rem 1rem;
+}
+.cn-shelf-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.3rem 0.8rem; }
+.cn-shelf-head h3 { margin: 0; font-size: 1.1rem; color: var(--ink); overflow-wrap: anywhere; }
+.cn-shelf-date {
+  font-family: "VT323", ui-monospace, monospace;
+  font-size: 1.05rem;
+  color: var(--neon-amber);
+  white-space: nowrap;
+}
+.cn-shelf-meta { color: var(--ink-dim); font-size: 0.9rem; margin: 0.35rem 0 0; }
+.cn-shelf-titles { color: var(--ink-dim); font-size: 0.9rem; margin: 0.3rem 0 0; overflow-wrap: anywhere; }
+.cn-shelf-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 0.7rem; }
+
 /* ============ Print: the night on paper ============ */
 @media print {
   .site-header, .site-footer, .cn-panel, .cn-seeds, .cn-actions, .skip-link,
-  .cn-shuffle, .cn-deal-row { display: none !important; }
+  .cn-shuffle, .cn-deal-row, .cn-shelf, .cn-save-form { display: none !important; }
   body { background: #fff; color: #000; }
   .cn-marquee, .cn-slot, .cn-summary { break-inside: avoid; border: 1px solid #000; background: #fff; box-shadow: none; }
   .cn-marquee h1, .cn-role, .cn-meta, .cn-why li, .cn-notes { color: #000; text-shadow: none; }

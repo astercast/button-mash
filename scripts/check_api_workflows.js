@@ -1255,4 +1255,70 @@ check("WF24 no ROM/BIOS download phrasing in wave-22 files",
   !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(gn22Test + cnUi),
   "legal lane holds");
 
+// Wave 23 "Game Night 2.1": saved lineups (the shelf) + the rematch.
+const BL25 = require(path.join(ROOT, "assets/js/curator-night-lineups.js"));
+const CAT24 = (() => {
+  const ks = {};
+  (load("data/v1/kid-safe.json")["kid-safe"] || []).forEach((k) => { ks[k.id] = 1; });
+  return { games: games, kidSafeIds: ks, generated_at: gamesEnv.generated_at };
+})();
+const blJs = fs.readFileSync(path.join(ROOT, "assets/js/curator-night-lineups.js"), "utf8");
+const gn23Test = fs.readFileSync(path.join(ROOT, "scripts/test_lineups23.js"), "utf8");
+check("WF25 shelf module: UMD, DOM-free, storage key + cap + schema",
+  blJs.includes("STORE_KEY = 'bm.lineups.v1'") && blJs.includes("typeof module") &&
+  !/document\.|window\./.test(blJs) && BL25.MAX_LINEUPS === 12 &&
+  BL25.EXPORT_SCHEMA === "bm.lineup.v1" && typeof BL25.createStore === "function" &&
+  typeof BL25.rematch === "function" && typeof BL25.lineupAsText === "function",
+  "bm.lineups.v1, cap 12, snapshot records validated one by one");
+check("WF25 game-night.html: shelf section + module wired, honest storage copy",
+  gnHtml.includes('id="cn-shelf"') && gnHtml.includes('id="cn-shelf-list"') &&
+  gnHtml.includes("curator-night-lineups.js") &&
+  gnHtml.indexOf("curator-night-lineups.js") < gnHtml.indexOf("curator-night-ui.js") &&
+  gnHtml.includes("saved nights live in this browser only") &&
+  !gnHtml.includes("nothing is stored") && !gnHtml.includes("nothing stored"),
+  "shelf markup present, module loads before the UI, no stale nothing-stored claim");
+check("WF25 UI: save / load / rematch / retire / copy-card all wired",
+  cnUi.includes("LINEUPS.save") && cnUi.includes("LINEUPS.remove") &&
+  cnUi.includes("BMCuratorLineups.rematch") && cnUi.includes("BMCuratorLineups.lineupAsText") &&
+  cnUi.includes("renderShelf") && cnUi.includes("resultFromRecord") &&
+  cnUi.includes("cn-shelf-card") && cnUi.includes("storageMode"),
+  "stage actions + shelf cards share one store; memory-mode notice honored");
+check("WF25 save/snapshot round-trip over the real catalog (in-suite)",
+  (() => {
+    const m = {};
+    const be = { get: (k) => (k in m ? m[k] : null), set: (k, v) => { m[k] = v; }, del: (k) => { delete m[k]; } };
+    const st = BL25.createStore(be);
+    const inp = { group_size: 4, minutes: 120, vibes: ["party", "chaotic"], skill: "mixed", kids: false };
+    const r = st.save(CN24.dealNight(inp, CAT24), "WF25 Probe Night");
+    if (!r.ok) return false;
+    const back = BL25.createStore(be).get(r.record.id);
+    return !!back && back.slots.length === r.record.slots.length &&
+      back.slots.every((s, i) => s.game_id === r.record.slots[i].game_id);
+  })(),
+  "deal -> shelve -> fresh store reads the same night back");
+check("WF25 rematch over the real catalog: fresh picks, same curve, timebox intact",
+  (() => {
+    const m = {};
+    const be = { get: (k) => (k in m ? m[k] : null), set: (k, v) => { m[k] = v; }, del: (k) => { delete m[k]; } };
+    const st = BL25.createStore(be);
+    const inp = { group_size: 4, minutes: 120, vibes: ["party", "chaotic"], skill: "mixed", kids: false };
+    const rec = st.save(CN24.dealNight(inp, CAT24), "WF25 Rematch Probe").record;
+    const rm = BL25.rematch(rec, CAT24, CN24);
+    const held = {};
+    rec.slots.forEach((s) => { held[s.game_id] = 1; });
+    const curve = (slots) => slots.map((s) => s.role).filter((x) => x !== "main");
+    return rm.ok && rm.fresh && rm.result.lineup.every((s) => !held[s.game_id]) &&
+      JSON.stringify(curve(rm.result.lineup)) === JSON.stringify(curve(rec.slots)) &&
+      rm.result.total_est_minutes <= inp.minutes &&
+      /curator estimates, not measured times/.test(BL25.lineupAsText(rec));
+  })(),
+  "held-out deck, zero repeats, role curve preserved, card carries the disclaimer");
+check("WF25 shelf CSS: cards + save form styled, print hides the shelf",
+  cnCss.includes(".cn-shelf-card") && cnCss.includes(".cn-save-form") &&
+  cnCss.includes(".cn-saved-banner") && /\.cn-shelf[^{]*\{[^}]*display: none/.test(cnCss),
+  "cabinet styling; paper copies stay the dealt night only");
+check("WF25 no ROM/BIOS download phrasing in wave-23 files",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(blJs + gn23Test),
+  "legal lane holds");
+
 process.exit(failures ? 1 : 0);
