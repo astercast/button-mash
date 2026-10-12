@@ -18,7 +18,7 @@ Manifest: description, legal note, endpoint catalog, usage.
 
 ### `GET api/v1/games.json`
 
-Curated browser games (125 records, every URL curl-verified HTTP 200 on 2026-10-11). Envelope + `games` array:
+Curated browser games (162 records, every URL curl-verified HTTP 200 on 2026-10-11). Envelope + `games` array:
 
 ```json
 {
