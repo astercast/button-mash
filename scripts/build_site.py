@@ -45,6 +45,7 @@ GUIDES = [
     ("guides/homebrew-and-public-domain.html", "Homebrew & public-domain sources"),
     ("guides/gba.html", "Game Boy Advance emulation guide (mGBA, BIOS-free)"),
     ("guides/snes.html", "SNES emulation guide (Snes9x, BIOS-free)"),
+    ("guides/nes.html", "NES emulation guide (FCEUmm, BIOS-free for cartridges)"),
     ("guides/n64.html", "Nintendo 64 emulation guide (Mupen64Plus-Next, BIOS-free)"),
     ("guides/ps1.html", "PlayStation emulation guide (PCSX-ReARMed, BIOS honesty)"),
     ("guides/genesis.html", "Genesis emulation guide (Genesis Plus GX, BIOS-free)"),

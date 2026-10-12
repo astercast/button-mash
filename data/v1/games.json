@@ -1,7 +1,7 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T22:52:11Z",
+  "generated_at": "2026-10-12T23:40:19Z",
   "endpoint": "games",
   "description": "Curated browser games directory (every URL verified live — never invented).",
   "count": 213,
@@ -56,7 +56,7 @@
       "genre": "puzzle",
       "id": "little-alchemy-2",
       "title": "Little Alchemy 2",
-      "url": "https://littlealchemy.com/"
+      "url": "https://littlealchemy2.com/"
     },
     {
       "controls": "Mouse",
@@ -329,7 +329,7 @@
     {
       "controls": "Arrows / WASD + Z X",
       "description": "A Doom demake squeezed into PICO-8's tiny 128x128 pixels. Impossibly impressive.",
-      "genre": "roguelike",
+      "genre": "action",
       "id": "poom",
       "title": "Poom",
       "url": "https://freds72.itch.io/poom"
@@ -337,7 +337,7 @@
     {
       "controls": "Arrows + Z X",
       "description": "The original PICO-8 Celeste: brutally precise mountain climbing across 30 levels.",
-      "genre": "roguelike",
+      "genre": "action",
       "id": "celeste-classic",
       "title": "Celeste Classic",
       "url": "https://maddymakesgamesinc.itch.io/celesteclassic"
@@ -345,7 +345,7 @@
     {
       "controls": "Keyboard (multi)",
       "description": "2-4 player party brawler about bouncing carrots. Chaotic couch-style fun.",
-      "genre": "roguelike",
+      "genre": "multiplayer",
       "id": "kaaarot",
       "title": "Kaaarot",
       "url": "https://lambdahumans.itch.io/kaaarot"
@@ -1194,7 +1194,7 @@
       "url": "https://angband.live/",
       "genre": "roguelike",
       "controls": "Keyboard — roguelike keybinds",
-      "description": "The granddaddy of roguelikes, live in your browser: descend a 100-level Tolkien-inspired dungeon one careful turn at a time."
+      "description": "One of the great traditional roguelikes, live in your browser: descend a 100-level Tolkien-inspired dungeon one careful turn at a time."
     },
     {
       "id": "nethack-web",
@@ -1202,7 +1202,7 @@
       "url": "https://www.alt.org/nethack/",
       "genre": "roguelike",
       "controls": "Keyboard — classic keybinds",
-      "description": "NetHack in a terminal, in your browser. The 1987 classic that named the genre — still undefeated, still hilarious."
+      "description": "NetHack in a terminal, in your browser. The 1987 classic that helped define the genre Rogue named — still undefeated, still hilarious."
     },
     {
       "id": "spelunky-classic",
@@ -1346,7 +1346,7 @@
       "url": "https://archive.org/details/msdos_DOOM_1993",
       "genre": "retro",
       "controls": "Arrow keys — move; Ctrl — fire",
-      "description": "The 1993 shareware episode in the Internet Archive's DOSBox: the game that invented the FPS, exactly as it was."
+      "description": "The 1993 shareware episode in the Internet Archive's DOSBox: the game that made the FPS a phenomenon, exactly as it was."
     },
     {
       "id": "oregon-trail",
@@ -1469,7 +1469,7 @@
       "url": "https://archive.org/details/msdos_Alone_in_the_Dark_1992",
       "genre": "retro",
       "controls": "Keyboard",
-      "description": "The 1992 survival-horror pioneer: explore a haunted Louisiana mansion as Carnby or Aline, tank controls and all."
+      "description": "The 1992 survival-horror pioneer: explore a haunted Louisiana mansion as Carnby or Emily Hartwood, tank controls and all."
     },
     {
       "id": "transport-tycoon",
@@ -1631,7 +1631,7 @@
       "url": "https://archive.org/details/arcade_robotron",
       "genre": "retro",
       "controls": "WASD + arrows (twin-stick)",
-      "description": "Williams' 1984 twin-stick masterpiece: the game that invented the twin-stick shooter, rescuing the last human family.",
+      "description": "Williams' 1982 twin-stick masterpiece: the game that popularized the twin-stick shooter, rescuing the last human family.",
       "tags": [
         "shooter",
         "arena"

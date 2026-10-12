@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NES emulation guide — Button Mash</title>
+<meta name="description" content="Play your own NES dumps in the browser with the FCEUmm core: mapper support, the sprite-flicker switch, save states, Game Genie cheats, the one BIOS exception, and a legal homebrew starter pack.">
+<link rel="preload" href="../assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/wave16.css">
+<link rel="stylesheet" href="../assets/css/guides.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../games.html">Games</a></li>
+        <li><a href="../collections.html">Collections</a></li>
+        <li><a href="../emulation.html">Emulation</a></li>
+        <li><a href="../monster-taming.html">Monster Taming</a></li>
+        <li><a href="../play-legal.html">Play Legal</a></li>
+        <li><a href="../trophy-room.html">Trophy room</a></li>
+        <li><a class="nav-cta" href="../player.html">» Play</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="main">
+
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../emulation.html">← Emulation hub</a></nav>
+<article class="guide-page">
+  <p class="kicker">System guide · Nintendo Entertainment System</p>
+  <h1>NES emulation guide</h1>
+  <p class="lede">The 8-bit original: no BIOS for cartridges, a core that eats obscure mapper chips for breakfast, and the deepest homebrew bench of any dead console. The easiest system on this site to get right.</p>
+  <ul class="chips" aria-label="Guide facts"><li>Core: <code>nes</code> · FCEUmm</li><li>BIOS: none for cartridges</li><li>⏱ ~10 min</li><li>Beginner</li></ul>
+  <aside class="legal-note"><strong>Legal lane:</strong> the Player only loads files <em>you</em> supply — your own cartridge dumps, homebrew, or public-domain titles. No ROMs are provided or linked anywhere on this site.</aside>
+
+  <div class="toc">
+    <h2>On this page</h2>
+    <ol>
+      <li><a href="#core">The core: FCEUmm, the mapper sponge</a></li>
+      <li><a href="#bios">BIOS notes (one honest exception)</a></li>
+      <li><a href="#settings">Settings that matter</a></li>
+      <li><a href="#performance">Performance: effortless</a></li>
+      <li><a href="#saves">Saves &amp; cheats in the Player</a></li>
+      <li><a href="#play">Play it in the Player</a></li>
+      <li><a href="#starter">Homebrew starter pack</a></li>
+      <li><a href="#native">Accuracy purists: Nestopia UE</a></li>
+    </ol>
+  </div>
+
+  <section class="guide-section" id="core">
+    <h2>1. The core: FCEUmm, the mapper sponge</h2>
+    <p>The Player's <code>nes</code> core is <strong>FCEUmm</strong> — the default NES backend in the official EmulatorJS core list (the alternative there is Nestopia UE, covered below). The NES is a special case in emulation: the console itself was modest, and half the hardware lived inside each cartridge as a <em>mapper</em> chip that decided how the game talked to the machine. Hundreds of mappers exist, and FCEUmm's whole reputation is supporting them — the common Nintendo boards, the odd third-party boards, and most of the unlicensed and homebrew boards people still design today.</p>
+    <p>You don't need to pick anything — the Player detects <code>.nes</code> files and boots FCEUmm automatically. If a dump carries a standard iNES or NES 2.0 header, the core reads the mapper number straight from it.</p>
+  </section>
+
+  <section class="guide-section" id="bios">
+    <h2>2. BIOS notes (one honest exception)</h2>
+    <p>For cartridges: none. The NES has no separate system BIOS — the game <em>is</em> the software, start to finish. Nothing to dump, nothing to attach.</p>
+    <p>The single exception is the <strong>Famicom Disk System</strong>: <code>.fds</code> disk images need the FDS BIOS before they will boot. That BIOS is Nintendo software — dump it from Famicom hardware you own, the same way you would a cartridge. This site will never provide one, and no download link for one exists here. Sticking to cartridges, you will never meet this step.</p>
+  </section>
+
+  <section class="guide-section" id="settings">
+    <h2>3. Settings that matter</h2>
+    <p>Open the engine's in-game menu (the ⚙ icon) while an NES game is running:</p>
+    <ul>
+      <li><strong>No sprite limit:</strong> the real NES can only draw eight sprites on one scanline, so crowded scenes flicker — sprites blink in and out as the hardware time-shares them. The core can lift that limit for a cleaner picture. Try it both ways: some games were drawn <em>expecting</em> the flicker (a sprite that should hide behind another can suddenly show through), so flicker-off is a preference, not a fix.</li>
+      <li><strong>Palette:</strong> the NES never output RGB, so every palette is an interpretation of its composite signal. Pick the one that looks like the TV you remember; there is no wrong answer worth arguing about.</li>
+      <li><strong>Fast-forward:</strong> built for unskippable intros and long RPG text crawls.</li>
+      <li><strong>Keep in Browser:</strong> under Settings → Save States, switch the engine to <em>Keep in Browser</em> so the Player 2.0 Save tool can export/import your states as files.</li>
+      <li><strong>Zapper games:</strong> a handful of light-gun titles expect you to aim at a CRT. Browser cores map the gun to the pointer unevenly — treat zapper games as a bonus experiment, not a promise.</li>
+    </ul>
+  </section>
+
+  <section class="guide-section" id="performance">
+    <h2>4. Performance: effortless</h2>
+    <p>The NES is 1983 hardware running at under 2 MHz. FCEUmm plays it at full speed on anything that can open a browser tab, phones very much included. If you ever see slowdown, look at the browser (low-power mode, a tab gone stale), not the core.</p>
+  </section>
+
+  <section class="guide-section" id="saves">
+    <h2>5. Saves &amp; cheats in the Player</h2>
+    <ul>
+      <li><strong>Save states</strong> — instant snapshots from the in-game menu; export/import/delete them with the Player 2.0 Save tool on <a href="../player.html">player.html</a> when <em>Keep in Browser</em> is on. On a system famous for password screens, a save state before the boss is not cheating — it is mercy.</li>
+      <li><strong>In-game saves</strong> — the few battery-backed NES carts persist automatically, exactly like SRAM on the other systems here.</li>
+      <li><strong>Cheats</strong> — the Player 2.0 Cheats tool accepts Game Genie codes, stored per game and injected before boot. The NES is the system the Game Genie was invented for; six- and eight-letter codes both belong here.</li>
+      <li><strong>Keyboard remap</strong> — the Player 2.0 Controls tool remaps Player 1's keyboard and gamepad bindings; applies on next boot.</li>
+    </ul>
+  </section>
+
+  <section class="guide-section" id="play">
+    <h2>6. Play it in the Player</h2>
+    <p><a class="btn btn-primary" href="../player.html?core=nes">» Open the Player (NES pre-selected)</a></p>
+    <p class="hint">The <code>?core=nes</code> deep link just pre-selects the system — your game file still comes from your own machine, and it never leaves it.</p>
+  </section>
+
+  <section class="guide-section" id="starter">
+    <h2>7. Homebrew starter pack</h2>
+    <p>Free, legal NES homebrew and public-domain ROMs to try the Player with. Every link verified live on 2026-10-12.</p>
+    <ul class="pack-list">
+      <li><a href="https://zophar.net/pdroms/nes.html">Zophar's Domain — NES public-domain shelf</a><span class="pack-note">The long-running public-domain archive's NES shelf: homebrew games and demos, free and legal.</span></li>
+      <li><a href="https://itch.io/games/tag-nes/tag-nesmaker">itch.io — games tagged NES + NESmaker</a><span class="pack-note">Modern NES homebrew built with NESmaker and friends; many ship the ROM free.</span></li>
+      <li><a href="https://itch.io/games/newest/tag-neshomebrew">itch.io — newest neshomebrew</a><span class="pack-note">The fresh end of the NES homebrew scene, newest first.</span></li>
+    </ul>
+    <p class="hint">Save the file on your own computer first, then drag it into the Player. The file is read locally — nothing uploads.</p>
+  </section>
+
+  <section class="guide-section" id="native">
+    <h2>8. Accuracy purists: Nestopia UE</h2>
+    <p>FCEUmm favors breadth — the widest mapper net in the business. <strong>Nestopia UE</strong> favors cycle-level accuracy: it emulates the NES's chips tick-by-tick, which a small set of finicky mappers and timing-sensitive homebrew genuinely need. The EmulatorJS core list offers Nestopia UE as the alternate NES backend (for self-hosted setups). For browser play through this site, FCEUmm covers essentially everything you'll throw at it. On a desktop outside the browser, the catalog's own pick is <a href="../emulation.html">Mesen</a> — see the emulators list on the hub.</p>
+  </section>
+
+  <section aria-labelledby="more-guides"><h2 id="more-guides">More guides</h2>
+  <ul class="guide-list">
+    <li><a href="snes.html">SNES emulation guide</a> — the 16-bit sequel: what changed when the cartridges got smarter.</li>
+    <li><a href="gameboy.html">Game Boy / Color emulation guide</a> — the NES's handheld contemporary, cycle-accurate.</li>
+    <li><a href="../system-picker.html">Which system should you emulate?</a> — the quiz, if you haven't picked yet.</li>
+    <li><a href="emulatorjs-self-hosting.html">EmulatorJS self-hosting guide</a> — host the multi-system web player yourself.</li>
+    <li><a href="rip-your-own-cartridges.html">Rip your own cartridges</a> — the legal way to get ROMs: dump hardware you own.</li>
+  </ul></section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-note">
+      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links.</span>
+    </div>
+    <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>
+  </div>
+</footer>
+<script src="../assets/js/arcade.js"></script>
+</body>
+</html>

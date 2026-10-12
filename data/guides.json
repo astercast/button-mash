@@ -328,6 +328,44 @@
     ]
   },
   {
+    "id": "system-guide-nes",
+    "slug": "nes",
+    "title": "NES emulation guide",
+    "summary": "The Player's nes core is FCEUmm (default NES backend in the EmulatorJS core list; Nestopia UE is the alternate for accuracy purists). BIOS-free for cartridges — the one exception is Famicom Disk System disks, which need a BIOS dumped from your own hardware. Covers mapper support, the sprite-flicker switch, save states and Game Genie cheats via Player 2.0, deep link (player.html?core=nes), and a verified homebrew starter pack.",
+    "difficulty": "Beginner",
+    "time_minutes": 10,
+    "sections": [
+      {
+        "heading": "The core: FCEUmm, the mapper sponge",
+        "body": "The Player's nes core is FCEUmm — the default NES backend in the official EmulatorJS core list (alternate: Nestopia UE). The NES put half its hardware in the cartridge (the mapper chips), and FCEUmm's whole reputation is supporting hundreds of them. Auto-detected from .nes files."
+      },
+      {
+        "heading": "BIOS notes",
+        "body": "None needed for cartridges — the NES has no system BIOS. The single exception: Famicom Disk System .fds disks need the FDS BIOS, dumped from your own Famicom hardware. Never download one."
+      },
+      {
+        "heading": "Settings that matter",
+        "body": "The no-sprite-limit option trades the NES's famous 8-sprites-per-line flicker for a cleaner picture some games weren't drawn for; palette choice is taste, not accuracy homework; fast-forward for slow RPG text; Keep in Browser for the Player 2.0 Save tool."
+      },
+      {
+        "heading": "Performance",
+        "body": "Effortless — 1983 hardware. If an NES game stutters in the browser, the browser is throttling the tab, not the core struggling."
+      },
+      {
+        "heading": "Saves & cheats",
+        "body": "Save states via the in-game menu (export/import/delete with the Player 2.0 Save tool); battery saves persist. Cheats tool takes Game Genie codes — the NES is the system the Game Genie was invented for — stored per game, injected before boot."
+      },
+      {
+        "heading": "Homebrew starter pack",
+        "body": "Zophar's Domain NES public-domain shelf (https://zophar.net/pdroms/nes.html); itch.io NES + NESmaker tag (https://itch.io/games/tag-nes/tag-nesmaker); itch.io neshomebrew tag (https://itch.io/games/newest/tag-neshomebrew). All verified live 2026-10-12."
+      },
+      {
+        "heading": "Accuracy purists: Nestopia UE",
+        "body": "Nestopia UE favors cycle-level accuracy — the pick for finicky mappers and timing-sensitive homebrew. It's the EmulatorJS alternate NES backend for self-hosted setups. FCEUmm covers essentially everything in browser play."
+      }
+    ]
+  },
+  {
     "id": "system-guide-n64",
     "slug": "n64",
     "title": "Nintendo 64 emulation guide",

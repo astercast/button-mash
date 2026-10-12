@@ -30,6 +30,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - guides/homebrew-and-public-domain.html — Homebrew & public-domain sources
 - guides/gba.html — Game Boy Advance emulation guide (mGBA, BIOS-free)
 - guides/snes.html — SNES emulation guide (Snes9x, BIOS-free)
+- guides/nes.html — NES emulation guide (FCEUmm, BIOS-free for cartridges)
 - guides/n64.html — Nintendo 64 emulation guide (Mupen64Plus-Next, BIOS-free)
 - guides/ps1.html — PlayStation emulation guide (PCSX-ReARMed, BIOS honesty)
 - guides/genesis.html — Genesis emulation guide (Genesis Plus GX, BIOS-free)
@@ -50,7 +51,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Connections [puzzle · Mouse / touch] — Sort sixteen words into four secret groups. Much harder than it looks. Play: https://www.nytimes.com/games/connections
 - TETR.IO [puzzle · Keyboard (customizable)] — Blisteringly fast modern Tetris with ranked matchmaking. The esport of falling blocks. Play: https://tetr.io/
 - Jstris [puzzle · Keyboard (customizable)] — No-frills multiplayer Tetris in the browser. Pure block-stacking competition. Play: https://jstris.jezevec10.com/
-- Little Alchemy 2 [puzzle · Mouse / touch] — Combine earth, fire, air and water to discover 700+ items. Digital tinkering at its finest. Play: https://littlealchemy.com/
+- Little Alchemy 2 [puzzle · Mouse / touch] — Combine earth, fire, air and water to discover 700+ items. Digital tinkering at its finest. Play: https://littlealchemy2.com/
 - Infinite Craft [puzzle · Mouse] — Infinite combinations from four starting elements. Craft 'philosophy' before lunch. Play: https://neal.fun/infinite-craft/
 - The Password Game [puzzle · Keyboard] — A password field with increasingly unhinged rules. You will lose. You will laugh. Play: https://neal.fun/password-game/
 - Draw Logos From Memory [puzzle · Mouse / touch] — Redraw famous logos from memory and get mercilessly judged. Deeply humbling. Play: https://neal.fun/logos-from-memory/
@@ -82,9 +83,9 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Breach Command [roguelike · Mouse / keyboard] — Tactical roguelike: breach rooms, outthink the enemy, die, learn, repeat. Play: https://parris-tech-services.github.io/breach-command/
 - Dragonsweeper [roguelike · Mouse] — Minesweeper reborn as a monster-slaying roguelike. Every number is a tactical puzzle. Play: https://danielben.itch.io/dragonsweeper
 - Hordes.io [roguelike · WASD + mouse] — 3D browser MMORPG with roguelike permadeath dungeons and party play. Play: https://hordes.io/
-- Poom [roguelike · Arrows / WASD + Z X] — A Doom demake squeezed into PICO-8's tiny 128x128 pixels. Impossibly impressive. Play: https://freds72.itch.io/poom
-- Celeste Classic [roguelike · Arrows + Z X] — The original PICO-8 Celeste: brutally precise mountain climbing across 30 levels. Play: https://maddymakesgamesinc.itch.io/celesteclassic
-- Kaaarot [roguelike · Keyboard (multi)] — 2-4 player party brawler about bouncing carrots. Chaotic couch-style fun. Play: https://lambdahumans.itch.io/kaaarot
+- Poom [action · Arrows / WASD + Z X] — A Doom demake squeezed into PICO-8's tiny 128x128 pixels. Impossibly impressive. Play: https://freds72.itch.io/poom
+- Celeste Classic [action · Arrows + Z X] — The original PICO-8 Celeste: brutally precise mountain climbing across 30 levels. Play: https://maddymakesgamesinc.itch.io/celesteclassic
+- Kaaarot [multiplayer · Keyboard (multi)] — 2-4 player party brawler about bouncing carrots. Chaotic couch-style fun. Play: https://lambdahumans.itch.io/kaaarot
 - Cookie Clicker [idle · Mouse (click)] — The idle game that defined idle games. Bake cookies. Achieve absurdity. Play: https://www.cookieclicker.com/
 - A Dark Room [idle · Mouse] — Starts as a text game about keeping a fire lit. Becomes something much stranger. Play: https://adarkroom.doublespeakgames.com/
 - Universal Paperclips [idle · Mouse] — An AI that makes paperclips. That's it. That's the game. (It's incredible.) Play: https://www.decisionproblem.com/paperclips/
@@ -179,8 +180,8 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Mindustry [action · Mouse + WASD — build, pan, command] — Open-source factory defense: design conveyor-fed production lines, then hold them against waves. The web build is the full game. Play: https://mindustrygame.github.io/
 - shapez.io [puzzle · Mouse — place belts and machines] — Design ever-more-elegant factories that cut, paint, and stack shapes into ordered chaos. Meditative automation puzzling. Play: https://shapez.io/
 - Dungeon Crawl Stone Soup [roguelike · Keyboard — full keybinds; mouse for menus] — The legendary open-source roguelike in the browser: turn-based, brutally fair, and deep enough to lose a year to. Play: https://crawl.akrasiac.org/
-- Angband [roguelike · Keyboard — roguelike keybinds] — The granddaddy of roguelikes, live in your browser: descend a 100-level Tolkien-inspired dungeon one careful turn at a time. Play: https://angband.live/
-- NetHack [roguelike · Keyboard — classic keybinds] — NetHack in a terminal, in your browser. The 1987 classic that named the genre — still undefeated, still hilarious. Play: https://www.alt.org/nethack/
+- Angband [roguelike · Keyboard — roguelike keybinds] — One of the great traditional roguelikes, live in your browser: descend a 100-level Tolkien-inspired dungeon one careful turn at a time. Play: https://angband.live/
+- NetHack [roguelike · Keyboard — classic keybinds] — NetHack in a terminal, in your browser. The 1987 classic that helped define the genre Rogue named — still undefeated, still hilarious. Play: https://www.alt.org/nethack/
 - Spelunky Classic [roguelike · Arrow keys to move, Z / X to act] — The original free Spelunky as an HTML5 port: procedural caves, shopkeepers with long memories, and glorious deaths. Play: https://spelunkyworld.com/original.html
 - Powder Game [cozy · Mouse — pick elements, paint] — The original falling-sand toy: pour powder, water, fire, and acid into a sandbox and watch the physics play out. Play: https://dan-ball.jp/en/javagame/dust2/
 - Stick Ranger [idle · Mouse — mostly runs itself] — A tiny idle RPG: four stick figures march right, fighting monsters automatically while you nudge their stats. Weirdly absorbing. Play: https://dan-ball.jp/en/javagame/ranger/
@@ -198,7 +199,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Bandle [puzzle · Mouse / keyboard — guess the song] — Name that tune from an increasingly long clip — six tries, new song every day, for people who hear in genres. Play: https://bandle.app/
 - Pointer Pointer [cozy · Mouse — move the pointer] — Move your cursor and the internet points at it — a photo always finds your pointer. Oddly delightful, every time. Play: https://pointerpointer.com/
 - Hacker Typer [cozy · Keyboard — mash keys] — Smash the keyboard and look like a movie hacker: every keystroke writes flawless exploit code. Zero skill required. Play: https://hackertyper.net/
-- DOOM (1993) [retro · Arrow keys — move; Ctrl — fire] — The 1993 shareware episode in the Internet Archive's DOSBox: the game that invented the FPS, exactly as it was. Play: https://archive.org/details/msdos_DOOM_1993
+- DOOM (1993) [retro · Arrow keys — move; Ctrl — fire] — The 1993 shareware episode in the Internet Archive's DOSBox: the game that made the FPS a phenomenon, exactly as it was. Play: https://archive.org/details/msdos_DOOM_1993
 - The Oregon Trail [retro · Keyboard — menus and hunting] — The 1990 DOS classic in the Archive: ford rivers, hunt buffalo, and try not to die of dysentery on the trail west. Play: https://archive.org/details/msdos_Oregon_Trail_The_1990
 - Prince of Persia [retro · Arrow keys — run, jump, fight] — Jordan Mechner's 1990 rotoscoped classic in the Archive: sixty minutes to save the princess, one leap of faith at a time. Play: https://archive.org/details/msdos_Prince_of_Persia_1990
 - Wolfenstein 3D [retro · Arrow keys — move; Ctrl — fire] — The 1992 shareware episode in the Archive: id Software's maze-blaster that started it all. Achtung! Play: https://archive.org/details/msdos_Wolfenstein_3D_1992
@@ -213,7 +214,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Duke Nukem 3D (Shareware) [retro · WASD + mouse] — Hail to the king, baby: the shareware episode of 3D Realms' 1996 FPS — Hollywood Holocaust, free and legal, in the browser. Play: https://archive.org/details/3dduke13SW
 - Zork I [retro · Keyboard (type commands)] — West of house. It is pitch black. The 1980 text adventure that defined a genre — no graphics, all imagination, right in your browser. Play: https://archive.org/details/msdos_Zork_I_-_The_Great_Underground_Empire_1980
 - Sid Meier's Civilization [retro · Mouse + keyboard] — 4000 BC to the space race: found cities, research pottery, and outlast history itself in the 1991 original 4X. Play: https://archive.org/details/CIVILIZATION_201902
-- Alone in the Dark [retro · Keyboard] — The 1992 survival-horror pioneer: explore a haunted Louisiana mansion as Carnby or Aline, tank controls and all. Play: https://archive.org/details/msdos_Alone_in_the_Dark_1992
+- Alone in the Dark [retro · Keyboard] — The 1992 survival-horror pioneer: explore a haunted Louisiana mansion as Carnby or Emily Hartwood, tank controls and all. Play: https://archive.org/details/msdos_Alone_in_the_Dark_1992
 - Transport Tycoon Deluxe [retro · Mouse] — Chris Sawyer's 1995 transport empire sim: lay rail, run buses, and out-profit the competition across a century. Play: https://archive.org/details/msdos_Transport_Tycoon_Deluxe_1995
 - Theme Park [retro · Mouse] — Bullfrog's 1994 theme-park tycoon: set ride prices, salt the fries, and keep the queues moving. Play: https://archive.org/details/msdos_Theme_Park_1994
 - Master of Orion [retro · Mouse + keyboard] — The 1993 4X that named the genre: colonize stars, design ships, and out-diplomacize the galaxy. Play: https://archive.org/details/msdos_Master_of_Orion_1993
@@ -231,7 +232,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Defender [retro · Keyboard / buttons] — Williams' 1981 rescue shooter: the hardest game of the golden age — save the humanoids, mind the hyperspace. Play: https://archive.org/details/arcade_defender
 - Q*bert [retro · Arrow keys (diagonal)] — Gottlieb's 1982 cube-hopper: change every tile's color, dodge Coily, and mind the @!#?@! swearing. Play: https://archive.org/details/arcade_qbert
 - Tempest [retro · Arrow keys] — Atari's 1981 vector shooter: Dave Theurer's neon tube-blaster, the first game with a selectable starting level. Play: https://archive.org/details/arcade_tempest
-- Robotron: 2084 [retro · WASD + arrows (twin-stick)] — Williams' 1984 twin-stick masterpiece: the game that invented the twin-stick shooter, rescuing the last human family. Play: https://archive.org/details/arcade_robotron
+- Robotron: 2084 [retro · WASD + arrows (twin-stick)] — Williams' 1982 twin-stick masterpiece: the game that popularized the twin-stick shooter, rescuing the last human family. Play: https://archive.org/details/arcade_robotron
 - 1942 [retro · Arrow keys / buttons] — Capcom's 1984 vertical shooter: loop-de-loop over the Pacific in the granddaddy of the shmup. Play: https://archive.org/details/arcade_1942
 - Galaga '88 [retro · Arrow keys / buttons] — Namco's 1987 sequel: the dive-bombing classic with triple-ship power-ups and branching warp zones. Play: https://archive.org/details/arcade_galaga88
 - Ms. Pac-Man / Galaga: 20th Anniversary [retro · Arrow keys / buttons] — The 2000 arcade reunion cabinet: Ms. Pac-Man and Galaga, class of 1981, together in one anniversary machine. Play: https://archive.org/details/arcade_20pacgal

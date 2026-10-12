@@ -1,10 +1,10 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T22:52:11Z",
+  "generated_at": "2026-10-12T23:40:19Z",
   "endpoint": "guides",
   "description": "Emulation guides and explainers (summaries; full text in data/guides.json).",
-  "count": 22,
+  "count": 23,
   "guides": [
     {
       "id": "emulatorjs-selfhost",
@@ -94,6 +94,15 @@
       "difficulty": "Beginner",
       "time_minutes": 12,
       "summary": "The Player's snes core is Snes9x (default SNES backend in the EmulatorJS core list; bsnes is the alternate for accuracy purists). BIOS-free. Covers hi-res blending, sound buffer/latency, save states and Game Genie/Pro Action Replay cheats via Player 2.0, deep link (player.html?core=snes), and a verified homebrew starter pack.",
+      "section_count": 7
+    },
+    {
+      "id": "system-guide-nes",
+      "slug": "nes",
+      "title": "NES emulation guide",
+      "difficulty": "Beginner",
+      "time_minutes": 10,
+      "summary": "The Player's nes core is FCEUmm (default NES backend in the EmulatorJS core list; Nestopia UE is the alternate for accuracy purists). BIOS-free for cartridges — the one exception is Famicom Disk System disks, which need a BIOS dumped from your own hardware. Covers mapper support, the sprite-flicker switch, save states and Game Genie cheats via Player 2.0, deep link (player.html?core=nes), and a verified homebrew starter pack.",
       "section_count": 7
     },
     {

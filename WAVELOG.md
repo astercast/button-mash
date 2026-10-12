@@ -2,6 +2,106 @@
 
 Running record of build waves. Newest first.
 
+## Wave 24 — 2026-10-12 — "The Curator, second pass": verified metadata, calibration follow-ups, the NES guide
+
+**What shipped** — three tracks: a fact pass over the catalog with sources
+checked outside the repo, the calibration follow-ups wave 22's buckets
+still owed, and the completeness gap wave 20 flagged and nobody had
+closed.
+
+- **The Curator — metadata fixes, each verified before it was touched**
+  (`data/games.json`): **Robotron: 2084** was dated 1984 and credited with
+  inventing the twin-stick shooter — it is a **1982** Williams game and it
+  *popularized* the twin-stick (Wikipedia/arcade-museum; it was not the
+  first twin-stick cabinet either). **Alone in the Dark** sent you in as
+  "Carnby or Aline" — Aline Cedrac is the 2001 sequel's lead; the 1992
+  original's pair is Carnby or **Emily Hartwood**. **NetHack** "named the
+  genre" — the genre is named after **Rogue (1980)**; NetHack (1987)
+  helped define it. **DOOM** "invented the FPS" — Wolfenstein 3D sits two
+  shelves away in this same catalog dated 1992; DOOM *made the FPS a
+  phenomenon*. **Angband** was "the granddaddy of roguelikes" — Rogue and
+  Moria predate it; now "one of the great traditional roguelikes."
+  **Little Alchemy 2** linked `littlealchemy.com`, which is the *first*
+  game (its own page banners the sequel and points away) — the entry now
+  links `littlealchemy2.com`, the sequel's own site. One claim was
+  investigated and **not** shipped: a rumored DuckStation license change
+  could not be re-verified this wave (a search failure, not a finding), so
+  the record stands as-is pending a clean source.
+- **Genre reshelve** (the games' own descriptions were the source):
+  **Celeste Classic** (precision platformer) and **Poom** (FPS demake) sat
+  in roguelike; both are now `action`. **Kaaarot** — "2-4 player party
+  brawler" in its own description — sat in roguelike; now `multiplayer`.
+  Census: puzzle 48 / action 41 / roguelike 12 / idle 15 / multiplayer 31
+  / retro 44 / horror 6 / cozy 16 (WF14 updated to match).
+- **Calibration follow-ups** (`assets/js/curator-night.js`, scoring
+  **v2.1.0 → v2.2.0**; the v1 engine and its 256/256 parity gate are
+  untouched, as designed): the wave-22 audit had calibrated the famous
+  misreads; a second pass over every unpinned game found the quieter
+  ones. **Session pins (69 → 76)**: Type Help — a long-form Her
+  Story/Obra Dinn-style mystery — cost 10 minutes by the puzzle bucket;
+  now 45. Trevosa (deduction archive) 30, The Evolution of Trust (a
+  half-hour interactive essay) 30, CodeCombat (a coding campaign) 30,
+  Simon Tatham's Puzzles (a 40+ puzzle shelf; a sitting is browsing) 20,
+  and the two reshelved PICO-8 games at 20 (a Celeste Classic clear, a
+  Poom run). **Seat pins (11 → 22)**: a `shooter` tag was seating the
+  golden-age cabinets at 8 — an online-lobby tier — so a 12-player night
+  scored Space Invaders like a room game (player fit 40). The eight
+  tagged cabinets (1942, Centipede, Defender, Galaga '88, Missile
+  Command, Robotron, Space Invaders, Tempest) now seat **2** — one
+  machine, alternating players, which is what the hardware ever seated —
+  plus Street Fighter Alpha 2 (versus) 2, Bubble Bobble II (a 2-player
+  co-op cart the coop tier read as 4) 2, and **Jstris 8**: a real
+  multiplayer lobby that its puzzle shelf had seating 1.
+- **The NES guide — wave 20's flagged gap, closed**: the Player has
+  always run NES (`.nes` is the first extension in its core map) and the
+  per-system shelf had six guides with the flagship system missing.
+  Now: `guides/nes.html` (FCEUmm core, the mapper story, the sprite-
+  flicker switch as a preference not a fix, Game Genie via Player 2.0,
+  zapper honesty, and the one real BIOS exception — Famicom Disk System
+  disks need an FDS BIOS dumped from your own hardware; cartridges need
+  none), a `system-guide-nes` record in `data/guides.json` (7 sections),
+  an NES homebrew pack (Zophar's Domain public-domain shelf + two itch
+  NES-homebrew tags, all three verified live today; `zophar.net` added
+  to the build's reference-domain allowlist), a hub card on
+  `emulation.html`, and the homepage stat corrected 22 → **23 guides**.
+  WF5 now expects 7 packs / 7 system guides; WF13's total moved 22 → 23.
+  Still flagged, honestly: the cheat-code guide (wave 20's other gap)
+  remains unwritten.
+- **Agentic surface**: WF26 (7 checks — the five fact fixes, the LA2
+  link, the reshelve, both pin sets load-bearing, cabinets-vs-lobbies,
+  the NES wiring, legal lane) — **231/231 pass (WF1–WF26)**. New
+  `scripts/test_curator24.js`: **ALL PASS (19 checks)** — the facts as
+  shipped, the census, the pins, player-fit consequences, the NES
+  wiring, and a 120-night sweep on the recalibrated engine.
+
+**Validation:**
+- `scripts/build.py`: **BUILD OK — 213 games, 24 collections, 10 emulators, 23 guides**; **LEGAL GATE OK (43 pages, 0 piracy links)**
+- `scripts/check_links.py`: **0 broken (42 pages, 1406 local links)**
+- `node scripts/check_api_workflows.js`: **231/231 pass (WF1–WF26)**
+- `node scripts/test_curator24.js`: **ALL PASS (19 checks)**; `node scripts/test_gamenight22.js`: **ALL PASS** (1,680-night sweep on the recalibrated engine); `node scripts/test_curatornight21.js`: **43/43**; `node scripts/test_lineups23.js`: **ALL PASS (41 checks)**; `node scripts/test_gamenight_parity.js`: **256/256 PARITY OK**
+- `tests/api.test.sh`: **40/40 green**
+- Regression: `test_player21` ALL PASSED (the Player end to end, 20 systems in SYSTEM_LABELS); `test_converter12` **66/66** (the Converter end to end); `test_wave19` ALL PASS; `test_wave17` ALL PASS; `test_trophy18` ALL PASSED; `test_party_planner11` ALL PASS; `test_tournament10` ALL PASS; `test_wow1` + powerunit + playertail ALL PASS; `test_bracket` 82/82; `test_bracket_double` 105/105; `test_party11` 36/36
+- `test_identity16`: **41/41 ALL PASS** — on the third attempt. Attempts 1–2 reproduced the documented load stall exactly (28/41 green, zero assertion failures, `waitCards` timeout at loadavg ~6.4–9.8); attempt 3 at the same load cleared in ~57s. Same tree throughout: renderer CPU, not code, exactly as waves 21–23 documented.
+- `~/workspace/smoke/test.js`: exit 0, zero errors (known CDN tunnel noise only)
+- `node --check`: clean on every new/edited JS file; AI-slop denylist grep clean on all new prose
+- Screenshots inspected: homepage hero (3-second read intact; stat band now 23 guides), `guides/nes.html` (template, chips, legal lane, TOC all render), `emulation.html` hero, `game-night.html` hero
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links; the
+NES guide's only BIOS discussion is the dump-your-own FDS note, and its
+starter pack links two itch tag pages and a public-domain shelf, all
+verified live 2026-10-12.
+
+**Self-assessment**: a catalog is a promise that somebody checked. This
+wave's fixes were all small and all the kind a regular notices — a wrong
+year on a famous cabinet, the wrong heroine in a famous mansion, a sequel
+linking to its own prequel. The seat pins matter more than they look: one
+tag tier was quietly telling twelve-player nights that Space Invaders
+seats the room. What remains on the Curator's list: the cheat-code guide,
+a DuckStation license re-check with a clean source, and a third pair of
+eyes on the cozy/horror shelf border (purrgatory and Lookouts sit in
+horror on spooky themes, not scares — a taxonomy call for a human, not a
+bucket).
+
 ## Wave 23 — 2026-10-12 — "Game Night 2.1": saved lineups & the rematch
 
 **What shipped** — wave 22 calibrated the buckets and left every dealt night

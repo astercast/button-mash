@@ -83,14 +83,14 @@ const packsEnv = load("data/v1/homebrew-packs.json");
 const packs = packsEnv["homebrew-packs"];
 check("WF5 homebrew-packs envelope shape", packsEnv.endpoint === "homebrew-packs" && Array.isArray(packs) && packsEnv.count === packs.length,
   packs ? packs.length + " packs" : "missing");
-check("WF5 6 system packs with 3+ verified URLs",
-  packs && packs.length === 6 && packs.every((p) => p.entries.length >= 3 && p.entries.every((e) => /^https:\/\//.test(e.url))),
+check("WF5 7 system packs with 3+ verified URLs",
+  packs && packs.length === 7 && packs.every((p) => p.entries.length >= 3 && p.entries.every((e) => /^https:\/\//.test(e.url))),
   packs ? packs.map((p) => p.system_id + ":" + p.entries.length).join(" ") : "missing");
-const sysSlugs = ["gba", "snes", "n64", "ps1", "genesis", "gameboy"];
+const sysSlugs = ["gba", "snes", "nes", "n64", "ps1", "genesis", "gameboy"];
 const sysGuides = guides.filter((g) => /^system-guide-/.test(g.id));
-check("WF5 6 per-system guide records", sysGuides.length === 6 && sysSlugs.every((s) => guides.some((g) => g.slug === s)),
+check("WF5 7 per-system guide records", sysGuides.length === 7 && sysSlugs.every((s) => guides.some((g) => g.slug === s)),
   sysGuides.map((g) => g.slug).join(", "));
-const coreLinks = { gba: "gba", snes: "snes", n64: "n64", ps1: "psx", genesis: "segaMD", gameboy: "gb" };
+const coreLinks = { gba: "gba", snes: "snes", nes: "nes", n64: "n64", ps1: "psx", genesis: "segaMD", gameboy: "gb" };
 let wf5ok = true;
 for (const s of sysSlugs) {
   const html = fs.readFileSync(path.join(ROOT, "guides/" + s + ".html"), "utf8");
@@ -441,8 +441,8 @@ check("WF12 AGENT.md + llms.txt mention Converter 3.0",
 // Wave 13: deep-dive guides knowledge hub
 const w13Slugs = ["homebrew-development", "netplay", "save-workflows",
   "crt-shaders-display", "accessibility-in-retro-gaming", "preserving-your-games"];
-check("WF13 guides count 22 (20 + 2 new)",
-  guides.length === 22, guides.length + " guides");
+check("WF13 guides count 23 (22 + NES, wave 24)",
+  guides.length === 23, guides.length + " guides");
 check("WF13 all 6 new guides in data/v1/guides.json",
   w13Slugs.every((s) => guides.some((g) => g.slug === s)), w13Slugs.join(", "));
 check("WF13 new guide pages exist + load TOC spy script + progress bar",
@@ -506,11 +506,11 @@ check("WF14 new game records complete (https url, genre, controls, description)"
     const g = byId.get(id);
     return g && g.url.startsWith("https://") && g.genre && g.controls && g.description && g.title;
   }), "all fields non-empty");
-check("WF14 genre totals after expansion",
+check("WF14 genre totals after expansion (wave-24 reshelve: 3 PICO-8 games out of roguelike)",
   (() => {
-    const want = { puzzle: 48, action: 39, roguelike: 15, idle: 15, multiplayer: 30, retro: 44, horror: 6, cozy: 16 };
+    const want = { puzzle: 48, action: 41, roguelike: 12, idle: 15, multiplayer: 31, retro: 44, horror: 6, cozy: 16 };
     return Object.entries(want).every(([gr, n]) => games.filter((g) => g.genre === gr).length === n);
-  })(), "p48/a39/r15/i15/m30/re44/h6/c16");
+  })(), "p48/a41/r12/i15/m31/re44/h6/c16");
 const newCols = {
   "playable-essays": ["evolution-of-trust", "better-ballot", "parable-of-polygons", "wisdom-madness-crowds", "sight-and-light", "doing-work", "chogue"],
   "open-source-web": ["bitburner", "mindustry", "shapez", "dcss-webtiles", "angband-live", "nethack-web"],
@@ -1150,8 +1150,8 @@ check("WF23 game-night.html: marquee + form + ceremony stage wired",
   gnHtml.includes("curator-night-ui.js") && gnHtml.includes("curator-night.css") &&
   gnHtml.includes("the curator's deck is stacked"),
   "marquee, sliders, vibe chips, deal button, aria-live announcer, stage, easter egg");
-check("WF23 engine v2: UMD, DOM-free, scoring 2.1.0, honesty declared",
-  cnEngine.includes("SCORING_VERSION = '2.1.0'") &&
+check("WF23 engine v2: UMD, DOM-free, scoring 2.2.0, honesty declared",
+  cnEngine.includes("SCORING_VERSION = '2.2.0'") &&
   cnEngine.includes("typeof module") && !/document\.|window\./.test(cnEngine) &&
   /curator estimates/i.test(cnEngine) && cnEngine.includes("roleSequence") &&
   cnEngine.includes("assemble") && cnEngine.includes("validateInputs"),
@@ -1219,9 +1219,9 @@ const gn22Test = fs.readFileSync(path.join(ROOT, "scripts/test_gamenight22.js"),
 check("WF24 engine calibration surface exported",
   typeof CN24.estimateCapacity === "function" && typeof CN24.estimateEnergy === "function" &&
   typeof CN24.playerFit === "function" && typeof CN24.sessionFit === "function" &&
-  typeof CN24.targetSlots === "function" && CN24.SCORING_VERSION === "2.1.0" &&
+  typeof CN24.targetSlots === "function" && CN24.SCORING_VERSION === "2.2.0" &&
   Object.keys(CN24.SESSION_OVERRIDES).length >= 60 && Object.keys(CN24.CAPACITY_OVERRIDES).length >= 10,
-  "capacity/energy estimators + graded fits + override tables, scoring v2.1.0");
+  "capacity/energy estimators + graded fits + override tables, scoring v2.2.0");
 check("WF24 overrides: real ids, every pin load-bearing",
   (() => {
     const byId = {};
@@ -1319,6 +1319,46 @@ check("WF25 shelf CSS: cards + save form styled, print hides the shelf",
   "cabinet styling; paper copies stay the dealt night only");
 check("WF25 no ROM/BIOS download phrasing in wave-23 files",
   !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(blJs + gn23Test),
+  "legal lane holds");
+
+// Wave 24 "The Curator, second pass": verified metadata fixes + calibration
+// follow-ups + the NES system guide (wave-20 flagged gap).
+const byId24 = {};
+games.forEach((x) => { byId24[x.id] = x; });
+check("WF26 curator facts: the five verified description fixes hold",
+  byId24["robotron"].description.includes("1982") && !byId24["robotron"].description.includes("1984") &&
+  byId24["alone-dark"].description.includes("Emily Hartwood") && !byId24["alone-dark"].description.includes("Aline") &&
+  !/named the genre/.test(byId24["nethack-web"].description) &&
+  !/invented the FPS/.test(byId24["doom-1993"].description) &&
+  !/granddaddy/.test(byId24["angband-live"].description),
+  "robotron 1982 (not 1984, popularized not invented), alone-dark Emily Hartwood, nethack/doom/angband claims corrected");
+check("WF26 curator links: Little Alchemy 2 points at the sequel's own site",
+  byId24["little-alchemy-2"].url === "https://littlealchemy2.com/",
+  "littlealchemy.com is the first game (its page banners the sequel); the entry is the sequel");
+check("WF26 curator shelves: three PICO-8 games out of the roguelike bin",
+  byId24["celeste-classic"].genre === "action" && byId24["poom"].genre === "action" &&
+  byId24["kaaarot"].genre === "multiplayer",
+  "celeste-classic = platformer, poom = shooter demake, kaaarot = party brawler (its own description)");
+check("WF26 calibration follow-ups: long-form session pins are load-bearing",
+  ["type-help", "trevosa", "evolution-of-trust", "codecombat", "tatham-puzzles", "celeste-classic", "poom"]
+    .every((id) => CN24.SESSION_OVERRIDES[id] != null &&
+      CN24.SESSION_OVERRIDES[id] !== CN24.estimateSession({ genre: byId24[id].genre, tags: byId24[id].tags || [] })),
+  "type-help 45, trevosa/evolution-of-trust/codecombat 30, tatham 20, celeste/poom 20 — no dead pins");
+check("WF26 calibration follow-ups: cabinets seat two, lobbies seat eight",
+  ["1942", "centipede", "defender", "galaga88", "missile-command", "robotron", "space-invaders", "tempest", "sfa2", "bubble-bobble-2"]
+    .every((id) => CN24.estimateCapacity(byId24[id]) === 2) &&
+  CN24.estimateCapacity(byId24["jstris"]) === 8 && CN24.SCORING_VERSION === "2.2.0",
+  "a shooter tag is not an 8-seat lobby; jstris is a lobby despite the puzzle shelf; scoring v2.2.0");
+check("WF26 NES guide: record + page + hub card + pack, all wired",
+  guides.some((g) => g.id === "system-guide-nes" && g.slug === "nes" && g.section_count === 7) &&
+  fs.readFileSync(path.join(ROOT, "guides/nes.html"), "utf8").includes("player.html?core=nes") &&
+  fs.readFileSync(path.join(ROOT, "guides/nes.html"), "utf8").includes("FCEUmm") &&
+  fs.readFileSync(path.join(ROOT, "emulation.html"), "utf8").includes("guides/nes.html") &&
+  packs.some((p) => p.system_id === "nes" && p.guide_slug === "nes" && p.entries.length >= 3),
+  "the wave-20 flagged NES gap is closed: guide, deep link, hub card, starter pack");
+check("WF26 no ROM/BIOS download phrasing in wave-24 files",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(
+    fs.readFileSync(path.join(ROOT, "guides/nes.html"), "utf8")),
   "legal lane holds");
 
 process.exit(failures ? 1 : 0);

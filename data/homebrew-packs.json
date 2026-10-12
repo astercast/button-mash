@@ -53,6 +53,28 @@
     {
       "entries": [
         {
+          "name": "Zophar's Domain — NES public-domain shelf",
+          "note": "The long-running public-domain archive's NES shelf: homebrew games and demos, free and legal.",
+          "url": "https://zophar.net/pdroms/nes.html"
+        },
+        {
+          "name": "itch.io — games tagged NES + NESmaker",
+          "note": "Modern NES homebrew built with NESmaker and friends; many ship the ROM free.",
+          "url": "https://itch.io/games/tag-nes/tag-nesmaker"
+        },
+        {
+          "name": "itch.io — newest neshomebrew",
+          "note": "The fresh end of the NES homebrew scene, newest first.",
+          "url": "https://itch.io/games/newest/tag-neshomebrew"
+        }
+      ],
+      "guide_slug": "nes",
+      "system": "Nintendo Entertainment System",
+      "system_id": "nes"
+    },
+    {
+      "entries": [
+        {
           "name": "pdroms.de — Nintendo 64 section",
           "note": "Public-domain N64 ROMs from the classic archive.",
           "url": "https://pdroms.de/nintendo-64-n64"

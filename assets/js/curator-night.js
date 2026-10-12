@@ -6,7 +6,7 @@
  * This is the flagship "game night" engine: group size, time available, and
  * vibe go in; a ceremony-ready lineup comes out. It is distinct from the
  * wave-A/B quick-lineup engine (lib/game-night.js, scoring v1.0.0) — that
- * one stays untouched with its parity gate. This one is scoring v2.1.0 and
+ * one stays untouched with its parity gate. This one is scoring v2.2.0 and
  * adds the three things v1 honestly could not do:
  *
  *   1. SESSION ESTIMATES — per-game "~N min" from genre shape + social tags,
@@ -35,7 +35,7 @@
  * max 2 of any genre), and the timebox is real — estimated slot minutes must
  * fit inside the night, so long nights get more slots and short nights fewer.
  *
- * Scoring (v2.1.0, auditable, weights in every response):
+ * Scoring (v2.2.0, auditable, weights in every response):
  *   player-count fit  40   graded: seats vs group size (see playerFit)
  *   session fit       20   graded: sitting vs the night's slot size
  *   vibe overlap      20
@@ -58,7 +58,7 @@
 }(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
 
-  var SCORING_VERSION = '2.1.0';
+  var SCORING_VERSION = '2.2.0';
 
   var KNOWN_VIBES = ['cozy', 'chaotic', 'competitive', 'party', 'chill'];
   var SKILL_MIXES = ['mixed', 'gamers', 'casual'];
@@ -146,6 +146,14 @@
     'password-game': 20, 'sort-the-court': 20, 'geoguessr': 20,
     'wordle': 5, 'connections': 5, 'globle': 5, 'worldle': 5,
     'framed': 5, 'waffle': 5, 'bandle': 5,
+    /* Wave-24 follow-up: long-form puzzles the 10-minute bucket still
+       misread — a full mystery, a deduction archive, a half-hour essay,
+       a coding campaign, a shelf of 40+ logic puzzles, and the two
+       PICO-8 games re-shelved out of roguelike this wave (a platformer
+       clear and a demake run are sittings, not rounds). */
+    'type-help': 45, 'trevosa': 30, 'evolution-of-trust': 30,
+    'codecombat': 30, 'tatham-puzzles': 20, 'celeste-classic': 20,
+    'poom': 20,
     /* Story horror: one is literally a five-minute game (its own words). */
     'wbwwb': 5, 'purrgatory': 30, 'lookouts': 40, 'anxiety': 15,
     'dating-killmulator-2': 30,
@@ -160,7 +168,14 @@
   var CAPACITY_OVERRIDES = {
     'pokemon-showdown': 2, 'lichess': 2, 'lexulous': 4, 'colonist': 4,
     'board-game-arena': 6, 'playok': 6, 'classicube': 8, 'bonk': 8,
-    'jetpunk': 4, 'kaaarot': 4, 'hordes': 6
+    'jetpunk': 4, 'kaaarot': 4, 'hordes': 6,
+    /* Wave-24 follow-up: a shooter tag is not an 8-seat lobby. The
+       golden-age cabinets are 1–2 players alternating at one machine;
+       a versus fighter seats two; a co-op bubble cart seats two; and
+       Jstris is a real multiplayer lobby despite its puzzle shelf. */
+    '1942': 2, 'centipede': 2, 'defender': 2, 'galaga88': 2,
+    'missile-command': 2, 'robotron': 2, 'space-invaders': 2,
+    'tempest': 2, 'sfa2': 2, 'bubble-bobble-2': 2, 'jstris': 8
   };
 
   var ENERGY_LABELS = {

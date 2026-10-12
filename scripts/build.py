@@ -39,6 +39,7 @@ REFERENCE_DOMAINS = {
     "www.redump.org", "redump.org", "wiki.redump.org",
     "developer.mozilla.org", "html5gamepad.com", "www.w3.org",
     "lexaloffle.com", "www.lexaloffle.com",
+    "zophar.net", "www.zophar.net",
 }
 
 GENRES = {"puzzle", "action", "roguelike", "idle", "multiplayer", "retro", "horror", "cozy"}

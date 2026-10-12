@@ -73,7 +73,7 @@ function fakeBackend() {
     saved.record.slots.length === dealt.lineup.length &&
     saved.record.slots.every((s, i) => s.game_id === dealt.lineup[i].game_id && s.role === dealt.lineup[i].role) &&
     saved.record.total_est_minutes === dealt.total_est_minutes &&
-    saved.record.scoring_version === "2.1.0",
+    saved.record.scoring_version === "2.2.0",
     saved.record.slots.length + " slots snapshotted");
   check("snapshot is a copy, not a reference",
     (() => { dealt.lineup[0].title = "MUTATED"; const again = store.get(saved.record.id); return again.slots[0].title !== "MUTATED"; })(),
