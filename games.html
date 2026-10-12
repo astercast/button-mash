@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/wave16.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -56,10 +57,18 @@
       <div class="filters" role="search" aria-label="Filter games">
         <div class="search-box">
           <span class="search-icon" aria-hidden="true">🔍</span>
-          <input type="search" id="game-search" placeholder="Search games…" aria-label="Search games">
+          <input type="search" id="game-search" placeholder="Search games and tags…" aria-label="Search games and tags">
         </div>
         <div class="genre-chips" id="genre-chips" role="group" aria-label="Genre filter"></div>
-        <button class="chip" id="fav-only" type="button" aria-pressed="false">♥ Favorites</button>
+        <div class="tag-row">
+          <span class="filter-label" id="tag-filter-label">» Tags</span>
+          <div class="tag-chips" id="tag-chips" role="group" aria-labelledby="tag-filter-label"></div>
+        </div>
+        <div class="filter-actions">
+          <button class="chip" id="fav-only" type="button" aria-pressed="false">♥ Favorites</button>
+          <button class="chip" id="copy-view" type="button" title="Copy a link to this exact filtered view">» Copy view link</button>
+        </div>
+        <div class="tag-hits" id="tag-hits" hidden></div>
         <span class="results-count" id="results-count" aria-live="polite"></span>
       </div>
       <div class="grid cols-3" id="games-grid" aria-live="polite">

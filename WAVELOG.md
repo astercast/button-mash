@@ -2,6 +2,33 @@
 
 Running record of build waves. Newest first.
 
+## Wave 16 — 2026-10-11 — "The Arcade" identity wave 2: tooltips, shareable views, tag tokens, shelf anchors
+
+**What shipped** — finished all five deferred identity items from wave 15, plus the execution-tier raises (signature motion, custom empty states, page-level consistency audit). Content, tools, data, API surfaces intact — identity only.
+
+- **Card tooltips (anchor+Popover)**: every game card gets an info trigger (ringed "i" token in the card meta) opening a `popover="manual"` tooltip anchored with CSS `position-anchor`/`position-area: bottom` (+ `flip-block` fallback). Content: pixel title, full description, tag tokens, kid-safe line, controls readout, "play at {domain} · opens in a new tab". Keyboard: focus opens, blur/Esc closes, `aria-expanded` tracked. Graceful degradation: `html.no-anchor` → fixed-position rect math (clamped, flips above when needed); `html.no-popover` → plain toggled div. Verified live in headless Chromium 152 (`anchor-ok` path active, open/close/content all pass).
+- **URL-synced filtered views**: directory state (q, genre, tags, favs) lives in `?q=&genre=&tags=a,b&favs=1`, written with `history.replaceState` on every change (no history spam), restored on load with validation against the catalog (bad genre/tag values dropped, URL normalized). New "» Copy view link" chip copies the shareable URL (clipboard + honest failure label).
+- **Tag filter chips**: all 11 catalog tags as arcade prize tokens (ridged coin edge, count badges, amber press-in active state), multi-select AND semantics, sorted by count. Tags also surface as static minis in card metas for discovery.
+- **Search-across-tags**: the search haystack is now title + description + tags; when the query matches tag names, a "» tag match:" strip shows the matched tags as toggle chips (one click applies the tag filter).
+- **Collection anchor links**: every shelf card gets `id="shelf-<id>"` + `scroll-margin-top`; a "» Jump to a shelf:" token nav (19 links) heads the page; per-shelf "» Copy shelf link" buttons; `#shelf-*` deep links scroll on load (instant, not smooth — Chrome defers load-time smooth `scrollIntoView` by up to ~2s, verified by instrumentation).
+- **Custom empty states**: directory no-results → "» NO GAMES ON THIS CHANNEL" unlit-cabinet state with "» Clear all filters" (resets state + URL); load failures (directory, collections, kids) → "» CABINET/SHELVES OFFLINE" states with retry.
+- **Signature motion**: entrance choreography — hero copy cascades (`hero-in`, staggered), directory cards power on with a staggered rise (`card-in`, `--i` index, first paint only; filter changes keep view transitions). Hover physics: whisper-subtle cabinet tilt (≤5°, perspective 900px, rAF-throttled, fine-pointers only) layered over the existing hover lift. All gated on `prefers-reduced-motion: no-preference` AND `html:not(.fx-off)`; tooltips appear instantly (no motion to kill).
+- **Page-level consistency audit**: `arcade.js` (FX toggle, attract mode, tooltips) now on all 36 pages — added to the 11 missing it (kids, collections, party-planner, tournament, emulation, monster-taming, play-legal, system-picker, parents, 2 genre pages); the coin-plate kick footer on all 36 (was missing on 9); new `assets/css/wave16.css` identity sheet linked everywhere. New `scripts/test_identity16.js`: 41 headless functional checks.
+- **Agentic surface**: `check_api_workflows.js` gained WF16 (13 checks; **130/130 pass**). AGENT.md + llms.txt directory blurbs updated (tag filters, shareable URL views, tooltips).
+
+**Validation (wave 16):**
+- `scripts/build.py`: **BUILD OK — 162 games (136 domains), 19 collections, 10 emulators, 20 guides**; **LEGAL GATE OK (37 pages, 162 game URLs, 0 piracy links)**
+- `scripts/check_links.py`: **LINK CHECK OK — 36 pages, 1110 local links, 71 external links, 0 broken**
+- `node scripts/check_api_workflows.js`: **130/130 pass (WF1–WF16)**, 0 failures
+- `node --check`: clean on all `assets/js/*.js` + new/edited scripts
+- Regression: test_bracket 82/82, test_bracket_double 105/105, test_party11 36/36, test_converter12 66/66
+- `node scripts/test_identity16.js`: **41/41 pass, zero pageerrors** (tooltips open/close/content, URL sync + restore + invalid rejection, tag chips, search-across-tags + matched strip, empty state + clear, shelf anchors + jump + deep link, FX toggle + kick plate on kids, index sampler tooltips)
+- `~/workspace/smoke/test.js`: zero pageerrors (only the known expected CDN tunnel noise on player.html)
+- Screenshots verified: tag token row + open anchored tooltip (games.html), shelf jump nav (collections.html)
+- **Flakes investigated, not shipped as bugs**: (1) `scroll-behavior: smooth` + Puppeteer `page.click` can land on stale coordinates mid-scroll — harness-only, fixed with settled clicks/focus; (2) load-time smooth `scrollIntoView` deferred ~2s by Chrome — fixed in site code with instant behavior for deep links; (3) dropped view-transition update callbacks + intermittent renderer crashes under `loadavg ~11` (parallel agents' Chromes) — reproduced on unmodified wave-15 code, environmental, not a code bug; test suite now polls with `waitForFunction` instead of fixed sleeps.
+
+**Legal lane**: unchanged — zero ROMs hosted, zero ROM/BIOS download links; no new game URLs (none needed); all features client-side on existing data.
+
 ## Wave 15 — 2026-10-11 — "The Arcade" visual identity rework (wave 1): core design system
 
 **What shipped** — the user's top-priority directive: a massive identity overhaul at award-winning standard. Button Mash's identity is now **"The Arcade"**, executed as a full design system, not a reskin. Content, tools, data, and API surfaces untouched — visual overhaul only (plus two stale-count fact fixes).

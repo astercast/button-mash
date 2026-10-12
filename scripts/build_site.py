@@ -12,7 +12,7 @@ DATA = ROOT / "data"
 
 PAGES = [
     ("index.html", "Home — the universal in-browser game console"),
-    ("games.html", "Game directory: curated free browser games, search + genre filters"),
+    ("games.html", "Game directory: curated free browser games, search + genre/tag filters, shareable filtered views"),
     ("player.html", "The Player: bring-your-own-file EmulatorJS console (20+ systems)"),
     ("converter.html", "Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 4 compression levels + presets, honest ROM validation, custom titles + cover art, Player-mode deep links"),
     ("party-planner.html", "Party planner 2.0: guest list + game voting + rotation scheduler + snack-break timer + party timeline (setup->games->tournament->free play), kids-party mode from the 75 kid-safe games, tournament handoff with real names (?names=), shareable party links"),
@@ -84,7 +84,7 @@ def build_llms():
     lines.append("- converter.html — Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 5 BIOS-free cores (mGBA/Gambatte/FCEUmm/Snes9x/Genesis Plus GX), 4 compression levels + presets, honest ROM validation (refuses empty/all-zero/bad-NES, warns on blank headers / missing SEGA string, keeps SNES copier headers), custom titles + cover art, ▶ Player mode deep links")
     lines.append("- party-planner.html — Party planner 2.0: guest list (2-16 names), per-guest game voting (ties go to the earliest-picked game), fair rotation scheduler (hot-seat groups of 4), party timeline with snack break + tournament slot, snack-break timer, kids-party mode from the 75 kid-safe games, tournament handoff 2.0 (?players=N&names=A,B&games=ids&format=), shareable #p= party links, print party pack + copy-as-text")
     lines.append("- tournament.html — Tournament 2.0: single- or double-elimination brackets for game night (2-16 players, manual seeding UI + randomize, honest byes, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids))")
-    lines.append(f"- games.html — the {ngames}-game directory (search, genre filters, favorites, random game, game of the day)")
+    lines.append(f"- games.html — the {ngames}-game directory (search incl. tags, genre + tag filters, shareable URL views, favorites, random game, game of the day)")
     lines.append(f"- kids.html — Kids corner: {nkids} kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default")
     lines.append("- parents.html — parent guide: curation method, honesty policy (assessments not guarantees — play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick")
     lines.append(f"- collections.html — {ncols} hand-built collections")

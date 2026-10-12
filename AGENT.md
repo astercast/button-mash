@@ -27,7 +27,7 @@ All schemas are **JSON Schema draft 2020-12**. Data is validated at build time (
 There are no query params — payloads are complete snapshots. **Fetch once, filter client-side.**
 
 - Genres: `puzzle`, `action`, `roguelike`, `idle`, `multiplayer`, `retro`, `horror`, `cozy`.
-- Link users straight to `url` to play, or to `games.html` for the browsable directory (search, genre filters, favorites, random game, game of the day).
+- Link users straight to `url` to play, or to `games.html` for the browsable directory (search incl. tags, genre filters, tag filter tokens, favorites, random game, game of the day). Directory filters sync to the URL (`?q=&genre=&tags=a,b&favs=1`) — any filtered view is shareable; invalid params are dropped on load. Game cards carry anchored tooltips (title, tags, kid-safe, controls, domain).
 - Legal lane (standing, non-negotiable): every `url` was verified live at build time. Emulation guides cover tools only — users supply ROMs they dumped from games they own. Never fabricate a ROM/BIOS download link.
 
 ## The centerpieces (for user questions)

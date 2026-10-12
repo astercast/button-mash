@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/wave16.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -44,6 +45,7 @@
 
   <section class="section">
     <div class="wrap">
+      <nav class="shelf-jump" id="shelf-jump" aria-label="Jump to a shelf"></nav>
       <div class="grid cols-2" id="collections-grid" aria-live="polite">
         <div class="empty-state"><p>Loading collections…</p></div>
       </div>
@@ -90,25 +92,56 @@
       <span>Button Mash — your browser is the console. Built 2026.</span>
       <span>Zero ROMs hosted. Zero piracy links.</span>
     </div>
+    <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>
   </div>
 </footer>
 
 <script src="assets/js/store.js"></script>
+<script src="assets/js/arcade.js"></script>
 <script>
 (function () {
   'use strict';
+  function copyText(text, btn, idleLabel) {
+    var done = function (ok) {
+      btn.textContent = ok ? '\u00BB Copied!' : '\u00BB Copy failed';
+      setTimeout(function () { btn.textContent = idleLabel; }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+    } else { done(false); }
+  }
   document.addEventListener('DOMContentLoaded', async function () {
     var grid = document.getElementById('collections-grid');
+    var jump = document.getElementById('shelf-jump');
     try {
       var games = await BM.loadGames();
       var byId = {};
       games.forEach(function (g) { byId[g.id] = g; });
       var res = await fetch('data/collections.json', { cache: 'no-store' });
       var cols = (await res.json()).collections || [];
+      // Shelf jump-links: anchor nav across the long shelf list
+      if (jump) {
+        jump.appendChild(BM.el('span', 'jump-label', '\u00BB Jump to a shelf:'));
+        cols.forEach(function (c) {
+          var a = BM.el('a', null, c.title);
+          a.href = '#shelf-' + c.id;
+          jump.appendChild(a);
+        });
+      }
       grid.innerHTML = '';
       cols.forEach(function (c) {
         var card = BM.el('article', 'collection-card');
-        card.appendChild(BM.el('span', 'badge', c.tagline));
+        card.id = 'shelf-' + c.id;
+        var top = BM.el('div', 'card-top');
+        top.appendChild(BM.el('span', 'badge', c.tagline));
+        var link = BM.el('button', 'chip shelf-link', '\u00BB Copy shelf link');
+        link.type = 'button';
+        link.setAttribute('aria-label', 'Copy link to the ' + c.title + ' shelf');
+        link.addEventListener('click', function () {
+          copyText(location.origin + location.pathname + '#shelf-' + c.id, link, '\u00BB Copy shelf link');
+        });
+        top.appendChild(link);
+        card.appendChild(top);
         card.appendChild(BM.el('h3', null, c.title));
         card.appendChild(BM.el('p', null, c.description));
         var ol = BM.el('ol');
@@ -125,8 +158,24 @@
         card.appendChild(ol);
         grid.appendChild(card);
       });
+      // Deep links: jump straight to the shelf when the URL carries its
+      // anchor. Instant (not smooth): this fires during page load, where
+      // Chrome defers smooth scrollIntoView by up to ~2s; nobody wants to
+      // watch the page travel on load anyway.
+      var h = location.hash;
+      if (h.indexOf('#shelf-') === 0) {
+        var target = document.getElementById(h.slice(1));
+        if (target) {
+          try { target.scrollIntoView({ behavior: 'auto', block: 'start' }); }
+          catch (e) {
+            if (target.scrollIntoView) target.scrollIntoView();
+          }
+        }
+      }
     } catch (e) {
-      grid.innerHTML = '<div class="empty-state"><p>Could not load collections.</p></div>';
+      grid.innerHTML = '<div class="empty-state empty-cabinet"><p class="empty-title">\u00BB SHELVES OFFLINE</p>' +
+        '<p class="empty-sub">Could not load collections. Check your connection and try again.</p>' +
+        '<button class="chip" type="button" onclick="location.reload()">\u00BB Retry</button></div>';
     }
   });
 })();

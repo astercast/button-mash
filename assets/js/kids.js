@@ -18,7 +18,9 @@
       if (!res.ok) throw new Error('status ' + res.status);
       games = (await res.json())['kid-safe'] || [];
     } catch (e) {
-      grid.innerHTML = '<div class="empty-state"><p>Could not load the kids catalog. Check your connection and try again.</p></div>';
+      grid.innerHTML = '<div class="empty-state empty-cabinet"><p class="empty-title">» CABINET OFFLINE</p>' +
+        '<p class="empty-sub">Could not load the kids catalog. Check your connection and try again.</p>' +
+        '<button class="chip" type="button" onclick="location.reload()">» Retry</button></div>';
       return;
     }
 

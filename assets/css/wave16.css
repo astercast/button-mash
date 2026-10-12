@@ -1,0 +1,262 @@
+/* ============================================================
+   Button Mash — wave 16 ("The Arcade" identity wave 2).
+   Kept as a separate sheet so the wave-15 system stays readable:
+   tag tokens, anchored card tooltips, entrance choreography,
+   custom empty states, collection shelf-jump.
+   Motion is always gated: prefers-reduced-motion: no-preference
+   AND html:not(.fx-off). Tooltips appear instantly (no motion).
+   ============================================================ */
+
+/* ---- Tag filter row: arcade prize tokens ---- */
+.tag-row {
+  display: flex;
+  flex: 1 1 100%;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+.filter-label {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--neon-amber);
+  text-shadow: 0 0 10px rgba(255, 176, 46, 0.55);
+}
+.tag-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.filter-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+/* A prize token: ridged coin edge, pressed-in when active */
+.tag-token {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--r-pill);
+  border: 2px solid var(--edge-bright);
+  background:
+    radial-gradient(circle at 50% 50%, transparent 60%, rgba(255, 176, 46, 0.14) 61%, transparent 72%),
+    linear-gradient(180deg, #1d1d33, #101020);
+  color: var(--ink-dim);
+  cursor: pointer;
+  box-shadow: var(--shadow-pop), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform var(--dur-fast) var(--ease-standard),
+              border-color var(--dur-fast) var(--ease-standard),
+              color var(--dur-fast) var(--ease-standard),
+              box-shadow var(--dur-fast) var(--ease-standard);
+}
+.tag-token:hover { border-color: var(--neon-amber); color: var(--neon-amber); transform: translateY(-1px); }
+.tag-token .tok-n { color: var(--ink-faint); font-size: 0.92em; }
+.tag-token[aria-pressed="true"] {
+  border-color: var(--neon-amber);
+  color: var(--neon-amber);
+  text-shadow: 0 0 8px rgba(255, 176, 46, 0.7);
+  box-shadow: 0 0 16px rgba(255, 176, 46, 0.45), inset 0 0 14px rgba(255, 176, 46, 0.18);
+  transform: translateY(1px); /* token pressed into the slot */
+}
+.tag-token[aria-pressed="true"] .tok-n { color: var(--neon-amber); }
+/* Matched-tag strip under the search box */
+.tag-hits {
+  display: flex;
+  flex: 1 1 100%;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding-top: 0.2rem;
+}
+.tag-hits[hidden] { display: none; }
+.tag-hits-label {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+}
+/* Static tag minis inside card metas + tooltips */
+.tag-mini {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  border: 1px dashed var(--edge-bright);
+  border-radius: 4px;
+  padding: 0.05rem 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+}
+
+/* ---- Card tooltip: anchored cabinet readout ---- */
+.tip-trigger {
+  position: relative;
+  z-index: 2; /* above the stretched title link */
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  border: 2px solid var(--edge-bright);
+  background: #050508;
+  color: var(--ink-dim);
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: help;
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.8);
+  transition: border-color var(--dur-fast) var(--ease-standard),
+              color var(--dur-fast) var(--ease-standard),
+              box-shadow var(--dur-fast) var(--ease-standard);
+}
+.tip-trigger:hover, .tip-trigger:focus-visible {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+  outline: none;
+}
+.card-tip {
+  inset: auto; /* kill the UA popover centering */
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border: 2px solid var(--neon-cyan);
+  border-radius: var(--r-sm);
+  background: linear-gradient(180deg, #101024, #0a0a16);
+  color: var(--ink);
+  box-shadow: 0 0 24px rgba(0, 229, 255, 0.35), var(--shadow-pop);
+  font-size: 0.9rem;
+  text-align: left;
+}
+/* Anchored path: the popover rides position-area below its card trigger,
+   flipping above when the viewport runs out. position-anchor is set
+   inline per instance by arcade.js. */
+html.anchor-ok .card-tip {
+  position: absolute;
+  position-area: bottom;
+  position-try-fallbacks: flip-block;
+  margin-top: 10px;
+  max-width: min(22rem, calc(100vw - 2rem));
+}
+/* Graceful fallback: fixed positioning computed from the trigger rect */
+html.no-anchor .card-tip { position: fixed; z-index: 200; }
+html.no-popover .card-tip { display: none; }
+html.no-popover .card-tip.tip-open { display: block; }
+.tip-title {
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  line-height: 1.7;
+  color: var(--neon-amber);
+  text-shadow: 0 0 10px rgba(255, 176, 46, 0.5);
+  margin-bottom: 0.45rem;
+}
+.tip-desc { color: var(--ink-dim); font-size: 0.9rem; margin: 0 0 0.55rem; text-wrap: pretty; }
+.tip-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.55rem; }
+.tip-line {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-mute);
+  margin: 0.25rem 0 0;
+}
+.tip-kid { color: var(--neon-lime); }
+.tip-domain { color: var(--neon-cyan); }
+
+/* ---- Entrance choreography: cabinet power-on ----
+   Hero copy cascades in; directory cards stagger up on first paint.
+   Filter changes keep using same-document view transitions instead. */
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.fx-off) .hero-inner > * { animation: hero-in var(--dur-slow) var(--ease-decelerate) both; }
+  html:not(.fx-off) .hero-inner > *:nth-child(1) { animation-delay: 30ms; }
+  html:not(.fx-off) .hero-inner > *:nth-child(2) { animation-delay: 110ms; }
+  html:not(.fx-off) .hero-inner > *:nth-child(3) { animation-delay: 190ms; }
+  html:not(.fx-off) .hero-inner > *:nth-child(4) { animation-delay: 270ms; }
+  html:not(.fx-off) .hero-inner > *:nth-child(n+5) { animation-delay: 340ms; }
+  html:not(.fx-off) #games-grid.enter .game-card {
+    animation: card-in var(--dur-moderate) var(--ease-decelerate) both;
+    animation-delay: calc(var(--i, 0) * 26ms);
+  }
+}
+
+/* ---- Custom empty states: the unlit cabinet speaks ---- */
+.empty-cabinet .empty-title {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  line-height: 1.9;
+  color: var(--neon-amber);
+  text-shadow: 0 0 14px rgba(255, 176, 46, 0.6);
+  margin-bottom: 0.9rem;
+}
+.empty-cabinet .empty-sub {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+  margin: 0 0 1.3rem;
+}
+.empty-state .chip { margin-top: 0.2rem; }
+
+/* ---- Collections: shelf jump-links + copy-link ---- */
+.shelf-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 0.9rem 1.1rem;
+  background: linear-gradient(180deg, var(--bg-3), var(--bg-2));
+  border: 2px solid var(--edge);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-card);
+}
+.shelf-jump .jump-label {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--neon-amber);
+  text-shadow: 0 0 8px rgba(255, 176, 46, 0.5);
+  margin-right: 0.3rem;
+}
+.shelf-jump a {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  color: var(--ink-dim);
+  border: 2px solid var(--edge-bright);
+  border-radius: var(--r-pill);
+  padding: 0.25rem 0.8rem;
+  background: linear-gradient(180deg, #171728, #0e0e1c);
+  box-shadow: var(--shadow-pop);
+  transition: border-color var(--dur-fast) var(--ease-standard),
+              color var(--dur-fast) var(--ease-standard),
+              box-shadow var(--dur-fast) var(--ease-standard);
+}
+.shelf-jump a:hover {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.35);
+}
+.collection-card { scroll-margin-top: 7rem; }
+.collection-card .card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.6rem;
+}
+.shelf-link {
+  font-size: 0.95rem;
+  padding: 0.3rem 0.75rem;
+}

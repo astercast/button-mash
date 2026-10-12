@@ -599,4 +599,76 @@ check("WF15 reduced-motion + FX-off kills",
   base15.includes("@media (prefers-reduced-motion: reduce)"),
   "sensory envelope + reduced motion");
 
+// ---- Wave 16: "The Arcade" identity wave 2 ----
+const dirJs = fs.readFileSync(path.join(ROOT, "assets/js/directory.js"), "utf8");
+const w16css = fs.readFileSync(path.join(ROOT, "assets/css/wave16.css"), "utf8");
+const collHtml = fs.readFileSync(path.join(ROOT, "collections.html"), "utf8");
+const allHtml = ["index.html", "games.html", "collections.html", "404.html"]
+  .concat(fs.readdirSync(ROOT).filter((f) => f.endsWith(".html") && !["index.html", "games.html", "collections.html", "404.html"].includes(f)))
+  .concat(fs.readdirSync(path.join(ROOT, "guides")).filter((f) => f.endsWith(".html")).map((f) => "guides/" + f))
+  .concat(fs.readdirSync(path.join(ROOT, "genres")).filter((f) => f.endsWith(".html")).map((f) => "genres/" + f));
+const arcadeRef = (p) => {
+  const h = fs.readFileSync(path.join(ROOT, p), "utf8");
+  return h.includes("assets/js/arcade.js");
+};
+check("WF16 URL-synced filters: replaceState + q/genre/tags/favs params",
+  dirJs.includes("history.replaceState") && dirJs.includes("URLSearchParams") &&
+  ["p.set('q'", "p.set('genre'", "p.set('tags'", "p.set('favs'"].every((s) => dirJs.includes(s)),
+  "?q=&genre=&tags=a,b&favs=1, replaceState (no history spam)");
+check("WF16 filter state restored from URL on load (validated)",
+  dirJs.includes("readURLState") && dirJs.includes("knownGenres.indexOf(g)") &&
+  dirJs.includes("knownTags.indexOf(x)") && dirJs.includes("searchInput.value = state.q"),
+  "genre/tag validated against catalog, controls pre-set");
+check("WF16 tag filter chips built from data with counts",
+  gamesHtml.includes('id="tag-chips"') && dirJs.includes("tagCounts") &&
+  dirJs.includes("tag-token") && dirJs.includes("tok-n") &&
+  dirJs.includes("state.tags.every"),
+  "11 tag tokens, counts, multi-select AND semantics");
+check("WF16 search matches tags as well as titles/descriptions",
+  dirJs.includes("(g.tags || []).join(' ')") && dirJs.includes("tag-hits"),
+  "tag haystack + matched-tag strip");
+check("WF16 matched-tag strip toggles the tag filter",
+  dirJs.includes("renderTagHits") && dirJs.includes("tag-hits-label") &&
+  dirJs.includes("Toggle the ' + t + ' tag filter"),
+  "visible match chips, one click filters");
+check("WF16 copy-view-link button shares the filtered URL",
+  gamesHtml.includes('id="copy-view"') && dirJs.includes("clipboard.writeText") &&
+  dirJs.includes("location.href"),
+  "copies the shareable ?q=&genre=&tags= URL");
+check("WF16 card tooltips: Popover + position-anchor contract",
+  arcadeJs.includes('tip.setAttribute("popover", "manual")') &&
+  arcadeJs.includes("anchor-name") && arcadeJs.includes("position-anchor") &&
+  arcadeJs.includes("showPopover") && arcadeJs.includes("positionFallback") &&
+  arcadeJs.includes("no-anchor") && arcadeJs.includes("tip-trigger"),
+  "manual popover, per-card anchor, fixed-rect fallback");
+check("WF16 tooltip CSS: anchored + fallback paths",
+  w16css.includes(".card-tip") && w16css.includes(".tip-trigger") &&
+  w16css.includes("html.anchor-ok .card-tip") &&
+  w16css.includes("position-area: bottom") &&
+  w16css.includes("html.no-anchor .card-tip") &&
+  w16css.includes("html.no-popover .card-tip"),
+  "anchor-ok / no-anchor / no-popover rules");
+check("WF16 entrance choreography gated on motion prefs + FX",
+  w16css.includes("@keyframes hero-in") && w16css.includes("@keyframes card-in") &&
+  w16css.includes("html:not(.fx-off) .hero-inner > *") &&
+  w16css.includes("html:not(.fx-off) #games-grid.enter .game-card") &&
+  w16css.includes("prefers-reduced-motion: no-preference") &&
+  dirJs.includes("grid.classList.add('enter')"),
+  "hero cascade + staggered card power-on, first paint only");
+check("WF16 custom empty states",
+  dirJs.includes("NO GAMES ON THIS CHANNEL") && dirJs.includes("clear-filters") &&
+  dirJs.includes("empty-cabinet") && collHtml.includes("SHELVES OFFLINE"),
+  "unlit-cabinet no-results + retry states");
+check("WF16 collections: shelf anchors + jump nav + hash scroll",
+  collHtml.includes('id="shelf-jump"') && collHtml.includes("'shelf-' + c.id") &&
+  collHtml.includes("scrollIntoView") && collHtml.includes("Copy shelf link") &&
+  w16css.includes(".shelf-jump") && w16css.includes("scroll-margin-top"),
+  "19 jump links, deep-link scroll, per-shelf copy");
+check("WF16 arcade.js on every page",
+  allHtml.every(arcadeRef),
+  allHtml.length + " pages carry the FX toggle + attract + tooltips");
+check("WF16 coin-plate kick on every footer",
+  allHtml.every((p) => fs.readFileSync(path.join(ROOT, p), "utf8").includes("coin-plate")),
+  "kick-plate rhythm site-wide");
+
 process.exit(failures ? 1 : 0);
