@@ -45,6 +45,25 @@
 
   function $(id) { return document.getElementById(id); }
 
+  /* The drop veil (and its #veil-error paragraph) lives inside #ejs-stage, so
+     never blank the whole stage — remove only the emulator screen div. */
+  function clearScreen() {
+    var scr = $('ejs-screen');
+    if (scr) scr.remove();
+  }
+
+  function showVeil() {
+    clearScreen();
+    if (veil && !veil.isConnected && stage) stage.appendChild(veil);
+    if (veil) veil.style.display = '';
+  }
+
+  /* Null-guarded: the error paragraph may not exist if the DOM changed. */
+  function veilError(msg) {
+    var err = $('veil-error');
+    if (err) err.textContent = msg || '';
+  }
+
   function extOf(name) {
     var m = /\.([a-z0-9]+)$/i.exec(name || '');
     return m ? m[1].toLowerCase() : '';
@@ -69,8 +88,8 @@
 
   function boot(gameBlobUrl, fileName, core) {
     teardown();
-    veil.style.display = 'none';
-    stage.innerHTML = '';
+    clearScreen();
+    if (veil) veil.style.display = 'none';
     var screen = document.createElement('div');
     screen.id = 'ejs-screen';
     stage.appendChild(screen);
@@ -98,9 +117,8 @@
     script.setAttribute('data-ejs', '1');
     script.onerror = function () {
       setStatus('ENGINE FAILED TO LOAD', false);
-      stage.innerHTML = '';
-      veil.style.display = '';
-      $('veil-error').textContent = 'Could not load the emulator engine from the EmulatorJS CDN. Check your connection and try again.';
+      showVeil();
+      veilError('Could not load the emulator engine from the EmulatorJS CDN. Check your connection and try again.');
     };
     window.EJS_onGameStart = function () {
       setStatus('NOW PLAYING — ' + window.EJS_gameName.toUpperCase(), true);
@@ -137,10 +155,10 @@
     var ext = extOf(file.name);
     var core = sysSelect.value === 'auto' ? (CORE_MAP[ext] || null) : sysSelect.value;
     if (!core) {
-      $('veil-error').textContent = 'Could not detect the system for ".' + ext + '". Pick the system manually from the dropdown, then drop the file again.';
+      veilError('Could not detect the system for ".' + ext + '". Pick the system manually from the dropdown, then drop the file again.');
       return;
     }
-    $('veil-error').textContent = '';
+    veilError('');
     if (sysSelect.value === 'auto') sysSelect.value = core;
     currentBlobUrl = URL.createObjectURL(file);
     boot(currentBlobUrl, file.name, core);
@@ -149,7 +167,7 @@
   async function handleUrl() {
     var url = (urlInput.value || '').trim();
     if (!url) return;
-    $('veil-error').textContent = '';
+    veilError('');
     setStatus('FETCHING FILE…', true);
     try {
       var res = await fetch(url);
@@ -159,7 +177,7 @@
       handleFile(new File([blob], name, { type: blob.type }));
     } catch (e) {
       setStatus('IDLE', false);
-      $('veil-error').textContent = 'Could not fetch that URL (' + e.message + '). The host must allow cross-origin downloads (CORS). If it fails, download the file yourself and drop it in instead.';
+      veilError('Could not fetch that URL (' + e.message + '). The host must allow cross-origin downloads (CORS). If it fails, download the file yourself and drop it in instead.');
     }
   }
 
@@ -196,8 +214,7 @@
 
     $('eject-btn').addEventListener('click', function () {
       teardown();
-      stage.innerHTML = '';
-      veil.style.display = '';
+      showVeil();
       $('player-toolbar').hidden = true;
       $('sys-badge').hidden = true;
       setStatus('IDLE', false);
