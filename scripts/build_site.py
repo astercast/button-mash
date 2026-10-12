@@ -16,7 +16,7 @@ PAGES = [
     ("player.html", "The Player: bring-your-own-file EmulatorJS console (20+ systems)"),
     ("converter.html", "ROM-to-browser-game converter (GBA/GB/GBC/NES file in, self-contained .html out)"),
     ("party-planner.html", "Party planner: timed game-night rotation plans across party-tagged games"),
-    ("tournament.html", "Tournament brackets: seeded 2-16 player single elimination, best-of-N per round, one party game per round, print + copy"),
+    ("tournament.html", "Tournament brackets 2.0: seeded 2-16 player single or double elimination, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, print + copy"),
     ("system-picker.html", "Which system should you emulate? — 1-minute quiz with honest device-limit recommendations"),
     ("kids.html", "Kids corner: kid-safe browser games, no chat, age bands 5–7 / 8–10 / 11–12, parent notes on every game, reduced-motion default"),
     ("parents.html", "Parent guide: how Kids corner curation works, the honesty policy, common-sense screen-time tips, the 'one more level' save-state trick"),
@@ -76,7 +76,7 @@ def build_llms():
     lines.append("- player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.1: named save slots + auto-save, per-system keyboard+gamepad remap, cheat-code entry, display options (CRT/integer-scale/aspect, per-system quick settings), honest netplay notes)")
     lines.append("- converter.html — ROM-to-browser-game converter (GBA/GB/GBC/NES in, self-contained .html out)")
     lines.append("- party-planner.html — timed game-night rotation planner across party-tagged games (print-friendly)")
-    lines.append("- tournament.html — single-elimination tournament brackets for game night: 2-16 players, standard seeding with honest byes, best-of-N per round, one party game per round, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids)")
+    lines.append("- tournament.html — Tournament 2.0: single- or double-elimination brackets for game night (2-16 players, manual seeding UI + randomize, honest byes, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids))")
     lines.append(f"- games.html — the {ngames}-game directory (search, genre filters, favorites, random game, game of the day)")
     lines.append(f"- kids.html — Kids corner: {nkids} kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default")
     lines.append("- parents.html — parent guide: curation method, honesty policy (assessments not guarantees — play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick")

@@ -105,9 +105,10 @@ check("WF6 tournament page wires bracket logic + UI",
   tourneyHtml.includes("assets/js/bracket.js") && tourneyHtml.includes("assets/js/tournament.js") &&
   tourneyJs.includes("bm_tournament_v1"),
   "bracket.js + tournament.js + localStorage");
-check("WF6 per-round game picker draws from the party catalog",
-  tourneyJs.includes("api/v1/games.json") && tourneyJs.includes("indexOf('party')"),
-  "party-tagged dropdown");
+check("WF6 per-round game picker draws from the full catalog (party first)",
+  tourneyJs.includes("api/v1/games.json") && tourneyJs.includes("indexOf('party')") &&
+  tourneyJs.includes("optgroup"),
+  "full catalog dropdown, party-tagged group first");
 check("WF6 print + copy controls present",
   tourneyHtml.includes('id="t-print"') && tourneyHtml.includes('id="t-copy"') &&
   tourneyHtml.includes("@media print"),
@@ -253,5 +254,62 @@ check("WF9 AGENT.md + llms.txt mention Player 2.1",
   fs.readFileSync(path.join(ROOT, "AGENT.md"), "utf8").includes('Player 2.1') &&
   fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes('Player 2.1'),
   "agentic surface current");
+
+// ---- Wave 10: Tournament 2.0 — double elim, seeding UI, voting, history/undo, share links ----
+const BracketDouble = require(path.join(ROOT, "assets/js/bracket-double.js"));
+const t10 = BracketDouble.createTournamentDouble(["A", "B", "C", "D"]);
+check("WF10 bracket-double module loads (UMD, node)",
+  !t10.error && t10.version === 2 && typeof BracketDouble.recordLosersWin === "function" &&
+  typeof BracketDouble.recordGrandWin === "function" && typeof BracketDouble.encodeShare === "function" &&
+  typeof BracketDouble.decodeShare === "function",
+  "double-elim logic module");
+check("WF10 double-elim inline fixture (reset path)",
+  (() => {
+    const t = BracketDouble.createTournamentDouble(["A", "B", "C", "D"]);
+    BracketDouble.recordWinnersWin(t, 0, 0, "a");
+    BracketDouble.recordWinnersWin(t, 0, 1, "b");
+    BracketDouble.recordLosersWin(t, 0, 0, "a");
+    BracketDouble.recordWinnersWin(t, 1, 0, "b");
+    BracketDouble.recordLosersWin(t, 1, 0, "b");
+    BracketDouble.recordGrandWin(t, 0, "b"); // losers champ wins -> reset
+    if (!BracketDouble.grandFinalInfo(t).needsReset) { return false; }
+    BracketDouble.recordGrandWin(t, 1, "a");
+    const c = BracketDouble.champion(t);
+    return !!c && c.name === "C";
+  })(),
+  "4-player pinned run ends with champion C");
+check("WF10 share validation rejects tampering",
+  !BracketDouble.decodeShare("!!!").ok &&
+  BracketDouble.decodeShare(BracketDouble.encodeShare(t10)).ok,
+  "encode/decode round-trip + rejection");
+check("WF10 tournament.html has 2.0 controls",
+  tourneyHtml.includes('name="t-format"') && tourneyHtml.includes('id="t-seed-list"') &&
+  tourneyHtml.includes('id="t-seed-random"') && tourneyHtml.includes('id="t-history-list"') &&
+  tourneyHtml.includes('id="t-undo"') && tourneyHtml.includes('id="t-sharelink"') &&
+  tourneyHtml.includes("assets/js/bracket-double.js"),
+  "format radios, seeding, history, undo, share link");
+check("WF10 tournament.js wires double elim + voting + undo",
+  tourneyJs.includes("bm_tournament_v2") && tourneyJs.includes("BracketDouble") &&
+  tourneyJs.includes("t-vote-panel") && tourneyJs.includes("undoStack") &&
+  tourneyJs.includes("initFromHash"),
+  "v2 storage, vote UI, undo stack, hash import");
+check("WF10 logic + UI test suites exist",
+  fs.existsSync(path.join(ROOT, "scripts/test_bracket_double.js")) &&
+  fs.existsSync(path.join(ROOT, "scripts/test_tournament10.js")),
+  "test_bracket_double.js + test_tournament10.js");
+check("WF10 AGENT.md + llms.txt mention double elimination",
+  fs.readFileSync(path.join(ROOT, "AGENT.md"), "utf8").includes("double-elimination") &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("double-elimination"),
+  "agentic surface current");
+check("WF10 tournament-runner skill documents 2.0",
+  (() => {
+    const s = fs.readFileSync(path.join(ROOT, "skills/tournament-runner.md"), "utf8");
+    return s.includes("double elimination") && s.includes("bracket reset") &&
+      s.includes("Copy share link") && s.includes("Undo last result");
+  })(),
+  "skill updated");
+check("WF10 build_site tournament blurb is 2.0",
+  fs.readFileSync(path.join(ROOT, "scripts/build_site.py"), "utf8").includes("Tournament brackets 2.0"),
+  "llms.txt source updated");
 
 process.exit(failures ? 1 : 0);

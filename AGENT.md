@@ -35,7 +35,7 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
 - **Player** (`player.html`): bring-your-own-file EmulatorJS console, 20+ systems. File never leaves the user's machine. Core short names (official): `nes snes gb gba segaMD segaMS segaGG sega32x segaCD psx n64 nds pce vb atari2600 atari7800 lynx ngp ws coleco`. PSX/Sega CD need a user-dumped BIOS; the rest boot BIOS-free. **Player 2.1 tools** (all client-side): named save slots per game in the engine's IndexedDB store (`<base>.bm-slot-<n>.state`; save/restore/rename/export/import/delete; auto-save slot on a 1/5/15-min timer while the tab is open — all browser-local, "Keep in Browser" mode required), per-system keyboard+gamepad remap UI for Player 1 (`bm-remap-<core>` in localStorage, written into the engine's `ejs-<gameId>-<core>-<gameName>-settings` payload at boot; legacy per-game maps auto-migrated; verified per-core button labels from the 4.2.3 stable build; Esc cancels capture; the remapper is fully keyboard-operable), cheat-code entry per game (injected via the documented `window.EJS_cheats = [[name, code], ...]`; toggle in the engine's cheat manager — per-core code-format behavior is NOT verified, never claim it), display options per system (`bm-display-<core>`: CRT scanline/vignette filter, integer-scale toggle, 4:3/16:9/fill/original aspect, fullscreen with `f` shortcut and honest button state; `prefers-reduced-motion`-safe, plus a quick-settings dialog), and an honest netplay notes section (engine advertises WebRTC room-code netplay as "being worked on"; NOT verified on the stable build — not enabled, not promised). See `skills/player-guide.md`.
 - **Converter v2** (`converter.html`): user's file → self-contained playable `.html` (ROM embedded as base64; engine loads from the EmulatorJS CDN on first run). Three systems: GBA (`.gba`, mGBA core, 32MB max), Game Boy/Color (`.gb`/`.gbc`, Gambatte core, 8MB max), NES (`.nes`, FCEUmm core, 4MB max). **All three cores are BIOS-free** — zero extra files. Non-ROM formats refused gracefully (points at the Player). Template token contract: `__BM_GAME_NAME__`, `__BM_GAME_ID__`, `__BM_BUILD_DATE__`, `__BM_ROM_SIZE__`, `__BM_ROM_B64__`, `__BM_CORE__`, `__BM_CORE_LABEL__`, `__BM_SYSTEM__`, `__BM_HINT__`. See `skills/converter-multi-system.md`.
 - **Party Planner** (`party-planner.html`): headcount + time + vibe + skill mix + inputs → timed rotation plan across party-tagged catalog games, with hand-the-controller rotation order and print-friendly output. Semantic HTML, keyboard-accessible, aria-live plan summary, reduced-motion aware. See `skills/party-planner-runner.md`.
-- **Tournament** (`tournament.html`): seeded single-elimination brackets for 2–16 players — standard seeding (1v16, 8v9…), honest first-round byes for top seeds at odd counts, best-of-N (1/3/5/7) per round, one party game per round from the catalog, click/keyboard advancement with series-score tracking, champion banner (reduced-motion safe, no flashing), localStorage persistence, print layout, and "Copy my bracket" text export. Accepts the party-planner handoff: `tournament.html?players=N&games=id1,id2` (real game ids only). Bracket math in `assets/js/bracket.js` is covered by `scripts/test_bracket.js` (82 assertions). See `skills/tournament-runner.md`.
+- **Tournament 2.0** (`tournament.html`): single- or double-elimination brackets for 2–16 players — standard seeding (1v16, 8v9…) with a manual seed-order UI (↑↓ buttons, keyboard-operable) + randomize (no skill ratings exist on the site, so no rating-based seeding), honest first-round byes for top seeds at odd counts, best-of-N (1/3/5/7) per round, one game per round from the full catalog (party-tagged first) with optional per-round player voting (one vote each, ties go to the earliest-picked game), click/keyboard advancement with series-score tracking, double elim = winners + losers brackets and a grand final with bracket-reset logic, match history log + undo-last-result (session only), shareable bracket links (`#b=…`, validated import), champion banner (reduced-motion safe, no flashing), localStorage persistence (single/double save separately), print layout, and "Copy my bracket" text export. Accepts the party-planner handoff: `tournament.html?players=N&games=id1,id2` (real game ids only). Bracket math in `assets/js/bracket.js` (single, `scripts/test_bracket.js`, 82 assertions) and `assets/js/bracket-double.js` (double, `scripts/test_bracket_double.js`, 105 assertions); UI covered by `scripts/test_tournament10.js` (24 headless checks). See `skills/tournament-runner.md`.
 - **Genre deep dives** (`genres/roguelike.html`, `genres/cozy.html`): curated lists from the catalog with start-here picks and why-each-fits blurbs.
 
 ## Example workflows
@@ -95,12 +95,18 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
 ### 6. "Run a tournament for game night" (tournament brackets)
 
 ```
-1. GET api/v1/games.json → filter games where tags includes "party" for round games.
-2. Get the player list (2–16 names) and per-round prefs: game id + best-of (1/3/5/7).
+1. GET api/v1/games.json → party-tagged games first for round games, but any
+   catalog game works (the picker lists the full catalog, party first).
+2. Get the player list (2–16 names), the format (single or double elim), and
+   per-round prefs: game id + best-of (1/3/5/7).
 3. Odd counts are fine — top seeds get honest first-round byes; never force-drop a player.
-4. Send the user to tournament.html, or build the handoff link yourself:
+4. Double elim: one loss drops a player to the losers bracket; the grand final
+   pits the winners champ vs the losers champ, with a bracket reset if the
+   losers champ wins the first final.
+5. Send the user to tournament.html, or build the handoff link yourself:
    tournament.html?players=8&games=bonk,tetrio,skribbl (real ids only).
    A finished party plan already links there with players + games pre-filled.
+   Share a finished bracket with "Copy share link" (#b=... — validated on import).
    See skills/tournament-runner.md.
 ```
 

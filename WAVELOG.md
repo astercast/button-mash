@@ -2,6 +2,27 @@
 
 Running record of build waves. Newest first.
 
+## Wave 10 — 2026-10-11 — Tournament 2.0: double elimination + seeding UI + game voting + history/undo + share links
+
+**What shipped:**
+- **Double elimination** (`assets/js/bracket-double.js`, new UMD pure-logic module, needs `bracket.js` loaded first): winners bracket delegated to the single-elim engine through a view object; losers bracket computed round by round (round 0 = losers of winners round 0 — first-round BYE matches contribute no loser; even rounds pair prior losers-round winners; odd rounds merge survivors with fresh winners-bracket drop-ins via the documented pairing survivor[i] vs drop-in[D-1-i], leftover pairing, trailing lone entrant gets an honest BYE); 2k−2 losers rounds for k winners rounds (2 players = zero losers rounds, grand final is a straight rematch); grand final = winners champ vs losers champ, with **bracket-reset** logic (losers champ wins the first final → one more final, winner takes the tournament). Losers results snapshot their entrant seeds so `syncLosers()` wipes anything an upstream edit invalidates — clearing a winners match cascades through losers + grand final honestly. Covered by `scripts/test_bracket_double.js`: **105/105 pinned-fixture assertions** (4-player reset run, outright-win run, 8-player merge pairings, 2-player rematch, 3-player byes, both cascade directions, reseeding, share round-trip + 13 tamper rejections, voting majority/tie-break/re-vote, guards, mergeEntrants units).
+- **Seeding UI** (`tournament.html` + `assets/js/tournament.js`): format radios (single/double), a seeding list with ↑ ↓ reorder buttons (keyboard-operable native buttons; the textarea stays the single source of truth) + randomize. Honest note in the UI: no skill ratings exist on this site, so seeds are manual or random — verified by grep (no ratings data anywhere in `data/`).
+- **Game integration**: round game picker now lists the **full 125-game catalog** (party-tagged group first, then everything) instead of party-only; each player takes an optional **game pick** in the seeding list; per-round **game voting** — one vote per player (re-vote moves it), ties go to the earliest-picked game, "Lock in" sets the round's game. Works on winners rounds, losers rounds, and the grand final. Party planner handoff (`?players=N&games=ids`, plus new `&format=`) verified end to end; fixed a real bug the headless suite caught — with a saved bracket in localStorage, the handoff's `?games=` was being consumed by the stale restored bracket instead of the new one. Now URL handoff params mean "fresh tournament": the old bracket isn't restored under them, and the pending games wait for Generate.
+- **Match flow**: per-match score entry / winner advance (shared renderer for both formats), **match history log** (newest-first, timestamps, capped at 200, printed and included in the copy-text export), **undo last result** (in-memory snapshot stack, session-only — stated in the UI), bracket state persists in localStorage (`bm_tournament_v1` single / `bm_tournament_v2` double, format remembered), **shareable bracket links** (`#b=` base64url state, `decodeShare` validates everything — version, format, 2–16 players, result shapes, entrant snapshots, history caps — and rebuilds derived fields from scratch; tampered links rejected with an error), print layout extended to losers bracket + grand final + history.
+- **Guides/docs**: `skills/tournament-runner.md` rewritten for 2.0 (verified facts only — formats, seeding, voting rules, reset, share-link privacy note, session-only undo); AGENT.md Tournament bullet + workflow 6 updated; `scripts/build_site.py` tournament blurbs → llms.txt/llms-full.txt regenerated. No new skill — no genuine gap (tournament-runner owns this surface).
+- **Agentic surface**: `scripts/check_api_workflows.js` gained WF10 (9 checks; 64/64 pass, was 55/55); WF6's party-catalog check updated to the intentional new behavior (full catalog, party first). New `scripts/test_tournament10.js`: **26/26 headless checks** — seeding UI, reorder, game picks, double playthrough to champion via real UI clicks, voting lock-in, undo, share round-trip + tamper rejection in the browser UMD build, single-elim regression playthrough, reload persistence, party handoff. Smoke `test.js`: zero pageerrors (only the known expected CDN tunnel noise on player.html).
+
+**Validation (wave 10):**
+- `scripts/build.py`: BUILD OK — 125 games (111 domains), 13 collections, 10 emulators, 14 guides; LEGAL GATE OK (30 pages, 125 game URLs, 0 piracy links)
+- `node scripts/check_api_workflows.js`: 64/64 pass (WF1–WF10), 0 failures
+- `scripts/check_links.py`: LINK CHECK OK — 30 pages, 820 local links, 63 external links, 0 broken
+- `node scripts/test_bracket.js`: 82/82 pass (single-elim untouched); `node scripts/test_bracket_double.js`: 105/105 pass
+- `node --check`: clean on all five changed/added JS files
+- `node scripts/test_tournament10.js`: 26/26 PASS, zero pageerrors
+- Headless: kids.html + converter.html + party-planner.html re-verified — zero pageerrors (no regressions)
+
+**Legal lane**: unchanged — zero new external links; share links are same-origin `#b=` URLs. (Real-engine boot test still needs parent browser delegation: `BM_BOOT_TEST=1 node ~/workspace/smoke/test.js`.)
+
 ## Wave 9 — 2026-10-11 — Player 2.1: save-state manager + per-system remap + display options
 
 **What shipped:**
