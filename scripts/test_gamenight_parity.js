@@ -28,9 +28,11 @@ if (!client || typeof client.pickLineup !== "function") {
   process.exit(1);
 }
 
-// Real catalog, same construction as api/game-night.js.
-const gamesEnv = JSON.parse(fs.readFileSync(path.join(ROOT, "api", "v1", "games.json"), "utf8"));
-const kidEnv = JSON.parse(fs.readFileSync(path.join(ROOT, "api", "v1", "kid-safe.json"), "utf8"));
+// Real catalog, same construction as api/game-night.js. Static data lives
+// in data/v1/ since wave 20 (Vercel never serves static files under api/);
+// this suite kept the old path segments and died on ENOENT — fixed wave 22.
+const gamesEnv = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "v1", "games.json"), "utf8"));
+const kidEnv = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "v1", "kid-safe.json"), "utf8"));
 const catalog = {
   games: gamesEnv.games || [],
   kidSafeIds: new Set((kidEnv["kid-safe"] || []).filter((k) => k.kid_safe).map((k) => k.id)),

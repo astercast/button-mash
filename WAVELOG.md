@@ -2,6 +2,100 @@
 
 Running record of build waves. Newest first.
 
+## Wave 22 — 2026-10-12 — "Game Night 2.0": the buckets, calibrated + test_wave19 to green
+
+**What shipped** — the wave-21 self-assessment asked for "a second pair of eyes
+on session-estimate buckets against real playtimes." The audit found the v2.0
+buckets dealing nonsense at the edges: Civilization and Space Invaders shared
+a 10-minute retro bucket; Wordle cost 10 minutes; Lichess (a chess duel) and
+skribbl.io (a 12-person drawing room) scored identical player fit; a solo game
+pass-and-played by twelve scored exactly what it scored for two; and on a
+four-hour night a five-minute clicker tied a perfect-fit main event on session
+points. Scoring is now **v2.1.0** — same 100-point frame, graded fits:
+
+- **Session buckets, calibrated per game** (`SESSION_OVERRIDES`, 69 pins in
+  `assets/js/curator-night.js`): long-form retro sims/adventures (Civilization
+  60, Master of Orion 60, Monkey Island 45, Oregon Trail 30), deep traditional
+  roguelikes (NetHack 60, DCSS/Angband 45, a Vampire Survivors run at its real
+  30-minute timer), narrative idles (A Dark Room / Universal Paperclips /
+  Kittens Game 30 — pure clickers like Cookie Clicker stay 5), builders
+  (shapez 45), library pages (a sitting is browsing a shelf: 15–20), and the
+  five-minute dailies (Wordle, Connections, Globle, Worldle, Framed, Waffle,
+  Bandle → 5; We Become What We Behold → 5, its own description says so).
+- **Seats** (`estimateCapacity` + 11 pins): room games (phone/drawing/trivia
+  tags) seat 12, team word/party 10, online lobbies 8, board tables 6, co-op
+  4, solo 1 — with pins where tags misread the game (Lichess 2, Pokémon
+  Showdown 2, Colonist 4, Board Game Arena 6, ClassiCube 8). **Player fit is
+  graded**: room games hold 40 at any size; pass-and-play decays 26 → 18 →
+  10 → 6 as the room grows; over-seated tables taper 6/seat to a floor of 14.
+  Assembly passes now prefer picks that seat the room before settling.
+- **Energy** (`estimateEnergy`: low-key / steady / high-octane): shooters,
+  arenas, racers and the action/horror genres run hot; word/board/trivia and
+  idle/cozy run low. The curve spends it on purpose — warm-up and cool-down
+  slots must be low-floor AND not high-octane; the showdown must be
+  high-octane or spicy. Slot cards and copy-as-text now show seats + energy.
+- **Session fit is graded against the night's actual slot size**
+  (minutes ÷ target slots): right-size pays 20, short-for-slot 13 ("expect
+  instant rematches"), a blink next to a long slot 8, eats-the-night 6, and a
+  sitting longer than the whole night 2.
+- **Assembly fixes the calibration exposed**: the intermission breather is
+  capped at ~15 min (a 30-minute narrative idle is a course, not a breather);
+  the long-night fill loop now deals any main that fits the remaining time
+  (a trimmed kids night refills to a full 5 slots / exactly 60 min instead of
+  stranding at 3), gated so short nights keep their designed 2–3 slots, and
+  fill insertion can no longer land before the warm-up.
+- **Sample nights after calibration** (printed by the new suite): 12-player
+  party → AirConsole warm-up, GeoGuessr + Drawasaurus mains, Antimatter
+  Dimensions intermission, Make It Meme, Krunker showdown, Gartic Phone
+  cool-down (seats ~12), exactly ~120; solo 240 chill → Song Maker warm-up,
+  A Dark Room + A Tale of Crowns mains, Angband, Alone in the Dark deep dive,
+  ~225 of 240; kids 5-player hour → 0hh1 warm-up, two quick mains, Minecraft
+  Classic showdown, 2048 cool-down, exactly ~60, all kid-safe.
+
+**test_wave19 to green (the pending suite)** — three real findings:
+(1) **A live bug**: `game-detail.js`'s collections overlay mapped only the
+live shape (`games[]`) — when the probe fell back to the static file
+(`game_ids`), every shelf reshaped to an empty list and the overlay wiped
+the correct static render ("Not on any curated shelf" for a game on four
+shelves). The overlay now accepts both shapes and never re-renders an
+empty result. (2) Stale counts: shelves/jump links 22 → 24 (wave 20's two
+collections), and the tooltip assertion now accepts arcade.js's BASE-prefixed
+href (cards render on subpages; the file:// URL is correct behavior).
+(3) **Section F rebuilt**: Chromium 152's Local Network Access checks block
+every loopback navigation in this sandbox (verified: fresh page, headful,
+browser-initiated launch URL, CDP permission grants, feature flags — all
+`ERR_BLOCKED_BY_LOCAL_NETWORK_ACCESS_CHECKS`), so the stub Curator is now an
+in-page fetch stub serving the same canned envelopes; ApiClient, the badge
+state machine, and both overlays execute for real, and the literal HTTP
+round trip stays covered by `tests/api.test.sh` (40/40, real functions).
+
+**Test-rot repairs in passing** (same documented class as wave 21's fixes):
+`test_gamenight_parity.js` still read the catalog from `api/v1/` path
+segments — dead since the wave-20 data move, invisible to the WF22 string
+scan because the path was segmented; now `data/v1/`, parity back to 256/256.
+`test_wave17.js` and `test_wow1.js` got the `/api/*`-probe console filter
+(ERR_FILE_NOT_FOUND over file:// = the designed fallback) that the younger
+suites already carried.
+
+**Validation:**
+- `scripts/build.py`: **BUILD OK — 213 games, 24 collections, 10 emulators, 22 guides**; **LEGAL GATE OK (42 pages, 0 piracy links)**
+- `scripts/check_links.py`: **0 broken (41 pages, 1377 local links)**
+- `node scripts/check_api_workflows.js`: **217/217 pass (WF1–WF24)** — WF23 version pin updated to 2.1.0; new WF24 (7 checks: calibration surface, overrides real + load-bearing, graded-fit behavior, ceremony surfacing, overlay shape fix, parity path, legal lane)
+- `node scripts/test_gamenight22.js`: **ALL PASS (20 checks)** — every override id real + load-bearing (the suite caught 2 dead pins during development: a dating sim pinned at its own bucket value, HaxBall pinned at the tier its party tag already gives), graded-fit spot checks, and a **1,680-night grid sweep** (7 group sizes × 8 lengths × 5 vibe sets × 3 skill mixes × kids on/off) asserting timebox fit, breakdown sums, no repeats, kid-safe purity, curve edges, showdown/deep-dive rules — 1680/1680 clean
+- `node scripts/test_wave19.js`: **37/37 ALL PASS, zero pageerrors** (was: incomplete/environment-blocked since wave 19)
+- `node scripts/test_curatornight21.js`: **43/43 ALL PASS, zero pageerrors** (version pin → 2.1.0)
+- `node scripts/test_gamenight_parity.js`: **256/256 PARITY OK** (v1 engine untouched, as designed)
+- `tests/api.test.sh`: **40/40 green**
+- Regression: `test_party_planner11` ALL PASS; `test_tournament10` ALL PASS (26/26); `test_trophy18` ALL PASSED; `test_player21` ALL PASSED; `test_wave17` ALL PASS (after the probe-noise filter); `test_wow1` desktop/motion/mobile/player ALL PASS + powerunit ALL PASS; `test_bracket` 82/82; `test_bracket_double` 105/105; `test_party11` 36/36; `test_converter12` 66/66
+- `~/workspace/smoke/test.js`: exit 0, zero errors (known CDN tunnel noise only)
+- `node --check`: clean on every new/edited JS file
+- Screenshots inspected: desktop 12-player dealt night (slot meta reads "~20 min · puzzle · seats ~12 · anyone can play · low-key · 77/100"; plan notes declare the v2.1 grading), mobile 390px kids night (4 picks, exactly ~60 min, zero overflow)
+- **Known environmental block**: `test_identity16` still hits its documented `waitCards` renderer stall at loadavg ~10 (parallel agents) — reproduced identically on the pristine wave-20 tree in wave 21's entry; no identity-covered code changed this wave (arcade.js/games.html untouched). Re-run on a quiet VM.
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links; calibration data is curator judgment over the existing verified catalog, no new external links.
+
+**Self-assessment**: the engine now deals nights a person would actually plan — the 12-player party ends on a game that seats twelve, the solo descent gets its long dark rooms, and short nights stay short. The estimates are still estimates, and the page says so in plain words; what changed is that they're calibrated estimates with a test suite standing guard over every pin. The wave-19 suite being green closes the last documented loose end in the repo.
+
 ## Wave 21 — 2026-10-12 — "The Curator": null-guard fix + Game Night engine
 
 **What shipped** — two tracks: (1) the player null-guard the smoke test caught,

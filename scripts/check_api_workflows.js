@@ -1150,8 +1150,8 @@ check("WF23 game-night.html: marquee + form + ceremony stage wired",
   gnHtml.includes("curator-night-ui.js") && gnHtml.includes("curator-night.css") &&
   gnHtml.includes("the curator's deck is stacked"),
   "marquee, sliders, vibe chips, deal button, aria-live announcer, stage, easter egg");
-check("WF23 engine v2: UMD, DOM-free, scoring 2.0.0, honesty declared",
-  cnEngine.includes("SCORING_VERSION = '2.0.0'") &&
+check("WF23 engine v2: UMD, DOM-free, scoring 2.1.0, honesty declared",
+  cnEngine.includes("SCORING_VERSION = '2.1.0'") &&
   cnEngine.includes("typeof module") && !/document\.|window\./.test(cnEngine) &&
   /curator estimates/i.test(cnEngine) && cnEngine.includes("roleSequence") &&
   cnEngine.includes("assemble") && cnEngine.includes("validateInputs"),
@@ -1212,5 +1212,47 @@ check("WF23 player.html null-guard fix: badge/toolbar writes guarded",
     return !/\$\('(sys-badge|player-toolbar)'\)\.(textContent|hidden)\s*=/.test(p);
   })(),
   "no unguarded sys-badge/player-toolbar writes remain");
+
+// Wave 22 "Game Night 2.0": bucket calibration against the real catalog.
+const CN24 = require(path.join(ROOT, "assets/js/curator-night.js"));
+const gn22Test = fs.readFileSync(path.join(ROOT, "scripts/test_gamenight22.js"), "utf8");
+check("WF24 engine calibration surface exported",
+  typeof CN24.estimateCapacity === "function" && typeof CN24.estimateEnergy === "function" &&
+  typeof CN24.playerFit === "function" && typeof CN24.sessionFit === "function" &&
+  typeof CN24.targetSlots === "function" && CN24.SCORING_VERSION === "2.1.0" &&
+  Object.keys(CN24.SESSION_OVERRIDES).length >= 60 && Object.keys(CN24.CAPACITY_OVERRIDES).length >= 10,
+  "capacity/energy estimators + graded fits + override tables, scoring v2.1.0");
+check("WF24 overrides: real ids, every pin load-bearing",
+  (() => {
+    const byId = {};
+    games.forEach((x) => { byId[x.id] = x; });
+    const ghostS = (x) => CN24.estimateSession({ genre: x.genre, tags: x.tags || [] });
+    const ghostC = (x) => CN24.estimateCapacity({ genre: x.genre, tags: x.tags || [] });
+    return Object.keys(CN24.SESSION_OVERRIDES).every((id) => byId[id] && CN24.SESSION_OVERRIDES[id] !== ghostS(byId[id])) &&
+      Object.keys(CN24.CAPACITY_OVERRIDES).every((id) => byId[id] && CN24.CAPACITY_OVERRIDES[id] !== ghostC(byId[id]));
+  })(),
+  "no invented ids, no dead pins (suite: scripts/test_gamenight22.js)");
+check("WF24 graded fits behave like the room",
+  CN24.playerFit(games.find((x) => x.id === "2048"), 12).score < CN24.playerFit(games.find((x) => x.id === "2048"), 2).score &&
+  CN24.playerFit(games.find((x) => x.id === "skribbl"), 12).score === 40 &&
+  CN24.estimateSession(games.find((x) => x.id === "civ1")) === 60 &&
+  CN24.estimateSession(games.find((x) => x.id === "wordle")) === 5 &&
+  CN24.estimateCapacity(games.find((x) => x.id === "lichess")) === 2 &&
+  CN24.sessionFit(15, 60).score === 20 && CN24.sessionFit(5, 240).score === 8,
+  "pass-and-play decays, room games hold, civ 60 / wordle 5 / lichess seats 2, session fit peaks at slot size");
+check("WF24 ceremony surfaces seats + energy; page copy declares calibration",
+  cnUi.includes("seats ~") && cnUi.includes("slot.energy_label") &&
+  gnHtml.includes("calibrated game by game"),
+  "slot meta carries seats ~N + energy label; hint copy updated");
+check("WF24 game-detail collections overlay accepts both shapes",
+  detailJs.includes("c.game_ids || (c.games || [])"),
+  "static fallback (game_ids) no longer wipes the shelf render (wave-19 bug)");
+check("WF24 parity suite reads data/v1 (wave-20 move fallout fixed)",
+  fs.readFileSync(path.join(ROOT, "scripts/test_gamenight_parity.js"), "utf8").includes('"data", "v1"') &&
+  gn22Test.includes("grid sweep"),
+  "parity gate back on the real catalog path; calibration suite carries the sweep");
+check("WF24 no ROM/BIOS download phrasing in wave-22 files",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(gn22Test + cnUi),
+  "legal lane holds");
 
 process.exit(failures ? 1 : 0);

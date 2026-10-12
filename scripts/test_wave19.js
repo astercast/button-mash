@@ -1,11 +1,12 @@
 /* Wave 19 "Spotlight" headless functional checks: the Curator's metadata
    surfaces in the browser — game.html detail pages (static-first + live
    enrichment overlay + honest states), collections.html Curator wiring,
-   card-tooltip deep links, and the ?id= live probe against a stub API.
+   card-tooltip deep links, and the ?id= live probe (section F: in-page
+   fetch stub since wave 22 — Chromium 152 Local Network Access checks
+   block loopback navigation in this sandbox; see the section comment).
    Run: NODE_PATH=~/workspace/smoke/node_modules node scripts/test_wave19.js
    Exit 0 = all pass, zero pageerrors. */
 "use strict";
-const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const puppeteer = require("puppeteer-core");
@@ -44,44 +45,29 @@ async function newPage(browser, viewport) {
   return { page, errors };
 }
 
-// Stub Curator for the live-probe section: canned enriched game + collections.
-function startStub() {
+// Canned Curator envelopes for the live-probe section: an enriched tetrio
+// (multiplayer + vibes the static file does not carry) and collections in
+// the live function's resolved shape (games[], not game_ids).
+function stubEnvelopes() {
   const games = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/games.json"), "utf8")).games;
   const cols = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/collections.json"), "utf8")).collections;
   const tetrio = games.find((g) => g.id === "tetrio");
-  const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".json": "application/json; charset=utf-8", ".woff2": "font/woff2", ".png": "image/png", ".svg": "image/svg+xml" };
-  const env = (data) => JSON.stringify({
+  const env = (data) => ({
     ok: true, data: data,
     meta: { service: "mash-curator", version: "1.0.0", generated_at: "2026-10-12T08:00:00Z", request_id: "req_stub" },
     error: null,
   });
-  const server = http.createServer((req, res) => {
-    const u = new URL(req.url, "http://x");
-    if (u.pathname === "/api/games" && u.searchParams.get("id") === "tetrio") {
-      res.setHeader("Content-Type", "application/json; charset=utf-8");
-      res.end(env({ games: [Object.assign({}, tetrio, { multiplayer: true, kid_safe: false, vibes: ["competitive", "party"] })], count: 1, total: 1, filters: { id: "tetrio" }, generated_at: "2026-10-12T08:00:00Z" }));
-      return;
-    }
-    if (u.pathname === "/api/collections") {
-      const shaped = cols.map((c) => ({
+  return {
+    gamesEnv: env({ games: [Object.assign({}, tetrio, { multiplayer: true, kid_safe: false, vibes: ["competitive", "party"] })], count: 1, total: 1, filters: { id: "tetrio" }, generated_at: "2026-10-12T08:00:00Z" }),
+    colsEnv: env({
+      collections: cols.map((c) => ({
         id: c.id, title: c.title, tagline: c.tagline, description: c.description,
         game_count: c.game_ids.length,
         games: c.game_ids.slice(0, 3).map((id) => { const g = games.find((x) => x.id === id) || {}; return { id: id, title: g.title || null, url: g.url || null, genre: g.genre || null }; }),
-      }));
-      res.setHeader("Content-Type", "application/json; charset=utf-8");
-      res.end(env({ collections: shaped, count: shaped.length, generated_at: "2026-10-12T08:00:00Z" }));
-      return;
-    }
-    const rel = decodeURIComponent(u.pathname).replace(/^\/+/, "").split("?")[0];
-    if (rel.includes("..")) { res.statusCode = 404; res.end("nope"); return; }
-    const full = path.join(ROOT, rel === "" ? "index.html" : rel);
-    fs.readFile(full, (e, data) => {
-      if (e) { res.statusCode = 404; res.end("not found"); return; }
-      res.setHeader("Content-Type", MIME[path.extname(full)] || "application/octet-stream");
-      res.end(data);
-    });
-  });
-  return new Promise((resolve) => server.listen(0, "127.0.0.1", () => resolve(server)));
+      })),
+      count: cols.length, generated_at: "2026-10-12T08:00:00Z",
+    }),
+  };
 }
 
 (async () => {
@@ -234,7 +220,10 @@ function startStub() {
         const a = tip && tip.querySelector(".tip-file a");
         return a ? a.getAttribute("href") : null;
       });
-      check("tooltip: full game file deep link", href && href.indexOf("game.html?id=") === 0, href);
+      // arcade.js builds the link with its BASE prefix (cards also render on
+      // subpages), so over file:// the attribute is an absolute file URL —
+      // what matters is that it lands on this game's file.
+      check("tooltip: full game file deep link", href && href.indexOf("game.html?id=") !== -1, href);
       check("tooltip: zero pageerrors", errors.length === 0, errors.join(" | ").slice(0, 300));
       await page.close();
     }
@@ -244,7 +233,7 @@ function startStub() {
       const { page, errors } = await newPage(browser);
       await page.goto(BASE + "/collections.html", { waitUntil: "networkidle0", timeout: 60000 });
       await page.waitForFunction(
-        () => document.querySelectorAll("article[id^='shelf-']").length === 22, { timeout: 30000 });
+        () => document.querySelectorAll("article[id^='shelf-']").length === 24, { timeout: 30000 });
       const facts = await page.evaluate(() => ({
         badge: document.querySelector("#collections-badge").dataset.apiState,
         badgeText: document.querySelector("#collections-badge").textContent,
@@ -255,7 +244,7 @@ function startStub() {
       }));
       check("collections: badge cached over file://", facts.badge === "cached" && facts.badgeText.includes("cached"),
         facts.badge + " / " + facts.badgeText);
-      check("collections: 22 jump links survive extraction", facts.jumpLinks === 22, facts.jumpLinks + " links");
+      check("collections: 24 jump links survive extraction", facts.jumpLinks === 24, facts.jumpLinks + " links");
       check("collections: shelf rows link to game files",
         facts.fileLinks.length > 0 && facts.fileLinks.every((h) => h.indexOf("game.html?id=") === 0),
         facts.fileLinks.join(" | "));
@@ -267,12 +256,35 @@ function startStub() {
       await page.close();
     }
 
-    // --- F. live probe against the stub Curator (http) ---
+    // --- F. live probe: the Curator answers, the badge flips to live ---
+    // Chromium 152's Local Network Access checks block every loopback
+    // navigation in this sandbox (verified wave 22: fresh page, headful,
+    // browser-initiated, CDP permission grants, feature flags — all
+    // ERR_BLOCKED_BY_LOCAL_NETWORK_ACCESS_CHECKS), so the stub Curator can
+    // no longer be a real HTTP server the browser visits. Instead the same
+    // canned envelopes are served by an in-page fetch stub installed before
+    // any page script runs: ApiClient's envelope handling, the badge state
+    // machine, and both overlays execute for real. The literal HTTP round
+    // trip is covered server-side by tests/api.test.sh (real function
+    // execution, 40/40).
     {
-      const server = await startStub();
-      const port = server.address().port;
       const { page, errors } = await newPage(browser);
-      await page.goto("http://127.0.0.1:" + port + "/game.html?id=tetrio", { waitUntil: "networkidle0", timeout: 60000 });
+      await page.evaluateOnNewDocument((payload) => {
+        const origFetch = window.fetch.bind(window);
+        window.fetch = function (input, init) {
+          const url = typeof input === "string" ? input : (input && input.url) || "";
+          let body = null;
+          if (url.indexOf("/api/games") !== -1 && url.indexOf("id=tetrio") !== -1) body = payload.gamesEnv;
+          else if (url.indexOf("/api/collections") !== -1) body = payload.colsEnv;
+          if (body) {
+            return Promise.resolve(new Response(JSON.stringify(body), {
+              status: 200, headers: { "Content-Type": "application/json; charset=utf-8" },
+            }));
+          }
+          return origFetch(input, init);
+        };
+      }, stubEnvelopes());
+      await page.goto(BASE + "/game.html?id=tetrio", { waitUntil: "networkidle0", timeout: 60000 });
       await page.waitForFunction(
         () => document.querySelector("#detail-badge").dataset.apiState === "live", { timeout: 30000 });
       const live = await page.evaluate(() => ({
@@ -283,14 +295,13 @@ function startStub() {
       check("live probe: multiplayer + vibes overlaid",
         live.chips.includes("multiplayer") && live.chips.includes("competitive") && live.chips.includes("party"),
         "enrichment chips painted");
-      await page.goto("http://127.0.0.1:" + port + "/collections.html", { waitUntil: "networkidle0", timeout: 60000 });
+      await page.goto(BASE + "/collections.html", { waitUntil: "networkidle0", timeout: 60000 });
       await page.waitForFunction(
         () => document.querySelector("#collections-badge").dataset.apiState === "live", { timeout: 30000 });
       const shelves = await page.evaluate(() => document.querySelectorAll("article[id^='shelf-']").length);
-      check("live probe: collections badge live, 22 shelves", shelves === 22, shelves + " shelves, badge live");
+      check("live probe: collections badge live, 24 shelves", shelves === 24, shelves + " shelves, badge live");
       check("live probe: zero pageerrors", errors.length === 0, errors.join(" | ").slice(0, 300));
       await page.close();
-      server.close();
     }
 
     // --- G. reduced motion + mobile 390px ---

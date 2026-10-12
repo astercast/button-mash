@@ -51,6 +51,10 @@ const errors = [];
       /* Transient under load: the renderer occasionally fails a file://
          subresource fetch; the functional checks catch real breakage. */
       if (/^Failed to load resource: net::ERR_FAILED$/.test(t.trim())) return;
+      /* Deterministic over file://: the Curator live probe (/api/*) 404s —
+         the designed fallback contract, not an app error. Same filter as
+         test_wave19/test_wave17 (wave-22; this suite predates the probes). */
+      if (t.indexOf("Failed to load resource: net::ERR_FILE_NOT_FOUND") === 0) return;
       errors.push("[console.error] " + t.slice(0, 300));
     });
   };

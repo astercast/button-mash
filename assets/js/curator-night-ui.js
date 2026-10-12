@@ -158,8 +158,10 @@
       '~' + slot.session_est + ' min',
       slot.genre,
       slot.floor_label,
+      slot.energy_label,
       slot.score + '/100'
     ];
+    if (slot.capacity > 1) bits.splice(2, 0, 'seats ~' + slot.capacity);
     if (slot.kid_safe) bits.push('• KID SAFE');
     meta.textContent = bits.join(' · ');
     li.appendChild(meta);
@@ -282,12 +284,12 @@
       ''
     ];
     result.lineup.forEach(function (s, i) {
-      lines.push((i + 1) + '. ' + s.role_label + ' — ' + s.title + ' (~' + s.session_est + ' min, ' + s.floor_label + ')');
+      lines.push((i + 1) + '. ' + s.role_label + ' — ' + s.title + ' (~' + s.session_est + ' min, ' + s.floor_label + ', ' + s.energy_label + (s.capacity > 1 ? ', seats ~' + s.capacity : '') + ')');
       lines.push('   ' + s.url);
     });
     lines.push('');
     lines.push('~' + result.total_est_minutes + ' min of play estimated; the rest is snacks and rematches.');
-    lines.push('Session lengths + skill floors are curator estimates, not measured times.');
+    lines.push('Session lengths, seats, energy + skill floors are curator estimates, not measured times.');
     return lines.join('\n');
   }
 

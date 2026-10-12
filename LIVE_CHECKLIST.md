@@ -51,7 +51,13 @@ basename collisions.
 Vercel never serves static files under api/ — all static data lives in
 data/v1/; only real function handlers under api/ (2026-10-12). Every
 frontend fetch, server function, cron, and doc that referenced `api/v1/`
-was moved to `data/v1/` (top-level `data/*.json` untouched).
+was moved to `data/v1/` (top-level `data/*.json` untouched). Generator
+scripts must emit to data/v1/ too: `scripts/build_api.py`'s output dir is
+`data/v1/` (fixed in wave 20 so a rebuild can't reintroduce `api/v1/`),
+and `scripts/build.py` regenerates the game-night client twin into
+`assets/js/` — no generator writes static data under `api/`, ever.
+Build machines: **Standard only, never Turbo** (Sept 2026 invoice
+$38.64) — set in the Vercel project settings, it is not a repo file.
 
 ## Functions (5 — Hobby limit is 12)
 

@@ -33,7 +33,7 @@ const CAT = { games: gamesDoc.games, kidSafeIds: kidSafeIds, generated_at: games
 /* ---------------- (1) engine unit checks ---------------- */
 {
   const g = (id) => CAT.games.find((x) => x.id === id);
-  check("engine exports scoring v2.0.0", CN.SCORING_VERSION === "2.0.0", CN.SCORING_VERSION);
+  check("engine exports scoring v2.1.0", CN.SCORING_VERSION === "2.1.0", CN.SCORING_VERSION);
   check("session est: idle=5, roguelike=25, puzzle=10",
     CN.estimateSession(g("synergism")) === 5 &&
     CN.estimateSession(g("breach-command")) === 25 &&

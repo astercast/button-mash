@@ -16,7 +16,14 @@ async function newPage(browser) {
   const page = await browser.newPage();
   const errors = [];
   page.on("console", (m) => {
-    if (m.type() === "error") errors.push("[console.error] " + m.text().slice(0, 200));
+    if (m.type() !== "error") return;
+    // Over file:// the Curator live probe (/api/*) deterministically 404s —
+    // the designed fallback contract (static renders, badge reads "cached"),
+    // so its console noise is expected, not an app error. Same filter as
+    // test_wave19 / test_curatornight21; this suite predates the probes
+    // (wave-22 fix for the three false "zero pageerrors" failures).
+    if (m.text().indexOf("Failed to load resource: net::ERR_FILE_NOT_FOUND") === 0) return;
+    errors.push("[console.error] " + m.text().slice(0, 200));
   });
   page.on("pageerror", (e) => errors.push("[pageerror] " + String(e).slice(0, 200)));
   await page.setViewport({ width: 1280, height: 900 });

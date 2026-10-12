@@ -291,10 +291,17 @@
           .then(function (res) {
             var cols = (res.data && res.data.collections) || [];
             if (cols.length) {
+              // Two shapes reach here: the live function resolves game_ids
+              // into games[]; the static fallback carries raw game_ids.
+              // Accept both — mapping only games[] turned every fallback
+              // shelf into an empty game list and wiped the static render.
               var shaped = cols.map(function (c) {
-                return { id: c.id, title: c.title, tagline: c.tagline, game_ids: (c.games || []).map(function (g) { return g.id; }) };
-              });
-              renderShelves(game, shaped);
+                return {
+                  id: c.id, title: c.title, tagline: c.tagline,
+                  game_ids: c.game_ids || (c.games || []).map(function (g) { return g.id; })
+                };
+              }).filter(function (c) { return c.game_ids.length; });
+              if (shaped.length) renderShelves(game, shaped);
             }
           });
       }
