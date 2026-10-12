@@ -102,9 +102,15 @@
     curCore = core;
     curGameName = window.EJS_gameName;
     curGameID = window.EJS_gameID;
+    remapOverride = null;
     /* Player 2.0: preload this game's cheats into the engine's cheat manager
        (documented window.EJS_cheats = [[name, code], ...]) */
     window.EJS_cheats = getCheats().map(function (c) { return [c.name, c.code]; });
+    /* Player 2.1: remember this game for the slots/remap/display panels,
+       and fold the per-system control map into the engine's own settings
+       (applies on next boot; first boot migrates legacy per-game maps). */
+    saveLastGame();
+    applySystemRemapToEngine(core);
     window.EJS_pathtodata = CDN;
     window.EJS_startOnLoaded = true;
     window.EJS_disableAutoLang = false;
@@ -128,6 +134,7 @@
     };
     window.EJS_onGameStart = function () {
       setStatus('NOW PLAYING — ' + window.EJS_gameName.toUpperCase(), true);
+      applyIntScale();
     };
     document.head.appendChild(script);
     booted = true;
@@ -138,10 +145,14 @@
     if (sb2) { sb2.textContent = SYSTEM_LABELS[core] || core; }
     $('player-toolbar').hidden = false;
     updateBiosNote(core);
-    /* Player 2.0: refresh the tools panels for the newly booted game */
+    /* Player 2.1: apply this system's remembered display prefs, watch for
+       the engine canvas (integer scaling), refresh the tools panels. */
+    applyDisplayPrefs(core);
+    watchScreen();
     renderCheats();
-    renderControls();
-    refreshSaves();
+    renderRemap();
+    renderSlots();
+    scheduleAutosave();
   }
 
   function updateBiosNote(core) {
@@ -204,27 +215,55 @@
     });
   }
 
-  /* ================= Player 2.0 =================
-     All Player 2.0 features are client-side and verified against the
+  /* ================= Player 2.1 =================
+     All Player 2.1 features are client-side and verified against the
      EmulatorJS 4.2.3 stable engine (cdn.emulatorjs.org/stable):
-     - save states: IndexedDB "EmulatorJS-states" / store "states",
-       key = baseFileName + ".state", value = raw state bytes
-       (the same bytes the engine itself downloads as <name>.state)
+     - save slots: IndexedDB "EmulatorJS-states" / store "states" — the same
+       store the engine uses. Engine slot key = "<baseFileName>.state"
+       (base = game name with the engine's invalid-char strip). Named slots
+       are "<baseFileName>.bm-slot-<n>.state"; the auto-save slot is
+       "<baseFileName>.bm-autosave.state". Restoring = copying bytes over
+       the engine's key, so the engine's own Load State picks it up.
+       Slot labels live in localStorage "bm-slots-<gameID>".
      - settings: localStorage "ejs-<gameId>-<core>-<gameName>-settings",
        payload {controlSettings, settings, cheats}
+     - per-system remap: localStorage "bm-remap-<core>" {player0:{id:{value,value2}}},
+       written into the engine payload's controlSettings['0'] at boot
+     - display prefs: localStorage "bm-display-<core>" {crt,intScale,aspect}
      - cheats: documented window.EJS_cheats = [[name, code], ...]
+     - last game: localStorage "bm-last-game" {gameID,gameName,core}, so the
+       panels keep working for the most recent game even before a boot
      Every DOM write below is null-guarded (wave 3.1 discipline). */
 
-  var CRT_KEY = 'bm-crt';
+  var CRT_KEY = 'bm-crt'; /* legacy global toggle — read once as a fallback when adopting per-system prefs */
   var IDB_DB = 'EmulatorJS-states';
   var IDB_STORE = 'states';
+  var LAST_GAME_KEY = 'bm-last-game';
   var curCore = null, curGameName = null, curGameID = null;
 
   /* engine's invalid-char strip for the save-state base file name */
-  function baseFileName() {
-    if (!curGameName) return null;
-    var b = String(curGameName).replace(/[#<$+%>!`&*'|{}\/\\?"=@:^\r\n]/gi, '').trim();
+  function stripInvalid(name) {
+    var b = String(name || '').replace(/[#<$+%>!`&*'|{}\/\\?"=@:^\r\n]/gi, '').trim();
     return b || null;
+  }
+  function escRe(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  /* last-booted game, so the panels work even before a fresh boot */
+  function readLastGame() {
+    try {
+      var lg = JSON.parse(localStorage.getItem(LAST_GAME_KEY) || 'null');
+      if (lg && lg.gameID && lg.gameName && lg.core) return lg;
+    } catch (e) {}
+    return null;
+  }
+  function saveLastGame() {
+    if (!curGameID || !curGameName || !curCore) return;
+    try { localStorage.setItem(LAST_GAME_KEY, JSON.stringify({ gameID: curGameID, gameName: curGameName, core: curCore })); } catch (e) {}
+  }
+  /* current game if booted, else the last-booted one */
+  function gameCtx() {
+    if (curGameID && curGameName && curCore) return { gameID: curGameID, gameName: curGameName, core: curCore };
+    return readLastGame();
   }
 
   /* engine keyMap (keyCode -> name), verified in 4.2.3 stable */
@@ -271,9 +310,46 @@
   /* standard Gamepad API button names, for display of captured indices */
   var GPAD_NAMES = {0:"A / Cross",1:"B / Circle",2:"X / Square",3:"Y / Triangle",4:"Left bumper",5:"Right bumper",6:"Left trigger",7:"Right trigger",8:"Back / Select",9:"Start",10:"Left stick press",11:"Right stick press",12:"D-pad up",13:"D-pad down",14:"D-pad left",15:"D-pad right",16:"Home / Guide"};
 
-  /* ---------- CRT filter ---------- */
-  function crtStored() {
-    try { return localStorage.getItem(CRT_KEY) === '1'; } catch (e) { return false; }
+  /* ---------- Display options (Player 2.1, per system) ---------- */
+  var ASPECT_CLASSES = ['ar-43', 'ar-169', 'ar-fill', 'ar-orig'];
+  var ASPECTS = ['fill', '4:3', '16:9', 'original'];
+  function displayKey(core) { return core ? 'bm-display-' + core : null; }
+  /* the system whose prefs the panels edit: current game, else last game, else gba */
+  function displayCore() {
+    if (curCore) return curCore;
+    var lg = readLastGame();
+    return (lg && lg.core) || 'gba';
+  }
+  function readDisplay(core) {
+    var d = { crt: false, intScale: false, aspect: 'fill' };
+    var k = displayKey(core);
+    if (!k) return d;
+    var stored = null;
+    try { stored = JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { stored = null; }
+    if (stored && typeof stored === 'object') {
+      if (typeof stored.crt === 'boolean') d.crt = stored.crt;
+      if (typeof stored.intScale === 'boolean') d.intScale = stored.intScale;
+      if (ASPECTS.indexOf(stored.aspect) !== -1) d.aspect = stored.aspect;
+    } else {
+      /* one-time adopt: the legacy global bm-crt toggle becomes this system's setting */
+      try {
+        if (localStorage.getItem(CRT_KEY) === '1') { d.crt = true; saveDisplay(core, d); }
+      } catch (e) {}
+    }
+    return d;
+  }
+  function saveDisplay(core, d) {
+    var k = displayKey(core);
+    if (!k) return;
+    try {
+      localStorage.setItem(k, JSON.stringify({
+        crt: !!d.crt, intScale: !!d.intScale,
+        aspect: ASPECTS.indexOf(d.aspect) !== -1 ? d.aspect : 'fill'
+      }));
+    } catch (e) {}
+  }
+  function aspectClass(aspect) {
+    return aspect === '4:3' ? 'ar-43' : aspect === '16:9' ? 'ar-169' : aspect === 'original' ? 'ar-orig' : 'ar-fill';
   }
   function ensureCrtOverlay() {
     var o = $('crt-overlay');
@@ -294,7 +370,84 @@
       var b = $(id);
       if (b) b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
-    try { localStorage.setItem(CRT_KEY, on ? '1' : '0'); } catch (e) {}
+    ['disp-crt', 'dlg-crt'].forEach(function (id) {
+      var c = $(id);
+      if (c) c.checked = !!on;
+    });
+  }
+  function applyDisplayPrefs(core) {
+    var d = readDisplay(core);
+    applyCrt(d.crt);
+    var screen = $('ejs-screen');
+    if (screen) {
+      ASPECT_CLASSES.forEach(function (c) { screen.classList.remove(c); });
+      screen.classList.add(aspectClass(d.aspect));
+      screen.classList.toggle('int-scale', !!d.intScale);
+    }
+    syncDisplayUI(core);
+    applyIntScale();
+  }
+  function syncDisplayUI(core) {
+    var d = readDisplay(core);
+    var label = SYSTEM_LABELS[core] || core;
+    var s1 = $('display-sys'); if (s1) s1.textContent = label;
+    var s2 = $('display-sys-2'); if (s2) s2.textContent = label;
+    var s3 = $('settings-dialog-sys'); if (s3) s3.textContent = '· ' + label;
+    [['disp-intscale', 'intScale'], ['dlg-intscale', 'intScale']].forEach(function (pair) {
+      var el = $(pair[0]); if (el) el.checked = !!d[pair[1]];
+    });
+    var a1 = $('disp-aspect'); if (a1) a1.value = d.aspect;
+    var a2 = $('dlg-aspect'); if (a2) a2.value = d.aspect;
+    var cb1 = $('disp-crt'); if (cb1) cb1.checked = !!d.crt;
+    var cb2 = $('dlg-crt'); if (cb2) cb2.checked = !!d.crt;
+  }
+  function setDisplayPatch(patch) {
+    var core = displayCore();
+    var d = readDisplay(core);
+    Object.keys(patch).forEach(function (k) { d[k] = patch[k]; });
+    saveDisplay(core, d);
+    applyDisplayPrefs(core);
+  }
+  /* integer scale: snap the engine canvas to whole-pixel multiples of its
+     intrinsic size (read from the canvas itself, so it works for every core) */
+  function applyIntScale() {
+    var screen = $('ejs-screen');
+    if (!screen) return;
+    var cv = null;
+    try { cv = screen.querySelector('canvas'); } catch (e) { /* no canvas yet */ }
+    if (!cv) return;
+    if (!readDisplay(displayCore()).intScale) { cv.style.width = ''; cv.style.height = ''; return; }
+    var iw = cv.width || 0, ih = cv.height || 0;
+    if (!iw || !ih) return;
+    var availW = screen.clientWidth || (stage && stage.clientWidth) || iw;
+    var f = Math.max(1, Math.floor(availW / iw));
+    cv.style.width = (iw * f) + 'px';
+    cv.style.height = (ih * f) + 'px';
+  }
+  var screenObs = null;
+  function watchScreen() {
+    if (screenObs) { try { screenObs.disconnect(); } catch (e) {} screenObs = null; }
+    var screen = $('ejs-screen');
+    if (!screen || !window.MutationObserver) return;
+    screenObs = new MutationObserver(function () { applyIntScale(); });
+    try { screenObs.observe(screen, { childList: true, subtree: true }); } catch (e) {}
+  }
+  /* fullscreen polish: one toggle, honest button state */
+  function toggleFullscreen() {
+    var shell = $('console-shell');
+    if (!shell) return;
+    if (document.fullscreenElement) { try { document.exitFullscreen(); } catch (e) {} }
+    else if (shell.requestFullscreen) { try { shell.requestFullscreen(); } catch (e) {} }
+  }
+  function syncFullscreenBtn() {
+    var on = !!document.fullscreenElement;
+    ['fullscreen-btn', 'fs-btn-2', 'fs-btn-3'].forEach(function (id) {
+      var b = $(id);
+      if (b) {
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        b.textContent = on ? '⛶ Exit fullscreen' : '⛶ Fullscreen';
+      }
+    });
   }
 
   /* ---------- Save states: export / import / delete ---------- */
@@ -313,16 +466,44 @@
       } catch (e) { reject(e); }
     });
   }
-  function savesSetStatus(msg) {
-    var el = $('saves-status');
+  /* ---------- Save slots (Player 2.1) ----------
+     Named slots live in the engine's own IndexedDB store, so the engine's
+     Load State keeps working: restoring a slot = copying its bytes over the
+     engine's "<base>.state" key. Everything is browser-local. */
+  var AUTOSAVE_SUFFIX = '.bm-autosave.state';
+  function slotsSetStatus(msg) {
+    var el = $('slots-status');
     if (el) el.textContent = msg;
   }
-  function refreshSaves(afterMsg) {
-    var list = $('saves-list');
-    if (list) list.innerHTML = '';
-    if (!curGameName) { savesSetStatus('Boot a game above to manage its save states.'); return; }
-    savesSetStatus('Reading browser-kept save states…');
-    idbOpen().then(function (db) {
+  function engineSlotKey(base) { return base + '.state'; }
+  function namedSlotKey(base, n) { return base + '.bm-slot-' + n + '.state'; }
+  function autosaveSlotKey(base) { return base + AUTOSAVE_SUFFIX; }
+  function slotMetaKey(ctx) { return ctx ? 'bm-slots-' + ctx.gameID : null; }
+  function autosavePrefKey(ctx) { return ctx ? 'bm-autosave-' + ctx.gameID : null; }
+  function readSlotMeta(ctx) {
+    var k = slotMetaKey(ctx);
+    if (!k) return {};
+    try {
+      var m = JSON.parse(localStorage.getItem(k) || '{}');
+      return (m && typeof m === 'object') ? m : {};
+    } catch (e) { return {}; }
+  }
+  function writeSlotMeta(ctx, m) {
+    var k = slotMetaKey(ctx);
+    if (!k) return;
+    try { localStorage.setItem(k, JSON.stringify(m)); } catch (e) {}
+  }
+  function fmtBytes(n) {
+    if (n === undefined || n === null) return '—';
+    if (n < 1024) return n + ' B';
+    if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
+    return (n / 1048576).toFixed(1) + ' MB';
+  }
+  function fmtTime(t) {
+    try { return new Date(t).toLocaleString(); } catch (e) { return ''; }
+  }
+  function idbAllKeys() {
+    return idbOpen().then(function (db) {
       return new Promise(function (resolve, reject) {
         try {
           var rq = db.transaction([IDB_STORE], 'readonly').objectStore(IDB_STORE).getAllKeys();
@@ -330,35 +511,325 @@
           rq.onerror = function () { reject(rq.error || new Error('read failed')); };
         } catch (e) { reject(e); }
       });
-    }).then(function (keys) {
-      keys = keys.filter(function (k) { return /\.state$/i.test(String(k)); });
-      var list2 = $('saves-list');
+    });
+  }
+  function idbPut(key, bytes) {
+    return idbOpen().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        try {
+          var rq = db.transaction([IDB_STORE], 'readwrite').objectStore(IDB_STORE).put(bytes, key);
+          rq.onsuccess = function () { resolve(); };
+          rq.onerror = function () { reject(rq.error || new Error('write failed')); };
+        } catch (e) { reject(e); }
+      });
+    });
+  }
+  function idbDelete(key) {
+    return idbOpen().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        try {
+          var rq = db.transaction([IDB_STORE], 'readwrite').objectStore(IDB_STORE).delete(key);
+          rq.onsuccess = function () { resolve(); };
+          rq.onerror = function () { reject(rq.error || new Error('delete failed')); };
+        } catch (e) { reject(e); }
+      });
+    });
+  }
+  function asBytes(v) {
+    if (!v) return null;
+    if (v instanceof Uint8Array) return v;
+    try { return new Uint8Array(v); } catch (e) { return null; }
+  }
+  function mkBtn(text, label, onClick, disabled, disabledTitle) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'btn btn-ghost btn-sm';
+    b.textContent = text;
+    b.setAttribute('aria-label', label || text);
+    if (disabled) {
+      b.disabled = true;
+      if (disabledTitle) b.title = disabledTitle;
+    } else if (onClick) {
+      b.addEventListener('click', onClick);
+    }
+    return b;
+  }
+  function slotRow(ctx, key, label, sub, isEngine, hasEngine) {
+    var li = document.createElement('li');
+    li.className = 'slot-row';
+    var info = document.createElement('span'); info.className = 'grow';
+    var nm = document.createElement('strong'); nm.className = 'slot-label'; nm.textContent = label;
+    info.appendChild(nm);
+    info.appendChild(document.createElement('br'));
+    var meta = document.createElement('span'); meta.className = 'slot-sub';
+    meta.textContent = sub + ' · ';
+    var sz = document.createElement('span'); sz.className = 'mono';
+    sz.setAttribute('data-size-for', key); sz.textContent = '…';
+    meta.appendChild(sz);
+    info.appendChild(meta);
+    li.appendChild(info);
+    var acts = document.createElement('span'); acts.className = 'slot-actions';
+    if (!isEngine) {
+      acts.appendChild(mkBtn('💾 Save', 'Copy the engine slot into "' + label + '"',
+        function () { copyIntoSlot(ctx, key, label); },
+        !hasEngine, 'Save in-game first (needs "Keep in Browser" mode)'));
+      acts.appendChild(mkBtn('⏪ Restore', 'Copy "' + label + '" over the engine slot — the engine\'s Load State will read it',
+        function () { restoreSlot(ctx, key, label); }));
+      acts.appendChild(mkBtn('✏️ Rename', 'Rename the slot "' + label + '"',
+        function () { renameSlot(ctx, key, label, nm); }));
+    }
+    acts.appendChild(mkBtn('⤓ Export', 'Download "' + label + '" as a file',
+      function () { exportState(key); }));
+    acts.appendChild(mkBtn('🗑 Delete', 'Delete the slot "' + label + '"',
+      function () { deleteSlot(ctx, key, label); }));
+    li.appendChild(acts);
+    return li;
+  }
+  function renderSlots() {
+    var list = $('slots-list');
+    if (list) list.innerHTML = '';
+    var nb = $('slot-new');
+    if (nb) nb.disabled = true;
+    var ctx = gameCtx();
+    renderAutosave(ctx);
+    if (!ctx) { slotsSetStatus('Boot a game above to manage its save slots.'); return; }
+    var base = stripInvalid(ctx.gameName);
+    if (!base) { slotsSetStatus('Could not name save slots for this game.'); return; }
+    slotsSetStatus('Reading save slots…');
+    var engKey = engineSlotKey(base);
+    var autoKey = autosaveSlotKey(base);
+    var re = new RegExp('^' + escRe(base) + '\\.bm-slot-(\\d+)\\.state$');
+    idbAllKeys().then(function (keys) {
+      var list2 = $('slots-list');
       if (!list2) return;
       list2.innerHTML = '';
-      var mine = baseFileName() + '.state';
-      if (afterMsg) { savesSetStatus(afterMsg); }
-      else if (!keys.length) {
-        savesSetStatus('No browser-kept states found. (States download as files by default — switch the engine to "Keep in Browser" in the in-game menu → Settings → Save States to store them here.)');
-        return;
+      var meta = readSlotMeta(ctx);
+      var slots = [];
+      keys.forEach(function (k) {
+        var m = re.exec(String(k));
+        if (m) slots.push({ key: String(k), n: parseInt(m[1], 10) });
+      });
+      slots.sort(function (a, b) { return a.n - b.n; });
+      var hasEngine = keys.indexOf(engKey) !== -1;
+      var hasAuto = keys.indexOf(autoKey) !== -1;
+      var total = slots.length + (hasEngine ? 1 : 0) + (hasAuto ? 1 : 0);
+      if (!total) {
+        slotsSetStatus('No save slots yet for "' + ctx.gameName + '". Save in-game with the engine set to "Keep in Browser" (in-game menu → Settings → Save States) and the engine slot will appear here. Everything is stored only in this browser.');
       } else {
-        savesSetStatus(keys.length + ' browser-kept state(s). "' + mine + '" belongs to the current game.');
+        slotsSetStatus(total + ' slot(s) for "' + ctx.gameName + '" — all stored only in this browser.');
       }
-      keys.forEach(function (key) {
-        var li = document.createElement('li');
-        var nm = document.createElement('span'); nm.className = 'grow mono'; nm.textContent = String(key);
-        if (String(key) === mine) { var tag = document.createElement('strong'); tag.textContent = ' ← this game'; nm.appendChild(tag); }
-        var ex = document.createElement('button'); ex.type = 'button'; ex.className = 'btn btn-ghost btn-sm'; ex.textContent = '⤓ Export';
-        ex.setAttribute('aria-label', 'Export save state ' + key);
-        ex.addEventListener('click', function () { exportState(key); });
-        var del = document.createElement('button'); del.type = 'button'; del.className = 'btn btn-ghost btn-sm'; del.textContent = '🗑 Delete';
-        del.setAttribute('aria-label', 'Delete save state ' + key);
-        del.addEventListener('click', function () { deleteState(key); });
-        li.appendChild(nm); li.appendChild(ex); li.appendChild(del);
-        list2.appendChild(li);
+      var frag = document.createDocumentFragment();
+      if (hasEngine) {
+        frag.appendChild(slotRow(ctx, engKey, 'Engine slot',
+          'The slot the in-game menu reads and writes — exists only in "Keep in Browser" mode', true, true));
+      }
+      slots.forEach(function (s) {
+        var mm = meta[s.key] || {};
+        frag.appendChild(slotRow(ctx, s.key, mm.label || ('Slot ' + s.n),
+          mm.updated ? 'Saved ' + fmtTime(mm.updated) : 'Named slot', false, hasEngine));
+      });
+      if (hasAuto) {
+        var am = meta[autoKey] || {};
+        frag.appendChild(slotRow(ctx, autoKey, am.label || 'Auto-save',
+          am.updated ? 'Auto-saved ' + fmtTime(am.updated) : 'Written automatically on the timer below', false, hasEngine));
+      }
+      list2.appendChild(frag);
+      Array.prototype.forEach.call(list2.querySelectorAll('[data-size-for]'), function (sp) {
+        var k = sp.getAttribute('data-size-for');
+        idbGet(k).then(function (b) {
+          var bytes = asBytes(b);
+          sp.textContent = bytes ? fmtBytes(bytes.byteLength) : 'empty';
+        }).catch(function () { sp.textContent = '—'; });
+      });
+      var nb2 = $('slot-new');
+      if (nb2) nb2.disabled = false;
+    }).catch(function (e) {
+      slotsSetStatus('Could not read save storage (' + (e && e.message ? e.message : e) + ').');
+    });
+  }
+  function copyIntoSlot(ctx, key, label) {
+    var base = stripInvalid(ctx.gameName);
+    if (!base) return;
+    var engKey = engineSlotKey(base);
+    slotsSetStatus('Saving into "' + label + '"…');
+    idbGet(engKey).then(function (eng) {
+      var bytes = asBytes(eng);
+      if (!bytes || !bytes.byteLength) throw new Error('the engine slot is empty — save in-game first');
+      return idbPut(key, bytes).then(function () {
+        var meta = readSlotMeta(ctx);
+        meta[key] = meta[key] || {};
+        if (!meta[key].label) meta[key].label = label;
+        meta[key].updated = Date.now();
+        writeSlotMeta(ctx, meta);
+        slotsSetStatus('Saved into "' + (meta[key].label || label) + '".');
+        renderSlots();
       });
     }).catch(function (e) {
-      savesSetStatus('Could not read browser save storage (' + (e && e.message ? e.message : e) + ').');
+      slotsSetStatus('Save failed (' + (e && e.message ? e.message : e) + ').');
     });
+  }
+  function restoreSlot(ctx, key, label) {
+    var base = stripInvalid(ctx.gameName);
+    if (!base) return;
+    var engKey = engineSlotKey(base);
+    slotsSetStatus('Restoring "' + label + '"…');
+    idbGet(key).then(function (val) {
+      var bytes = asBytes(val);
+      if (!bytes || !bytes.byteLength) throw new Error('slot is empty');
+      return idbPut(engKey, bytes);
+    }).then(function () {
+      slotsSetStatus('Restored "' + label + '" — use the engine\'s Load State to resume from it.');
+      renderSlots();
+    }).catch(function (e) {
+      slotsSetStatus('Restore failed (' + (e && e.message ? e.message : e) + ').');
+    });
+  }
+  function renameSlot(ctx, key, label, labelEl) {
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.value = label;
+    input.maxLength = 40;
+    input.setAttribute('aria-label', 'New name for save slot');
+    var wrap = document.createElement('span');
+    wrap.className = 'slot-rename';
+    function commit() {
+      var v = input.value.trim().slice(0, 40) || label;
+      var meta = readSlotMeta(ctx);
+      meta[key] = meta[key] || {};
+      meta[key].label = v;
+      writeSlotMeta(ctx, meta);
+      slotsSetStatus('Slot renamed to "' + v + '".');
+      renderSlots();
+    }
+    function cancel() { renderSlots(); }
+    wrap.appendChild(input);
+    wrap.appendChild(mkBtn('Save', 'Save the new slot name', commit));
+    wrap.appendChild(mkBtn('Cancel', 'Cancel renaming', cancel));
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); commit(); }
+      else if (e.key === 'Escape') { e.preventDefault(); cancel(); }
+    });
+    labelEl.replaceWith(wrap);
+    input.focus();
+    input.select();
+  }
+  function deleteSlot(ctx, key, label) {
+    slotsSetStatus('Deleting "' + label + '"…');
+    idbDelete(key).then(function () {
+      var meta = readSlotMeta(ctx);
+      if (meta[key]) { delete meta[key]; writeSlotMeta(ctx, meta); }
+      slotsSetStatus('Deleted "' + label + '".');
+      renderSlots();
+    }).catch(function (e) {
+      slotsSetStatus('Delete failed (' + (e && e.message ? e.message : e) + ').');
+    });
+  }
+  function newSlot() {
+    var ctx = gameCtx();
+    if (!ctx) { slotsSetStatus('Boot a game first, then add a slot.'); return; }
+    var base = stripInvalid(ctx.gameName);
+    if (!base) return;
+    var engKey = engineSlotKey(base);
+    var re = new RegExp('^' + escRe(base) + '\\.bm-slot-(\\d+)\\.state$');
+    slotsSetStatus('Creating a new slot…');
+    idbAllKeys().then(function (keys) {
+      var max = 0;
+      keys.forEach(function (k) {
+        var m = re.exec(String(k));
+        if (m) max = Math.max(max, parseInt(m[1], 10));
+      });
+      var n = max + 1;
+      var key = namedSlotKey(base, n);
+      return idbGet(engKey).then(function (eng) {
+        var bytes = asBytes(eng);
+        if (!bytes || !bytes.byteLength) throw new Error('the engine slot is empty — save in-game first (needs "Keep in Browser" mode)');
+        return idbPut(key, bytes).then(function () {
+          var meta = readSlotMeta(ctx);
+          meta[key] = { label: 'Slot ' + n, updated: Date.now() };
+          writeSlotMeta(ctx, meta);
+          slotsSetStatus('Created "Slot ' + n + '" from the engine slot.');
+          renderSlots();
+        });
+      });
+    }).catch(function (e) {
+      slotsSetStatus('Could not create the slot (' + (e && e.message ? e.message : e) + ').');
+    });
+  }
+  /* ---------- Auto-save ---------- */
+  var autosaveTimer = 0;
+  function readAutosavePref(ctx) {
+    var k = autosavePrefKey(ctx);
+    if (k) {
+      try {
+        var p = JSON.parse(localStorage.getItem(k) || 'null');
+        if (p && typeof p === 'object') {
+          return { enabled: !!p.enabled, minutes: [1, 5, 15].indexOf(p.minutes) !== -1 ? p.minutes : 5 };
+        }
+      } catch (e) {}
+    }
+    return { enabled: false, minutes: 5 };
+  }
+  function writeAutosavePref(ctx, pref) {
+    var k = autosavePrefKey(ctx);
+    if (!k) return;
+    try { localStorage.setItem(k, JSON.stringify({ enabled: !!pref.enabled, minutes: pref.minutes })); } catch (e) {}
+  }
+  function renderAutosave(ctx) {
+    var pref = ctx ? readAutosavePref(ctx) : { enabled: false, minutes: 5 };
+    [['autosave-toggle', 'dlg-autosave'], ['autosave-mins', 'dlg-autosave-mins']].forEach(function (pair) {
+      var el = $(pair[0]);
+      if (!el) return;
+      el.disabled = !ctx;
+      if (el.type === 'checkbox') el.checked = pref.enabled;
+      else el.value = String(pref.minutes);
+    });
+    var msg = !ctx ? 'Boot a game to set up auto-save.' :
+      pref.enabled ? 'On — copies the engine slot every ' + pref.minutes + ' min while this tab stays open.' :
+      'Off. Copies the engine slot on a timer; needs "Keep in Browser" mode and this tab open.';
+    ['autosave-status', 'dlg-autosave-status'].forEach(function (id) {
+      var el = $(id); if (el) el.textContent = msg;
+    });
+  }
+  function setAutosavePref(patch) {
+    var ctx = gameCtx();
+    if (!ctx) return;
+    var pref = readAutosavePref(ctx);
+    Object.keys(patch).forEach(function (k) { pref[k] = patch[k]; });
+    writeAutosavePref(ctx, pref);
+    renderAutosave(ctx);
+    scheduleAutosave();
+  }
+  function scheduleAutosave() {
+    if (autosaveTimer) { clearInterval(autosaveTimer); autosaveTimer = 0; }
+    var ctx = gameCtx();
+    if (!ctx) return;
+    var pref = readAutosavePref(ctx);
+    if (!pref.enabled) return;
+    autosaveTimer = setInterval(function () { autosavePass(); }, pref.minutes * 60000);
+  }
+  function autosavePass() {
+    var ctx = gameCtx();
+    if (!ctx) return Promise.resolve(false);
+    var base = stripInvalid(ctx.gameName);
+    if (!base) return Promise.resolve(false);
+    var engKey = engineSlotKey(base), autoKey = autosaveSlotKey(base);
+    return idbGet(engKey).then(function (eng) {
+      var bytes = asBytes(eng);
+      if (!bytes || !bytes.byteLength) return false;
+      return idbGet(autoKey).then(function (old) {
+        var oldBytes = asBytes(old);
+        if (oldBytes && oldBytes.byteLength === bytes.byteLength) return false; /* unchanged */
+        return idbPut(autoKey, bytes).then(function () {
+          var meta = readSlotMeta(ctx);
+          meta[autoKey] = meta[autoKey] || {};
+          if (!meta[autoKey].label) meta[autoKey].label = 'Auto-save';
+          meta[autoKey].updated = Date.now();
+          writeSlotMeta(ctx, meta);
+          renderSlots();
+          return true;
+        });
+      });
+    }).catch(function () { return false; });
   }
   function idbGet(key) {
     return idbOpen().then(function (db) {
@@ -372,7 +843,8 @@
     });
   }
   function exportState(key) {
-    idbGet(key).then(function (bytes) {
+    idbGet(key).then(function (val) {
+      var bytes = asBytes(val);
       if (!bytes || !bytes.byteLength) throw new Error('state is empty');
       var blob = new Blob([bytes], { type: 'application/octet-stream' });
       var a = document.createElement('a');
@@ -381,50 +853,35 @@
       document.body.appendChild(a);
       a.click();
       setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
-      savesSetStatus('Exported "' + key + '" — share the file; a friend can import it with their own copy of the same game.');
+      slotsSetStatus('Exported "' + key + '" — share the file; a friend can import it with their own copy of the same game.');
     }).catch(function (e) {
-      savesSetStatus('Export failed (' + (e && e.message ? e.message : e) + ').');
+      slotsSetStatus('Export failed (' + (e && e.message ? e.message : e) + ').');
     });
   }
   function importStateFile(file) {
     if (!file) return;
-    if (!curGameName || !baseFileName()) { savesSetStatus('Boot a game first, then import.'); return; }
-    var key = baseFileName() + '.state';
-    savesSetStatus('Importing "' + file.name + '" as "' + key + '"…');
+    var ctx = gameCtx();
+    if (!ctx || !stripInvalid(ctx.gameName)) { slotsSetStatus('Boot a game first, then import.'); return; }
+    var key = engineSlotKey(stripInvalid(ctx.gameName));
+    slotsSetStatus('Importing "' + file.name + '" as "' + key + '"…');
     file.arrayBuffer().then(function (buf) {
       if (!buf || !buf.byteLength) throw new Error('file is empty');
-      return idbOpen().then(function (db) {
-        return new Promise(function (resolve, reject) {
-          try {
-            var rq = db.transaction([IDB_STORE], 'readwrite').objectStore(IDB_STORE).put(new Uint8Array(buf), key);
-            rq.onsuccess = function () { resolve(); };
-            rq.onerror = function () { reject(rq.error || new Error('write failed')); };
-          } catch (e) { reject(e); }
-        });
-      });
+      return idbPut(key, new Uint8Array(buf));
     }).then(function () {
-      refreshSaves('Imported as "' + key + '". Use the engine\'s Load State to resume from it.');
+      slotsSetStatus('Imported as "' + key + '". Use the engine\'s Load State to resume from it.');
+      renderSlots();
     }).catch(function (e) {
-      savesSetStatus('Import failed (' + (e && e.message ? e.message : e) + ').');
-    });
-  }
-  function deleteState(key) {
-    idbOpen().then(function (db) {
-      return new Promise(function (resolve, reject) {
-        try {
-          var rq = db.transaction([IDB_STORE], 'readwrite').objectStore(IDB_STORE).delete(key);
-          rq.onsuccess = function () { resolve(); };
-          rq.onerror = function () { reject(rq.error || new Error('delete failed')); };
-        } catch (e) { reject(e); }
-      });
-    }).then(function () {
-      refreshSaves('Deleted "' + key + '".');
-    }).catch(function (e) {
-      savesSetStatus('Delete failed (' + (e && e.message ? e.message : e) + ').');
+      slotsSetStatus('Import failed (' + (e && e.message ? e.message : e) + ').');
     });
   }
 
-  /* ---------- Controls: remap keyboard + gamepad ---------- */
+  /* ---------- Controls: per-system remap (Player 2.1) ----------
+     One map per system in localStorage "bm-remap-<core>" ({player0:{...}}).
+     At boot the map is written into the engine's own settings payload
+     (controlSettings['0']), so it applies on next boot. The first boot with
+     a system map migrates any legacy per-game custom mappings (Player 2.0).
+     The remapper is fully keyboard-operable: capture buttons are native
+     <button>s, Esc cancels both key and pad capture. */
   function controlsKey() {
     if (!curGameID || !curCore || !curGameName) return null;
     return 'ejs-' + curGameID + '-' + curCore + '-' + curGameName + '-settings';
@@ -440,12 +897,87 @@
       return p;
     } catch (e) { return null; }
   }
-  function playerControls() {
-    var p = readControlsPayload();
-    if (p && p.controlSettings['0'] && typeof p.controlSettings['0'] === 'object') {
-      return { stored: true, map: p.controlSettings['0'] };
+  function remapKey(core) { return core ? 'bm-remap-' + core : null; }
+  var remapOverride = null; /* explicit choice in the remap panel's system dropdown */
+  /* the system the remap panel edits: dropdown choice, else current game, else last game, else gba */
+  function remapCore() {
+    if (remapOverride) return remapOverride;
+    if (curCore) return curCore;
+    var lg = readLastGame();
+    return (lg && lg.core) || 'gba';
+  }
+  function readSystemRemap(core) {
+    var k = remapKey(core);
+    if (!k) return null;
+    try {
+      var p = JSON.parse(localStorage.getItem(k) || 'null');
+      if (p && typeof p === 'object' && p.player0 && typeof p.player0 === 'object') return p;
+    } catch (e) {}
+    return null;
+  }
+  /* engine defaults merged with the stored per-system map */
+  function systemPlayerMap(core) {
+    var map = {};
+    Object.keys(DEFAULT_CONTROLS).forEach(function (id) {
+      map[id] = { value: DEFAULT_CONTROLS[id].value, value2: DEFAULT_CONTROLS[id].value2 };
+    });
+    var stored = readSystemRemap(core);
+    if (stored) {
+      Object.keys(stored.player0).forEach(function (id) {
+        var e = stored.player0[id];
+        if (!e || typeof e !== 'object') return;
+        if (!map[id] || typeof map[id] !== 'object') map[id] = {};
+        if (e.value !== undefined) map[id].value = e.value;
+        if (e.value2 !== undefined) map[id].value2 = e.value2;
+      });
     }
-    return { stored: false, map: DEFAULT_CONTROLS };
+    return map;
+  }
+  function saveSystemControl(core, id, field, val) {
+    var k = remapKey(core);
+    if (!k) return false;
+    var map = systemPlayerMap(core);
+    if (!map[id] || typeof map[id] !== 'object') map[id] = {};
+    map[id][field] = val;
+    try { localStorage.setItem(k, JSON.stringify({ player0: map })); return true; }
+    catch (e) { return false; }
+  }
+  /* one-time migration: legacy per-game custom mappings -> per-system map */
+  function migrateLegacyRemap(core, payload) {
+    if (readSystemRemap(core)) return false;
+    var diffs = {}, n = 0;
+    var old = payload && payload.controlSettings && payload.controlSettings['0'];
+    if (old && typeof old === 'object') {
+      Object.keys(old).forEach(function (id) {
+        var e = old[id], d = DEFAULT_CONTROLS[id], c = {};
+        if (!e || typeof e !== 'object') return;
+        if (d) {
+          if (e.value !== d.value) c.value = e.value;
+          if (e.value2 !== d.value2) c.value2 = e.value2;
+        } else {
+          if (e.value !== undefined) c.value = e.value;
+          if (e.value2 !== undefined) c.value2 = e.value2;
+        }
+        if (c.value !== undefined || c.value2 !== undefined) { diffs[id] = c; n++; }
+      });
+    }
+    if (n) {
+      try { localStorage.setItem(remapKey(core), JSON.stringify({ player0: diffs })); return true; }
+      catch (e) {}
+    }
+    return false;
+  }
+  /* called from boot(): the per-system map becomes the engine payload's
+     player-0 table (other payload fields are preserved) */
+  function applySystemRemapToEngine(core) {
+    var key = controlsKey();
+    if (!key) return;
+    var payload = readControlsPayload() || { controlSettings: {}, settings: {}, cheats: [] };
+    var migrated = migrateLegacyRemap(core, payload);
+    if (!payload.controlSettings || typeof payload.controlSettings !== 'object') payload.controlSettings = {};
+    payload.controlSettings['0'] = systemPlayerMap(core);
+    try { localStorage.setItem(key, JSON.stringify(payload)); } catch (e) {}
+    if (migrated) remapSetStatus('Your older per-game mappings were moved into the per-system map for ' + (SYSTEM_LABELS[core] || core) + '.');
   }
   function keyName(v) {
     if (v === undefined || v === null || v === '') return '—';
@@ -461,34 +993,40 @@
     }
     return s;
   }
-  function schemeLabels() {
-    var list = BUTTON_LABELS[curCore] || BUTTON_LABELS_DEFAULT;
+  function schemeLabelsFor(core) {
+    var list = BUTTON_LABELS[core] || BUTTON_LABELS_DEFAULT;
     return list.concat(HOTKEY_LABELS);
   }
-  function controlsSetStatus(msg) {
+  function remapSetStatus(msg) {
     var el = $('controls-status');
     if (el) el.textContent = msg;
   }
-  function renderControls() {
+  function renderRemap() {
     var tbody = $('controls-tbody');
-    var status = $('controls-status');
-    if (!curCore) {
-      if (status) status.textContent = 'Boot a game above to see its mappings.';
-      if (tbody) tbody.innerHTML = '';
-      return;
+    var sel = $('remap-system');
+    var core = remapCore();
+    if (sel && !sel.options.length) {
+      Object.keys(SYSTEM_LABELS).forEach(function (c) {
+        var o = document.createElement('option');
+        o.value = c; o.textContent = SYSTEM_LABELS[c];
+        sel.appendChild(o);
+      });
     }
-    var pc = playerControls();
-    controlsSetStatus('Player 1 · ' + (SYSTEM_LABELS[curCore] || curCore) + ' · ' +
-      (pc.stored ? 'custom mappings stored on this device' : 'engine defaults — no custom mappings stored yet') +
-      '. Changes apply the next time the game boots.');
+    if (sel) sel.value = core;
+    var map = systemPlayerMap(core);
+    var stored = readSystemRemap(core);
+    remapSetStatus('Player 1 · ' + (SYSTEM_LABELS[core] || core) + ' · ' +
+      (stored ? 'custom per-system map stored on this device' : 'engine defaults — no custom map stored yet') +
+      '. Saved maps apply the next time a ' + (SYSTEM_LABELS[core] || core) +
+      ' game boots, and override Player 1 changes made in the engine\'s own menu.');
     if (!tbody) return;
     tbody.innerHTML = '';
     var seen = {};
-    schemeLabels().forEach(function (pair) {
+    schemeLabelsFor(core).forEach(function (pair) {
       var id = pair[0];
       if (seen[id]) return;
       seen[id] = 1;
-      var entry = pc.map[id];
+      var entry = map[id];
       if (!entry || typeof entry !== 'object') entry = {};
       var tr = document.createElement('tr');
       var td0 = document.createElement('td'); td0.textContent = pair[1];
@@ -497,48 +1035,31 @@
       td1.appendChild(k);
       var td2 = document.createElement('td'); td2.textContent = padName(entry.value2);
       var td3 = document.createElement('td');
-      (function (btnId) {
+      (function (btnId, btnLabel) {
         var bk = document.createElement('button');
         bk.type = 'button'; bk.className = 'btn btn-ghost btn-sm'; bk.textContent = 'Remap key';
-        bk.setAttribute('aria-label', 'Remap keyboard key for ' + pair[1]);
-        bk.addEventListener('click', function () { startKeyCapture(btnId, bk); });
+        bk.setAttribute('aria-label', 'Remap keyboard key for ' + btnLabel + ' (' + (SYSTEM_LABELS[core] || core) + ')');
+        bk.addEventListener('click', function () { startKeyCapture(core, btnId, bk); });
         var bp = document.createElement('button');
         bp.type = 'button'; bp.className = 'btn btn-ghost btn-sm'; bp.textContent = 'Remap pad';
-        bp.setAttribute('aria-label', 'Remap gamepad button for ' + pair[1]);
-        bp.addEventListener('click', function () { startPadCapture(btnId, bp); });
+        bp.setAttribute('aria-label', 'Remap gamepad button for ' + btnLabel + ' (' + (SYSTEM_LABELS[core] || core) + ')');
+        bp.addEventListener('click', function () { startPadCapture(core, btnId, bp); });
         td3.appendChild(bk); td3.appendChild(bp);
-      })(id);
+      })(id, pair[1]);
       tr.appendChild(td0); tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
       tbody.appendChild(tr);
     });
   }
-  function writeControl(id, field, val) {
-    var key = controlsKey();
-    if (!key) return;
-    var payload = readControlsPayload();
-    if (!payload) {
-      payload = { controlSettings: { 0: {}, 1: {}, 2: {}, 3: {} }, settings: {}, cheats: [] };
-      Object.keys(DEFAULT_CONTROLS).forEach(function (bid) {
-        payload.controlSettings[0][bid] = { value: DEFAULT_CONTROLS[bid].value, value2: DEFAULT_CONTROLS[bid].value2 };
-      });
+  function writeSystemControl(core, id, field, val) {
+    if (saveSystemControl(core, id, field, val)) {
+      remapSetStatus('Saved — applies the next time a ' + (SYSTEM_LABELS[core] || core) + ' game boots.');
+    } else {
+      remapSetStatus('Could not save the mapping.');
     }
-    if (!payload.controlSettings || typeof payload.controlSettings !== 'object') payload.controlSettings = {};
-    ['0', '1', '2', '3'].forEach(function (p) {
-      if (!payload.controlSettings[p] || typeof payload.controlSettings[p] !== 'object') payload.controlSettings[p] = {};
-    });
-    var entry = payload.controlSettings['0'][id];
-    if (!entry || typeof entry !== 'object') { entry = {}; payload.controlSettings['0'][id] = entry; }
-    entry[field] = val;
-    try {
-      localStorage.setItem(key, JSON.stringify(payload));
-      controlsSetStatus('Saved — takes effect the next time the game boots.');
-    } catch (e) {
-      controlsSetStatus('Could not save the mapping (' + (e && e.message ? e.message : e) + ').');
-    }
-    renderControls();
+    renderRemap();
   }
   var capturingKey = false;
-  function startKeyCapture(id, btn) {
+  function startKeyCapture(core, id, btn) {
     if (capturingKey) return;
     capturingKey = true;
     var old = btn.textContent;
@@ -548,21 +1069,21 @@
       document.removeEventListener('keydown', h, true);
       capturingKey = false;
       btn.textContent = old;
-      if (e.key === 'Escape') return;
-      writeControl(id, 'value', e.keyCode);
+      if (e.key === 'Escape') { remapSetStatus('Remap cancelled.'); return; }
+      writeSystemControl(core, id, 'value', e.keyCode);
     };
     document.addEventListener('keydown', h, true);
   }
   var capturingPad = false, padCancel = null;
-  function startPadCapture(id, btn) {
+  function startPadCapture(core, id, btn) {
     if (capturingPad) {
       if (padCancel) padCancel();
       return;
     }
-    if (!navigator.getGamepads) { controlsSetStatus('This browser has no gamepad API.'); return; }
+    if (!navigator.getGamepads) { remapSetStatus('This browser has no gamepad API.'); return; }
     capturingPad = true;
     var old = btn.textContent;
-    btn.textContent = 'Press a pad button… (click to cancel)';
+    btn.textContent = 'Press a pad button… (Esc or click cancels)';
     var snap = function () {
       var o = {};
       var gps = [];
@@ -577,17 +1098,24 @@
     };
     var prev = snap();
     var t0 = Date.now(), raf = 0, done = false;
-    padCancel = function () {
+    var escH = function (e) {
+      if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); finish(true); }
+    };
+    function finish(cancelled, btnIndex) {
       if (done) return;
       done = true;
       capturingPad = false; padCancel = null;
-      cancelAnimationFrame(raf);
+      try { cancelAnimationFrame(raf); } catch (e) {}
+      document.removeEventListener('keydown', escH, true);
       btn.textContent = old;
-      controlsSetStatus('Gamepad remap cancelled.');
-    };
+      if (cancelled) { remapSetStatus('Gamepad remap cancelled.'); return; }
+      writeSystemControl(core, id, 'value2', btnIndex);
+    }
+    padCancel = function () { finish(true); };
+    document.addEventListener('keydown', escH, true);
     var tick = function () {
       if (done) return;
-      if (Date.now() - t0 > 15000) { padCancel(); return; }
+      if (Date.now() - t0 > 15000) { finish(true); return; }
       var gps = [];
       try { gps = navigator.getGamepads() || []; } catch (e) {}
       for (var i = 0; i < gps.length; i++) {
@@ -595,10 +1123,7 @@
         if (!g) continue;
         for (var b = 0; b < g.buttons.length; b++) {
           if (g.buttons[b].pressed && !(prev[i] && prev[i][b])) {
-            done = true; capturingPad = false; padCancel = null;
-            cancelAnimationFrame(raf);
-            btn.textContent = old;
-            writeControl(id, 'value2', b);
+            finish(false, b);
             return;
           }
         }
@@ -608,11 +1133,12 @@
     };
     raf = requestAnimationFrame(tick);
   }
-  function resetControls() {
-    var key = controlsKey();
-    if (key) { try { localStorage.removeItem(key); } catch (e) {} }
-    renderControls();
-    controlsSetStatus('Custom mappings cleared — engine defaults apply on next boot.');
+  function resetRemap() {
+    var core = remapCore();
+    var k = remapKey(core);
+    if (k) { try { localStorage.removeItem(k); } catch (e) {} }
+    renderRemap();
+    remapSetStatus('Per-system map cleared for ' + (SYSTEM_LABELS[core] || core) + ' — engine defaults apply on next boot.');
   }
 
   /* ---------- Cheats ---------- */
@@ -716,37 +1242,94 @@
       setStatus('IDLE', false);
       sysSelect.value = 'auto';
       curCore = null; curGameName = null; curGameID = null;
-      renderCheats(); renderControls(); refreshSaves();
+      remapOverride = null;
+      renderCheats(); renderRemap(); renderSlots(); scheduleAutosave();
     });
 
-    $('fullscreen-btn').addEventListener('click', function () {
-      var shell = $('console-shell');
-      if (document.fullscreenElement) document.exitFullscreen();
-      else if (shell.requestFullscreen) shell.requestFullscreen();
+    var fsBtn = $('fullscreen-btn');
+    if (fsBtn) fsBtn.addEventListener('click', toggleFullscreen);
+    document.addEventListener('fullscreenchange', syncFullscreenBtn);
+    /* "f" toggles fullscreen from the console shell (not inside text inputs) */
+    var shellEl = $('console-shell');
+    if (shellEl) shellEl.addEventListener('keydown', function (e) {
+      if ((e.key === 'f' || e.key === 'F') && !/INPUT|SELECT|TEXTAREA/.test((e.target && e.target.tagName) || '')) {
+        e.preventDefault();
+        toggleFullscreen();
+      }
     });
 
     bindDrop(veil);
     setStatus('IDLE — DROP A FILE TO BEGIN', false);
 
-    /* ---------- Player 2.0 wiring ---------- */
+    /* ---------- Player 2.1 wiring ---------- */
     ensureCrtOverlay();
-    applyCrt(crtStored());
-    var crtToggle = function () { applyCrt(!crtStored()); };
-    var crtBtn = $('crt-btn');
-    if (crtBtn) crtBtn.addEventListener('click', crtToggle);
-    var crtBtn2 = $('crt-toggle-2');
-    if (crtBtn2) crtBtn2.addEventListener('click', crtToggle);
+    applyDisplayPrefs(displayCore());
+    syncFullscreenBtn();
+    window.addEventListener('resize', function () { applyIntScale(); });
 
-    var savesRefresh = $('saves-refresh');
-    if (savesRefresh) savesRefresh.addEventListener('click', function () { refreshSaves(); });
+    var toggleCrt = function () { setDisplayPatch({ crt: !readDisplay(displayCore()).crt }); };
+    ['crt-btn', 'crt-toggle-2'].forEach(function (id) {
+      var b = $(id);
+      if (b) b.addEventListener('click', toggleCrt);
+    });
+    ['disp-crt', 'dlg-crt'].forEach(function (id) {
+      var el = $(id);
+      if (el) el.addEventListener('change', function () { setDisplayPatch({ crt: el.checked }); });
+    });
+    ['disp-intscale', 'dlg-intscale'].forEach(function (id) {
+      var el = $(id);
+      if (el) el.addEventListener('change', function () { setDisplayPatch({ intScale: el.checked }); });
+    });
+    ['disp-aspect', 'dlg-aspect'].forEach(function (id) {
+      var el = $(id);
+      if (el) el.addEventListener('change', function () { setDisplayPatch({ aspect: el.value }); });
+    });
+    ['fs-btn-2', 'fs-btn-3'].forEach(function (id) {
+      var b = $(id);
+      if (b) b.addEventListener('click', toggleFullscreen);
+    });
+
+    /* quick-settings dialog */
+    function openSettings() {
+      var d = $('settings-dialog');
+      if (!d) return;
+      syncDisplayUI(displayCore());
+      renderAutosave(gameCtx());
+      if (typeof d.showModal === 'function') { try { d.showModal(); } catch (e) {} }
+      else d.setAttribute('open', '');
+    }
+    ['settings-btn', 'settings-open-2'].forEach(function (id) {
+      var b = $(id);
+      if (b) b.addEventListener('click', openSettings);
+    });
+    var dlgRemap = $('dlg-remap-link');
+    if (dlgRemap) dlgRemap.addEventListener('click', function () {
+      var d = $('settings-dialog');
+      if (d && typeof d.close === 'function') { try { d.close(); } catch (e) {} }
+    });
+
+    var slotNew = $('slot-new');
+    if (slotNew) slotNew.addEventListener('click', newSlot);
+    var slotsRefresh = $('slots-refresh');
+    if (slotsRefresh) slotsRefresh.addEventListener('click', function () { renderSlots(); });
     var importInput = $('import-state-file');
     if (importInput) importInput.addEventListener('change', function () {
       importStateFile(importInput.files && importInput.files[0]);
       importInput.value = '';
     });
+    ['autosave-toggle', 'dlg-autosave'].forEach(function (id) {
+      var el = $(id);
+      if (el) el.addEventListener('change', function () { setAutosavePref({ enabled: el.checked }); });
+    });
+    ['autosave-mins', 'dlg-autosave-mins'].forEach(function (id) {
+      var el = $(id);
+      if (el) el.addEventListener('change', function () { setAutosavePref({ minutes: parseInt(el.value, 10) || 5 }); });
+    });
 
-    var controlsReset = $('controls-reset');
-    if (controlsReset) controlsReset.addEventListener('click', resetControls);
+    var remapSel = $('remap-system');
+    if (remapSel) remapSel.addEventListener('change', function () { remapOverride = remapSel.value; renderRemap(); });
+    var remapReset = $('remap-reset');
+    if (remapReset) remapReset.addEventListener('click', resetRemap);
 
     var cheatAdd = $('cheat-add');
     if (cheatAdd) cheatAdd.addEventListener('click', addCheat);
@@ -755,9 +1338,21 @@
       if (el) el.addEventListener('keydown', function (e) { if (e.key === 'Enter') addCheat(); });
     });
 
-    /* initial (no-game) panel state */
+    /* initial (no-game) panel state — panels fall back to the last-booted game */
     renderCheats();
-    renderControls();
-    refreshSaves();
+    renderRemap();
+    renderSlots();
+    scheduleAutosave();
   });
+
+  /* small test handle for the headless checks (scripts/test_player21.js) */
+  window.BM21 = {
+    gameCtx: gameCtx,
+    renderSlots: renderSlots,
+    renderRemap: renderRemap,
+    autosavePass: autosavePass,
+    applyDisplayPrefs: applyDisplayPrefs,
+    readDisplay: readDisplay,
+    readSystemRemap: readSystemRemap
+  };
 })();

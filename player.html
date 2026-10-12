@@ -79,10 +79,11 @@
 
         <div class="player-toolbar" id="player-toolbar" hidden>
           <span class="sys-badge" id="sys-badge2"></span>
-          <button class="btn btn-ghost btn-sm" id="fullscreen-btn" type="button">⛶ Fullscreen</button>
+          <button class="btn btn-ghost btn-sm" id="fullscreen-btn" type="button" aria-pressed="false">⛶ Fullscreen</button>
           <button class="btn btn-ghost btn-sm" id="crt-btn" type="button" aria-pressed="false">📺 CRT filter</button>
+          <button class="btn btn-ghost btn-sm" id="settings-btn" type="button">⚙ Quick settings</button>
           <button class="btn btn-ghost btn-sm" id="eject-btn" type="button">⏏ Eject / load another</button>
-          <span style="font-size:.82rem;color:var(--ink-mute)">Tip: the in-game menu (top-left icon once booted) has save states, shaders and more — the Player&nbsp;2.0 tools below add save export/import, control remapping, cheats and a CRT filter.</span>
+          <span style="font-size:.82rem;color:var(--ink-mute)">Tip: the in-game menu (top-left icon once booted) has save states, shaders and more — the Player&nbsp;2.1 tools below add named save slots, per-system control remapping, cheats and display options. Press <kbd class="key">f</kbd> for fullscreen.</span>
         </div>
       </div>
 
@@ -96,27 +97,46 @@
 
   <section class="section" id="player-2-tools" aria-labelledby="tools-heading">
     <div class="wrap">
-      <div class="section-head"><h2 id="tools-heading"><span class="tick">▸</span> Player 2.0 tools</h2></div>
-      <p class="section-sub">Four client-side upgrades. Everything below runs in your browser — your files and saves never leave your machine.</p>
+      <div class="section-head"><h2 id="tools-heading"><span class="tick">▸</span> Player 2.1 tools</h2></div>
+      <p class="section-sub">Client-side upgrades. Everything below runs in your browser — your files, saves and settings never leave your machine.</p>
       <div class="tools-grid">
 
-        <article class="tool-card" aria-labelledby="saves-heading">
-          <h3 id="saves-heading"><span class="tick">💾</span> Save states — export &amp; import</h3>
-          <p>By default the engine <strong>downloads</strong> a <code>.state</code> file whenever you save in the in-game menu. If you switch the engine to <em>Keep in Browser</em> (in-game menu → Settings → Save States), states live in this browser's storage — and this panel can export, import, or delete them. Handy for moving a save to another device or sharing one with a friend (they'll need their own copy of the same game file).</p>
-          <div class="tool-status" id="saves-status" role="status">Boot a game above to manage its save states.</div>
-          <ul class="plain" id="saves-list" aria-label="Browser-kept save states"></ul>
+        <article class="tool-card" aria-labelledby="slots-heading">
+          <h3 id="slots-heading"><span class="tick">💾</span> Save slots</h3>
+          <p>Named save slots for the current (or most recent) game, kept in this browser's storage — the same place the engine's <em>Keep in Browser</em> mode uses. <strong>Save</strong> copies the engine slot into a named slot; <strong>Restore</strong> copies it back so the engine's <em>Load State</em> picks it up. Slots are browser-local — export the file to move one to another device.</p>
+          <div class="tool-status" id="slots-status" role="status">Boot a game above to manage its save slots.</div>
+          <ul class="plain slots-list" id="slots-list" aria-label="Save slots"></ul>
           <div class="tool-actions">
+            <button class="btn btn-ghost btn-sm" id="slot-new" type="button" disabled>＋ New slot</button>
             <label class="btn btn-ghost btn-sm" for="import-state-file" style="cursor:pointer">📥 Import .state file</label>
             <input type="file" id="import-state-file" class="sr-only" tabindex="-1" accept=".state" aria-label="Import a save state file">
-            <button class="btn btn-ghost btn-sm" id="saves-refresh" type="button">↻ Refresh list</button>
+            <button class="btn btn-ghost btn-sm" id="slots-refresh" type="button">↻ Refresh</button>
           </div>
-          <p class="hint">Import writes the file into browser storage under the current game's name, so the engine's <em>Load State</em> picks it up. State files are tied to the emulator build — a file from a much newer/older engine may not load.</p>
+          <fieldset class="autosave-box">
+            <legend>⏱ Auto-save</legend>
+            <div class="form-row">
+              <label><input type="checkbox" id="autosave-toggle"> Auto-save the engine slot</label>
+              <label>every
+                <select id="autosave-mins" aria-label="Auto-save interval">
+                  <option value="1">1 minute</option>
+                  <option value="5" selected>5 minutes</option>
+                  <option value="15">15 minutes</option>
+                </select>
+              </label>
+            </div>
+            <p class="hint" id="autosave-status" role="status"></p>
+          </fieldset>
+          <p class="hint">Import writes the file into browser storage under the current game's name, so the engine's <em>Load State</em> picks it up. State files are tied to the emulator build — a file from a much newer/older engine may not load. Auto-save copies the engine slot on a timer while this tab stays open, and only works in <em>Keep in Browser</em> mode (in-game menu → Settings → Save States).</p>
         </article>
 
         <article class="tool-card" aria-labelledby="controls-heading">
-          <h3 id="controls-heading"><span class="tick">🎮</span> Controls — remap</h3>
-          <p>Player&nbsp;1's keyboard and gamepad bindings, read from the engine's own stored settings. Click <em>Remap key</em>, then press a key; click <em>Remap pad</em>, then press a gamepad button. Changes apply the next time the game boots.</p>
-          <div class="tool-status" id="controls-status" role="status">Boot a game above to see its mappings.</div>
+          <h3 id="controls-heading"><span class="tick">🎮</span> Controls — per-system remap</h3>
+          <p>Player&nbsp;1's keyboard and gamepad bindings, one map per system — remap GBA once and every GBA game uses it. Click <em>Remap key</em>, then press a key (<kbd class="key">Esc</kbd> cancels); click <em>Remap pad</em>, then press a gamepad button (<kbd class="key">Esc</kbd> cancels). Saved maps apply the next time a game for that system boots. The remapper itself is fully keyboard-operable.</p>
+          <div class="form-row">
+            <label for="remap-system"><strong>System</strong></label>
+            <select id="remap-system" aria-label="System for control remapping"></select>
+          </div>
+          <div class="tool-status" id="controls-status" role="status">Pick a system to see its mappings.</div>
           <div style="overflow-x:auto">
           <table class="remap-table" id="controls-table" aria-label="Player 1 control mappings">
             <thead><tr><th scope="col">Button</th><th scope="col">Keyboard</th><th scope="col">Gamepad</th><th scope="col">Remap</th></tr></thead>
@@ -124,9 +144,9 @@
           </table>
           </div>
           <div class="tool-actions">
-            <button class="btn btn-ghost btn-sm" id="controls-reset" type="button">↩ Reset to defaults</button>
+            <button class="btn btn-ghost btn-sm" id="remap-reset" type="button">↩ Reset this system to defaults</button>
           </div>
-          <p class="hint">Reset clears the stored settings — the engine falls back to its defaults on next boot. Analog-stick axes can only be remapped in the engine's own Control Settings (gamepad icon in the in-game menu).</p>
+          <p class="hint">This per-system map overrides Player&nbsp;1 changes made in the engine's own Control Settings on next boot — use this panel for Player&nbsp;1. Analog-stick axes can only be remapped in the engine's own Control Settings (gamepad icon in the in-game menu). Your older per-game mappings were moved into the per-system map automatically.</p>
         </article>
 
         <article class="tool-card" aria-labelledby="cheats-heading">
@@ -144,18 +164,76 @@
           <p class="hint">Code formats (Game Genie / GameShark / Action Replay) are applied by each core's own cheat engine — what works varies by system and isn't guaranteed. If a code glitches, disable it in the in-game cheat manager.</p>
         </article>
 
-        <article class="tool-card" aria-labelledby="crt-heading">
-          <h3 id="crt-heading"><span class="tick">📺</span> CRT filter</h3>
-          <p>A scanline + vignette overlay on the game screen for that old-tube glow. Static by default; the faintest flicker is added only when your OS doesn't ask for reduced motion.</p>
-          <div class="tool-actions">
-            <button class="btn btn-ghost btn-sm" id="crt-toggle-2" type="button" aria-pressed="false">📺 Toggle CRT filter</button>
+        <article class="tool-card" aria-labelledby="display-heading">
+          <h3 id="display-heading"><span class="tick">📺</span> Display options <span class="sys-badge" id="display-sys"></span></h3>
+          <p>CRT scanlines, integer scaling and aspect ratio for <span id="display-sys-2">this system</span> — remembered per system on this device. Reduced-motion safe: the tube flicker never runs when your OS asks for reduced motion, and panel animations are disabled.</p>
+          <div class="form-row checks">
+            <label><input type="checkbox" id="disp-crt"> 📺 CRT filter (scanlines + vignette)</label>
+            <label><input type="checkbox" id="disp-intscale"> 🔲 Integer scale (crisp pixels)</label>
           </div>
-          <p class="hint">Also available in the toolbar while playing. Your choice is remembered on this device.</p>
+          <div class="form-row">
+            <label for="disp-aspect"><strong>Aspect ratio</strong></label>
+            <select id="disp-aspect" aria-label="Aspect ratio">
+              <option value="fill">Fill (engine default)</option>
+              <option value="4:3">4:3</option>
+              <option value="16:9">16:9</option>
+              <option value="original">Original (1:1 pixels)</option>
+            </select>
+          </div>
+          <div class="tool-actions">
+            <button class="btn btn-ghost btn-sm" id="fs-btn-2" type="button" aria-pressed="false">⛶ Fullscreen</button>
+            <button class="btn btn-ghost btn-sm" id="settings-open-2" type="button">⚙ Quick settings</button>
+          </div>
+          <p class="hint">Also in the toolbar while playing, and in the quick-settings drawer. Integer scale snaps the picture to whole-pixel multiples — no blurry half-pixels. Aspect options reframe the engine's canvas with CSS; the emulated resolution never changes.</p>
         </article>
 
       </div>
     </div>
   </section>
+
+  <dialog id="settings-dialog" aria-labelledby="settings-dialog-title">
+    <div class="dialog-card">
+      <h3 id="settings-dialog-title">⚙ Quick settings <span id="settings-dialog-sys"></span></h3>
+      <p class="hint">Remembered per system on this device. Everything here applies live.</p>
+      <fieldset>
+        <legend>📺 Display</legend>
+        <div class="form-row checks">
+          <label><input type="checkbox" id="dlg-crt"> CRT filter</label>
+          <label><input type="checkbox" id="dlg-intscale"> Integer scale</label>
+        </div>
+        <div class="form-row">
+          <label for="dlg-aspect"><strong>Aspect ratio</strong></label>
+          <select id="dlg-aspect" aria-label="Aspect ratio">
+            <option value="fill">Fill (engine default)</option>
+            <option value="4:3">4:3</option>
+            <option value="16:9">16:9</option>
+            <option value="original">Original (1:1 pixels)</option>
+          </select>
+        </div>
+        <div class="tool-actions">
+          <button class="btn btn-ghost btn-sm" id="fs-btn-3" type="button" aria-pressed="false">⛶ Fullscreen</button>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>⏱ Auto-save</legend>
+        <div class="form-row">
+          <label><input type="checkbox" id="dlg-autosave"> Auto-save the engine slot</label>
+          <label>every
+            <select id="dlg-autosave-mins" aria-label="Auto-save interval">
+              <option value="1">1 minute</option>
+              <option value="5" selected>5 minutes</option>
+              <option value="15">15 minutes</option>
+            </select>
+          </label>
+        </div>
+        <p class="hint" id="dlg-autosave-status" role="status"></p>
+      </fieldset>
+      <div class="tool-actions">
+        <a class="btn btn-ghost btn-sm" href="#controls-heading" id="dlg-remap-link">🎮 Remap controls</a>
+        <form method="dialog" style="display:inline"><button class="btn btn-primary btn-sm" value="close">Done</button></form>
+      </div>
+    </div>
+  </dialog>
 
   <section class="section" id="netplay-notes" aria-labelledby="netplay-heading">
     <div class="wrap">
@@ -180,12 +258,12 @@
         <article class="feature-card">
           <div class="icon" aria-hidden="true">2️⃣</div>
           <h3>Control it your way</h3>
-          <p>Keyboard works out of the box — arrow keys and the usual suspects cover most games. The <a href="#player-2-tools">Controls tool</a> shows Player&nbsp;1's current keyboard + gamepad bindings and lets you remap them (applies on next boot), or open the in-game menu → <em>Controls</em> for the engine's own remapper. USB gamepads are supported, and touch devices get on-screen buttons automatically.</p>
+          <p>Keyboard works out of the box — arrow keys and the usual suspects cover most games. The <a href="#player-2-tools">Controls tool</a> shows Player&nbsp;1's keyboard + gamepad bindings and lets you remap them, one map per system (applies on next boot; <kbd class="key">Esc</kbd> cancels a remap). USB gamepads are supported, and touch devices get on-screen buttons automatically.</p>
         </article>
         <article class="feature-card">
           <div class="icon" aria-hidden="true">3️⃣</div>
           <h3>Save like it's 1999 (but better)</h3>
-          <p>Save states live in the in-game menu: by default they download as <code>.state</code> files; switch to <em>Keep in Browser</em> in the engine's Settings → Save States and the <a href="#player-2-tools">Save tool</a> can export, import, and delete them — move a save to another device or share one with a friend. In-game saves (SRAM) work too. Ejecting swaps the cartridge — your states stay put.</p>
+          <p>Save states live in the in-game menu: by default they download as <code>.state</code> files; switch to <em>Keep in Browser</em> in the engine's Settings → Save States and the <a href="#player-2-tools">Save slots tool</a> gives every game named slots — save, restore, rename, export, import, delete — plus an auto-save timer. Everything is browser-local; export the file to move a save to another device. In-game saves (SRAM) work too. Ejecting swaps the cartridge — your slots stay put.</p>
         </article>
       </div>
     </div>

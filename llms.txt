@@ -3,7 +3,7 @@
 The universal in-browser game console. Three centerpieces: (1) the Player — a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) the Converter — drop in a GBA, GB/GBC or NES file you own, get back a single self-contained playable .html browser game (client-side only, all three cores BIOS-free); (3) the Party Planner — headcount + time + vibe in, timed game-night rotation plan out. Plus a curated directory of 125 free, legal browser games (every link verified live 2026-10-11), hand-built collections, genre deep dives, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads — ever.
 
 ## Play
-- player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.0: save-state export/import, keyboard+gamepad remap UI, cheat-code entry, CRT filter, honest netplay notes)
+- player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.1: named save slots + auto-save, per-system keyboard+gamepad remap, cheat-code entry, display options (CRT/integer-scale/aspect, per-system quick settings), honest netplay notes)
 - converter.html — ROM-to-browser-game converter (GBA/GB/GBC/NES in, self-contained .html out)
 - party-planner.html — timed game-night rotation planner across party-tagged games (print-friendly)
 - tournament.html — single-elimination tournament brackets for game night: 2-16 players, standard seeding with honest byes, best-of-N per round, one party game per round, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids)

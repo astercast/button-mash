@@ -2,6 +2,27 @@
 
 Running record of build waves. Newest first.
 
+## Wave 9 — 2026-10-11 — Player 2.1: save-state manager + per-system remap + display options
+
+**What shipped:**
+- **Save-state manager** (`player.html` + `assets/js/player.js`): named save slots per game in the engine's own IndexedDB store (`EmulatorJS-states`/`states`) — engine slot `<base>.state`, named slots `<base>.bm-slot-<n>.state`. Per slot: **Save** (copies the engine slot in), **Restore** (copies back over the engine key so the engine's Load State picks it up), **Rename** (inline, Enter commits / Esc cancels), **Export** (downloads the bytes), **Delete**. Slot labels in `bm-slots-<gameID>`. **Auto-save**: optional 1/5/15-min timer (`bm-autosave-<gameID>`) copies the engine slot into `<base>.bm-autosave.state` when it changed, while the tab stays open. Import still writes a `.state` file into the engine slot under the current game's name. Honest copy throughout: everything is browser-local, "Keep in Browser" mode required (in-game menu → Settings → Save States). Panels work for the most recent game (`bm-last-game`) even before a fresh boot.
+- **Per-system controller remapping**: one Player 1 map per system in `bm-remap-<core>` (`{player0:{id:{value,value2}}}`), system dropdown (all 20 systems), engine-verified per-core button labels + default maps shown, press-a-key / press-a-pad-button capture, **Esc cancels both** captures, "Reset this system to defaults". Maps are written into the engine's own settings payload (`ejs-<gameId>-<core>-<gameName>-settings`, `controlSettings['0']`) at boot → apply on next boot (documented: overrides Player 1 changes made in the engine's own menu). First boot auto-migrates legacy per-game custom mappings (Player 2.0) into the per-system map. Remapper fully keyboard-operable (native buttons, `role="status"` announcements).
+- **Display options** (per system, `bm-display-<core>`): CRT scanline/vignette toggle (legacy global `bm-crt` adopted once per system), integer-scale toggle (snaps the engine canvas to whole-pixel multiples of its intrinsic size, `pixelated` rendering, via MutationObserver + resize), aspect ratio 4:3 / 16:9 / fill / original 1:1 (CSS reframing — emulated resolution never changes), fullscreen with honest `aria-pressed` state, `fullscreenchange` sync, and an `f` shortcut from the console shell. **Quick-settings `<dialog>`** (toolbar ⚙ while playing, or the Display card): display controls + auto-save for the current system, applied live. Reduced motion: CRT flicker stays gated behind `prefers-reduced-motion: no-preference`; new CSS kills animations/transitions on player chrome under `prefers-reduced-motion: reduce`.
+- **Guides**: `skills/player-guide.md` documents all of Player 2.1 (storage key formats, boot-time application, migration, motion safety — verified facts only). No new skill: no genuine gap (the player-guide skill owns this surface).
+- **Agentic surface**: AGENT.md Player bullet → 2.1, `scripts/build_site.py` player bullet → 2.1, llms.txt/llms-full.txt regenerated; `scripts/check_api_workflows.js` gained WF9 (8 checks); new `scripts/test_player21.js` (20 headless functional checks); smoke `test.js` PART 1 gained read-only Player 2.1 UI probes. No API changes (no new endpoints).
+- **Null-guard discipline (w3.1) intact**: every new DOM write null-guarded; `veilError` guard + discipline comment verified by WF9.
+
+**Validation (wave 9):**
+- `scripts/build.py`: BUILD OK — 125 games (111 domains), 13 collections, 10 emulators, 14 guides; LEGAL GATE OK (30 pages, 125 game URLs, 0 piracy links)
+- `scripts/check_links.py`: LINK CHECK OK — 30 pages, 819 local links, 63 external links, 0 broken
+- `node scripts/check_api_workflows.js`: all pass incl. 8 new WF9 checks (was 47/47, now 55/55), 0 failures
+- `node --check`: clean on `assets/js/player.js`, `scripts/check_api_workflows.js`, `scripts/test_player21.js`, `~/workspace/smoke/test.js`
+- `node scripts/test_player21.js`: **20/20 PASS** — slots render/rename/restore/new-slot, per-system remap (snes labels, key capture → `bm-remap-gba`, Esc cancel, reset), dialog opens/persists, display prefs round-trip across reload, autosave pass writes the slot, 49 native keyboard-focusable controls, zero pageerrors
+- `~/workspace/smoke/test.js` (standard path): zero pageerrors on player/converter/index; all 9 Player 2.1 probes present; the upload step exercised the new boot path (remap apply + display prefs + slot render) with no errors — only the known expected CDN tunnel noise
+- Headless Chromium: kids.html + converter.html re-verified — zero pageerrors (no regressions)
+
+**Legal lane**: unchanged — zero new external links; no ROMs hosted, no ROM/BIOS download links. (Real-engine boot test still needs parent browser delegation: `BM_BOOT_TEST=1 node ~/workspace/smoke/test.js`.)
+
 ## Wave 8 — 2026-10-11 — Homebrew radar sweep + archive expansion
 
 **What shipped:**

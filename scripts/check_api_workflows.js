@@ -216,4 +216,42 @@ check("WF8 every wave-8 game has a kids.json verdict",
   wave8Ids.every((id) => kids.some((k) => k.id === id) || load("data/kids.json").excluded.some((k) => k.id === id)),
   "6 curated + 5 excluded");
 
+// ---- Wave 9: Player 2.1 — save slots, per-system remap, display options ----
+const playerHtml = fs.readFileSync(path.join(ROOT, "player.html"), "utf8");
+const playerJs = fs.readFileSync(path.join(ROOT, "assets/js/player.js"), "utf8");
+const compCss = fs.readFileSync(path.join(ROOT, "assets/css/components.css"), "utf8");
+check("WF9 save-slots UI (list, new-slot, autosave, dialog)",
+  playerHtml.includes('id="slots-list"') && playerHtml.includes('id="slot-new"') &&
+  playerHtml.includes('id="autosave-toggle"') && playerHtml.includes('id="autosave-mins"') &&
+  playerHtml.includes('id="settings-dialog"') && playerHtml.includes('id="settings-btn"'),
+  "slots manager + quick-settings markup");
+check("WF9 per-system remap (system select, reset, storage, migration)",
+  playerHtml.includes('id="remap-system"') && playerHtml.includes('id="remap-reset"') &&
+  playerJs.includes('bm-remap-') && playerJs.includes('migrateLegacyRemap') &&
+  playerJs.includes('applySystemRemapToEngine') && playerJs.includes('bm-last-game'),
+  "per-system storage + legacy migration + last-game fallback");
+check("WF9 display options (aspect select, int-scale, per-system prefs)",
+  playerHtml.includes('id="disp-aspect"') && playerHtml.includes('id="disp-intscale"') &&
+  playerJs.includes('bm-display-') && playerJs.includes('applyIntScale') &&
+  compCss.includes('.ar-43') && compCss.includes('.ar-169') && compCss.includes('.int-scale'),
+  "display prefs per system + aspect/int-scale CSS");
+check("WF9 null-guard discipline intact (w3.1)",
+  playerJs.includes('may not exist if the DOM changed') && /wave 3\.1 discipline/.test(playerJs),
+  "veilError guard + discipline comment");
+check("WF9 reduced-motion (CRT flicker gated + player chrome transition kill)",
+  compCss.includes('prefers-reduced-motion: no-preference') && compCss.includes('prefers-reduced-motion: reduce'),
+  "motion safety");
+check("WF9 keyboard-operable remapper (Esc cancels key + pad capture)",
+  (playerJs.match(/e\.key === 'Escape'/g) || []).length >= 3,
+  "esc cancel paths");
+check("WF9 player-guide skill documents 2.1",
+  fs.readFileSync(path.join(ROOT, "skills/player-guide.md"), "utf8").includes('Player 2.1') &&
+  fs.readFileSync(path.join(ROOT, "skills/player-guide.md"), "utf8").includes('bm-remap-') &&
+  fs.readFileSync(path.join(ROOT, "skills/player-guide.md"), "utf8").includes('bm-display-'),
+  "skill updated");
+check("WF9 AGENT.md + llms.txt mention Player 2.1",
+  fs.readFileSync(path.join(ROOT, "AGENT.md"), "utf8").includes('Player 2.1') &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes('Player 2.1'),
+  "agentic surface current");
+
 process.exit(failures ? 1 : 0);

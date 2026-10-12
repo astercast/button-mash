@@ -457,6 +457,59 @@ select, .chip-select {
 }
 @keyframes crt-flicker { 0%, 100% { opacity: 1; } 50% { opacity: .94; } }
 
+/* ---------- Player 2.1 ---------- */
+.slots-list .slot-row { align-items: flex-start; }
+.slot-label { font-size: 0.95rem; }
+.slot-sub { font-size: 0.78rem; color: var(--ink-mute); }
+.slot-actions { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.slot-rename { display: inline-flex; gap: 0.35rem; flex-wrap: wrap; align-items: center; }
+.slot-rename input[type="text"] { width: 12rem; }
+.autosave-box { border: 2px solid var(--edge); border-radius: var(--r-sm, 8px); padding: 0.8rem 1rem; margin: 0.8rem 0; }
+.autosave-box legend { padding: 0 0.4rem; font-weight: 700; font-size: 0.9rem; }
+.tool-card .form-row.checks { flex-direction: column; align-items: stretch; gap: 0.4rem; }
+.tool-card .form-row.checks label { display: flex; gap: 0.5rem; align-items: center; font-size: 0.9rem; cursor: pointer; }
+.tool-card .form-row.checks input[type="checkbox"] { width: 1.1rem; height: 1.1rem; flex: none; }
+.tool-card select {
+  background: var(--bg); border: 2px solid var(--edge); border-radius: var(--r-sm, 8px);
+  color: var(--ink); padding: 0.55rem 0.8rem; font-size: 0.9rem; max-width: 100%;
+}
+/* Display-option classes on the emulator screen. The aspect options reframe
+   the engine's canvas with CSS; the emulated resolution never changes. */
+#ejs-screen.ar-43, #ejs-screen.ar-169, #ejs-screen.ar-orig {
+  display: flex; align-items: center; justify-content: center;
+}
+#ejs-screen.ar-43 canvas { width: auto !important; height: 100% !important; aspect-ratio: 4 / 3; }
+#ejs-screen.ar-169 canvas { width: auto !important; height: 100% !important; aspect-ratio: 16 / 9; }
+#ejs-screen.ar-orig canvas { width: auto !important; height: auto !important; max-width: 100%; max-height: 100%; }
+#ejs-screen.int-scale canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
+/* Quick-settings dialog */
+#settings-dialog {
+  border: 2px solid var(--edge-bright); border-radius: var(--r-md, 12px);
+  background: var(--bg-2); color: var(--ink); padding: 0;
+  max-width: min(30rem, 92vw); width: 30rem;
+}
+#settings-dialog::backdrop { background: rgba(0, 0, 0, 0.65); }
+#settings-dialog .dialog-card { padding: 1.3rem 1.4rem; }
+#settings-dialog h3 { margin-top: 0; }
+#settings-dialog fieldset { border: 2px solid var(--edge); border-radius: var(--r-sm, 8px); padding: 0.8rem 1rem; margin: 0.8rem 0; }
+#settings-dialog legend { padding: 0 0.4rem; font-weight: 700; font-size: 0.9rem; }
+#settings-dialog .form-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 0.6rem 0; align-items: center; }
+#settings-dialog .form-row.checks { flex-direction: column; align-items: stretch; gap: 0.4rem; }
+#settings-dialog .form-row.checks label, #settings-dialog .form-row label { display: flex; gap: 0.5rem; align-items: center; font-size: 0.9rem; cursor: pointer; }
+#settings-dialog .form-row.checks input[type="checkbox"], #settings-dialog .form-row input[type="checkbox"] { width: 1.1rem; height: 1.1rem; flex: none; }
+#settings-dialog select {
+  background: var(--bg); border: 2px solid var(--edge); border-radius: var(--r-sm, 8px);
+  color: var(--ink); padding: 0.55rem 0.8rem; font-size: 0.9rem; max-width: 100%;
+}
+#settings-dialog .hint { font-size: 0.8rem; color: var(--ink-mute); }
+#settings-dialog .tool-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 0.8rem 0 0; }
+/* Reduced motion: no animation or transitions on player chrome.
+   (The CRT tube flicker is separately gated behind
+   prefers-reduced-motion: no-preference above.) */
+@media (prefers-reduced-motion: reduce) {
+  .console-shell *, #settings-dialog *, .tool-card * { animation: none !important; transition: none !important; }
+}
+
 .tools-grid {
   display: grid; gap: 1.2rem;
   grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
