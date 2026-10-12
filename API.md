@@ -57,6 +57,12 @@ Guide index (8 summaries; full text in `data/guides.json` and `llms-full.txt`). 
 
 Schema: `api/v1/schema/guides.schema.json`.
 
+### `GET api/v1/kid-safe.json`
+
+Kid-safe curated subset of the catalog (44 games). Envelope + `kid-safe` array: full game record plus `kid_safe: true`, `no_chat: true`, `age_band` (`5-7` / `8-10` / `11-12`), `parent_note` (why it's fine + what to watch), `verify_live` (true when the assessment couldn't be fully verified — "play the first 10 minutes together"), and `audit_basis` (the concrete basis for the flag — never invented). Assessments are honest snapshots, not guarantees; failed games are excluded, never softened.
+
+Schema: `api/v1/schema/kid-safe.schema.json` (draft-07).
+
 ## Usage notes
 
 - Filter client-side: `games.filter(g => g.genre === "puzzle")`.

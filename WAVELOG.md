@@ -2,6 +2,27 @@
 
 Running record of build waves. Newest first.
 
+## Wave 7 — 2026-10-11 — Kids mode (content + safety wave)
+
+**What shipped:**
+- **Kid-safe audit** (`data/kids.json`): all 114 games got an honest verdict — 44 curated, 70 excluded with reasons. Four bars, all mandatory: no open chat with strangers, no unmoderated multiplayer chat or user-generated content, no gambling mechanics, no graphic or horror content. Every curated record carries `kid_safe`, `no_chat`, `age_band` (5–7/8–10/11–12), a plain-language `parent_note` (why it's fine + what to watch), `verify_live` (true on 5 records where the assessment couldn't be fully verified end-to-end), and `audit_basis` (the concrete basis for the flag — never invented). When in doubt, excluded — never softened.
+- **`kids.html`** — the kids corner: honesty banner ("assessments, not guarantees — play the first 10 minutes together"), age-band chips (All / 5–7 / 8–10 / 11–12) with aria-pressed, big friendly cards with 🔇 No chat badges, 👀 "play together first" flags, per-game "For parents" disclosures, and big high-contrast ▶ Play buttons (target=_blank, rel=noopener). Reduced motion is the default on this page (unconditional animation/transition kill, not just prefers-reduced-motion).
+- **`parents.html`** — the parent guide: how the four-bar curation works, the honesty policy (snapshots not guarantees; excluded games are never defended), what "No chat" does and doesn't mean, common-sense screen-time tips (no medical claims — no doctor/pediatrician/diagnosis language anywhere), the save-state "one more level" negotiation trick, a teacher section (classroom fits + classroom-games skill pointer), and a "found a problem?" re-audit promise.
+- **API**: `api/v1/kid-safe.json` (new endpoint, manifest-registered in `api/v1/index.json`, draft-07 schema at `api/v1/schema/kid-safe.schema.json`, validated with jsonschema) — curated subset with full game records + kid flags; AGENT.md + API.md mentions.
+- **New skill**: `skills/kids-corner-guide.md` (age-band cheat sheet, parent-note surfacing rules, never-soften policy). 14 skills total.
+- **Updates**: "Kids corner" nav link + footer links added to all 13 pages (system-picker.html has a minimal footer — nav only, consistent with its existing style), parent guide in footer Learn sections, `scripts/build_site.py` (kids.html/parents.html in sitemap + llms.txt Play section, kid-safe endpoint in API section, 14-skill list), regenerated llms.txt/llms-full.txt/sitemap.xml, README.md (14 skills), `scripts/check_api_workflows.js` WF7 (13 checks).
+- **Build-pipeline guards**: `scripts/build.py` now validates `data/kids.json` (top-level shape, exact age bands, no dupes, curated ∩ excluded empty, every game gets a verdict, every curated record fully flagged with non-empty parent_note + audit_basis); `scripts/build_api.py` builds `kid-safe.json` from curated ids joined against `games.json` (full game fields, no invented data).
+
+**Validation (wave 7):**
+- `scripts/build.py`: BUILD OK — 114 games (104 domains), 11 collections, 10 emulators, 14 guides; LEGAL GATE OK (30 pages, 114 game URLs, 0 piracy links)
+- `scripts/check_links.py`: LINK CHECK OK — 30 pages, 817 local links, 63 external links, 0 broken
+- `node --check assets/js/kids.js`: clean
+- `node scripts/check_api_workflows.js`: all 40 pass (WF1–WF7)
+- `~/workspace/smoke/test.js`: zero pageerrors (only expected CDN fetch noise on player.html)
+- Headless Chromium functional pass (kids.html, parents.html): 44 cards / 4 chips / 44 no-chat badges / 5 verify flags render; 5–7 filter → 8 cards all "Ages 5–7" with correct aria-pressed; zero pageerrors on both pages.
+
+**Legal lane**: unchanged — no new external links; kids corner links are the existing verified catalog URLs only.
+
 ## Wave 6 — 2026-10-11 — Tournament brackets (interactive tools wave)
 
 **What shipped:**

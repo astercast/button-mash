@@ -19,6 +19,7 @@ ENDPOINTS = {
     "emulators": "Emulator software picks (no ROMs, software only).",
     "guides": "Emulation guides and explainers (summaries; full text in data/guides.json).",
     "homebrew-packs": "Per-system homebrew starter packs: the legal on-ramps for the Player (every URL verified live 2026-10-11).",
+    "kid-safe": "Kid-safe curated subset of the games directory: games that pass the Kids-mode audit (no open chat, no unmoderated multiplayer chat or user content, no gambling, no graphic/horror content). Each record carries kid_safe, no_chat, age_band (5-7/8-10/11-12), parent_note, verify_live, and audit_basis. Assessments are snapshots, not guarantees.",
 }
 
 USAGE = (
@@ -77,6 +78,28 @@ def main():
 
     packs_doc = load("homebrew-packs.json")
     write("homebrew-packs.json", envelope("homebrew-packs", packs_doc["packs"], ENDPOINTS["homebrew-packs"]))
+
+    # Kid-safe endpoint: curated subset of games enriched with kid audit fields.
+    kids_doc = load("kids.json")
+    game_by_id = {g["id"]: g for g in games["games"]}
+    kid_records = []
+    for k in kids_doc["curated"]:
+        g = game_by_id[k["id"]]
+        kid_records.append({
+            "id": g["id"],
+            "title": g["title"],
+            "url": g["url"],
+            "genre": g["genre"],
+            "description": g["description"],
+            "controls": g["controls"],
+            "kid_safe": True,
+            "no_chat": True,
+            "age_band": k["age_band"],
+            "parent_note": k["parent_note"],
+            "verify_live": k["verify_live"],
+            "audit_basis": k["audit_basis"],
+        })
+    write("kid-safe.json", envelope("kid-safe", kid_records, ENDPOINTS["kid-safe"]))
 
     index = {
         "name": "Button Mash",

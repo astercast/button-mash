@@ -18,6 +18,8 @@ PAGES = [
     ("party-planner.html", "Party planner: timed game-night rotation plans across party-tagged games"),
     ("tournament.html", "Tournament brackets: seeded 2-16 player single elimination, best-of-N per round, one party game per round, print + copy"),
     ("system-picker.html", "Which system should you emulate? — 1-minute quiz with honest device-limit recommendations"),
+    ("kids.html", "Kids corner: 44 kid-safe browser games, no chat, age bands 5–7 / 8–10 / 11–12, parent notes on every game, reduced-motion default"),
+    ("parents.html", "Parent guide: how Kids corner curation works, the honesty policy, common-sense screen-time tips, the 'one more level' save-state trick"),
     ("collections.html", "Hand-built game collections"),
     ("emulation.html", "Emulation hub: guides, explainers, legal sources"),
     ("monster-taming.html", "Monster-taming corner: original-IP creature games + GBA tech"),
@@ -74,6 +76,8 @@ def build_llms():
     lines.append("- party-planner.html — timed game-night rotation planner across party-tagged games (print-friendly)")
     lines.append("- tournament.html — single-elimination tournament brackets for game night: 2-16 players, standard seeding with honest byes, best-of-N per round, one party game per round, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids)")
     lines.append("- games.html — the 114-game directory (search, genre filters, favorites, random game, game of the day)")
+    lines.append("- kids.html — Kids corner: 44 kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default")
+    lines.append("- parents.html — parent guide: curation method, honesty policy (assessments not guarantees — play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick")
     lines.append("- collections.html — 11 hand-built collections")
     lines.append("- genres/roguelike.html, genres/cozy.html — genre deep dives with start-here picks")
     lines.append("")
@@ -109,8 +113,8 @@ def build_llms():
     lines.append("")
     lines.append("## API")
     lines.append("- api/v1/index.json — endpoint catalog")
-    lines.append("- api/v1/games.json, collections.json, emulators.json, guides.json, homebrew-packs.json")
-    lines.append("- skills/: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker")
+    lines.append("- api/v1/games.json, collections.json, emulators.json, guides.json, homebrew-packs.json, kid-safe.json (kid-safe: kid_safe, no_chat, age_band, parent_note, verify_live, audit_basis per record)")
+    lines.append("- skills/: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker, tournament-runner, kids-corner-guide")
     lines.append("")
     lines.append("## Legal")
     lines.append("Zero ROMs hosted. Zero piracy links. All game descriptions original (CC0).")

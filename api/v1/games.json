@@ -1,7 +1,7 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T01:37:28Z",
+  "generated_at": "2026-10-12T01:46:40Z",
   "endpoint": "games",
   "description": "Curated browser games directory (every URL verified live — never invented).",
   "count": 114,

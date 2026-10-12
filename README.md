@@ -19,7 +19,7 @@ The universal in-browser game console — play anything in your browser, **legal
 - `api/v1/` — `index/games/collections/emulators/guides.json` + `schema/` (static JSON API)
 - `assets/css/` — `tokens/base/layout/components/guides.css` (arcade design system)
 - `assets/js/` — `store/directory/player/converter/checklists.js`
-- `skills/` — 13 agent skills: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker, tournament-runner
+- `skills/` — 14 agent skills: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker, tournament-runner, kids-corner-guide
 - `pipeline/` — `watch_itch.py`, `watch_emulator_releases.py` → `review_queue.json` (human review, never auto-publishes)
 - `scripts/` — `build.py` (validate + regenerate), `build_api.py`, `build_site.py`, `check_links.py`
 - `llms.txt` / `llms-full.txt` — agent-readable site summaries

@@ -136,4 +136,51 @@ check("WF6 sitemap lists tournament.html",
   fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8").includes("<loc>tournament.html</loc>"),
   "in sitemap");
 
+// ---- Wave 7: Kids mode ----
+const kidEnv = load("api/v1/kid-safe.json");
+const kids = kidEnv["kid-safe"];
+const gameIds = new Set(games.map((g) => g.id));
+check("WF7 kid-safe envelope shape", kidEnv.endpoint === "kid-safe" && Array.isArray(kids) && kidEnv.count === kids.length,
+  kids.length + " records");
+check("WF7 index.json registers kid-safe", !!indexEnv.endpoints["kid-safe"] && indexEnv.endpoints["kid-safe"].includes("api/v1/kid-safe.json"),
+  "registered in manifest");
+check("WF7 every record references a real game", kids.every((k) => gameIds.has(k.id)),
+  "all ids exist in games.json");
+check("WF7 every flag has a basis", kids.every((k) =>
+  k.kid_safe === true && k.no_chat === true &&
+  ["5-7", "8-10", "11-12"].includes(k.age_band) &&
+  typeof k.parent_note === "string" && k.parent_note.trim().length > 0 &&
+  typeof k.audit_basis === "string" && k.audit_basis.trim().length > 0 &&
+  typeof k.verify_live === "boolean"),
+  "kid_safe/no_chat/age_band/parent_note/audit_basis/verify_live all present");
+check("WF7 no duplicate ids", new Set(kids.map((k) => k.id)).size === kids.length, "unique");
+check("WF7 band coverage", ["5-7", "8-10", "11-12"].every((b) => kids.some((k) => k.age_band === b)),
+  "5-7: " + kids.filter((k) => k.age_band === "5-7").length + ", 8-10: " +
+  kids.filter((k) => k.age_band === "8-10").length + ", 11-12: " +
+  kids.filter((k) => k.age_band === "11-12").length);
+check("WF7 excluded games are not kid-safe", !kids.some((k) => ["krunker", "happy-wheels", "skribbl", "geoguessr"].includes(k.id)),
+  "chat/shooter/horror picks excluded");
+check("WF7 draft-07 schema exists", fs.existsSync(path.join(ROOT, "api/v1/schema/kid-safe.schema.json")),
+  "api/v1/schema/kid-safe.schema.json");
+check("WF7 kids-corner-guide skill exists", fs.existsSync(path.join(ROOT, "skills/kids-corner-guide.md")),
+  "skills/kids-corner-guide.md");
+const kidsHtml = fs.readFileSync(path.join(ROOT, "kids.html"), "utf8");
+const kidsJs = fs.readFileSync(path.join(ROOT, "assets/js/kids.js"), "utf8");
+const parentsHtml = fs.readFileSync(path.join(ROOT, "parents.html"), "utf8");
+check("WF7 kids page renders the catalog + reduced-motion default",
+  kidsJs.includes("api/v1/kid-safe.json") && kidsHtml.includes("age-chips") &&
+  kidsHtml.includes("animation: none !important"),
+  "fetch + age chips + unconditional motion kill");
+check("WF7 parent guide covers honesty + screen-time + save states",
+  /first 10 minutes together/i.test(parentsHtml) && /screen-time/i.test(parentsHtml) &&
+  /one more level/i.test(parentsHtml) && !/pediatrician|diagnos|prescrib|disorder|therapist|medical advice|AAP recommends/i.test(parentsHtml),
+  "honesty policy, tips, no medical claims");
+check("WF7 sitemap lists kids + parents pages",
+  fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8").includes("<loc>kids.html</loc>") &&
+  fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8").includes("<loc>parents.html</loc>"),
+  "in sitemap");
+check("WF7 llms.txt mentions kids corner + kid-safe endpoint",
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("kid-safe.json"),
+  "llms.txt updated");
+
 process.exit(failures ? 1 : 0);

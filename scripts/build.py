@@ -111,6 +111,41 @@ def main():
         for s in g.get("sections", []):
             check(set(s.keys()) == {"heading", "body"}, f"{where}: bad section fields")
 
+    # --- kids audit: every game gets a verdict, curated entries are fully flagged ---
+    kids_doc = load("kids.json")
+    check(set(kids_doc.keys()) == {"policy", "age_bands", "curated", "excluded"},
+          "kids.json: bad top-level fields")
+    check(set(kids_doc.get("age_bands", {}).keys()) == {"5-7", "8-10", "11-12"},
+          "kids.json: age_bands must be exactly 5-7/8-10/11-12")
+    curated, excluded = kids_doc["curated"], kids_doc["excluded"]
+    cids = [k["id"] for k in curated]
+    eids = [e["id"] for e in excluded]
+    check(len(set(cids)) == len(cids) and len(set(eids)) == len(eids),
+          "kids.json: duplicate ids")
+    check(not (set(cids) & set(eids)), "kids.json: id in both curated and excluded")
+    missing = set(seen) - set(cids) - set(eids)
+    check(not missing, f"kids.json: games missing a verdict: {sorted(missing)}")
+    extra = (set(cids) | set(eids)) - set(seen)
+    check(not extra, f"kids.json: unknown game ids: {sorted(extra)}")
+    for k in curated:
+        where = f"kids.json:{k.get('id')}"
+        check(set(k.keys()) == {"id", "kid_safe", "no_chat", "age_band", "parent_note",
+                                "verify_live", "audit_basis"},
+              f"{where}: bad fields")
+        check(k.get("kid_safe") is True and k.get("no_chat") is True,
+              f"{where}: kid_safe and no_chat must both be true")
+        check(k.get("age_band") in kids_doc["age_bands"], f"{where}: bad age_band")
+        check(isinstance(k.get("parent_note"), str) and k["parent_note"].strip(),
+              f"{where}: parent_note must be non-empty")
+        check(isinstance(k.get("audit_basis"), str) and k["audit_basis"].strip(),
+              f"{where}: audit_basis must be non-empty (every flag needs a basis)")
+        check(isinstance(k.get("verify_live"), bool), f"{where}: verify_live must be bool")
+    for e in excluded:
+        where = f"kids.json:excluded:{e.get('id')}"
+        check(set(e.keys()) == {"id", "reason"}, f"{where}: bad fields")
+        check(isinstance(e.get("reason"), str) and e["reason"].strip(),
+              f"{where}: exclusion reason must be non-empty")
+
     # --- external links inside guide HTML: allowlist ---
     allowed = game_domains | REFERENCE_DOMAINS
     href_re = re.compile(r'href="(https?://[^"]+)"')
