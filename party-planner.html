@@ -16,7 +16,7 @@
   .pp-form legend { font-weight:700; padding:0 .5rem; }
   .pp-row { display:flex; flex-wrap:wrap; gap:.6rem 1.2rem; }
   .pp-row label { display:flex; align-items:center; gap:.45rem; cursor:pointer; padding:.3rem .2rem; }
-  .pp-num { display:flex; align-items:center; gap:.8rem; }
+  .pp-num { display:flex; flex-wrap:wrap; align-items:center; gap:.8rem; }
   .pp-num input { width:5rem; font-size:1.1rem; padding:.4rem .6rem; border-radius:8px; border:2px solid var(--edge-bright); background:var(--panel); color:var(--ink); }
   .pp-num select { font-size:1.05rem; padding:.45rem .6rem; border-radius:8px; border:2px solid var(--edge-bright); background:var(--panel); color:var(--ink); }
   .plan-slots { list-style:none; padding:0; display:grid; gap:1rem; counter-reset:slot; }
@@ -95,6 +95,52 @@
       <span class="kicker">Interactive tool</span>
       <h1>Game night, <span class="pink">planned.</span></h1>
       <p class="lede">Headcount, time, vibe — get a timed rotation plan across the catalog's party games, with a <strong>hand-the-controller order</strong> so nobody hogs the first turn. Everything below runs in your browser; print the plan and take it to the couch.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="quick-lineup-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="quick-lineup-h"><span class="tick">»</span> Quick game-night lineup</h2>
+        <span class="api-badge" id="lineup-badge" data-api-state="waking" role="status" tabindex="0"></span>
+      </div>
+      <p class="lede">Headcount, time, vibe — the Curator scores all 213 games and deals a timed lineup. Served live by the server when it's awake, computed in your browser from the last published catalog when it isn't.</p>
+      <form class="pp-form" id="quick-lineup-form" onsubmit="return false;" aria-describedby="ql-desc">
+        <p id="ql-desc" class="pp-hint">Vibes: cozy = gentle, no fail states · chaotic = loud and silly · competitive = score-chasers · party = made for groups · chill = low-skill-floor hangouts.</p>
+        <div class="pp-num">
+          <label for="ql-group">Players (1–12)</label>
+          <input type="number" id="ql-group" name="ql-group" min="1" max="12" value="4" inputmode="numeric">
+          <label for="ql-minutes">Time available</label>
+          <select id="ql-minutes" name="ql-minutes">
+            <option value="15">15 minutes</option>
+            <option value="30">30 minutes</option>
+            <option value="45">45 minutes</option>
+            <option value="60" selected>1 hour</option>
+            <option value="90">1.5 hours</option>
+            <option value="120">2 hours</option>
+            <option value="180">3 hours</option>
+            <option value="240">4 hours</option>
+          </select>
+        </div>
+        <fieldset>
+          <legend>Vibe — pick any</legend>
+          <div class="pp-row" id="ql-vibes">
+            <label><input type="checkbox" value="cozy"> Cozy</label>
+            <label><input type="checkbox" value="chaotic" checked> Chaotic</label>
+            <label><input type="checkbox" value="competitive"> Competitive</label>
+            <label><input type="checkbox" value="party" checked> Party</label>
+            <label><input type="checkbox" value="chill"> Chill</label>
+          </div>
+        </fieldset>
+        <div class="pp-row">
+          <label><input type="checkbox" id="ql-kids" name="ql-kids"> Kids at the table — kid-safe games only</label>
+        </div>
+        <div>
+          <button class="btn btn-primary" id="ql-go" type="button">🎲 Deal my lineup</button>
+        </div>
+      </form>
+      <p id="ql-error" class="ql-error" role="alert" hidden></p>
+      <div id="ql-results" aria-live="polite" style="margin-top:1rem"></div>
     </div>
   </section>
 
@@ -256,6 +302,9 @@ Jordan</textarea>
 
 <script src="assets/js/store.js"></script>
 <script src="assets/js/arcade.js"></script>
+<script src="assets/js/api-client.js"></script>
+<script src="assets/js/game-night.js"></script>
+<script src="assets/js/game-night-ui.js"></script>
 <script src="assets/js/party2.js"></script>
 <script src="assets/js/party.js"></script>
 </body>

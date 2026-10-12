@@ -28,11 +28,49 @@
     return st;
   }
 
+  /* Wave B (server-program spec §3): the directory reads the static fallback
+     contract file api/v1/games.json — the same file GET /api/games serves —
+     so the page is complete even with the functions unreachable. A live
+     probe follows immediately; see probeLiveCatalog below. */
+  function loadStaticCatalog() {
+    return fetch('api/v1/games.json', { cache: 'force-cache' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('Could not load api/v1/games.json (' + r.status + ')');
+        return r.json();
+      })
+      .then(function (j) { return j.games || []; });
+  }
+
+  /* Live probe: ask the Curator for fresh catalog data (7s timeout). The
+     grid already rendered from the static file, so the page is never blank.
+     Live → fresh enrichment (multiplayer/kid_safe/vibes) is overlaid onto
+     the rendered records by id and the badge reads "live". Miss/timeout →
+     the static catalog stays and the badge reads "cached · updated HH:MM".
+     fetchWithFallback never rejects; the badge always ends in a real state. */
+  function probeLiveCatalog(badgeEl, games) {
+    if (!badgeEl || !window.ApiClient) return;
+    var byId = {};
+    games.forEach(function (g) { byId[g.id] = g; });
+    window.ApiClient.fetchWithFallback('/api/games?limit=200', 'api/v1/games.json', { badgeEl: badgeEl })
+      .then(function (res) {
+        if (res.source === 'live' && res.data && Array.isArray(res.data.games)) {
+          res.data.games.forEach(function (eg) {
+            var g = byId[eg.id];
+            if (g) {
+              g.multiplayer = eg.multiplayer;
+              g.kid_safe = eg.kid_safe;
+              g.vibes = eg.vibes;
+            }
+          });
+        }
+      });
+  }
+
   async function initDirectory() {
     var grid = document.getElementById('games-grid');
     if (!grid) return;
     var games;
-    try { games = await BM.loadGames(); }
+    try { games = await loadStaticCatalog(); }
     catch (e) {
       grid.innerHTML = '<div class="empty-state empty-cabinet"><p class="empty-title">» CABINET OFFLINE</p>' +
         '<p class="empty-sub">Could not load the game list. Check your connection and try again.</p>' +
@@ -266,6 +304,9 @@
     try { if (BM.kidSafeReady) await BM.kidSafeReady; } catch (e) {}
 
     render();
+
+    // Wave B live probe (non-blocking): fresh data swap or honest cached badge.
+    probeLiveCatalog(document.getElementById('directory-badge'), games);
   }
 
   /* Home page: game of the day + a genre sampler */

@@ -229,6 +229,7 @@ async function newPage(browser) {
     if (m.type() === "error") errors.push("[console.error] " + m.text().slice(0, 200));
   });
   page.on("pageerror", (e) => errors.push("[pageerror] " + String(e).slice(0, 200)));
+  page.on("requestfailed", (r) => errors.push("[requestfailed] " + r.url().slice(0, 120)));
   await page.setViewport({ width: 1280, height: 900 });
   return { page, errors };
 }
@@ -309,7 +310,17 @@ async function newPage(browser) {
       const favCount = await page.evaluate(() => JSON.parse(localStorage.getItem("bm_favs_v1") || "[]").length);
       check("♥ still writes bm_favs_v1", favCount === 1, favCount + " fav");
       await page.screenshot({ path: "/tmp/trophy-cards.png" });
-      check("games.html zero pageerrors", errors.length === 0, errors.join(" | ").slice(0, 300) || "clean");
+      // Wave B: games.html probes /api/games (live-first, 7s timeout). Over file://
+      // there is no function, so the probe's network failure is EXPECTED — the
+      // fallback contract handles it (static render + honest cached badge). Only
+      // real JS/page errors and non-/api resource failures fail this check.
+      const apiProbeFailed = errors.some((e) => /^\[requestfailed\] file:\/\/\/api\//.test(e));
+      const realErrors = errors.filter((e) => {
+        if (/^\[requestfailed\] file:\/\/\/api\//.test(e)) return false;
+        if (/Failed to load resource/.test(e) && apiProbeFailed) return false;
+        return true;
+      });
+      check("games.html zero pageerrors", realErrors.length === 0, realErrors.join(" | ").slice(0, 300) || "clean");
       await page.close();
     }
 

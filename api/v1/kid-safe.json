@@ -1,7 +1,7 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T05:50:18Z",
+  "generated_at": "2026-10-12T06:24:08Z",
   "endpoint": "kid-safe",
   "description": "Kid-safe curated subset of the games directory: games that pass the Kids-mode audit (no open chat, no unmoderated multiplayer chat or user content, no gambling, no graphic/horror content). Each record carries kid_safe, no_chat, age_band (5-7/8-10/11-12), parent_note, verify_live, and audit_basis. Assessments are snapshots, not guarantees.",
   "count": 113,

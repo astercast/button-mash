@@ -891,3 +891,107 @@ kbd.key {
 @media (prefers-reduced-motion: reduce) {
   .console-shell *, #settings-dialog *, .tool-card * { animation: none !important; transition: none !important; }
 }
+
+/* ---- API freshness badge (server-program spec §3.2) ----
+   One <span class="api-badge" data-api-state="waking"> per dynamic widget,
+   text managed by assets/js/api-client.js (live | waking server… |
+   cached · updated HH:MM | none). The dot is pure CSS (::before) so the
+   client only ever sets textContent. role="status" announces changes to
+   screen readers; tabindex="0" keeps it keyboard-reachable. No keyframes —
+   reduced-motion safe by construction. */
+.api-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-dim);
+  background: var(--bg-2);
+  border: 1px solid var(--edge);
+  border-radius: 999px;
+  padding: 0.25em 0.75em;
+  white-space: nowrap;
+  cursor: default;
+}
+.api-badge:empty { display: none; }
+.api-badge::before {
+  content: "";
+  width: 0.55em;
+  height: 0.55em;
+  border-radius: 50%;
+  background: var(--ink-faint);
+  flex: none;
+}
+.api-badge[data-api-state="live"] { color: var(--neon-lime); border-color: rgba(182, 255, 46, 0.35); }
+.api-badge[data-api-state="live"]::before {
+  background: var(--neon-lime);
+  box-shadow: 0 0 8px rgba(182, 255, 46, 0.8);
+}
+.api-badge[data-api-state="waking"] { color: var(--ink-mute); }
+.api-badge[data-api-state="waking"]::before { background: var(--neon-cyan); }
+.api-badge[data-api-state="cached"] { color: var(--neon-amber); border-color: rgba(255, 176, 46, 0.35); }
+.api-badge[data-api-state="cached"]::before {
+  background: var(--neon-amber);
+  box-shadow: 0 0 8px rgba(255, 176, 46, 0.8);
+}
+.api-badge[data-api-state="none"] { display: none; }
+.api-badge:focus-visible { outline: 2px solid var(--neon-cyan); outline-offset: 2px; }
+
+/* ---- Quick game-night lineup (party-planner.html, Wave B) ---- */
+.ql-lineup {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+.ql-pick {
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  border-radius: var(--r-md);
+  padding: 0.9rem 1rem;
+}
+.ql-pick h3 { margin: 0 0 0.3rem; font-size: 1.05rem; }
+.ql-pick h3 a { color: var(--ink); }
+.ql-meta {
+  color: var(--ink-mute);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  margin: 0.3rem 0 0;
+}
+.ql-why {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--ink-dim);
+  font-size: 0.9rem;
+}
+.ql-why li { margin-bottom: 0.15rem; }
+.ql-scorebar {
+  height: 0.4rem;
+  background: var(--bezel);
+  border-radius: 999px;
+  margin-top: 0.55rem;
+  overflow: hidden;
+}
+.ql-scorebar i { display: block; height: 100%; background: var(--neon-lime); }
+.ql-notes { color: var(--ink-mute); font-size: 0.9rem; margin-top: 1rem; padding-left: 1.2rem; }
+.ql-notes li { margin-bottom: 0.3rem; }
+.ql-error {
+  color: var(--neon-red);
+  border: 1px solid var(--neon-red);
+  border-radius: var(--r-sm);
+  padding: 0.6rem 0.9rem;
+  margin-top: 1rem;
+}
+#ql-group {
+  background: var(--bezel);
+  border: 2px solid var(--edge);
+  border-radius: var(--r-sm);
+  color: var(--ink);
+  padding: 0.55rem 0.8rem;
+  font-size: 0.9rem;
+  width: 6rem;
+}
