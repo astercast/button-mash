@@ -41,7 +41,8 @@
     <div class="wrap hero-inner">
       <span class="kicker">Curated shelves</span>
       <h1>Collections, <span class="cyan">not algorithms.</span></h1>
-      <p class="lede">Hand-built lists for moods and moments. Every game verified live.</p>
+      <p class="lede">Hand-built lists for moods and moments. Every game verified live.
+        <span class="api-badge" id="collections-badge" data-api-state="waking" role="status" tabindex="0"></span></p>
     </div>
   </section>
 
@@ -101,131 +102,8 @@
 
 <script src="assets/js/store.js"></script>
 <script src="assets/js/trophy-core.js"></script>
+<script src="assets/js/api-client.js"></script>
 <script src="assets/js/arcade.js"></script>
-<script>
-(function () {
-  'use strict';
-  function copyText(text, btn, idleLabel) {
-    var done = function (ok) {
-      btn.textContent = ok ? '\u00BB Copied!' : '\u00BB Copy failed';
-      setTimeout(function () { btn.textContent = idleLabel; }, 1600);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
-    } else { done(false); }
-  }
-  document.addEventListener('DOMContentLoaded', async function () {
-    var grid = document.getElementById('collections-grid');
-    var jump = document.getElementById('shelf-jump');
-    try {
-      var games = await BM.loadGames();
-      var byId = {};
-      games.forEach(function (g) { byId[g.id] = g; });
-      var res = await fetch('data/collections.json', { cache: 'no-store' });
-      var cols = (await res.json()).collections || [];
-      // Shelf jump-links: anchor nav across the long shelf list
-      if (jump) {
-        jump.appendChild(BM.el('span', 'jump-label', '\u00BB Jump to a shelf:'));
-        cols.forEach(function (c) {
-          var a = BM.el('a', null, c.title);
-          a.href = '#shelf-' + c.id;
-          jump.appendChild(a);
-        });
-      }
-      grid.innerHTML = '';
-      cols.forEach(function (c) {
-        var card = BM.el('article', 'collection-card');
-        card.id = 'shelf-' + c.id;
-        var top = BM.el('div', 'card-top');
-        top.appendChild(BM.el('span', 'badge', c.tagline));
-        var link = BM.el('button', 'chip shelf-link', '\u00BB Copy shelf link');
-        link.type = 'button';
-        link.setAttribute('aria-label', 'Copy link to the ' + c.title + ' shelf');
-        link.addEventListener('click', function () {
-          copyText(location.origin + location.pathname + '#shelf-' + c.id, link, '\u00BB Copy shelf link');
-        });
-        top.appendChild(link);
-        card.appendChild(top);
-        card.appendChild(BM.el('h3', null, c.title));
-        card.appendChild(BM.el('p', null, c.description));
-        // Trophy Room: per-shelf completion strip (played/beaten progress).
-        var prog = BM.el('div', 'shelf-progress');
-        prog.setAttribute('data-collection', c.id);
-        var bar = BM.el('div', 'stacked-bar');
-        bar.setAttribute('role', 'img');
-        var bp = BM.el('span', 'bar-played');
-        var bb = BM.el('span', 'bar-beaten');
-        bar.appendChild(bp); bar.appendChild(bb);
-        prog.appendChild(bar);
-        var plabel = BM.el('p', 'shelf-progress-label', '\u00BB shelf progress loading\u2026');
-        prog.appendChild(plabel);
-        card.appendChild(prog);
-        var ol = BM.el('ol');
-        c.game_ids.forEach(function (gid) {
-          var g = byId[gid];
-          if (!g) return;
-          var li = BM.el('li');
-          var a = BM.el('a', null, g.title);
-          a.href = g.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
-          li.appendChild(a);
-          li.appendChild(document.createTextNode(' — ' + g.description));
-          ol.appendChild(li);
-        });
-        card.appendChild(ol);
-        grid.appendChild(card);
-      });
-      // Trophy Room: paint per-shelf completion once the store is ready,
-      // and repaint whenever trophies change anywhere on the site.
-      function paintShelfProgress() {
-        if (!window.BM || !BM.Trophy || !BM.trophyReady) return;
-        BM.trophyReady.then(function (store) {
-          if (!store) return;
-          var strips = grid.querySelectorAll('.shelf-progress');
-          for (var i = 0; i < strips.length; i++) {
-            (function (el) {
-              var cid = el.getAttribute('data-collection');
-              var col = null;
-              for (var j = 0; j < cols.length; j++) {
-                if (cols[j].id === cid) { col = cols[j]; break; }
-              }
-              if (!col) return;
-              var p = store.collectionProgress(col);
-              el.querySelector('.bar-played').style.width = p.playedPct + '%';
-              el.querySelector('.bar-beaten').style.width = p.beatenPct + '%';
-              el.querySelector('.stacked-bar').setAttribute('aria-label',
-                col.title + ': ' + p.played + ' of ' + p.total + ' played, ' + p.beaten + ' beaten');
-              var label = el.querySelector('.shelf-progress-label');
-              label.innerHTML = '';
-              label.appendChild(BM.el('span', 'c-played', p.played + '/' + p.total + ' played'));
-              label.appendChild(document.createTextNode(' \u00B7 '));
-              label.appendChild(BM.el('span', 'c-beaten', p.beaten + ' beaten'));
-            })(strips[i]);
-          }
-        });
-      }
-      paintShelfProgress();
-      document.addEventListener('bm:trophy-changed', paintShelfProgress);
-      // Deep links: jump straight to the shelf when the URL carries its
-      // anchor. Instant (not smooth): this fires during page load, where
-      // Chrome defers smooth scrollIntoView by up to ~2s; nobody wants to
-      // watch the page travel on load anyway.
-      var h = location.hash;
-      if (h.indexOf('#shelf-') === 0) {
-        var target = document.getElementById(h.slice(1));
-        if (target) {
-          try { target.scrollIntoView({ behavior: 'auto', block: 'start' }); }
-          catch (e) {
-            if (target.scrollIntoView) target.scrollIntoView();
-          }
-        }
-      }
-    } catch (e) {
-      grid.innerHTML = '<div class="empty-state empty-cabinet"><p class="empty-title">\u00BB SHELVES OFFLINE</p>' +
-        '<p class="empty-sub">Could not load collections. Check your connection and try again.</p>' +
-        '<button class="chip" type="button" onclick="location.reload()">\u00BB Retry</button></div>';
-    }
-  });
-})();
-</script>
+<script src="assets/js/collections.js"></script>
 </body>
 </html>

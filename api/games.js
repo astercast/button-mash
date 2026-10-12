@@ -1,5 +1,6 @@
 /* GET /api/games — curated browser-game catalog (spec §7.7).
-   Query: ?genre= ?q= ?players= ?system= ?limit= (default 50, max 200)
+   Query: ?genre= ?q= ?players= ?system= ?limit= (default 50, max 200),
+          ?id= (single-game lookup; wins over the other filters, 404 on miss)
    Reads the repo's api/v1/games.json (the legal-lane corpus: 213 curl-verified
    browser games). Fallback: /api/v1/games.json (static).
    Rate limit: public bucket (60/min per IP). */
@@ -17,6 +18,22 @@ function loadCatalog() {
   const kidEnv = require("./v1/kid-safe.json");
   const kidIds = new Set((kidEnv["kid-safe"] || []).filter((k) => k.kid_safe).map((k) => k.id));
   return { games: gamesEnv.games || [], generated_at: gamesEnv.generated_at || null, kidIds: kidIds };
+}
+
+function enrichGame(g, cat) {
+  return {
+    id: g.id,
+    title: g.title,
+    url: g.url,
+    genre: g.genre,
+    description: g.description,
+    controls: g.controls,
+    tags: g.tags || [],
+    system: "browser",
+    multiplayer: multiplayerOk(g),
+    kid_safe: cat.kidIds.has(g.id),
+    vibes: Array.from(gameVibes(g)).sort(),
+  };
 }
 
 const KNOWN_GENRES = ["puzzle", "action", "roguelike", "idle", "multiplayer", "retro", "horror", "cozy"];
@@ -37,6 +54,40 @@ module.exports = (req, res) => {
   const url = new URL(req.url, "http://localhost");
   const qp = url.searchParams;
   const fields = [];
+
+  // Single-game lookup: ?id=<game-id> wins over the filters entirely
+  // (validated first). Same enriched shape as the list route,
+  // 404 (NOT_FOUND) on miss, 400 on a bad id shape.
+  const idRaw = qp.get("id");
+  if (idRaw !== null) {
+    const id = idRaw.trim().toLowerCase();
+    if (!/^[a-z0-9-]+$/.test(id) || id.length > 64) {
+      return err(res, SERVICE, VERSION, 400, "BAD_INPUT",
+        "id must match ^[a-z0-9-]+$ (e.g. ?id=tetrio).", { fields: ["id"] });
+    }
+    const idCat = loadCatalog();
+    const idT0 = Date.now();
+    const g = idCat.games.find((x) => x.id === id);
+    if (!g) {
+      return err(res, SERVICE, VERSION, 404, "NOT_FOUND",
+        "No game with id '" + id + "'.", { id: id });
+    }
+    return ok(res, SERVICE, VERSION, {
+      games: [enrichGame(g, idCat)],
+      count: 1,
+      total: 1,
+      filters: { id: id },
+      generated_at: idCat.generated_at,
+    }, {
+      source: "live",
+      upstream: [{
+        source: "repo:api/v1/games.json",
+        ok: true,
+        checked_at: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
+        latency_ms: Date.now() - idT0,
+      }],
+    });
+  }
 
   const genre = qp.get("genre");
   if (genre && KNOWN_GENRES.indexOf(genre.toLowerCase()) === -1) {
@@ -85,6 +136,7 @@ module.exports = (req, res) => {
 
   const cat = loadCatalog();
   const t0 = Date.now();
+
   let matched;
   if (systemBlocked) {
     matched = [];
@@ -100,19 +152,7 @@ module.exports = (req, res) => {
     });
   }
 
-  const games = matched.slice(0, limit).map((g) => ({
-    id: g.id,
-    title: g.title,
-    url: g.url,
-    genre: g.genre,
-    description: g.description,
-    controls: g.controls,
-    tags: g.tags || [],
-    system: "browser",
-    multiplayer: multiplayerOk(g),
-    kid_safe: cat.kidIds.has(g.id),
-    vibes: Array.from(gameVibes(g)).sort(),
-  }));
+  const games = matched.slice(0, limit).map((g) => enrichGame(g, cat));
 
   ok(res, SERVICE, VERSION, {
     games: games,

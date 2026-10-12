@@ -605,6 +605,7 @@ check("WF15 reduced-motion + FX-off kills",
 const dirJs = fs.readFileSync(path.join(ROOT, "assets/js/directory.js"), "utf8");
 const w16css = fs.readFileSync(path.join(ROOT, "assets/css/wave16.css"), "utf8");
 const collHtml = fs.readFileSync(path.join(ROOT, "collections.html"), "utf8");
+const collJs = fs.readFileSync(path.join(ROOT, "assets/js/collections.js"), "utf8");
 const allHtml = ["index.html", "games.html", "collections.html", "404.html"]
   .concat(fs.readdirSync(ROOT).filter((f) => f.endsWith(".html") && !["index.html", "games.html", "collections.html", "404.html"].includes(f)))
   .concat(fs.readdirSync(path.join(ROOT, "guides")).filter((f) => f.endsWith(".html")).map((f) => "guides/" + f))
@@ -659,11 +660,11 @@ check("WF16 entrance choreography gated on motion prefs + FX",
   "hero cascade + staggered card power-on, first paint only");
 check("WF16 custom empty states",
   dirJs.includes("NO GAMES ON THIS CHANNEL") && dirJs.includes("clear-filters") &&
-  dirJs.includes("empty-cabinet") && collHtml.includes("SHELVES OFFLINE"),
+  dirJs.includes("empty-cabinet") && collJs.includes("SHELVES OFFLINE"),
   "unlit-cabinet no-results + retry states");
 check("WF16 collections: shelf anchors + jump nav + hash scroll",
-  collHtml.includes('id="shelf-jump"') && collHtml.includes("'shelf-' + c.id") &&
-  collHtml.includes("scrollIntoView") && collHtml.includes("Copy shelf link") &&
+  collHtml.includes('id="shelf-jump"') && collJs.includes("'shelf-' + c.id") &&
+  collJs.includes("scrollIntoView") && collJs.includes("Copy shelf link") &&
   w16css.includes(".shelf-jump") && w16css.includes("scroll-margin-top"),
   "19 jump links, deep-link scroll, per-shelf copy");
 check("WF16 arcade.js on every page",
@@ -810,10 +811,10 @@ check("WF18 games.html trophy wiring (assets + CTA + data-driven hero)",
   gamesHtml.includes('id="games-hero-count"'),
   "core.js + css + hero CTA + data-driven count");
 check("WF18 collections.html per-shelf progress",
-  fs.readFileSync(path.join(ROOT, "collections.html"), "utf8").includes("assets/js/trophy-core.js") &&
-  fs.readFileSync(path.join(ROOT, "collections.html"), "utf8").includes("shelf-progress") &&
-  fs.readFileSync(path.join(ROOT, "collections.html"), "utf8").includes("paintShelfProgress") &&
-  fs.readFileSync(path.join(ROOT, "collections.html"), "utf8").includes("collectionProgress"),
+  collHtml.includes("assets/js/trophy-core.js") &&
+  collJs.includes("shelf-progress") &&
+  collJs.includes("paintShelfProgress") &&
+  collJs.includes("collectionProgress"),
   "core.js + strip markup + paint + store.collectionProgress");
 check("WF18 arcade.js card controls + change events + prize toast",
   arcadeJs.includes("attachTrophyControls") && arcadeJs.includes("trophy-row") &&
@@ -1002,6 +1003,67 @@ check("WF20 demo offline state is honest, not a stub",
 check("WF20 no ROM/BIOS download phrasing in new wave-1 files",
   !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(attractJs + attractCss) &&
   !/\b(roms?|bios)\b.{0,40}\bdownload\b/i.test(indexHtml.split("cabinet-section")[0] || ""),
+  "legal lane holds");
+
+// Wave 19 "Spotlight": the Curator's metadata surfaces go live in the browser.
+const gamesApiSrc = fs.readFileSync(path.join(ROOT, "api/games.js"), "utf8");
+const detailHtml = fs.readFileSync(path.join(ROOT, "game.html"), "utf8");
+const detailJs = fs.readFileSync(path.join(ROOT, "assets/js/game-detail.js"), "utf8");
+check("WF21 /api/games ?id= lookup (404 miss, 400 bad shape, filter win)",
+  gamesApiSrc.includes('qp.get("id")') && gamesApiSrc.includes("NOT_FOUND") &&
+  gamesApiSrc.includes('enrichGame(g, cat)') && gamesApiSrc.includes("filters: { id: id }") &&
+  /id must match/.test(gamesApiSrc),
+  "single-game lookup shares the enrichGame shape");
+check("WF21 game.html wired (badge, panels, honest states)",
+  detailHtml.includes('id="detail-badge"') && detailHtml.includes('role="status"') &&
+  detailHtml.includes('id="trophy-panel"') && detailHtml.includes('id="shelves-panel"') &&
+  detailHtml.includes('id="related-panel"') && detailHtml.includes('id="prevnext"') &&
+  detailHtml.includes("assets/js/game-detail.js") && detailHtml.includes("assets/js/api-client.js") &&
+  detailHtml.includes("assets/css/game-detail.css"),
+  "detail page structure + scripts + css");
+check("WF21 game-detail.js static-first + live overlay + badge preservation",
+  detailJs.includes("fetchWithFallback") && detailJs.includes("/api/games?id=") &&
+  detailJs.includes("NO GAME ON THIS CHANNEL") && detailJs.includes("CABINET OFFLINE") &&
+  detailJs.includes("getElementById(\"detail-badge\")") && detailJs.includes("meta.appendChild(badge") &&
+  detailJs.includes("/api/collections") && detailJs.includes("BM.trophyReady") &&
+  detailJs.includes("togglePlayed") && detailJs.includes("Copy game-file link"),
+  "static render, live probe, badge node survives re-render, trophy + shelves + share");
+check("WF21 collections.js extracted + Curator-wired",
+  collHtml.includes("assets/js/collections.js") && collHtml.includes("assets/js/api-client.js") &&
+  !collHtml.includes("data/collections.json', { cache: 'no-store' })") &&
+  collJs.includes("fetchWithFallback") && collJs.includes("/api/collections") &&
+  collJs.includes("api/v1/collections.json") && collJs.includes("collections-badge") &&
+  collJs.includes("game.html?id=") && collJs.includes("paintShelfProgress") &&
+  collHtml.includes('id="collections-badge"'),
+  "inline script gone, live probe with badge, shelf rows link to game files");
+check("WF21 tooltip deep link to the game file",
+  arcadeJs.includes("tip-file") && arcadeJs.includes("game.html?id=") &&
+  arcadeJs.includes("full game file"),
+  "every card tooltip carries a full-file link");
+check("WF21 API.md documents ?id=",
+  apiMd.includes("?id=") && /404/.test(apiMd.split("### `GET /api/games`")[1] || ""),
+  "live function docs updated");
+check("WF21 game.html + collections badge in sitemap/llms surface",
+  fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8").includes("<loc>game.html</loc>") &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("game.html?id="),
+  "discoverable for crawlers and agents");
+check("WF21 vercel.json: explicit function paths, maxDuration 10, no runtime key",
+  (() => {
+    try {
+      const v = JSON.parse(fs.readFileSync(path.join(ROOT, "vercel.json"), "utf8"));
+      const fns = v.functions || {};
+      const want = ["api/health.js", "api/games.js", "api/collections.js", "api/game-night.js", "api/cron/curator.js"];
+      const keys = Object.keys(fns);
+      return keys.length === want.length && want.every((k) => keys.includes(k)) &&
+        keys.every((k) => fns[k] && fns[k].maxDuration === 10 && !("runtime" in fns[k])) &&
+        keys.every((k) => fs.existsSync(path.join(ROOT, k))) &&
+        !JSON.stringify(fns).includes("runtime");
+    } catch (e) { return false; }
+  })(),
+  "5 explicit paths, maxDuration 10 each, zero runtime keys (2026-10-12 deploy lesson)");
+check("WF21 no ROM/BIOS download phrasing in wave-19 files",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(detailJs + collJs + gamesApiSrc) &&
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b/i.test(detailHtml),
   "legal lane holds");
 
 process.exit(failures ? 1 : 0);

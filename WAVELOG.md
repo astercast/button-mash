@@ -2,6 +2,78 @@
 
 Running record of build waves. Newest first.
 
+## Wave 19 — 2026-10-12 — "Spotlight": the Curator's metadata surfaces (PAUSED MID-BUILD for the Extreme Makeover directive)
+
+**Status: code complete, validation incomplete — paused 2026-10-12 ~01:20 PDT on the
+user's STOP for the Extreme Makeover wave. Work is committed and pushed; nothing
+is lost. To resume: re-run `node scripts/test_wave19.js` when the VM is quiet
+(loadavg 9 during this run caused documented file:// flakes), then finish the
+makeover wave's own validation.**
+
+**What shipped (all in the working tree):**
+- **`api/games.js` gains `?id=<game-id>`** — single-game lookup with the same
+  enriched shape as the list route (`multiplayer`/`kid_safe`/`vibes[]`);
+  wins over the other filters (validated first), 404 `NOT_FOUND` on miss,
+  400 `BAD_INPUT` on a bad id shape. Enrichment factored into `enrichGame()`.
+- **New `game.html` — per-game metadata file** (`assets/js/game-detail.js` +
+  `assets/css/game-detail.css`): `?id=` required; static-first render from
+  `api/v1/games.json`, then the Curator live probe (`/api/games?id=`) overlays
+  multiplayer/vibes with the honest live/cached badge (badge node preserved
+  across re-renders). Sections: GAME FILE kicker, pixel title, genre/tag chips,
+  description, controls, big verified play button (external, new tab), played/
+  beaten toggles on the shared Trophy store, "On these shelves" cross-links
+  (`collections.html#shelf-<id>`), 4 related same-genre cards, prev/next
+  through the catalog, copy game-file link. Honest states: missing/unknown/
+  bad id → "NO GAME ON THIS CHANNEL" + directory link; catalog failure →
+  "CABINET OFFLINE".
+- **`collections.html` Curator-wired**: inline script extracted to
+  `assets/js/collections.js`; static-first render from `api/v1/collections.json`,
+  then `/api/collections` probe overlays resolved titles/URLs with the
+  live/cached badge (new `#collections-badge` in the hero). Every shelf row
+  gains a "» file" deep link to `game.html?id=`. Trophy progress strips,
+  jump nav, copy-shelf-link, and `#shelf-` deep-link scroll all preserved.
+- **Card tooltips → game files**: every card tooltip (arcade.js) gains a
+  "» full game file" link to `game.html?id=`.
+- **Docs**: API.md (`?id=`), GO_LIVE.md/API.md/LIVE_CHECKLIST.md Vercel
+  runtime corrections (see below), llms.txt + sitemap via `build_site.py`
+  (game.html added to PAGES).
+- **Vercel deploy lessons folded in (2026-10-12, three corrections)**: final
+  rule — never set `functions.*.runtime` for Node (omit entirely; Vercel
+  auto-detects; both nodejs22.x and nodejs20.x fail validation), each
+  explicit function path carries `{"maxDuration": 10}` (empty `{}` also
+  fails), explicit paths only (never globs), and the functions map is NOT an
+  allowlist — no static `.js` may live under `api/` (audit: clean — only the
+  5 function files; `api/v1/` only `.json`; zero basename collisions).
+  LIVE_CHECKLIST.md carries the full rule. vercel.json validated as JSON.
+- **Git attribution**: repo-local `user.email`/`user.name` overrides removed;
+  commits use the global `astercast <255064122+astercast@users.noreply.github.com>`.
+- **Agentic surface**: `check_api_workflows.js` WF21 (9 checks) —
+  `?id=` contract, game.html wiring, game-detail.js static-first + badge
+  preservation, collections.js extraction + probe, tooltip deep link,
+  API.md, sitemap/llms, vercel.json rule pin, legal lane.
+
+**Validation so far:**
+- `scripts/build.py`: **BUILD OK — 213 games, 22 collections, 10 emulators, 22 guides**; **LEGAL GATE OK (41 pages, 0 piracy links)**
+- `scripts/check_links.py`: **0 broken (40 pages, 1304 local links)**
+- `node scripts/check_api_workflows.js`: **191/191 pass (WF1–WF21)**
+- `tests/api.test.sh`: **40/40 green** (incl. 4 new `?id=` checks)
+- `node --check`: clean on all new/edited JS
+- `scripts/test_wave19.js` (new, 30 headless checks): **INCOMPLETE — environment-blocked**.
+  Loadavg 8.99 on 2 CPUs during the run (parallel agents). Two real bugs were
+  found and fixed in the code before the pause: (1) the detail page's trophy
+  row reused the bare `trophy-row` class without `data-game`, so arcade.js's
+  shared `syncTrophyRow` disabled its buttons on the first store change —
+  fixed by speaking the card protocol (`data-game` + `data-trophy`); the
+  headless run proved the store itself correct (`toggleBeaten` →
+  `{played:true,beaten:true}`) and the click path dead, which is the
+  signature of this bug. (2) The shelf panel said "Not on any curated shelf"
+  when the shelf list merely failed to load — now an honest "SHELVES OFFLINE"
+  state (`null` vs `[]`). Remaining: re-run the suite when quiet to confirm.
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links; no new
+external links (all deep links are same-origin; play buttons reuse the
+catalog's verified URLs).
+
 ## Wow wave 1 — 2026-10-11 — "Attract Mode": the homepage IS the cabinet
 
 **What shipped** — the first wow-moment wave: the homepage is now a full arcade

@@ -7,7 +7,7 @@
 ## 1. What deploys
 
 One Vercel project serving this repo: **static frontend + 5 serverless
-functions** (Node, zero npm dependencies, `nodejs22.x`) **+ 1 weekly cron**.
+functions** (Node, zero npm dependencies, no `runtime` key — Vercel auto-detects Node; never set `functions.*.runtime`) **+ 1 weekly cron**.
 
 Functions (`api/` — one file = one route):
 
@@ -81,7 +81,7 @@ Architecture spec: `~/workspace/server-program/ARCHITECTURE.md`
 | Bandwidth | 100 GB/mo | static + small JSON; personal-use sites ≈ MBs |
 | Build minutes | 6,000/mo | seconds per deploy; daily cron redeploys ≈ negligible |
 | Function invocations | 100k/mo | edge cache absorbs reads (§1.6); ~1 cron + trickle |
-| Function duration | 10s default (Hobby) | all functions designed ≤10s; no `maxDuration` overrides |
+| Function duration | 10s default (Hobby) | all functions designed ≤10s; `maxDuration: 10` set explicitly because Vercel rejects empty function entries |
 | Cron jobs | daily minimum cadence, UTC, ±60min window, prod only | 1 job/site, staggered (`0 10 * * 1` Mondays for this repo) |
 | Overage billing | **none — usage pauses instead of charging** | design stays far under limits; a pause is a visible signal, not a bill |
 

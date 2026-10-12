@@ -244,6 +244,17 @@
       dl.textContent = "\u25B8 play at " + dom + " \u00B7 opens in a new tab";
       tip.appendChild(dl);
     }
+    if (game.id) {
+      // Wave 19: every card's tooltip leads to the game's full metadata file
+      // (game.html?id=) — the Curator's per-game surface.
+      var fl = document.createElement("p");
+      fl.className = "tip-line tip-file";
+      var fa = document.createElement("a");
+      fa.href = BASE + "game.html?id=" + encodeURIComponent(game.id);
+      fa.textContent = "\u00BB full game file";
+      fl.appendChild(fa);
+      tip.appendChild(fl);
+    }
     card.appendChild(tip);
     if (meta) meta.appendChild(trigger); else card.appendChild(trigger);
 

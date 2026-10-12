@@ -66,7 +66,7 @@ Schema: `api/v1/schema/kid-safe.schema.json` (draft-07).
 ## Server API — live functions (Vercel Wave A/B)
 
 One Vercel project serves this repo: the static frontend above plus Node
-serverless functions under `/api/*` (zero npm dependencies, `nodejs22.x`).
+serverless functions under `/api/*` (zero npm dependencies; no `functions.*.runtime` key — Vercel auto-detects Node).
 Every function answers in the envelope from `api/v1/schema/envelope.json`
 (`ok`, `data`, `meta` with `request_id`; `error` on failure). Same-origin —
 no CORS headers, no auth on public GETs. Full hookup: `GO_LIVE.md`.
@@ -81,7 +81,9 @@ secrets configured — values never leak).
 ### `GET /api/games`
 
 The catalog with live-computed enrichment. Query: `?genre=` `?q=` `?players=`
-`?system=` `?limit=` (default 50, max 200). Every game carries the static
+`?system=` `?limit=` (default 50, max 200), or `?id=<game-id>` for a single
+game (wins over the other filters; 404 `NOT_FOUND` on miss, 400 `BAD_INPUT`
+on a bad id shape). Every game carries the static
 fields plus `multiplayer`, `kid_safe`, `vibes[]` derived server-side.
 Unknown genre → 400 `BAD_INPUT`; unknown system → honest empty list + note.
 Fallback: `api/v1/games.json`.

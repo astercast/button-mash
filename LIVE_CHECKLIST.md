@@ -25,6 +25,29 @@ working repo stays the source of truth for the live wiring.
 Excluded: `scripts/`, `pipeline/`, `tests/`, `skills/`, `.github/`,
 dev notes (`AGENT.md`, `API.md`, `GO_LIVE.md`, `PIPELINE.md`, `WAVELOG.md`).
 
+**Runtime rule (2026-10-12, deploy lesson, corrected twice):** Vercel: never
+set `functions.*.runtime` for Node — omit it entirely. Both `nodejs22.x` and
+`nodejs20.x` fail build validation ("Function Runtimes must have a valid
+version"); `runtime` is only for community/unsupported runtimes and must be
+an npm package name (e.g. `vercel-php@0.5.2`). Vercel auto-detects Node from
+the `api/` directory. Vercel functions entries need ≥1 valid property —
+empty `{}` fails validation ("Function must contain at least one
+property") — so each EXPLICIT function path gets `{"maxDuration": 10}`
+(matches the 10s Hobby execution limit), e.g.
+`"api/health.js": {"maxDuration": 10}`. Explicit paths only, never broad
+globs. CRITICAL: the `functions` map is NOT an allowlist — Vercel
+auto-deploys EVERY `.js` file under `api/` as a serverless function
+regardless, so no static `.js` data file may ever live under `api/`
+(this repo: none — `api/v1/` holds only `.json`). Also: two files sharing
+a basename without extension in the same dir (e.g. `x.flat.js` +
+`x.flat.json`) fail the build with "conflicting paths or names".
+
+No static .js data files under api/ ever — Vercel deploys every .js there
+as a function (functions map is not an allowlist); basename collisions
+(x.js + x.json) fail the build (2026-10-12). Audit 2026-10-12: clean —
+`api/` holds only the 5 function files, `api/v1/` only `.json`, zero
+basename collisions.
+
 ## Functions (5 — Hobby limit is 12)
 
 | method | path | file | notes |

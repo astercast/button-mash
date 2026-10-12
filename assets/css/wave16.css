@@ -260,3 +260,19 @@ html.no-popover .card-tip.tip-open { display: block; }
   font-size: 0.95rem;
   padding: 0.3rem 0.75rem;
 }
+
+/* Wave 19 "Spotlight": shelf rows lead to the per-game file; tooltips too. */
+.shelf-row {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.55rem;
+}
+.shelf-detail-link {
+  font-size: 0.82rem;
+  color: var(--neon-amber);
+  text-decoration: none;
+  border-bottom: 1px dotted currentColor;
+}
+.shelf-detail-link:hover { color: var(--neon-cyan); }
+.tip-file a { color: var(--neon-amber); }

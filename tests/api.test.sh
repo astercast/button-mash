@@ -66,6 +66,16 @@ chk "games unknown genre 400" bash -c "curl -s '$BASE/api/games?genre=nope' | py
 $PYENV; assert e['ok'] is False and e['error']['code']=='BAD_INPUT'\""
 chk "games system=ps1 honest empty" bash -c "curl -sf '$BASE/api/games?system=ps1' | python3 -c \"
 $PYENV; assert e['data']['games']==[] and e['data']['note'] is not None\""
+chk "games ?id=tetrio single + enriched" bash -c "curl -sf '$BASE/api/games?id=tetrio' | python3 -c \"
+$PYENV; gs=e['data']['games']; assert len(gs)==1 and gs[0]['id']=='tetrio', len(gs)
+assert gs[0]['title']=='TETR.IO' and isinstance(gs[0]['kid_safe'], bool) and isinstance(gs[0]['vibes'], list), gs[0].keys()
+assert e['data']['filters']['id']=='tetrio'\""
+chk "games ?id= wins over filters" bash -c "curl -sf '$BASE/api/games?id=tetrio&genre=nope' | python3 -c \"
+$PYENV; assert len(e['data']['games'])==1 and e['data']['games'][0]['id']=='tetrio'\""
+chk "games ?id=nope 404" bash -c "curl -s '$BASE/api/games?id=nope' | python3 -c \"
+$PYENV; assert e['ok'] is False and e['error']['code']=='NOT_FOUND'\""
+chk "games ?id= bad shape 400" bash -c "curl -s '$BASE/api/games?id=BAD_ID!!' | python3 -c \"
+$PYENV; assert e['ok'] is False and e['error']['code']=='BAD_INPUT'\""
 
 echo "--- 3. collections ---"
 chk "collections 200 + envelope valid" bash -c "curl -sf '$BASE/api/collections' | $VALIDATE"
