@@ -142,11 +142,13 @@
     document.head.appendChild(script);
     booted = true;
 
-    $('sys-badge').textContent = SYSTEM_LABELS[core] || core;
-    $('sys-badge').hidden = false;
+    /* Null-guarded: the badge may not exist if the DOM changed. */
+    var sb = $('sys-badge');
+    if (sb) { sb.textContent = SYSTEM_LABELS[core] || core; sb.hidden = false; }
     var sb2 = $('sys-badge2');
     if (sb2) { sb2.textContent = SYSTEM_LABELS[core] || core; }
-    $('player-toolbar').hidden = false;
+    var tb = $('player-toolbar');
+    if (tb) tb.hidden = false;
     updateBiosNote(core);
     /* Player 2.1: apply this system's remembered display prefs, watch for
        the engine canvas (integer scaling), refresh the tools panels. */
@@ -1273,8 +1275,8 @@
       powerOffThen(function () {
         teardown();
         showVeil();
-        $('player-toolbar').hidden = true;
-        $('sys-badge').hidden = true;
+        var ptb = $('player-toolbar'); if (ptb) ptb.hidden = true;
+        var psb = $('sys-badge'); if (psb) psb.hidden = true;
         setStatus('IDLE', false);
         sysSelect.value = 'auto';
         curCore = null; curGameName = null; curGameID = null;

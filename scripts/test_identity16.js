@@ -16,10 +16,20 @@ async function newPage(browser) {
   const page = await browser.newPage();
   const errors = [];
   page.on("console", (m) => {
-    if (m.type() === "error") errors.push("[console.error] " + m.text().slice(0, 200));
+    if (m.type() !== "error") return;
+    const t = m.text();
+    // Wave B: games.html probes /api/games (live-first, 7s timeout). Over
+    // file:// there is no function, so the probe's network failure is the
+    // designed fallback contract (static render + honest cached badge) —
+    // expected noise, not an app error. (Same filter as test_wave19.js.)
+    if (t.indexOf("Failed to load resource: net::ERR_FILE_NOT_FOUND") === 0) return;
+    errors.push("[console.error] " + t.slice(0, 200));
   });
   page.on("pageerror", (e) => errors.push("[pageerror] " + String(e).slice(0, 200)));
-  page.on("requestfailed", (r) => errors.push("[requestfailed] " + r.url().slice(0, 120)));
+  page.on("requestfailed", (r) => {
+    if (r.url().includes("/api/")) return;
+    errors.push("[requestfailed] " + r.url().slice(0, 120));
+  });
   await page.setViewport({ width: 1280, height: 900 });
   return { page, errors };
 }

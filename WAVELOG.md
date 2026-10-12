@@ -2,6 +2,84 @@
 
 Running record of build waves. Newest first.
 
+## Wave 21 — 2026-10-12 — "The Curator": null-guard fix + Game Night engine
+
+**What shipped** — two tracks: (1) the player null-guard the smoke test caught,
+(2) the genius mandate's flagship: a real game-night engine with a ceremony.
+
+**The bug** — the headless smoke test (BM_BOOT_TEST, real GBA ROM upload) found a
+`[pageerror] TypeError: Cannot set properties of null (setting 'textContent')` in
+the engine-failure path. Root cause: `assets/js/player.js`'s `boot()` wrote
+`$('sys-badge').textContent` / `.hidden` and the eject handler wrote
+`$('player-toolbar').hidden` / `$('sys-badge').hidden` with no guards — the only
+unguarded `$().textContent`/`hidden` writes left on the page (every other status
+writer — `veilError`, `setStatus`, `slotsSetStatus`, `sys-badge2` — was already
+guarded per the wave-3.1 null-guard discipline). Fixed with the same `if (el)`
+pattern; `node --check` clean; a repo-wide grep confirms zero remaining
+unguarded `sys-badge`/`player-toolbar` writes. Re-ran
+`BM_BOOT_TEST=1 node ~/workspace/smoke/test.js`: exit 0, zero pageerrors (only
+the known expected CDN tunnel noise — the sandbox can't reach
+cdn.emulatorjs.org; the honest "ENGINE FAILED TO LOAD" veil renders correctly).
+
+**Game Night — the Curator deals your night** (`game-night.html`, new flagship page):
+- **The engine** (`assets/js/curator-night.js`, UMD, DOM-free, scoring **v2.0.0** —
+  deliberately distinct from the wave-A/B v1 quick-lineup engine, which stays
+  untouched with its 256/256 parity gate): headcount 1–12, time 15–240 min,
+  vibe chips (cozy/chaotic/competitive/party/chill), skill mix, kids flag.
+  Real logic: **player-count fit** (40), **session fit** (20),
+  **vibe overlap** (20), **skill-mix fit** (10), **kid-safe** (10) — with two
+  things v1 honestly couldn't do: per-game **session-length estimates** (~min,
+  from genre shape + social tags) and **skill-floor estimates** (1 "anyone can
+  play" / 2 / 3 "spicy"), both coarse curator heuristics, always shown with "~"
+  and declared in every response's plan_notes. The night is **ordered like a
+  good set**: WARM-UP → MAIN EVENTs → SHOWDOWN (groups) / DEEP DIVE (solo) →
+  COOL-DOWN, with an IDLE "INTERMISSION" breather on long nights. House rules:
+  no two neighboring slots share a genre, max 2 per genre, and the timebox is
+  real — estimates must fit inside the night (short nights get repaired with
+  shorter picks; long nights keep dealing mains up to 8 slots). Deterministic:
+  score desc, title asc — the same night always deals the same way. Kids flag
+  restricts to the 113 kid-safe games (zero horror in that corpus, verified).
+- **The ceremony** (`assets/js/curator-night-ui.js` + `assets/css/curator-night.css`):
+  marquee panel with chase-light bulbs, "» SHUFFLING THE DECK…" beat, then slots
+  revealed one at a time like the marquee lighting up — role plates
+  (warm-up amber / showdown pink / cool-down cyan), title links to each game's
+  verified page, `~min · genre · floor · score/100` meta, why[] lines, and a
+  "full game file" deep link per slot. An `aria-live` announcer narrates the
+  reveal; reduced-motion and FX-off skip straight to the full lineup.
+  "Tonight's suggestions" seeds (daily-rotated house presets) fill the form in
+  one tap. Copy-as-text + print-the-night. Client-side only — the 213-game
+  catalog is scored in the browser; nothing stored, nothing sent anywhere.
+- **Wiring**: "Game night" in the nav + footer Play column on every full-chrome
+  page (14 pages; slim-chrome 404/system-picker/guides exempt by design, same as
+  Party planner), cross-links from the party-planner quick lineup ("want the
+  full marquee ceremony?") and a homepage curator-note strip, `build_site.py`
+  PAGES + regenerated sitemap/llms.txt, AGENT.md entry, view-source easter egg
+  ("the curator's deck is stacked. don't tell the regulars.").
+- **Agentic surface**: `check_api_workflows.js` WF23 (11 checks — engine
+  contract, ceremony, keyframe discipline, nav/footer coverage, cross-links,
+  sitemap/llms, legal lane, the player null-guard) — **210/210 pass total**.
+  New `scripts/test_curatornight21.js`: **43/43** (18 engine unit checks incl.
+  determinism, curve shape, timebox fit, variety, kids/solo/short/long edges;
+  25 headless: ceremony beat, staggered reveal, announcer, kids restriction,
+  invalid-input honesty, reduced-motion instant reveal, mobile 390px zero
+  overflow, zero pageerrors throughout).
+
+**Validation:**
+- `scripts/build.py`: **BUILD OK — 213 games, 24 collections, 10 emulators, 22 guides**; **LEGAL GATE OK (42 pages, 0 piracy links)**
+- `scripts/check_links.py`: **0 broken (41 pages, 1376 local links)**
+- `node scripts/check_api_workflows.js`: **210/210 pass (WF1–WF23)**
+- `tests/api.test.sh`: **40/40 green**
+- `node scripts/test_curatornight21.js`: **43/43, zero pageerrors** (new)
+- `~/workspace/smoke/test.js` (standard): converter FULL PASS, index PASS, player engine-failure path clean; `BM_BOOT_TEST=1`: exit 0, zero pageerrors
+- Regression: `test_party_planner11` ALL PASS; `test_trophy18` green after adding the collections section the same `/api/*`-probe filter the games section already had (the `file:///api/collections` failure is the designed fallback contract over file://, unrelated to this wave's two-line nav/footer edit); `test_identity16` got the same `/api/games`-probe filter for its harness (pre-existing wave-B test rot — the probe landed after that suite was written) and its remaining `waitCards` timeout is the documented loadavg-10 renderer stall, reproduced identically on the pristine wave-20 tree — environmental, not a regression
+- `node --check`: clean on all new/edited JS
+- Screenshots inspected: form/marquee desktop, dealt lineup (role plates, why[] lines, summary, honesty notes, copy/print), mobile 390px (stacked, zero overflow), deal-button close-up (coin-slot bezel renders correctly)
+- **Bugs found & fixed in testing**: (1) the player null guard (above); (2) engine overrun on 15-min nights (~25 min dealt) — added greedy timebox repair; (3) 4-hour nights under-filled (~115/240) — long nights now keep dealing mains to 8 slots; (4) test fixture referenced a non-catalog id (`slay-the-spire`) — pinned to `breach-command`; (5) WF23 caught its own legal-lane regex false positive on the engine's "Zero ROMs, zero download links" header comment — reworded to the standard footer phrasing; (6) double "»" on slot file links (li::before + link text) — link text trimmed.
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links; every slot links the catalog's curl-verified game URL or the same-origin game file; estimates are declared estimates, never fake precision.
+
+**Self-assessment**: the engine is the real thing — the curve, variety, and timebox logic produce nights that read like a human planned them (AirConsole warm-up → Agar.io main → Krunker showdown → TETR.IO cool-down is a genuinely good 4-player hour). The ceremony has the attract-mode energy the mandate asked for without tipping into motion spam, and the honesty notes are load-bearing, not decoration. Portfolio bar: the page earns it. What I'd still want: a second pair of eyes on session-estimate buckets against real playtimes, and the server-side v2 twin when the functions get their next pass.
+
 ## Wave 20 — 2026-10-12 — "Extreme Makeover": the 3-second homepage + human-made bar
 
 **What shipped** — the user's verdict on the live sites ("a lot at once when someone

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game Night — the Curator deals your night — Button Mash</title>
+<meta name="description" content="Headcount, hours, mood — the Curator scores all 213 verified browser games and deals your game night like a good set: warm-up, main events, showdown, cool-down. Runs in your browser, nothing stored.">
+<!-- the curator's deck is stacked. don't tell the regulars. -->
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/wave16.css">
+<link rel="stylesheet" href="assets/css/makeover.css">
+<link rel="stylesheet" href="assets/css/curator-night.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="kids.html">Kids corner</a></li>
+        <li><a href="collections.html">Collections</a></li>
+        <li><a href="party-planner.html">Party planner</a></li>
+        <li><a href="game-night.html" aria-current="page">Game night</a></li>
+        <li><a href="tournament.html">Tournament</a></li>
+        <li><a href="emulation.html">Emulation</a></li>
+        <li><a href="monster-taming.html">Monster Taming</a></li>
+        <li><a href="play-legal.html">Play Legal</a></li>
+        <li><a href="trophy-room.html">Trophy room</a></li>
+        <li><a class="nav-cta" href="player.html">» Play</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap" style="padding-top:2.5rem">
+
+    <div class="cn-marquee" role="region" aria-label="Game night marquee">
+      <div class="marquee-bulbs" aria-hidden="true"></div>
+      <p class="kicker">» The Curator presents</p>
+      <h1>Game night, <span class="pink">dealt.</span></h1>
+      <p class="lede">Tell the Curator the headcount, the hours, and the mood. The engine scores
+      all <strong>213 verified browser games</strong> and deals your night like a good set —
+      a warm-up, main events, a showdown, a cool-down. Everything below runs in your
+      browser; nothing is stored, nothing is sent anywhere.</p>
+      <div class="marquee-bulbs bottom" aria-hidden="true"></div>
+    </div>
+
+    <p class="cn-hint" id="cn-catalog-meta" role="status">Catalog: loading…</p>
+
+    <section class="cn-seeds" aria-labelledby="cn-seeds-h">
+      <h2 id="cn-seeds-h">» Tonight's suggestions</h2>
+      <div class="cn-seed-row" id="cn-seeds"></div>
+    </section>
+
+    <section aria-labelledby="cn-form-h">
+      <h2 id="cn-form-h" class="sr-only">Deal your night</h2>
+      <form class="cn-panel" id="cn-form" aria-describedby="cn-form-desc">
+        <p id="cn-form-desc" class="cn-hint">Vibes: cozy = gentle, no fail states · chaotic = loud and silly ·
+        competitive = score-chasers · party = made for groups · chill = low-skill-floor hangouts.</p>
+
+        <div class="cn-range-row">
+          <label for="cn-group">Headcount <span class="cn-range-val" id="cn-group-val">4 players</span></label>
+          <input type="range" id="cn-group" name="cn-group" min="1" max="12" step="1" value="4">
+        </div>
+
+        <div class="cn-range-row">
+          <label for="cn-minutes">Time available <span class="cn-range-val" id="cn-minutes-val">1h</span></label>
+          <input type="range" id="cn-minutes" name="cn-minutes" min="15" max="240" step="15" value="60">
+        </div>
+
+        <fieldset>
+          <legend>Vibe — pick any</legend>
+          <div class="cn-vibes" id="cn-vibes">
+            <label class="cn-vibe"><input type="checkbox" value="cozy"><span>Cozy</span></label>
+            <label class="cn-vibe"><input type="checkbox" value="chaotic" checked><span>Chaotic</span></label>
+            <label class="cn-vibe"><input type="checkbox" value="competitive"><span>Competitive</span></label>
+            <label class="cn-vibe"><input type="checkbox" value="party" checked><span>Party</span></label>
+            <label class="cn-vibe"><input type="checkbox" value="chill"><span>Chill</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Skill mix</legend>
+          <div class="cn-radios" role="radiogroup" aria-label="Skill mix">
+            <label><input type="radio" name="cn-skill" value="mixed" checked> Mixed table</label>
+            <label><input type="radio" name="cn-skill" value="gamers"> Mostly gamers</label>
+            <label><input type="radio" name="cn-skill" value="casual"> Mostly non-gamers</label>
+          </div>
+        </fieldset>
+
+        <label class="cn-check"><input type="checkbox" id="cn-kids"> Kids at the table — kid-safe games only</label>
+
+        <p class="cn-hint">Session lengths (~min) and skill floors are the Curator's estimates from each
+        game's genre shape — honest buckets, never measured playtimes. The lineup always fits your timebox.</p>
+
+        <div class="cn-deal-row">
+          <button class="btn btn-primary" id="cn-deal" type="submit">» Deal the night</button>
+        </div>
+      </form>
+      <div id="cn-error" class="cn-error" role="alert" hidden></div>
+    </section>
+
+    <p id="cn-announcer" class="sr-only" aria-live="polite"></p>
+    <section class="cn-stage" id="cn-stage" aria-label="Your dealt lineup"></section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>Play</h3>
+        <ul>
+          <li><a href="player.html">The Player</a></li>
+          <li><a href="converter.html">ROM → Browser Game</a></li>
+          <li><a href="party-planner.html">Party planner</a></li>
+          <li><a href="game-night.html">Game night</a></li>
+        <li><a href="tournament.html">Tournament</a></li>
+        <li><a href="kids.html">Kids corner</a></li>
+          <li><a href="games.html">Game directory</a></li>
+          <li><a href="collections.html">Collections</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Learn</h3>
+        <ul>
+          <li><a href="emulation.html">Emulation hub</a></li>
+          <li><a href="guides/gba-wasm.html">GBA → WASM explainer</a></li>
+          <li><a href="monster-taming.html">Monster-taming corner</a></li>
+        <li><a href="parents.html">Parent guide</a></li>
+          <li><a href="play-legal.html">Play it legal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>For machines</h3>
+        <ul>
+          <li><a href="data/v1/">API v1</a></li>
+          <li><a href="API.md">API.md</a></li>
+          <li><a href="llms.txt">llms.txt</a></li>
+          <li><a href="skills/">skills/</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-note">
+      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links. Your files never leave your machine.</span>
+    </div>
+    <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>
+  </div>
+</footer>
+
+<script src="assets/js/store.js"></script>
+<script src="assets/js/arcade.js"></script>
+<script src="assets/js/curator-night.js"></script>
+<script src="assets/js/curator-night-ui.js"></script>
+</body>
+</html>

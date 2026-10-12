@@ -1,0 +1,251 @@
+/* curator-night.css — Game Night: the Curator deals your night (wave 21).
+   Marquee ceremony styling over the shared Arcade identity. All keyframe
+   motion is transform/opacity only; everything dies under
+   prefers-reduced-motion and the FX-off toggle. */
+
+/* ============ The marquee ============ */
+.cn-marquee {
+  border: 2px solid var(--edge-bright);
+  border-radius: var(--r-lg);
+  background:
+    var(--grille, none),
+    linear-gradient(180deg, #161624 0%, #0c0c17 100%);
+  box-shadow: var(--shadow-marquee);
+  padding: 1.1rem 1.4rem 1.3rem;
+  margin-bottom: 1.75rem;
+  position: relative;
+  overflow: hidden;
+}
+.cn-marquee .marquee-bulbs { height: 8px; color: var(--neon-amber);
+  background-image:
+    radial-gradient(circle, rgba(255, 176, 46, 0.22) 2.4px, transparent 3.2px),
+    var(--bulb);
+  background-size: var(--chase-period) 8px, var(--chase-period) 8px;
+  background-repeat: repeat-x;
+}
+.cn-marquee .marquee-bulbs.bottom { margin-top: 1rem; }
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.fx-off) .cn-marquee .marquee-bulbs { animation: chase-x var(--chase-dur) infinite; }
+}
+.cn-marquee h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 4.6vw, 2.3rem);
+  line-height: 1.35;
+  margin: 1rem 0 0.5rem;
+  color: var(--ink);
+  text-shadow: 0 0 18px rgba(255, 46, 136, 0.55), 0 0 42px rgba(0, 229, 255, 0.25);
+  letter-spacing: 0.04em;
+}
+.cn-marquee h1 .pink { color: var(--neon-pink); }
+.cn-marquee .kicker {
+  font-family: "VT323", ui-monospace, monospace;
+  font-size: 1.15rem;
+  letter-spacing: 0.14em;
+  color: var(--neon-cyan);
+  text-transform: uppercase;
+}
+.cn-marquee .lede { color: var(--ink-dim); max-width: 46rem; margin: 0.4rem 0 0; }
+.cn-marquee .lede strong { color: var(--ink); }
+
+/* ============ The form: one cabinet panel ============ */
+.cn-panel {
+  border: 2px solid var(--edge-bright);
+  border-radius: var(--r-md);
+  background: var(--panel);
+  padding: 1.25rem 1.4rem;
+  margin-bottom: 1.5rem;
+}
+.cn-panel fieldset { border: 0; padding: 0; margin: 0 0 1.2rem; }
+.cn-panel fieldset:last-of-type { margin-bottom: 0.6rem; }
+.cn-panel legend {
+  font-family: "VT323", ui-monospace, monospace;
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--neon-amber);
+  padding: 0;
+  margin-bottom: 0.55rem;
+}
+.cn-range-row { display: grid; gap: 0.35rem; margin-bottom: 1.1rem; }
+.cn-range-row label { font-weight: 700; display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.cn-range-val {
+  font-family: "VT323", ui-monospace, monospace;
+  font-size: 1.35rem;
+  color: var(--neon-lime);
+  min-width: 7rem;
+  text-align: right;
+}
+.cn-panel input[type="range"] {
+  width: 100%;
+  accent-color: var(--neon-pink);
+  height: 2rem;
+}
+.cn-vibes { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+.cn-vibe { position: relative; }
+.cn-vibe input {
+  position: absolute; opacity: 0; width: 1px; height: 1px;
+}
+.cn-vibe span {
+  display: inline-block;
+  padding: 0.5rem 0.95rem;
+  border: 2px solid var(--edge-bright);
+  border-radius: 999px;
+  background: var(--bg);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+.cn-vibe input:checked + span {
+  border-color: var(--neon-pink);
+  box-shadow: 0 0 14px rgba(255, 46, 136, 0.45), inset 0 0 8px rgba(255, 46, 136, 0.2);
+  color: var(--ink);
+}
+.cn-vibe input:focus-visible + span {
+  outline: 3px solid var(--neon-lime);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.fx-off) .cn-vibe span:hover { transform: translateY(-2px); }
+}
+.cn-radios { display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem; }
+.cn-radios label { display: flex; align-items: center; gap: 0.45rem; cursor: pointer; padding: 0.3rem 0.2rem; font-weight: 600; }
+.cn-radios input { accent-color: var(--neon-pink); width: 1.1rem; height: 1.1rem; }
+.cn-check { display: flex; align-items: center; gap: 0.55rem; cursor: pointer; font-weight: 600; padding: 0.3rem 0; }
+.cn-check input { accent-color: var(--neon-pink); width: 1.2rem; height: 1.2rem; }
+.cn-hint { color: var(--ink-dim); font-size: 0.9rem; margin: 0.35rem 0 0; }
+.cn-error {
+  border: 2px solid var(--neon-pink);
+  border-radius: var(--r-md);
+  padding: 0.8rem 1rem;
+  color: var(--neon-pink);
+  font-weight: 700;
+  margin: 0 0 1rem;
+  background: rgba(255, 46, 136, 0.07);
+}
+.cn-deal-row { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; margin-top: 1.1rem; }
+
+/* ============ Tonight's suggestions (attract-mode seeds) ============ */
+.cn-seeds { margin-bottom: 1.5rem; }
+.cn-seeds h2 {
+  font-family: "VT323", ui-monospace, monospace;
+  font-size: 1.25rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--neon-cyan);
+  margin: 0 0 0.6rem;
+}
+.cn-seed-row { display: grid; gap: 0.6rem; }
+@media (min-width: 720px) { .cn-seed-row { grid-template-columns: repeat(3, 1fr); } }
+.cn-seed {
+  text-align: left;
+  border: 2px solid var(--edge-bright);
+  border-radius: var(--r-md);
+  background: var(--panel);
+  color: var(--ink);
+  padding: 0.7rem 0.9rem;
+  cursor: pointer;
+  font: inherit;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.cn-seed:hover, .cn-seed:focus-visible { border-color: var(--neon-amber); box-shadow: 0 0 12px rgba(255, 176, 46, 0.3); }
+.cn-seed strong { display: block; font-family: "VT323", ui-monospace, monospace; font-size: 1.15rem; letter-spacing: 0.06em; color: var(--neon-amber); }
+.cn-seed small { color: var(--ink-dim); }
+
+/* ============ The ceremony ============ */
+.cn-stage { margin: 0 0 1.5rem; }
+.cn-shuffle {
+  text-align: center;
+  padding: 2.2rem 1rem;
+  border: 2px dashed var(--edge-bright);
+  border-radius: var(--r-md);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  color: var(--neon-amber);
+}
+.cn-slots { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; counter-reset: slot; }
+.cn-slot {
+  border: 2px solid var(--edge-bright);
+  border-radius: var(--r-md);
+  background: linear-gradient(180deg, #14141f 0%, #0b0b14 100%);
+  padding: 1rem 1.2rem 1.1rem;
+  position: relative;
+  overflow: hidden;
+}
+.cn-slot::before {
+  content: "";
+  position: absolute; inset: 0 auto 0 0; width: 6px;
+  background: linear-gradient(180deg, var(--neon-pink), var(--neon-amber));
+  opacity: 0.9;
+}
+.cn-slot-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 0.9rem; margin-bottom: 0.35rem; }
+.cn-role {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--neon-amber);
+  border: 2px solid var(--neon-amber);
+  border-radius: 6px;
+  padding: 0.3rem 0.55rem;
+  white-space: nowrap;
+}
+.cn-slot[data-role="showdown"] .cn-role { color: var(--neon-pink); border-color: var(--neon-pink); }
+.cn-slot[data-role="cooldown"] .cn-role { color: var(--neon-cyan); border-color: var(--neon-cyan); }
+.cn-slot[data-role="intermission"] .cn-role { color: var(--neon-lime); border-color: var(--neon-lime); }
+.cn-slot h3 { margin: 0; font-size: 1.35rem; }
+.cn-slot h3 a { color: var(--ink); text-decoration: none; }
+.cn-slot h3 a:hover { color: var(--neon-pink); text-decoration: underline; }
+.cn-meta {
+  display: flex; flex-wrap: wrap; gap: 0.35rem 0.8rem;
+  font-family: "VT323", ui-monospace, monospace;
+  font-size: 1.1rem;
+  color: var(--ink-dim);
+  margin: 0.25rem 0 0.5rem;
+}
+.cn-meta .kid { color: var(--neon-lime); }
+.cn-why { margin: 0.4rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.25rem; }
+.cn-why li { color: var(--ink-dim); font-size: 0.93rem; padding-left: 1.1rem; position: relative; }
+.cn-why li::before { content: "»"; position: absolute; left: 0; color: var(--neon-pink); }
+/* Ceremony reveal: staggered power-on. Transform/opacity only; the reveal
+   helper in the UI skips the delay entirely under reduced-motion/FX-off. */
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.fx-off) .cn-slot {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+    animation: cn-slot-in 0.45s cubic-bezier(0.2, 0.9, 0.25, 1.2) forwards;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+}
+@keyframes cn-slot-in {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ============ Summary + notes ============ */
+.cn-summary {
+  border: 2px solid var(--neon-lime);
+  border-radius: var(--r-md);
+  padding: 0.9rem 1.2rem;
+  margin: 0 0 1.25rem;
+  background: rgba(182, 255, 46, 0.05);
+  font-weight: 600;
+}
+.cn-summary .mono { font-family: "VT323", ui-monospace, monospace; font-size: 1.15rem; color: var(--neon-lime); }
+.cn-notes { color: var(--ink-dim); font-size: 0.92rem; margin: 0 0 1.25rem; }
+.cn-notes li { margin-bottom: 0.4rem; }
+.cn-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin: 0 0 2rem; }
+.cn-copy-note { font-size: 0.85rem; color: var(--ink-dim); overflow-wrap: anywhere; }
+
+/* ============ Print: the night on paper ============ */
+@media print {
+  .site-header, .site-footer, .cn-panel, .cn-seeds, .cn-actions, .skip-link,
+  .cn-shuffle, .cn-deal-row { display: none !important; }
+  body { background: #fff; color: #000; }
+  .cn-marquee, .cn-slot, .cn-summary { break-inside: avoid; border: 1px solid #000; background: #fff; box-shadow: none; }
+  .cn-marquee h1, .cn-role, .cn-meta, .cn-why li, .cn-notes { color: #000; text-shadow: none; }
+  .cn-slot::before { display: none; }
+  a { color: #000; text-decoration: underline; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cn-marquee .marquee-bulbs { animation: none !important; }
+  .cn-slot { animation: none !important; opacity: 1 !important; transform: none !important; }
+}

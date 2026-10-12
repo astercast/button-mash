@@ -1135,4 +1135,82 @@ check("WF22 LIVE_CHECKLIST carries the data/v1 rule",
   liveChecklist22.includes("data/v1/"),
   "deploy lesson recorded");
 
+// Wave 21 "The Curator": game-night engine v2 + marquee ceremony.
+const gnHtml = fs.readFileSync(path.join(ROOT, "game-night.html"), "utf8");
+const cnEngine = fs.readFileSync(path.join(ROOT, "assets/js/curator-night.js"), "utf8");
+const cnUi = fs.readFileSync(path.join(ROOT, "assets/js/curator-night-ui.js"), "utf8");
+const cnCss = fs.readFileSync(path.join(ROOT, "assets/css/curator-night.css"), "utf8");
+const v1engine = fs.readFileSync(path.join(ROOT, "lib/game-night.js"), "utf8");
+check("WF23 game-night.html: marquee + form + ceremony stage wired",
+  gnHtml.includes("cn-marquee") && gnHtml.includes('id="cn-form"') &&
+  gnHtml.includes('id="cn-group"') && gnHtml.includes('id="cn-minutes"') &&
+  gnHtml.includes('id="cn-vibes"') && gnHtml.includes('id="cn-deal"') &&
+  gnHtml.includes('id="cn-announcer"') && gnHtml.includes('id="cn-stage"') &&
+  gnHtml.includes('id="cn-error"') && gnHtml.includes("curator-night.js") &&
+  gnHtml.includes("curator-night-ui.js") && gnHtml.includes("curator-night.css") &&
+  gnHtml.includes("the curator's deck is stacked"),
+  "marquee, sliders, vibe chips, deal button, aria-live announcer, stage, easter egg");
+check("WF23 engine v2: UMD, DOM-free, scoring 2.0.0, honesty declared",
+  cnEngine.includes("SCORING_VERSION = '2.0.0'") &&
+  cnEngine.includes("typeof module") && !/document\.|window\./.test(cnEngine) &&
+  /curator estimates/i.test(cnEngine) && cnEngine.includes("roleSequence") &&
+  cnEngine.includes("assemble") && cnEngine.includes("validateInputs"),
+  "UMD, no DOM, curve + variety + timebox fit, estimates declared");
+check("WF23 v1 quick-lineup engine untouched (parity gate intact)",
+  v1engine.includes('SCORING_VERSION = "1.0.0"') &&
+  fs.readFileSync(path.join(ROOT, "assets/js/game-night.js"), "utf8").includes("do not hand-edit"),
+  "lib/game-night.js still v1.0.0, client twin still generated");
+check("WF23 ceremony: staggered reveal + reduced-motion/FX-off instant path",
+  cnUi.includes("--reveal-delay") && cnUi.includes("aria-live") &&
+  cnUi.includes("prefers-reduced-motion") && cnUi.includes("fx-off") &&
+  cnUi.includes("SHUFFLING THE DECK") && cnCss.includes("@keyframes cn-slot-in"),
+  "shuffle beat, per-slot delay, announcer, motion-safe");
+check("WF23 keyframes are transform/opacity only (animation discipline)",
+  (() => {
+    const blocks = cnCss.match(/@keyframes[^{]+\{[^}]+\}[^}]*\}/g) || [];
+    return blocks.length > 0 && blocks.every((b) => !/(background|color|width|height|margin|padding|border|box-shadow|top|left)\s*:/i.test(b));
+  })(),
+  "motion tokens respected");
+check("WF23 nav links Game night on every full-nav page",
+  (() => {
+    const files = fs.readdirSync(ROOT).filter((f) => f.endsWith(".html"));
+    return files.every((f) => {
+      const h = fs.readFileSync(path.join(ROOT, f), "utf8");
+      const nav = (h.match(/<nav class="site-nav"[^>]*>[\s\S]*?<\/nav>/) || [""])[0];
+      if (!/>Party planner<\/a>/.test(nav)) return true; /* slim navs (404, system-picker) exempt */
+      if (f === "game-night.html") return /aria-current="page">Game night/.test(nav);
+      return />Game night<\/a>/.test(nav);
+    });
+  })(),
+  "full navs carry it; game-night.html marks current");
+check("WF23 footer Play column links Game night",
+  (() => {
+    const files = fs.readdirSync(ROOT).filter((f) => f.endsWith(".html"));
+    return files.every((f) => {
+      const h = fs.readFileSync(path.join(ROOT, f), "utf8");
+      const foot = (h.match(/<footer class="site-footer">[\s\S]*?<\/footer>/) || [""])[0];
+      if (!/>Party planner<\/a>/.test(foot)) return true; /* slim footers exempt */
+      return />Game night<\/a>/.test(foot);
+    });
+  })(),
+  "full footers carry it");
+check("WF23 cross-links: party-planner + index point at game-night.html",
+  fs.readFileSync(path.join(ROOT, "party-planner.html"), "utf8").includes('href="game-night.html">» Game night</a>') &&
+  indexHtml22.includes('href="game-night.html"'),
+  "quick lineup hands off to the ceremony; homepage promo strip");
+check("WF23 sitemap + llms.txt include game-night.html",
+  fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8").includes("game-night.html") &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("game-night.html"),
+  "agentic surface regenerated");
+check("WF23 no ROM/BIOS download phrasing in wave-21 files",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(gnHtml + cnUi + cnCss) &&
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b/i.test(cnEngine),
+  "legal lane holds; engine links catalog URLs only");
+check("WF23 player.html null-guard fix: badge/toolbar writes guarded",
+  (() => {
+    const p = fs.readFileSync(path.join(ROOT, "assets/js/player.js"), "utf8");
+    return !/\$\('(sys-badge|player-toolbar)'\)\.(textContent|hidden)\s*=/.test(p);
+  })(),
+  "no unguarded sys-badge/player-toolbar writes remain");
+
 process.exit(failures ? 1 : 0);

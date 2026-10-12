@@ -414,7 +414,16 @@ async function newPage(browser) {
           .every((b) => b.getAttribute("aria-label") && /played/.test(b.getAttribute("aria-label"))));
       check("collections: bars carry aria-labels", bars, "labeled");
       await page.screenshot({ path: "/tmp/trophy-collections.png", fullPage: false });
-      check("collections.html zero pageerrors", errors.length === 0, errors.join(" | ").slice(0, 300) || "clean");
+      /* Wave 19: collections.html probes /api/collections (live-first). Over
+         file:// that probe's network failure is the designed fallback contract
+         (same filter as the games.html section above) — only real errors fail. */
+      const collApiFailed = errors.some((e) => /^\[requestfailed\] file:\/\/\/api\//.test(e));
+      const collReal = errors.filter((e) => {
+        if (/^\[requestfailed\] file:\/\/\/api\//.test(e)) return false;
+        if (/Failed to load resource/.test(e) && collApiFailed) return false;
+        return true;
+      });
+      check("collections.html zero pageerrors", collReal.length === 0, collReal.join(" | ").slice(0, 300) || "clean");
       await page.close();
     }
 
