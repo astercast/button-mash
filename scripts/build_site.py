@@ -16,6 +16,7 @@ PAGES = [
     ("player.html", "The Player: bring-your-own-file EmulatorJS console (20+ systems)"),
     ("converter.html", "ROM-to-browser-game converter (GBA/GB/GBC/NES file in, self-contained .html out)"),
     ("party-planner.html", "Party planner: timed game-night rotation plans across party-tagged games"),
+    ("tournament.html", "Tournament brackets: seeded 2-16 player single elimination, best-of-N per round, one party game per round, print + copy"),
     ("system-picker.html", "Which system should you emulate? — 1-minute quiz with honest device-limit recommendations"),
     ("collections.html", "Hand-built game collections"),
     ("emulation.html", "Emulation hub: guides, explainers, legal sources"),
@@ -71,6 +72,7 @@ def build_llms():
     lines.append("- player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.0: save-state export/import, keyboard+gamepad remap UI, cheat-code entry, CRT filter, honest netplay notes)")
     lines.append("- converter.html — ROM-to-browser-game converter (GBA/GB/GBC/NES in, self-contained .html out)")
     lines.append("- party-planner.html — timed game-night rotation planner across party-tagged games (print-friendly)")
+    lines.append("- tournament.html — single-elimination tournament brackets for game night: 2-16 players, standard seeding with honest byes, best-of-N per round, one party game per round, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids)")
     lines.append("- games.html — the 114-game directory (search, genre filters, favorites, random game, game of the day)")
     lines.append("- collections.html — 11 hand-built collections")
     lines.append("- genres/roguelike.html, genres/cozy.html — genre deep dives with start-here picks")

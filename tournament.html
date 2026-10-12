@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tournament brackets — Button Mash</title>
+<meta name="description" content="Run a single-elimination tournament for game night: 2–16 players, seeded bracket, best-of-N per round, one party game per round. Saves in your browser, prints clean, copies to text.">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<style>
+  .btn-small { font-size:.85rem; padding:.35rem .7rem; }
+  .t-setup { display:grid; gap:1rem; max-width:44rem; }
+  .t-setup textarea { width:100%; min-height:10rem; font-size:1rem; padding:.7rem .8rem; border-radius:8px; border:2px solid var(--edge-bright); background:var(--panel); color:var(--ink); font-family:inherit; line-height:1.5; }
+  .t-setup-row { display:flex; flex-wrap:wrap; gap:.7rem; align-items:center; }
+  #t-count { color:var(--ink-dim); font-size:.92rem; }
+  #t-setup-error { color:var(--neon-pink); font-weight:600; min-height:1.4em; margin:0; }
+  .t-cols { display:grid; gap:1.25rem; }
+  @media (min-width:60rem) { .t-cols { grid-template-columns:repeat(auto-fit, minmax(17rem, 1fr)); } }
+  .t-round { border:2px solid var(--edge-bright); border-radius:var(--r-md); padding:1rem; background:var(--panel); }
+  .t-round-head h3 { margin:.1rem 0 .6rem; }
+  .t-setting { display:flex; align-items:center; gap:.5rem; margin:.4rem 0; font-size:.9rem; color:var(--ink-dim); }
+  .t-setting select { font-size:.92rem; padding:.35rem .5rem; border-radius:8px; border:2px solid var(--edge-bright); background:var(--bg); color:var(--ink); max-width:100%; }
+  .t-game-link { display:inline-block; margin-top:.3rem; font-size:.9rem; }
+  .t-matches { list-style:none; padding:0; margin:1rem 0 0; display:grid; gap:.9rem; counter-reset:match; }
+  .t-match { border:1px solid var(--edge-bright); border-radius:8px; padding:.8rem; background:var(--bg); }
+  .t-match.is-decided { border-color:var(--neon-lime); }
+  .t-match-head { margin:0 0 .5rem; font-size:.8rem; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.04em; }
+  .t-players { list-style:none; padding:0; margin:0; display:grid; gap:.5rem; }
+  .t-player { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; padding:.45rem .55rem; border-radius:6px; background:var(--panel); }
+  .t-player.is-winner { outline:2px solid var(--neon-lime); }
+  .t-player.is-loser { opacity:.62; }
+  .t-player.is-bye { font-style:italic; color:var(--ink-dim); }
+  .t-name { font-weight:600; margin-right:auto; }
+  .t-badge { font-size:.8rem; color:var(--neon-lime); font-weight:700; }
+  .t-tbd { color:var(--ink-dim); font-style:italic; }
+  .t-bye { font-size:.92rem; }
+  .t-score { display:flex; align-items:center; gap:.35rem; }
+  .t-score-num { font-family:ui-monospace,monospace; font-weight:700; min-width:1.6em; text-align:center; border:1px solid var(--edge-bright); border-radius:6px; padding:.15rem .3rem; }
+  .t-clear { margin-top:.6rem; }
+  #t-progress { font-weight:600; }
+  #t-bye-note { color:var(--ink-dim); font-size:.92rem; }
+  #t-champion { border:3px solid var(--neon-amber); border-radius:var(--r-md); padding:1.5rem; text-align:center; background:var(--panel); margin:1.5rem 0; }
+  #t-champion h2 { margin:.4rem 0; color:var(--neon-amber); }
+  .t-trophy { font-size:2.6rem; margin:0; }
+  .t-champion-sub { color:var(--ink-dim); margin:.3rem 0 0; }
+  .t-actions { display:flex; flex-wrap:wrap; gap:.7rem; margin:1.25rem 0; }
+  .t-note { color:var(--ink-dim); font-size:.92rem; max-width:44rem; }
+  .t-print-only { display:none; }
+  @media print {
+    .site-header, .site-footer, .t-setup, .t-actions, .t-note, .skip-link, #t-live,
+    .t-setting select, .t-setting, .t-player button, .t-clear, .t-game-link { display:none !important; }
+    .t-print-only { display:block !important; color:#000; font-size:.9rem; margin:.3rem 0; }
+    body { background:#fff; color:#000; }
+    .t-round, .t-match, .t-player { border:1px solid #000; background:#fff; break-inside:avoid; }
+    .t-player.is-loser { opacity:1; }
+    .t-player.is-winner { outline:2px solid #000; }
+    #t-champion { border:3px solid #000; background:#fff; }
+    #t-champion h2 { color:#000; }
+    a { color:#000; text-decoration:none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation:none !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="collections.html">Collections</a></li>
+        <li><a href="party-planner.html">Party planner</a></li>
+        <li><a href="tournament.html" aria-current="page">Tournament</a></li>
+        <li><a href="emulation.html">Emulation</a></li>
+        <li><a href="monster-taming.html">Monster Taming</a></li>
+        <li><a href="play-legal.html">Play Legal</a></li>
+        <li><a class="nav-cta" href="player.html">▶ Play</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <span class="kicker">Interactive tool</span>
+      <h1>Game night, <span class="pink">settled.</span></h1>
+      <p class="lede">Seeded single-elimination brackets for 2–16 players. Pick a party game per round, set best-of-N per round, tap to advance winners. Saves in your browser — print it or copy it to the group chat.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="t-note">Everything runs in your browser — no accounts, no uploads. Game options come from the <a href="games.html">party-tagged catalog</a>; every link is a real, verified game.</p>
+
+      <h2>1. Players</h2>
+      <div class="t-setup">
+        <label for="t-players"><strong>Player names</strong> — one per line. Entry order is the seed order (first name = top seed).</label>
+        <textarea id="t-players" placeholder="Ana&#10;Ben&#10;Cara&#10;Dev&#10;…"></textarea>
+        <p id="t-count" aria-live="polite"></p>
+        <p id="t-setup-error" role="alert"></p>
+        <div class="t-setup-row">
+          <button class="btn btn-primary" id="t-generate" type="button">🏆 Generate bracket</button>
+          <button class="btn btn-ghost" id="t-shuffle" type="button">🔀 Shuffle seeds</button>
+        </div>
+      </div>
+
+      <div id="t-bracket-wrap" hidden>
+        <h2 id="t-bracket-heading" tabindex="-1">2. The bracket</h2>
+        <p id="t-progress" aria-live="polite"></p>
+        <p id="t-bye-note"></p>
+        <div id="t-champion" hidden></div>
+        <div id="t-bracket"></div>
+        <div class="t-actions" id="t-actions" hidden>
+          <button class="btn btn-cyan" id="t-print" type="button">🖨️ Print bracket</button>
+          <button class="btn" id="t-copy" type="button">📋 Copy my bracket</button>
+          <button class="btn btn-ghost" id="t-startover" type="button">↺ Start over</button>
+        </div>
+        <p class="t-note">Tip: the party planner hands off here — build a <a href="party-planner.html">game-night plan</a> and hit “Turn this plan into a tournament” to pre-fill players and games.</p>
+      </div>
+
+      <p id="t-live" class="sr-only" aria-live="polite"></p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>Play</h3>
+        <ul>
+          <li><a href="player.html">The Player</a></li>
+          <li><a href="converter.html">ROM → Browser Game</a></li>
+          <li><a href="party-planner.html">Party planner</a></li>
+        <li><a href="tournament.html">Tournament</a></li>
+          <li><a href="games.html">Game directory</a></li>
+          <li><a href="collections.html">Collections</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Learn</h3>
+        <ul>
+          <li><a href="emulation.html">Emulation hub</a></li>
+          <li><a href="guides/gba-wasm.html">GBA → WASM explainer</a></li>
+          <li><a href="monster-taming.html">Monster-taming corner</a></li>
+          <li><a href="play-legal.html">Play it legal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>For machines</h3>
+        <ul>
+          <li><a href="api/v1/">API v1</a></li>
+          <li><a href="API.md">API.md</a></li>
+          <li><a href="llms.txt">llms.txt</a></li>
+          <li><a href="skills/">skills/</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-note">
+      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links. Your files never leave your machine.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/store.js"></script>
+<script src="assets/js/bracket.js"></script>
+<script src="assets/js/tournament.js"></script>
+</body>
+</html>

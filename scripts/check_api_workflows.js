@@ -98,4 +98,42 @@ check("WF5 picker quiz page exists and scores",
   fs.readFileSync(path.join(ROOT, "assets/js/system-picker.js"), "utf8").includes("ineligible"),
   "quiz with weak-device exclusions");
 
+// Workflow 6 (AGENT.md): "Run a tournament for game night"
+const tourneyHtml = fs.readFileSync(path.join(ROOT, "tournament.html"), "utf8");
+const tourneyJs = fs.readFileSync(path.join(ROOT, "assets/js/tournament.js"), "utf8");
+check("WF6 tournament page wires bracket logic + UI",
+  tourneyHtml.includes("assets/js/bracket.js") && tourneyHtml.includes("assets/js/tournament.js") &&
+  tourneyJs.includes("bm_tournament_v1"),
+  "bracket.js + tournament.js + localStorage");
+check("WF6 per-round game picker draws from the party catalog",
+  tourneyJs.includes("api/v1/games.json") && tourneyJs.includes("indexOf('party')"),
+  "party-tagged dropdown");
+check("WF6 print + copy controls present",
+  tourneyHtml.includes('id="t-print"') && tourneyHtml.includes('id="t-copy"') &&
+  tourneyHtml.includes("@media print"),
+  "print layout + copy-my-bracket");
+check("WF6 champion banner is reduced-motion safe",
+  !/animation|@keyframes|flash/i.test(tourneyHtml.split("<style>")[1].split("</style>")[0] + tourneyJs) ||
+  tourneyHtml.includes("prefers-reduced-motion"),
+  "no flashing, static banner");
+check("WF6 party planner hands off to the tournament",
+  fs.readFileSync(path.join(ROOT, "assets/js/party.js"), "utf8").includes("tournament.html?players=") &&
+  tourneyJs.includes("URLSearchParams"),
+  "?players=N&games=ids handoff");
+check("WF6 tournament-runner skill exists",
+  fs.existsSync(path.join(ROOT, "skills/tournament-runner.md")),
+  "skills/tournament-runner.md");
+// Bracket math itself: run the logic suite inline
+const Bracket = require(path.join(ROOT, "assets/js/bracket.js"));
+const t6 = Bracket.createTournament(["A", "B", "C", "D", "E", "F"]);
+const r6 = Bracket.rounds(t6);
+const byeM = r6[0].matches.filter((m) => m.byeAdvance);
+check("WF6 6 players: 2 byes, top seeds",
+  !t6.error && byeM.length === 2 &&
+  JSON.stringify(Bracket.describeByes(t6)) === JSON.stringify(["A", "B"]),
+  "A, B get byes");
+check("WF6 sitemap lists tournament.html",
+  fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8").includes("<loc>tournament.html</loc>"),
+  "in sitemap");
+
 process.exit(failures ? 1 : 0);

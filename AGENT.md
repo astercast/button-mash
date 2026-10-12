@@ -35,6 +35,7 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
 - **Player** (`player.html`): bring-your-own-file EmulatorJS console, 20+ systems. File never leaves the user's machine. Core short names (official): `nes snes gb gba segaMD segaMS segaGG sega32x segaCD psx n64 nds pce vb atari2600 atari7800 lynx ngp ws coleco`. PSX/Sega CD need a user-dumped BIOS; the rest boot BIOS-free. **Player 2.0 tools** (all client-side): save-state export/import (engine default downloads `.state` files; "Keep in Browser" mode lets the Save tool export/import/delete browser-kept states via IndexedDB `EmulatorJS-states`), keyboard+gamepad remap UI for Player 1 (reads/writes the engine's `ejs-<gameId>-<core>-<gameName>-settings` localStorage key, verified per-core button labels from the 4.2.3 stable build; applies on next boot), cheat-code entry per game (injected via the documented `window.EJS_cheats = [[name, code], ...]`; toggle in the engine's cheat manager — per-core code-format behavior is NOT verified, never claim it), CRT scanline/vignette filter (toolbar toggle, `prefers-reduced-motion`-safe), and an honest netplay notes section (engine advertises WebRTC room-code netplay as "being worked on"; NOT verified on the stable build — not enabled, not promised). See `skills/player-guide.md`.
 - **Converter v2** (`converter.html`): user's file → self-contained playable `.html` (ROM embedded as base64; engine loads from the EmulatorJS CDN on first run). Three systems: GBA (`.gba`, mGBA core, 32MB max), Game Boy/Color (`.gb`/`.gbc`, Gambatte core, 8MB max), NES (`.nes`, FCEUmm core, 4MB max). **All three cores are BIOS-free** — zero extra files. Non-ROM formats refused gracefully (points at the Player). Template token contract: `__BM_GAME_NAME__`, `__BM_GAME_ID__`, `__BM_BUILD_DATE__`, `__BM_ROM_SIZE__`, `__BM_ROM_B64__`, `__BM_CORE__`, `__BM_CORE_LABEL__`, `__BM_SYSTEM__`, `__BM_HINT__`. See `skills/converter-multi-system.md`.
 - **Party Planner** (`party-planner.html`): headcount + time + vibe + skill mix + inputs → timed rotation plan across party-tagged catalog games, with hand-the-controller rotation order and print-friendly output. Semantic HTML, keyboard-accessible, aria-live plan summary, reduced-motion aware. See `skills/party-planner-runner.md`.
+- **Tournament** (`tournament.html`): seeded single-elimination brackets for 2–16 players — standard seeding (1v16, 8v9…), honest first-round byes for top seeds at odd counts, best-of-N (1/3/5/7) per round, one party game per round from the catalog, click/keyboard advancement with series-score tracking, champion banner (reduced-motion safe, no flashing), localStorage persistence, print layout, and "Copy my bracket" text export. Accepts the party-planner handoff: `tournament.html?players=N&games=id1,id2` (real game ids only). Bracket math in `assets/js/bracket.js` is covered by `scripts/test_bracket.js` (82 assertions). See `skills/tournament-runner.md`.
 - **Genre deep dives** (`genres/roguelike.html`, `genres/cozy.html`): curated lists from the catalog with start-here picks and why-each-fits blurbs.
 
 ## Example workflows
@@ -91,12 +92,24 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
 5. Netplay: NEVER promise it. Honest state only (see skills/player-guide.md).
 ```
 
+### 6. "Run a tournament for game night" (tournament brackets)
+
+```
+1. GET api/v1/games.json → filter games where tags includes "party" for round games.
+2. Get the player list (2–16 names) and per-round prefs: game id + best-of (1/3/5/7).
+3. Odd counts are fine — top seeds get honest first-round byes; never force-drop a player.
+4. Send the user to tournament.html, or build the handoff link yourself:
+   tournament.html?players=8&games=bonk,tetrio,skribbl (real ids only).
+   A finished party plan already links there with players + games pre-filled.
+   See skills/tournament-runner.md.
+```
+
 ## Rate & freshness notes
 
 - Static files: fetch as often as you like; nothing to rate-limit against.
 - Freshness: check `generated_at` in any envelope before trusting counts.
 - Breaking changes arrive as a new `v2/` path — never a silent shape change. Shared conventions: `API.md`.
 - Source data lives in `data/`; regenerate with `python3 scripts/build.py` after edits.
-- Skills: `skills/` — game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker.
+- Skills: `skills/` — game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker, tournament-runner.
 - System picker (`system-picker.html`): 4-question quiz (era, device power, game taste, tinkering tolerance) → recommended system + guide link + Player deep link. Weak devices exclude N64/PS1 honestly. Logic in `assets/js/system-picker.js`; skill `skills/system-picker.md` mirrors the weights for manual scoring.
 - Player deep links: `player.html?core=<shortname>` pre-selects the system (`gb gba snes segaMD n64 psx` …) — used by all six system guides and the quiz result.

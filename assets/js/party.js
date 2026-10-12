@@ -153,6 +153,20 @@
     });
     out.appendChild(ol);
 
+    /* Handoff: turn this plan into a seeded tournament bracket. */
+    var seen = {}, gameIds = [];
+    slots.forEach(function (slot) {
+      if (!seen[slot.game.id]) { seen[slot.game.id] = true; gameIds.push(slot.game.id); }
+    });
+    var tourney = document.createElement('a');
+    tourney.className = 'btn btn-cyan';
+    tourney.href = 'tournament.html?players=' + opts.players + '&games=' + gameIds.slice(0, 8).join(',');
+    tourney.textContent = '🏆 Turn this plan into a tournament';
+    var tourneyWrap = BM.el('p', '', '');
+    tourneyWrap.style.marginTop = '1rem';
+    tourneyWrap.appendChild(tourney);
+    out.appendChild(tourneyWrap);
+
     var tip = BM.el('p', 'plan-tip', 'Tip: the starter rotates every slot, so nobody hogs the first turn twice. ' +
       'Print this page (or save as PDF) to take the plan to the couch.');
     out.appendChild(tip);

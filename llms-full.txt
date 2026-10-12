@@ -8,6 +8,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.0: save-state export/import, keyboard+gamepad remap UI, cheat-code entry, CRT filter, honest netplay notes)
 - converter.html — ROM-to-browser-game converter (GBA/GB/GBC/NES in, self-contained .html out)
 - party-planner.html — timed game-night rotation planner across party-tagged games (print-friendly)
+- tournament.html — single-elimination tournament brackets for game night: 2-16 players, standard seeding with honest byes, best-of-N per round, one party game per round, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids)
 - games.html — the 114-game directory (search, genre filters, favorites, random game, game of the day)
 - collections.html — 11 hand-built collections
 - genres/roguelike.html, genres/cozy.html — genre deep dives with start-here picks

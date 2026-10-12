@@ -2,6 +2,30 @@
 
 Running record of build waves. Newest first.
 
+## Wave 6 — 2026-10-11 — Tournament brackets (interactive tools wave)
+
+**What shipped:**
+- **Bracket builder** (`tournament.html` + `assets/js/tournament.js`): 2–16 player names (one per line, entry order = seeds, duplicates auto-suffixed) → seeded single-elimination bracket. Best-of-N (1/3/5/7) selectable per round; one party game per round from the real catalog (party-tagged dropdown, 27 games + "pick" placeholder; round header shows an "Open <game> ↗" deep link). localStorage persistence (`bm_tournament_v1`, refresh-safe). Winners advance by click/keyboard: best-of-1 = "Advance" buttons, best-of-N = +/- series-score steppers with auto-advance at the majority and score correction; every decided match has "Clear winner" with full downstream cascade. Champion banner is static, aria-live announced, reduced-motion safe (zero animation/flashing).
+- **Pure bracket math** (`assets/js/bracket.js`, UMD — browser + node): standard seeding (1v16/8v9…), `describeByes` gives first-round byes to top seeds at odd counts, shown honestly as BYE and auto-advanced (manual scoring of bye matches rejected). Covered by `scripts/test_bracket.js` — 82 assertions: seeding orders 2/4/8/16, odd counts 3/5/6/7/9/11/13/15 (bye counts + top-seed names), best-of-3 majority logic, decided-match guards, clearMatch cascade, round names, shuffle permutation.
+- **Printable bracket**: "Print bracket" button + print CSS (white bg, no chrome/setup/buttons, per-round "Best of N · game" text lines, winners outlined).
+- **"Copy my bracket"**: shareable plain-text export (champion, byes, every round: matchups, games, winners with series scores).
+- **Party planner cross-link**: finished plans render "🏆 Turn this plan into a tournament" → `tournament.html?players=N&games=id1,id2…` (players + up to 8 unique plan game ids pre-filled; game selects assigned round-by-round).
+- **New skill**: `skills/tournament-runner.md` (seeding/bye rules, game-pick guidance, handoff-link recipe, worked 8-player example). 13 skills total.
+- **Updates**: AGENT.md (Tournament centerpiece bullet, workflow #6, skills list), README.md (13 skills), `scripts/build_site.py` (tournament.html in sitemap + llms.txt Play section), regenerated llms.txt/llms-full.txt/sitemap.xml, "Tournament" link added to header nav + footer on all 11 pages, `scripts/check_api_workflows.js` WF6 (page wiring, catalog-driven game picker, print/copy, reduced-motion, planner handoff, skill, bracket-math inline check, sitemap).
+- **Bug found & fixed in testing**: `applyPendingGamesSoon(null)` crashed on `?games=` handoff URLs with no saved state (2 pageerrors) — guarded before ship.
+
+**Validation (wave 6):**
+- `scripts/build.py`: BUILD OK — 114 games (104 domains), 11 collections, 10 emulators, 14 guides; LEGAL GATE OK (28 pages, 114 game URLs, 0 piracy links)
+- `scripts/check_links.py`: LINK CHECK OK — 28 pages, 716 local links, 63 external links, 0 broken
+- `node --check assets/js/*.js`: clean (incl. new bracket.js, tournament.js)
+- `node scripts/test_bracket.js`: 82 assertions, 0 failures
+- `node scripts/check_api_workflows.js`: all pass (WF1–WF6)
+- `~/workspace/smoke/test.js`: zero pageerrors (only expected CDN fetch noise on player.html)
+- Headless Chromium functional pass (tournament.html, catalog stubbed): ?players=6&games=bonk,tetrio,skribbl prefill → 6 players, QF/SF/F rounds, Player 1+2 byes, 28 game options, handoff games assigned per round, best-of-3 SF scored 2–1 auto-advances, champion banner, clear-winner unwinds, copy text correct, state restores after reload, keyboard focus + Enter advances. Zero pageerrors.
+- Party planner handoff verified: plan renders `tournament.html?players=6&games=agar,codenames,gartic-phone`, zero pageerrors.
+
+**Legal lane**: unchanged — tournament adds no new external links; round-game options are the existing verified catalog entries only.
+
 ## Wave 5 — 2026-10-11 — Per-system emulation guides (deep sourced content wave)
 
 **What shipped:**
