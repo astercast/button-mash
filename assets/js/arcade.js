@@ -151,6 +151,7 @@
         meta.appendChild(badge);
       }
       attachCardExtras(card, game, meta);
+      attachTrophyControls(card, game);
       return card;
     };
     wrapped._arcadeWrapped = true;
@@ -341,10 +342,169 @@
     });
   }
 
+  /* ---------- Trophy Room: persistent play-tracking on every card ----------
+     The trophy store (assets/js/trophy-core.js) must load before arcade.js.
+     Cards get two prize-token toggles: played + beaten. Favorites stay the
+     wave-16 ♥ button (bm_favs_v1) — the store reads them, never duplicates. */
+  var trophyReady = null;
+  function initTrophy() {
+    if (trophyReady) return trophyReady;
+    if (!window.BM || !BM.Trophy) { trophyReady = Promise.resolve(null); return trophyReady; }
+    trophyReady = Promise.all([
+      fetch(BASE + "data/games.json", { cache: "no-store" }).then(function (r) {
+        if (!r.ok) throw new Error("games " + r.status);
+        return r.json();
+      }),
+      fetch(BASE + "data/collections.json", { cache: "no-store" }).then(function (r) {
+        if (!r.ok) throw new Error("collections " + r.status);
+        return r.json();
+      }).catch(function () { return { collections: [] }; })
+    ]).then(function (parts) {
+      var games = (parts[0] && parts[0].games) || [];
+      var cols = (parts[1] && parts[1].collections) || [];
+      var store = BM.Trophy.initDefault(games, cols, {
+        getFavs: function () { return BM.getFavs(); },
+        setFavs: function (ids) { return BM.setFavs(ids); }
+      });
+      store.onChange(function () {
+        document.dispatchEvent(new CustomEvent("bm:trophy-changed"));
+        refreshAllTrophyRows();
+      });
+      refreshAllTrophyRows();
+      return store;
+    }).catch(function () { return null; }); // catalog failed: controls stay inert
+    BM.trophyReady = trophyReady;
+    return trophyReady;
+  }
+
+  function trophyStore() {
+    return (window.BM && BM.Trophy && BM.Trophy.getDefault()) || null;
+  }
+
+  function syncTrophyRow(row) {
+    var store = trophyStore();
+    var id = row.getAttribute("data-game");
+    if (!store || !id) {
+      row.querySelectorAll(".trophy-btn").forEach(function (b) { b.disabled = true; });
+      return;
+    }
+    var st = store.status(id);
+    row.querySelectorAll(".trophy-btn").forEach(function (b) { b.disabled = false; });
+    var pb = row.querySelector('[data-trophy="played"]');
+    var bb = row.querySelector('[data-trophy="beaten"]');
+    if (pb) {
+      pb.setAttribute("aria-pressed", st.played ? "true" : "false");
+      pb.classList.toggle("on", st.played);
+    }
+    if (bb) {
+      bb.setAttribute("aria-pressed", st.beaten ? "true" : "false");
+      bb.classList.toggle("on", st.beaten);
+    }
+  }
+
+  function refreshAllTrophyRows() {
+    document.querySelectorAll(".trophy-row").forEach(syncTrophyRow);
+  }
+
+  /* Prize-won toast: one at a time, aria-live, no motion to kill. */
+  var toastTimer = null;
+  function showPrizeToast(achIds) {
+    var store = trophyStore();
+    if (!store || !achIds || !achIds.length) return;
+    var names = achIds.map(function (id) {
+      var a = store.achievementById(id);
+      return a ? a.name : id;
+    });
+    var toast = document.getElementById("prize-toast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "prize-toast";
+      toast.className = "prize-toast";
+      toast.setAttribute("role", "status");
+      toast.setAttribute("aria-live", "polite");
+      document.body.appendChild(toast);
+    }
+    toast.innerHTML = "";
+    var k = document.createElement("span");
+    k.className = "prize-toast-kicker";
+    k.textContent = "\u00BB PRIZE WON";
+    toast.appendChild(k);
+    var n = document.createElement("span");
+    n.className = "prize-toast-names";
+    n.textContent = names.join(" \u00B7 ");
+    toast.appendChild(n);
+    toast.classList.add("show");
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toast.classList.remove("show");
+      toastTimer = null;
+    }, 4200);
+  }
+
+  function attachTrophyControls(card, game) {
+    if (!game || !game.id || !window.BM || !BM.Trophy) return;
+    var row = document.createElement("div");
+    row.className = "trophy-row";
+    row.setAttribute("data-game", game.id);
+    row.setAttribute("role", "group");
+    row.setAttribute("aria-label", "Track play status for " + game.title);
+
+    function mkBtn(kind, label) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "trophy-btn";
+      b.setAttribute("data-trophy", kind);
+      b.setAttribute("aria-pressed", "false");
+      b.disabled = true; // enabled once the trophy store is ready
+      var glyph = document.createElement("span");
+      glyph.className = "trophy-glyph";
+      glyph.setAttribute("aria-hidden", "true");
+      glyph.textContent = kind === "played" ? "\u25B6" : "\u2714";
+      b.appendChild(glyph);
+      var lab = document.createElement("span");
+      lab.className = "trophy-label";
+      lab.textContent = label;
+      b.appendChild(lab);
+      b.setAttribute("aria-label", label + ": " + game.title);
+      b.addEventListener("click", function (ev) {
+        ev.preventDefault();
+        var store = trophyStore();
+        if (!store) return;
+        var res = kind === "played" ? store.togglePlayed(game.id) : store.toggleBeaten(game.id);
+        if (res.error) return;
+        syncTrophyRow(row);
+        if (res.newlyEarned && res.newlyEarned.length) showPrizeToast(res.newlyEarned);
+      });
+      return b;
+    }
+
+    row.appendChild(mkBtn("played", "Played"));
+    row.appendChild(mkBtn("beaten", "Beaten"));
+    var meta = card.querySelector(".game-meta");
+    if (meta) meta.parentNode.insertBefore(row, meta.nextSibling);
+    else card.appendChild(row);
+
+    // Sync once the store is ready (catalog may still be loading).
+    initTrophy().then(function () { syncTrophyRow(row); });
+  }
+
   /* ---------- Boot ---------- */
   if (window.BM) {
     BM.kidSafeReady = loadKidSafe();
     wrapGameCard();
+    initTrophy();
+    document.addEventListener("bm:trophy-changed", refreshAllTrophyRows);
+    // Favorite changes can earn prizes too (heart-5/20): re-evaluate the
+    // achievement rules whenever favs change, anywhere on the site.
+    document.addEventListener("bm:favs-changed", function () {
+      var store = trophyStore();
+      if (!store) return;
+      var newly = store.evaluate();
+      if (newly && newly.length) {
+        document.dispatchEvent(new CustomEvent("bm:trophy-changed"));
+        showPrizeToast(newly);
+      }
+    });
   }
   document.documentElement.classList.add(anchorOK ? "anchor-ok" : "no-anchor");
   if (!popoverOK) document.documentElement.classList.add("no-popover");

@@ -49,6 +49,10 @@
     var randomBtn = document.getElementById('random-game');
     var countEl = document.getElementById('results-count');
 
+    // Data-driven hero count (static HTML carries the last verified number as fallback)
+    var heroCount = document.getElementById('games-hero-count');
+    if (heroCount) heroCount.textContent = games.length + ' games.';
+
     // Known values for URL validation + tag counts for the token row
     var genres = ['all'].concat(Array.from(new Set(games.map(function (g) { return g.genre; })))).sort();
     var tagCounts = {};

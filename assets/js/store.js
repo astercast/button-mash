@@ -23,7 +23,23 @@
     var i = favs.indexOf(id);
     if (i === -1) favs.push(id); else favs.splice(i, 1);
     saveJSON(FAV_KEY, favs);
+    document.dispatchEvent(new CustomEvent('bm:favs-changed'));
     return i === -1;
+  }
+  /* Union-merge a list of ids into favorites (used by trophy import).
+     Only string ids are accepted; returns the ids actually added. */
+  function setFavs(ids) {
+    var favs = getFavs();
+    var added = [];
+    (ids || []).forEach(function (id) {
+      if (typeof id === 'string' && id && favs.indexOf(id) === -1) {
+        favs.push(id);
+        added.push(id);
+      }
+    });
+    saveJSON(FAV_KEY, favs);
+    if (added.length) document.dispatchEvent(new CustomEvent('bm:favs-changed'));
+    return added;
   }
 
   /* Checklist persistence (guide steps) */
@@ -66,11 +82,10 @@
     fav.textContent = isFav(game.id) ? '♥' : '♡';
     fav.addEventListener('click', function (ev) {
       ev.preventDefault();
-      var on = toggleFav(game.id);
+      var on = toggleFav(game.id); // dispatches bm:favs-changed
       fav.setAttribute('aria-pressed', on ? 'true' : 'false');
       fav.textContent = on ? '♥' : '♡';
       fav.setAttribute('aria-label', (on ? 'Remove from favorites: ' : 'Add to favorites: ') + game.title);
-      document.dispatchEvent(new CustomEvent('bm:favs-changed'));
     });
     card.appendChild(fav);
 
@@ -106,6 +121,7 @@
     getFavs: getFavs,
     isFav: isFav,
     toggleFav: toggleFav,
+    setFavs: setFavs,
     getChecks: getChecks,
     toggleCheck: toggleCheck,
     gameOfDay: gameOfDay,

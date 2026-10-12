@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Trophy Room — Button Mash</title>
+<meta name="description" content="Your Button Mash trophy wall: games played and beaten, per-genre completion dials, the 16-prize achievement case, collection progress, and JSON backup. Everything lives in your browser.">
+<link rel="preload" href="assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/wave16.css">
+<link rel="stylesheet" href="assets/css/trophy.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="kids.html">Kids corner</a></li>
+        <li><a href="collections.html">Collections</a></li>
+        <li><a href="party-planner.html">Party planner</a></li>
+        <li><a href="tournament.html">Tournament</a></li>
+        <li><a href="emulation.html">Emulation</a></li>
+        <li><a href="monster-taming.html">Monster Taming</a></li>
+        <li><a href="play-legal.html">Play Legal</a></li>
+        <li><a href="trophy-room.html" aria-current="page">Trophy room</a></li>
+        <li><a class="nav-cta" href="player.html">» Play</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span class="crumb-sep" aria-hidden="true">›</span><span aria-current="page">Trophy room</span></nav>
+  </div>
+
+  <section class="hero trophy-hero">
+    <div class="wrap hero-inner">
+      <span class="kicker">Your wall</span>
+      <h1>The Trophy <span class="cyan">Room.</span></h1>
+      <p class="lede">Every game you mark played or beaten lands here — per-genre completion dials, a 16-prize achievement case, and collection progress. It all lives in your browser, never on a server. Mark games with the <strong>Played</strong> / <strong>Beaten</strong> tokens on any game card.</p>
+      <div class="storage-notice" id="storage-notice" hidden></div>
+      <div class="stat-band" id="stat-band" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2><span class="tick">»</span> Genre shelves</h2></div>
+      <div class="wall-empty" id="wall-empty" hidden>
+        <p>» Your wall is bare. <a href="games.html">Browse the directory</a>, play something, and mark it with the token buttons on its card.</p>
+      </div>
+      <div class="shelf-grid" id="shelf-grid"></div>
+      <div class="bar-legend" aria-hidden="true"><span><span class="sw sw-played"></span>played</span><span><span class="sw sw-beaten"></span>beaten</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2><span class="tick">»</span> Prize case</h2></div>
+      <p class="lede" id="prize-sub">Sixteen arcade prizes, earned by actually playing. Unearned prizes show their rule — no mysteries.</p>
+      <div class="prize-case" id="prize-case"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2><span class="tick">»</span> Collection progress</h2></div>
+      <div class="collection-progress" id="collection-progress"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2><span class="tick">»</span> Backup &amp; restore</h2></div>
+      <div class="backup-panel">
+        <div>
+          <h3>Export</h3>
+          <p>Download your whole trophy wall as one JSON file — played, beaten, favorites, streaks, prizes. Keep it somewhere safe; it is the only copy outside this browser.</p>
+          <div class="backup-actions" style="margin-top:0.6rem">
+            <button class="btn btn-primary btn-sm" id="export-btn" type="button">» Download trophy data</button>
+          </div>
+        </div>
+        <div>
+          <h3>Import</h3>
+          <p>Paste a trophy export below (or pick the file) to restore it. The import is validated first and applied all at once — if anything is wrong, your current wall is left untouched.</p>
+          <div class="backup-actions" style="margin-top:0.6rem">
+            <label class="btn btn-ghost btn-sm" for="import-file" style="cursor:pointer">» Choose export file</label>
+            <input type="file" id="import-file" accept="application/json,.json" hidden>
+            <button class="btn btn-primary btn-sm" id="import-btn" type="button">» Import</button>
+          </div>
+          <div style="margin-top:0.6rem"><textarea id="import-text" aria-label="Paste trophy export JSON here" placeholder='Paste your trophy export JSON here — it starts with { "schema": "bm.trophy.export", … }'></textarea></div>
+          <p id="import-result" role="status" aria-live="polite"></p>
+          <p class="schema-line">Schema: bm.trophy.export · version <span id="schema-version"></span></p>
+        </div>
+        <div>
+          <h3>Reset</h3>
+          <p>Wipe the whole wall — played, beaten, streaks, prizes — and start over. Your ♥ favorites are kept (they belong to the directory too). This cannot be undone (unless you exported first).</p>
+          <div class="backup-actions" style="margin-top:0.6rem">
+            <button class="btn btn-ghost btn-sm" id="reset-btn" type="button">» Reset trophy room</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="legal-banner">
+        <strong>🛡️ Your data stays yours:</strong> trophies live in this browser's local storage under keys starting with <code>bm.trophy.</code> — favorites stay in <code>bm_favs_v1</code> next to them. Nothing is uploaded anywhere, ever. Clearing site data wipes the wall, so export if you care.
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>Play</h3>
+        <ul>
+          <li><a href="player.html">The Player</a></li>
+          <li><a href="converter.html">ROM → Browser Game</a></li>
+          <li><a href="games.html">Game directory</a></li>
+          <li><a href="collections.html">Collections</a></li>
+          <li><a href="party-planner.html">Party planner</a></li>
+        <li><a href="tournament.html">Tournament</a></li>
+        <li><a href="kids.html">Kids corner</a></li>
+        <li><a href="trophy-room.html">Trophy room</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Learn</h3>
+        <ul>
+          <li><a href="emulation.html">Emulation hub</a></li>
+          <li><a href="guides/gba-wasm.html">GBA → WASM explainer</a></li>
+          <li><a href="monster-taming.html">Monster-taming corner</a></li>
+        <li><a href="parents.html">Parent guide</a></li>
+          <li><a href="play-legal.html">Play it legal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>For machines</h3>
+        <ul>
+          <li><a href="api/v1/">API v1</a></li>
+          <li><a href="API.md">API.md</a></li>
+          <li><a href="llms.txt">llms.txt</a></li>
+          <li><a href="skills/">skills/</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-note">
+      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links. All game descriptions original.</span>
+    </div>
+    <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>
+  </div>
+</footer>
+
+<script src="assets/js/store.js"></script>
+<script src="assets/js/trophy-core.js"></script>
+<script src="assets/js/arcade.js"></script>
+<script src="assets/js/trophy-room.js"></script>
+</body>
+</html>

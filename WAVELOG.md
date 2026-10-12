@@ -2,6 +2,33 @@
 
 Running record of build waves. Newest first.
 
+## Wave 18 — 2026-10-11 — "The Trophy Room": persistent play-tracking across the catalog
+
+**What shipped** — the flagship feature wave: every game card now carries persistent state, and a new Trophy Room page is the player's wall. All real logic, all browser-local, The Arcade identity extended (achievements as prize tokens, completion rings as CRT dials, zero keyframe animation — reduced-motion safe by construction).
+
+- **Persistent per-game state** (`assets/js/trophy-core.js`, UMD + DOM-free so node tests run the same code the browser ships): mark **played** / **beaten** on any game card via two prize-token toggle buttons (keyboard-operable, `aria-pressed`, disabled until the store is ready). State lives in localStorage under `bm.trophy.v1` (namespaced `bm.trophy.*`); when localStorage is blocked (private mode/disabled) an in-memory fallback takes over and the Trophy Room shows an honest "memory-only mode" notice. Rules with teeth: beating a game implies playing it (both flags set together); un-playing clears beaten; unknown catalog ids are sanitized out on load; corrupted stored blobs start fresh with a flag the UI surfaces.
+- **Favorites sync with wave 16**: favorites stay in `bm_favs_v1` — the trophy store reads them through an injected provider, never duplicates them, so the directory's ♥ filter and the wall can never disagree. New `BM.setFavs(ids)` union-merge (for imports) in store.js.
+- **Achievement engine, 16 real rules** (`first-play`, `first-beat`, `heart-5/20`, `player-10/50/100`, `beater-5/25`, `puzzle-breaker`, `genre-tourist/master`, `streak-3/7`, `shelf-clearer`, `marathon`): evaluated from the real catalog on every mutation. Streaks use seeded UTC day keys (`floor(Date.now()/86400000)`); "beat every game in a collection" is checked against the actual collection lists. Earning a prize fires a "» PRIZE WON" toast (aria-live, no motion).
+- **Completion math**: per-genre played/beaten % and counts, per-collection progress (stacked amber=played / lime=beaten bars), painted on every `collections.html` shelf and in the Trophy Room.
+- **The Trophy Room** (`trophy-room.html`): stat band (played/beaten/favorites/day-streak/prizes), 8 genre shelves with static SVG CRT completion dials (phosphor glow, `role="img"` labels), the 16-prize achievement case (earned = lit token + date won; unearned = dim + its rule, no mysteries), 22 collection rows with bars deep-linking to their shelves, and backup/restore: JSON export download + import textarea/file-picker, schema `bm.trophy.export` v1 with atomic validate-first-then-commit (corrupt imports rejected with the current wall untouched, unknown ids counted as dropped), and reset (favorites kept, stated). Nav item on all 39 pages (correct `../` on guides/genres), footer links, hero CTA on games.html.
+- **Stale-count fix folded in**: games.html's static "162 games." hero is now data-driven from the live catalog (`#games-hero-count`, static fallback = 213); index.html's static fallbacks 162 → 213.
+- **Agentic surface**: `check_api_workflows.js` gained **WF18 (18 checks; 158/158 pass total)** — UMD/API surface, schema constants, 16 achievements, cascade rules, atomic import, page structure, sitemap/llms wiring, nav coverage, card/collection/arcade/store wiring, reduced-motion CSS, legal-lane phrasing. New `scripts/test_trophy18.js`: **70/70** (41 node unit checks: transitions, cascades, completion math, all 16 rules, streak edge cases, export/import round-trips, 4 corruption classes, unknown-id sanitizing, future-version refusal, reset; 29 headless: 213 card rows, click/keyboard toggling, persistence, prize toast, fav sync, full wall render, seeded stat/prize/export assertions, import round-trip + corruption recovery in-page, 22 shelf strips with aria-labels, mobile 390px zero-overflow, reduced-motion render, zero pageerrors throughout).
+- **Docs**: AGENT.md centerpieces + trophy bullet; `build_site.py` PAGES + llms.txt Play section (sitemap regenerated).
+
+**Validation (wave 18):**
+- `scripts/build.py`: **BUILD OK — 213 games (149 domains), 22 collections, 10 emulators, 22 guides**; **LEGAL GATE OK (40 pages, 213 game URLs, 0 piracy links)**
+- `scripts/check_links.py`: **LINK CHECK OK — 39 pages, 1255 local links, 76 external links, 0 broken**
+- `node scripts/check_api_workflows.js`: **158/158 pass (WF1–WF18)**, 0 failures
+- `node --check`: clean on trophy-core.js, trophy-room.js, arcade.js, store.js, directory.js, test_trophy18.js, check_api_workflows.js
+- `node scripts/test_trophy18.js`: **70/70 pass, zero pageerrors** (new)
+- Regression: test_bracket 82/82, test_bracket_double 105/105, test_party11 36/36, test_converter12 66/66, test_identity16 41/41, test_wave17 29/29, test_player21 ALL PASS, test_party_planner11 ALL PASS, test_tournament10 26/26
+- `~/workspace/smoke/test.js`: zero pageerrors (only the known expected CDN tunnel noise on player.html)
+- Screenshots verified: trophy room wall (stat band, 8 dials, 16-prize case with 3 earned, 22 collection rows, backup panel), games.html card token states (played amber/beaten lime pressed + prize toast), collections shelf progress strips (stacked bars + counts), mobile 390px layout
+- **Bugs found & fixed in testing**: (1) `BM.toggleFav` never dispatched `bm:favs-changed` — programmatic fav changes were silent, so the Trophy Room wouldn't re-render (now dispatched in toggleFav; card handler relies on it). (2) Favorite-based achievements (heart-5/20) were never evaluated on fav changes — `bm:favs-changed` now re-runs the achievement rules with prize toast + change fan-out. (3) First headless run's click failures were the wave-16-documented smooth-scroll stale-coordinate harness flake — suite now uses instant-scroll settled in-page clicks.
+- **Flake investigated, not shipped as a bug**: one test_identity16 `waitForFunction` timeout under high load (re-run 41/41 green) — same environmental renderer stall documented in wave 16.
+
+**Legal lane**: unchanged — zero new external links (all trophy features are client-side on existing data); new files carry no ROM/BIOS download phrasing (explicit WF18 check); no user-supplied-file flows touched.
+
 ## Wave 17 — 2026-10-11 — Catalog expansion: 162 → 213 games (+51) + 3 collections + 2 deep-dive guides
 
 **What shipped** — the second-biggest catalog expansion (wave 14's +37 was the record): 51 new legal games, every URL curl-verified HTTP 200 same day (2026-10-11), 3 new hand-built collections, and 2 new deep-dive guides. The Arcade identity untouched (new pages ship in the wave-13 guide template + wave-15/16 identity system; no new genres, so no new art-strips needed).

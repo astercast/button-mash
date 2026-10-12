@@ -582,10 +582,12 @@ check("WF15 arcade.js on in-scope pages",
   fs.readdirSync(path.join(ROOT, "guides")).filter((f) => f.endsWith(".html"))
     .every((f) => fs.readFileSync(path.join(ROOT, "guides", f), "utf8").includes("assets/js/arcade.js")),
   "home + games + player + converter + 20 guides");
-check("WF15 stale counts fixed (89 -> 162)",
+check("WF15 stale counts fixed (89 -> data-driven, static fallback = live count)",
   !indexHtml.includes("89 CURATED") && !indexHtml.includes("89 curated") &&
-  gamesHtml.includes("162 games."),
-  "marquee + meta + directory hero");
+  gamesHtml.includes('id="games-hero-count"') &&
+  gamesHtml.includes(">213 games.<") &&
+  fs.readFileSync(path.join(ROOT, "assets/js/directory.js"), "utf8").includes("games-hero-count"),
+  "directory hero count data-driven, static fallback = live 213");
 check("WF15 guides template arcade treatment",
   guides15.includes("chase-x") && guides15.includes(".guide-page h1::before") &&
   guides15.includes("border-image"),
@@ -748,5 +750,103 @@ check("WF17 llms.txt mentions new collections",
   ["Flash-back machine", "Score attack", "Tycoon corner"].every((title) =>
     fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes(title)),
   "new shelf titles in llms.txt");
+
+// Workflow 18 (wave 18): "The Trophy Room" — persistent play-tracking
+const trophyCore = fs.readFileSync(path.join(ROOT, "assets/js/trophy-core.js"), "utf8");
+const trophyRoomHtml = fs.readFileSync(path.join(ROOT, "trophy-room.html"), "utf8");
+const trophyRoomJs = fs.readFileSync(path.join(ROOT, "assets/js/trophy-room.js"), "utf8");
+const trophyCss = fs.readFileSync(path.join(ROOT, "assets/css/trophy.css"), "utf8");
+const storeJs = fs.readFileSync(path.join(ROOT, "assets/js/store.js"), "utf8");
+check("WF18 trophy-core.js UMD + full API surface",
+  trophyCore.includes("typeof module !== 'undefined' && module.exports") &&
+  ["createStore", "initDefault", "getDefault", "ACHIEVEMENTS", "SCHEMA_VERSION",
+   "EXPORT_SCHEMA", "storageMode", "streaks", "dayKey"].every((k) => trophyCore.includes(k)),
+  "UMD, node-loadable, 9 API exports");
+check("WF18 trophy namespace + export schema constants",
+  trophyCore.includes("bm.trophy.v1") && trophyCore.includes("bm.trophy.export") &&
+  trophyCore.includes("SCHEMA_VERSION = 1"),
+  "bm.trophy.v1 store key, bm.trophy.export schema v1");
+check("WF18 16 achievements, each with name + desc + rule",
+  (trophyCore.match(/id: '[a-z0-9-]+',\s+name: '/g) || []).length === 16 &&
+  trophyCore.includes("puzzle-breaker") && trophyCore.includes("shelf-clearer") &&
+  trophyCore.includes("streak-7") && trophyCore.includes("marathon") &&
+  trophyCore.includes("genre-master"),
+  "16 prizes incl. puzzle-breaker, shelf-clearer, streak-7, marathon, genre-master");
+check("WF18 beaten-implies-played + unplay-clears-beaten cascade",
+  trophyCore.includes("if (!state.played[id]) state.played[id] = ts;") &&
+  trophyCore.includes("delete state.played[id]; delete state.beaten[id];"),
+  "markBeaten sets played; unmarkPlayed clears beaten");
+check("WF18 import is atomic with corruption recovery",
+  trophyCore.includes("Any failure leaves the current state untouched") &&
+  trophyCore.includes("not-json") && trophyCore.includes("future-version") &&
+  trophyCore.includes("bad-schema"),
+  "validate-first-then-commit, 3 rejection classes, honest messages");
+check("WF18 trophy-room.html page structure",
+  trophyRoomHtml.includes("<title>The Trophy Room") &&
+  trophyRoomHtml.includes("assets/js/trophy-core.js") &&
+  trophyRoomHtml.includes("assets/js/trophy-room.js") &&
+  trophyRoomHtml.includes("assets/js/arcade.js") &&
+  trophyRoomHtml.includes('id="stat-band"') && trophyRoomHtml.includes('id="shelf-grid"') &&
+  trophyRoomHtml.includes('id="prize-case"') && trophyRoomHtml.includes('id="collection-progress"') &&
+  trophyRoomHtml.includes('id="export-btn"') && trophyRoomHtml.includes('id="import-btn"') &&
+  trophyRoomHtml.includes('id="import-text"') && trophyRoomHtml.includes('id="reset-btn"') &&
+  trophyRoomHtml.includes('id="storage-notice"') && trophyRoomHtml.includes("coin-plate") &&
+  trophyRoomHtml.includes('aria-current="page">Trophy room'),
+  "title + 4 scripts + 5 sections + backup UI + notice + coin plate + nav current");
+check("WF18 trophy room wired into sitemap + llms.txt",
+  fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8").includes("<loc>trophy-room.html</loc>") &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("trophy-room.html"),
+  "sitemap + llms.txt via build_site.py PAGES");
+check("WF18 nav links trophy room on every page (correct ../ on sub-pages)",
+  fs.readdirSync(ROOT).filter((f) => f.endsWith(".html")).every((f) =>
+    !fs.readFileSync(path.join(ROOT, f), "utf8").includes('class="site-nav"') ||
+    fs.readFileSync(path.join(ROOT, f), "utf8").includes('href="trophy-room.html"')) &&
+  ["guides/pico8-spotlight.html", "genres/roguelike.html"].every((p) =>
+    fs.readFileSync(path.join(ROOT, p), "utf8").includes('href="../trophy-room.html"')),
+  "39 pages, ../-prefixed on guides/ + genres/");
+check("WF18 games.html trophy wiring (assets + CTA + data-driven hero)",
+  gamesHtml.includes("assets/js/trophy-core.js") && gamesHtml.includes("assets/css/trophy.css") &&
+  gamesHtml.includes('href="trophy-room.html">» Trophy room</a>') &&
+  gamesHtml.includes('id="games-hero-count"'),
+  "core.js + css + hero CTA + data-driven count");
+check("WF18 collections.html per-shelf progress",
+  fs.readFileSync(path.join(ROOT, "collections.html"), "utf8").includes("assets/js/trophy-core.js") &&
+  fs.readFileSync(path.join(ROOT, "collections.html"), "utf8").includes("shelf-progress") &&
+  fs.readFileSync(path.join(ROOT, "collections.html"), "utf8").includes("paintShelfProgress") &&
+  fs.readFileSync(path.join(ROOT, "collections.html"), "utf8").includes("collectionProgress"),
+  "core.js + strip markup + paint + store.collectionProgress");
+check("WF18 arcade.js card controls + change events + prize toast",
+  arcadeJs.includes("attachTrophyControls") && arcadeJs.includes("trophy-row") &&
+  arcadeJs.includes("bm:trophy-changed") && arcadeJs.includes("showPrizeToast") &&
+  arcadeJs.includes("initTrophy") && arcadeJs.includes("BM.trophyReady"),
+  "token toggles, change fan-out, toast, shared store init");
+check("WF18 store.js favorites merge for import",
+  storeJs.includes("setFavs") && storeJs.includes("setFavs: setFavs") &&
+  storeJs.includes("bm:favs-changed"),
+  "setFavs union-merge + change event");
+check("WF18 toggleFav dispatches bm:favs-changed (programmatic fav changes notify)",
+  (storeJs.match(/new CustomEvent\('bm:favs-changed'\)/g) || []).length === 2,
+  "toggleFav + setFavs dispatch; card ♥ handler relies on toggleFav");
+check("WF18 fav changes re-evaluate achievements (heart-5/20 earnable from ♥)",
+  arcadeJs.includes('"bm:favs-changed"') && arcadeJs.includes("store.evaluate()") &&
+  arcadeJs.includes("showPrizeToast(newly)"),
+  "favs-changed -> evaluate -> prize toast + trophy-changed fan-out");
+check("WF18 trophy-room.js renders all sections from real catalog data",
+  trophyRoomJs.includes("genreStats") && trophyRoomJs.includes("collectionProgress") &&
+  trophyRoomJs.includes("achievements") && trophyRoomJs.includes("dialSVG") &&
+  trophyRoomJs.includes("stackedBar") && trophyRoomJs.includes("importJSON") &&
+  trophyRoomJs.includes("exportJSON") && trophyRoomJs.includes("MEMORY-ONLY MODE") &&
+  trophyRoomJs.includes("bm:favs-changed"),
+  "dials + bars + prizes + collections + backup + memory notice + fav sync");
+check("WF18 trophy.css reduced-motion safe + identity motifs",
+  !trophyCss.includes("@keyframes") &&
+  trophyCss.includes(".trophy-btn") && trophyCss.includes(".dial-arc") &&
+  trophyCss.includes(".prize-disc") && trophyCss.includes(".stacked-bar") &&
+  trophyCss.includes(".prize-toast"),
+  "no keyframes; token buttons, CRT dials, prize case, stacked bars, toast");
+check("WF18 no ROM/BIOS download phrasing in new trophy files",
+  !/download.{0,40}\b(roms?|bios)\b|\b(roms?|bios)\b.{0,40}download/i.test(trophyCore + trophyRoomJs) &&
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b/i.test(trophyRoomHtml),
+  "legal lane holds on all new files");
 
 process.exit(failures ? 1 : 0);

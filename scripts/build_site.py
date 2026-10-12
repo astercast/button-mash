@@ -23,6 +23,7 @@ PAGES = [
     ("collections.html", "Hand-built game collections"),
     ("emulation.html", "Emulation hub: guides, explainers, legal sources"),
     ("monster-taming.html", "Monster-taming corner: original-IP creature games + GBA tech"),
+    ("trophy-room.html", "The Trophy Room: persistent play-tracking — games played/beaten, per-genre completion dials, 16-prize achievement case, collection progress, JSON export/import"),
     ("play-legal.html", "Play it legal: the site's one clear legal page"),
     ("genres/roguelike.html", "Genre deep dive: roguelikes — die, learn, die better"),
     ("genres/cozy.html", "Genre deep dive: cozy games — gentle games for grey weather"),
@@ -87,6 +88,7 @@ def build_llms():
     lines.append("- party-planner.html — Party planner 2.0: guest list (2-16 names), per-guest game voting (ties go to the earliest-picked game), fair rotation scheduler (hot-seat groups of 4), party timeline with snack break + tournament slot, snack-break timer, kids-party mode from the 75 kid-safe games, tournament handoff 2.0 (?players=N&names=A,B&games=ids&format=), shareable #p= party links, print party pack + copy-as-text")
     lines.append("- tournament.html — Tournament 2.0: single- or double-elimination brackets for game night (2-16 players, manual seeding UI + randomize, honest byes, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids))")
     lines.append(f"- games.html — the {ngames}-game directory (search incl. tags, genre + tag filters, shareable URL views, favorites, random game, game of the day)")
+    lines.append("- trophy-room.html — The Trophy Room: persistent play-tracking (mark games played/beaten on any game card; per-genre completion dials, 16-prize achievement case, per-collection progress; JSON export/import with schema validation; all browser-local)")
     lines.append(f"- kids.html — Kids corner: {nkids} kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default")
     lines.append("- parents.html — parent guide: curation method, honesty policy (assessments not guarantees — play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick")
     lines.append(f"- collections.html — {ncols} hand-built collections")

@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
 <link rel="stylesheet" href="assets/css/wave16.css">
+<link rel="stylesheet" href="assets/css/trophy.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -28,6 +29,7 @@
         <li><a href="emulation.html">Emulation</a></li>
         <li><a href="monster-taming.html">Monster Taming</a></li>
         <li><a href="play-legal.html">Play Legal</a></li>
+        <li><a href="trophy-room.html">Trophy room</a></li>
         <li><a class="nav-cta" href="player.html">» Play</a></li>
       </ul>
     </nav>
@@ -66,6 +68,7 @@
         <li><a href="party-planner.html">Party planner</a></li>
         <li><a href="tournament.html">Tournament</a></li>
         <li><a href="kids.html">Kids corner</a></li>
+        <li><a href="trophy-room.html">Trophy room</a></li>
         </ul>
       </div>
       <div>
@@ -97,6 +100,7 @@
 </footer>
 
 <script src="assets/js/store.js"></script>
+<script src="assets/js/trophy-core.js"></script>
 <script src="assets/js/arcade.js"></script>
 <script>
 (function () {
@@ -144,6 +148,18 @@
         card.appendChild(top);
         card.appendChild(BM.el('h3', null, c.title));
         card.appendChild(BM.el('p', null, c.description));
+        // Trophy Room: per-shelf completion strip (played/beaten progress).
+        var prog = BM.el('div', 'shelf-progress');
+        prog.setAttribute('data-collection', c.id);
+        var bar = BM.el('div', 'stacked-bar');
+        bar.setAttribute('role', 'img');
+        var bp = BM.el('span', 'bar-played');
+        var bb = BM.el('span', 'bar-beaten');
+        bar.appendChild(bp); bar.appendChild(bb);
+        prog.appendChild(bar);
+        var plabel = BM.el('p', 'shelf-progress-label', '\u00BB shelf progress loading\u2026');
+        prog.appendChild(plabel);
+        card.appendChild(prog);
         var ol = BM.el('ol');
         c.game_ids.forEach(function (gid) {
           var g = byId[gid];
@@ -158,6 +174,37 @@
         card.appendChild(ol);
         grid.appendChild(card);
       });
+      // Trophy Room: paint per-shelf completion once the store is ready,
+      // and repaint whenever trophies change anywhere on the site.
+      function paintShelfProgress() {
+        if (!window.BM || !BM.Trophy || !BM.trophyReady) return;
+        BM.trophyReady.then(function (store) {
+          if (!store) return;
+          var strips = grid.querySelectorAll('.shelf-progress');
+          for (var i = 0; i < strips.length; i++) {
+            (function (el) {
+              var cid = el.getAttribute('data-collection');
+              var col = null;
+              for (var j = 0; j < cols.length; j++) {
+                if (cols[j].id === cid) { col = cols[j]; break; }
+              }
+              if (!col) return;
+              var p = store.collectionProgress(col);
+              el.querySelector('.bar-played').style.width = p.playedPct + '%';
+              el.querySelector('.bar-beaten').style.width = p.beatenPct + '%';
+              el.querySelector('.stacked-bar').setAttribute('aria-label',
+                col.title + ': ' + p.played + ' of ' + p.total + ' played, ' + p.beaten + ' beaten');
+              var label = el.querySelector('.shelf-progress-label');
+              label.innerHTML = '';
+              label.appendChild(BM.el('span', 'c-played', p.played + '/' + p.total + ' played'));
+              label.appendChild(document.createTextNode(' \u00B7 '));
+              label.appendChild(BM.el('span', 'c-beaten', p.beaten + ' beaten'));
+            })(strips[i]);
+          }
+        });
+      }
+      paintShelfProgress();
+      document.addEventListener('bm:trophy-changed', paintShelfProgress);
       // Deep links: jump straight to the shelf when the URL carries its
       // anchor. Instant (not smooth): this fires during page load, where
       // Chrome defers smooth scrollIntoView by up to ~2s; nobody wants to

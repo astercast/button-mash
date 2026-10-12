@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Game Directory — Button Mash</title>
-<meta name="description" content="162 curated, free, legal browser games: puzzle, action, roguelike, idle, multiplayer, retro, horror, cozy. Search, filter by genre, save favorites.">
+<meta name="description" content="213 curated, free, legal browser games: puzzle, action, roguelike, idle, multiplayer, retro, horror, cozy. Search, filter by genre, save favorites, track your trophies.">
 <link rel="preload" href="assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/tokens.css">
@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
 <link rel="stylesheet" href="assets/css/wave16.css">
+<link rel="stylesheet" href="assets/css/trophy.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -43,11 +44,12 @@
   <section class="hero">
     <div class="wrap hero-inner">
       <span class="kicker">The shelf</span>
-      <h1>162 games. <span class="cyan">Zero installs.</span></h1>
-      <p class="lede">Every link hand-checked and live. Search, filter by genre, heart your favorites (they live in your browser, not our servers).</p>
+      <h1><span id="games-hero-count">213 games.</span> <span class="cyan">Zero installs.</span></h1>
+      <p class="lede">Every link hand-checked and live. Search, filter by genre, heart your favorites (they live in your browser, not our servers) — and mark games played or beaten to grow your trophy room.</p>
       <div class="hero-actions">
         <button class="btn btn-primary" id="random-game" type="button">🎲 Random game</button>
         <a class="btn btn-ghost" href="collections.html">Browse collections</a>
+        <a class="btn btn-ghost" href="trophy-room.html">» Trophy room</a>
       </div>
     </div>
   </section>
@@ -119,6 +121,7 @@
           <li><a href="party-planner.html">Party planner</a></li>
         <li><a href="tournament.html">Tournament</a></li>
         <li><a href="kids.html">Kids corner</a></li>
+        <li><a href="trophy-room.html">Trophy room</a></li>
         </ul>
       </div>
       <div>
@@ -150,6 +153,7 @@
 </footer>
 
 <script src="assets/js/store.js"></script>
+<script src="assets/js/trophy-core.js"></script>
 <script src="assets/js/arcade.js"></script>
 <script src="assets/js/directory.js"></script>
 </body>
