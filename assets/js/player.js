@@ -93,6 +93,9 @@
     var screen = document.createElement('div');
     screen.id = 'ejs-screen';
     stage.appendChild(screen);
+    /* Wow wave 1: CRT power-on for the new screen (pure CSS, engine untouched).
+       Gated on this system's CRT pref; fx-off / reduced-motion make it a no-op. */
+    if (readDisplay(core).crt) powerOnScreen();
 
     window.EJS_player = '#ejs-screen';
     window.EJS_core = core;
@@ -366,6 +369,10 @@
   function applyCrt(on) {
     var o = ensureCrtOverlay();
     if (o) o.style.display = on ? '' : 'none';
+    /* Wow wave 1: the full CRT treatment (scanline roll, glass sheen,
+       phosphor glow) rides on the shell class; CSS kills it under fx-off. */
+    var shell = $('console-shell');
+    if (shell) shell.classList.toggle('crt-on', !!on);
     ['crt-btn', 'crt-toggle-2'].forEach(function (id) {
       var b = $(id);
       if (b) b.setAttribute('aria-pressed', on ? 'true' : 'false');
@@ -448,6 +455,33 @@
         b.textContent = on ? '⛶ Exit fullscreen' : '⛶ Fullscreen';
       }
     });
+  }
+
+  /* ---------- Wow wave 1: CRT screen power on/off ----------
+     Pure overlay classes on #ejs-screen — the EmulatorJS engine underneath
+     is never touched. The FX toggle and prefers-reduced-motion both make
+     these a no-op (CSS gates the keyframes; this helper skips the delay). */
+  function crtMotionOK() {
+    var rm = false;
+    try { rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    return !rm && !document.documentElement.classList.contains('fx-off');
+  }
+  function powerOnScreen() {
+    var s = $('ejs-screen');
+    if (!s) return;
+    s.classList.remove('screen-power-off');
+    s.classList.add('screen-power-on');
+    setTimeout(function () { s.classList.remove('screen-power-on'); }, 700);
+  }
+  /* Runs fn after the CRT power-off collapse, or immediately when the
+     treatment is off / no screen is up / motion is reduced / FX is off. */
+  function powerOffThen(fn) {
+    var s = $('ejs-screen');
+    var want = !!(s && curCore && readDisplay(curCore).crt && crtMotionOK());
+    if (!want) { fn(); return; }
+    s.classList.remove('screen-power-on');
+    s.classList.add('screen-power-off');
+    setTimeout(function () { fn(); }, 400);
   }
 
   /* ---------- Save states: export / import / delete ---------- */
@@ -1235,15 +1269,18 @@
     urlInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') handleUrl(); });
 
     $('eject-btn').addEventListener('click', function () {
-      teardown();
-      showVeil();
-      $('player-toolbar').hidden = true;
-      $('sys-badge').hidden = true;
-      setStatus('IDLE', false);
-      sysSelect.value = 'auto';
-      curCore = null; curGameName = null; curGameID = null;
-      remapOverride = null;
-      renderCheats(); renderRemap(); renderSlots(); scheduleAutosave();
+      /* Wow wave 1: CRT power-off collapse before the veil returns. */
+      powerOffThen(function () {
+        teardown();
+        showVeil();
+        $('player-toolbar').hidden = true;
+        $('sys-badge').hidden = true;
+        setStatus('IDLE', false);
+        sysSelect.value = 'auto';
+        curCore = null; curGameName = null; curGameID = null;
+        remapOverride = null;
+        renderCheats(); renderRemap(); renderSlots(); scheduleAutosave();
+      });
     });
 
     var fsBtn = $('fullscreen-btn');

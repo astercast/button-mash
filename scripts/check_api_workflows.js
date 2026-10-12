@@ -922,4 +922,86 @@ check("WF19 no ROM/BIOS download phrasing in new wave-B files",
     .test(apiClientJs + gnUiJs + gnClientJs + goLiveMd),
   "legal lane holds on all new files");
 
+// Workflow 20 (wow wave 1 "Attract Mode"): cabinet homepage + CRT player
+const attractCss = fs.readFileSync(path.join(ROOT, "assets/css/attract.css"), "utf8");
+const attractJs = fs.readFileSync(path.join(ROOT, "assets/js/attract.js"), "utf8");
+check("WF20 cabinet markup on index.html (marquee + bezel + screen + deck + coin plate)",
+  indexHtml.includes('id="arcade-cabinet"') && indexHtml.includes('class="cabinet-marquee"') &&
+  indexHtml.includes('id="cabinet-screen"') && indexHtml.includes('id="demo-stage"') &&
+  indexHtml.includes('id="insert-coin"') && indexHtml.includes('href="games.html">\u00BB INSERT COIN') &&
+  indexHtml.includes('id="demo-prev"') && indexHtml.includes('id="demo-next"') &&
+  indexHtml.includes('id="demo-pause"') && indexHtml.includes('id="demo-callout"') &&
+  indexHtml.includes('id="demo-announcer"') && indexHtml.includes('assets/css/attract.css') &&
+  indexHtml.includes('assets/js/attract.js'),
+  "cabinet + transport + coin plate + announcer + assets wired");
+check("WF20 demo loop is real catalog data (no canned slides)",
+  attractJs.includes("BM.loadGames()") && attractJs.includes("pickSpotlights") &&
+  attractJs.includes("data/collections.json") && attractJs.includes("api/v1/kid-safe.json") &&
+  !/=\s*\[[^\]\s]/.test(attractJs.split("pickSpotlights")[1] || ""),
+  "loadGames + deterministic daily picks from the live catalog");
+check("WF20 stat callouts from real catalog + real trophy progress",
+  attractJs.includes("buildCallouts") && attractJs.includes("store.counts()") &&
+  attractJs.includes("store.achievements()") && attractJs.includes("store.streak()") &&
+  attractJs.includes("GAMES ON THE SHELF") && attractJs.includes("KID-SAFE PICKS"),
+  "catalog facts + played/beaten/prizes/streak, progress-gated");
+check("WF20 demo is skippable + keyboard-operable",
+  attractJs.includes('setAttribute("inert", "")') && attractJs.includes("aria-roledescription") &&
+  indexHtml.includes('aria-live="polite"') && attractJs.includes("aria-pressed") &&
+  indexHtml.includes('role="toolbar"') && indexHtml.includes('aria-label="Demo loop controls"'),
+  "inert inactive slides, roledescription, live announcer, toolbar");
+check("WF20 insert coin: screen-off transition to the real games directory",
+  attractJs.includes("screen-off") && attractJs.includes('window.location.href = "games.html"') &&
+  attractCss.includes("@keyframes crt-collapse") && attractCss.includes("@keyframes crt-flash"),
+  "CRT collapse + flash keyframes, plain-link fallback preserved");
+check("WF20 reduced-motion: static cabinet, all games listed, no motion",
+  attractJs.includes("renderStaticList") && attractJs.includes("demo-all-list") &&
+  attractCss.includes("@media (prefers-reduced-motion: reduce)") &&
+  attractCss.includes(".demo-all-list"),
+  "full static shelf list replaces the demo under reduced motion");
+check("WF20 FX toggle kills the whole wave (sensory-envelope switch)",
+  /classList\.contains\(['"]fx-off['"]\)/.test(attractJs) &&
+  attractCss.includes("html.fx-off .marquee-bulbs") &&
+  attractCss.includes("html.fx-off #console-shell.crt-on .crt-overlay") &&
+  attractCss.includes("html.fx-off .demo-slide") &&
+  /classList\.contains\(['"]fx-off['"]\)/.test(playerJs),
+  "cabinet motion, demo cycle, and CRT treatment all die under fx-off");
+check("WF20 cabinet mobile tuning",
+  attractCss.includes("@media (max-width: 720px)") && attractCss.includes(".cabinet-side { display: none; }") &&
+  attractCss.includes("@media (max-width: 480px)") && attractCss.includes(".insert-coin-plate { width: 100%;"),
+  "side art collapses, deck wraps, coin plate full-width");
+check("WF20 CRT player: scanline roll + sheen + phosphor glow, overlay-only",
+  attractCss.includes("#console-shell.crt-on .ejs-stage::after") &&
+  attractCss.includes("@keyframes crt-roll") &&
+  attractCss.includes("phosphor glow") && attractCss.includes("pointer-events: none") &&
+  playerJs.includes("toggle('crt-on'") || playerJs.includes('toggle("crt-on"'),
+  "roll + glass sheen + glow; player.js only toggles a class");
+check("WF20 CRT power on/off hooks in player.js (null-guarded, engine untouched)",
+  playerJs.includes("powerOnScreen") && playerJs.includes("powerOffThen") &&
+  playerJs.includes("screen-power-on") && playerJs.includes("screen-power-off") &&
+  attractCss.includes("@keyframes crt-power-on") && attractCss.includes("@keyframes crt-power-off") &&
+  playerJs.includes("EJS_emulator.destroy"),
+  "boot powers on, eject powers off; teardown still destroys the engine");
+const kfBlocks = [...attractCss.matchAll(/@keyframes\s+([\w-]+)\s*\{(?:[^{}]|\{[^{}]*\})*\}/g)];
+const kfLayoutProps = kfBlocks.filter((m) =>
+  /\b(width|height|top|left|right|bottom|margin|padding|background-position)\s*:/.test(m[2]));
+check("WF20 player.html wired + transform/opacity-only animation discipline",
+  playerHtml.includes("assets/css/attract.css") && kfBlocks.length >= 6 && kfLayoutProps.length === 0,
+  "attract.css linked on player; " + kfBlocks.length + " keyframe blocks, zero layout-property animations");
+check("WF20 CRT power-off / fx-off / reduced-motion CSS wiring",
+  attractCss.includes("html:not(.fx-off) #ejs-screen.screen-power-off") &&
+  attractCss.includes("html.fx-off #console-shell.crt-on .crt-overlay") &&
+  attractCss.includes("html.fx-off #console-shell.crt-on .ejs-stage::after") &&
+  /@media \(prefers-reduced-motion: reduce\)[\s\S]*?#ejs-screen\.screen-power-off/.test(attractCss) &&
+  playerJs.includes("powerOffThen(function ()") &&
+  playerJs.includes("if (readDisplay(core).crt) powerOnScreen();"),
+  "power-off gated, fx-off hides overlays, rm kills power motion, boot/eject wired");
+check("WF20 demo offline state is honest, not a stub",
+  attractJs.includes("demoOffline") && attractJs.includes("CABINET OFFLINE") &&
+  attractJs.includes('a.href = "games.html"'),
+  "fetch failure -> honest message + directory link");
+check("WF20 no ROM/BIOS download phrasing in new wave-1 files",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(attractJs + attractCss) &&
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b/i.test(indexHtml.split("cabinet-section")[0] || ""),
+  "legal lane holds");
+
 process.exit(failures ? 1 : 0);

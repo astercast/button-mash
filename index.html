@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="assets/css/components.css">
 <link rel="stylesheet" href="assets/css/wave16.css">
 <link rel="stylesheet" href="assets/css/trophy.css">
+<link rel="stylesheet" href="assets/css/attract.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -39,18 +40,42 @@
 </header>
 
 <main id="main">
-  <section class="hero">
-    <div class="wrap hero-inner">
-      <span class="kicker">Your browser is the console</span>
-      <h1>Drop a file. <span class="pink">Press start.</span><br>Or pick from <span class="cyan" id="hero-game-count">213 free games.</span></h1>
-      <p class="lede">Button Mash is a universal in-browser player: your own game files run right here through EmulatorJS, your GBA collection becomes shareable browser games with one click — and when you just want something new, there's a curated shelf of free browser games. Everything here is playable without piracy.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="player.html">» Open the Player</a>
-        <a class="btn btn-cyan" href="converter.html">⚡ ROM › Browser Game</a>
-        <a class="btn btn-ghost" id="browse-games-btn" href="games.html">Browse 213 games</a>
+  <section class="cabinet-section" aria-label="Button Mash arcade cabinet">
+    <div class="wrap">
+      <div class="cabinet" id="arcade-cabinet">
+        <div class="cabinet-marquee">
+          <div class="marquee-bulbs" aria-hidden="true"></div>
+          <h1 class="marquee-title">BUTTON <em>MASH</em></h1>
+          <p class="marquee-sub">» YOUR BROWSER IS THE CONSOLE «</p>
+          <div class="marquee-bulbs bottom" aria-hidden="true"></div>
+        </div>
+        <div class="cabinet-body">
+          <aside class="cabinet-side left" aria-hidden="true"></aside>
+          <div class="cabinet-center">
+            <div class="cabinet-screen-bezel">
+              <div class="cabinet-screen" id="cabinet-screen">
+                <div class="screen-crt" aria-hidden="true"></div>
+                <div class="demo-stage" id="demo-stage" role="region" aria-label="Demo loop: rotating game spotlights">
+                  <noscript><p style="color:var(--ink-dim);font-family:var(--font-mono)">The demo needs JavaScript. <a href="games.html" style="color:var(--neon-cyan)">Browse all 213 games ›</a></p></noscript>
+                </div>
+                <p class="demo-announcer sr-only" id="demo-announcer" aria-live="polite"></p>
+                <p class="insert-coin-line" aria-hidden="true"><span>· INSERT COIN ·</span></p>
+                <div class="screen-flash" aria-hidden="true"></div>
+              </div>
+            </div>
+            <div class="control-deck" role="toolbar" aria-label="Demo loop controls">
+              <button class="deck-btn" id="demo-prev" type="button">‹ Prev</button>
+              <button class="deck-btn" id="demo-pause" type="button" aria-pressed="false"><span>⏸ Pause</span></button>
+              <button class="deck-btn" id="demo-next" type="button">Next ›</button>
+              <a class="insert-coin-plate" id="insert-coin" href="games.html">» INSERT COIN — PRESS START</a>
+            </div>
+            <p class="demo-callouts" aria-hidden="true"><span class="callout-swap" id="demo-callout"></span></p>
+            <p class="sr-only" id="demo-stats-summary"></p>
+          </div>
+          <aside class="cabinet-side right" aria-hidden="true"></aside>
+        </div>
+        <div class="cabinet-kick" aria-hidden="true"><span>• 213 FREE GAMES • NO PIRACY, EVER •</span></div>
       </div>
-      <p class="insert-coin" aria-hidden="true">· INSERT COIN ·</p>
-      <p class="attract-ribbon" aria-hidden="true">» ATTRACT MODE — TOUCH TO PLAY «</p>
     </div>
   </section>
 
@@ -184,6 +209,7 @@
 
 <script src="assets/js/store.js"></script>
 <script src="assets/js/trophy-core.js"></script>
+<script src="assets/js/attract.js"></script>
 <script src="assets/js/arcade.js"></script>
 <script src="assets/js/directory.js"></script>
 </body>

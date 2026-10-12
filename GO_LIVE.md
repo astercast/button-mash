@@ -160,3 +160,19 @@ the user's projects. Standing rule:
 - If this site approaches 80% of any Hobby limit, the wave report flags it
   and the fix is *less* work (longer edge TTL, smaller payloads) — never a
   plan upgrade without the user's explicit word.
+
+## 11. Two-track deploy (2026-10-11 — one-time CLI deploy)
+
+- **This repo (`astercast/button-mash`) is NEVER deployed.** It is the
+  working repo: the wave engine builds here continuously. Nothing here is
+  connected to Vercel, and pushing here never deploys anything.
+- The deploy target is the release repo **`astercast/button-mash-live`** —
+  a one-time static snapshot (frontend + `api/` functions + `lib/` +
+  `data/` + adapted `vercel.json`, no build scripts, no dev notes).
+- **One-time CLI deploy; no git integration; future work is GitHub-only.**
+  Deploy happens once via Vercel CLI from a local `-live` clone. Never
+  connect the working repo to Vercel, never enable Vercel's GitHub
+  integration on either repo (it can never auto-deploy).
+- After the first snapshot push, **never push to `-live` again** unless the
+  user explicitly says "push"/"ship it" in chat. Before every push, verify
+  the remote URL matches the intended track; when in doubt, stop and ask.

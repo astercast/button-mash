@@ -2,6 +2,70 @@
 
 Running record of build waves. Newest first.
 
+## Wow wave 1 — 2026-10-11 — "Attract Mode": the homepage IS the cabinet
+
+**What shipped** — the first wow-moment wave: the homepage is now a full arcade
+cabinet in demo mode, and the Player page gets a full CRT treatment. Both are
+enhancement layers over real data and the real EmulatorJS player; the FX toggle
+stays the sensory-envelope kill switch for all of it. The Arcade identity is
+extended, not redone.
+
+- **Cabinet homepage** (`index.html` hero → `#arcade-cabinet`): marquee with
+  animated chase-light bulb strips (reuses the `--bulb`/`chase-x` token system),
+  pixel brand + tagline, screen bezel, neon side-art panels, control deck,
+  kick plate. The sections below (game of the day, shelf sampler, craft cards)
+  are untouched — `directory.js` drives them null-guarded as before.
+- **Demo loop** (`assets/js/attract.js`, new): 6 spotlight slides drawn from the
+  REAL 213-game catalog — deterministic daily rotation (genre round-robin with
+  a seeded offset, never canned slides), each slide carrying the game's real
+  title/genre/description/tags/kid-safe badge/controls and a
+  "» PLAY AT {domain}" deep link to the catalog's curl-verified URL (new tab).
+  High-score-style stat callouts rotate real catalog facts (213 games on the
+  shelf, kid-safe count, curated-shelf count) plus the player's REAL Trophy
+  Room progress (`store.counts()` / `achievements()` / `streak()`) wherever it
+  exists — e.g. "YOU: 12 PLAYED · 3 BEATEN", "» 3 PRIZES ON YOUR WALL".
+  Skippable: prev/next/pause transport (real buttons, `aria-pressed`), inactive
+  slides `inert` + `aria-hidden`, an `aria-live` announcer, politeness pauses on
+  hover/focus/hidden-tab, and an honest "» CABINET OFFLINE" state with a
+  directory link if the catalog fetch fails.
+- **INSERT COIN** (`#insert-coin` coin plate): plays the CRT screen-off collapse
+  + white flash (transform/opacity keyframes only), then lands on the real
+  `games.html`. Plain-link behavior preserved for new-tab clicks, no-JS,
+  reduced-motion, and FX-off (all navigate immediately).
+- **Reduced motion** → no demo at all: a static cabinet with the FULL game list
+  (all 213, alphabetical, real links + genre chips + kid-safe marks), transport
+  hidden, zero animation anywhere. **FX-off** → chase bulbs, coin blink, demo
+  cycle, and CRT layers all die (MutationObserver stops the timers the moment
+  the toggle flips); manual skips still work instantly, content fully reachable.
+- **Mobile** (≤720px/≤480px): side art collapses, deck wraps, coin plate goes
+  full-width, slide copy simplifies (tags hidden, description clamped), zero
+  horizontal overflow at 390px.
+- **CRT player** (`player.html` + `assets/css/attract.css`, new): scanline roll
+  (seamless 6px loop), curved glass sheen + vignette above the engine canvas,
+  phosphor glow on the console readout, CRT screen power-on at boot and
+  power-off collapse on eject — all `pointer-events: none` overlays, so the
+  EmulatorJS engine is never touched and the wave-3.1 null-guard discipline
+  stays. Gated on the per-system CRT display pref; `html.fx-off` and
+  `prefers-reduced-motion` reduce it to static scanlines or nothing.
+- **Agentic surface**: `check_api_workflows.js` gained **WF20 (13 checks)** —
+  cabinet markup, real-data demo, progress callouts, skippability/a11y, insert
+  coin, reduced-motion, FX kill, mobile, CRT player, power hooks, animation
+  discipline (all keyframe blocks scanned: transform/opacity only), honest
+  offline state, legal lane. New `scripts/test_wow1.js` headless suite.
+
+**Validation (wow wave 1):**
+- `scripts/build.py`: **BUILD OK — 213 games (149 domains), 22 collections, 10 emulators, 22 guides**; **LEGAL GATE OK (40 pages, 213 game URLs, 0 piracy links)**
+- `scripts/check_links.py`: **LINK CHECK OK — 39 pages, 1261 local links, 76 external links, 0 broken**
+- `node scripts/check_api_workflows.js`: **182/182 pass (WF1–WF20)**, 0 failures
+- `node --check`: clean on attract.js, player.js, test_wow1.js, test_wow1_powerunit.js, check_api_workflows.js
+- `node scripts/test_wow1.js` (section runs, each zero pageerrors): **desktop 38/38** — 6 real slides, determinism across reloads, skip/pause/keyboard transport, announcer, callout rotation incl. seeded trophy progress ("YOU: 1 PLAYED"), screen-off → games.html (click + keyboard), FX-off kills cycle/chase/blink (manual skip still instant), 4 contrast pairs AA (10.30/18.90/17.08/12.43:1); **motion 5/5** — full 213-game static shelf, no slides, transport hidden, coin plate works, no chase; **mobile 3/3** — 390px zero overflow, side art collapses, full-width coin plate; **player 4/4** — crt-on engages from display prefs, overlay present, crt-roll active, power-on→keyframes mapping
+- `node scripts/test_wow1_powerunit.js`: **13/13** — the powerOnScreen/powerOffThen/crtMotionOK branching logic run against the real shipped functions (immediate vs 400ms-delayed paths, class add/remove, all four kill conditions)
+- Screenshots inspected: cabinet slide 1, slide 2, insert-coin screen-off frame (collapse + flash visible), fx-off static cabinet, reduced-motion full shelf, mobile 390px
+- Not completed (environment-blocked, see flakes): the 5 remaining player-tail checks (eject immediate path, power-off keyframe mapping, fx-off overlay kill, reduced-motion player) and `~/workspace/smoke/test.js` — the VM's renderer crashes under parallel-agent load (loadavg 7–9 on 2 CPUs; `Target closed`, `Runtime.getProperties/callFunctionOn` CDP timeouts). The code paths are covered by the power-unit tests + WF20 static checks + the identical CSS machinery verified live. Re-run when the machine is quiet.
+- **Flakes investigated, not shipped as bugs**: (1) `Page.captureScreenshot` protocol timeout under load — screenshots wrapped in a never-fail helper; (2) renderer stalls/crashes under parallel-agent load — sections run independently (`desktop|motion|mobile|player`), stalled waits retry once with a fresh navigation, then report diagnostics; (3) `page.reload()` wedged repeatedly while `page.goto()` to the same URL recovered — the suite uses goto throughout; (4) `emulateMediaFeatures(reduce)` leaked to later pages in this puppeteer-core version — every page sets its media features explicitly; (5) the index FX-off test persisted `bm-fx=off` in shared localStorage and poisoned later sections — the suite resets it explicitly; (6) under heavy load, file:// subresource loads fail intermittently (`net::ERR_FAILED`) — including `player.js` itself, leaving a script-less page that still answers localStorage reads: player assertions are gated on a `window.BM21 + #crt-overlay` load sentinel (proving the script loaded AND its init ran) with a fresh-navigation retry.
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links; no new external links (slide PLAY links reuse the catalog's curl-verified URLs); new files carry no download phrasing (explicit WF20 check).
+
 ## Vercel Wave B — 2026-10-11 — "The Curator": frontend integration + GO_LIVE.md
 
 **What shipped** — the fallback contract goes live in the browser, per `~/workspace/server-program/ARCHITECTURE.md` §3 (service `mash-curator`). The site now calls `/api/*` first and falls back to the static `api/v1/` JSON with honest badges; it never looks broken when functions are cold or down.
