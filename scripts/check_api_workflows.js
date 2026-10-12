@@ -183,4 +183,37 @@ check("WF7 llms.txt mentions kids corner + kid-safe endpoint",
   fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("kid-safe.json"),
   "llms.txt updated");
 
+// ---- Wave 8: homebrew radar sweep + archive expansion ----
+const collectionsEnv = load("api/v1/collections.json");
+const collections = collectionsEnv.collections;
+const wave8Ids = ["tristram", "die-in-the-dungeon", "trevosa", "prerolled", "zombie-nest-gba",
+  "dare-to-doku", "english-brick-breaker", "math-challenge", "tank-battle", "red-alert-rts", "3d-plane-battle"];
+check("WF8 wave-8 games all in api/v1/games.json",
+  wave8Ids.every((id) => gameIds.has(id)), wave8Ids.length + " new games present");
+const radar = collections.find((c) => c.id === "homebrew-radar");
+const vanilla = collections.find((c) => c.id === "vanilla-js");
+check("WF8 homebrew-radar collection (6 games, all wave-8 ids)",
+  !!radar && radar.game_ids.length === 6 &&
+  ["tristram", "die-in-the-dungeon", "trevosa", "prerolled", "zombie-nest-gba", "dare-to-doku"].every((id) => radar.game_ids.includes(id)),
+  radar ? radar.game_ids.join(", ") : "missing");
+check("WF8 vanilla-js collection (5 games, all wave-8 ids)",
+  !!vanilla && vanilla.game_ids.length === 5 &&
+  ["english-brick-breaker", "math-challenge", "tank-battle", "red-alert-rts", "3d-plane-battle"].every((id) => vanilla.game_ids.includes(id)),
+  vanilla ? vanilla.game_ids.join(", ") : "missing");
+const gbaPack = packs.find((p) => p.system_id === "gba");
+check("WF8 GBA homebrew pack gained the GBA Jam 2026 entries page",
+  !!gbaPack && gbaPack.entries.some((e) => e.url === "https://itch.io/jam/gbajam26/entries"),
+  gbaPack ? gbaPack.entries.length + " entries" : "missing");
+check("WF8 collections.html header nav has Tournament + Party planner links",
+  fs.readFileSync(path.join(ROOT, "collections.html"), "utf8").includes('href="tournament.html"') &&
+  /<header[\s\S]*?href="party-planner\.html"[\s\S]*?<\/header>/.test(fs.readFileSync(path.join(ROOT, "collections.html"), "utf8")),
+  "wave-6 inconsistency fixed");
+check("WF8 llms.txt has live counts + new collections",
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("125-game directory") &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("Homebrew radar"),
+  "dynamic counts in build_site.py");
+check("WF8 every wave-8 game has a kids.json verdict",
+  wave8Ids.every((id) => kids.some((k) => k.id === id) || load("data/kids.json").excluded.some((k) => k.id === id)),
+  "6 curated + 5 excluded");
+
 process.exit(failures ? 1 : 0);

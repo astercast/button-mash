@@ -1,10 +1,10 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T01:46:40Z",
+  "generated_at": "2026-10-12T02:00:56Z",
   "endpoint": "kid-safe",
   "description": "Kid-safe curated subset of the games directory: games that pass the Kids-mode audit (no open chat, no unmoderated multiplayer chat or user content, no gambling, no graphic/horror content). Each record carries kid_safe, no_chat, age_band (5-7/8-10/11-12), parent_note, verify_live, and audit_basis. Assessments are snapshots, not guarantees.",
-  "count": 44,
+  "count": 50,
   "kid-safe": [
     {
       "id": "2048",
@@ -621,6 +621,90 @@
       "parent_note": "A short wholesome story game about a dog. No chat was found on the page. Sweet — the dog theme lands in a good way.",
       "verify_live": true,
       "audit_basis": "Assessment from page inspection only — not played end-to-end; flagged verify_live."
+    },
+    {
+      "id": "english-brick-breaker",
+      "title": "English Brick Breaker",
+      "url": "https://wqnlll.github.io/english-brick-breaker.html",
+      "genre": "puzzle",
+      "description": "A brick breaker that teaches 222 English words across 8 topics. Pure vanilla JS, no accounts, no downloads — Chromebook-friendly.",
+      "controls": "Mouse / keyboard",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "Brick-breaker that teaches 222 English words. Plain static page, no accounts or chat. Great for early readers.",
+      "verify_live": false,
+      "audit_basis": "Single-author vanilla-JS page (wqnlll.github.io); author documents no accounts/downloads; no chat or user content on the page."
+    },
+    {
+      "id": "math-challenge",
+      "title": "Math Challenge",
+      "url": "https://wqnlll.github.io/math-challenge.html",
+      "genre": "puzzle",
+      "description": "Timed arithmetic across 7 levels, from single-digit addition to word problems. Vanilla JS, no accounts.",
+      "controls": "Keyboard",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Timed arithmetic drills, no accounts or chat. A solid homework-adjacent warm-up.",
+      "verify_live": false,
+      "audit_basis": "Single-author vanilla-JS page (wqnlll.github.io); no accounts, chat, or user content on the page."
+    },
+    {
+      "id": "dare-to-doku",
+      "title": "Dare To Doku",
+      "url": "https://daretosquare.itch.io/dare-to-doku",
+      "genre": "puzzle",
+      "description": "A GBA Jam 2026 homebrew: a 'star battle' logic puzzle — deduce where every player hides in grids of 4–10 across 10,000 unique levels. Playable in the browser.",
+      "controls": "Mouse",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "A pure logic puzzle (find hidden players in a grid) with a tutorial — no chat, no violence. Flagged verify: it's a new GBA homebrew port, so play the first 10 minutes together.",
+      "verify_live": true,
+      "audit_basis": "itch.io browser build of a GBA Jam 2026 homebrew; single-player deduction puzzle, no accounts/chat visible; flagged for co-play since the port is new to this audit."
+    },
+    {
+      "id": "die-in-the-dungeon",
+      "title": "Die in the Dungeon CLASSIC",
+      "url": "https://alarts.itch.io/die-in-the-dungeon",
+      "genre": "roguelike",
+      "description": "A turn-based, dice-building roguelite — no cards, just dice. Guide a frog warrior through 20 floors of monsters; 4.7 stars from thousands of itch.io ratings.",
+      "controls": "Mouse",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "11-12",
+      "parent_note": "Cute dice-battling roguelite — roll dice to fight cartoon dungeon monsters as a frog warrior. No chat. Flagged verify: play the first 10 minutes together.",
+      "verify_live": true,
+      "audit_basis": "Unity HTML5 browser build by Alarts; single-player, no accounts/chat; combat is the whole game but stylized and cute — sits at the older band with the verify flag (per dragonsweeper precedent)."
+    },
+    {
+      "id": "tristram",
+      "title": "Tristram",
+      "url": "https://bippinbits.itch.io/tristram",
+      "genre": "roguelike",
+      "description": "Diablo-homage auto-battler: recruit heroes, send them into the cathedral catacombs, and spend their loot rebuilding Tristram. Made in 72 hours for Ludum Dare 55.",
+      "controls": "WASD / arrow keys + mouse",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "11-12",
+      "parent_note": "Diablo-flavored auto-battler: your recruited heroes fight pixel monsters while you rebuild the town. No chat. Darker fantasy tone than most curated games — flagged verify.",
+      "verify_live": true,
+      "audit_basis": "Ludum Dare 55 HTML5 auto-battler by bippinbits; single-player; heroes auto-fight dungeon monsters in a Diablo-homage aesthetic; no accounts/chat; verify flag for the darker tone."
+    },
+    {
+      "id": "prerolled",
+      "title": "Prerolled",
+      "url": "https://red-sauce.itch.io/prerolled",
+      "genre": "idle",
+      "description": "A cozy dice-shop roguelite: craft silly dice boxes, match customer stipulations, upgrade your shop — and make rent, or the run ends.",
+      "controls": "Mouse",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Cozy dice-shop sim — sell silly dice boxes, upgrade your shop, pay rent. No chat. The rent timer can feel pressuring; co-play the first run.",
+      "verify_live": true,
+      "audit_basis": "itch.io HTML5 shop sim by Red Sauce Games; single-player strategy, no accounts/chat in the game; economy/rent theme flagged for parents, hence the verify flag."
     }
   ]
 }

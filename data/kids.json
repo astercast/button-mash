@@ -401,6 +401,60 @@
       "parent_note": "A short wholesome story game about a dog. No chat was found on the page. Sweet — the dog theme lands in a good way.",
       "verify_live": true,
       "audit_basis": "Assessment from page inspection only — not played end-to-end; flagged verify_live."
+    },
+    {
+      "id": "english-brick-breaker",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "Brick-breaker that teaches 222 English words. Plain static page, no accounts or chat. Great for early readers.",
+      "verify_live": false,
+      "audit_basis": "Single-author vanilla-JS page (wqnlll.github.io); author documents no accounts/downloads; no chat or user content on the page."
+    },
+    {
+      "id": "math-challenge",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Timed arithmetic drills, no accounts or chat. A solid homework-adjacent warm-up.",
+      "verify_live": false,
+      "audit_basis": "Single-author vanilla-JS page (wqnlll.github.io); no accounts, chat, or user content on the page."
+    },
+    {
+      "id": "dare-to-doku",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "A pure logic puzzle (find hidden players in a grid) with a tutorial — no chat, no violence. Flagged verify: it's a new GBA homebrew port, so play the first 10 minutes together.",
+      "verify_live": true,
+      "audit_basis": "itch.io browser build of a GBA Jam 2026 homebrew; single-player deduction puzzle, no accounts/chat visible; flagged for co-play since the port is new to this audit."
+    },
+    {
+      "id": "die-in-the-dungeon",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "11-12",
+      "parent_note": "Cute dice-battling roguelite — roll dice to fight cartoon dungeon monsters as a frog warrior. No chat. Flagged verify: play the first 10 minutes together.",
+      "verify_live": true,
+      "audit_basis": "Unity HTML5 browser build by Alarts; single-player, no accounts/chat; combat is the whole game but stylized and cute — sits at the older band with the verify flag (per dragonsweeper precedent)."
+    },
+    {
+      "id": "tristram",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "11-12",
+      "parent_note": "Diablo-flavored auto-battler: your recruited heroes fight pixel monsters while you rebuild the town. No chat. Darker fantasy tone than most curated games — flagged verify.",
+      "verify_live": true,
+      "audit_basis": "Ludum Dare 55 HTML5 auto-battler by bippinbits; single-player; heroes auto-fight dungeon monsters in a Diablo-homage aesthetic; no accounts/chat; verify flag for the darker tone."
+    },
+    {
+      "id": "prerolled",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Cozy dice-shop sim — sell silly dice boxes, upgrade your shop, pay rent. No chat. The rent timer can feel pressuring; co-play the first run.",
+      "verify_live": true,
+      "audit_basis": "itch.io HTML5 shop sim by Red Sauce Games; single-player strategy, no accounts/chat in the game; economy/rent theme flagged for parents, hence the verify flag."
     }
   ],
   "excluded": [
@@ -683,6 +737,26 @@
     {
       "id": "tetris-official",
       "reason": "Official site includes multiplayer modes with social features we could not verify as chat-free."
+    },
+    {
+      "id": "zombie-nest-gba",
+      "reason": "Top-down shooter about killing zombie hordes with 10 unlockable weapons — pixel violence throughout. Does not clear the bar."
+    },
+    {
+      "id": "tank-battle",
+      "reason": "Top-down tank combat — shooting is the core loop. Does not clear the bar."
+    },
+    {
+      "id": "red-alert-rts",
+      "reason": "War RTS: build bases and destroy enemy units in combat. Does not clear the bar."
+    },
+    {
+      "id": "3d-plane-battle",
+      "reason": "Arcade plane combat — shooting down other planes is the whole game. Does not clear the bar."
+    },
+    {
+      "id": "trevosa",
+      "reason": "Dense reading game: translate an invented language and untangle a 30-person royal family tree with succession/exile themes. Text-heavy and not pitched at kids — when in doubt, excluded."
     }
   ]
 }

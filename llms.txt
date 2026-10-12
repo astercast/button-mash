@@ -1,16 +1,16 @@
 # Button Mash
 
-The universal in-browser game console. Three centerpieces: (1) the Player — a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) the Converter — drop in a GBA, GB/GBC or NES file you own, get back a single self-contained playable .html browser game (client-side only, all three cores BIOS-free); (3) the Party Planner — headcount + time + vibe in, timed game-night rotation plan out. Plus a curated directory of 114 free, legal browser games (every link verified live 2026-10-11), hand-built collections, genre deep dives, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads — ever.
+The universal in-browser game console. Three centerpieces: (1) the Player — a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) the Converter — drop in a GBA, GB/GBC or NES file you own, get back a single self-contained playable .html browser game (client-side only, all three cores BIOS-free); (3) the Party Planner — headcount + time + vibe in, timed game-night rotation plan out. Plus a curated directory of 125 free, legal browser games (every link verified live 2026-10-11), hand-built collections, genre deep dives, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads — ever.
 
 ## Play
 - player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.0: save-state export/import, keyboard+gamepad remap UI, cheat-code entry, CRT filter, honest netplay notes)
 - converter.html — ROM-to-browser-game converter (GBA/GB/GBC/NES in, self-contained .html out)
 - party-planner.html — timed game-night rotation planner across party-tagged games (print-friendly)
 - tournament.html — single-elimination tournament brackets for game night: 2-16 players, standard seeding with honest byes, best-of-N per round, one party game per round, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids)
-- games.html — the 114-game directory (search, genre filters, favorites, random game, game of the day)
-- kids.html — Kids corner: 44 kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default
+- games.html — the 125-game directory (search, genre filters, favorites, random game, game of the day)
+- kids.html — Kids corner: 50 kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default
 - parents.html — parent guide: curation method, honesty policy (assessments not guarantees — play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick
-- collections.html — 11 hand-built collections
+- collections.html — 13 hand-built collections
 - genres/roguelike.html, genres/cozy.html — genre deep dives with start-here picks
 
 ## Learn
@@ -32,7 +32,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - guides/genesis.html — Genesis emulation guide (Genesis Plus GX, BIOS-free)
 - guides/gameboy.html — Game Boy / Color emulation guide (Gambatte, BIOS-free)
 
-## Games (114 total)
+## Games (125 total)
 
 - 2048 [puzzle · Arrow keys / swipe] — Slide numbered tiles and merge them to reach 2048. Deceptively simple, endlessly restartable. Play: https://play2048.co/
 - Wordle [puzzle · Keyboard] — One five-letter word a day, six guesses. The whole internet solves the same puzzle. Play: https://www.nytimes.com/games/wordle/index.html
@@ -148,11 +148,22 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - ClassicReload [retro · Keyboard / mouse] — Hundreds of DOS-era classics playable in the browser. The 90s shareware shelf, preserved and playable. Play: https://classicreload.com/
 - PICO-8 BBS [retro · Keyboard] — The PICO-8 community board: thousands of tiny games and demos that run right in your browser. Play: https://www.lexaloffle.com/bbs/?cat=7
 - JetPunk [puzzle · Keyboard / mouse] — Timed trivia quizzes on everything from flags to periodic tables. Built for speedruns against the clock. Play: https://www.jetpunk.com/
+- Tristram [roguelike · WASD / arrow keys + mouse] — Diablo-homage auto-battler: recruit heroes, send them into the cathedral catacombs, and spend their loot rebuilding Tristram. Made in 72 hours for Ludum Dare 55. Play: https://bippinbits.itch.io/tristram
+- Die in the Dungeon CLASSIC [roguelike · Mouse] — A turn-based, dice-building roguelite — no cards, just dice. Guide a frog warrior through 20 floors of monsters; 4.7 stars from thousands of itch.io ratings. Play: https://alarts.itch.io/die-in-the-dungeon
+- The Archives of Trevosa [puzzle · Mouse / keyboard] — A language-and-family-tree deduction mystery: search the archives, translate invented Trevosan words, and untangle seven generations of a royal dynasty. Play: https://jamwitch.itch.io/trevosa
+- Prerolled [idle · Mouse] — A cozy dice-shop roguelite: craft silly dice boxes, match customer stipulations, upgrade your shop — and make rent, or the run ends. Play: https://red-sauce.itch.io/prerolled
+- Zombie Nest GBA [roguelike · Keyboard] — A new GBA homebrew top-down zombie roguelike (53 KB, 4 modes, 10 weapons). The itch page ships a free browser demo of the warehouse biome — and the full ROM feeds the Player/Converter. Play: https://enarkz.itch.io/zombie-nest-gba
+- Dare To Doku [puzzle · Mouse] — A GBA Jam 2026 homebrew: a 'star battle' logic puzzle — deduce where every player hides in grids of 4–10 across 10,000 unique levels. Playable in the browser. Play: https://daretosquare.itch.io/dare-to-doku
+- English Brick Breaker [puzzle · Mouse / keyboard] — A brick breaker that teaches 222 English words across 8 topics. Pure vanilla JS, no accounts, no downloads — Chromebook-friendly. Play: https://wqnlll.github.io/english-brick-breaker.html
+- Math Challenge [puzzle · Keyboard] — Timed arithmetic across 7 levels, from single-digit addition to word problems. Vanilla JS, no accounts. Play: https://wqnlll.github.io/math-challenge.html
+- Tank Battle [action · Keyboard] — Top-down tank combat in a single vanilla-JS page — no download, no account. Play: https://wqnlll.github.io/tank-battle.html
+- Red Alert-style RTS [action · Mouse / keyboard] — A Red Alert-style RTS built lockstep in vanilla JS, with fog of war and an AI that respects it. No accounts, no installs. Play: https://wqnlll.github.io/rts.html
+- 3D Plane Battle [action · Keyboard] — Three.js arcade plane combat in one static page. No accounts, no installs. Play: https://wqnlll.github.io/3d-plane.html
 
-## Collections (11 total)
+## Collections (13 total)
 
 - Cozy games for a rainy day: Gentle games for grey weather — Serenitrove; Townscaper; Six Cats Under; goodbye, doggy; A Tale of Crowns; Slow Roads; Fallen London; purrgatory; Little Troubles in Spooky Town; Little Alchemy 2; The Deep Sea; Sandspiel
-- One-more-turn idle games: Numbers go up while you do nothing — Cookie Clicker; A Dark Room; Universal Paperclips; Candy Box 2; Kittens Game; Trimps; Antimatter Dimensions
+- One-more-turn idle games: Numbers go up while you do nothing — Cookie Clicker; A Dark Room; Universal Paperclips; Candy Box 2; Kittens Game; Trimps; Antimatter Dimensions; Prerolled
 - .io arena essentials: The arenas that defined a genre — Agar.io; Slither.io; Diep.io; Bonk.io; Powerline.io; Splix.io; Starblast.io; ZombsRoyale.io; Deeeep.io; Wormate.io; Paper.io
 - Party night with friends: Multiplayer chaos for friend groups — skribbl.io; Gartic Phone; JKLM.fun; Codenames; Secret Hitler; Make It Meme; Drawasaurus; PlayingCards.io; HaxBall; AirConsole; Lexulous; Paper.io
 - PICO-8 pocket gems: 128x128 pixels of joy — Poom; Celeste Classic; Moss Moss; Top PICO-8 Games (collection)
@@ -162,6 +173,8 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Adrenaline: action & shooters: Reflexes required — Krunker; Shell Shockers; SmashKarts; Venge.io; REPULS.io; ev.io; Kirka.io; Gats.io; Friday Night Funkin'; QWOP; Canabalt; Happy Wheels
 - Brain food: puzzlers: Daily rituals and deep thinkers — 2048; Wordle; Connections; TETR.IO; Jstris; Sudoku; Asteroid Launcher; Tetris (Official); Seterra; 0hh1; Quick, Draw!; Koalas to the Max
 - Daily puzzle rituals: One puzzle a day keeps the boredom away — Wordle; Connections; Framed; Worldle; Globle; 0hh1; The Password Game; Draw Logos From Memory
+- Homebrew radar: Fresh from the scene — Tristram; Die in the Dungeon CLASSIC; The Archives of Trevosa; Prerolled; Zombie Nest GBA; Dare To Doku
+- Vanilla JS, zero dependencies: No frameworks, no accounts — English Brick Breaker; Math Challenge; Tank Battle; Red Alert-style RTS; 3D Plane Battle
 
 ## Emulators (10 picks, software only)
 

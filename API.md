@@ -18,7 +18,7 @@ Manifest: description, legal note, endpoint catalog, usage.
 
 ### `GET api/v1/games.json`
 
-Curated browser games (114 records, every URL curl-verified HTTP 200 on 2026-10-11). Envelope + `games` array:
+Curated browser games (125 records, every URL curl-verified HTTP 200 on 2026-10-11). Envelope + `games` array:
 
 ```json
 {
@@ -59,7 +59,7 @@ Schema: `api/v1/schema/guides.schema.json`.
 
 ### `GET api/v1/kid-safe.json`
 
-Kid-safe curated subset of the catalog (44 games). Envelope + `kid-safe` array: full game record plus `kid_safe: true`, `no_chat: true`, `age_band` (`5-7` / `8-10` / `11-12`), `parent_note` (why it's fine + what to watch), `verify_live` (true when the assessment couldn't be fully verified — "play the first 10 minutes together"), and `audit_basis` (the concrete basis for the flag — never invented). Assessments are honest snapshots, not guarantees; failed games are excluded, never softened.
+Kid-safe curated subset of the catalog (50 games). Envelope + `kid-safe` array: full game record plus `kid_safe: true`, `no_chat: true`, `age_band` (`5-7` / `8-10` / `11-12`), `parent_note` (why it's fine + what to watch), `verify_live` (true when the assessment couldn't be fully verified — "play the first 10 minutes together"), and `audit_basis` (the concrete basis for the flag — never invented). Assessments are honest snapshots, not guarantees; failed games are excluded, never softened.
 
 Schema: `api/v1/schema/kid-safe.schema.json` (draft-07).
 

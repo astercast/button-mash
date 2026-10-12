@@ -1,10 +1,10 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T01:46:40Z",
+  "generated_at": "2026-10-12T02:00:56Z",
   "endpoint": "games",
   "description": "Curated browser games directory (every URL verified live — never invented).",
-  "count": 114,
+  "count": 125,
   "games": [
     {
       "controls": "Arrow keys / swipe",
@@ -1027,6 +1027,94 @@
         "party",
         "trivia"
       ]
+    },
+    {
+      "id": "tristram",
+      "title": "Tristram",
+      "url": "https://bippinbits.itch.io/tristram",
+      "genre": "roguelike",
+      "controls": "WASD / arrow keys + mouse",
+      "description": "Diablo-homage auto-battler: recruit heroes, send them into the cathedral catacombs, and spend their loot rebuilding Tristram. Made in 72 hours for Ludum Dare 55."
+    },
+    {
+      "id": "die-in-the-dungeon",
+      "title": "Die in the Dungeon CLASSIC",
+      "url": "https://alarts.itch.io/die-in-the-dungeon",
+      "genre": "roguelike",
+      "controls": "Mouse",
+      "description": "A turn-based, dice-building roguelite — no cards, just dice. Guide a frog warrior through 20 floors of monsters; 4.7 stars from thousands of itch.io ratings."
+    },
+    {
+      "id": "trevosa",
+      "title": "The Archives of Trevosa",
+      "url": "https://jamwitch.itch.io/trevosa",
+      "genre": "puzzle",
+      "controls": "Mouse / keyboard",
+      "description": "A language-and-family-tree deduction mystery: search the archives, translate invented Trevosan words, and untangle seven generations of a royal dynasty."
+    },
+    {
+      "id": "prerolled",
+      "title": "Prerolled",
+      "url": "https://red-sauce.itch.io/prerolled",
+      "genre": "idle",
+      "controls": "Mouse",
+      "description": "A cozy dice-shop roguelite: craft silly dice boxes, match customer stipulations, upgrade your shop — and make rent, or the run ends."
+    },
+    {
+      "id": "zombie-nest-gba",
+      "title": "Zombie Nest GBA",
+      "url": "https://enarkz.itch.io/zombie-nest-gba",
+      "genre": "roguelike",
+      "controls": "Keyboard",
+      "description": "A new GBA homebrew top-down zombie roguelike (53 KB, 4 modes, 10 weapons). The itch page ships a free browser demo of the warehouse biome — and the full ROM feeds the Player/Converter."
+    },
+    {
+      "id": "dare-to-doku",
+      "title": "Dare To Doku",
+      "url": "https://daretosquare.itch.io/dare-to-doku",
+      "genre": "puzzle",
+      "controls": "Mouse",
+      "description": "A GBA Jam 2026 homebrew: a 'star battle' logic puzzle — deduce where every player hides in grids of 4–10 across 10,000 unique levels. Playable in the browser."
+    },
+    {
+      "id": "english-brick-breaker",
+      "title": "English Brick Breaker",
+      "url": "https://wqnlll.github.io/english-brick-breaker.html",
+      "genre": "puzzle",
+      "controls": "Mouse / keyboard",
+      "description": "A brick breaker that teaches 222 English words across 8 topics. Pure vanilla JS, no accounts, no downloads — Chromebook-friendly."
+    },
+    {
+      "id": "math-challenge",
+      "title": "Math Challenge",
+      "url": "https://wqnlll.github.io/math-challenge.html",
+      "genre": "puzzle",
+      "controls": "Keyboard",
+      "description": "Timed arithmetic across 7 levels, from single-digit addition to word problems. Vanilla JS, no accounts."
+    },
+    {
+      "id": "tank-battle",
+      "title": "Tank Battle",
+      "url": "https://wqnlll.github.io/tank-battle.html",
+      "genre": "action",
+      "controls": "Keyboard",
+      "description": "Top-down tank combat in a single vanilla-JS page — no download, no account."
+    },
+    {
+      "id": "red-alert-rts",
+      "title": "Red Alert-style RTS",
+      "url": "https://wqnlll.github.io/rts.html",
+      "genre": "action",
+      "controls": "Mouse / keyboard",
+      "description": "A Red Alert-style RTS built lockstep in vanilla JS, with fog of war and an AI that respects it. No accounts, no installs."
+    },
+    {
+      "id": "3d-plane-battle",
+      "title": "3D Plane Battle",
+      "url": "https://wqnlll.github.io/3d-plane.html",
+      "genre": "action",
+      "controls": "Keyboard",
+      "description": "Three.js arcade plane combat in one static page. No accounts, no installs."
     }
   ]
 }

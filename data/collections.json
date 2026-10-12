@@ -29,7 +29,8 @@
         "candy-box-2",
         "kittens-game",
         "trimps",
-        "antimatter-dimensions"
+        "antimatter-dimensions",
+        "prerolled"
       ],
       "id": "idle-essentials",
       "tagline": "Numbers go up while you do nothing",
@@ -183,6 +184,33 @@
         "zero-hh1",
         "password-game",
         "logos-memory"
+      ]
+    },
+    {
+      "id": "homebrew-radar",
+      "title": "Homebrew radar",
+      "tagline": "Fresh from the scene",
+      "description": "New indie and homebrew finds from the live pipeline's radar: GBA Jam 2026 entries, top-rated itch.io browser hits, and a GBA zombie roguelike with a free playable demo. Every link verified live.",
+      "game_ids": [
+        "tristram",
+        "die-in-the-dungeon",
+        "trevosa",
+        "prerolled",
+        "zombie-nest-gba",
+        "dare-to-doku"
+      ]
+    },
+    {
+      "id": "vanilla-js",
+      "title": "Vanilla JS, zero dependencies",
+      "tagline": "No frameworks, no accounts",
+      "description": "Five games by one indie dev in plain JavaScript — vocabulary brick-breaker, timed math drills, tank combat, a fog-of-war RTS, and Three.js dogfights. Static pages that load on anything, even a school Chromebook.",
+      "game_ids": [
+        "english-brick-breaker",
+        "math-challenge",
+        "tank-battle",
+        "red-alert-rts",
+        "3d-plane-battle"
       ]
     }
   ],

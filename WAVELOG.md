@@ -2,6 +2,38 @@
 
 Running record of build waves. Newest first.
 
+## Wave 8 — 2026-10-11 — Homebrew radar sweep + archive expansion
+
+**What shipped:**
+- **Live pipeline run**: itch.io watcher (still 403-gated, graceful — 0 candidates), emulator-release watcher (0 new candidates), review queue (0 pending — all prior candidates already reviewed/dispositioned). Fresh research filled the gap instead.
+- **11 new games, all curl-verified HTTP 200 same day (2026-10-11)**, legal lane only (homebrew / open-source / original indie, zero ROMs hosted, zero download links):
+  - Tristram (`bippinbits.itch.io/tristram`) — Diablo-homage auto-battler, Ludum Dare 55, browser HTML5
+  - Die in the Dungeon CLASSIC (`alarts.itch.io/die-in-the-dungeon`) — dice deckbuilding roguelite, 4.7★/2,700+ ratings, browser
+  - The Archives of Trevosa (`jamwitch.itch.io/trevosa`) — language + family-tree deduction mystery, browser
+  - Prerolled (`red-sauce.itch.io/prerolled`) — cozy dice-shop roguelite, browser (URL extracted from the dev's itch profile page, then curl-verified)
+  - Zombie Nest GBA (`enarkz.itch.io/zombie-nest-gba`) — new $1 GBA homebrew top-down zombie roguelike; page ships a free browser demo of the warehouse biome
+  - Dare To Doku (`daretosquare.itch.io/dare-to-doku`) — GBA Jam 2026 star-battle logic puzzle, playable in browser
+  - English Brick Breaker, Math Challenge, Tank Battle, Red Alert-style RTS, 3D Plane Battle (`wqnlll.github.io/*.html`) — 5 vanilla-JS games by one indie dev, no accounts, Chromebook-friendly (page links extracted from the hub root, each curl-verified)
+  - Five hoped-for additions (serenitrove, purrgatory, type-help, funkin, dragonsweeper) turned out to already be in the catalog — deduped before writing.
+- **2 new collections** (13 total): `homebrew-radar` (the 6 itch/GBA finds) and `vanilla-js` (the 5 wqnlll games). Collection size guard (5–12) forced an honest rebalance: adrenaline → 12, brain-food → 12, strategy-deep-cuts → 7, idle-essentials +prerolled → 8.
+- **homebrew-packs.json**: GBA pack gained the GBA Jam 2026 entries page (`itch.io/jam/gbajam26/entries`, curl-verified) as a 4th entry.
+- **Kids audit for all 11** (`data/kids.json`, build-time guard passes): 6 curated (english-brick-breaker 5–7; math-challenge, dare-to-doku, prerolled 8–10; die-in-the-dungeon, tristram 11–12 — the last four carry `verify_live` "play the first 10 minutes together" flags), 5 excluded with reasons (zombie-nest-gba, tank-battle, red-alert-rts, 3d-plane-battle = combat; trevosa = dense reading + succession/exile themes, when-in-doubt excluded). Catalog now 125 games: 50 curated + 75 excluded.
+- **Fixed the flagged inconsistency**: `collections.html` header nav now has the Tournament link (and Party planner — it was missing both vs. the other pages; wave-6's "all 11 pages" sweep had missed this file). Verified in headless render.
+- **`scripts/build_site.py`**: killed three hardcoded counts (114 games / 44 kids / 11 collections) — llms.txt now uses live counts from the data files.
+- **Agentic surface**: api/v1 rebuilt (games 125, kid-safe 50, collections 13, homebrew-packs with the jam entry); AGENT.md + API.md counts updated; `check_api_workflows.js` gained WF8 (7 checks; 47/47 pass). No new skill — no genuine gap (new games flow through the existing games/kid-safe endpoints and the kids-corner-guide skill).
+- **Boot-test artifacts for parent delegation** (task item 6 — no real-browser boot attempted): `tests/homebrew-test-roms/` holds `rkanoid-latest-demo.gba` (benoror's @rkanoid GBA demo, author's own original homebrew; size 207,516 bytes matches the GitHub API listing; sha256 `d9520404396ae3908ac159ee7d1e105a597ea9fa01f9aec2cb902949b55a78f2`; test-only, never linked on the site) + README with the delegation recipe, and `~/workspace/smoke/test.js` gained a gated PART 4 (`BM_BOOT_TEST=1`) that uploads the ROM to player.html, waits for the engine canvas, samples for a non-blank frame, and requires zero pageerrors. Two earlier candidates (mystic_q.gba, Ducker's PD arkanoid from the same repo) were REJECTED — zeroed cartridge-header regions, likely multiboot images, not known-good cartridge boots. Delegation command: `BM_BOOT_TEST=1 node ~/workspace/smoke/test.js` (set `BM_BASE=http://127.0.0.1:8000` with a static server if the engine needs http://).
+- **Emulator release notes**: nothing new from the watchers — no guide/core updates needed. Stable pin stays EmulatorJS 4.2.3.
+
+**Validation (wave 8):**
+- `scripts/build.py`: BUILD OK — 125 games (111 domains), 13 collections, 10 emulators, 14 guides; LEGAL GATE OK (30 pages, 125 game URLs, 0 piracy links)
+- `scripts/check_links.py`: LINK CHECK OK — 30 pages, 819 local links, 63 external links, 0 broken
+- `node scripts/check_api_workflows.js`: 47/47 pass (WF1–WF8), 0 failures
+- `node --check`: clean on `scripts/check_api_workflows.js`, `~/workspace/smoke/test.js`
+- `~/workspace/smoke/test.js` (standard path, PART 4 gated off): zero pageerrors — only the known expected CDN tunnel noise on player.html (sandbox proxy blocks the EmulatorJS CDN; documented since wave 4)
+- Headless Chromium: collections.html renders 13 collection cards incl. homebrew-radar + vanilla-js, header nav has Tournament + Party planner; games.html renders 125 cards incl. Tristram; zero pageerrors
+
+**Legal lane**: unchanged — 11 new links are all creator itch.io pages and one author's static GitHub Pages hub; zero ROMs hosted, zero ROM/BIOS download links; the one .gba file on disk is a test artifact only, never linked anywhere.
+
 ## Wave 7 — 2026-10-11 — Kids mode (content + safety wave)
 
 **What shipped:**

@@ -12,13 +12,13 @@ DATA = ROOT / "data"
 
 PAGES = [
     ("index.html", "Home — the universal in-browser game console"),
-    ("games.html", "Game directory: 114 curated free browser games, search + genre filters"),
+    ("games.html", "Game directory: curated free browser games, search + genre filters"),
     ("player.html", "The Player: bring-your-own-file EmulatorJS console (20+ systems)"),
     ("converter.html", "ROM-to-browser-game converter (GBA/GB/GBC/NES file in, self-contained .html out)"),
     ("party-planner.html", "Party planner: timed game-night rotation plans across party-tagged games"),
     ("tournament.html", "Tournament brackets: seeded 2-16 player single elimination, best-of-N per round, one party game per round, print + copy"),
     ("system-picker.html", "Which system should you emulate? — 1-minute quiz with honest device-limit recommendations"),
-    ("kids.html", "Kids corner: 44 kid-safe browser games, no chat, age bands 5–7 / 8–10 / 11–12, parent notes on every game, reduced-motion default"),
+    ("kids.html", "Kids corner: kid-safe browser games, no chat, age bands 5–7 / 8–10 / 11–12, parent notes on every game, reduced-motion default"),
     ("parents.html", "Parent guide: how Kids corner curation works, the honesty policy, common-sense screen-time tips, the 'one more level' save-state trick"),
     ("collections.html", "Hand-built game collections"),
     ("emulation.html", "Emulation hub: guides, explainers, legal sources"),
@@ -55,6 +55,8 @@ def load(name):
 def build_llms():
     games = load("games.json")["games"]
     collections = load("collections.json")["collections"]
+    kids = load("kids.json")["curated"]
+    ngames, nkids, ncols = len(games), len(kids), len(collections)
     emulators = load("emulators.json")["emulators"]
     guides = load("guides.json")
 
@@ -65,7 +67,7 @@ def build_llms():
         "the user's file never leaves their machine); (2) the Converter — drop in a GBA, GB/GBC or NES file you own, "
         "get back a single self-contained playable .html browser game (client-side only, all three cores BIOS-free); "
         "(3) the Party Planner — headcount + time + vibe in, timed game-night rotation plan out. "
-        "Plus a curated directory of 114 free, legal browser games (every link verified live 2026-10-11), "
+        f"Plus a curated directory of {ngames} free, legal browser games (every link verified live 2026-10-11), "
         "hand-built collections, genre deep dives, and legal-lane emulation guides. "
         "No ROM piracy links, no cracked-game sites, no commercial ROM downloads — ever."
     )
@@ -75,10 +77,10 @@ def build_llms():
     lines.append("- converter.html — ROM-to-browser-game converter (GBA/GB/GBC/NES in, self-contained .html out)")
     lines.append("- party-planner.html — timed game-night rotation planner across party-tagged games (print-friendly)")
     lines.append("- tournament.html — single-elimination tournament brackets for game night: 2-16 players, standard seeding with honest byes, best-of-N per round, one party game per round, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids)")
-    lines.append("- games.html — the 114-game directory (search, genre filters, favorites, random game, game of the day)")
-    lines.append("- kids.html — Kids corner: 44 kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default")
+    lines.append(f"- games.html — the {ngames}-game directory (search, genre filters, favorites, random game, game of the day)")
+    lines.append(f"- kids.html — Kids corner: {nkids} kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default")
     lines.append("- parents.html — parent guide: curation method, honesty policy (assessments not guarantees — play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick")
-    lines.append("- collections.html — 11 hand-built collections")
+    lines.append(f"- collections.html — {ncols} hand-built collections")
     lines.append("- genres/roguelike.html, genres/cozy.html — genre deep dives with start-here picks")
     lines.append("")
     lines.append("## Learn")
