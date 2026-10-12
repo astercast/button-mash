@@ -31,6 +31,12 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - guides/ps1.html — PlayStation emulation guide (PCSX-ReARMed, BIOS honesty)
 - guides/genesis.html — Genesis emulation guide (Genesis Plus GX, BIOS-free)
 - guides/gameboy.html — Game Boy / Color emulation guide (Gambatte, BIOS-free)
+- guides/homebrew-development.html — Make games for dead consoles: the homebrew development primer
+- guides/netplay.html — Play together online: the netplay guide (rollback, hosting, honest limits)
+- guides/save-workflows.html — Saves that survive: states, SRAM & backup workflows
+- guides/crt-shaders-display.html — Make pixels look right: CRT shaders & display science
+- guides/accessibility-in-retro-gaming.html — Retro games for every player: an accessibility guide
+- guides/preserving-your-games.html — Keep your games forever: the preservation guide
 
 ## Games (125 total)
 

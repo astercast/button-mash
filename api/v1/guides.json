@@ -1,10 +1,10 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T03:17:25Z",
+  "generated_at": "2026-10-12T03:24:09Z",
   "endpoint": "guides",
   "description": "Emulation guides and explainers (summaries; full text in data/guides.json).",
-  "count": 14,
+  "count": 20,
   "guides": [
     {
       "id": "emulatorjs-selfhost",
@@ -131,6 +131,60 @@
       "time_minutes": 10,
       "summary": "The Player's gb core is Gambatte (default GB backend in the EmulatorJS core list; alternate mGBA) — cycle-accurate, BIOS-free, and full speed on any device. Covers colorization palettes, saves and Game Genie/GameShark cheats via Player 2.0, deep link (player.html?core=gb), and a verified homebrew starter pack (GBDev community included).",
       "section_count": 7
+    },
+    {
+      "id": "homebrew-development",
+      "slug": "homebrew-development",
+      "title": "Make games for dead consoles: the homebrew development primer",
+      "difficulty": "Intermediate",
+      "time_minutes": 25,
+      "summary": "Write your own games for the GBA, Game Boy, and NES: the honest toolchain (devkitARM, RGBDS, cc65), how to learn the hardware via Tonc and gbdev.io, testing on emulators and flash carts, and shipping through jams, itch.io, and showcases.",
+      "section_count": 8
+    },
+    {
+      "id": "netplay-guide",
+      "slug": "netplay",
+      "title": "Play together online: the netplay guide",
+      "difficulty": "Intermediate",
+      "time_minutes": 20,
+      "summary": "Retro multiplayer over the internet: how RetroArch's rewind-based rollback netplay works, the same-version-same-core-same-game rule, hosting via lobby/relay/port-forward, what plays well (8/16-bit) and what doesn't (PS1/N64, link cables), plus Dolphin's 2026 Android netplay.",
+      "section_count": 8
+    },
+    {
+      "id": "save-workflows",
+      "slug": "save-workflows",
+      "title": "Saves that survive: states, SRAM & backup workflows",
+      "difficulty": "Beginner",
+      "time_minutes": 12,
+      "summary": "Save states vs. battery saves vs. memory cards: what each one is, where it lives in RetroArch and in this site's Player (IndexedDB, Keep in Browser, named slots), moving saves between emulators, and the 3-2-1 backup routine.",
+      "section_count": 8
+    },
+    {
+      "id": "crt-shaders-display",
+      "slug": "crt-shaders-display",
+      "title": "Make pixels look right: CRT shaders & display science",
+      "difficulty": "Intermediate",
+      "time_minutes": 10,
+      "summary": "Why retro games look wrong on modern screens, the anatomy of the CRT look (scanlines, grille, glow), shader presets from zfast-crt to crt-royale, integer vs. bilinear scaling, and the honest science of input lag, run-ahead, and refresh rates.",
+      "section_count": 8
+    },
+    {
+      "id": "accessibility-retro",
+      "slug": "accessibility-in-retro-gaming",
+      "title": "Retro games for every player: an accessibility guide",
+      "difficulty": "Beginner",
+      "time_minutes": 8,
+      "summary": "Old games shipped zero accessibility features — the emulator layer adds what they lack: remapping, turbo/autofire, rewind, save states, color correction, and honest difficulty options. No medical claims, just the toolbox.",
+      "section_count": 8
+    },
+    {
+      "id": "preserving-your-games",
+      "slug": "preserving-your-games",
+      "title": "Keep your games forever: the preservation guide",
+      "difficulty": "Intermediate",
+      "time_minutes": 20,
+      "summary": "Archive your own library properly: checksums (CRC32/SHA-1), No-Intro and Redump verification, the modern redumper/MPF/OmniDrive disc-dumping stack, lossless CHD compression, ROM managers and DAT files, and the 3-2-1 backup rule.",
+      "section_count": 8
     }
   ]
 }

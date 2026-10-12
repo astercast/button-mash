@@ -34,6 +34,9 @@ REFERENCE_DOMAINS = {
     "epilogue.co", "retrode.com", "gog.com",
     "retroachievements.org", "opengameart.org",
     "n64.dev", "psx.dev", "psxdev.net",
+    "docs.libretro.com", "www.coranac.com", "hh.gbdev.io",
+    "datomatic.no-intro.org", "no-intro.org",
+    "www.redump.org", "redump.org", "wiki.redump.org",
 }
 
 GENRES = {"puzzle", "action", "roguelike", "idle", "multiplayer", "retro", "horror", "cozy"}

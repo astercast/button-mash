@@ -438,4 +438,56 @@ check("WF12 AGENT.md + llms.txt mention Converter 3.0",
   fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("Converter 3.0"),
   "agentic surface current");
 
+// Wave 13: deep-dive guides knowledge hub
+const w13Slugs = ["homebrew-development", "netplay", "save-workflows",
+  "crt-shaders-display", "accessibility-in-retro-gaming", "preserving-your-games"];
+check("WF13 guides count 20 (14 + 6 new)",
+  guides.length === 20, guides.length + " guides");
+check("WF13 all 6 new guides in api/v1/guides.json",
+  w13Slugs.every((s) => guides.some((g) => g.slug === s)), w13Slugs.join(", "));
+check("WF13 new guide pages exist + load TOC spy script + progress bar",
+  w13Slugs.every((s) => {
+    const p = path.join(ROOT, "guides", s + ".html");
+    if (!fs.existsSync(p)) return false;
+    const h = fs.readFileSync(p, "utf8");
+    return h.includes('data-spy') && h.includes('reading-progress') &&
+      h.includes('assets/js/guide-toc.js') && h.includes('aria-current="page"') &&
+      h.includes('<ol>') && (h.match(/<section class="guide-section"/g) || []).length >= 6;
+  }), "breadcrumb trail, sticky spy TOC, progress bar, 6+ sections each");
+check("WF13 new guides in sitemap.xml",
+  (() => {
+    const sm = fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8");
+    return w13Slugs.every((s) => sm.includes(`<loc>guides/${s}.html</loc>`));
+  })(), "6 loc entries");
+check("WF13 new guides in llms.txt + emulation hub deep-dives section",
+  w13Slugs.every((s) => fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes(s)) &&
+    fs.readFileSync(path.join(ROOT, "emulation.html"), "utf8").includes('id="deep-dives"') &&
+    w13Slugs.every((s2) => fs.readFileSync(path.join(ROOT, "emulation.html"), "utf8").includes(`guides/${s2}.html`)),
+  "llms.txt + hub cards");
+check("WF13 guide-toc.js is dependency-free + null-safe",
+  (() => {
+    const j = fs.readFileSync(path.join(ROOT, "assets/js/guide-toc.js"), "utf8");
+    return !/require\(|import /.test(j) && j.includes("IntersectionObserver") &&
+      j.includes('querySelector("[data-spy]")');
+  })(), "UMD-free IIFE, guards");
+check("WF13 cross-linking: new guides link each other + hub",
+  (() => {
+    const links = { "homebrew-development": ["preserving-your-games", "homebrew-and-public-domain"],
+      "netplay": ["save-workflows", "retroarch-setup"], "save-workflows": ["preserving-your-games", "netplay"],
+      "crt-shaders-display": ["accessibility-in-retro-gaming", "save-workflows"],
+      "accessibility-in-retro-gaming": ["crt-shaders-display", "netplay"],
+      "preserving-your-games": ["save-workflows", "homebrew-development"] };
+    return Object.entries(links).every(([s, targets]) => {
+      const h = fs.readFileSync(path.join(ROOT, "guides", s + ".html"), "utf8");
+      return targets.every((t) => h.includes(`${t}.html`));
+    });
+  })(), "sibling deep links");
+check("WF13 design CSS: progress bar + sticky TOC + view-transition present",
+  (() => {
+    const c = fs.readFileSync(path.join(ROOT, "assets/css/guides.css"), "utf8");
+    return c.includes("animation-timeline: scroll()") && c.includes(".toc--sticky") &&
+      c.includes("@view-transition") && c.includes("prefers-reduced-motion: no-preference") &&
+      c.includes("@media print");
+  })(), "scroll chrome, motion-safe VT, print");
+
 process.exit(failures ? 1 : 0);

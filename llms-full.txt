@@ -33,6 +33,12 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - guides/ps1.html — PlayStation emulation guide (PCSX-ReARMed, BIOS honesty)
 - guides/genesis.html — Genesis emulation guide (Genesis Plus GX, BIOS-free)
 - guides/gameboy.html — Game Boy / Color emulation guide (Gambatte, BIOS-free)
+- guides/homebrew-development.html — Make games for dead consoles: the homebrew development primer
+- guides/netplay.html — Play together online: the netplay guide (rollback, hosting, honest limits)
+- guides/save-workflows.html — Saves that survive: states, SRAM & backup workflows
+- guides/crt-shaders-display.html — Make pixels look right: CRT shaders & display science
+- guides/accessibility-in-retro-gaming.html — Retro games for every player: an accessibility guide
+- guides/preserving-your-games.html — Keep your games forever: the preservation guide
 
 ## Games (125 total)
 
@@ -663,4 +669,226 @@ pdroms.de Game Boy section (https://pdroms.de/nintendo-game-boy-gb-gbc); itch.io
 ### Prefer a desktop app? SameBoy
 
 SameBoy (sameboy.github.io) is the desktop accuracy champion for GB/GBC — same legality, same BIOS-free story; the browser Player wins on convenience and phone play.
+
+## Make games for dead consoles: the homebrew development primer
+Difficulty: Intermediate · ~25 min · slug: homebrew-development
+
+Write your own games for the GBA, Game Boy, and NES: the honest toolchain (devkitARM, RGBDS, cc65), how to learn the hardware via Tonc and gbdev.io, testing on emulators and flash carts, and shipping through jams, itch.io, and showcases.
+
+### Why dead consoles are the friendliest dev targets
+
+Fixed hardware means zero surprises: one CPU, one screen, identical for every player. Constraints force design over decoration, and the feedback loop is minutes. The scene ships real games yearly — from jam entries to releases like 2026's Zombie Nest GBA and the MAGFest Indie Retro Homebrew Showcase finalists.
+
+### Pick your first system (the honest ladder)
+
+GBA first (C, real compiler, the Tonc tutorial, forgiving CPU), then Game Boy/Color (LR35902, great gbdev.io community), then NES (6502, mappers as the boss fight). SNES/Genesis/N64 come after you've shipped something small.
+
+### The GBA toolchain, end to end
+
+devkitPro + devkitARM: install the package manager, run `sudo dkp-pacman -S gba-dev gba-examples`, set DEVKITPRO/DEVKITARM/PATH, copy /opt/devkitpro/examples/gba/template, run make. A .gba with no errors means the toolchain works — one evening, start to finish.
+
+### Learn the hardware: Tonc and the 240x160 canvas
+
+Tonc (coranac.com/tonc/text/) is the canonical GBA course: video modes, tiles and sprites, 15-bit palettes, the vblank heartbeat. libgba vs libtonc vs the Butano engine — pick libtonc as a beginner.
+
+### The 8-bit path: Game Boy and NES
+
+Game Boy: RGBDS (assembler, the pro path) or GBDK-2020 (C, friendlier), Pan Docs as the hardware bible, Homebrew Hub (hh.gbdev.io) to study what shipped. NES: cc65/ca65 for the 6502; start on mapper 0 (NROM). Scope discipline: ship a tiny finished game, not a dead epic.
+
+### Test like it's 2001
+
+Develop on mGBA (accurate, great debugger), validate on real hardware via flash cartridges. Watch for emulator-masked bugs: uninitialized memory, timing assumptions, DMA misuse.
+
+### Ship it: jams, itch.io, and showcases
+
+Game jams (GBA Jam entries), itch.io with correct system tags and free/pay-what-you-want ROMs, MAGFest's Indie Retro Homebrew Showcase, and physical cartridge runs for standouts. Play others' homebrew first via the homebrew sources guide.
+
+### The legal lane for developers
+
+Your code, your art, your music — never lift commercial assets. Open-source the engine if you like; clones of mechanics are legal, copies of assets aren't; fan games with others' characters live in a takedown gray zone. Every byte yours = sell, share, jam, press.
+
+## Play together online: the netplay guide
+Difficulty: Intermediate · ~20 min · slug: netplay
+
+Retro multiplayer over the internet: how RetroArch's rewind-based rollback netplay works, the same-version-same-core-same-game rule, hosting via lobby/relay/port-forward, what plays well (8/16-bit) and what doesn't (PS1/N64, link cables), plus Dolphin's 2026 Android netplay.
+
+### What netplay actually sends
+
+Not video — controller inputs, a few bytes per frame. Both players run the same emulator, core, and game locally; identical inputs keep both screens in agreement. Everyone still needs their own legal copy.
+
+### How RetroArch's rollback works
+
+Replay-based: your game runs ahead with zero added input delay; when the other player's inputs arrive late, the emulator rewinds to the last agreed frame and replays with the real inputs, invisibly. Up to 16 players plus spectators.
+
+### The matching rule: same, same, same
+
+Same RetroArch version (1.22.2 current), same core version, byte-identical game content on every machine. No save states mid-session — the top two desync causes are content mismatch and mid-game states.
+
+### Hosting: lobby, relay, or port forward
+
+Host loads the game, Start Netplay Host; clients Connect to Netplay Host or use the lobby browser. Relay servers = zero router config but extra latency; forwarding TCP 55435 = fastest. Official docs: retroarch.com netplay page + libretro netplay docs.
+
+### What plays well (and what doesn't)
+
+Excellent: NES/SNES/Genesis/GBA/FBNeo arcade. Impractical: PS1/N64 (serialization too slow). Not emulated: link cables — no Pokemon trading over netplay; exceptions are the TGB-Dual and SameBoy cores for same-game GB/GBC multiplayer.
+
+### New in 2026: Dolphin on your phone
+
+Dolphin 2609 (Sept 2026) added Android NetPlay with lockstep networking against desktop clients — cross-platform GameCube/Wii multiplayer, phone to PC. Dolphin is now on the Google Play Store too.
+
+### Netplay on this site: the honest state
+
+EmulatorJS advertises experimental WebRTC room-code netplay but it is unverified on the stable build — not enabled here, not promised. What works today: hot-seat multi-gamepad play, the Party Planner for couch rotations, and tournament brackets.
+
+### Troubleshooting checklist
+
+Desync at start = content mismatch (compare checksums). Desync mid-session = save state loaded or core versions differ. 'Failed to initialize' = wrong IP/host not hosting/firewall. Stutter = wrong system for rollback or relay latency. Delayed inputs = network distance.
+
+## Saves that survive: states, SRAM & backup workflows
+Difficulty: Beginner · ~12 min · slug: save-workflows
+
+Save states vs. battery saves vs. memory cards: what each one is, where it lives in RetroArch and in this site's Player (IndexedDB, Keep in Browser, named slots), moving saves between emulators, and the 3-2-1 backup routine.
+
+### The three save machines
+
+Save states = the emulator's full-machine snapshot. Battery saves (SRAM) = the game's own save system, faithfully emulated. Memory cards/controller paks = disc-era external storage as image files. States are the emulator's snapshots, SRAM is the game's diary, cards are the filing cabinet.
+
+### Save states: snapshots of everything
+
+Most powerful, most fragile: version-tied (won't cross emulator versions/cores) and all-or-nothing. Discipline: states for convenience, SRAM for permanence; export important states as files before emulator updates.
+
+### Battery saves: the game's own memory
+
+SRAM emulated as a file (often .srm). Portable between emulators and flash carts — the closest thing to a universal save format. Close games cleanly so SRAM flushes; dump SRAM with your cartridges since the 100-hour file is irreplaceable.
+
+### Memory cards & controller paks
+
+Card images (.mcr for PS1, .mpk-ish for N64 paks) behave like the plastic. Per-game cards avoid the 'card full' tragedy; back up the card file like any save. Original hardware paks had batteries that die too.
+
+### Where RetroArch keeps it all
+
+Savefiles dir (SRAM + card images — the folder to back up), Savestates dir (numbered slots), SaveRAM autosave interval (flush every N seconds — turn it on), state slot hotkeys.
+
+### Where this site's Player keeps it all
+
+Default: the engine downloads states as .state files. Keep in Browser mode: states in IndexedDB (EmulatorJS-states store), unlocking named slots (save/restore/rename/export/delete) and 1/5/15-min auto-save. Browser storage is mortal — export what you care about.
+
+### Moving saves between emulators
+
+SRAM (.srm): usually portable — rename to match and it works. States: never portable across cores/versions/emulators — convert via in-game save first. Memory cards: portable within shared formats. Region must match.
+
+### The backup routine (3-2-1)
+
+Three copies, two media, one off-site: working copy, a dated saves-backup folder, cloud/external drive. Include SRAM, card images, exported states, and a note of the emulator version. Saves are kilobytes — no excuses.
+
+## Make pixels look right: CRT shaders & display science
+Difficulty: Intermediate · ~10 min · slug: crt-shaders-display
+
+Why retro games look wrong on modern screens, the anatomy of the CRT look (scanlines, grille, glow), shader presets from zfast-crt to crt-royale, integer vs. bilinear scaling, and the honest science of input lag, run-ahead, and refresh rates.
+
+### The problem: drawn for a screen you don't own
+
+Pixel artists painted for CRT blur: composite smear, phosphor bleed, scanlines. Dithering was drawn to melt into new colors on a CRT — raw LCD pixels expose the trick. Shaders put the display back.
+
+### Anatomy of the CRT look
+
+Five stacked effects: scanlines, aperture grille (Trinitron stripes) vs. shadow mask (dot triads), phosphor glow/bloom (melts dithering), curvature/vignette, NTSC artifacting. Good shaders model all five.
+
+### Shaders: the look, recreated
+
+RetroArch: Quick Menu -> Shaders -> Load Shader Preset. Families: slang (Vulkan/D3D), glsl (OpenGL), cg (legacy). Ladder: zfast-crt (cheap default), crt-easymode, crt-guest-advanced (tunable favorite), crt-royale (reference, heavy). Taste, not correctness.
+
+### The scaling problem (integer vs. blur)
+
+Integer scaling = whole-pixel multiples, even pixels, black borders. Bilinear = fills screen, shimmer on scroll. The Player has an integer-scale toggle; pair with the CRT overlay for sharp pixels + soft light.
+
+### Input lag: the honest numbers
+
+One frame = 16.7ms at 60Hz. Chain: emulator ~1 frame, TV processing 1-3+ frames without Game Mode (the big one), wireless controllers a few ms, v-sync up to 1 frame. Fixes in order: Game Mode, wired controller, emulator tricks.
+
+### Run-ahead & black frame insertion
+
+Run-ahead: emulator simulates 1-2 frames ahead and rolls back — deletes emulator latency, needs a deterministic core, can't fix TV lag. BFI: strobes black frames for CRT-like motion clarity; halves brightness, needs 120Hz+.
+
+### Refresh rates: 59.73 vs. 60
+
+GBA runs 59.73fps, SNES ~60.09Hz, PAL 50Hz; displays run exactly 60/120/144. Mismatch = periodic duplicated/dropped frames. Answers: ignore it, variable refresh rate (G-Sync/FreeSync), or matching display modes.
+
+### The practical recipe
+
+Game Mode on, integer scaling or a light CRT preset, wired controller, 1 frame of run-ahead in RetroArch for 8/16-bit cores. Then stop tuning and play.
+
+## Retro games for every player: an accessibility guide
+Difficulty: Beginner · ~8 min · slug: accessibility-in-retro-gaming
+
+Old games shipped zero accessibility features — the emulator layer adds what they lack: remapping, turbo/autofire, rewind, save states, color correction, and honest difficulty options. No medical claims, just the toolbox.
+
+### The honest baseline
+
+1991 games: no remapping, no colorblind mode, no subtitles, no difficulty slider. The good news: emulator-added tools work on the whole library at once. No medical claims here — a toolbox, not a diagnosis.
+
+### Hands: remapping, turbo, one-handed play
+
+Remap everything (the Player's per-system Controls tool; RetroArch per core). Turbo/autofire replaces button-mashing with a setting. One-handed layouts via full remapping; RPGs and puzzlers are friendliest. Mix keyboard + gamepad freely.
+
+### Eyes: color, contrast, and size
+
+GBA color correction restores intended contrast; OS color filters apply to emulator windows; integer scaling + fullscreen for size; drop shaders before anything else if text is hard to read; retro games flash a lot — preview first, keep sessions short.
+
+### Ears: what sound actually carries
+
+Retro games carry almost nothing critical in audio — no voice acting, no audio-only objectives. One of the most naturally accessible catalogs for deaf/hard-of-hearing players; rhythm games are the exception.
+
+### Mind: difficulty is a dial now
+
+Save states, rewind (RetroArch), slow motion, cheat codes as accessibility tools, guides/walkthroughs for cryptic 90s design. Old difficulty was often artificial — the dial is legitimate.
+
+### On 'cheating' (it's not)
+
+Assists don't diminish the game; the 1991 developers aren't grading you. Finishing with assists beats bouncing off with pride. The only wrong way to play is the way that makes you stop.
+
+### This site's own commitments
+
+Keyboard-operable everything, reduced-motion respected (kids corner disables motion unconditionally), semantic landmarks + skip links + aria-live, high-contrast palette, mobile-first. Barriers found = bugs.
+
+### Where to go next
+
+The Player (remap/cheats/slots/display), RetroArch setup guide (turbo/rewind), CRT & display guide (readability tuning), parent guide, kids corner.
+
+## Keep your games forever: the preservation guide
+Difficulty: Intermediate · ~20 min · slug: preserving-your-games
+
+Archive your own library properly: checksums (CRC32/SHA-1), No-Intro and Redump verification, the modern redumper/MPF/OmniDrive disc-dumping stack, lossless CHD compression, ROM managers and DAT files, and the 3-2-1 backup rule.
+
+### Why bother: the quiet crisis
+
+Media dies: save batteries (15-20 years), disc rot, extinct dumping drives. ~87% of pre-2010 US games are out of print (VGHF reissue-market survey). A verified dump of your own copy is a game that survives.
+
+### The legal frame (brief, honest)
+
+Not legal advice: personal backups of what you own vs. distribution — the bright line. Context: the 2024 DMCA rulemaking rejected remote sharing of out-of-print games by archives; next cycle 2027. Your personal archiving doesn't depend on it.
+
+### Checksums: the fingerprint
+
+CRC32/SHA-1: one changed byte, totally different hash. Compute via 7-Zip/certutil (Windows) or shasum (macOS/Linux); compare against the database entry for your exact game+region. Store the checksum in a text file next to the ROM.
+
+### No-Intro: the cartridge database
+
+DAT-o-matic catalogs every known-good cartridge dump. Naming: Title (Region), (Rev N), [!] = verified good dump, [b] = bad, [o] = overdump, (Unl) = unlicensed. Name files this way; managers and scrapers do the rest.
+
+### Redump: the disc database
+
+redump.org catalogs disc systems. Realities: compatible drive required (Plextor/Lite-On historically; OmniDrive firmware, March 2026, expanded Blu-ray drive support incl. Xbox/GameCube/Wii); modern stack is redumper + MPF (SabreTools), DiscImageCreator for GD-ROM; checksums cover raw 2352-byte sectors. Active project, tens of thousands of discs.
+
+### Compress without losing a byte
+
+CHD (via chdman) for discs: 30-50% smaller, lossless, emulators load it directly. 7z for cartridges (hash the extracted file when verifying). Rule: compress for storage, verify from originals.
+
+### ROM managers & DAT files
+
+clrmamepro/RomVault + No-Intro/Redump DAT files: verify, auto-rename, flag bad dumps and duplicates. 1G1R (one game, one ROM) for intentional curation.
+
+### The 3-2-1 archive
+
+Three copies, two media, one off-site: working library, external drive with checksums, cloud/relative's house. Re-verify checksums yearly (bit rot is real); migrate media every ~5 years. Dump it, checksum it, name it, compress a copy, keep three, check yearly.
 

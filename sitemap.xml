@@ -31,4 +31,10 @@
   <url><loc>guides/ps1.html</loc></url>
   <url><loc>guides/genesis.html</loc></url>
   <url><loc>guides/gameboy.html</loc></url>
+  <url><loc>guides/homebrew-development.html</loc></url>
+  <url><loc>guides/netplay.html</loc></url>
+  <url><loc>guides/save-workflows.html</loc></url>
+  <url><loc>guides/crt-shaders-display.html</loc></url>
+  <url><loc>guides/accessibility-in-retro-gaming.html</loc></url>
+  <url><loc>guides/preserving-your-games.html</loc></url>
 </urlset>
