@@ -11,7 +11,7 @@ A parent, teacher, or caregiver asks for safe browser games for kids — or asks
 
 ## The source of truth
 
-- `api/v1/kid-safe.json` — the 44 games that passed the audit. Recommend ONLY from this file, never from the full catalog.
+- `api/v1/kid-safe.json` — the 113 games that passed the audit. Recommend ONLY from this file, never from the full catalog.
 - `kids.html` — the kids corner page. `parents.html` — the full parent guide (curation method, honesty policy, screen-time tips, the save-state "one more level" trick).
 
 ## What "kid-safe" means here
@@ -51,7 +51,7 @@ Every record also carries `no_chat: true`, an `age_band` (`5-7`, `8-10`, `11-12`
 
 ## Pitfalls
 
-- Recommending from the full `games.json` when the ask is kid-safety — the full catalog is 114 games; only 44 are kid-safe.
+- Recommending from the full `games.json` when the ask is kid-safety — the full catalog is 213 games; only 113 are kid-safe.
 - Dropping the "what to watch" part of a parent note — that's the most useful sentence for the parent.
 - Treating age bands as guarantees — they are difficulty/theme guidance, not endorsements.
 - Never invent a game URL. Only recommend what's in `api/v1/kid-safe.json`.

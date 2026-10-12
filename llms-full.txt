@@ -2,17 +2,17 @@
 
 # Button Mash
 
-The universal in-browser game console. Three centerpieces: (1) the Player — a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) the Converter 3.0 — batch-convert GBA, GB/GBC, NES, SNES or Genesis files you own into self-contained playable .html browser games (client-side only, all five cores BIOS-free, honest validation, compression levels); (3) the Party Planner — headcount + time + vibe in, timed game-night rotation plan out. Plus a curated directory of 162 free, legal browser games (every link verified live 2026-10-11), hand-built collections, genre deep dives, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads — ever.
+The universal in-browser game console. Three centerpieces: (1) the Player — a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) the Converter 3.0 — batch-convert GBA, GB/GBC, NES, SNES or Genesis files you own into self-contained playable .html browser games (client-side only, all five cores BIOS-free, honest validation, compression levels); (3) the Party Planner — headcount + time + vibe in, timed game-night rotation plan out. Plus a curated directory of 213 free, legal browser games (every link verified live 2026-10-11), hand-built collections, genre deep dives, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads — ever.
 
 ## Play
 - player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.1: named save slots + auto-save, per-system keyboard+gamepad remap, cheat-code entry, display options (CRT/integer-scale/aspect, per-system quick settings), honest netplay notes)
 - converter.html — Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 5 BIOS-free cores (mGBA/Gambatte/FCEUmm/Snes9x/Genesis Plus GX), 4 compression levels + presets, honest ROM validation (refuses empty/all-zero/bad-NES, warns on blank headers / missing SEGA string, keeps SNES copier headers), custom titles + cover art, ▶ Player mode deep links
 - party-planner.html — Party planner 2.0: guest list (2-16 names), per-guest game voting (ties go to the earliest-picked game), fair rotation scheduler (hot-seat groups of 4), party timeline with snack break + tournament slot, snack-break timer, kids-party mode from the 75 kid-safe games, tournament handoff 2.0 (?players=N&names=A,B&games=ids&format=), shareable #p= party links, print party pack + copy-as-text
 - tournament.html — Tournament 2.0: single- or double-elimination brackets for game night (2-16 players, manual seeding UI + randomize, honest byes, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids))
-- games.html — the 162-game directory (search incl. tags, genre + tag filters, shareable URL views, favorites, random game, game of the day)
-- kids.html — Kids corner: 75 kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default
+- games.html — the 213-game directory (search incl. tags, genre + tag filters, shareable URL views, favorites, random game, game of the day)
+- kids.html — Kids corner: 113 kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default
 - parents.html — parent guide: curation method, honesty policy (assessments not guarantees — play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick
-- collections.html — 19 hand-built collections
+- collections.html — 22 hand-built collections
 - genres/roguelike.html, genres/cozy.html — genre deep dives with start-here picks
 
 ## Learn
@@ -39,8 +39,10 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - guides/crt-shaders-display.html — Make pixels look right: CRT shaders & display science
 - guides/accessibility-in-retro-gaming.html — Retro games for every player: an accessibility guide
 - guides/preserving-your-games.html — Keep your games forever: the preservation guide
+- guides/gamepad-setup.html — Controllers in the browser: the gamepad setup guide
+- guides/pico8-spotlight.html — PICO-8 spotlight: the fantasy console's best corners
 
-## Games (162 total)
+## Games (213 total)
 
 - 2048 [puzzle · Arrow keys / swipe] — Slide numbered tiles and merge them to reach 2048. Deceptively simple, endlessly restartable. Play: https://play2048.co/
 - Wordle [puzzle · Keyboard] — One five-letter word a day, six guesses. The whole internet solves the same puzzle. Play: https://www.nytimes.com/games/wordle/index.html
@@ -204,8 +206,59 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Floodlines [puzzle · Mouse — place defenses] — An open-source tower defense about real floods: place levees and pumps using real rainfall data to save the town. Play: https://hydroengineer.itch.io/floodlines
 - Hydro Operator [puzzle · Mouse — manage flows] — Balance a dam in this open-source sim: juggle water levels, power demand, and flood risk like a real river operator. Play: https://hydroengineer.itch.io/hydro-operator
 - SkyStack [puzzle · Mouse — build floors] — An open-source SimTower homage: stack apartments, offices, and lobbies into a skyscraper that actually works. Play: https://hydroengineer.itch.io/skystack
+- SimCity (1989) [retro · Mouse] — Zone land, lay roads, and keep the Sims happy in the city-builder that started it all — Will Wright's 1989 original, playable in the Archive's DOSBox. Play: https://archive.org/details/msdos_SimCity_1989
+- Lemmings [retro · Mouse] — Guide the green-haired marchers home: assign blockers, bashers, and builders before they stroll off the cliff. DMA Design's 1991 puzzler. Play: https://archive.org/details/msdos_Lemmings_1991
+- The Secret of Monkey Island [retro · Mouse] — Guybrush Threepwood wants to be a pirate. Insult-sword-fight your way through Lucasfilm Games' 1990 point-and-click classic. Play: https://archive.org/details/msdos_Secret_of_Monkey_Island_The_1990
+- Duke Nukem 3D (Shareware) [retro · WASD + mouse] — Hail to the king, baby: the shareware episode of 3D Realms' 1996 FPS — Hollywood Holocaust, free and legal, in the browser. Play: https://archive.org/details/3dduke13SW
+- Zork I [retro · Keyboard (type commands)] — West of house. It is pitch black. The 1980 text adventure that defined a genre — no graphics, all imagination, right in your browser. Play: https://archive.org/details/msdos_Zork_I_-_The_Great_Underground_Empire_1980
+- Sid Meier's Civilization [retro · Mouse + keyboard] — 4000 BC to the space race: found cities, research pottery, and outlast history itself in the 1991 original 4X. Play: https://archive.org/details/CIVILIZATION_201902
+- Alone in the Dark [retro · Keyboard] — The 1992 survival-horror pioneer: explore a haunted Louisiana mansion as Carnby or Aline, tank controls and all. Play: https://archive.org/details/msdos_Alone_in_the_Dark_1992
+- Transport Tycoon Deluxe [retro · Mouse] — Chris Sawyer's 1995 transport empire sim: lay rail, run buses, and out-profit the competition across a century. Play: https://archive.org/details/msdos_Transport_Tycoon_Deluxe_1995
+- Theme Park [retro · Mouse] — Bullfrog's 1994 theme-park tycoon: set ride prices, salt the fries, and keep the queues moving. Play: https://archive.org/details/msdos_Theme_Park_1994
+- Master of Orion [retro · Mouse + keyboard] — The 1993 4X that named the genre: colonize stars, design ships, and out-diplomacize the galaxy. Play: https://archive.org/details/msdos_Master_of_Orion_1993
+- Railroad Tycoon [retro · Mouse] — Sid Meier's 1990 railroad empire: lay track, haul freight, and bankrupt the robber barons. Play: https://archive.org/details/railroad_tycoon_1990
+- Quake (Shareware) [retro · WASD + mouse] — id Software's 1996 true-3D shooter: the shareware episode with the nailgun, free and legal in your browser. Play: https://archive.org/details/msdos_Quake106_shareware
+- SimCity 2000 [retro · Mouse] — The 1993 sequel with arcologies, newspapers, and underground plumbing — the definitive 90s city builder, in DOSBox. Play: https://archive.org/details/SimCity2000
+- The Oregon Trail Deluxe [retro · Keyboard + mouse] — The 1992 deluxe edition of the classroom classic: hunt, ford rivers, and mind the dysentery on the trail west. Play: https://archive.org/details/msdos_Oregon_Trail_Deluxe_The_1992
+- Commander Keen 3: Keen Must Die! [retro · Arrow keys + Ctrl/Space] — Billy Blaze's 1990 pogo-stick platforming finale to the Invasion of the Vorticons trilogy — id's shareware-era charmer. Play: https://archive.org/details/msdos_Commander_Keen_3_-_Keen_Must_Die_1990
+- Commander Keen: Keen Dreams [retro · Arrow keys + Ctrl/Space] — The lost Keen episode: battle vegetable tyrants with flower-power pellets in id's 1991 fever dream. Play: https://archive.org/details/msdos_Commander_Keen_-_Keen_Dreams_1993
+- Space Invaders [retro · Arrow keys / buttons] — Taito's 1978 quarter-muncher: four notes of bass, one descending armada, and the birth of the high score. Play: https://archive.org/details/arcade_invaders
+- Dig Dug [retro · Arrow keys / buttons] — Namco's 1982 digger: tunnel through the dirt, pump up Pookas, and drop rocks on Fygars. Play: https://archive.org/details/arcade_digdug
+- Joust [retro · Buttons (flap)] — Williams' 1982 ostrich jousting: flap higher than the rival knights and lance them out of the sky. Play: https://archive.org/details/arcade_joust
+- Centipede [retro · Mouse (trackball)] — Atari's 1981 shooter: blast the descending centipede through a mushroom field before it reaches you. Play: https://archive.org/details/arcade_centiped
+- Missile Command [retro · Mouse (trackball)] — Atari's 1980 Cold War nightmare: defend six cities with three batteries. The end is not a matter of if. Play: https://archive.org/details/arcade_missile
+- Defender [retro · Keyboard / buttons] — Williams' 1981 rescue shooter: the hardest game of the golden age — save the humanoids, mind the hyperspace. Play: https://archive.org/details/arcade_defender
+- Q*bert [retro · Arrow keys (diagonal)] — Gottlieb's 1982 cube-hopper: change every tile's color, dodge Coily, and mind the @!#?@! swearing. Play: https://archive.org/details/arcade_qbert
+- Tempest [retro · Arrow keys] — Atari's 1981 vector shooter: Dave Theurer's neon tube-blaster, the first game with a selectable starting level. Play: https://archive.org/details/arcade_tempest
+- Robotron: 2084 [retro · WASD + arrows (twin-stick)] — Williams' 1984 twin-stick masterpiece: the game that invented the twin-stick shooter, rescuing the last human family. Play: https://archive.org/details/arcade_robotron
+- 1942 [retro · Arrow keys / buttons] — Capcom's 1984 vertical shooter: loop-de-loop over the Pacific in the granddaddy of the shmup. Play: https://archive.org/details/arcade_1942
+- Galaga '88 [retro · Arrow keys / buttons] — Namco's 1987 sequel: the dive-bombing classic with triple-ship power-ups and branching warp zones. Play: https://archive.org/details/arcade_galaga88
+- Ms. Pac-Man / Galaga: 20th Anniversary [retro · Arrow keys / buttons] — The 2000 arcade reunion cabinet: Ms. Pac-Man and Galaga, class of 1981, together in one anniversary machine. Play: https://archive.org/details/arcade_20pacgal
+- Bubble Bobble II [retro · Arrow keys + buttons] — Taito's 1994 co-op bubble-blower: trap monsters in bubbles with a friend, in the sequel to the arcade sweetheart. Play: https://archive.org/details/arcade_bublbob2
+- Street Fighter Alpha 2 [retro · Arrows + buttons] — Capcom's 1996 fighter: the Alpha series at its peak — air-blocking, custom combos, and anime-styled sprites. Play: https://archive.org/details/arcade_sfa2
+- Congo Bongo [retro · Arrow keys] — Sega's 1983 isometric platformer: climb, dodge, and outwit the ape in the isometric rival to Donkey Kong. Play: https://archive.org/details/arcade_congo
+- Fancy Pants Adventure: World 1 [action · Arrow keys] — Brad Borne's 2006 stick-figure platformer: the smoothest Flash run-and-slide ever, preserved on the Archive via Ruffle. Play: https://archive.org/details/fpaworld-1-07a_202204
+- Alien Hominid (Flash) [action · Arrow keys + Z/X] — The Behemoth's 2002 run-and-gun: the little yellow alien's Newgrounds debut, preserved via Ruffle. Play: https://archive.org/details/flash_alien_hominid
+- Dad 'n Me [action · Arrow keys + A/S] — Tom Fulp's 2005 beat-em-up: a dad, his kid, and a city full of punks — Flash brawling at its finest, via Ruffle. Play: https://archive.org/details/dadnme
+- Achievement Unlocked [action · Arrow keys] — John Cooney's 2008 metagame: a tiny platformer about unlocking 100 achievements for doing literally everything. Play: https://archive.org/details/achievementflash
+- Time Fcuk [puzzle · Arrow keys + Z] — Edmund McMillen's 2009 puzzle-platformer: a box, a time mechanic, and an ending you'll argue about — preserved via Ruffle. Play: https://archive.org/details/time-fcuk
+- Run 3 [action · Arrow keys / WASD] — Player03's endless tunnel-runner: sprint through collapsing space tunnels in the series' official web version. Play: https://player03.com/
+- Subway Surfers [action · Arrow keys / swipe] — SYBO's endless runner, officially on Poki: dodge trains, grab coins, and outrun the inspector. Play: https://poki.com/en/g/subway-surfers
+- Stickman Hook [action · Click / tap] — Madbox's one-button grappler: swing the stickman through 100+ bouncy levels, officially on Poki. Play: https://poki.com/en/g/stickman-hook
+- arras.io [action · WASD + mouse] — The open-source diep.io successor: build your tank, pick your upgrades, and dominate the arena. Play: https://arras.io/
+- Hole.io [action · Mouse / drag] — Voodoo's city-swallowing arcade: grow your black hole from manhole to metropolis in two minutes. Play: https://hole-io.com/
+- Tanki Online [multiplayer · WASD + mouse] — The official browser tank MMO: customize your hull and turret, then battle in team arenas — no download. Play: https://tankionline.com/en/
+- mope.io [multiplayer · Mouse + W] — Eat, evolve, survive: climb the food chain from mouse to dragon in this multiplayer survival arena. Play: https://mope.io/
+- YoHoHo.io [multiplayer · Mouse / WASD] — Pirate battle royale: grab doubloons, grow your crew, and be the last pirate standing. Play: https://www.yohoho.io/
+- Stumble Guys [multiplayer · WASD + Space] — Scopely's official web version: 32-player obstacle-course chaos, right in the browser. Play: https://www.stumbleguys.com/play
+- ClassiCube [multiplayer · WASD + mouse] — The open-source Minecraft Classic revival: build together on multiplayer servers with the free web client. Play: https://www.classicube.net/
+- Synergism [idle · Mouse] — Pseudo-Corp's open-source incremental: prestige through dimensions of numbers in the genre's deepest rabbit hole. Play: https://pseudo-corp.github.io/SynergismOfficial/
+- Realm Grinder [idle · Mouse] — Divine Games' fantasy idle RPG: align with factions, cast spells, and abdicate your way to exponential gold — officially on Kongregate. Play: https://www.kongregate.com/games/divinegames/realm-grinder
+- AdVenture Capitalist [idle · Mouse] — Hyper Hippo's capitalist clicker: lemonade stands to moon shoes, the idle game that ate 2015 — officially on Kongregate. Play: https://www.kongregate.com/games/HyperHippoGames/adventure-capitalist
+- Simon Tatham's Puzzles [puzzle · Mouse] — 40+ hand-crafted logic puzzles (Loopy, Mines, Net, Map...) as official JavaScript builds — the puzzle collection other collections wish they were. Play: https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/
+- Sort the Court [puzzle · Mouse] — Graebor's royal decision game: answer yes or no to your subjects and keep the kingdom (and treasury) alive. Play: https://graebor.itch.io/sort-the-court
 
-## Collections (19 total)
+## Collections (22 total)
 
 - Cozy games for a rainy day: Gentle games for grey weather — Serenitrove; Townscaper; Six Cats Under; goodbye, doggy; A Tale of Crowns; Slow Roads; Fallen London; purrgatory; Little Troubles in Spooky Town; Little Alchemy 2; The Deep Sea; Sandspiel
 - One-more-turn idle games: Numbers go up while you do nothing — Cookie Clicker; A Dark Room; Universal Paperclips; Candy Box 2; Kittens Game; Trimps; Antimatter Dimensions; Prerolled; Stick Ranger; Bitburner
@@ -226,6 +279,9 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Daily word games: Fresh puzzles every day — Absurdle; Semantle; Waffle; Contexto; Bandle
 - Cozy toys: No fail states, only vibes — Hatchstead; Powder Game; Pointer Pointer; It is as if you were doing work
 - Roguelikes, forever: Die, learn, die better — Dungeon Crawl Stone Soup; Angband; NetHack; Spelunky Classic; Vampire Survivors; Chogue
+- Flash-back machine: The 2005–2012 browser golden age, preserved — Fancy Pants Adventure: World 1; Alien Hominid (Flash); Dad 'n Me; Time Fcuk; Achievement Unlocked; Canabalt; Line Rider; Happy Wheels; QWOP
+- Score attack: No endings, only high scores — Space Invaders; Galaga '88; Dig Dug; Centipede; Missile Command; Defender; Q*bert; Tempest; Robotron: 2084; 1942; TETR.IO; Jstris
+- Tycoon corner: Build it, run it, optimize it — SimCity (1989); SimCity 2000; Transport Tycoon Deluxe; Theme Park; Railroad Tycoon; Master of Orion; Sid Meier's Civilization; shapez.io
 
 ## Emulators (10 picks, software only)
 
@@ -934,4 +990,86 @@ clrmamepro/RomVault + No-Intro/Redump DAT files: verify, auto-rename, flag bad d
 ### The 3-2-1 archive
 
 Three copies, two media, one off-site: working library, external drive with checksums, cloud/relative's house. Re-verify checksums yearly (bit rot is real); migrate media every ~5 years. Dump it, checksum it, name it, compress a copy, keep three, check yearly.
+
+## Controllers in the browser: the gamepad setup guide
+Difficulty: Beginner · ~20 min · slug: gamepad-setup
+
+Get any USB or Bluetooth controller working with browser games and this site's Player — the Gamepad API, testing, per-system remapping, and honest troubleshooting.
+
+### Why a controller changes browser games
+
+Some games were designed around a pad, and it shows. Platformers, racers, twin-stick shooters, and fighting games all play better with analog sticks and real buttons than with arrow keys — and anything you play in this site's Player (the EmulatorJS console) was literally built for a controller. The good news: modern browsers speak gamepad natively. No drivers, no mapping software, no downloads — plug in and play.
+
+### How browser gamepads work (the 60-second version)
+
+Browsers expose controllers through the Gamepad API: a page asks for the list of connected pads with navigator.getGamepads(), and the browser fires gamepadconnected / gamepaddisconnected events when pads come and go. Each pad reports buttons as pressed-or-not values and sticks as axes between -1 and 1. Most controllers follow the 'standard' mapping, which means button 0 is the bottom face button (A on Xbox, Cross on PlayStation) no matter which brand you plugged in. The W3C Gamepad spec and MDN's Gamepad API docs cover the details if you're building something yourself.
+
+### Pick your controller
+
+- Xbox (One / Series) — the safe default. Wired over USB or Bluetooth; the standard mapping just works everywhere.
+- PlayStation (DualShock 4 / DualSense) — excellent pads, work wired or over Bluetooth; some browsers show PlayStation button labels, some show Xbox-style numbers. The positions are identical.
+- Switch Pro Controller — works over Bluetooth and USB; check the button mapping in a tester first, since its face layout is swapped vs. Xbox.
+- 8BitDo and other Bluetooth pads — usually fine; their 'X-input mode' (the Xbox-compatible mode) is the one browsers understand best.
+- Cheap no-name USB pads — often fine for 2D games; test every button before a tournament.
+
+### Connect it: USB vs. Bluetooth
+
+USB is the zero-fuss path: plug the cable in and the browser sees the pad within a second. For Bluetooth, put the controller in pairing mode (Xbox: hold the pair button; DualSense: hold PS + Create; 8BitDo: hold the mode-specific combo from its manual), then pair it in your OS Bluetooth settings like any device. One honest caveat: some Bluetooth stacks add a few milliseconds of input lag — imperceptible in RPGs and platformers, worth knowing about for rhythm games and fighters. If a pad refuses to appear, try the cable before anything else.
+
+### Test it before you play
+
+Open html5gamepad.com with the controller connected and press buttons: you should see each input light up with its standard-mapping number. This one page answers every 'is it the game or the pad?' question in ten seconds. If the tester sees the pad but a game doesn't, the game probably only polls for pads on a timer or needs a button press to 'wake' the listing — click into the game and press any button. If the tester doesn't see it either, it's a connection problem, not a game problem.
+
+### Gamepads in this site's Player
+
+The Player (this site's EmulatorJS console) has gamepad support built in — Player 1's pad just works, no setup. For finer control, the per-system remapper (Player 2.1) lets you capture gamepad buttons per system: open the remap panel, pick a button, and press the pad button you want. Your mapping is stored per system in the browser and applied at boot. Note it overrides any mapping you set inside the engine's own menu, and Esc cancels a capture. If your pad has a non-standard layout, capture each button once and you're done forever.
+
+### Which catalog games love a pad
+
+Reach for the controller for: the arcade shelf (Robotron: 2084 is the twin-stick original; Defender and Joust were built for arcade sticks), the Flash-back machine (Fancy Pants Adventure, Alien Hominid), racers and runners (HexGL supports gamepad natively — check its controls line), and anything in the Player. Stick to keyboard and mouse for: idle games, puzzle games, text adventures like Zork, and the strategy shelf — a pad adds nothing there. When in doubt, the game's controls line tells you what's intended.
+
+### Troubleshooting: the honest list
+
+- Pad not detected: press any button after the page loads (browsers only list pads after first input), then check html5gamepad.com. Still nothing? Try USB.
+- Wrong button does the thing: the game assumed the standard mapping and your pad is exotic. Remap it in the Player's per-system remapper, or check the tester's mapping.
+- Two pads, wrong one is Player 1: browsers order pads by connection order — unplug and reconnect in the order you want them.
+- Steam is running: Steam's controller layer can swallow inputs before the browser sees them. Quit Steam or disable its controller support for desktop.
+- It works everywhere except one game: that game polls getGamepads() once at load instead of every frame. Reload the page with the pad already connected and press a button on the title screen.
+
+## PICO-8 spotlight: the fantasy console's best corners
+Difficulty: Beginner · ~15 min · slug: pico8-spotlight
+
+Meet the fantasy console with thousands of tiny games: Splore, the Lexaloffle BBS, where the gems hide, and how to play everything free in your browser.
+
+### What PICO-8 is
+
+PICO-8 is a 'fantasy console' by Lexaloffle: a fake 1980s machine with deliberately tiny limits (128x128 pixels, 16 colors, 32KB cartridges) that runs on your real computer. The limits are the point — they force small, finished, weird games, and the community has made thousands of them. The software itself costs $15 and is worth it if you want to make games; playing other people's games in the browser is completely free.
+
+### Splore: the built-in game browser
+
+Inside PICO-8, type splore at the command prompt and hit enter. Splore is a graphical cartridge explorer: it browses games published to the community BBS over the internet, right from inside the console. Pick a cart, it downloads and runs. Press Esc to pause any cart and hop back to Splore. It's the closest thing retro gaming has to a streaming service, except everything is tiny and free.
+
+### The BBS: where the carts live
+
+The Lexaloffle BBS (lexaloffle.com/bbs) is the official community hub: every published cartridge gets a page where anyone can play it in the browser — no PICO-8 purchase needed — star it, favorite it, and download the .p8.png cartridge file. The BBS sorts by featured, new, and top-rated, and the comments are where developers explain their tricks. If Splore is the storefront, the BBS is the town square.
+
+### Where the gems hide
+
+Start with the BBS 'featured' and top-rated sorts — curation by thousands of players beats any algorithm. Then follow developers: PICO-8's best creators publish repeatedly, and their BBS profiles are discographies. Check the carts linked from this site's pico8-gems collection for a hand-picked starting shelf. And don't sleep on tweetcarts: 140-character games that fit in a post, some of them genuinely brilliant.
+
+### Playing in your browser (free)
+
+Every BBS cartridge page has a built-in web player — click and play, no install, no account. Developers can also export any cart as a standalone HTML5 page, which is why PICO-8 games show up embedded across the web. Keyboard controls are the default (arrows + Z/X); many web exports also accept gamepads. Your progress saves in the browser like any web game.
+
+### The pico8-gems shelf
+
+This site's pico8-gems collection is the curated on-ramp: a Doom demake, the original Celeste, and other standout carts, each linking to its official BBS page. Play the shelf first, then use the BBS sorts above to go deeper. If a shelf game hooks you, its BBS page links the developer's other carts — that's the rabbit hole, and it's a good one.
+
+### Make your first cart (the 10-minute version)
+
+If the $15 calls to you: PICO-8's editor is code, sprites, map, sound, and music in one window, all in Lua. The built-in help and the official manual walk you from a blank cart to a moving sprite in minutes. Publish to the BBS when it does something fun — the community plays and comments on everything, including gloriously broken first attempts. The legal lane is clean by design: every cart is its author's original work.
+
+### Why it matters
+
+PICO-8 proved that constraints make better games and friendlier developers. Thousands of people finished and shipped something — most for the first time in their lives — because the canvas was small enough to fill. Whether you play the shelf, browse the BBS, or buy the console and make your own, you're participating in the healthiest corner of game development. Start with someone else's cart. End with your own.
 

@@ -214,7 +214,7 @@ check("WF8 collections.html header nav has Tournament + Party planner links",
   /<header[\s\S]*?href="party-planner\.html"[\s\S]*?<\/header>/.test(fs.readFileSync(path.join(ROOT, "collections.html"), "utf8")),
   "wave-6 inconsistency fixed");
 check("WF8 llms.txt has live counts + new collections",
-  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("162-game directory") &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("213-game directory") &&
   fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("Homebrew radar"),
   "dynamic counts in build_site.py");
 check("WF8 every wave-8 game has a kids.json verdict",
@@ -354,7 +354,7 @@ check("WF11 share validation rejects tampering",
     Buffer.from(JSON.stringify({ v: 99, guests: ["A", "B"], games: ["g1"] })).toString("base64url")).ok &&
     Party2.decodeShare(Party2.encodeShare(w11party)).ok,
   "round-trip + version gate");
-check("WF11 kids pool stays inside the 75 curated kid-safe ids",
+check("WF11 kids pool stays inside the 113 curated kid-safe ids",
   (() => {
     const kidSafe = load("api/v1/kid-safe.json")["kid-safe"];
     const pool = Party2.kidPool(kidSafe, "8-10");
@@ -441,8 +441,8 @@ check("WF12 AGENT.md + llms.txt mention Converter 3.0",
 // Wave 13: deep-dive guides knowledge hub
 const w13Slugs = ["homebrew-development", "netplay", "save-workflows",
   "crt-shaders-display", "accessibility-in-retro-gaming", "preserving-your-games"];
-check("WF13 guides count 20 (14 + 6 new)",
-  guides.length === 20, guides.length + " guides");
+check("WF13 guides count 22 (20 + 2 new)",
+  guides.length === 22, guides.length + " guides");
 check("WF13 all 6 new guides in api/v1/guides.json",
   w13Slugs.every((s) => guides.some((g) => g.slug === s)), w13Slugs.join(", "));
 check("WF13 new guide pages exist + load TOC spy script + progress bar",
@@ -497,8 +497,8 @@ const wave14Ids = ["evolution-of-trust", "better-ballot", "parable-of-polygons",
   "codecombat", "vampire-survivors", "doing-work", "chogue", "absurdle", "semantle", "waffle",
   "contexto", "bandle", "pointer-pointer", "hacker-typer", "doom-1993", "oregon-trail", "prince-of-persia",
   "wolfenstein-3d", "recoil-foundry", "hatchstead", "floodlines", "hydro-operator", "skystack"];
-check("WF14 games count 162 (125 + 37 new)",
-  games.length === 162, games.length + " games");
+check("WF14 games count 213 (162 + 51 new)",
+  games.length === 213, games.length + " games");
 check("WF14 all 37 wave-14 games in api/v1/games.json",
   wave14Ids.every((id) => gameIds.has(id)), wave14Ids.length + " new games present");
 check("WF14 new game records complete (https url, genre, controls, description)",
@@ -508,9 +508,9 @@ check("WF14 new game records complete (https url, genre, controls, description)"
   }), "all fields non-empty");
 check("WF14 genre totals after expansion",
   (() => {
-    const want = { puzzle: 45, action: 30, roguelike: 15, idle: 12, multiplayer: 25, retro: 13, horror: 6, cozy: 16 };
+    const want = { puzzle: 48, action: 39, roguelike: 15, idle: 15, multiplayer: 30, retro: 44, horror: 6, cozy: 16 };
     return Object.entries(want).every(([gr, n]) => games.filter((g) => g.genre === gr).length === n);
-  })(), "p45/a30/r15/i12/m25/re13/h6/c16");
+  })(), "p48/a39/r15/i15/m30/re44/h6/c16");
 const newCols = {
   "playable-essays": ["evolution-of-trust", "better-ballot", "parable-of-polygons", "wisdom-madness-crowds", "sight-and-light", "doing-work", "chogue"],
   "open-source-web": ["bitburner", "mindustry", "shapez", "dcss-webtiles", "angband-live", "nethack-web"],
@@ -519,8 +519,8 @@ const newCols = {
   "cozy-toys": ["hatchstead", "powder-game", "pointer-pointer", "doing-work"],
   "roguelike-forever": ["dcss-webtiles", "angband-live", "nethack-web", "spelunky-classic", "vampire-survivors", "chogue"],
 };
-check("WF14 19 collections (13 + 6 new)",
-  collections.length === 19, collections.length + " collections");
+check("WF14 22 collections (19 + 3 new)",
+  collections.length === 22, collections.length + " collections");
 check("WF14 new collections exact contents",
   Object.entries(newCols).every(([cid, ids]) => {
     const c = collections.find((x) => x.id === cid);
@@ -670,5 +670,83 @@ check("WF16 arcade.js on every page",
 check("WF16 coin-plate kick on every footer",
   allHtml.every((p) => fs.readFileSync(path.join(ROOT, p), "utf8").includes("coin-plate")),
   "kick-plate rhythm site-wide");
+
+
+// ---- Wave 17: catalog expansion (51 new, 213 total) + 3 collections + 2 guides ----
+const wave17Ids = ["simcity-1989", "lemmings-1991", "monkey-island", "duke3d-shareware",
+  "zork1", "civ1", "alone-dark", "transport-tycoon", "theme-park", "master-of-orion",
+  "railroad-tycoon", "quake-shareware", "simcity-2000", "oregon-trail-deluxe",
+  "commander-keen3", "keen-dreams", "space-invaders", "dig-dug", "joust", "centipede",
+  "missile-command", "defender", "qbert", "tempest", "robotron", "1942", "galaga88",
+  "pac-gal-20th", "bubble-bobble-2", "sfa2", "congo-bongo", "fancy-pants-1",
+  "alien-hominid-flash", "dad-n-me", "achievement-unlocked", "time-fcuk", "run-3",
+  "subway-surfers", "stickman-hook", "arras-io", "hole-io", "tanki", "mope-io",
+  "yohoho-io", "stumble-guys", "classicube", "synergism", "realm-grinder",
+  "adventure-capitalist", "tatham-puzzles", "sort-the-court"];
+check("WF17 all 51 wave-17 games in api/v1/games.json",
+  wave17Ids.every((id) => gameIds.has(id)), wave17Ids.length + " new games present");
+check("WF17 new game records complete (https url, genre, controls, description)",
+  wave17Ids.every((id) => {
+    const g = byId.get(id);
+    return g && g.url.startsWith("https://") && g.genre && g.controls && g.description && g.title;
+  }), "all fields non-empty");
+const newCols17 = {
+  "flash-back-machine": ["fancy-pants-1", "alien-hominid-flash", "dad-n-me", "time-fcuk",
+    "achievement-unlocked", "canabalt", "line-rider", "happy-wheels", "qwop"],
+  "score-attack": ["space-invaders", "galaga88", "dig-dug", "centipede", "missile-command",
+    "defender", "qbert", "tempest", "robotron", "1942", "tetrio", "jstris"],
+  "tycoon-corner": ["simcity-1989", "simcity-2000", "transport-tycoon", "theme-park",
+    "railroad-tycoon", "master-of-orion", "civ1", "shapez"],
+};
+check("WF17 22 collections (19 + 3 new)",
+  collections.length === 22, collections.length + " collections");
+check("WF17 new collections exact contents",
+  Object.entries(newCols17).every(([cid, ids]) => {
+    const c = collections.find((x) => x.id === cid);
+    return !!c && c.game_ids.length === ids.length && ids.every((id) => c.game_ids.includes(id));
+  }), Object.keys(newCols17).join(", "));
+check("WF17 every wave-17 game has a kids.json verdict",
+  wave17Ids.every((id) => kids.some((k) => k.id === id) || load("data/kids.json").excluded.some((k) => k.id === id)),
+  "38 curated + 13 excluded");
+check("WF17 dropped candidates stayed out (unverifiable or taken-down URLs never shipped)",
+  ["crazy-kong", "gartic-io", "1v1-lol", "hextris", "republia-times", "prestige-tree",
+   "evolve-idle", "frogger", "donkey-kong", "asteroids", "pacman", "final-fight",
+   "contra-arcade", "tmnt-arcade", "simpsons-arcade", "street-fighter-2", "bubble-bobble",
+   "commander-keen5", "xcom-ufo"].every((id) => !gameIds.has(id)),
+  "19 rejected, 0 in catalog");
+check("WF17 22 guides (20 + 2 new), pages exist with the guide template",
+  ["gamepad-setup", "pico8-spotlight"].every((slug) => {
+    const h = fs.readFileSync(path.join(ROOT, "guides", slug + ".html"), "utf8");
+    return h.includes('class="guide-page"') && h.includes('data-spy') &&
+      h.includes("assets/js/guide-toc.js") && h.includes("assets/js/arcade.js") &&
+      h.includes("coin-plate") && h.includes('class="reading-progress"');
+  }), "template: guide-page + spy TOC + toc.js + arcade.js + coin plate + progress");
+check("WF17 new guides in data/guides.json with 8 sections each",
+  ["gamepad-setup", "pico8-spotlight"].every((id) => {
+    const g = load("data/guides.json").find((x) => x.id === id);
+    return !!g && g.slug === id && g.sections.length === 8 && g.title && g.summary;
+  }), "records complete");
+check("WF17 new guides in sitemap + llms.txt + emulation hub",
+  ["guides/gamepad-setup.html", "guides/pico8-spotlight.html"].every((s) =>
+    fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8").includes("<loc>" + s + "</loc>")) &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("guides/gamepad-setup.html") &&
+  fs.readFileSync(path.join(ROOT, "emulation.html"), "utf8").includes("guides/gamepad-setup.html") &&
+  fs.readFileSync(path.join(ROOT, "emulation.html"), "utf8").includes("guides/pico8-spotlight.html"),
+  "sitemap + llms + hub cards");
+check("WF17 new guide external links on the allowlist",
+  ["gamepad-setup", "pico8-spotlight"].every((slug) => {
+    const h = fs.readFileSync(path.join(ROOT, "guides", slug + ".html"), "utf8");
+    const allowed = ["developer.mozilla.org", "html5gamepad.com", "www.w3.org",
+      "lexaloffle.com", "www.lexaloffle.com"];
+    const hrefs = [...h.matchAll(/href="(https?:\/\/[^"]+)"/g)].map((m) => m[1]);
+    return hrefs.every((u) => {
+      try { return allowed.includes(new URL(u).hostname); }
+      catch { return true; }
+    });
+  }), "MDN + html5gamepad + w3c + lexaloffle only");
+check("WF17 llms.txt mentions new collections",
+  ["Flash-back machine", "Score attack", "Tycoon corner"].every((title) =>
+    fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes(title)),
+  "new shelf titles in llms.txt");
 
 process.exit(failures ? 1 : 0);

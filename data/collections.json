@@ -303,6 +303,59 @@
         "vampire-survivors",
         "chogue"
       ]
+    },
+    {
+      "id": "flash-back-machine",
+      "title": "Flash-back machine",
+      "tagline": "The 2005–2012 browser golden age, preserved",
+      "description": "Before HTML5, there was Flash — and these are the games that defined browser gaming's first golden age. The originals are preserved on the Internet Archive and run via Ruffle; where the developers rebuilt them in HTML5, we link the official versions.",
+      "game_ids": [
+        "fancy-pants-1",
+        "alien-hominid-flash",
+        "dad-n-me",
+        "time-fcuk",
+        "achievement-unlocked",
+        "canabalt",
+        "line-rider",
+        "happy-wheels",
+        "qwop"
+      ]
+    },
+    {
+      "id": "score-attack",
+      "title": "Score attack",
+      "tagline": "No endings, only high scores",
+      "description": "The purest arcade genre: one life, one score, one leaderboard. Golden-age cabinet classics from the Internet Arcade plus the modern web games that kept the chase alive.",
+      "game_ids": [
+        "space-invaders",
+        "galaga88",
+        "dig-dug",
+        "centipede",
+        "missile-command",
+        "defender",
+        "qbert",
+        "tempest",
+        "robotron",
+        "1942",
+        "tetrio",
+        "jstris"
+      ]
+    },
+    {
+      "id": "tycoon-corner",
+      "title": "Tycoon corner",
+      "tagline": "Build it, run it, optimize it",
+      "description": "Management sims and tycoon games: zone the city, lay the rail, price the fries, and optimize the factory. Deep systems, zero twitch reflexes.",
+      "game_ids": [
+        "simcity-1989",
+        "simcity-2000",
+        "transport-tycoon",
+        "theme-park",
+        "railroad-tycoon",
+        "master-of-orion",
+        "civ1",
+        "shapez"
+      ]
     }
   ],
   "generated_at": "2026-10-11",

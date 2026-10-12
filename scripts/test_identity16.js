@@ -92,17 +92,17 @@ async function waitScrollY(page, min, timeout) {
       count: document.getElementById("results-count").textContent,
       fxToggle: !!document.getElementById("fx-toggle"),
     }));
-    check("16.1 directory renders 162 cards", s.cards === 162, s.cards + " cards");
-    check("16.2 kid-safe badges intact", s.kidBadges === 75, s.kidBadges + " badges");
+    check("16.1 directory renders 213 cards", s.cards === 213, s.cards + " cards");
+    check("16.2 kid-safe badges intact", s.kidBadges === 113, s.kidBadges + " badges");
     check("16.3 tag token row: 11 tokens", s.tagTokens === 11, s.tagTokens + " tokens");
-    check("16.4 tooltip trigger + popover per card", s.triggers === 162 && s.tips === 162,
+    check("16.4 tooltip trigger + popover per card", s.triggers === 213 && s.tips === 213,
       s.triggers + " triggers, " + s.tips + " popovers");
     check("16.5 anchor/popover feature path detected", s.anchorClass !== "none",
       s.anchorClass + ", popover=" + s.popoverAttr);
     check("16.6 entrance stagger index set", s.stagger !== "", "--i=" + s.stagger);
     check("16.7 hero entrance choreography runs", s.heroAnim === "hero-in", s.heroAnim);
     check("16.8 card tag minis render", s.cardMinis > 0, s.cardMinis + " minis");
-    check("16.9 count line", s.count === "162 of 162 games", s.count);
+    check("16.9 count line", s.count === "213 of 213 games", s.count);
     check("16.10 FX toggle present", s.fxToggle, "fx-toggle injected");
     check("16.11 zero pageerrors (baseline)", errors.length === 0, errors.join(" | ") || "clean");
     await page.close();
@@ -151,11 +151,11 @@ async function waitScrollY(page, min, timeout) {
       const chips = Array.from(document.querySelectorAll("#genre-chips .chip"));
       chips.find((c) => c.dataset.genre === "puzzle").click();
     });
-    await waitCards(page, 45);
+    await waitCards(page, 48);
     const u1 = new URL(page.url());
     check("16.16 genre click syncs URL", u1.searchParams.get("genre") === "puzzle", page.url().split("?")[1]);
     const c1 = await page.evaluate(() => document.getElementById("results-count").textContent);
-    check("16.17 puzzle filter count", c1 === "45 of 162 games", c1);
+    check("16.17 puzzle filter count", c1 === "48 of 213 games", c1);
     // click the party tag token
     await page.evaluate(() => {
       document.querySelector('#tag-chips .tag-token[data-tag="party"]').click();
@@ -167,7 +167,7 @@ async function waitScrollY(page, min, timeout) {
       count: document.getElementById("results-count").textContent,
       pressed: document.querySelector('#tag-chips .tag-token[data-tag="party"]').getAttribute("aria-pressed"),
     }));
-    check("16.19 party+puzzle narrows + token pressed", c2.pressed === "true" && /of 162 games/.test(c2.count),
+    check("16.19 party+puzzle narrows + token pressed", c2.pressed === "true" && /of 213 games/.test(c2.count),
       c2.count + " pressed=" + c2.pressed);
     // type in search
     await focusSearch(page);
@@ -261,13 +261,13 @@ async function waitScrollY(page, min, timeout) {
     }));
     check("16.28 custom empty state", e.title === "» NO GAMES ON THIS CHANNEL" && e.clearBtn, e.title);
     await clickSettled(page, "#clear-filters");
-    await waitCards(page, 162);
+    await waitCards(page, 213);
     const r = await page.evaluate(() => ({
       cards: document.querySelectorAll(".game-card").length,
       url: location.search,
       q: document.getElementById("game-search").value,
     }));
-    check("16.29 clear filters resets all", r.cards === 162 && r.url === "" && r.q === "", r.cards + " cards");
+    check("16.29 clear filters resets all", r.cards === 213 && r.url === "" && r.q === "", r.cards + " cards");
     check("16.30 zero pageerrors (search/tags)", errors.length === 0, errors.join(" | ") || "clean");
     await page.close();
   }
@@ -285,9 +285,9 @@ async function waitScrollY(page, min, timeout) {
       copyBtns: document.querySelectorAll(".shelf-link").length,
       fxToggle: !!document.getElementById("fx-toggle"),
     }));
-    check("16.31 19 shelf cards with anchor ids", s.cards === 19 && s.ids === 19, s.ids + " anchored");
-    check("16.32 jump nav has 19 links", s.jumpLinks === 19, s.jumpLinks + " links");
-    check("16.33 per-shelf copy buttons", s.copyBtns === 19, s.copyBtns + " buttons");
+    check("16.31 22 shelf cards with anchor ids", s.cards === 22 && s.ids === 22, s.ids + " anchored");
+    check("16.32 jump nav has 22 links", s.jumpLinks === 22, s.jumpLinks + " links");
+    check("16.33 per-shelf copy buttons", s.copyBtns === 22, s.copyBtns + " buttons");
     check("16.34 FX toggle on collections", s.fxToggle, "injected");
     await clickSettled(page, '#shelf-jump a[href="#shelf-party-night"]');
     await sleep(400);

@@ -1405,6 +1405,471 @@
       "genre": "puzzle",
       "controls": "Mouse — build floors",
       "description": "An open-source SimTower homage: stack apartments, offices, and lobbies into a skyscraper that actually works."
+    },
+    {
+      "id": "simcity-1989",
+      "title": "SimCity (1989)",
+      "url": "https://archive.org/details/msdos_SimCity_1989",
+      "genre": "retro",
+      "controls": "Mouse",
+      "description": "Zone land, lay roads, and keep the Sims happy in the city-builder that started it all — Will Wright's 1989 original, playable in the Archive's DOSBox."
+    },
+    {
+      "id": "lemmings-1991",
+      "title": "Lemmings",
+      "url": "https://archive.org/details/msdos_Lemmings_1991",
+      "genre": "retro",
+      "controls": "Mouse",
+      "description": "Guide the green-haired marchers home: assign blockers, bashers, and builders before they stroll off the cliff. DMA Design's 1991 puzzler."
+    },
+    {
+      "id": "monkey-island",
+      "title": "The Secret of Monkey Island",
+      "url": "https://archive.org/details/msdos_Secret_of_Monkey_Island_The_1990",
+      "genre": "retro",
+      "controls": "Mouse",
+      "description": "Guybrush Threepwood wants to be a pirate. Insult-sword-fight your way through Lucasfilm Games' 1990 point-and-click classic."
+    },
+    {
+      "id": "duke3d-shareware",
+      "title": "Duke Nukem 3D (Shareware)",
+      "url": "https://archive.org/details/3dduke13SW",
+      "genre": "retro",
+      "controls": "WASD + mouse",
+      "description": "Hail to the king, baby: the shareware episode of 3D Realms' 1996 FPS — Hollywood Holocaust, free and legal, in the browser.",
+      "tags": [
+        "shooter"
+      ]
+    },
+    {
+      "id": "zork1",
+      "title": "Zork I",
+      "url": "https://archive.org/details/msdos_Zork_I_-_The_Great_Underground_Empire_1980",
+      "genre": "retro",
+      "controls": "Keyboard (type commands)",
+      "description": "West of house. It is pitch black. The 1980 text adventure that defined a genre — no graphics, all imagination, right in your browser."
+    },
+    {
+      "id": "civ1",
+      "title": "Sid Meier's Civilization",
+      "url": "https://archive.org/details/CIVILIZATION_201902",
+      "genre": "retro",
+      "controls": "Mouse + keyboard",
+      "description": "4000 BC to the space race: found cities, research pottery, and outlast history itself in the 1991 original 4X."
+    },
+    {
+      "id": "alone-dark",
+      "title": "Alone in the Dark",
+      "url": "https://archive.org/details/msdos_Alone_in_the_Dark_1992",
+      "genre": "retro",
+      "controls": "Keyboard",
+      "description": "The 1992 survival-horror pioneer: explore a haunted Louisiana mansion as Carnby or Aline, tank controls and all."
+    },
+    {
+      "id": "transport-tycoon",
+      "title": "Transport Tycoon Deluxe",
+      "url": "https://archive.org/details/msdos_Transport_Tycoon_Deluxe_1995",
+      "genre": "retro",
+      "controls": "Mouse",
+      "description": "Chris Sawyer's 1995 transport empire sim: lay rail, run buses, and out-profit the competition across a century."
+    },
+    {
+      "id": "theme-park",
+      "title": "Theme Park",
+      "url": "https://archive.org/details/msdos_Theme_Park_1994",
+      "genre": "retro",
+      "controls": "Mouse",
+      "description": "Bullfrog's 1994 theme-park tycoon: set ride prices, salt the fries, and keep the queues moving."
+    },
+    {
+      "id": "master-of-orion",
+      "title": "Master of Orion",
+      "url": "https://archive.org/details/msdos_Master_of_Orion_1993",
+      "genre": "retro",
+      "controls": "Mouse + keyboard",
+      "description": "The 1993 4X that named the genre: colonize stars, design ships, and out-diplomacize the galaxy."
+    },
+    {
+      "id": "railroad-tycoon",
+      "title": "Railroad Tycoon",
+      "url": "https://archive.org/details/railroad_tycoon_1990",
+      "genre": "retro",
+      "controls": "Mouse",
+      "description": "Sid Meier's 1990 railroad empire: lay track, haul freight, and bankrupt the robber barons."
+    },
+    {
+      "id": "quake-shareware",
+      "title": "Quake (Shareware)",
+      "url": "https://archive.org/details/msdos_Quake106_shareware",
+      "genre": "retro",
+      "controls": "WASD + mouse",
+      "description": "id Software's 1996 true-3D shooter: the shareware episode with the nailgun, free and legal in your browser.",
+      "tags": [
+        "shooter"
+      ]
+    },
+    {
+      "id": "simcity-2000",
+      "title": "SimCity 2000",
+      "url": "https://archive.org/details/SimCity2000",
+      "genre": "retro",
+      "controls": "Mouse",
+      "description": "The 1993 sequel with arcologies, newspapers, and underground plumbing — the definitive 90s city builder, in DOSBox."
+    },
+    {
+      "id": "oregon-trail-deluxe",
+      "title": "The Oregon Trail Deluxe",
+      "url": "https://archive.org/details/msdos_Oregon_Trail_Deluxe_The_1992",
+      "genre": "retro",
+      "controls": "Keyboard + mouse",
+      "description": "The 1992 deluxe edition of the classroom classic: hunt, ford rivers, and mind the dysentery on the trail west."
+    },
+    {
+      "id": "commander-keen3",
+      "title": "Commander Keen 3: Keen Must Die!",
+      "url": "https://archive.org/details/msdos_Commander_Keen_3_-_Keen_Must_Die_1990",
+      "genre": "retro",
+      "controls": "Arrow keys + Ctrl/Space",
+      "description": "Billy Blaze's 1990 pogo-stick platforming finale to the Invasion of the Vorticons trilogy — id's shareware-era charmer."
+    },
+    {
+      "id": "keen-dreams",
+      "title": "Commander Keen: Keen Dreams",
+      "url": "https://archive.org/details/msdos_Commander_Keen_-_Keen_Dreams_1993",
+      "genre": "retro",
+      "controls": "Arrow keys + Ctrl/Space",
+      "description": "The lost Keen episode: battle vegetable tyrants with flower-power pellets in id's 1991 fever dream."
+    },
+    {
+      "id": "space-invaders",
+      "title": "Space Invaders",
+      "url": "https://archive.org/details/arcade_invaders",
+      "genre": "retro",
+      "controls": "Arrow keys / buttons",
+      "description": "Taito's 1978 quarter-muncher: four notes of bass, one descending armada, and the birth of the high score.",
+      "tags": [
+        "shooter"
+      ]
+    },
+    {
+      "id": "dig-dug",
+      "title": "Dig Dug",
+      "url": "https://archive.org/details/arcade_digdug",
+      "genre": "retro",
+      "controls": "Arrow keys / buttons",
+      "description": "Namco's 1982 digger: tunnel through the dirt, pump up Pookas, and drop rocks on Fygars."
+    },
+    {
+      "id": "joust",
+      "title": "Joust",
+      "url": "https://archive.org/details/arcade_joust",
+      "genre": "retro",
+      "controls": "Buttons (flap)",
+      "description": "Williams' 1982 ostrich jousting: flap higher than the rival knights and lance them out of the sky."
+    },
+    {
+      "id": "centipede",
+      "title": "Centipede",
+      "url": "https://archive.org/details/arcade_centiped",
+      "genre": "retro",
+      "controls": "Mouse (trackball)",
+      "description": "Atari's 1981 shooter: blast the descending centipede through a mushroom field before it reaches you.",
+      "tags": [
+        "shooter"
+      ]
+    },
+    {
+      "id": "missile-command",
+      "title": "Missile Command",
+      "url": "https://archive.org/details/arcade_missile",
+      "genre": "retro",
+      "controls": "Mouse (trackball)",
+      "description": "Atari's 1980 Cold War nightmare: defend six cities with three batteries. The end is not a matter of if.",
+      "tags": [
+        "shooter"
+      ]
+    },
+    {
+      "id": "defender",
+      "title": "Defender",
+      "url": "https://archive.org/details/arcade_defender",
+      "genre": "retro",
+      "controls": "Keyboard / buttons",
+      "description": "Williams' 1981 rescue shooter: the hardest game of the golden age — save the humanoids, mind the hyperspace.",
+      "tags": [
+        "shooter"
+      ]
+    },
+    {
+      "id": "qbert",
+      "title": "Q*bert",
+      "url": "https://archive.org/details/arcade_qbert",
+      "genre": "retro",
+      "controls": "Arrow keys (diagonal)",
+      "description": "Gottlieb's 1982 cube-hopper: change every tile's color, dodge Coily, and mind the @!#?@! swearing."
+    },
+    {
+      "id": "tempest",
+      "title": "Tempest",
+      "url": "https://archive.org/details/arcade_tempest",
+      "genre": "retro",
+      "controls": "Arrow keys",
+      "description": "Atari's 1981 vector shooter: Dave Theurer's neon tube-blaster, the first game with a selectable starting level.",
+      "tags": [
+        "shooter"
+      ]
+    },
+    {
+      "id": "robotron",
+      "title": "Robotron: 2084",
+      "url": "https://archive.org/details/arcade_robotron",
+      "genre": "retro",
+      "controls": "WASD + arrows (twin-stick)",
+      "description": "Williams' 1984 twin-stick masterpiece: the game that invented the twin-stick shooter, rescuing the last human family.",
+      "tags": [
+        "shooter",
+        "arena"
+      ]
+    },
+    {
+      "id": "1942",
+      "title": "1942",
+      "url": "https://archive.org/details/arcade_1942",
+      "genre": "retro",
+      "controls": "Arrow keys / buttons",
+      "description": "Capcom's 1984 vertical shooter: loop-de-loop over the Pacific in the granddaddy of the shmup.",
+      "tags": [
+        "shooter"
+      ]
+    },
+    {
+      "id": "galaga88",
+      "title": "Galaga '88",
+      "url": "https://archive.org/details/arcade_galaga88",
+      "genre": "retro",
+      "controls": "Arrow keys / buttons",
+      "description": "Namco's 1987 sequel: the dive-bombing classic with triple-ship power-ups and branching warp zones.",
+      "tags": [
+        "shooter"
+      ]
+    },
+    {
+      "id": "pac-gal-20th",
+      "title": "Ms. Pac-Man / Galaga: 20th Anniversary",
+      "url": "https://archive.org/details/arcade_20pacgal",
+      "genre": "retro",
+      "controls": "Arrow keys / buttons",
+      "description": "The 2000 arcade reunion cabinet: Ms. Pac-Man and Galaga, class of 1981, together in one anniversary machine."
+    },
+    {
+      "id": "bubble-bobble-2",
+      "title": "Bubble Bobble II",
+      "url": "https://archive.org/details/arcade_bublbob2",
+      "genre": "retro",
+      "controls": "Arrow keys + buttons",
+      "description": "Taito's 1994 co-op bubble-blower: trap monsters in bubbles with a friend, in the sequel to the arcade sweetheart.",
+      "tags": [
+        "coop"
+      ]
+    },
+    {
+      "id": "sfa2",
+      "title": "Street Fighter Alpha 2",
+      "url": "https://archive.org/details/arcade_sfa2",
+      "genre": "retro",
+      "controls": "Arrows + buttons",
+      "description": "Capcom's 1996 fighter: the Alpha series at its peak — air-blocking, custom combos, and anime-styled sprites."
+    },
+    {
+      "id": "congo-bongo",
+      "title": "Congo Bongo",
+      "url": "https://archive.org/details/arcade_congo",
+      "genre": "retro",
+      "controls": "Arrow keys",
+      "description": "Sega's 1983 isometric platformer: climb, dodge, and outwit the ape in the isometric rival to Donkey Kong."
+    },
+    {
+      "id": "fancy-pants-1",
+      "title": "Fancy Pants Adventure: World 1",
+      "url": "https://archive.org/details/fpaworld-1-07a_202204",
+      "genre": "action",
+      "controls": "Arrow keys",
+      "description": "Brad Borne's 2006 stick-figure platformer: the smoothest Flash run-and-slide ever, preserved on the Archive via Ruffle."
+    },
+    {
+      "id": "alien-hominid-flash",
+      "title": "Alien Hominid (Flash)",
+      "url": "https://archive.org/details/flash_alien_hominid",
+      "genre": "action",
+      "controls": "Arrow keys + Z/X",
+      "description": "The Behemoth's 2002 run-and-gun: the little yellow alien's Newgrounds debut, preserved via Ruffle.",
+      "tags": [
+        "shooter"
+      ]
+    },
+    {
+      "id": "dad-n-me",
+      "title": "Dad 'n Me",
+      "url": "https://archive.org/details/dadnme",
+      "genre": "action",
+      "controls": "Arrow keys + A/S",
+      "description": "Tom Fulp's 2005 beat-em-up: a dad, his kid, and a city full of punks — Flash brawling at its finest, via Ruffle."
+    },
+    {
+      "id": "achievement-unlocked",
+      "title": "Achievement Unlocked",
+      "url": "https://archive.org/details/achievementflash",
+      "genre": "action",
+      "controls": "Arrow keys",
+      "description": "John Cooney's 2008 metagame: a tiny platformer about unlocking 100 achievements for doing literally everything."
+    },
+    {
+      "id": "time-fcuk",
+      "title": "Time Fcuk",
+      "url": "https://archive.org/details/time-fcuk",
+      "genre": "puzzle",
+      "controls": "Arrow keys + Z",
+      "description": "Edmund McMillen's 2009 puzzle-platformer: a box, a time mechanic, and an ending you'll argue about — preserved via Ruffle."
+    },
+    {
+      "id": "run-3",
+      "title": "Run 3",
+      "url": "https://player03.com/",
+      "genre": "action",
+      "controls": "Arrow keys / WASD",
+      "description": "Player03's endless tunnel-runner: sprint through collapsing space tunnels in the series' official web version."
+    },
+    {
+      "id": "subway-surfers",
+      "title": "Subway Surfers",
+      "url": "https://poki.com/en/g/subway-surfers",
+      "genre": "action",
+      "controls": "Arrow keys / swipe",
+      "description": "SYBO's endless runner, officially on Poki: dodge trains, grab coins, and outrun the inspector."
+    },
+    {
+      "id": "stickman-hook",
+      "title": "Stickman Hook",
+      "url": "https://poki.com/en/g/stickman-hook",
+      "genre": "action",
+      "controls": "Click / tap",
+      "description": "Madbox's one-button grappler: swing the stickman through 100+ bouncy levels, officially on Poki."
+    },
+    {
+      "id": "arras-io",
+      "title": "arras.io",
+      "url": "https://arras.io/",
+      "genre": "action",
+      "controls": "WASD + mouse",
+      "description": "The open-source diep.io successor: build your tank, pick your upgrades, and dominate the arena.",
+      "tags": [
+        "shooter",
+        "arena"
+      ]
+    },
+    {
+      "id": "hole-io",
+      "title": "Hole.io",
+      "url": "https://hole-io.com/",
+      "genre": "action",
+      "controls": "Mouse / drag",
+      "description": "Voodoo's city-swallowing arcade: grow your black hole from manhole to metropolis in two minutes."
+    },
+    {
+      "id": "tanki",
+      "title": "Tanki Online",
+      "url": "https://tankionline.com/en/",
+      "genre": "multiplayer",
+      "controls": "WASD + mouse",
+      "description": "The official browser tank MMO: customize your hull and turret, then battle in team arenas — no download.",
+      "tags": [
+        "shooter",
+        "arena"
+      ]
+    },
+    {
+      "id": "mope-io",
+      "title": "mope.io",
+      "url": "https://mope.io/",
+      "genre": "multiplayer",
+      "controls": "Mouse + W",
+      "description": "Eat, evolve, survive: climb the food chain from mouse to dragon in this multiplayer survival arena.",
+      "tags": [
+        "arena"
+      ]
+    },
+    {
+      "id": "yohoho-io",
+      "title": "YoHoHo.io",
+      "url": "https://www.yohoho.io/",
+      "genre": "multiplayer",
+      "controls": "Mouse / WASD",
+      "description": "Pirate battle royale: grab doubloons, grow your crew, and be the last pirate standing.",
+      "tags": [
+        "arena"
+      ]
+    },
+    {
+      "id": "stumble-guys",
+      "title": "Stumble Guys",
+      "url": "https://www.stumbleguys.com/play",
+      "genre": "multiplayer",
+      "controls": "WASD + Space",
+      "description": "Scopely's official web version: 32-player obstacle-course chaos, right in the browser.",
+      "tags": [
+        "party"
+      ]
+    },
+    {
+      "id": "classicube",
+      "title": "ClassiCube",
+      "url": "https://www.classicube.net/",
+      "genre": "multiplayer",
+      "controls": "WASD + mouse",
+      "description": "The open-source Minecraft Classic revival: build together on multiplayer servers with the free web client.",
+      "tags": [
+        "coop"
+      ]
+    },
+    {
+      "id": "synergism",
+      "title": "Synergism",
+      "url": "https://pseudo-corp.github.io/SynergismOfficial/",
+      "genre": "idle",
+      "controls": "Mouse",
+      "description": "Pseudo-Corp's open-source incremental: prestige through dimensions of numbers in the genre's deepest rabbit hole."
+    },
+    {
+      "id": "realm-grinder",
+      "title": "Realm Grinder",
+      "url": "https://www.kongregate.com/games/divinegames/realm-grinder",
+      "genre": "idle",
+      "controls": "Mouse",
+      "description": "Divine Games' fantasy idle RPG: align with factions, cast spells, and abdicate your way to exponential gold — officially on Kongregate."
+    },
+    {
+      "id": "adventure-capitalist",
+      "title": "AdVenture Capitalist",
+      "url": "https://www.kongregate.com/games/HyperHippoGames/adventure-capitalist",
+      "genre": "idle",
+      "controls": "Mouse",
+      "description": "Hyper Hippo's capitalist clicker: lemonade stands to moon shoes, the idle game that ate 2015 — officially on Kongregate."
+    },
+    {
+      "id": "tatham-puzzles",
+      "title": "Simon Tatham's Puzzles",
+      "url": "https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/",
+      "genre": "puzzle",
+      "controls": "Mouse",
+      "description": "40+ hand-crafted logic puzzles (Loopy, Mines, Net, Map...) as official JavaScript builds — the puzzle collection other collections wish they were."
+    },
+    {
+      "id": "sort-the-court",
+      "title": "Sort the Court",
+      "url": "https://graebor.itch.io/sort-the-court",
+      "genre": "puzzle",
+      "controls": "Mouse",
+      "description": "Graebor's royal decision game: answer yes or no to your subjects and keep the kingdom (and treasury) alive."
     }
   ],
   "generated_at": "2026-10-11T00:00:00Z",

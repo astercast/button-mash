@@ -2,6 +2,48 @@
 
 Running record of build waves. Newest first.
 
+## Wave 17 — 2026-10-11 — Catalog expansion: 162 → 213 games (+51) + 3 collections + 2 deep-dive guides
+
+**What shipped** — the second-biggest catalog expansion (wave 14's +37 was the record): 51 new legal games, every URL curl-verified HTTP 200 same day (2026-10-11), 3 new hand-built collections, and 2 new deep-dive guides. The Arcade identity untouched (new pages ship in the wave-13 guide template + wave-15/16 identity system; no new genres, so no new art-strips needed).
+
+- **51 new games, all curl-verified** (verification harness: `verify_retry.py`, 4 attempts per URL — archive.org is flaky from this VM with transient 000/502s; every shipped URL returned a real HTTP 200):
+  - **16 MS-DOS classics** (Internet Archive DOSBox): SimCity (1989), Lemmings, The Secret of Monkey Island, Duke Nukem 3D (shareware), Zork I, Sid Meier's Civilization, Alone in the Dark, Transport Tycoon Deluxe, Theme Park, Master of Orion, Railroad Tycoon, Quake (shareware), SimCity 2000, The Oregon Trail Deluxe, Commander Keen 3, Commander Keen: Keen Dreams.
+  - **15 arcade classics** (Internet Archive MAME): Space Invaders, Dig Dug, Joust, Centipede, Missile Command, Defender, Q*bert, Tempest, Robotron: 2084, 1942, Galaga '88, Ms. Pac-Man/Galaga 20th Anniversary, Bubble Bobble II, Street Fighter Alpha 2, Congo Bongo.
+  - **5 Flash-era preservations** (Archive Ruffle player): Fancy Pants Adventure: World 1, Alien Hominid, Dad 'n Me, Time Fcuk, Achievement Unlocked.
+  - **9 official web versions**: Run 3 (player03.com), Subway Surfers + Stickman Hook (official Poki pages), arras.io (open-source diep successor), Hole.io (official), Tanki Online, mope.io, YoHoHo.io, Stumble Guys (`/play` page), ClassiCube (open-source web client).
+  - **3 idle**: Synergism (open-source), Realm Grinder + AdVenture Capitalist (official Kongregate pages).
+  - **2 puzzle**: Simon Tatham's Puzzles (official JS builds), Sort the Court (itch.io).
+  - **1 puzzle-platformer**: counted above in Flash (Time Fcuk).
+  - Genre totals now: p48/a39/r15/i15/m30/re44/h6/c16 (retro 13→44 — the archive shelves are doing their job).
+- **19 candidates dropped per the 200-discipline**: the big-name Internet Arcade takedowns (Pac-Man, Galaga, Donkey Kong, Frogger, Asteroids, Contra, TMNT, Simpsons, Final Fight, SF2, Bubble Bobble all 404 — removed from the collection), Commander Keen 5 (404), X-COM (not on the Archive), gartic.io (403 bot-gated), 1v1.lol (unreachable), hextris.io (down), republia-times (404), prestige-tree + evolve-idle (moved/404), crazy-kong (unlicensed Donkey Kong bootleg — dropped on legal-lane principle even though the item exists).
+- **3 new collections (22 total)**, each with real curation logic:
+  - `flash-back-machine` (9) — the 2005–2012 browser golden age, preserved: the 5 Ruffle preservations + canabalt, line-rider, happy-wheels, qwop (official HTML5 rebuilds).
+  - `score-attack` (12) — no endings, only high scores: 10 arcade classics + tetrio + jstris.
+  - `tycoon-corner` (8) — build it, run it, optimize it: the 7 DOS management sims + shapez.
+- **2 new deep-dive guides (22 total)**, 8 sections each, ~2,000 words, all external URLs curl-verified, in the wave-13 guide template (marquee h1, sticky spy TOC, reading-progress bar, coin-plate footer, arcade.js):
+  1. **`guides/gamepad-setup.html`** — "Controllers in the browser": Gamepad API 60-second explainer, controller picks (Xbox/PS/Switch Pro/8BitDo), USB vs Bluetooth, testing on html5gamepad.com, gamepads in this site's Player (built-in + Player 2.1 per-system remap), which catalog games love a pad, honest troubleshooting (Steam swallowing inputs, non-standard mappings, wake-the-listing). Links: MDN Gamepad API, html5gamepad.com, W3C spec (+`developer.mozilla.org`, `html5gamepad.com`, `www.w3.org` added to build.py REFERENCE_DOMAINS).
+  2. **`guides/pico8-spotlight.html`** — "PICO-8 spotlight": the fantasy console, Splore, the Lexaloffle BBS (all carts playable free in-browser), where the gems hide, the pico8-gems shelf tie-in (`collections.html#shelf-pico8-gems` deep link), making your first cart. Researched from the PICO-8 wiki + Lexaloffle BBS; links: lexaloffle.com/pico-8.php + lexaloffle.com/bbs (+`lexaloffle.com`, `www.lexaloffle.com` added to REFERENCE_DOMAINS). Fandom wiki dropped — 403 bot-gated.
+- **Kids audit for all 51** (`data/kids.json`, build-time guard passes): 38 curated (8 new 5–7: qbert, pac-gal-20th, bubble-bobble-2, congo-bongo, run-3, subway-surfers, stickman-hook, hole-io; lemmings/monkey-island/oregon-trail-deluxe carry `verify_live` "play together first" flags), 13 excluded with reasons (FPS combat: duke3d/quake; horror: alone-dark/time-fcuk; cartoon violence: alien-hominid/dad-n-me/sfa2; arena combat + multiplayer: arras-io; open chat: tanki/mope-io/yohoho-io/stumble-guys/classicube). Kid-safe pool: 75 → 113; excluded: 87 → 100.
+- **Wiring**: `data/guides.json` +2, `build_site.py` GUIDES +2 (sitemap + llms.txt regenerated), `emulation.html` deep-dives hub 6 → 8 cards, api/v1 rebuilt by build.py.
+- **Agentic surface**: `check_api_workflows.js` — WF13 guides count 20→22, WF14 counts → 213 / p48/a39/r15/i15/m30/re44/h6/c16 / 22 collections, WF8 llms "213-game directory", WF11 "113 curated" text; new **WF17 (13 checks; 141/141 pass total)** — 51 ids present, record completeness, 22 collections + 3 new shelves' exact contents, 38+13 kids verdicts, 19 dropped candidates absent, 22 guides + template conformance + 8-section records + sitemap/llms/hub wiring, guide-link allowlist. New `scripts/test_wave17.js`: **29/29 headless checks** (22 shelves + 22 jump links + 3 new shelf anchors + flash shelf content, deep-link scroll, both guide pages' template/TOC/progress/coin-plate, 213 directory cards, 8 hub cards, zero pageerrors throughout).
+- **Docs**: AGENT.md counts → 213 games / 22 guides / 113 kid-safe (113+100 verdicts); `skills/party-planner-runner.md` kids pool 75→113; `skills/kids-corner-guide.md` was stale at 44/114 (pre-wave-14) → 113/213.
+- **Test maintenance (pinned fixtures, honest updates)**: `test_party11.js` 5–7 band 16→24, 11–12 band 75→113; `test_identity16.js` 162→213 cards, 75→113 kid badges, puzzle filter 45→48 ("48 of 213 games"), shelves/jump/copy 19→22.
+- **Bug found & fixed in testing**: the guide generator double-wrapped chips (`<li><li>…`) leaving empty boxes in the chips row — fixed in both new guide pages, re-verified.
+- **Flake investigated, not shipped as a bug**: the wave-17 deep-link scroll check failed once at a fixed 800ms sleep — debug run proved the scroll works (scrollY 8542, shelf at viewport top+113px); it's the wave-16-documented load-time smooth-scroll deferral, so the check now polls for the scrolled state.
+
+**Validation (wave 17):**
+- `scripts/build.py`: **BUILD OK — 213 games (149 domains), 22 collections, 10 emulators, 22 guides**; **LEGAL GATE OK (39 pages, 213 game URLs, 0 piracy links)**
+- `scripts/check_links.py`: **LINK CHECK OK — 38 pages, 1165 local links, 76 external links, 0 broken**
+- `node scripts/check_api_workflows.js`: **141/141 pass (WF1–WF17)**, 0 failures
+- `node --check`: clean on all `assets/js/*.js` + new/edited scripts
+- Regression: test_bracket 82/82, test_bracket_double 105/105, test_party11 36/36, test_converter12 66/66, test_tournament10 ALL PASS, test_player21 ALL PASSED, test_party_planner11 ALL PASS
+- `node scripts/test_identity16.js`: **41/41 pass, zero pageerrors** (pinned counts updated)
+- `node scripts/test_wave17.js`: **29/29 pass, zero pageerrors** (new)
+- `~/workspace/smoke/test.js`: zero pageerrors (only the known expected CDN tunnel noise on player.html); index hero now reads "213 free games" (data-driven)
+- Screenshots verified: collections shelf row (flash-back-machine + score-attack) and gamepad guide hero (Arcade identity intact)
+
+**Legal lane**: unchanged and extended carefully — 51/51 new links are official game pages, official portals (Poki/Kongregate), open-source project pages, or archive.org preservation items; zero ROMs hosted, zero ROM/BIOS download links; the 19 unverifiable/taken-down candidates were dropped rather than shipped on reputation; crazy-kong dropped on legal-lane principle (unlicensed bootleg).
+
 ## Wave 16 — 2026-10-11 — "The Arcade" identity wave 2: tooltips, shareable views, tag tokens, shelf anchors
 
 **What shipped** — finished all five deferred identity items from wave 15, plus the execution-tier raises (signature motion, custom empty states, page-level consistency audit). Content, tools, data, API surfaces intact — identity only.

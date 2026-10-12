@@ -37,6 +37,8 @@ REFERENCE_DOMAINS = {
     "docs.libretro.com", "www.coranac.com", "hh.gbdev.io",
     "datomatic.no-intro.org", "no-intro.org",
     "www.redump.org", "redump.org", "wiki.redump.org",
+    "developer.mozilla.org", "html5gamepad.com", "www.w3.org",
+    "lexaloffle.com", "www.lexaloffle.com",
 }
 
 GENRES = {"puzzle", "action", "roguelike", "idle", "multiplayer", "retro", "horror", "cozy"}

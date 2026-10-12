@@ -680,6 +680,348 @@
       "parent_note": "Build a skyscraper floor by floor. No chat.",
       "verify_live": true,
       "audit_basis": "itch.io page for the open-source game; single-player browser build."
+    },
+    {
+      "id": "simcity-1989",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Gentle city-building: zoning, budgets, the occasional Godzilla. No chat, no accounts.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "lemmings-1991",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Cartoon puzzle peril — lemmings can splat; it's slapstick, not gore. Play the first levels together.",
+      "verify_live": true,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "monkey-island",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "11-12",
+      "parent_note": "Reading-heavy adventure with mild cartoon peril; the insult sword-fighting is all jokes.",
+      "verify_live": true,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "zork1",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "11-12",
+      "parent_note": "Pure text adventure — great for strong readers; some fantasy peril in prose.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "civ1",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "11-12",
+      "parent_note": "Deep strategy, long sessions; history-flavored, no graphic content.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "transport-tycoon",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "11-12",
+      "parent_note": "Complex management sim; numbers and trains, nothing violent.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "theme-park",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Cartoon park management; silly visitors, no real peril.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "master-of-orion",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "11-12",
+      "parent_note": "Deep space strategy; abstract ship combat, lots of reading.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "railroad-tycoon",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "11-12",
+      "parent_note": "Historical business sim; gentle pace, no violence.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "simcity-2000",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "The friendlier SimCity: advisors explain everything, disasters are toggleable.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "oregon-trail-deluxe",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "The classroom classic, honest about dysentery; play the first trail together.",
+      "verify_live": true,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "commander-keen3",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Cartoon pogo-stick platforming; stun enemies, no blood.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "keen-dreams",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Silly vegetable villains; the gentlest Keen episode.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "space-invaders",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Abstract arcade shooting; one ship, one armada, no gore.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "dig-dug",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Cartoon maze chase; pump up the Pookas — it's slapstick.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "qbert",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "Hop the cubes, change the colors; pure pattern play.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "galaga88",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Abstract space shooter; bright, fast, no graphic content.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "pac-gal-20th",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "Two gentle classics in one cabinet: mazes and space, all cartoon.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "bubble-bobble-2",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "Co-op bubble-blowing; the friendliest arcade game ever made.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "congo-bongo",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "Isometric cartoon platforming; no enemies to fear, just timing.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "centipede",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Abstract bug-blasting; fast but bloodless.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "missile-command",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Abstract Cold War defense; tense theme, no graphic content.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "1942",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Top-down plane shooter; mild war theme, cartoon sprites.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "joust",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Ostrich jousting; cartoon knights, mild arcade peril.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "tempest",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Abstract neon shooter; pure geometry, no characters.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "defender",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Fast abstract rescue shooter; intense but bloodless.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "robotron",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Twin-stick arena chaos; abstract robots, no gore.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "fancy-pants-1",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Stick-figure platforming; spiders are the scariest thing in it.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "achievement-unlocked",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "A joke about video games; silly, self-aware, harmless.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "tatham-puzzles",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "40+ pure logic puzzles; no story, no chat, just thinking.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "sort-the-court",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Yes/no royal decisions; cartoon kingdom, gentle humor.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "run-3",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "Endless running in space tunnels; no fail-state scarier than falling.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "subway-surfers",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "Cartoon chase; the inspector never catches you for real.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "stickman-hook",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "One-button swinging; physics toy, zero peril.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "hole-io",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "Swallow a city as a hole; silly destruction, no characters harmed.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "synergism",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "11-12",
+      "parent_note": "Deep incremental math; complex systems, nothing visual to worry about.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "realm-grinder",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Fantasy numbers-go-up; gentle pace, no chat needed.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
+    },
+    {
+      "id": "adventure-capitalist",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Cartoon capitalism; lemonade stands, no chat needed for the basics.",
+      "verify_live": false,
+      "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
     }
   ],
   "excluded": [
@@ -1030,6 +1372,58 @@
     {
       "id": "recoil-foundry",
       "reason": "Shooter with gun combat."
+    },
+    {
+      "id": "duke3d-shareware",
+      "reason": "FPS combat — shooting humanoid enemies."
+    },
+    {
+      "id": "quake-shareware",
+      "reason": "FPS combat — gothic shooter violence."
+    },
+    {
+      "id": "alone-dark",
+      "reason": "Survival horror — haunted mansion, horror themes."
+    },
+    {
+      "id": "alien-hominid-flash",
+      "reason": "Run-and-gun cartoon violence."
+    },
+    {
+      "id": "dad-n-me",
+      "reason": "Beat-em-up street violence."
+    },
+    {
+      "id": "time-fcuk",
+      "reason": "Dark psychological themes and imagery."
+    },
+    {
+      "id": "sfa2",
+      "reason": "One-on-one fighting — combat."
+    },
+    {
+      "id": "arras-io",
+      "reason": "Arena tank combat in live multiplayer."
+    },
+    {
+      "id": "tanki",
+      "reason": "Online multiplayer with open chat."
+    },
+    {
+      "id": "mope-io",
+      "reason": "Multiplayer arena with chat."
+    },
+    {
+      "id": "yohoho-io",
+      "reason": "Multiplayer battle royale with chat."
+    },
+    {
+      "id": "stumble-guys",
+      "reason": "Multiplayer with party chat."
+    },
+    {
+      "id": "classicube",
+      "reason": "Multiplayer servers with open chat."
     }
   ]
 }

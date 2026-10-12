@@ -1,10 +1,10 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T04:41:53Z",
+  "generated_at": "2026-10-12T05:15:24Z",
   "endpoint": "guides",
   "description": "Emulation guides and explainers (summaries; full text in data/guides.json).",
-  "count": 20,
+  "count": 22,
   "guides": [
     {
       "id": "emulatorjs-selfhost",
@@ -184,6 +184,24 @@
       "difficulty": "Intermediate",
       "time_minutes": 20,
       "summary": "Archive your own library properly: checksums (CRC32/SHA-1), No-Intro and Redump verification, the modern redumper/MPF/OmniDrive disc-dumping stack, lossless CHD compression, ROM managers and DAT files, and the 3-2-1 backup rule.",
+      "section_count": 8
+    },
+    {
+      "id": "gamepad-setup",
+      "slug": "gamepad-setup",
+      "title": "Controllers in the browser: the gamepad setup guide",
+      "difficulty": "Beginner",
+      "time_minutes": 20,
+      "summary": "Get any USB or Bluetooth controller working with browser games and this site's Player — the Gamepad API, testing, per-system remapping, and honest troubleshooting.",
+      "section_count": 8
+    },
+    {
+      "id": "pico8-spotlight",
+      "slug": "pico8-spotlight",
+      "title": "PICO-8 spotlight: the fantasy console's best corners",
+      "difficulty": "Beginner",
+      "time_minutes": 15,
+      "summary": "Meet the fantasy console with thousands of tiny games: Splore, the Lexaloffle BBS, where the gems hide, and how to play everything free in your browser.",
       "section_count": 8
     }
   ]

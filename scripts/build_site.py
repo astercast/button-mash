@@ -52,6 +52,8 @@ GUIDES = [
     ("guides/crt-shaders-display.html", "Make pixels look right: CRT shaders & display science"),
     ("guides/accessibility-in-retro-gaming.html", "Retro games for every player: an accessibility guide"),
     ("guides/preserving-your-games.html", "Keep your games forever: the preservation guide"),
+    ("guides/gamepad-setup.html", "Controllers in the browser: the gamepad setup guide"),
+    ("guides/pico8-spotlight.html", "PICO-8 spotlight: the fantasy console's best corners"),
 ]
 
 

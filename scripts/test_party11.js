@@ -136,8 +136,8 @@ check("share: drops votes from non-guests / unknown games",
 const kidSafe = JSON.parse(fs.readFileSync(path.join(ROOT, "api/v1/kid-safe.json"), "utf8"))["kid-safe"];
 const pool7 = P2.kidPool(kidSafe, "5-7");
 const poolAll = P2.kidPool(kidSafe, "11-12");
-check("kids pool: 5-7 band is 16 games", pool7.length === 16, pool7.length + " games");
-check("kids pool: 11-12 band is all 75", poolAll.length === 75, poolAll.length + " games");
+check("kids pool: 5-7 band is 24 games", pool7.length === 24, pool7.length + " games");
+check("kids pool: 11-12 band is all 113", poolAll.length === 113, poolAll.length + " games");
 check("kids pool: 5-7 subset of 11-12",
   pool7.every((id) => poolAll.indexOf(id) !== -1), "bands nest");
 check("kids pool: only 5-7 age bands",
