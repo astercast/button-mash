@@ -7,7 +7,7 @@
 /* game-night.js — the Curator's game-night engine (spec §7.7).
    Stateless, deterministic compute: inputs in, lineup out, nothing stored.
    LEGAL LANE: the corpus is the repo's 213 curl-verified browser games
-   (api/v1/games.json) + the kid-safe list (api/v1/kid-safe.json). The engine
+   (data/v1/games.json) + the kid-safe list (data/v1/kid-safe.json). The engine
    cannot recommend anything outside the corpus — that is the safety property.
 
    Scoring (spec §7.7, auditable, exact weights in every response):

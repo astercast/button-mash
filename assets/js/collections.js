@@ -1,5 +1,5 @@
 /* collections.js — curated shelves, wired to the Curator (wave 19).
-   Static-first: renders all 22 shelves from api/v1/collections.json
+   Static-first: renders all 22 shelves from data/v1/collections.json
    immediately, then probes GET /api/collections through
    ApiClient.fetchWithFallback. Live → the Curator's resolved titles/URLs are
    overlaid onto the shelf rows and the badge reads "live". Miss/timeout →
@@ -134,7 +134,7 @@
 
     Promise.all([
       BM.loadGames(),
-      fetch('api/v1/collections.json', { cache: 'force-cache' }).then(function (r) {
+      fetch('data/v1/collections.json', { cache: 'force-cache' }).then(function (r) {
         if (!r.ok) throw new Error('collections ' + r.status);
         return r.json();
       }).then(function (j) { return j.collections || []; })
@@ -154,7 +154,7 @@
       // the badge tell the truth about freshness.
       var badge = document.getElementById('collections-badge');
       if (window.ApiClient && badge) {
-        window.ApiClient.fetchWithFallback('/api/collections', 'api/v1/collections.json', { badgeEl: badge })
+        window.ApiClient.fetchWithFallback('/api/collections', 'data/v1/collections.json', { badgeEl: badge })
           .then(function (res) {
             if (res.source !== 'live' || !res.data || !Array.isArray(res.data.collections)) return;
             res.data.collections.forEach(function (c) {

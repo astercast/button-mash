@@ -15,11 +15,11 @@ Functions (`api/` — one file = one route):
 |---|---|---|---|
 | GET | `/api/health` | `api/health.js` | status, function roster, freshness, checks (§1.4) |
 | GET | `/api/games` | `api/games.js` | catalog + live enrichment (`?genre= ?q= ?players= ?system= ?limit=`) |
-| GET | `/api/collections` | `api/collections.js` | 22 collections, ids resolved to real titles/URLs |
+| GET | `/api/collections` | `api/collections.js` | 24 collections, ids resolved to real titles/URLs |
 | POST | `/api/game-night` | `api/game-night.js` | stateless game-night engine (group size/time/vibe → lineup) |
-| GET | `/api/cron/curator` | `api/cron/curator.js` | weekly emulator/itch watch → commits `api/v1/curator-watch.json` |
+| GET | `/api/cron/curator` | `api/cron/curator.js` | weekly emulator/itch watch → commits `data/v1/curator-watch.json` |
 
-Static fallbacks (served as-is, never functions): `api/v1/*.json`
+Static fallbacks (served as-is, never functions): `data/v1/*.json`
 (`games.json`, `collections.json`, `kid-safe.json`, `curator-watch.json`, …).
 Frontend contract: every dynamic widget calls `/api/*` first with a 7s
 timeout and falls back to the static file — the site never looks broken
@@ -111,7 +111,7 @@ Architecture spec: `~/workspace/server-program/ARCHITECTURE.md`
   Hobby minimum cadence is daily; weekly is well within it.
 - **What it does:** checks 6 emulator release Atom feeds + 2 itch.io homebrew
   feeds (4s per-source timeout, parallel), diffs against
-  `api/v1/curator-watch.json`, commits on change via the GitHub Contents
+  `data/v1/curator-watch.json`, commits on change via the GitHub Contents
   API (content-hash — no change, no commit, no redeploy). New releases are
   tracked for human review, never auto-published to the catalog.
 - **Idempotent:** duplicate Vercel deliveries inside 60s return
@@ -132,14 +132,14 @@ Architecture spec: `~/workspace/server-program/ARCHITECTURE.md`
 - Add in Vercel dashboard → Domains; the `/api/*` paths move with the
   domain automatically (same-origin by design, no CORS config).
 - If a domain is assigned later, sweep absolute URLs: `llms.txt` header,
-  `sitemap.xml`, and the envelope `$id` in `api/v1/schema/envelope.json`.
+  `sitemap.xml`, and the envelope `$id` in `data/v1/schema/envelope.json`.
 
 ## 9. Rollback
 
 - `git revert` the offending commit → push → Vercel redeploys the previous
   good state. Functions are stateless; there is no data migration and no
   database to unwind.
-- The static `api/v1/*.json` files are the store — reverting the commit
+- The static `data/v1/*.json` files are the store — reverting the commit
   reverts the data atomically with the code.
 - If a bad cron commit lands, revert that commit; the next weekly run (or
   the wave engine) re-derives from the corrected files.

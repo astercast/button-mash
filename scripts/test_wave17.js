@@ -30,7 +30,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     args: ["--no-sandbox", "--disable-dev-shm-usage", "--allow-file-access-from-files"],
   });
   try {
-    // --- collections.html: 22 shelves, jump nav, deep link ---
+    // --- collections.html: 24 shelves, jump nav, deep link ---
     {
       const { page, errors } = await newPage(browser);
       await page.goto(BASE + "/collections.html", { waitUntil: "networkidle0", timeout: 60000 });
@@ -39,10 +39,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         { timeout: 30000 });
       const shelves = await page.evaluate(
         () => document.querySelectorAll("article[id^='shelf-']").length);
-      check("collections: 22 shelf cards render", shelves === 22, shelves + " shelves");
+      check("collections: 24 shelf cards render", shelves === 24, shelves + " shelves");
       const jumpLinks = await page.evaluate(
         () => document.querySelectorAll("#shelf-jump a").length);
-      check("collections: 22 jump links", jumpLinks === 22, jumpLinks + " links");
+      check("collections: 24 jump links", jumpLinks === 24, jumpLinks + " links");
       for (const id of ["flash-back-machine", "score-attack", "tycoon-corner"]) {
         const has = await page.evaluate(
           (i) => !!document.getElementById("shelf-" + i), id);

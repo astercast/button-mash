@@ -1,5 +1,5 @@
 /* Wave 3 validation: executes the AGENT.md example workflows against the real
-   local api/v1 JSON files plus the Converter v2 token contract.
+   local data/v1 JSON files plus the Converter v2 token contract.
    Run: node scripts/check_api_workflows.js
    Exit 0 = all workflows produce non-empty, contract-correct results. */
 "use strict";
@@ -15,9 +15,9 @@ function check(name, cond, detail) {
   else { failures++; console.error("FAIL", name, "—", detail); }
 }
 
-const gamesEnv = load("api/v1/games.json");
-const guidesEnv = load("api/v1/guides.json");
-const indexEnv = load("api/v1/index.json");
+const gamesEnv = load("data/v1/games.json");
+const guidesEnv = load("data/v1/guides.json");
+const indexEnv = load("data/v1/index.json");
 const games = gamesEnv.games;
 const guides = guidesEnv.guides;
 
@@ -57,7 +57,7 @@ check("WF2 BIOS-free documented",
   "per-core BIOS notes on converter.html");
 
 // Workflow 3 (AGENT.md): "Something cozy for a rainy day"
-const cols = load("api/v1/collections.json").collections;
+const cols = load("data/v1/collections.json").collections;
 const cozy = cols.find((c) => c.id === "rainy-day-cozy");
 const byId = new Map(games.map((g) => [g.id, g]));
 check("WF3 cozy collection resolves", !!cozy && cozy.game_ids.every((id) => byId.has(id)),
@@ -79,7 +79,7 @@ check("WF4 aria-live summary in page",
   "plan summary announced");
 
 // Workflow 5 (AGENT.md): "Which system should I emulate?"
-const packsEnv = load("api/v1/homebrew-packs.json");
+const packsEnv = load("data/v1/homebrew-packs.json");
 const packs = packsEnv["homebrew-packs"];
 check("WF5 homebrew-packs envelope shape", packsEnv.endpoint === "homebrew-packs" && Array.isArray(packs) && packsEnv.count === packs.length,
   packs ? packs.length + " packs" : "missing");
@@ -110,7 +110,7 @@ check("WF6 tournament page wires bracket logic + UI",
   tourneyJs.includes("bm_tournament_v1"),
   "bracket.js + tournament.js + localStorage");
 check("WF6 per-round game picker draws from the full catalog (party first)",
-  tourneyJs.includes("api/v1/games.json") && tourneyJs.includes("indexOf('party')") &&
+  tourneyJs.includes("data/v1/games.json") && tourneyJs.includes("indexOf('party')") &&
   tourneyJs.includes("optgroup"),
   "full catalog dropdown, party-tagged group first");
 check("WF6 print + copy controls present",
@@ -142,12 +142,12 @@ check("WF6 sitemap lists tournament.html",
   "in sitemap");
 
 // ---- Wave 7: Kids mode ----
-const kidEnv = load("api/v1/kid-safe.json");
+const kidEnv = load("data/v1/kid-safe.json");
 const kids = kidEnv["kid-safe"];
 const gameIds = new Set(games.map((g) => g.id));
 check("WF7 kid-safe envelope shape", kidEnv.endpoint === "kid-safe" && Array.isArray(kids) && kidEnv.count === kids.length,
   kids.length + " records");
-check("WF7 index.json registers kid-safe", !!indexEnv.endpoints["kid-safe"] && indexEnv.endpoints["kid-safe"].includes("api/v1/kid-safe.json"),
+check("WF7 index.json registers kid-safe", !!indexEnv.endpoints["kid-safe"] && indexEnv.endpoints["kid-safe"].includes("data/v1/kid-safe.json"),
   "registered in manifest");
 check("WF7 every record references a real game", kids.every((k) => gameIds.has(k.id)),
   "all ids exist in games.json");
@@ -165,15 +165,15 @@ check("WF7 band coverage", ["5-7", "8-10", "11-12"].every((b) => kids.some((k) =
   kids.filter((k) => k.age_band === "11-12").length);
 check("WF7 excluded games are not kid-safe", !kids.some((k) => ["krunker", "happy-wheels", "skribbl", "geoguessr"].includes(k.id)),
   "chat/shooter/horror picks excluded");
-check("WF7 draft-07 schema exists", fs.existsSync(path.join(ROOT, "api/v1/schema/kid-safe.schema.json")),
-  "api/v1/schema/kid-safe.schema.json");
+check("WF7 draft-07 schema exists", fs.existsSync(path.join(ROOT, "data/v1/schema/kid-safe.schema.json")),
+  "data/v1/schema/kid-safe.schema.json");
 check("WF7 kids-corner-guide skill exists", fs.existsSync(path.join(ROOT, "skills/kids-corner-guide.md")),
   "skills/kids-corner-guide.md");
 const kidsHtml = fs.readFileSync(path.join(ROOT, "kids.html"), "utf8");
 const kidsJs = fs.readFileSync(path.join(ROOT, "assets/js/kids.js"), "utf8");
 const parentsHtml = fs.readFileSync(path.join(ROOT, "parents.html"), "utf8");
 check("WF7 kids page renders the catalog + reduced-motion default",
-  kidsJs.includes("api/v1/kid-safe.json") && kidsHtml.includes("age-chips") &&
+  kidsJs.includes("data/v1/kid-safe.json") && kidsHtml.includes("age-chips") &&
   kidsHtml.includes("animation: none !important"),
   "fetch + age chips + unconditional motion kill");
 check("WF7 parent guide covers honesty + screen-time + save states",
@@ -189,11 +189,11 @@ check("WF7 llms.txt mentions kids corner + kid-safe endpoint",
   "llms.txt updated");
 
 // ---- Wave 8: homebrew radar sweep + archive expansion ----
-const collectionsEnv = load("api/v1/collections.json");
+const collectionsEnv = load("data/v1/collections.json");
 const collections = collectionsEnv.collections;
 const wave8Ids = ["tristram", "die-in-the-dungeon", "trevosa", "prerolled", "zombie-nest-gba",
   "dare-to-doku", "english-brick-breaker", "math-challenge", "tank-battle", "red-alert-rts", "3d-plane-battle"];
-check("WF8 wave-8 games all in api/v1/games.json",
+check("WF8 wave-8 games all in data/v1/games.json",
   wave8Ids.every((id) => gameIds.has(id)), wave8Ids.length + " new games present");
 const radar = collections.find((c) => c.id === "homebrew-radar");
 const vanilla = collections.find((c) => c.id === "vanilla-js");
@@ -356,7 +356,7 @@ check("WF11 share validation rejects tampering",
   "round-trip + version gate");
 check("WF11 kids pool stays inside the 113 curated kid-safe ids",
   (() => {
-    const kidSafe = load("api/v1/kid-safe.json")["kid-safe"];
+    const kidSafe = load("data/v1/kid-safe.json")["kid-safe"];
     const pool = Party2.kidPool(kidSafe, "8-10");
     const set = new Set(kidSafe.map((r) => r.id));
     return pool.length > 0 && pool.length <= kidSafe.length && pool.every((id) => set.has(id));
@@ -443,7 +443,7 @@ const w13Slugs = ["homebrew-development", "netplay", "save-workflows",
   "crt-shaders-display", "accessibility-in-retro-gaming", "preserving-your-games"];
 check("WF13 guides count 22 (20 + 2 new)",
   guides.length === 22, guides.length + " guides");
-check("WF13 all 6 new guides in api/v1/guides.json",
+check("WF13 all 6 new guides in data/v1/guides.json",
   w13Slugs.every((s) => guides.some((g) => g.slug === s)), w13Slugs.join(", "));
 check("WF13 new guide pages exist + load TOC spy script + progress bar",
   w13Slugs.every((s) => {
@@ -499,7 +499,7 @@ const wave14Ids = ["evolution-of-trust", "better-ballot", "parable-of-polygons",
   "wolfenstein-3d", "recoil-foundry", "hatchstead", "floodlines", "hydro-operator", "skystack"];
 check("WF14 games count 213 (162 + 51 new)",
   games.length === 213, games.length + " games");
-check("WF14 all 37 wave-14 games in api/v1/games.json",
+check("WF14 all 37 wave-14 games in data/v1/games.json",
   wave14Ids.every((id) => gameIds.has(id)), wave14Ids.length + " new games present");
 check("WF14 new game records complete (https url, genre, controls, description)",
   wave14Ids.every((id) => {
@@ -519,8 +519,8 @@ const newCols = {
   "cozy-toys": ["hatchstead", "powder-game", "pointer-pointer", "doing-work"],
   "roguelike-forever": ["dcss-webtiles", "angband-live", "nethack-web", "spelunky-classic", "vampire-survivors", "chogue"],
 };
-check("WF14 22 collections (19 + 3 new)",
-  collections.length === 22, collections.length + " collections");
+check("WF14 22 collections (19 + 3 new, +2 makeover = 24)",
+  collections.length === 24, collections.length + " collections");
 check("WF14 new collections exact contents",
   Object.entries(newCols).every(([cid, ids]) => {
     const c = collections.find((x) => x.id === cid);
@@ -686,7 +686,7 @@ const wave17Ids = ["simcity-1989", "lemmings-1991", "monkey-island", "duke3d-sha
   "subway-surfers", "stickman-hook", "arras-io", "hole-io", "tanki", "mope-io",
   "yohoho-io", "stumble-guys", "classicube", "synergism", "realm-grinder",
   "adventure-capitalist", "tatham-puzzles", "sort-the-court"];
-check("WF17 all 51 wave-17 games in api/v1/games.json",
+check("WF17 all 51 wave-17 games in data/v1/games.json",
   wave17Ids.every((id) => gameIds.has(id)), wave17Ids.length + " new games present");
 check("WF17 new game records complete (https url, genre, controls, description)",
   wave17Ids.every((id) => {
@@ -701,8 +701,8 @@ const newCols17 = {
   "tycoon-corner": ["simcity-1989", "simcity-2000", "transport-tycoon", "theme-park",
     "railroad-tycoon", "master-of-orion", "civ1", "shapez"],
 };
-check("WF17 22 collections (19 + 3 new)",
-  collections.length === 22, collections.length + " collections");
+check("WF17 22 collections (19 + 3 new, +2 makeover = 24)",
+  collections.length === 24, collections.length + " collections");
 check("WF17 new collections exact contents",
   Object.entries(newCols17).every(([cid, ids]) => {
     const c = collections.find((x) => x.id === cid);
@@ -873,7 +873,7 @@ check("WF19 games.html badge wiring",
 check("WF19 directory.js live-first with static fallback",
   directoryJs.includes("ApiClient.fetchWithFallback") &&
   directoryJs.includes("'/api/games?limit=200'") &&
-  directoryJs.includes("'api/v1/games.json'") &&
+  directoryJs.includes("'data/v1/games.json'") &&
   directoryJs.includes("probeLiveCatalog"),
   "static render first, live probe overlays enrichment by id");
 check("WF19 game-night browser twin in sync",
@@ -937,7 +937,7 @@ check("WF20 cabinet markup on index.html (marquee + bezel + screen + deck + coin
   "cabinet + transport + coin plate + announcer + assets wired");
 check("WF20 demo loop is real catalog data (no canned slides)",
   attractJs.includes("BM.loadGames()") && attractJs.includes("pickSpotlights") &&
-  attractJs.includes("data/collections.json") && attractJs.includes("api/v1/kid-safe.json") &&
+  attractJs.includes("data/collections.json") && attractJs.includes("data/v1/kid-safe.json") &&
   !/=\s*\[[^\]\s]/.test(attractJs.split("pickSpotlights")[1] || ""),
   "loadGames + deterministic daily picks from the live catalog");
 check("WF20 stat callouts from real catalog + real trophy progress",
@@ -1032,7 +1032,7 @@ check("WF21 collections.js extracted + Curator-wired",
   collHtml.includes("assets/js/collections.js") && collHtml.includes("assets/js/api-client.js") &&
   !collHtml.includes("data/collections.json', { cache: 'no-store' })") &&
   collJs.includes("fetchWithFallback") && collJs.includes("/api/collections") &&
-  collJs.includes("api/v1/collections.json") && collJs.includes("collections-badge") &&
+  collJs.includes("data/v1/collections.json") && collJs.includes("collections-badge") &&
   collJs.includes("game.html?id=") && collJs.includes("paintShelfProgress") &&
   collHtml.includes('id="collections-badge"'),
   "inline script gone, live probe with badge, shelf rows link to game files");
@@ -1065,5 +1065,74 @@ check("WF21 no ROM/BIOS download phrasing in wave-19 files",
   !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(detailJs + collJs + gamesApiSrc) &&
   !/\b(roms?|bios)\b.{0,40}\bdownload\b/i.test(detailHtml),
   "legal lane holds");
+
+// Wave 20 "Extreme Makeover": first-visit hierarchy + human-made bar.
+const makeoverCss22 = fs.readFileSync(path.join(ROOT, "assets/css/makeover.css"), "utf8");
+const indexHtml22 = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+const attractJs22 = fs.readFileSync(path.join(ROOT, "assets/js/attract.js"), "utf8");
+const liveChecklist22 = fs.readFileSync(path.join(ROOT, "LIVE_CHECKLIST.md"), "utf8");
+check("WF22 data/v1 move: zero api/v1 references in code",
+  (() => {
+    const exts = [".js", ".html", ".py", ".sh", ".json"];
+    const skip = ["WAVELOG.md", "node_modules", ".git", "__pycache__", "check_api_workflows.js"];
+    function walk(dir) {
+      let hits = [];
+      for (const f of fs.readdirSync(dir)) {
+        const p = path.join(dir, f);
+        if (skip.some((s) => p.includes(s))) continue;
+        const st = fs.statSync(p);
+        if (st.isDirectory()) hits = hits.concat(walk(p));
+        else if (exts.includes(path.extname(f))) {
+          const s = fs.readFileSync(p, "utf8");
+          if (s.includes("api/v1")) hits.push(p);
+        }
+      }
+      return hits;
+    }
+    return walk(ROOT).length === 0;
+  })(),
+  "no api/v1 string survives anywhere in code");
+check("WF22 api/ holds only function handlers",
+  fs.readdirSync(path.join(ROOT, "api")).every((f) =>
+    f === "cron" || f.endsWith(".js")) &&
+  fs.readdirSync(path.join(ROOT, "api", "cron")).every((f) => f.endsWith(".js")) &&
+  !fs.existsSync(path.join(ROOT, "api", "v1")),
+  "5 handlers + cron, zero static data under api/");
+check("WF22 two new collections with real curation",
+  (() => {
+    const cols = load("data/collections.json").collections;
+    const cc = cols.find((c) => c.id === "curators-choice");
+    const sh = cols.find((c) => c.id === "start-here");
+    const ids = new Set(load("data/games.json").games.map((g) => g.id));
+    return cols.length === 24 && !!cc && !!sh &&
+      cc.game_ids.length === 8 && sh.game_ids.length === 7 &&
+      cc.game_ids.concat(sh.game_ids).every((id) => ids.has(id)) &&
+      /I did/.test(cc.description) && /First visit/.test(sh.description);
+  })(),
+  "curators-choice (8) + start-here (7), all ids real, voice in the copy");
+check("WF22 homepage hero: 3-second read, one primary CTA",
+  indexHtml22.includes('class="hero-title"') && indexHtml22.includes("Your browser") &&
+  indexHtml22.includes("is the <em>console</em>") && indexHtml22.includes("data-game-count") &&
+  indexHtml22.includes('href="games.html">» Browse the games</a>') &&
+  indexHtml22.includes('href="#how"') && indexHtml22.includes('id="how"') &&
+  indexHtml22.includes("assets/css/makeover.css") &&
+  indexHtml22.indexOf('section class="hero"') < indexHtml22.indexOf("arcade-cabinet"),
+  "hero before cabinet, single primary CTA, data-driven count");
+check("WF22 curator note + human signals",
+  indexHtml22.includes("curator-note") && indexHtml22.includes("A note from the curator") &&
+  indexHtml22.includes("Especially</em> the weird ones") &&
+  indexHtml22.includes("the high scores are all mine"),
+  "signed note with opinions + view-source easter egg");
+check("WF22 no AI-slop copy on the homepage",
+  !/delve|unlock the power|game-changer|elevate your|fast-paced world|whether you.re a beginner or a pro/i.test(indexHtml),
+  "denylist clean");
+check("WF22 attract-mode craft: no horror lead + konami egg",
+  attractJs22.includes('g.genre !== "horror"') && attractJs22.includes("KONAMI ACCEPTED") &&
+  /konami/i.test(attractJs),
+  "demo handshake, not jumpscare; cabinet notices the code");
+check("WF22 LIVE_CHECKLIST carries the data/v1 rule",
+  liveChecklist22.includes("Vercel never serves static files under api/") &&
+  liveChecklist22.includes("data/v1/"),
+  "deploy lesson recorded");
 
 process.exit(failures ? 1 : 0);

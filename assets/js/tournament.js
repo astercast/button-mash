@@ -1,7 +1,7 @@
 /* Button Mash Tournament 2.0 — bracket builder UI.
    Pure bracket math lives in bracket.js (single elim, window.Bracket) and
    bracket-double.js (double elim, window.BracketDouble).
-   Game options come from the full catalog (api/v1/games.json data, loaded
+   Game options come from the full catalog (data/v1/games.json data, loaded
    here via BM.loadGames which reads data/games.json) — party-tagged games
    first, then everything else.
    State persists in localStorage: bm_tournament_v1 (single) and

@@ -22,8 +22,8 @@ How content enters and grows on this site. The wave engine runs continuous impro
 
 ## Data workflow
 
-1. Add records to `data/games.json` / `data/guides.json` / `data/collections.json` / `data/emulators.json` following the schemas in `api/v1/schema/`.
-2. Run `python3 scripts/build.py` — must print `BUILD OK` (validates data, audits link domains, regenerates `api/v1`, `llms.txt`, `llms-full.txt`, `sitemap.xml`).
+1. Add records to `data/games.json` / `data/guides.json` / `data/collections.json` / `data/emulators.json` following the schemas in `data/v1/schema/`.
+2. Run `python3 scripts/build.py` — must print `BUILD OK` (validates data, audits link domains, regenerates `data/v1`, `llms.txt`, `llms-full.txt`, `sitemap.xml`).
 3. Run `python3 scripts/check_links.py` (0 broken) + `node --check assets/js/*.js`.
 4. Update counts in `README.md`, hero copy if stale.
 5. Log the wave in `WAVELOG.md`.

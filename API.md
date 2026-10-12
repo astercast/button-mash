@@ -4,19 +4,19 @@ Static JSON API. Same-origin fetch works on any static host (including GitHub Pa
 
 ## Conventions
 
-- Base: `api/v1/` relative to the site root.
+- Base: `data/v1/` relative to the site root.
 - Every endpoint (except the schemas) uses an envelope: `name`, `version`, `generated_at` (ISO-8601 UTC), `endpoint`, `description`, `count`, plus the payload array under the endpoint's name.
-- Start at `api/v1/index.json` — the manifest with every endpoint, its description, and usage notes.
+- Start at `data/v1/index.json` — the manifest with every endpoint, its description, and usage notes.
 - Payloads are complete snapshots sized for client-side filtering. Empty results are `[]`, never `null`.
 - Breaking changes get a new `v2/` path, never a silent shape change.
 
 ## Endpoints
 
-### `GET api/v1/index.json`
+### `GET data/v1/index.json`
 
 Manifest: description, legal note, endpoint catalog, usage.
 
-### `GET api/v1/games.json`
+### `GET data/v1/games.json`
 
 Curated browser games (213 records, every URL curl-verified HTTP 200 on 2026-10-11). Envelope + `games` array:
 
@@ -41,33 +41,33 @@ Curated browser games (213 records, every URL curl-verified HTTP 200 on 2026-10-
 | `description` | string | Original description (CC0) |
 | `tags` | string[] (optional) | `party` + sub-tags (`drawing`/`arena`/`shooter`/`board`/`trivia`/`coop`/`word`/`racing`/`sports`/`phone`) — powers the party planner |
 
-Schema: `api/v1/schema/games.schema.json`.
+Schema: `data/v1/schema/games.schema.json`.
 
-### `GET api/v1/collections.json`
+### `GET data/v1/collections.json`
 
 Hand-built collections. Envelope + `collections` array: `id`, `title`, `tagline`, `description`, `game_ids[]` (all IDs exist in `games.json`).
 
-### `GET api/v1/emulators.json`
+### `GET data/v1/emulators.json`
 
 Emulator software picks (10). Envelope + `emulators` array: `id`, `name`, `systems[]`, `url`, `license`, `platforms[]`, `notes`, `bios_required`, optional `bios_note`. Software only — no ROMs, no BIOS files.
 
-### `GET api/v1/guides.json`
+### `GET data/v1/guides.json`
 
 Guide index (8 summaries; full text in `data/guides.json` and `llms-full.txt`). Envelope + `guides` array: `id`, `slug` (page: `guides/<slug>.html`), `title`, `difficulty`, `time_minutes`, `summary`, `section_count`.
 
-Schema: `api/v1/schema/guides.schema.json`.
+Schema: `data/v1/schema/guides.schema.json`.
 
-### `GET api/v1/kid-safe.json`
+### `GET data/v1/kid-safe.json`
 
 Kid-safe curated subset of the catalog (50 games). Envelope + `kid-safe` array: full game record plus `kid_safe: true`, `no_chat: true`, `age_band` (`5-7` / `8-10` / `11-12`), `parent_note` (why it's fine + what to watch), `verify_live` (true when the assessment couldn't be fully verified — "play the first 10 minutes together"), and `audit_basis` (the concrete basis for the flag — never invented). Assessments are honest snapshots, not guarantees; failed games are excluded, never softened.
 
-Schema: `api/v1/schema/kid-safe.schema.json` (draft-07).
+Schema: `data/v1/schema/kid-safe.schema.json` (draft-07).
 
 ## Server API — live functions (Vercel Wave A/B)
 
 One Vercel project serves this repo: the static frontend above plus Node
 serverless functions under `/api/*` (zero npm dependencies; no `functions.*.runtime` key — Vercel auto-detects Node).
-Every function answers in the envelope from `api/v1/schema/envelope.json`
+Every function answers in the envelope from `data/v1/schema/envelope.json`
 (`ok`, `data`, `meta` with `request_id`; `error` on failure). Same-origin —
 no CORS headers, no auth on public GETs. Full hookup: `GO_LIVE.md`.
 
@@ -86,12 +86,12 @@ game (wins over the other filters; 404 `NOT_FOUND` on miss, 400 `BAD_INPUT`
 on a bad id shape). Every game carries the static
 fields plus `multiplayer`, `kid_safe`, `vibes[]` derived server-side.
 Unknown genre → 400 `BAD_INPUT`; unknown system → honest empty list + note.
-Fallback: `api/v1/games.json`.
+Fallback: `data/v1/games.json`.
 
 ### `GET /api/collections`
 
-All 22 collections (or `?id=` for one; 404 `NOT_FOUND` on miss) with
-`game_ids` resolved to real catalog titles/URLs. Fallback: `api/v1/collections.json`.
+All 24 collections (or `?id=` for one; 404 `NOT_FOUND` on miss) with
+`game_ids` resolved to real catalog titles/URLs. Fallback: `data/v1/collections.json`.
 
 ### `POST /api/game-night`
 
@@ -104,12 +104,12 @@ catalog only — impossible requests (e.g. `systems: ["ps1"]`) return an honest
 empty lineup with `no_lineup_reason`, never invented games. Client fallback:
 `assets/js/game-night.js` (the identical engine, browser twin of
 `lib/game-night.js`, parity-gated by `scripts/test_gamenight_parity.js`)
-over the static `api/v1/games.json`. Compute-bucket rate limit (20/min/IP).
+over the static `data/v1/games.json`. Compute-bucket rate limit (20/min/IP).
 
 ### `GET /api/cron/curator`
 
 Weekly `0 10 * * 1` UTC: checks emulator release feeds + itch homebrew feeds,
-commits `api/v1/curator-watch.json` deltas on change. `CRON_SECRET` bearer
+commits `data/v1/curator-watch.json` deltas on change. `CRON_SECRET` bearer
 required (401 without). Without `GITHUB_REPO_TOKEN` it degrades to read-only
 (computes + returns the diff, persists nothing, `degraded: true`).
 

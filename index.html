@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Button Mash — Play Anything in Your Browser</title>
-<meta name="description" content="Button Mash: a universal in-browser game console. Play 162 curated browser games, run your own game files with EmulatorJS, or convert a ROM you own into a self-contained browser game. Legal lane only.">
+<meta name="description" content="Button Mash: a universal in-browser game console. Play 213 curated browser games, run your own game files with EmulatorJS, or convert a ROM you own into a self-contained browser game. Legal lane only.">
 <link rel="preload" href="assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/tokens.css">
@@ -14,8 +14,10 @@
 <link rel="stylesheet" href="assets/css/wave16.css">
 <link rel="stylesheet" href="assets/css/trophy.css">
 <link rel="stylesheet" href="assets/css/attract.css">
+<link rel="stylesheet" href="assets/css/makeover.css">
 </head>
 <body>
+<!-- you found the service panel. the high scores are all mine. — the curator -->
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="site-header">
@@ -40,8 +42,32 @@
 </header>
 
 <main id="main">
+  <section class="hero" aria-label="What Button Mash is">
+    <div class="wrap hero-inner">
+      <p class="hero-eyebrow">» <span data-game-count>213</span> free games · no installs · no accounts · no piracy, ever</p>
+      <h1 class="hero-title">Your browser<br>is the <em>console</em>.</h1>
+      <p class="hero-sub">A cabinet's worth of games that run in a tab. Nothing to download,
+        nothing to sign up for — and every link on the shelf was verified live
+        before it went up.</p>
+      <div class="hero-cta">
+        <a class="btn-primary hero-cta-main" href="games.html">» Browse the games</a>
+        <a class="hero-cta-quiet" href="#how">How it works ↓</a>
+      </div>
+      <dl class="hero-stats" aria-label="The shelf at a glance">
+        <div><dt>games</dt><dd data-game-count>213</dd></div>
+        <div><dt>kid-safe</dt><dd>113</dd></div>
+        <div><dt>shelves</dt><dd>24</dd></div>
+        <div><dt>guides</dt><dd>22</dd></div>
+      </dl>
+    </div>
+  </section>
+
   <section class="cabinet-section" aria-label="Button Mash arcade cabinet">
     <div class="wrap">
+      <div class="section-head">
+        <h2><span class="tick">»</span> The cabinet plays itself</h2>
+        <p class="section-sub">Attract mode, like the old days. Watch a while — or press start.</p>
+      </div>
       <div class="cabinet" id="arcade-cabinet">
         <div class="cabinet-marquee">
           <div class="marquee-bulbs" aria-hidden="true"></div>
@@ -81,26 +107,27 @@
 
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track">
-      <span>» INSERT COIN</span><span>• 162 FREE GAMES</span><span>⚡ GBA › BROWSER</span><span>🕹️ 20+ SYSTEMS</span><span>• SAVE STATES</span><span>• NO PIRACY, EVER</span><span>» INSERT COIN</span><span>• 162 FREE GAMES</span><span>⚡ GBA › BROWSER</span><span>🕹️ 20+ SYSTEMS</span><span>• SAVE STATES</span><span>• NO PIRACY, EVER</span>
+      <span>» INSERT COIN</span><span>• 213 FREE GAMES</span><span>⚡ GBA › BROWSER</span><span>🕹️ 20+ SYSTEMS</span><span>• SAVE STATES</span><span>• NO PIRACY, EVER</span><span>» INSERT COIN</span><span>• 213 FREE GAMES</span><span>⚡ GBA › BROWSER</span><span>🕹️ 20+ SYSTEMS</span><span>• SAVE STATES</span><span>• NO PIRACY, EVER</span>
     </div>
   </div>
 
-  <section class="section">
+  <section class="section" id="how">
     <div class="wrap">
       <div class="section-head">
-        <h2><span class="tick">»</span> The two centerpieces</h2>
+        <h2><span class="tick">»</span> Start here: the two machines</h2>
+        <p class="section-sub">Everything else on this site is games and writing. These two are the workshop.</p>
       </div>
       <div class="grid cols-2">
         <article class="feature-card">
           <div class="icon" aria-hidden="true">🎮</div>
           <h3>The Player — your files, in the browser</h3>
-          <p>Drag in a game file you own — GBA, SNES, NES, Genesis, Game Boy, N64, PlayStation and 15+ more systems via EmulatorJS cores. On-screen controls, keyboard + gamepad, save states, fullscreen. The site hosts zero ROMs; your file never leaves your machine.</p>
+          <p>Drag in a game file you own — GBA, SNES, NES, Genesis, Game Boy, N64, PlayStation, 20+ systems. Keyboard, gamepad, save states, fullscreen. The site hosts zero ROMs, and your file never leaves your machine. That's the whole deal.</p>
           <a class="card-link" href="player.html">Open the Player ›</a>
         </article>
         <article class="feature-card">
           <div class="icon" aria-hidden="true">⚡</div>
-          <h3>The Converter — ROM to browser game</h3>
-          <p>Drop in a GBA file you own and get back a single <code>.html</code> file that <em>is</em> your game: ROM embedded, boots straight into play, hostable anywhere. Pure client-side — nothing uploads anywhere.</p>
+          <h3>The Converter — your ROM becomes a web page</h3>
+          <p>Drop in a GBA, SNES, Genesis, NES, or Game Boy file you own and get back a single <code>.html</code> file that <em>is</em> your game: boots straight into play, works anywhere you can host a file. Everything happens on your machine — nothing uploads, ever.</p>
           <a class="card-link" href="converter.html">Try the Converter ›</a>
         </article>
       </div>
@@ -113,6 +140,19 @@
         <span class="gotd-label">Game of the day</span>
         <p>Loading today's pick…</p>
       </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <aside class="curator-note" aria-label="A note from the curator">
+        <p class="curator-kicker">» A note from the curator</p>
+        <p>I built Button Mash because browser games deserved better than a search-results
+          page with forty pop-ups. Every game here is one I'd actually tell a friend
+          about — including the weird ones. <em>Especially</em> the weird ones. If a
+          link dies, it comes off the shelf; if a game wastes your time, it never got on.</p>
+        <p class="curator-sign">— The Curator</p>
+      </aside>
     </div>
   </section>
 
@@ -192,7 +232,7 @@
       <div>
         <h3>For machines</h3>
         <ul>
-          <li><a href="api/v1/">API v1</a></li>
+          <li><a href="data/v1/">API v1</a></li>
           <li><a href="API.md">API.md</a></li>
           <li><a href="llms.txt">llms.txt</a></li>
           <li><a href="skills/">skills/</a></li>

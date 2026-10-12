@@ -2,7 +2,7 @@
    Schedule: Mondays 0 10 * * 1 UTC (Vercel Cron, production only).
    Bounded incremental refresh: fetch emulator release Atom feeds + itch
    homebrew feeds in parallel (4s each), diff against the stored watch state
-   (api/v1/curator-watch.json), commit on change via the GitHub Contents API.
+   (data/v1/curator-watch.json), commit on change via the GitHub Contents API.
    Fits the 10s function budget: feeds race in parallel; the commit is skipped
    if the remaining budget is too small (next run retries — idempotent).
 
@@ -31,7 +31,7 @@ const github = require("../../lib/github");
 
 const SERVICE = "mash-curator";
 const VERSION = "1.0.0";
-const WATCH_FILE = "api/v1/curator-watch.json";
+const WATCH_FILE = "data/v1/curator-watch.json";
 const BUDGET_MS = 9500; // hard stop before Vercel's 10s timeout
 const WRITE_RESERVE_MS = 3000; // skip commit if less remains
 
@@ -76,7 +76,7 @@ function parseFeed(xml) {
 
 function loadWatchState() {
   try {
-    const full = path.join(__dirname, "..", "v1", "curator-watch.json");
+    const full = path.join(__dirname, "..", "..", "data", "v1", "curator-watch.json");
     delete require.cache[require.resolve(full)];
     return { ok: true, state: require(full) };
   } catch (e) {

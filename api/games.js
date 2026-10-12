@@ -1,8 +1,8 @@
 /* GET /api/games — curated browser-game catalog (spec §7.7).
    Query: ?genre= ?q= ?players= ?system= ?limit= (default 50, max 200),
           ?id= (single-game lookup; wins over the other filters, 404 on miss)
-   Reads the repo's api/v1/games.json (the legal-lane corpus: 213 curl-verified
-   browser games). Fallback: /api/v1/games.json (static).
+   Reads the repo's data/v1/games.json (the legal-lane corpus: 213 curl-verified
+   browser games). Fallback: /data/v1/games.json (static).
    Rate limit: public bucket (60/min per IP). */
 "use strict";
 
@@ -14,8 +14,8 @@ const SERVICE = "mash-curator";
 const VERSION = "1.0.0";
 
 function loadCatalog() {
-  const gamesEnv = require("./v1/games.json");
-  const kidEnv = require("./v1/kid-safe.json");
+  const gamesEnv = require("../data/v1/games.json");
+  const kidEnv = require("../data/v1/kid-safe.json");
   const kidIds = new Set((kidEnv["kid-safe"] || []).filter((k) => k.kid_safe).map((k) => k.id));
   return { games: gamesEnv.games || [], generated_at: gamesEnv.generated_at || null, kidIds: kidIds };
 }
@@ -81,7 +81,7 @@ module.exports = (req, res) => {
     }, {
       source: "live",
       upstream: [{
-        source: "repo:api/v1/games.json",
+        source: "repo:data/v1/games.json",
         ok: true,
         checked_at: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
         latency_ms: Date.now() - idT0,
@@ -164,7 +164,7 @@ module.exports = (req, res) => {
   }, {
     source: "live",
     upstream: [{
-      source: "repo:api/v1/games.json",
+      source: "repo:data/v1/games.json",
       ok: true,
       checked_at: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
       latency_ms: Date.now() - t0,

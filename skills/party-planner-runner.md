@@ -22,7 +22,7 @@ description: Build a timed game-night rotation plan — guest list, game voting,
 
 ## Procedure
 
-1. Read `api/v1/games.json`, filter to games whose `tags` include `party`.
+1. Read `data/v1/games.json`, filter to games whose `tags` include `party`.
 2. Match the vibe to sub-tags:
    - `competitive` → `shooter`, `arena`, `racing`, `sports`
    - `cooperative` → `coop`, `board`
@@ -31,7 +31,7 @@ description: Build a timed game-night rotation plan — guest list, game voting,
    - `chill` → `trivia`, `board`, `word`
 3. Apply the skill mix: `casual` drops `shooter`/`arena`/`racing`; `mixed` drops `shooter`; `gamers` keeps everything.
 4. Apply input limits: shooters/racers need keyboard+mouse; drawing games need a pointer (mouse/touch/phone); `phone`-tagged hubs need phones.
-5. **Kids party** (`party.opts.kids`): ignore vibe/skill — pool is the 113 kid-safe games from `api/v1/kid-safe.json`, filtered to the youngest age band and below (`Party2.kidPool`). All picks are hot-seat, hand-the-controller. The 113 games are a curated set — only 1 of the 27 party-tagged games is kid-safe, so kids parties deliberately don't require the `party` tag.
+5. **Kids party** (`party.opts.kids`): ignore vibe/skill — pool is the 113 kid-safe games from `data/v1/kid-safe.json`, filtered to the youngest age band and below (`Party2.kidPool`). All picks are hot-seat, hand-the-controller. The 113 games are a curated set — only 1 of the 27 party-tagged games is kid-safe, so kids parties deliberately don't require the `party` tag.
 6. Timebox: 20-minute slots (30 for cooperative/chill), capped at 8 slots.
 7. **Rotation** (`Party2.scheduleRotation`): hot-seat games play in groups of up to 4, offset rotating one guest per slot — over a full cycle every guest sits out the same number of times (pinned: 5 guests / 5 slots → everyone sits exactly once). Arenas: everyone plays at once.
 8. **Game voting**: one vote per guest, re-voting moves the vote; ties go to the earliest-picked candidate. Voted games lead the plan (`Party2.topVoted`) and feed the tournament handoff.
@@ -47,12 +47,12 @@ description: Build a timed game-night rotation plan — guest list, game voting,
 
 ## API references
 
-- `api/v1/games.json` (`tags` field; schema: `api/v1/schema/games.schema.json`)
-- `api/v1/kid-safe.json` (`kid-safe` array: `id`, `age_band`, `parent_note`, `verify_live`)
+- `data/v1/games.json` (`tags` field; schema: `data/v1/schema/games.schema.json`)
+- `data/v1/kid-safe.json` (`kid-safe` array: `id`, `age_band`, `parent_note`, `verify_live`)
 
 ## Pitfalls
 
 - Picking a game with no private rooms for a group that wants to play together — check lobby/room support in the description.
 - Recommending high-skill-floor shooters to non-gamers — read the skill mix.
 - Kids party is hot-seat by design; don't promise simultaneous multiplayer on single-player kid-safe games.
-- Never invent a game URL. Only recommend what's in `api/v1/games.json`.
+- Never invent a game URL. Only recommend what's in `data/v1/games.json`.

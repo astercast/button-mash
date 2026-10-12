@@ -79,8 +79,8 @@ $PYENV; assert e['ok'] is False and e['error']['code']=='BAD_INPUT'\""
 
 echo "--- 3. collections ---"
 chk "collections 200 + envelope valid" bash -c "curl -sf '$BASE/api/collections' | $VALIDATE"
-chk "collections count 22" bash -c "curl -sf '$BASE/api/collections' | python3 -c \"
-$PYENV; assert e['data']['count']==22\""
+chk "collections count 24" bash -c "curl -sf '$BASE/api/collections' | python3 -c \"
+$PYENV; assert e['data']['count']==24\""
 chk "collections ?id= single" bash -c "curl -sf '$BASE/api/collections?id=rainy-day-cozy' | python3 -c \"
 $PYENV; c=e['data']['collections']; assert len(c)==1 and c[0]['id']=='rainy-day-cozy' and c[0]['game_count']>0\""
 chk "collections ?id=nope 404" bash -c "curl -s '$BASE/api/collections?id=nope' | python3 -c \"
@@ -123,9 +123,9 @@ else
 fi
 
 echo "--- 6. static fallback ---"
-chk "static fallback games.json" bash -c "curl -sf '$BASE/api/v1/games.json' | python3 -c \"
+chk "static fallback games.json" bash -c "curl -sf '$BASE/data/v1/games.json' | python3 -c \"
 import json,sys; d=json.load(sys.stdin); assert len(d['games'])==213\""
-chk "static fallback curator-watch.json" bash -c "curl -sf '$BASE/api/v1/curator-watch.json' | python3 -c \"
+chk "static fallback curator-watch.json" bash -c "curl -sf '$BASE/data/v1/curator-watch.json' | python3 -c \"
 import json,sys; d=json.load(sys.stdin); assert d['name']=='Button Mash curator watch'\""
 
 echo "--- 7. vercel.json cron-daily lint ---"

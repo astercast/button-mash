@@ -17,7 +17,7 @@ Someone wants a themed list ("games for a long flight", "best free horror games"
 
 ## Procedure
 
-1. Read `api/v1/games.json` and `api/v1/collections.json` — propose only games already in the directory.
+1. Read `data/v1/games.json` and `data/v1/collections.json` — propose only games already in the directory.
 2. Pick 5–12 games that genuinely fit the theme; mix genres where the theme allows, avoid near-duplicates (not three snake games).
 3. Write the collection record:
    - `id`: kebab-case, unique
@@ -34,12 +34,12 @@ Someone wants a themed list ("games for a long flight", "best free horror games"
 
 ## API references
 
-- `api/v1/games.json`
-- `api/v1/collections.json`
+- `data/v1/games.json`
+- `data/v1/collections.json`
 - `data/collections.json` (source of truth)
 
 ## Pitfalls
 
-- Inventing a game not in the directory — every `game_id` must exist in `api/v1/games.json`.
+- Inventing a game not in the directory — every `game_id` must exist in `data/v1/games.json`.
 - Letting a collection rot: re-verify links whenever the directory is re-verified.
 - Theme drift: if half the games don't fit the title, split it into two collections.

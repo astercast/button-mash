@@ -29,7 +29,7 @@ const T0 = Date.now();
 
 function loadStatic(name) {
   try {
-    const full = path.join(__dirname, "v1", name);
+    const full = path.join(__dirname, "..", "data", "v1", name);
     delete require.cache[require.resolve(full)];
     return { ok: true, json: require(full) };
   } catch (e) {

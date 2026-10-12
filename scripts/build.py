@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build Button Mash: validate data, regenerate api/v1 + llms.txt + sitemap.
+"""Build Button Mash: validate data, regenerate data/v1 + llms.txt + sitemap.
 
 Usage: python3 scripts/build.py
 Prints BUILD OK with counts, or exits non-zero listing validation errors.
@@ -10,7 +10,7 @@ Steps:
      external link in guide HTML must be on the allowlist (game domains +
      verified reference domains). New game domains must be curl-verified
      (HTTP 200) before being added — see WAVELOG wave 2.
-  3. Regenerate api/v1 (scripts/build_api.py) and llms.txt/llms-full.txt/sitemap.xml
+  3. Regenerate data/v1 (scripts/build_api.py) and llms.txt/llms-full.txt/sitemap.xml
      (scripts/build_site.py).
 """
 import json

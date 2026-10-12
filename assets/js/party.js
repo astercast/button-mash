@@ -22,8 +22,8 @@
     casual: ['shooter', 'arena', 'racing']
   };
 
-  var KID_SAFE_URL = 'api/v1/kid-safe.json';
-  var KID_GAMES_URL = 'api/v1/games.json';
+  var KID_SAFE_URL = 'data/v1/kid-safe.json';
+  var KID_GAMES_URL = 'data/v1/games.json';
 
   var catalog = [];       // full catalog records
   var byId = {};          // id -> record

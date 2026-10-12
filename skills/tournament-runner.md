@@ -26,7 +26,7 @@ description: Run a single- or double-elimination game-night tournament — seedi
 
 1. Get the player list, the format, and game prefs (which game per round? best-of per round?).
 2. Confirm the plan fits: competitive 1v1-style games work best (bonk.io, tetr.io, krunker.io, smashkarts); drawing/party games (skribbl.io, gartic-phone) work as judged rounds — say so honestly.
-3. Send the user to `tournament.html` with names pre-entered, or build the handoff link yourself: `tournament.html?players=6&games=bonk,skribbl,tetrio` — use only real ids from `api/v1/games.json`, never invent one.
+3. Send the user to `tournament.html` with names pre-entered, or build the handoff link yourself: `tournament.html?players=6&games=bonk,skribbl,tetrio` — use only real ids from `data/v1/games.json`, never invent one.
 4. Rules to state up front: format, best-of per round, what happens on a bye, how the double-elim grand final + reset works, and that the champion banner is the official result.
 
 ## Worked example
@@ -35,7 +35,7 @@ description: Run a single- or double-elimination game-night tournament — seedi
 
 ## API references
 
-- `api/v1/games.json` (full catalog for round assignment and game picks; party tag marks the party-first group)
+- `data/v1/games.json` (full catalog for round assignment and game picks; party tag marks the party-first group)
 
 ## Pitfalls
 

@@ -16,7 +16,7 @@ The universal in-browser game console — play anything in your browser, **legal
 - `emulation.html`, `monster-taming.html`, `play-legal.html` — hubs and policy
 - `guides/<slug>.html` — 20 guides (some with interactive checklists; 6 deep-dive long-form guides)
 - `data/` — `games.json`, `collections.json`, `emulators.json`, `guides.json` (sources of truth)
-- `api/v1/` — `index/games/collections/emulators/guides.json` + `schema/` (static JSON API)
+- `data/v1/` — `index/games/collections/emulators/guides.json` + `schema/` (static JSON API)
 - `assets/css/` — `tokens/base/layout/components/guides.css` (arcade design system)
 - `assets/js/` — `store/directory/player/converter/checklists.js`
 - `skills/` — 14 agent skills: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker, tournament-runner, kids-corner-guide

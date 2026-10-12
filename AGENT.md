@@ -4,21 +4,21 @@ How any agent (or script) uses Button Mash programmatically. Everything below is
 
 ## Base URL
 
-`api/v1/` relative to the site root (e.g. `https://<host>/button-mash/api/v1/`). Works from `fetch`, `curl`, or any JSON client.
+`data/v1/` relative to the site root (e.g. `https://<host>/button-mash/data/v1/`). Works from `fetch`, `curl`, or any JSON client.
 
 ## Start here
 
-**`GET api/v1/index.json`** — self-describing manifest: description, legal note, endpoint catalog, usage. Every endpoint (except schemas) uses an envelope: `name`, `version`, `generated_at`, `endpoint`, `description`, `count`, plus the payload array under the endpoint's name.
+**`GET data/v1/index.json`** — self-describing manifest: description, legal note, endpoint catalog, usage. Every endpoint (except schemas) uses an envelope: `name`, `version`, `generated_at`, `endpoint`, `description`, `count`, plus the payload array under the endpoint's name.
 
 ## Endpoints
 
 | Endpoint | What you get |
 |---|---|
-| `GET api/v1/games.json` | 213 game records (wave 8 added 11: Tristram, Die in the Dungeon CLASSIC, The Archives of Trevosa excluded-from-kids, Prerolled, Zombie Nest GBA, Dare To Doku, + 5 vanilla-JS wqnlll.github.io games; wave 14 added 37 (18 puzzle, 2 action, 6 roguelike, 2 idle, 4 retro, 5 cozy); wave 17 added 51 (16 MS-DOS + 15 arcade via the Internet Archive, 5 Flash-era Ruffle preservations, 9 action, 5 multiplayer, 3 idle, 3 puzzle — all 51 URLs curl-verified HTTP 200 same day). Each: `id`, `title`, `url` (curl-verified live 2026-10-11 — never invented), `genre` (`puzzle`/`action`/`roguelike`/`idle`/`multiplayer`/`retro`/`horror`/`cozy`), `controls`, `description` (original, CC0), optional `tags` (`party` + sub-tags like `drawing`/`arena`/`shooter`/`board`/`trivia`/`coop`/`word` power the party planner). Schema: `api/v1/schema/games.schema.json` |
-| `GET api/v1/collections.json` | 19 hand-built collections (wave 8 added homebrew-radar + vanilla-js; wave 14 added playable-essays, open-source-web, code-playground, daily-word-games, cozy-toys, roguelike-forever; retro-time-machine 5→9, idle-essentials 8→10, strategy-deep-cuts 7→11): `id`, `title`, `tagline`, `description`, `game_ids[]` (all IDs exist in `games.json`) |
-| `GET api/v1/emulators.json` | 10 emulator software picks: `id`, `name`, `systems[]`, `url`, `license`, `platforms[]`, `notes`, `bios_required`. Software only — no ROMs/BIOS. |
-| `GET api/v1/guides.json` | 22 guide summaries: `id`, `slug` (`guides/<slug>.html` page), `title`, `difficulty`, `time_minutes`, `summary`, `section_count`. Includes 6 per-system guides (`gba`, `snes`, `n64`, `ps1`, `genesis`, `gameboy`): best EmulatorJS core (verified against the official core list), settings that matter, performance tips, saves/cheats wired to Player 2.0, honest BIOS notes, Player deep link (`player.html?core=<core>`), and a verified homebrew starter pack. Wave 13 added 6 deep-dive guides (`homebrew-development`, `netplay`, `save-workflows`, `crt-shaders-display`, `accessibility-in-retro-gaming`, `preserving-your-games`); wave 17 added 2 more (`gamepad-setup`, `pico8-spotlight`, 8 sections each, all external URLs curl-verified) — 8 sections / 2,000+ words each, all external URLs curl-verified — surfaced as the **"Deep-dive guides" knowledge hub** (`emulation.html#deep-dives`, 6 cards), with a reading-craft design pass (`assets/css/guides.css` long-form typography, sticky spy TOC via `assets/js/guide-toc.js`, CSS scroll-progress bar, view transitions behind `prefers-reduced-motion: no-preference`, print stylesheet). Full texts: `data/guides.json` or `llms-full.txt`. Schema: `api/v1/schema/guides.schema.json` |
-| `GET api/v1/homebrew-packs.json` | Per-system homebrew starter packs: the legal on-ramps for the Player. Every URL verified live 2026-10-11 (pdroms.de system sections, itch.io system tags, gbdev.io, n64.dev, psxdev.net, psx.dev, GameBrew lists). Schema: `api/v1/schema/homebrew-packs.schema.json` |
+| `GET data/v1/games.json` | 213 game records (wave 8 added 11: Tristram, Die in the Dungeon CLASSIC, The Archives of Trevosa excluded-from-kids, Prerolled, Zombie Nest GBA, Dare To Doku, + 5 vanilla-JS wqnlll.github.io games; wave 14 added 37 (18 puzzle, 2 action, 6 roguelike, 2 idle, 4 retro, 5 cozy); wave 17 added 51 (16 MS-DOS + 15 arcade via the Internet Archive, 5 Flash-era Ruffle preservations, 9 action, 5 multiplayer, 3 idle, 3 puzzle — all 51 URLs curl-verified HTTP 200 same day). Each: `id`, `title`, `url` (curl-verified live 2026-10-11 — never invented), `genre` (`puzzle`/`action`/`roguelike`/`idle`/`multiplayer`/`retro`/`horror`/`cozy`), `controls`, `description` (original, CC0), optional `tags` (`party` + sub-tags like `drawing`/`arena`/`shooter`/`board`/`trivia`/`coop`/`word` power the party planner). Schema: `data/v1/schema/games.schema.json` |
+| `GET data/v1/collections.json` | 24 hand-built collections (wave 8 added homebrew-radar + vanilla-js; wave 14 added playable-essays, open-source-web, code-playground, daily-word-games, cozy-toys, roguelike-forever; wave 17 added flash-back-machine, score-attack, tycoon-corner; makeover added curators-choice + start-here; retro-time-machine 5→9, idle-essentials 8→10, strategy-deep-cuts 7→11): `id`, `title`, `tagline`, `description`, `game_ids[]` (all IDs exist in `games.json`) |
+| `GET data/v1/emulators.json` | 10 emulator software picks: `id`, `name`, `systems[]`, `url`, `license`, `platforms[]`, `notes`, `bios_required`. Software only — no ROMs/BIOS. |
+| `GET data/v1/guides.json` | 22 guide summaries: `id`, `slug` (`guides/<slug>.html` page), `title`, `difficulty`, `time_minutes`, `summary`, `section_count`. Includes 6 per-system guides (`gba`, `snes`, `n64`, `ps1`, `genesis`, `gameboy`): best EmulatorJS core (verified against the official core list), settings that matter, performance tips, saves/cheats wired to Player 2.0, honest BIOS notes, Player deep link (`player.html?core=<core>`), and a verified homebrew starter pack. Wave 13 added 6 deep-dive guides (`homebrew-development`, `netplay`, `save-workflows`, `crt-shaders-display`, `accessibility-in-retro-gaming`, `preserving-your-games`); wave 17 added 2 more (`gamepad-setup`, `pico8-spotlight`, 8 sections each, all external URLs curl-verified) — 8 sections / 2,000+ words each, all external URLs curl-verified — surfaced as the **"Deep-dive guides" knowledge hub** (`emulation.html#deep-dives`, 6 cards), with a reading-craft design pass (`assets/css/guides.css` long-form typography, sticky spy TOC via `assets/js/guide-toc.js`, CSS scroll-progress bar, view transitions behind `prefers-reduced-motion: no-preference`, print stylesheet). Full texts: `data/guides.json` or `llms-full.txt`. Schema: `data/v1/schema/guides.schema.json` |
+| `GET data/v1/homebrew-packs.json` | Per-system homebrew starter packs: the legal on-ramps for the Player. Every URL verified live 2026-10-11 (pdroms.de system sections, itch.io system tags, gbdev.io, n64.dev, psxdev.net, psx.dev, GameBrew lists). Schema: `data/v1/schema/homebrew-packs.schema.json` |
 
 All schemas are **JSON Schema draft 2020-12**. Data is validated at build time (`python3 scripts/build.py`).
 
@@ -44,7 +44,7 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
 ### 1. "Find a multiplayer party game"
 
 ```
-1. GET api/v1/games.json
+1. GET data/v1/games.json
 2. games.filter(g => g.genre === "multiplayer")
    → skribbl.io, gartic-phone, jklm, codenames, secret-hitler, make-it-meme…
 3. Pick one with private rooms: skribbl.io → send the user to https://skribbl.io/
@@ -69,7 +69,7 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
 ### 3. "Something cozy for a rainy day"
 
 ```
-1. GET api/v1/collections.json
+1. GET data/v1/collections.json
 2. collections.find(c => c.id === "rainy-day-cozy") → game_ids
 3. Resolve titles via games.json, or just link collections.html.
 ```
@@ -78,11 +78,11 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
 
 ```
 1. Guest list: 2–16 names (drives rotation, voting, tournament handoff).
-2. GET api/v1/games.json → filter games where tags includes "party".
+2. GET data/v1/games.json → filter games where tags includes "party".
 3. Map vibe to sub-tags: chaotic→arena/drawing/word, competitive→shooter/arena/racing/sports,
    cooperative→coop/board, creative→drawing/word, chill→trivia/board/word.
 4. Apply skill mix + input limits (shooters need keyboard+mouse).
-5. Kids party? Skip vibe/skill — pool = the 113 kid-safe games (api/v1/kid-safe.json),
+5. Kids party? Skip vibe/skill — pool = the 113 kid-safe games (data/v1/kid-safe.json),
    youngest age band and below, all hot-seat.
 6. 20-min slots (30 for chill/cooperative), capped at 8; rotation groups of 4,
    offset-rotated so sit-outs are fair; guests vote (one vote each, ties → earliest pick).
@@ -110,7 +110,7 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
 ### 6. "Run a tournament for game night" (tournament brackets)
 
 ```
-1. GET api/v1/games.json → party-tagged games first for round games, but any
+1. GET data/v1/games.json → party-tagged games first for round games, but any
    catalog game works (the picker lists the full catalog, party first).
 2. Get the player list (2–16 names), the format (single or double elim), and
    per-round prefs: game id + best-of (1/3/5/7).
@@ -132,6 +132,6 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
 - Breaking changes arrive as a new `v2/` path — never a silent shape change. Shared conventions: `API.md`.
 - Source data lives in `data/`; regenerate with `python3 scripts/build.py` after edits.
 - Skills: `skills/` — game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker, tournament-runner, kids-corner-guide.
-- **Kids corner** (`kids.html`): 113 kid-safe games from a four-bar audit (no open chat, no unmoderated multiplayer chat or user content, no gambling, no graphic/horror content). Age bands 5–7 / 8–10 / 11–12, 🔇 No chat badges, parent notes per game, 👀 "play together first" flags where assessment couldn't be fully verified, reduced-motion default. `data/kids.json` holds every game's verdict (113 curated + 100 excluded with reasons); API `api/v1/kid-safe.json` (draft-07 schema) exposes the curated subset. Parent guide at `parents.html`: curation method, honesty policy (assessments not guarantees — "play the first 10 minutes together"), common-sense screen-time tips (no medical claims), save-state "one more level" trick. See `skills/kids-corner-guide.md`.
+- **Kids corner** (`kids.html`): 113 kid-safe games from a four-bar audit (no open chat, no unmoderated multiplayer chat or user content, no gambling, no graphic/horror content). Age bands 5–7 / 8–10 / 11–12, 🔇 No chat badges, parent notes per game, 👀 "play together first" flags where assessment couldn't be fully verified, reduced-motion default. `data/kids.json` holds every game's verdict (113 curated + 100 excluded with reasons); API `data/v1/kid-safe.json` (draft-07 schema) exposes the curated subset. Parent guide at `parents.html`: curation method, honesty policy (assessments not guarantees — "play the first 10 minutes together"), common-sense screen-time tips (no medical claims), save-state "one more level" trick. See `skills/kids-corner-guide.md`.
 - System picker (`system-picker.html`): 4-question quiz (era, device power, game taste, tinkering tolerance) → recommended system + guide link + Player deep link. Weak devices exclude N64/PS1 honestly. Logic in `assets/js/system-picker.js`; skill `skills/system-picker.md` mirrors the weights for manual scoring.
 - Player deep links: `player.html?core=<shortname>` pre-selects the system (`gb gba snes segaMD n64 psx` …) — used by all six system guides and the quiz result.

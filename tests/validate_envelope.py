@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate a function response envelope against api/v1/schema/envelope.json.
+"""Validate a function response envelope against data/v1/schema/envelope.json.
 Implements the draft 2020-12 subset our schema uses: type (incl. type lists),
 required, properties, pattern, enum, format:date-time, allOf/if/then/not.
 Usage: curl -s $BASE/api/health | python3 tests/validate_envelope.py
@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SCHEMA = json.loads((ROOT / "api" / "v1" / "schema" / "envelope.json").read_text())
+SCHEMA = json.loads((ROOT / "data" / "v1" / "schema" / "envelope.json").read_text())
 
 errors = []
 

@@ -133,7 +133,7 @@ check("share: drops votes from non-guests / unknown games",
   })(), "votes sanitized");
 
 // ---- kids-party pool ----
-const kidSafe = JSON.parse(fs.readFileSync(path.join(ROOT, "api/v1/kid-safe.json"), "utf8"))["kid-safe"];
+const kidSafe = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/kid-safe.json"), "utf8"))["kid-safe"];
 const pool7 = P2.kidPool(kidSafe, "5-7");
 const poolAll = P2.kidPool(kidSafe, "11-12");
 check("kids pool: 5-7 band is 24 games", pool7.length === 24, pool7.length + " games");

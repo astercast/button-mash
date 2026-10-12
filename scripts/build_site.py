@@ -28,7 +28,7 @@ PAGES = [
     ("play-legal.html", "Play it legal: the site's one clear legal page"),
     ("genres/roguelike.html", "Genre deep dive: roguelikes — die, learn, die better"),
     ("genres/cozy.html", "Genre deep dive: cozy games — gentle games for grey weather"),
-    ("api/v1/", "JSON API index"),
+    ("data/v1/", "JSON API index"),
     ("API.md", "API documentation"),
     ("404.html", "Game over: arcade-styled 404 with insert-coin home CTA"),
 ]
@@ -127,8 +127,8 @@ def build_llms():
         lines.append(f"- {e['name']} [{', '.join(e['systems'])}]{bios} — {e['notes']} {e['url']}")
     lines.append("")
     lines.append("## API")
-    lines.append("- api/v1/index.json — endpoint catalog")
-    lines.append("- api/v1/games.json, collections.json, emulators.json, guides.json, homebrew-packs.json, kid-safe.json (kid-safe: kid_safe, no_chat, age_band, parent_note, verify_live, audit_basis per record)")
+    lines.append("- data/v1/index.json — endpoint catalog")
+    lines.append("- data/v1/games.json, collections.json, emulators.json, guides.json, homebrew-packs.json, kid-safe.json (kid-safe: kid_safe, no_chat, age_band, parent_note, verify_live, audit_basis per record)")
     lines.append("- skills/: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker, tournament-runner, kids-corner-guide")
     lines.append("")
     lines.append("## Legal")

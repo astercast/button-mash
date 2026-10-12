@@ -21,7 +21,7 @@ Someone wants games for their emulator or recompiler project without touching pi
    - `nesdev.com` / `gbdev.io` — dev communities with released homebrew for NES / Game Boy.
    - itch.io (`https://itch.io/games`, search "homebrew") — devs releasing ROMs free on their own pages.
 2. Filter to the target system, then to taste. Prefer games with an author page and a clear free-release statement.
-3. For pure browser play with zero setup, cross-check the Button Mash game directory (`api/v1/games.json`) — the open-source HTML5 entries are homebrew-adjacent and need no emulator.
+3. For pure browser play with zero setup, cross-check the Button Mash game directory (`data/v1/games.json`) — the open-source HTML5 entries are homebrew-adjacent and need no emulator.
 4. Report each find as: title, system, author/source page, why it fits.
 
 ## Worked example
@@ -30,8 +30,8 @@ Someone wants games for their emulator or recompiler project without touching pi
 
 ## API references
 
-- `api/v1/guides.json`
-- `api/v1/games.json`
+- `data/v1/guides.json`
+- `data/v1/games.json`
 
 ## Pitfalls
 

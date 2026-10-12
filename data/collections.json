@@ -78,7 +78,7 @@
       "title": "Party night with friends"
     },
     {
-      "description": "Tiny games from the fantasy console: a Doom demake, the original Celeste, and a moss-covered world — all in 128x128 pixels.",
+      "description": "Tiny games from the fantasy console: a Doom demake, the original Celeste, and a moss-covered world \u2014 all in 128x128 pixels.",
       "game_ids": [
         "poom",
         "celeste-classic",
@@ -214,7 +214,7 @@
       "id": "vanilla-js",
       "title": "Vanilla JS, zero dependencies",
       "tagline": "No frameworks, no accounts",
-      "description": "Five games by one indie dev in plain JavaScript — vocabulary brick-breaker, timed math drills, tank combat, a fog-of-war RTS, and Three.js dogfights. Static pages that load on anything, even a school Chromebook.",
+      "description": "Five games by one indie dev in plain JavaScript \u2014 vocabulary brick-breaker, timed math drills, tank combat, a fog-of-war RTS, and Three.js dogfights. Static pages that load on anything, even a school Chromebook.",
       "game_ids": [
         "english-brick-breaker",
         "math-challenge",
@@ -227,7 +227,7 @@
       "id": "playable-essays",
       "title": "Playable essays",
       "tagline": "Games with something to say",
-      "description": "Interactive essays and art games — play with ideas about trust, voting, work, and the lost art of waiting in line.",
+      "description": "Interactive essays and art games \u2014 play with ideas about trust, voting, work, and the lost art of waiting in line.",
       "game_ids": [
         "evolution-of-trust",
         "better-ballot",
@@ -242,7 +242,7 @@
       "id": "open-source-web",
       "title": "Open source, zero install",
       "tagline": "Free software, full games",
-      "description": "Serious games with open codebases, all running right in the browser — from deep roguelikes to a whole civilization.",
+      "description": "Serious games with open codebases, all running right in the browser \u2014 from deep roguelikes to a whole civilization.",
       "game_ids": [
         "bitburner",
         "mindustry",
@@ -307,8 +307,8 @@
     {
       "id": "flash-back-machine",
       "title": "Flash-back machine",
-      "tagline": "The 2005–2012 browser golden age, preserved",
-      "description": "Before HTML5, there was Flash — and these are the games that defined browser gaming's first golden age. The originals are preserved on the Internet Archive and run via Ruffle; where the developers rebuilt them in HTML5, we link the official versions.",
+      "tagline": "The 2005\u20132012 browser golden age, preserved",
+      "description": "Before HTML5, there was Flash \u2014 and these are the games that defined browser gaming's first golden age. The originals are preserved on the Internet Archive and run via Ruffle; where the developers rebuilt them in HTML5, we link the official versions.",
       "game_ids": [
         "fancy-pants-1",
         "alien-hominid-flash",
@@ -355,6 +355,37 @@
         "master-of-orion",
         "civ1",
         "shapez"
+      ]
+    },
+    {
+      "id": "curators-choice",
+      "title": "The Curator's shelf",
+      "tagline": "Eight games I'd recommend to a friend",
+      "description": "No algorithm picked these. I did. TETR.IO because it's the purest competitive game in a browser tab. 2048 because everyone should know the feeling of the 1024 tile. skribbl.io because bad drawings with good friends beat good graphics. Cookie Clicker because it invented a genre by accident. Sort the Court because ten minutes of saying yes/no to a kingdom is the funniest power trip online. Canabalt because one button is all a game needs. Run 3 because the floor falls away and you keep going anyway. shapez.io because building a perfect factory is meditation with conveyor belts.",
+      "game_ids": [
+        "tetrio",
+        "2048",
+        "skribbl",
+        "cookie-clicker",
+        "sort-the-court",
+        "canabalt",
+        "run-3",
+        "shapez"
+      ]
+    },
+    {
+      "id": "start-here",
+      "title": "New here? Start here",
+      "tagline": "Seven games that explain this site",
+      "description": "First visit? Play these in order and you'll get it: Wordle for the daily ritual, 2048 for the one-more-try loop, skribbl.io for friends in a tab, TETR.IO for what browsers can actually do, Cookie Clicker for the long game, Krunker for the reflex check, and AdVenture Capitalist for the spreadsheet-brain joy. Seven games, zero installs, and you'll understand the whole shelf.",
+      "game_ids": [
+        "wordle",
+        "2048",
+        "skribbl",
+        "tetrio",
+        "cookie-clicker",
+        "krunker",
+        "adventure-capitalist"
       ]
     }
   ],

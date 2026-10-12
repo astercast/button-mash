@@ -41,7 +41,7 @@ Someone wants to play their own game files in the browser, asks how the Player w
 
 ## API references
 
-- `api/v1/emulators.json` (core/software facts)
+- `data/v1/emulators.json` (core/software facts)
 
 ## Pitfalls
 

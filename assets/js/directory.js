@@ -29,13 +29,13 @@
   }
 
   /* Wave B (server-program spec §3): the directory reads the static fallback
-     contract file api/v1/games.json — the same file GET /api/games serves —
+     contract file data/v1/games.json — the same file GET /api/games serves —
      so the page is complete even with the functions unreachable. A live
      probe follows immediately; see probeLiveCatalog below. */
   function loadStaticCatalog() {
-    return fetch('api/v1/games.json', { cache: 'force-cache' })
+    return fetch('data/v1/games.json', { cache: 'force-cache' })
       .then(function (r) {
-        if (!r.ok) throw new Error('Could not load api/v1/games.json (' + r.status + ')');
+        if (!r.ok) throw new Error('Could not load data/v1/games.json (' + r.status + ')');
         return r.json();
       })
       .then(function (j) { return j.games || []; });
@@ -51,7 +51,7 @@
     if (!badgeEl || !window.ApiClient) return;
     var byId = {};
     games.forEach(function (g) { byId[g.id] = g; });
-    window.ApiClient.fetchWithFallback('/api/games?limit=200', 'api/v1/games.json', { badgeEl: badgeEl })
+    window.ApiClient.fetchWithFallback('/api/games?limit=200', 'data/v1/games.json', { badgeEl: badgeEl })
       .then(function (res) {
         if (res.source === 'live' && res.data && Array.isArray(res.data.games)) {
           res.data.games.forEach(function (eg) {
@@ -320,6 +320,9 @@
     // Live catalog counts (data-driven; static HTML carries the last verified number as fallback)
     var heroCount = document.getElementById('hero-game-count');
     if (heroCount) heroCount.textContent = games.length + ' free games.';
+    document.querySelectorAll('[data-game-count]').forEach(function (el) {
+      el.textContent = games.length;
+    });
     var browseBtn = document.getElementById('browse-games-btn');
     if (browseBtn) browseBtn.textContent = 'Browse ' + games.length + ' games';
     var allLink = document.getElementById('all-games-link');

@@ -18,7 +18,7 @@ description: Pick the right multiplayer browser game for a group, a headcount, a
 
 ## Procedure
 
-1. Read `api/v1/games.json`, filter `genre` to `multiplayer`.
+1. Read `data/v1/games.json`, filter `genre` to `multiplayer`.
 2. Match the vibe:
    - Creative / mixed skill → drawing party games: skribbl.io (draw & guess), gartic-phone (telephone drawing), drawasaurus.
    - Competitive gamers → `action` arenas: krunker.io, shell-shockers, smashkarts; battle royale: zombsroyale.io; worm arenas: slither.io, wormate.io.
@@ -33,10 +33,10 @@ description: Pick the right multiplayer browser game for a group, a headcount, a
 
 ## API references
 
-- `api/v1/games.json`
+- `data/v1/games.json`
 
 ## Pitfalls
 
 - Picking a game with no private rooms for a group that wants to play together — check lobby/room support.
 - Recommending high-skill-floor shooters to non-gamers — read the skill mix.
-- Never invent a game URL. Only recommend what's in `api/v1/games.json`.
+- Never invent a game URL. Only recommend what's in `data/v1/games.json`.

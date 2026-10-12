@@ -1,8 +1,8 @@
 /* GET /api/collections — hand-built game collections (spec §7.7).
    Query: ?id= (optional) — single collection, else all 22.
-   Reads the repo's api/v1/collections.json, resolving each game_id to its
+   Reads the repo's data/v1/collections.json, resolving each game_id to its
    real catalog entry (title/url/genre from games.json — never invented).
-   Fallback: /api/v1/collections.json (static).
+   Fallback: /data/v1/collections.json (static).
    Rate limit: public bucket (60/min per IP). */
 "use strict";
 
@@ -13,8 +13,8 @@ const SERVICE = "mash-curator";
 const VERSION = "1.0.0";
 
 function loadData() {
-  const colEnv = require("./v1/collections.json");
-  const gamesEnv = require("./v1/games.json");
+  const colEnv = require("../data/v1/collections.json");
+  const gamesEnv = require("../data/v1/games.json");
   const byId = {};
   (gamesEnv.games || []).forEach((g) => { byId[g.id] = g; });
   return { collections: colEnv.collections || [], generated_at: colEnv.generated_at || null, byId: byId };
@@ -71,7 +71,7 @@ module.exports = (req, res) => {
   }, {
     source: "live",
     upstream: [{
-      source: "repo:api/v1/collections.json",
+      source: "repo:data/v1/collections.json",
       ok: true,
       checked_at: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
       latency_ms: Date.now() - t0,

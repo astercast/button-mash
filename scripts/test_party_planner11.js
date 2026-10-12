@@ -190,7 +190,7 @@ function check(name, cond, detail) {
   await page.click("#pp-generate");
   await sleep(1200);
   const kidCheck = await page.evaluate(async () => {
-    const r = await fetch("api/v1/kid-safe.json").then((x) => x.json());
+    const r = await fetch("data/v1/kid-safe.json").then((x) => x.json());
     const set = new Set(r["kid-safe"].map((g) => g.id));
     const titles = [...document.querySelectorAll("#pp-plan .plan-slot h3 a")].map((a) => a.textContent);
     // resolve titles to ids via the in-page catalog is not exposed; check the vote candidates instead

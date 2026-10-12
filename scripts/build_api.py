@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Button Mash static JSON API (api/v1/) from data/*.json.
+"""Build the Button Mash static JSON API (data/v1/) from data/*.json.
 
 Regenerates every endpoint file plus the index. Run after editing data/:
     python3 scripts/build_api.py
@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
-API = ROOT / "api" / "v1"
+API = ROOT / "data" / "v1"
 VERSION = "1.0.0"
 
 ENDPOINTS = {
@@ -24,7 +24,7 @@ ENDPOINTS = {
 
 USAGE = (
     "Static JSON, no auth, no rate limits. Fetch any endpoint directly, e.g. "
-    "api/v1/games.json. Filter client-side by genre/id/tags. All game descriptions "
+    "data/v1/games.json. Filter client-side by genre/id/tags. All game descriptions "
     "are original (CC0). Game URLs were verified live on 2026-10-11."
 )
 
@@ -107,7 +107,7 @@ def main():
         "generated_at": generated_at,
         "description": "Universal in-browser game console: curated browser games, bring-your-own-file EmulatorJS player, GBA-to-browser-game converter, legal-lane emulation guides.",
         "legal": "Zero ROMs hosted. Zero piracy links. All game descriptions original (CC0).",
-        "endpoints": {k: f"api/v1/{k}.json — {v}" for k, v in ENDPOINTS.items()},
+        "endpoints": {k: f"data/v1/{k}.json — {v}" for k, v in ENDPOINTS.items()},
         "usage": USAGE,
     }
     write("index.json", index)

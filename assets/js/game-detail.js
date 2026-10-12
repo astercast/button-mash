@@ -1,10 +1,10 @@
 /* game-detail.js — the Curator's per-game metadata surface (game.html?id=).
-   Static-first: renders from api/v1/games.json immediately, then probes
+   Static-first: renders from data/v1/games.json immediately, then probes
    GET /api/games?id=<id> for live enrichment through
    ApiClient.fetchWithFallback (badge: live / cached · updated HH:MM /
    waking / none). "On these shelves" cross-links come from
-   api/v1/collections.json with the same live-first treatment. Kid-safe marks
-   come from BM.kidSafeReady (static api/v1/kid-safe.json). Play-tracking
+   data/v1/collections.json with the same live-first treatment. Kid-safe marks
+   come from BM.kidSafeReady (static data/v1/kid-safe.json). Play-tracking
    rides the shared BM.Trophy store. Everything honest: no data is invented,
    and every fallback state says so. */
 (function () {
@@ -247,10 +247,10 @@
     }
 
     Promise.all([
-      loadStaticJSON("api/v1/games.json").then(function (j) { return j.games || []; }),
+      loadStaticJSON("data/v1/games.json").then(function (j) { return j.games || []; }),
       // A failed shelf-list fetch resolves to null (not []): the panel must
       // say the shelves are offline, never "this game is on no shelves".
-      loadStaticJSON("api/v1/collections.json").then(function (j) { return j.collections || []; })
+      loadStaticJSON("data/v1/collections.json").then(function (j) { return j.collections || []; })
         .catch(function () { return null; })
     ]).then(function (parts) {
       var games = parts[0];
@@ -275,7 +275,7 @@
       var badge = $("detail-badge");
       if (window.ApiClient && badge) {
         window.ApiClient.fetchWithFallback("/api/games?id=" + encodeURIComponent(id),
-          "api/v1/games.json", { badgeEl: badge })
+          "data/v1/games.json", { badgeEl: badge })
           .then(function (res) {
             var list = (res.data && res.data.games) || [];
             var live = list.find(function (g) { return g.id === id; });
@@ -287,7 +287,7 @@
           });
         // Collections get the same live-first treatment; resolved titles/URLs
         // are identical content, the badge honesty is the point.
-        window.ApiClient.fetchWithFallback("/api/collections", "api/v1/collections.json", { badgeEl: null })
+        window.ApiClient.fetchWithFallback("/api/collections", "data/v1/collections.json", { badgeEl: null })
           .then(function (res) {
             var cols = (res.data && res.data.collections) || [];
             if (cols.length) {

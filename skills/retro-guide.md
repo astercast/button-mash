@@ -31,7 +31,7 @@ The general question: "I found my old Game Boy / SNES / Genesis — how do I pla
 
 ## API references
 
-- `api/v1/guides.json`
+- `data/v1/guides.json`
 
 ## Pitfalls
 

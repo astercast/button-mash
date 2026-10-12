@@ -45,12 +45,13 @@
 
   /* Deterministic daily spotlight pick: round-robin across genres, seeded
      offset within each genre, so the demo changes every day and always
-     shows real catalog records. */
+     shows real catalog records. Horror is kept off the marquee: attract
+     mode is a handshake, not a jumpscare. */
   function pickSpotlights(games) {
     var dayIdx = Math.floor(Date.now() / 86400000);
     var byGenre = {};
     games.forEach(function (g) {
-      if (g && g.genre) (byGenre[g.genre] = byGenre[g.genre] || []).push(g);
+      if (g && g.genre && g.genre !== "horror") (byGenre[g.genre] = byGenre[g.genre] || []).push(g);
     });
     var genres = Object.keys(byGenre).sort();
     if (!genres.length) return [];
@@ -257,7 +258,7 @@
     bindCoin();
     var kidSafe = new Set();
     var gamesP = BM.loadGames();
-    var kidsP = fetch("api/v1/kid-safe.json", { cache: "no-store" })
+    var kidsP = fetch("data/v1/kid-safe.json", { cache: "no-store" })
       .then(function (r) { if (!r.ok) throw new Error("kids " + r.status); return r.json(); })
       .then(function (d) { (d["kid-safe"] || []).forEach(function (g) { if (g && g.id) kidSafe.add(g.id); }); })
       .catch(function () { /* badges are decoration; the demo plays on */ });
@@ -302,4 +303,20 @@
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
+
+  /* Easter egg: the Konami code. The cabinet notices. */
+  (function konami() {
+    var SEQ = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+    var i = 0;
+    document.addEventListener("keydown", function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      i = (k === SEQ[i]) ? i + 1 : (k === SEQ[0] ? 1 : 0);
+      if (i !== SEQ.length || !screen) return;
+      i = 0;
+      if (announcer) announcer.textContent = "KONAMI ACCEPTED — 30 lives, same as ever.";
+      screen.classList.add("screen-off");
+      setTimeout(function () { screen.classList.remove("screen-off"); }, 900);
+    });
+  })();
 })();

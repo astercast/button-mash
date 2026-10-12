@@ -46,8 +46,8 @@ async function newPage(browser, viewport) {
 
 // Stub Curator for the live-probe section: canned enriched game + collections.
 function startStub() {
-  const games = JSON.parse(fs.readFileSync(path.join(ROOT, "api/v1/games.json"), "utf8")).games;
-  const cols = JSON.parse(fs.readFileSync(path.join(ROOT, "api/v1/collections.json"), "utf8")).collections;
+  const games = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/games.json"), "utf8")).games;
+  const cols = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/collections.json"), "utf8")).collections;
   const tetrio = games.find((g) => g.id === "tetrio");
   const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".json": "application/json; charset=utf-8", ".woff2": "font/woff2", ".png": "image/png", ".svg": "image/svg+xml" };
   const env = (data) => JSON.stringify({
@@ -119,7 +119,7 @@ function startStub() {
       check("detail: badge falls back to cached over file://",
         facts.badgeState === "cached" && facts.badge.includes("cached") && facts.badgeRole === "status",
         facts.badgeState + " / " + facts.badge);
-      // The file:// subresource flake (documented wave-1): api/v1/collections.json
+      // The file:// subresource flake (documented wave-1): data/v1/collections.json
       // can transiently fail to load, and the panel honestly says SHELVES
       // OFFLINE. The code is proven (shelf links render when the fetch lands);
       // retry fresh navigations until the shelf list actually loads.

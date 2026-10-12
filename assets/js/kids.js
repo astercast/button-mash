@@ -14,7 +14,7 @@
     if (!grid) return;
     var games;
     try {
-      var res = await fetch('api/v1/kid-safe.json', { cache: 'no-store' });
+      var res = await fetch('data/v1/kid-safe.json', { cache: 'no-store' });
       if (!res.ok) throw new Error('status ' + res.status);
       games = (await res.json())['kid-safe'] || [];
     } catch (e) {

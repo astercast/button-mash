@@ -1,7 +1,7 @@
 /* run_local.js — local test harness for the button-mash /api functions.
    Zero dependencies. Routes /api/<fn> to the real function files with
    minimal req/res shims, and serves the repo's static files (for the
-   /api/v1/*.json fallback tests). NOT deployed; tests only.
+   /data/v1/*.json fallback tests). NOT deployed; tests only.
 
    Usage: node tests/run_local.js [port]     (default 3000)
    Env:   CRON_SECRET — enables the cron auth path in tests. */
@@ -25,9 +25,9 @@ const ROUTES = {
 const MIME = { ".json": "application/json; charset=utf-8", ".html": "text/html; charset=utf-8" };
 
 function serveStatic(urlPath, res) {
-  // Only serve api/v1/* and schema for tests (the fallback contract).
+  // Only serve data/v1/* and schema for tests (the fallback contract).
   const rel = decodeURIComponent(urlPath.split("?")[0]).replace(/^\/+/, "");
-  if (!rel.startsWith("api/v1/") || rel.includes("..")) {
+  if (!rel.startsWith("data/v1/") || rel.includes("..")) {
     res.statusCode = 404; res.end("not found"); return;
   }
   const full = path.join(ROOT, rel);

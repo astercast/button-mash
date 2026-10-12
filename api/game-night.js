@@ -142,8 +142,8 @@ module.exports = async (req, res) => {
       { fields: v.bad });
   }
 
-  const gamesEnv = require("./v1/games.json");
-  const kidEnv = require("./v1/kid-safe.json");
+  const gamesEnv = require("../data/v1/games.json");
+  const kidEnv = require("../data/v1/kid-safe.json");
   const catalog = {
     games: gamesEnv.games || [],
     kidSafeIds: new Set((kidEnv["kid-safe"] || []).filter((k) => k.kid_safe).map((k) => k.id)),

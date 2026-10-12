@@ -3,15 +3,15 @@
    /api/game-night function first (7s timeout — the same contract as
    ApiClient.LIVE_TIMEOUT_MS), and falls back to the client-side engine
    (assets/js/game-night.js, the browser twin of lib/game-night.js) over the
-   static api/v1/games.json + api/v1/kid-safe.json files. The badge next to
+   static data/v1/games.json + data/v1/kid-safe.json files. The badge next to
    the widget heading always tells the truth: "live" or
    "cached · updated HH:MM". The page never shows a broken or blank widget. */
 (function () {
   'use strict';
 
   var POST_TIMEOUT_MS = 7000;
-  var GAMES_URL = 'api/v1/games.json';
-  var KIDSAFE_URL = 'api/v1/kid-safe.json';
+  var GAMES_URL = 'data/v1/games.json';
+  var KIDSAFE_URL = 'data/v1/kid-safe.json';
 
   function $(id) { return document.getElementById(id); }
 

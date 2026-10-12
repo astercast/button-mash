@@ -126,7 +126,7 @@
   var kidSafeReady = null;
   function loadKidSafe() {
     if (kidSafeReady) return kidSafeReady;
-    kidSafeReady = fetch(BASE + "api/v1/kid-safe.json", { cache: "no-store" })
+    kidSafeReady = fetch(BASE + "data/v1/kid-safe.json", { cache: "no-store" })
       .then(function (res) {
         if (!res.ok) throw new Error("kid-safe " + res.status);
         return res.json();

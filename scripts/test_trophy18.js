@@ -336,7 +336,7 @@ async function newPage(browser) {
       const prizes = await page.evaluate(() => document.querySelectorAll(".prize-token-card").length);
       check("trophy room: 16 prize tokens", prizes === 16, prizes + " tokens");
       const colRows = await page.evaluate(() => document.querySelectorAll(".collection-row").length);
-      check("trophy room: 22 collection rows", colRows === 22, colRows + " rows");
+      check("trophy room: 24 collection rows", colRows === 24, colRows + " rows");
       // Seed deterministic state through the live store (real catalog ids),
       // then verify the whole wall reflects it.
       await page.evaluate(async () => {
@@ -406,7 +406,7 @@ async function newPage(browser) {
           .every((l) => !/loading/.test(l.textContent)), { timeout: 30000 });
       const labels = await page.evaluate(() =>
         [...document.querySelectorAll(".shelf-progress-label")].map((l) => l.textContent));
-      check("collections: 22 progress labels painted", labels.length === 22, labels.length + " labels");
+      check("collections: 24 progress labels painted", labels.length === 24, labels.length + " labels");
       check("collections: label shows played/beaten counts",
         labels.every((l) => /\d+\/\d+ played · \d+ beaten/.test(l)), labels[0] || "none");
       const bars = await page.evaluate(() =>

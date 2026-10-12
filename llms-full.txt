@@ -14,7 +14,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - trophy-room.html — The Trophy Room: persistent play-tracking (mark games played/beaten on any game card; per-genre completion dials, 16-prize achievement case, per-collection progress; JSON export/import with schema validation; all browser-local)
 - kids.html — Kids corner: 113 kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default
 - parents.html — parent guide: curation method, honesty policy (assessments not guarantees — play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick
-- collections.html — 22 hand-built collections
+- collections.html — 24 hand-built collections
 - genres/roguelike.html, genres/cozy.html — genre deep dives with start-here picks
 
 ## Learn
@@ -260,7 +260,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Simon Tatham's Puzzles [puzzle · Mouse] — 40+ hand-crafted logic puzzles (Loopy, Mines, Net, Map...) as official JavaScript builds — the puzzle collection other collections wish they were. Play: https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/
 - Sort the Court [puzzle · Mouse] — Graebor's royal decision game: answer yes or no to your subjects and keep the kingdom (and treasury) alive. Play: https://graebor.itch.io/sort-the-court
 
-## Collections (22 total)
+## Collections (24 total)
 
 - Cozy games for a rainy day: Gentle games for grey weather — Serenitrove; Townscaper; Six Cats Under; goodbye, doggy; A Tale of Crowns; Slow Roads; Fallen London; purrgatory; Little Troubles in Spooky Town; Little Alchemy 2; The Deep Sea; Sandspiel
 - One-more-turn idle games: Numbers go up while you do nothing — Cookie Clicker; A Dark Room; Universal Paperclips; Candy Box 2; Kittens Game; Trimps; Antimatter Dimensions; Prerolled; Stick Ranger; Bitburner
@@ -284,6 +284,8 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Flash-back machine: The 2005–2012 browser golden age, preserved — Fancy Pants Adventure: World 1; Alien Hominid (Flash); Dad 'n Me; Time Fcuk; Achievement Unlocked; Canabalt; Line Rider; Happy Wheels; QWOP
 - Score attack: No endings, only high scores — Space Invaders; Galaga '88; Dig Dug; Centipede; Missile Command; Defender; Q*bert; Tempest; Robotron: 2084; 1942; TETR.IO; Jstris
 - Tycoon corner: Build it, run it, optimize it — SimCity (1989); SimCity 2000; Transport Tycoon Deluxe; Theme Park; Railroad Tycoon; Master of Orion; Sid Meier's Civilization; shapez.io
+- The Curator's shelf: Eight games I'd recommend to a friend — TETR.IO; 2048; skribbl.io; Cookie Clicker; Sort the Court; Canabalt; Run 3; shapez.io
+- New here? Start here: Seven games that explain this site — Wordle; 2048; skribbl.io; TETR.IO; Cookie Clicker; Krunker; AdVenture Capitalist
 
 ## Emulators (10 picks, software only)
 
@@ -299,8 +301,8 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - webretro [Many via libretro cores] — RetroArch cores in the browser via a clean web frontend. Good alternative embedding option. https://github.com/BinBashBanana/webretro
 
 ## API
-- api/v1/index.json — endpoint catalog
-- api/v1/games.json, collections.json, emulators.json, guides.json, homebrew-packs.json, kid-safe.json (kid-safe: kid_safe, no_chat, age_band, parent_note, verify_live, audit_basis per record)
+- data/v1/index.json — endpoint catalog
+- data/v1/games.json, collections.json, emulators.json, guides.json, homebrew-packs.json, kid-safe.json (kid-safe: kid_safe, no_chat, age_band, parent_note, verify_live, audit_basis per record)
 - skills/: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker, tournament-runner, kids-corner-guide
 
 ## Legal

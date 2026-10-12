@@ -31,7 +31,7 @@ Someone wants to play their old cartridges on a computer, phone, or their own we
 
 ## API references
 
-- `api/v1/guides.json`
+- `data/v1/guides.json`
 
 ## Pitfalls
 

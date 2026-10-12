@@ -18,7 +18,7 @@ Someone asks "what should I play?" with any constraint: a mood ("something chill
 
 ## Procedure
 
-1. Read `api/v1/games.json` and filter by `genre` (puzzle, action, roguelike, idle, multiplayer, retro, horror, cozy).
+1. Read `data/v1/games.json` and filter by `genre` (puzzle, action, roguelike, idle, multiplayer, retro, horror, cozy).
 2. Match the mood to genres: chill → `cozy`, `puzzle`, `idle`; competitive → `action`, `multiplayer`; group laughs → `multiplayer` party games (skribbl, gartic-phone, jklm, make-it-meme); deep thinking → `puzzle`, `roguelike`; nostalgia → `retro`.
 3. For timeboxes under 15 minutes, prefer `puzzle`, `action`, `idle` — games with instant rounds.
 4. Recommend exactly 3: one safe pick, one stretch pick, one wildcard from another genre. Give each a one-line "why".
@@ -30,11 +30,11 @@ Someone asks "what should I play?" with any constraint: a mood ("something chill
 
 ## API references
 
-- `api/v1/games.json`
-- `api/v1/collections.json`
+- `data/v1/games.json`
+- `data/v1/collections.json`
 
 ## Pitfalls
 
 - Recommending `idle` epics (Kittens Game, Antimatter Dimensions) for a 10-minute window — check the timebox first.
-- Never invent a game URL. If it's not in `api/v1/games.json`, it doesn't exist here.
+- Never invent a game URL. If it's not in `data/v1/games.json`, it doesn't exist here.
 - Never link ROM downloads or piracy sites — the legal lane is non-negotiable.

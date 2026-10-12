@@ -285,9 +285,9 @@ async function waitScrollY(page, min, timeout) {
       copyBtns: document.querySelectorAll(".shelf-link").length,
       fxToggle: !!document.getElementById("fx-toggle"),
     }));
-    check("16.31 22 shelf cards with anchor ids", s.cards === 22 && s.ids === 22, s.ids + " anchored");
-    check("16.32 jump nav has 22 links", s.jumpLinks === 22, s.jumpLinks + " links");
-    check("16.33 per-shelf copy buttons", s.copyBtns === 22, s.copyBtns + " buttons");
+    check("16.31 24 shelf cards with anchor ids", s.cards === 24 && s.ids === 24, s.ids + " anchored");
+    check("16.32 jump nav has 24 links", s.jumpLinks === 24, s.jumpLinks + " links");
+    check("16.33 per-shelf copy buttons", s.copyBtns === 24, s.copyBtns + " buttons");
     check("16.34 FX toggle on collections", s.fxToggle, "injected");
     await clickSettled(page, '#shelf-jump a[href="#shelf-party-night"]');
     await sleep(400);

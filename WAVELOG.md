@@ -2,6 +2,72 @@
 
 Running record of build waves. Newest first.
 
+## Wave 20 — 2026-10-12 — "Extreme Makeover": the 3-second homepage + human-made bar
+
+**What shipped** — the user's verdict on the live sites ("a lot at once when someone
+first visits") plus the raised bar ("'alright' is a failing grade — the benchmark is
+the best sites on the internet"). First-visit hierarchy, ruthless pacing, and a
+hard human-made rule. Nothing removed: all 213 games, all tools, all content.
+
+- **New homepage hero** (`index.html` + `assets/css/makeover.css`): the first
+  viewport is now a 3-second read — VT323 eyebrow ("» 213 free games · no installs
+  · no accounts · no piracy, ever"), a huge editorial H1 ("Your browser is the
+  *console*." — Space Grotesk 700 with the pixel-font neon-pink "console"),
+  one honest sub-line, ONE primary coin-slot CTA ("» Browse the games"), a quiet
+  "How it works ↓" link, and a stat band (213 games / 113 kid-safe / 24 shelves /
+  22 guides; game count data-driven via `data-game-count` in `directory.js`).
+  The arcade cabinet (wow wave 1) is demoted to the *second* beat with its own
+  section head ("» The cabinet plays itself — attract mode, like the old days.
+  Watch a while — or press start."). A shared `layout.css` `.hero-inner`
+  marquee-panel style tried to box the hero in; `makeover.css` neutralizes it
+  (typography on open space, not another cabinet panel — contrast, not repetition).
+- **Attract-mode craft** (`assets/js/attract.js`): horror is excluded from the
+  demo spotlight pool — attract mode is a handshake, not a jumpscare (the old
+  rotation could open on a horror title). **Konami-code easter egg**: the
+  cabinet notices (announcer "KONAMI ACCEPTED — 30 lives, same as ever." +
+  CRT power cycle), motion-safe by construction.
+- **Human signals**: a signed curator's note ("A note from the curator" — real
+  opinions, "Especially the weird ones"), a view-source easter egg
+  ("the high scores are all mine"), rewritten section copy
+  ("Start here: the two machines"), AI-slop denylist enforced by WF22
+  (no delve/unlock/game-changer/elevate/fast-paced-world/beginner-or-pro).
+- **Completeness audit** (user's order): genres all healthy (p48/a39/r15/i15/
+  m30/re44/h6/c16); **2 new real collections** (24 total, zero new URLs — all
+  games from the verified catalog): `curators-choice` ("The Curator's shelf",
+  8 games with genuine one-line opinions) and `start-here` ("New here? Start
+  here", 7 onboarding games). Stale counts fixed everywhere (meta description
+  162→213, ticker fallback, 404 "Browse 213 games"). Flagged for the next
+  content wave (not fluffed): no dedicated NES emulation guide, no cheat-code
+  guide — both real gaps, both need the 2000-word treatment.
+- **CRITICAL Vercel fix**: static data moved `api/v1/` → `data/v1/` (Vercel
+  never serves static files under `api/` — every frontend fetch of
+  `api/v1/*.json` 404'd in production). `git mv` + every reference rewritten
+  (frontend fetches, `api/*.js` requires → `../data/v1/`, `health.js` +
+  `cron/curator.js` path joins, `run_local.js` static serving,
+  `validate_envelope.py` schema path, `build_api.py` output dir, sitemap,
+  llms.txt, footers, skills, docs). `api/` now holds ONLY the 5 function
+  handlers + cron (verified). Generator fixed (`build_api.py` emits to
+  `data/v1/`), so rebuilds can't reintroduce it. LIVE_CHECKLIST.md carries the
+  rule verbatim.
+- **Agentic surface**: WF22 (8 checks; **199/199 pass total**) — zero `api/v1`
+  strings in code, `api/` purity, the 2 new collections' exact contents +
+  voice, hero structure/order/CTA, curator note + eggs, AI-slop denylist,
+  horror exclusion + Konami, LIVE_CHECKLIST rule.
+
+**Validation:**
+- `scripts/build.py`: **BUILD OK — 213 games, 24 collections, 10 emulators, 22 guides**; **LEGAL GATE OK (41 pages, 0 piracy links)**
+- `scripts/check_links.py`: **0 broken (40 pages, 1306 local links)**
+- `node scripts/check_api_workflows.js`: **199/199 pass (WF1–WF22)**
+- `tests/api.test.sh`: **40/40 green**
+- `~/workspace/smoke/test.js`: exit 0, zero errors (only the known file:// probe noise)
+- Every `data/v1/*.json` fetch target verified present on disk; all 8 data/v1 JSON files parse
+- Screenshots (all inspected): BEFORE homepage (the "wall of everything" — cabinet first, message buried), AFTER hero (3-second read), AFTER full page (hero → cabinet → machines → GOTD → curator note → shelf → craft), AFTER player.html (already at bar: "The Player. Bring your own file."), mobile 390px (zero overflow, stats 2×2)
+- Honest note: `test_wave19.js` re-run still pending a quiet VM (documented in the wave-19 entry); the two real bugs it found are fixed in the tree.
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links; the 2 new collections reuse existing verified catalog URLs only.
+
+**Self-assessment on the raised bar**: the homepage now earns its first 3 seconds — typography does the talking, the cabinet is the second beat, and the copy sounds like a person. The delight moments are real (Konami, curator's voice, the note). I'd put the hero in a portfolio; the deeper pages (directory, collections) are solid but not yet transcendent — that's the next makeover's work.
+
 ## Wave 19 — 2026-10-12 — "Spotlight": the Curator's metadata surfaces (PAUSED MID-BUILD for the Extreme Makeover directive)
 
 **Status: code complete, validation incomplete — paused 2026-10-12 ~01:20 PDT on the
@@ -17,7 +83,7 @@ makeover wave's own validation.**
   400 `BAD_INPUT` on a bad id shape. Enrichment factored into `enrichGame()`.
 - **New `game.html` — per-game metadata file** (`assets/js/game-detail.js` +
   `assets/css/game-detail.css`): `?id=` required; static-first render from
-  `api/v1/games.json`, then the Curator live probe (`/api/games?id=`) overlays
+  `data/v1/games.json`, then the Curator live probe (`/api/games?id=`) overlays
   multiplayer/vibes with the honest live/cached badge (badge node preserved
   across re-renders). Sections: GAME FILE kicker, pixel title, genre/tag chips,
   description, controls, big verified play button (external, new tab), played/
@@ -27,7 +93,7 @@ makeover wave's own validation.**
   bad id → "NO GAME ON THIS CHANNEL" + directory link; catalog failure →
   "CABINET OFFLINE".
 - **`collections.html` Curator-wired**: inline script extracted to
-  `assets/js/collections.js`; static-first render from `api/v1/collections.json`,
+  `assets/js/collections.js`; static-first render from `data/v1/collections.json`,
   then `/api/collections` probe overlays resolved titles/URLs with the
   live/cached badge (new `#collections-badge` in the hero). Every shelf row
   gains a "» file" deep link to `game.html?id=`. Trophy progress strips,
@@ -43,7 +109,7 @@ makeover wave's own validation.**
   explicit function path carries `{"maxDuration": 10}` (empty `{}` also
   fails), explicit paths only (never globs), and the functions map is NOT an
   allowlist — no static `.js` may live under `api/` (audit: clean — only the
-  5 function files; `api/v1/` only `.json`; zero basename collisions).
+  5 function files; `data/v1/` only `.json`; zero basename collisions).
   LIVE_CHECKLIST.md carries the full rule. vercel.json validated as JSON.
 - **Git attribution**: repo-local `user.email`/`user.name` overrides removed;
   commits use the global `astercast <255064122+astercast@users.noreply.github.com>`.
@@ -140,11 +206,11 @@ extended, not redone.
 
 ## Vercel Wave B — 2026-10-11 — "The Curator": frontend integration + GO_LIVE.md
 
-**What shipped** — the fallback contract goes live in the browser, per `~/workspace/server-program/ARCHITECTURE.md` §3 (service `mash-curator`). The site now calls `/api/*` first and falls back to the static `api/v1/` JSON with honest badges; it never looks broken when functions are cold or down.
+**What shipped** — the fallback contract goes live in the browser, per `~/workspace/server-program/ARCHITECTURE.md` §3 (service `mash-curator`). The site now calls `/api/*` first and falls back to the static `data/v1/` JSON with honest badges; it never looks broken when functions are cold or down.
 
 - **`assets/js/api-client.js`** — the spec's `fetchWithFallback` reference implementation, copied verbatim (§3.2): 7s live timeout, `live` / `waking` / `cached` / `none` badge states, honest "cached · updated HH:MM" timestamps from the data's own `generated_at`, never rejects.
-- **Game directory wired** (`games.html` + `assets/js/directory.js`): renders the full 213-game catalog from the static `api/v1/games.json` immediately (page never blank), then probes `GET /api/games?limit=200`. Live → fresh enrichment (`multiplayer`/`kid_safe`/`vibes`) overlaid by id, badge `live`. Miss → static stays, badge `cached · updated HH:MM`. Badge is `<span class="api-badge" role="status" tabindex="0">` — screen-reader announced, keyboard-focusable.
-- **Quick game-night lineup** (`party-planner.html` + `assets/js/game-night-ui.js`): new widget — players 1–12, time 15–240 min, 5 engine vibes, kids flag → "Deal my lineup". POSTs `/api/game-night` first (7s timeout); on miss falls back to the client engine over static `api/v1/games.json` + `api/v1/kid-safe.json`. Renders lineup cards (title link, genre, slot, score/100 bar, why[]), plan_notes, and an honest meta line ("computed live by the Curator" vs "computed in your browser"). Invalid inputs rejected client-side with `role="alert"`.
+- **Game directory wired** (`games.html` + `assets/js/directory.js`): renders the full 213-game catalog from the static `data/v1/games.json` immediately (page never blank), then probes `GET /api/games?limit=200`. Live → fresh enrichment (`multiplayer`/`kid_safe`/`vibes`) overlaid by id, badge `live`. Miss → static stays, badge `cached · updated HH:MM`. Badge is `<span class="api-badge" role="status" tabindex="0">` — screen-reader announced, keyboard-focusable.
+- **Quick game-night lineup** (`party-planner.html` + `assets/js/game-night-ui.js`): new widget — players 1–12, time 15–240 min, 5 engine vibes, kids flag → "Deal my lineup". POSTs `/api/game-night` first (7s timeout); on miss falls back to the client engine over static `data/v1/games.json` + `data/v1/kid-safe.json`. Renders lineup cards (title link, genre, slot, score/100 bar, why[]), plan_notes, and an honest meta line ("computed live by the Curator" vs "computed in your browser"). Invalid inputs rejected client-side with `role="alert"`.
 - **`assets/js/game-night.js`** — browser twin of `lib/game-night.js` ("same function, two homes"). **Regenerated by `scripts/build.py`** (`sync_game_night_client` step) so the two can never drift; parity-gated by `scripts/test_gamenight_parity.js` (**256/256 cases identical**, scoring v1.0.0).
 - **Badge CSS** (`assets/css/components.css`): four states — live = neon-lime dot, cached = neon-amber dot, waking = subtle cyan, none = hidden; `:focus-visible` ring; zero keyframes (reduced-motion safe by construction). Contrast audited: 15.91 / 10.56 / 6.72 :1 — all pass WCAG AA.
 - **`GO_LIVE.md` rewritten** to the §11 template (11 sections): live-ready banner, 5-function roster, prerequisites, exact-click hookup, env var table, Hobby limits table, cold-start behavior, cron behavior, custom domains, rollback, cost rules with **Standard build machine, never Turbo** ($38.64 invoice 1ZU1WJJS-0012).
@@ -168,13 +234,13 @@ extended, not redone.
 **What shipped** — the repo's first server layer, per `~/workspace/server-program/ARCHITECTURE.md` (service `mash-curator`). Five functions, zero npm dependencies, `nodejs22.x`, envelope-only responses:
 
 - **`api/health.js`** — §1.4 health: status ok/degraded (never 5xx), function roster, per-file freshness (5 static JSONs, 7-day SLA), checks booleans. Edge-cached s-maxage=60.
-- **`api/games.js`** — GET, filters `?genre= ?q= ?players= ?system= ?limit=` (default 50, max 200). Every game enriched with real derived fields (`multiplayer`, `kid_safe`, `vibes`, `system:"browser"`). Unknown system → honest empty list + note (corpus is browser games only); unknown genre → 400 BAD_INPUT. Fallback: `api/v1/games.json`.
+- **`api/games.js`** — GET, filters `?genre= ?q= ?players= ?system= ?limit=` (default 50, max 200). Every game enriched with real derived fields (`multiplayer`, `kid_safe`, `vibes`, `system:"browser"`). Unknown system → honest empty list + note (corpus is browser games only); unknown genre → 400 BAD_INPUT. Fallback: `data/v1/games.json`.
 - **`api/collections.js`** — GET all 22 (or `?id=` single, 404 on miss), game_ids resolved to real catalog titles/URLs.
 - **`api/game-night.js`** — POST, stateless deterministic engine: `{group_size 1-12, minutes 15-240, vibe[], systems?, kids?}` → `{lineup, plan_notes, scored_from, scoring_version, scoring_weights, metadata_as_of, inputs_echo}`. Scoring: player fit 40 + session 30 + vibe 20 + kids 10, ties by title. Corpus-only (213 curl-verified browser games) — the safety property. Impossible constraints (e.g. `systems:["ps1"]`) → honest empty lineup + `no_lineup_reason` + why. kids=true restricts to the 113 kid-safe games. Compute-bucket rate limit (20/min). Client fallback parity: same weights ship in `assets/js/game-night.js` (wave B).
-- **`api/cron/curator.js`** — weekly `0 10 * * 1` UTC: 6 emulator release Atom feeds + 2 itch feeds, parallel 4s fetch, diff vs `api/v1/curator-watch.json`, commit on change via GitHub Contents API (content-hash, SHA-retry). New releases are tracked for human review — never auto-published to the catalog. itch bot-gates (403) → recorded as failed source, not "no games". 60s duplicate cooldown. 10s budget guard (commit skipped if <3s remains).
+- **`api/cron/curator.js`** — weekly `0 10 * * 1` UTC: 6 emulator release Atom feeds + 2 itch feeds, parallel 4s fetch, diff vs `data/v1/curator-watch.json`, commit on change via GitHub Contents API (content-hash, SHA-retry). New releases are tracked for human review — never auto-published to the catalog. itch bot-gates (403) → recorded as failed source, not "no games". 60s duplicate cooldown. 10s budget guard (commit skipped if <3s remains).
 - **`lib/`** — the five spec helpers (envelope, fetchx, ratelimit, cronauth, github) + `lib/game-night.js` (shared scoring). **Commit-back degrade:** the fine-grained PAT (`GITHUB_REPO_TOKEN`, contents:write) is still pending the user's decision — the cron detects the missing token and degrades to read-only (computes + returns the fresh diff, persists nothing, `degraded:true` + human note). Documented in `lib/github.js` and the cron header.
 - **`vercel.json`** — buildCommand `python3 scripts/build.py` (timed 0.54s, <60s), outputDirectory `.`, nodejs22.x, cron lint (daily-or-slower), §2.2 headers, cleanUrls, trailingSlash false.
-- **`api/v1/schema/envelope.json`** — §1.10 envelope schema (JSON Schema draft 2020-12).
+- **`data/v1/schema/envelope.json`** — §1.10 envelope schema (JSON Schema draft 2020-12).
 - **`tests/api.test.sh` + `tests/run_local.js` + `tests/validate_envelope.py`** — 36 checks: envelope asserts, schema validation, 400 gates, 401 gates, static fallback, cron read-only degrade + duplicate cooldown, vercel.json cron lint, game-night determinism + kids + no-lineup edge cases, 50-hit smoke (no 429s, p95<2s). **36/36 green.**
 
 **Validation (Vercel Wave A):**
@@ -237,7 +303,7 @@ extended, not redone.
   1. **`guides/gamepad-setup.html`** — "Controllers in the browser": Gamepad API 60-second explainer, controller picks (Xbox/PS/Switch Pro/8BitDo), USB vs Bluetooth, testing on html5gamepad.com, gamepads in this site's Player (built-in + Player 2.1 per-system remap), which catalog games love a pad, honest troubleshooting (Steam swallowing inputs, non-standard mappings, wake-the-listing). Links: MDN Gamepad API, html5gamepad.com, W3C spec (+`developer.mozilla.org`, `html5gamepad.com`, `www.w3.org` added to build.py REFERENCE_DOMAINS).
   2. **`guides/pico8-spotlight.html`** — "PICO-8 spotlight": the fantasy console, Splore, the Lexaloffle BBS (all carts playable free in-browser), where the gems hide, the pico8-gems shelf tie-in (`collections.html#shelf-pico8-gems` deep link), making your first cart. Researched from the PICO-8 wiki + Lexaloffle BBS; links: lexaloffle.com/pico-8.php + lexaloffle.com/bbs (+`lexaloffle.com`, `www.lexaloffle.com` added to REFERENCE_DOMAINS). Fandom wiki dropped — 403 bot-gated.
 - **Kids audit for all 51** (`data/kids.json`, build-time guard passes): 38 curated (8 new 5–7: qbert, pac-gal-20th, bubble-bobble-2, congo-bongo, run-3, subway-surfers, stickman-hook, hole-io; lemmings/monkey-island/oregon-trail-deluxe carry `verify_live` "play together first" flags), 13 excluded with reasons (FPS combat: duke3d/quake; horror: alone-dark/time-fcuk; cartoon violence: alien-hominid/dad-n-me/sfa2; arena combat + multiplayer: arras-io; open chat: tanki/mope-io/yohoho-io/stumble-guys/classicube). Kid-safe pool: 75 → 113; excluded: 87 → 100.
-- **Wiring**: `data/guides.json` +2, `build_site.py` GUIDES +2 (sitemap + llms.txt regenerated), `emulation.html` deep-dives hub 6 → 8 cards, api/v1 rebuilt by build.py.
+- **Wiring**: `data/guides.json` +2, `build_site.py` GUIDES +2 (sitemap + llms.txt regenerated), `emulation.html` deep-dives hub 6 → 8 cards, data/v1 rebuilt by build.py.
 - **Agentic surface**: `check_api_workflows.js` — WF13 guides count 20→22, WF14 counts → 213 / p48/a39/r15/i15/m30/re44/h6/c16 / 22 collections, WF8 llms "213-game directory", WF11 "113 curated" text; new **WF17 (13 checks; 141/141 pass total)** — 51 ids present, record completeness, 22 collections + 3 new shelves' exact contents, 38+13 kids verdicts, 19 dropped candidates absent, 22 guides + template conformance + 8-section records + sitemap/llms/hub wiring, guide-link allowlist. New `scripts/test_wave17.js`: **29/29 headless checks** (22 shelves + 22 jump links + 3 new shelf anchors + flash shelf content, deep-link scroll, both guide pages' template/TOC/progress/coin-plate, 213 directory cards, 8 hub cards, zero pageerrors throughout).
 - **Docs**: AGENT.md counts → 213 games / 22 guides / 113 kid-safe (113+100 verdicts); `skills/party-planner-runner.md` kids pool 75→113; `skills/kids-corner-guide.md` was stale at 44/114 (pre-wave-14) → 113/213.
 - **Test maintenance (pinned fixtures, honest updates)**: `test_party11.js` 5–7 band 16→24, 11–12 band 75→113; `test_identity16.js` 162→213 cards, 75→113 kid badges, puzzle filter 45→48 ("48 of 213 games"), shelves/jump/copy 19→22.
@@ -403,7 +469,7 @@ extended, not redone.
 - **Snack-break timer**: configurable break length (5–30 min), Start/Pause/Reset, `role="timer"` face, aria announcements on start/pause/finish only (per-second updates would be chatty), no animation (reduced-motion safe).
 - **Tournament handoff 2.0**: "Run a tournament for this party" → `tournament.html?players=N&names=Ana,Ben&games=id1,id2&format=single|double`. `tournament.js`'s `initFromURL` now parses validated `?names=` (2–16 names, safe chars, ≤32) and pre-fills real names instead of "Player 1..N". The w10 "fresh tournament" rule holds: no stale saved bracket is restored under handoff params.
 - **Share/print/copy**: same-origin `#p=` party links (encode inputs only — guests/opts/games/votes; slots + timeline are re-derived on import, never trusted; `decodeShare` validates version, counts, name shapes, game-id shapes, and sanitizes votes; tampered links rejected with an error), print party pack (form/controls hidden, timeline + slots + votes + rotation shown), copy-plan-as-text for the group chat.
-- **Kids party toggle**: restricts picks to the 50 kid-safe games from `api/v1/kid-safe.json` (youngest-age-band selector 5–7/8–10/11–12, bands nest), all hot-seat hand-the-controller. Verified by data: only 1 of the 27 party-tagged games is kid-safe, so kids parties deliberately don't require the `party` tag — stated honestly in the UI and skill. Vibe + skill-mix fieldsets disable with an explanation while kids mode is on.
+- **Kids party toggle**: restricts picks to the 50 kid-safe games from `data/v1/kid-safe.json` (youngest-age-band selector 5–7/8–10/11–12, bands nest), all hot-seat hand-the-controller. Verified by data: only 1 of the 27 party-tagged games is kid-safe, so kids parties deliberately don't require the `party` tag — stated honestly in the UI and skill. Vibe + skill-mix fieldsets disable with an explanation while kids mode is on.
 - **Docs**: `skills/party-planner-runner.md` rewritten for 2.0 (verified facts only — voting rules, rotation math, kids-pool behavior, handoff params, share-link privacy note); AGENT.md Party Planner bullet → 2.0, workflow 4 rewritten, Tournament bullet's handoff params updated to `?players=N&names=A,B&games=ids&format=`; `scripts/build_site.py` party blurb → llms.txt/llms-full.txt regenerated. No new skill — no genuine gap (party-planner-runner owns this surface).
 - **Agentic surface**: `scripts/check_api_workflows.js` gained WF11 (12 checks; 76/76 pass, was 64/64); new `scripts/test_party11.js`: **36/36 pinned-fixture assertions** (guest validation, voting ties + re-vote, rotation fairness, timeline phases + wall clock, share round-trip + tamper rejections, kids-pool bands, option cleaning); new `scripts/test_party_planner11.js`: **30/30 headless UI checks** — 2.0 controls, live guest count, plan build, timeline order, rotation sit-outs, voting + tally + re-vote + apply, share clipboard round-trip, kids filtering (12 candidates, all kid-safe), timer start/pause/reset, handoff URL + pre-filled names + fresh bracket, tamper rejection, zero pageerrors.
 
@@ -478,7 +544,7 @@ extended, not redone.
 - **Kids audit for all 11** (`data/kids.json`, build-time guard passes): 6 curated (english-brick-breaker 5–7; math-challenge, dare-to-doku, prerolled 8–10; die-in-the-dungeon, tristram 11–12 — the last four carry `verify_live` "play the first 10 minutes together" flags), 5 excluded with reasons (zombie-nest-gba, tank-battle, red-alert-rts, 3d-plane-battle = combat; trevosa = dense reading + succession/exile themes, when-in-doubt excluded). Catalog now 125 games: 50 curated + 75 excluded.
 - **Fixed the flagged inconsistency**: `collections.html` header nav now has the Tournament link (and Party planner — it was missing both vs. the other pages; wave-6's "all 11 pages" sweep had missed this file). Verified in headless render.
 - **`scripts/build_site.py`**: killed three hardcoded counts (114 games / 44 kids / 11 collections) — llms.txt now uses live counts from the data files.
-- **Agentic surface**: api/v1 rebuilt (games 125, kid-safe 50, collections 13, homebrew-packs with the jam entry); AGENT.md + API.md counts updated; `check_api_workflows.js` gained WF8 (7 checks; 47/47 pass). No new skill — no genuine gap (new games flow through the existing games/kid-safe endpoints and the kids-corner-guide skill).
+- **Agentic surface**: data/v1 rebuilt (games 125, kid-safe 50, collections 13, homebrew-packs with the jam entry); AGENT.md + API.md counts updated; `check_api_workflows.js` gained WF8 (7 checks; 47/47 pass). No new skill — no genuine gap (new games flow through the existing games/kid-safe endpoints and the kids-corner-guide skill).
 - **Boot-test artifacts for parent delegation** (task item 6 — no real-browser boot attempted): `tests/homebrew-test-roms/` holds `rkanoid-latest-demo.gba` (benoror's @rkanoid GBA demo, author's own original homebrew; size 207,516 bytes matches the GitHub API listing; sha256 `d9520404396ae3908ac159ee7d1e105a597ea9fa01f9aec2cb902949b55a78f2`; test-only, never linked on the site) + README with the delegation recipe, and `~/workspace/smoke/test.js` gained a gated PART 4 (`BM_BOOT_TEST=1`) that uploads the ROM to player.html, waits for the engine canvas, samples for a non-blank frame, and requires zero pageerrors. Two earlier candidates (mystic_q.gba, Ducker's PD arkanoid from the same repo) were REJECTED — zeroed cartridge-header regions, likely multiboot images, not known-good cartridge boots. Delegation command: `BM_BOOT_TEST=1 node ~/workspace/smoke/test.js` (set `BM_BASE=http://127.0.0.1:8000` with a static server if the engine needs http://).
 - **Emulator release notes**: nothing new from the watchers — no guide/core updates needed. Stable pin stays EmulatorJS 4.2.3.
 
@@ -498,7 +564,7 @@ extended, not redone.
 - **Kid-safe audit** (`data/kids.json`): all 114 games got an honest verdict — 44 curated, 70 excluded with reasons. Four bars, all mandatory: no open chat with strangers, no unmoderated multiplayer chat or user-generated content, no gambling mechanics, no graphic or horror content. Every curated record carries `kid_safe`, `no_chat`, `age_band` (5–7/8–10/11–12), a plain-language `parent_note` (why it's fine + what to watch), `verify_live` (true on 5 records where the assessment couldn't be fully verified end-to-end), and `audit_basis` (the concrete basis for the flag — never invented). When in doubt, excluded — never softened.
 - **`kids.html`** — the kids corner: honesty banner ("assessments, not guarantees — play the first 10 minutes together"), age-band chips (All / 5–7 / 8–10 / 11–12) with aria-pressed, big friendly cards with 🔇 No chat badges, 👀 "play together first" flags, per-game "For parents" disclosures, and big high-contrast ▶ Play buttons (target=_blank, rel=noopener). Reduced motion is the default on this page (unconditional animation/transition kill, not just prefers-reduced-motion).
 - **`parents.html`** — the parent guide: how the four-bar curation works, the honesty policy (snapshots not guarantees; excluded games are never defended), what "No chat" does and doesn't mean, common-sense screen-time tips (no medical claims — no doctor/pediatrician/diagnosis language anywhere), the save-state "one more level" negotiation trick, a teacher section (classroom fits + classroom-games skill pointer), and a "found a problem?" re-audit promise.
-- **API**: `api/v1/kid-safe.json` (new endpoint, manifest-registered in `api/v1/index.json`, draft-07 schema at `api/v1/schema/kid-safe.schema.json`, validated with jsonschema) — curated subset with full game records + kid flags; AGENT.md + API.md mentions.
+- **API**: `data/v1/kid-safe.json` (new endpoint, manifest-registered in `data/v1/index.json`, draft-07 schema at `data/v1/schema/kid-safe.schema.json`, validated with jsonschema) — curated subset with full game records + kid flags; AGENT.md + API.md mentions.
 - **New skill**: `skills/kids-corner-guide.md` (age-band cheat sheet, parent-note surfacing rules, never-soften policy). 14 skills total.
 - **Updates**: "Kids corner" nav link + footer links added to all 13 pages (system-picker.html has a minimal footer — nav only, consistent with its existing style), parent guide in footer Learn sections, `scripts/build_site.py` (kids.html/parents.html in sitemap + llms.txt Play section, kid-safe endpoint in API section, 14-skill list), regenerated llms.txt/llms-full.txt/sitemap.xml, README.md (14 skills), `scripts/check_api_workflows.js` WF7 (13 checks).
 - **Build-pipeline guards**: `scripts/build.py` now validates `data/kids.json` (top-level shape, exact age bands, no dupes, curated ∩ excluded empty, every game gets a verdict, every curated record fully flagged with non-empty parent_note + audit_basis); `scripts/build_api.py` builds `kid-safe.json` from curated ids joined against `games.json` (full game fields, no invented data).
@@ -543,9 +609,9 @@ extended, not redone.
 - **6 system guides** (`guides/{gba,snes,n64,ps1,genesis,gameboy}.html`), each with: best EmulatorJS core (all core names/backend facts re-verified against the official EmulatorJS docs payload on 2026-10-11 — `gba`→mGBA, `snes`→Snes9x (alt bsnes), `n64`→Mupen64Plus-Next (alt parallel-n64), `psx`→PCSX-ReARMed (alt mednafen_psx_hw), `segaMD`→Genesis Plus GX, `gb`→Gambatte (alt mGBA); no invented cores), settings that matter, performance tips, save-state/cheat notes wired to Player 2.0 (Keep in Browser, `EJS_cheats` injection, Controls remap), honest BIOS notes (GBA/GB/SNES/Genesis/N64 BIOS-free; PS1 boots via HLE, user-dumped BIOS recommended for accuracy — never download), a **"Play it in the Player" deep link** (`player.html?core=<shortname>`), a curl-verified homebrew starter pack, and a native-desktop alternative.
 - **System picker quiz** (`system-picker.html` + `assets/js/system-picker.js`): 4 questions (nostalgia era, device power, game taste, tinkering tolerance) → recommended system + guide link + Player deep link + runner-up. Weak devices honestly exclude N64/PS1; N64/PS1 results carry hardware/accuracy warnings. Native radio inputs, aria-live result, keyboard-accessible, reduced-motion safe. Functionally tested in headless Chromium (N64 on strong+early-3D; GBA when weak+early-3D with N64/PS1 excluded).
 - **Player deep links**: `assets/js/player.js` now reads `?core=<shortname>` and pre-selects the system in the dropdown (unknown cores ignored). Verified in headless Chromium (`?core=segaMD` → select shows segaMD).
-- **Homebrew starter packs** (`data/homebrew-packs.json` → `api/v1/homebrew-packs.json`): 6 packs × 3–4 entries, every URL curl-verified HTTP 200 on 2026-10-11 (pdroms.de system sections, itch.io system tag pages, gbdev.io, n64.dev, psxdev.net, psx.dev, GameBrew GBA/GB lists). New schema `api/v1/schema/homebrew-packs.schema.json`.
+- **Homebrew starter packs** (`data/homebrew-packs.json` → `data/v1/homebrew-packs.json`): 6 packs × 3–4 entries, every URL curl-verified HTTP 200 on 2026-10-11 (pdroms.de system sections, itch.io system tag pages, gbdev.io, n64.dev, psxdev.net, psx.dev, GameBrew GBA/GB lists). New schema `data/v1/schema/homebrew-packs.schema.json`.
 - **New skill**: `skills/system-picker.md` (quiz triage + manual scoring weights + verified core facts). 12 skills total.
-- **Updates**: `emulation.html` gained a "Not sure where to start?" quiz CTA + a 6-card "Per-system guides" section; `data/guides.json` + `api/v1/guides.json` now carry 14 guides; `scripts/build.py` gained n64.dev/psx.dev/psxdev.net reference domains; `scripts/check_links.py` now strips query strings before local-link resolution (deep links); `scripts/check_api_workflows.js` gained WF5 (packs envelope, 6 packs × 3+ URLs, 6 system-guide records, every guide's deep link, quiz scoring); AGENT.md (guides table, homebrew-packs endpoint, picker, deep links), README.md counts, llms.txt/llms-full.txt (regenerated), sitemap.xml (regenerated).
+- **Updates**: `emulation.html` gained a "Not sure where to start?" quiz CTA + a 6-card "Per-system guides" section; `data/guides.json` + `data/v1/guides.json` now carry 14 guides; `scripts/build.py` gained n64.dev/psx.dev/psxdev.net reference domains; `scripts/check_links.py` now strips query strings before local-link resolution (deep links); `scripts/check_api_workflows.js` gained WF5 (packs envelope, 6 packs × 3+ URLs, 6 system-guide records, every guide's deep link, quiz scoring); AGENT.md (guides table, homebrew-packs endpoint, picker, deep links), README.md counts, llms.txt/llms-full.txt (regenerated), sitemap.xml (regenerated).
 
 **Validation (wave 5):**
 - `scripts/build.py`: BUILD OK — 114 games (104 domains), 11 collections, 10 emulators, 14 guides; LEGAL GATE OK (27 pages, 0 piracy links)
@@ -585,7 +651,7 @@ extended, not redone.
 - **Catalog → 114 games**: 25 new curl-verified (HTTP 200, 2026-10-11) legal browser games — Paper.io, Slope, Moto X3M, official Tetris, Seterra, 0hh1, Clumsy Bird, Astray, HexGL, Minecraft Classic, Lexulous, AirConsole, PlayOK, Swarm Sim, Melvor Idle, Quick Draw, Sandspiel, Song Maker, The Deep Sea, Nested, Koalas to the Max, Space Elevator, ClassicReload, PICO-8 BBS, JetPunk. Dropped per 200-discipline: hextris.io + vertix.io (unreachable), realm-grinder.com (521). New optional `tags` field on game records (validated by build.py, added to JSON schema + API.md); 27 games party-tagged with a `party` + sub-tag vocabulary (`drawing`/`arena`/`shooter`/`board`/`trivia`/`coop`/`word`/`racing`/`sports`/`phone`).
 - **Collections → 11**: party-night +3 (AirConsole, Lexulous, Paper.io), rainy-day-cozy +2 (Deep Sea, Sandspiel), io-essentials +1 (Paper.io), brain-food +5 (Tetris, Seterra, 0hh1, Quick Draw, Koala Max); new `daily-rituals` collection (wordle/connections/framed/worldle/globle/0hh1/password-game/logos-memory).
 - **2 genre deep dives** (`genres/roguelike.html`, `genres/cozy.html`): start-here picks + why-each-fits blurbs, linked from games.html; in sitemap.
-- **Agentic layer**: api/v1 rebuilt (envelope unchanged; games carry `tags`); AGENT.md updated (Converter v2 + Party Planner workflows, 114 count); llms.txt/llms-full.txt/sitemap regenerated; 2 new skills — `party-planner-runner`, `converter-multi-system` (11 total). `check_api_workflows.js` rewritten for the current envelope shape + wave-3 workflows.
+- **Agentic layer**: data/v1 rebuilt (envelope unchanged; games carry `tags`); AGENT.md updated (Converter v2 + Party Planner workflows, 114 count); llms.txt/llms-full.txt/sitemap regenerated; 2 new skills — `party-planner-runner`, `converter-multi-system` (11 total). `check_api_workflows.js` rewritten for the current envelope shape + wave-3 workflows.
 - **Legal gate**: new `scripts/check_legal.py` (no ROM/BIOS download links, no piracy domains; pdroms.de/gamebrew.org/itch.io whitelisted as legal ROM hosts) — wired into `scripts/build.py` so every build runs it.
 - **Pipeline**: watchers re-ran (itch still 403-gated, graceful; 0 new emulator-release candidates); all 18 queued candidates reviewed and dispositioned (EmulatorJS 4.3.0-pre/4.2.3/4.2.2 checked against Converter v2 cores — no changes; queue now 0 pending).
 
@@ -611,7 +677,7 @@ extended, not redone.
 - **Game of the day** (date-seeded, deterministic) + genre sampler on `index.html`; **10 hand-built collections** (`collections.html`, `data/collections.json`).
 - **New guides**: `gba-wasm.html` (original tech explainer: ARM/THUMB basic blocks → WASM, memory mapping, frame timing, differential verification; links agnt-gg/gba-pokemon-rom-to-wasm as source, no copied text), `how-emulation-works.html`, `best-emulator-per-system.html` (10 picks, all links verified). Setup guides gained interactive checklists with localStorage persistence.
 - **Emulation hub** (`emulation.html`), **monster-taming corner** (`monster-taming.html`, original-IP only: Tuxemon + Showdown), **play-legal.html** (the one clear legal page).
-- **Agentic layer**: `api/v1/` rebuilt with envelope format (`index/games/collections/emulators/guides.json` + schemas), `data/emulators.json` (10 picks, BIOS notes), 3 new skills (player-guide, legal-sourcing, collection-curator) + game-finder updated for the new data shape — 9 skills total.
+- **Agentic layer**: `data/v1/` rebuilt with envelope format (`index/games/collections/emulators/guides.json` + schemas), `data/emulators.json` (10 picks, BIOS notes), 3 new skills (player-guide, legal-sourcing, collection-curator) + game-finder updated for the new data shape — 9 skills total.
 - **Live pipeline**: `pipeline/watch_itch.py` + `pipeline/watch_emulator_releases.py` → `pipeline/review_queue.json` (human review, never auto-publishes). itch.io bot-gates feeds (403, verified) — watcher degrades gracefully, documented in PIPELINE.md. First run queued 18 emulator release candidates.
 - **Design**: new arcade system (`tokens/base/layout/components/guides.css`): dark cabinet, neon pink/cyan/lime/amber/purple, chunky display type, scanlines, marquee, reduced-motion support. Old per-game pages + old CSS removed.
 
@@ -630,7 +696,7 @@ extended, not redone.
 - **Game directory (47 games)**: 9 open-source HTML5 games (2048, Hextris, 0hh1, Cookie Clicker, Clumsy Bird, Astray, A Dark Room, Candy Box 2, Particle Clicker), 20 .io games (agar.io → vertix.io), 9 free-to-play browser games (Kingdom of Loathing, Fallen London, RuneScape, Neopets, Happy Wheels, Universal Paperclips, Little Alchemy 2, Quick Draw, Wiki Game), Minecraft Classic, Seterra, HexGL, GeoFS, Celeste Classic + itch.io browse on itch.io, and 3 Internet Archive playable collections (MS-DOS Games, Internet Arcade, Console Living Room). Every URL audited against a verified-domain allowlist at build time — no invented links.
 - **5 guides**: EmulatorJS self-hosting, RetroArch setup, GBA-to-WASM recompiler (user-supplied ROMs only), rip-your-own-cartridges, homebrew & public-domain sources. Technical, accurate, legal framing throughout.
 - **Interactive**: game browser (genre chips, players chips, live search, result count with aria-live), 🎲 random-game modal (Play/Reroll/Close, Escape to dismiss, focus management), guides index section.
-- **Agentic layer**: `api/v1/games.json` + `api/v1/guides.json`, JSON schemas (`api/v1/schema/`), `llms.txt` + `llms-full.txt` (full guide texts), 5 skills (game-finder, emulator-setup, homebrew-hunter, party-game-picker, retro-guide), `API.md`.
+- **Agentic layer**: `data/v1/games.json` + `data/v1/guides.json`, JSON schemas (`data/v1/schema/`), `llms.txt` + `llms-full.txt` (full guide texts), 5 skills (game-finder, emulator-setup, homebrew-hunter, party-game-picker, retro-guide), `API.md`.
 - **Docs**: `README.md`, `GO_LIVE.md` (GitHub Pages checklist; repo still private — visibility is the user's call), `PIPELINE.md` (future waves: 100+ games, genre deep-dives, party planner tool).
 - **Design**: neon-on-dark arcade theme, Chakra Petch display font, semantic HTML, skip links, ARIA states, keyboard support, `prefers-reduced-motion` handling, mobile-first responsive.
 
