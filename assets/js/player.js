@@ -694,6 +694,15 @@
     });
     sysSelect.addEventListener('change', function () { updateBiosNote(sysSelect.value); });
 
+    /* deep link: ?core=gba (etc.) preselects the system — used by the guides */
+    try {
+      var qcore = new URLSearchParams(window.location.search).get('core');
+      if (qcore && SYSTEM_LABELS[qcore]) {
+        sysSelect.value = qcore;
+        updateBiosNote(qcore);
+      }
+    } catch (e) { /* ignore malformed query strings */ }
+
     $('browse-btn').addEventListener('click', function () { fileInput.click(); });
     fileInput.addEventListener('change', function () { handleFile(fileInput.files[0]); fileInput.value = ''; });
     $('load-url-btn').addEventListener('click', handleUrl);

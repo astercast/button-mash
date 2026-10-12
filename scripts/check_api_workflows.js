@@ -74,4 +74,28 @@ check("WF4 aria-live summary in page",
   fs.readFileSync(path.join(ROOT, "party-planner.html"), "utf8").includes('aria-live="polite"'),
   "plan summary announced");
 
+// Workflow 5 (AGENT.md): "Which system should I emulate?"
+const packsEnv = load("api/v1/homebrew-packs.json");
+const packs = packsEnv["homebrew-packs"];
+check("WF5 homebrew-packs envelope shape", packsEnv.endpoint === "homebrew-packs" && Array.isArray(packs) && packsEnv.count === packs.length,
+  packs ? packs.length + " packs" : "missing");
+check("WF5 6 system packs with 3+ verified URLs",
+  packs && packs.length === 6 && packs.every((p) => p.entries.length >= 3 && p.entries.every((e) => /^https:\/\//.test(e.url))),
+  packs ? packs.map((p) => p.system_id + ":" + p.entries.length).join(" ") : "missing");
+const sysSlugs = ["gba", "snes", "n64", "ps1", "genesis", "gameboy"];
+const sysGuides = guides.filter((g) => /^system-guide-/.test(g.id));
+check("WF5 6 per-system guide records", sysGuides.length === 6 && sysSlugs.every((s) => guides.some((g) => g.slug === s)),
+  sysGuides.map((g) => g.slug).join(", "));
+const coreLinks = { gba: "gba", snes: "snes", n64: "n64", ps1: "psx", genesis: "segaMD", gameboy: "gb" };
+let wf5ok = true;
+for (const s of sysSlugs) {
+  const html = fs.readFileSync(path.join(ROOT, "guides/" + s + ".html"), "utf8");
+  if (!html.includes("player.html?core=" + coreLinks[s])) { wf5ok = false; break; }
+}
+check("WF5 every system guide has a Player deep link", wf5ok, sysSlugs.map((s) => "?core=" + coreLinks[s]).join(" "));
+check("WF5 picker quiz page exists and scores",
+  fs.readFileSync(path.join(ROOT, "system-picker.html"), "utf8").includes('aria-live="polite"') &&
+  fs.readFileSync(path.join(ROOT, "assets/js/system-picker.js"), "utf8").includes("ineligible"),
+  "quiz with weak-device exclusions");
+
 process.exit(failures ? 1 : 0);

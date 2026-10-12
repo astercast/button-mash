@@ -24,6 +24,12 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - guides/best-emulator-per-system.html — Best emulator per system (reference)
 - guides/rip-your-own-cartridges.html — Rip your own cartridges guide
 - guides/homebrew-and-public-domain.html — Homebrew & public-domain sources
+- guides/gba.html — Game Boy Advance emulation guide (mGBA, BIOS-free)
+- guides/snes.html — SNES emulation guide (Snes9x, BIOS-free)
+- guides/n64.html — Nintendo 64 emulation guide (Mupen64Plus-Next, BIOS-free)
+- guides/ps1.html — PlayStation emulation guide (PCSX-ReARMed, BIOS honesty)
+- guides/genesis.html — Genesis emulation guide (Genesis Plus GX, BIOS-free)
+- guides/gameboy.html — Game Boy / Color emulation guide (Gambatte, BIOS-free)
 
 ## Games (114 total)
 
@@ -171,8 +177,8 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 
 ## API
 - api/v1/index.json — endpoint catalog
-- api/v1/games.json, collections.json, emulators.json, guides.json
-- skills/: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games
+- api/v1/games.json, collections.json, emulators.json, guides.json, homebrew-packs.json
+- skills/: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker
 
 ## Legal
 Zero ROMs hosted. Zero piracy links. All game descriptions original (CC0).
@@ -455,4 +461,190 @@ mGBA (GBA), SameBoy (GB/GBC), Mesen (NES), Snes9x (SNES), Genesis Plus GX (Genes
 ### How to choose
 
 Play in a tab: this site's Player. One system: the standalone pick. Many systems: RetroArch. Accuracy above all: Mesen, SameBoy, mGBA.
+
+## Game Boy Advance emulation guide
+Difficulty: Beginner · ~12 min · slug: gba
+
+The Player's gba core is mGBA (verified backend, the single GBA backend in the EmulatorJS core list). BIOS-free. Covers the settings that matter (color correction, fast-forward, Keep in Browser), save states/cheats wired to Player 2.0, a Player deep link (player.html?core=gba), and a curl-verified homebrew starter pack.
+
+### The core: mGBA, the accuracy king
+
+The Player's gba core is mGBA — the single GBA backend in the official EmulatorJS core list, and one of the most accurate GBA emulators ever written. Auto-detected from .gba files; the manual dropdown exists only if detection fails.
+
+### BIOS notes
+
+None needed. mGBA reimplements the GBA BIOS calls from scratch (clean-room HLE), so the core boots with no BIOS file at all.
+
+### Settings that matter
+
+Color correction (GBA games were drawn for the dim unlit screen — correction restores the intended look); fast-forward for slow stretches; Keep in Browser under Settings -> Save States so the Player 2.0 Save tool can export/import states as files.
+
+### Performance
+
+The lightest system in the Player. Any laptop, desktop, tablet, or phone from the last decade runs full speed. Stutter means browser throttling (tabs, low-power mode), not the core.
+
+### Saves & cheats
+
+Save states from the in-game menu; in-game battery saves persist automatically. Player 2.0 Cheats tool takes GameShark/Action Replay v3 codes, stored per game and injected before boot (EJS_cheats). Player 2.0 Controls tool remaps Player 1 keyboard/gamepad; applies on next boot.
+
+### Homebrew starter pack
+
+pdroms.de GBA section (https://pdroms.de/nintendo-game-boy-advance-gba); itch.io games tagged Game Boy Advance (https://itch.io/games/tag-game-boy-advance); GameBrew's list of all GBA homebrew (https://gamebrew.org/wiki/List_of_all_GBA_homebrew). All verified live 2026-10-11.
+
+## SNES emulation guide
+Difficulty: Beginner · ~12 min · slug: snes
+
+The Player's snes core is Snes9x (default SNES backend in the EmulatorJS core list; bsnes is the alternate for accuracy purists). BIOS-free. Covers hi-res blending, sound buffer/latency, save states and Game Genie/Pro Action Replay cheats via Player 2.0, deep link (player.html?core=snes), and a verified homebrew starter pack.
+
+### The core: Snes9x, the workhorse
+
+The Player's snes core is Snes9x — the default SNES backend in the official EmulatorJS core list (alternate: bsnes). In development since 1997; handles Super FX, SA-1, and DSP chips well. Auto-detected from .sfc/.smc files.
+
+### BIOS notes
+
+None needed — the SNES has no separate system BIOS; every cartridge is self-contained.
+
+### Settings that matter
+
+Hi-res blending for Mode 7/transparency effects; sound buffer/latency tuning for crackle vs. lag; fast-forward for slow JRPG intros; Keep in Browser for the Player 2.0 Save tool.
+
+### Performance
+
+Trivial on anything — 1990 hardware on a 1997-hardened core. Slowdown is browser throttling, never the core.
+
+### Saves & cheats
+
+Save states via the in-game menu (export/import/delete with the Player 2.0 Save tool); SRAM battery saves persist. Cheats tool takes Game Genie and Pro Action Replay codes, stored per game, injected before boot.
+
+### Homebrew starter pack
+
+pdroms.de SNES section (https://pdroms.de/super-nintendo-snes-super-famicom); itch.io tag-super-nintendo (https://itch.io/games/tag-super-nintendo); itch.io tag-snes (https://itch.io/games/tag-snes). All verified live 2026-10-11.
+
+### Accuracy purists: bsnes
+
+bsnes favors cycle-level accuracy over speed for the handful of games that need it; it's the EmulatorJS alternate SNES backend for self-hosted setups. Snes9x covers essentially everything in browser play.
+
+## Nintendo 64 emulation guide
+Difficulty: Intermediate · ~15 min · slug: n64
+
+The Player's n64 core is Mupen64Plus-Next (default N64 backend in the EmulatorJS core list; alternate Parallel-N64). BIOS-free. Honest about per-game quirks and real hardware requirements: framebuffer emulation fixes most games, internal resolution is the performance lever, weak devices should pick SNES/GBA instead. Deep link (player.html?core=n64) and verified homebrew starter pack.
+
+### The core: Mupen64Plus-Next
+
+The Player's n64 core is Mupen64Plus-Next — the default N64 backend in the official EmulatorJS core list. The N64's graphics quirks make it the least predictable system here: most games run great, a few famous ones have graphical oddities. Auto-detected from .n64/.z64/.v64.
+
+### BIOS notes
+
+None needed for the browser core — it boots games with no BIOS file.
+
+### Settings that matter
+
+Framebuffer emulation is the biggest compatibility knob (fixes broken menus/textures); internal resolution is the biggest performance knob (lower it first when stuttering); texture filtering is cheap taste; analog sticks beat keyboards for this system.
+
+### Performance
+
+Honest requirements: a recent laptop/desktop for full speed in a browser; older Chromebooks, weak tablets, and old phones struggle. Lower internal resolution to native, close tabs, disable low-power mode.
+
+### Saves & cheats
+
+Save states from the in-game menu (export/import with the Player 2.0 Save tool); the engine emulates the memory pak so in-game saves work. Cheats tool takes GameShark codes — treat as experimental on N64. Analog-stick axes need the engine's own Control Settings, not the Player remap tool.
+
+### Homebrew starter pack
+
+pdroms.de N64 section (https://pdroms.de/nintendo-64-n64); itch.io tag-nintendo-64 (https://itch.io/games/tag-nintendo-64); n64.dev community (https://n64.dev/). All verified live 2026-10-11.
+
+## PlayStation emulation guide
+Difficulty: Intermediate · ~15 min · slug: ps1
+
+The Player's psx core is PCSX-ReARMed (default PSX backend in the EmulatorJS core list; alternate Mednafen PSX HW). BIOS honesty: boots via HLE with no BIOS, but a user-dumped scph BIOS improves accuracy (never download one). Covers enhanced resolution, fast-load, saves/cheats via Player 2.0, deep link (player.html?core=psx), and a verified homebrew starter pack.
+
+### The core: PCSX-ReARMed
+
+The Player's psx core is PCSX-ReARMed — the default PlayStation backend in the official EmulatorJS core list. Fast enough for browsers, accurate enough for most of the library. Detects .cue/.bin/.iso/.img/.chd/.m3u; use .m3u playlists for multi-disc games.
+
+### BIOS notes: honest, not scary
+
+Boots most games with no BIOS via built-in HLE (high-level firmware reimplementation). A handful of games glitch without genuine firmware — the proper fix is dumping the BIOS from your own PlayStation and attaching it with the Player's BIOS picker. Never download a BIOS file.
+
+### Settings that matter
+
+Enhanced resolution (2x is the sweet spot); CD fast-load/fast boot; dithering (taste — purists leave it on); analog toggle for DualShock-supported games.
+
+### Performance
+
+Lighter than its reputation: recent laptops/desktops and recent phones run full speed. Stutter fixes: drop enhanced resolution to 1x, close tabs, exit low-power mode. Keep own rips as .chd — much smaller.
+
+### Saves & cheats
+
+Save states via the in-game menu (export/import with the Player 2.0 Save tool); memory-card saves work normally. Cheats tool takes GameShark codes, stored per game, injected before boot.
+
+### Homebrew starter pack
+
+pdroms.de PS1 section (https://pdroms.de/sony-playstation-ps1); itch.io tag-playstation (https://itch.io/games/tag-playstation); PSXDEV community (https://psxdev.net/); psx.dev hub (https://psx.dev/). All verified live 2026-10-11.
+
+### Prefer a desktop app? DuckStation
+
+DuckStation (duckstation.org) is the modern PS1 accuracy pick with gorgeous upscaling; it needs your own dumped BIOS for full accuracy. The browser Player wins on zero-setup convenience.
+
+## Genesis emulation guide
+Difficulty: Beginner · ~12 min · slug: genesis
+
+The Player's segaMD core is Genesis Plus GX (default Genesis/Game Gear/Sega CD backend in the EmulatorJS core list). BIOS-free (Sega CD aside). Covers region/6-button-pad/SRAM-autosave/audio-filter settings, saves and Game Genie cheats via Player 2.0, deep link (player.html?core=segaMD), and a verified homebrew starter pack.
+
+### The core: Genesis Plus GX
+
+The Player's segaMD core is Genesis Plus GX — the default backend for Genesis/Mega Drive, Game Gear, and Sega CD in the official EmulatorJS core list, widely considered the accuracy standard for Sega's 16-bit hardware. Auto-detected from .md/.gen/.smd.
+
+### BIOS notes
+
+None needed for Genesis cartridges. (Only the Sega CD add-on — a separate segaCD core — needs a user-dumped BIOS; the Player flags that system.)
+
+### Settings that matter
+
+Region auto-detect/override (force matching region if a game feels off-speed); 6-button pad controller type for later games; SRAM autosave on; audio low-pass filter to tame the harsh FM sound.
+
+### Performance
+
+The lightest console core in the Player — 1988 hardware. Anything with a modern browser runs full speed.
+
+### Saves & cheats
+
+Save states via the in-game menu (export/import with the Player 2.0 Save tool when Keep in Browser is on); SRAM saves persist automatically. Cheats tool takes Game Genie codes, stored per game, injected before boot.
+
+### Homebrew starter pack
+
+pdroms.de Genesis section (https://pdroms.de/sega-genesis-megadrive); itch.io tag-sega-genesis (https://itch.io/games/tag-sega-genesis); itch.io tag-mega-drive (https://itch.io/games/tag-mega-drive). All verified live 2026-10-11.
+
+## Game Boy / Color emulation guide
+Difficulty: Beginner · ~10 min · slug: gameboy
+
+The Player's gb core is Gambatte (default GB backend in the EmulatorJS core list; alternate mGBA) — cycle-accurate, BIOS-free, and full speed on any device. Covers colorization palettes, saves and Game Genie/GameShark cheats via Player 2.0, deep link (player.html?core=gb), and a verified homebrew starter pack (GBDev community included).
+
+### The core: Gambatte, cycle-accurate
+
+The Player's gb core is Gambatte — the default Game Boy backend in the official EmulatorJS core list (alternate: mGBA). Cycle-accurate with essentially perfect compatibility; one core covers .gb and .gbc.
+
+### BIOS notes
+
+None needed — Gambatte boots games directly with a reimplemented boot process; no boot-ROM dump required.
+
+### Settings that matter
+
+Colorization palettes for monochrome GB games (including the Super Game Boy look); fast-forward for slow intros; Keep in Browser for the Player 2.0 Save tool.
+
+### Performance
+
+The cheapest compute in the Player — full speed on any device that loads the page. The honest pick for the weakest hardware.
+
+### Saves & cheats
+
+Save states via the in-game menu (export/import with the Player 2.0 Save tool); SRAM battery saves persist. Cheats tool takes Game Genie and GameShark codes, stored per game, injected before boot.
+
+### Homebrew starter pack
+
+pdroms.de Game Boy section (https://pdroms.de/nintendo-game-boy-gb-gbc); itch.io tag-game-boy (https://itch.io/games/tag-game-boy); GBDev community (https://gbdev.io/); GameBrew's list of all GB homebrew (https://gamebrew.org/wiki/List_of_all_GB_homebrew). All verified live 2026-10-11.
+
+### Prefer a desktop app? SameBoy
+
+SameBoy (sameboy.github.io) is the desktop accuracy champion for GB/GBC — same legality, same BIOS-free story; the browser Player wins on convenience and phone play.
 

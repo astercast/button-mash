@@ -5,6 +5,7 @@
   <url><loc>player.html</loc></url>
   <url><loc>converter.html</loc></url>
   <url><loc>party-planner.html</loc></url>
+  <url><loc>system-picker.html</loc></url>
   <url><loc>collections.html</loc></url>
   <url><loc>emulation.html</loc></url>
   <url><loc>monster-taming.html</loc></url>
@@ -21,4 +22,10 @@
   <url><loc>guides/best-emulator-per-system.html</loc></url>
   <url><loc>guides/rip-your-own-cartridges.html</loc></url>
   <url><loc>guides/homebrew-and-public-domain.html</loc></url>
+  <url><loc>guides/gba.html</loc></url>
+  <url><loc>guides/snes.html</loc></url>
+  <url><loc>guides/n64.html</loc></url>
+  <url><loc>guides/ps1.html</loc></url>
+  <url><loc>guides/genesis.html</loc></url>
+  <url><loc>guides/gameboy.html</loc></url>
 </urlset>

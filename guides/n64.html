@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nintendo 64 emulation guide — Button Mash</title>
+<meta name="description" content="Play your own N64 dumps in the browser with the Mupen64Plus-Next core: settings that matter, honest performance notes, save states, cheats, BIOS facts, and a legal homebrew starter pack.">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/guides.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../games.html">Games</a></li>
+        <li><a href="../collections.html">Collections</a></li>
+        <li><a href="../emulation.html">Emulation</a></li>
+        <li><a href="../monster-taming.html">Monster Taming</a></li>
+        <li><a href="../play-legal.html">Play Legal</a></li>
+        <li><a class="nav-cta" href="../player.html">▶ Play</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="main">
+
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../emulation.html">← Emulation hub</a></nav>
+<article class="guide-page">
+  <p class="kicker">System guide · Nintendo 64</p>
+  <h1>Nintendo 64 emulation guide</h1>
+  <p class="lede">The hardest system on this page to emulate well — and the most magical when it works. This guide is honest about the quirks, the hardware demands, and the settings that fix most games.</p>
+  <ul class="chips" aria-label="Guide facts"><li>Core: <code>n64</code> · Mupen64Plus-Next</li><li>BIOS: none needed</li><li>⏱ ~15 min</li><li>Intermediate</li></ul>
+  <aside class="legal-note"><strong>Legal lane:</strong> the Player only loads files <em>you</em> supply — your own cartridge dumps, homebrew, or public-domain titles. No ROMs are provided or linked anywhere on this site.</aside>
+
+  <div class="toc">
+    <h2>On this page</h2>
+    <ol>
+      <li><a href="#core">The core: Mupen64Plus-Next</a></li>
+      <li><a href="#bios">BIOS notes (the short version: none)</a></li>
+      <li><a href="#settings">Settings that matter</a></li>
+      <li><a href="#performance">Performance: be honest with yourself</a></li>
+      <li><a href="#saves">Saves &amp; cheats in the Player</a></li>
+      <li><a href="#play">Play it in the Player</a></li>
+      <li><a href="#starter">Homebrew starter pack</a></li>
+      <li><a href="#native">Native alternative: RetroArch</a></li>
+    </ol>
+  </div>
+
+  <section class="guide-section" id="core">
+    <h2>1. The core: Mupen64Plus-Next</h2>
+    <p>The Player's <code>n64</code> core is <strong>Mupen64Plus-Next</strong> — the default N64 backend in the official EmulatorJS core list (the alternate is Parallel-N64). The N64 is famously awkward hardware: its graphics chip does things no other console did, and games leaned on those quirks. That's why N64 emulation is still a per-game adventure decades later: most of the library runs great, and a few famous games have graphical oddities nobody has fully solved.</p>
+    <p>The Player detects <code>.n64</code>, <code>.z64</code>, and <code>.v64</code> files and boots Mupen64Plus-Next automatically.</p>
+  </section>
+
+  <section class="guide-section" id="bios">
+    <h2>2. BIOS notes (the short version: none)</h2>
+    <p>Nothing to dump for the browser core — Mupen64Plus-Next boots games with no BIOS file. (The console has an internal boot ROM, but the core handles it internally.)</p>
+  </section>
+
+  <section class="guide-section" id="settings">
+    <h2>3. Settings that matter</h2>
+    <p>Open the engine's in-game menu (the ⚙ icon) while an N64 game is running. On this system, settings genuinely fix games:</p>
+    <ul>
+      <li><strong>Framebuffer emulation:</strong> the single biggest compatibility knob. If a game has broken menus, missing effects, or garbled textures, this setting is almost always the answer.</li>
+      <li><strong>Internal resolution:</strong> the core can render at higher than N64 resolution for crisp visuals — but it's the most expensive setting. Turn it <em>down</em> before anything else if the game stutters.</li>
+      <li><strong>Texture filtering:</strong> smooths the N64's famously blurry textures; cheap on most machines, and a matter of taste.</li>
+      <li><strong>Analog stick:</strong> N64 games were designed around an analog stick. A gamepad (or the Player's analog-capable touch controls) beats keyboard for this system — see <a href="#saves">Saves &amp; cheats</a> for remap notes.</li>
+    </ul>
+  </section>
+
+  <section class="guide-section" id="performance">
+    <h2>4. Performance: be honest with yourself</h2>
+    <p>This is the one system on this page with real hardware requirements. You want a <strong>recent laptop or desktop</strong> for full-speed N64 in a browser; older Chromebooks, weak tablets, and old phones will struggle, especially with the internal resolution raised. Tips that actually help:</p>
+    <ul>
+      <li>Lower the internal resolution to native (320×240-ish) first — it's the cheapest big win.</li>
+      <li>Close other tabs; the browser shares your CPU/GPU with everything open.</li>
+      <li>Disable low-power mode while playing — browsers throttle background-adjacent tabs aggressively.</li>
+    </ul>
+    <p class="hint">The <a href="../system-picker.html">system picker quiz</a> steers weak devices away from N64 for exactly this reason — SNES and GBA are the honest picks there.</p>
+  </section>
+
+  <section class="guide-section" id="saves">
+    <h2>5. Saves &amp; cheats in the Player</h2>
+    <ul>
+      <li><strong>Save states</strong> — made in the engine's in-game menu. With <em>Keep in Browser</em> on (Settings → Save States), the Player 2.0 Save tool on <a href="../player.html">player.html</a> can export/import/delete them.</li>
+      <li><strong>Controller Pak / in-game saves</strong> — the engine emulates the memory pak, so in-game saving works; states are still the safer habit on this system.</li>
+      <li><strong>Cheats</strong> — the Player 2.0 Cheats tool takes GameShark codes, stored per game and injected before boot; toggle in the engine's cheat manager. N64 cheat behavior varies per game — treat codes as experimental.</li>
+      <li><strong>Keyboard remap</strong> — the Player 2.0 Controls tool remaps Player 1's keyboard and gamepad bindings (applies on next boot). Note: analog-stick axes need the engine's own Control Settings, not the Player tool.</li>
+    </ul>
+  </section>
+
+  <section class="guide-section" id="play">
+    <h2>6. Play it in the Player</h2>
+    <p><a class="btn btn-primary" href="../player.html?core=n64">▶ Open the Player (N64 pre-selected)</a></p>
+    <p class="hint">The <code>?core=n64</code> deep link just pre-selects the system — your game file still comes from your own machine, and it never leaves it.</p>
+  </section>
+
+  <section class="guide-section" id="starter">
+    <h2>7. Homebrew starter pack</h2>
+    <p>The N64 homebrew scene is smaller than the 2D systems', but it's real and growing. Every link verified live on 2026-10-11.</p>
+    <ul class="pack-list">
+      <li><a href="https://pdroms.de/nintendo-64-n64">pdroms.de — Nintendo 64 section</a><span class="pack-note">Public-domain N64 ROMs from the classic archive.</span></li>
+      <li><a href="https://itch.io/games/tag-nintendo-64">itch.io — games tagged Nintendo 64</a><span class="pack-note">Indie devs shipping N64 homebrew; many free.</span></li>
+      <li><a href="https://n64.dev/">n64.dev</a><span class="pack-note">The modern N64 homebrew community — tools, tutorials, and releases.</span></li>
+    </ul>
+    <p class="hint">Download the ROM on your own computer, then drag it into the Player. The file is read locally — nothing uploads.</p>
+  </section>
+
+  <section class="guide-section" id="native">
+    <h2>8. Native alternative: RetroArch</h2>
+    <p>For the stubborn 5% of games that glitch in a browser, <strong>RetroArch</strong> (<a href="https://www.retroarch.com/">retroarch.com</a>) with the Mupen64Plus-Next core gives you every setting the browser build has, plus a few more — see the <a href="retroarch-setup.html">RetroArch setup guide</a>. Same core family, same legality (your dumps, your BIOS-free boots).</p>
+  </section>
+
+  <section aria-labelledby="more-guides"><h2 id="more-guides">More guides</h2>
+  <ul class="guide-list">
+    <li><a href="ps1.html">PlayStation emulation guide</a> — the N64's disc-based rival.</li>
+    <li><a href="snes.html">SNES emulation guide</a> — the easy 2D alternative when N64 quirks bite.</li>
+    <li><a href="../system-picker.html">Which system should you emulate?</a> — the quiz, if you haven't picked yet.</li>
+    <li><a href="emulatorjs-self-hosting.html">EmulatorJS self-hosting guide</a> — host the multi-system web player yourself.</li>
+    <li><a href="rip-your-own-cartridges.html">Rip your own cartridges</a> — the legal way to get ROMs: dump hardware you own.</li>
+  </ul></section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-note">
+      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links.</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

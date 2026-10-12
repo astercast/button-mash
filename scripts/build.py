@@ -33,6 +33,7 @@ REFERENCE_DOMAINS = {
     "archive.org", "tuxemon.org", "lfkdsk.github.io",
     "epilogue.co", "retrode.com", "gog.com",
     "retroachievements.org", "opengameart.org",
+    "n64.dev", "psx.dev", "psxdev.net",
 }
 
 GENRES = {"puzzle", "action", "roguelike", "idle", "multiplayer", "retro", "horror", "cozy"}

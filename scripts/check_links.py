@@ -31,8 +31,9 @@ for page in pages:
             continue
         if p.scheme:  # data:, javascript:, tel:, etc.
             continue
+        local = p.path  # drop query strings (?core=gba deep links)
         local_count += 1
-        target = (page.parent / url).resolve()
+        target = (page.parent / local).resolve()
         try:
             target.relative_to(ROOT.resolve())
         except ValueError:

@@ -16,6 +16,7 @@ PAGES = [
     ("player.html", "The Player: bring-your-own-file EmulatorJS console (20+ systems)"),
     ("converter.html", "ROM-to-browser-game converter (GBA/GB/GBC/NES file in, self-contained .html out)"),
     ("party-planner.html", "Party planner: timed game-night rotation plans across party-tagged games"),
+    ("system-picker.html", "Which system should you emulate? — 1-minute quiz with honest device-limit recommendations"),
     ("collections.html", "Hand-built game collections"),
     ("emulation.html", "Emulation hub: guides, explainers, legal sources"),
     ("monster-taming.html", "Monster-taming corner: original-IP creature games + GBA tech"),
@@ -35,6 +36,12 @@ GUIDES = [
     ("guides/best-emulator-per-system.html", "Best emulator per system (reference)"),
     ("guides/rip-your-own-cartridges.html", "Rip your own cartridges guide"),
     ("guides/homebrew-and-public-domain.html", "Homebrew & public-domain sources"),
+    ("guides/gba.html", "Game Boy Advance emulation guide (mGBA, BIOS-free)"),
+    ("guides/snes.html", "SNES emulation guide (Snes9x, BIOS-free)"),
+    ("guides/n64.html", "Nintendo 64 emulation guide (Mupen64Plus-Next, BIOS-free)"),
+    ("guides/ps1.html", "PlayStation emulation guide (PCSX-ReARMed, BIOS honesty)"),
+    ("guides/genesis.html", "Genesis emulation guide (Genesis Plus GX, BIOS-free)"),
+    ("guides/gameboy.html", "Game Boy / Color emulation guide (Gambatte, BIOS-free)"),
 ]
 
 
@@ -100,8 +107,8 @@ def build_llms():
     lines.append("")
     lines.append("## API")
     lines.append("- api/v1/index.json — endpoint catalog")
-    lines.append("- api/v1/games.json, collections.json, emulators.json, guides.json")
-    lines.append("- skills/: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games")
+    lines.append("- api/v1/games.json, collections.json, emulators.json, guides.json, homebrew-packs.json")
+    lines.append("- skills/: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker")
     lines.append("")
     lines.append("## Legal")
     lines.append("Zero ROMs hosted. Zero piracy links. All game descriptions original (CC0).")

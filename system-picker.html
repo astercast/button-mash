@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Which system should you emulate? — Button Mash</title>
+<meta name="description" content="Answer four questions — nostalgia era, device power, game taste, tolerance for tinkering — and get an honest system recommendation with a guide link. Weak devices steer clear of N64 and PS1.">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<style>
+  .pq-form { display:grid; gap:1.25rem; max-width:44rem; }
+  .pq-form fieldset { border:2px solid var(--edge-bright); border-radius:var(--r-md); padding:1rem 1.25rem; margin:0; }
+  .pq-form legend { font-weight:700; padding:0 .5rem; }
+  .pq-row { display:flex; flex-direction:column; gap:.45rem; }
+  .pq-row label { display:flex; align-items:flex-start; gap:.6rem; cursor:pointer; padding:.4rem .3rem; border-radius:8px; }
+  .pq-row label:hover { background:rgba(255,255,255,.04); }
+  .pq-row input[type="radio"] { margin-top:.25rem; accent-color:var(--pink); flex:none; }
+  .pq-opt { font-weight:600; }
+  .pq-sub { color:var(--ink-dim); font-size:.9rem; display:block; }
+  .pq-result { border:2px solid var(--pink); border-radius:var(--r-md); padding:1.25rem 1.5rem; background:var(--panel); max-width:44rem; margin-top:1.5rem; }
+  .pq-result h2 { margin-top:0; }
+  .pq-warn { border-left:4px solid var(--amber); padding:.5rem 1rem; margin:1rem 0; background:rgba(255,255,255,.03); }
+  .pq-actions { display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1rem; }
+  .pq-runner { max-width:44rem; margin-top:1rem; color:var(--ink-dim); }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation:none !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="collections.html">Collections</a></li>
+        <li><a href="emulation.html">Emulation</a></li>
+        <li><a href="monster-taming.html">Monster Taming</a></li>
+        <li><a href="play-legal.html">Play Legal</a></li>
+        <li><a class="nav-cta" href="player.html">▶ Play</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="kicker">Quiz · 1 minute</p>
+      <h1>Which system should you emulate?</h1>
+      <p class="lede">Four questions — nostalgia, device power, game taste, tolerance for tinkering — and an honest recommendation. If your device can't handle N64 or PlayStation, the quiz won't pretend it can.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <form class="pq-form" id="pq-form" novalidate>
+        <fieldset>
+          <legend>1. Which era tugs at you?</legend>
+          <div class="pq-row" role="radiogroup" aria-label="Nostalgia era">
+            <label><input type="radio" name="era" value="handheld89"><span><span class="pq-opt">Late-80s handheld</span><span class="pq-sub">Tetris queues, link cables, the green screen</span></span></label>
+            <label><input type="radio" name="era" value="sixteenbit"><span><span class="pq-opt">The 16-bit console wars</span><span class="pq-sub">SNES vs. Genesis, Mode 7, blast processing</span></span></label>
+            <label><input type="radio" name="era" value="gbaage"><span><span class="pq-opt">Handheld golden age, 2001</span><span class="pq-sub">Backlit screen, pocket RPGs, link-cable trading</span></span></label>
+            <label><input type="radio" name="era" value="early3d"><span><span class="pq-opt">Early 3D, 1996–2001</span><span class="pq-sub">Polygons, analog sticks, disc-era epics</span></span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. What are you playing on?</legend>
+          <div class="pq-row" role="radiogroup" aria-label="Device power">
+            <label><input type="radio" name="device" value="weak"><span><span class="pq-opt">Old phone, Chromebook, weak tablet</span><span class="pq-sub">N64 and PS1 get ruled out honestly</span></span></label>
+            <label><input type="radio" name="device" value="mid"><span><span class="pq-opt">Decent laptop or recent phone</span><span class="pq-sub">Everything except high-res N64</span></span></label>
+            <label><input type="radio" name="device" value="strong"><span><span class="pq-opt">Recent desktop / gaming laptop</span><span class="pq-sub">The full menu, N64 included</span></span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>3. What do you want to play?</legend>
+          <div class="pq-row" role="radiogroup" aria-label="Game taste">
+            <label><input type="radio" name="taste" value="quick"><span><span class="pq-opt">Quick handheld sessions</span><span class="pq-sub">Pick up, play ten minutes, put down</span></span></label>
+            <label><input type="radio" name="taste" value="couch"><span><span class="pq-opt">Couch classics, maybe with a friend</span><span class="pq-sub">Action, platformers, co-op and versus</span></span></label>
+            <label><input type="radio" name="taste" value="adventure3d"><span><span class="pq-opt">3D adventures and platformers</span><span class="pq-sub">Explore worlds, collect things, 100% everything</span></span></label>
+            <label><input type="radio" name="taste" value="storyrpg"><span><span class="pq-opt">Story epics and RPGs</span><span class="pq-sub">Long arcs, parties, turn-based or otherwise</span></span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>4. How much tinkering are you up for?</legend>
+          <div class="pq-row" role="radiogroup" aria-label="Tinkering tolerance">
+            <label><input type="radio" name="tinker" value="zero"><span><span class="pq-opt">Zero — boot and play</span><span class="pq-sub">Defaults should be right</span></span></label>
+            <label><input type="radio" name="tinker" value="some"><span><span class="pq-opt">Some settings are fine</span><span class="pq-sub">I'll flip a region or resolution knob</span></span></label>
+            <label><input type="radio" name="tinker" value="lots"><span><span class="pq-opt">Happy to tinker</span><span class="pq-sub">Per-game quirks don't scare me</span></span></label>
+          </div>
+        </fieldset>
+
+        <div class="pq-actions">
+          <button type="submit" class="btn btn-primary">Pick my system →</button>
+          <button type="button" class="btn btn-ghost" id="pq-reset" hidden>Retake the quiz</button>
+        </div>
+      </form>
+
+      <div class="pq-result" id="pq-result" hidden>
+        <div aria-live="polite" id="pq-live">
+          <h2 id="pq-title"></h2>
+          <p id="pq-why"></p>
+          <div class="pq-warn" id="pq-warn" hidden></div>
+          <div class="pq-actions">
+            <a class="btn btn-primary" id="pq-guide" href="#">Read the guide →</a>
+            <a class="btn btn-ghost" id="pq-player" href="#">Open the Player →</a>
+          </div>
+          <p class="pq-runner" id="pq-runner"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-note">
+      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links.</span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/system-picker.js"></script>
+</body>
+</html>

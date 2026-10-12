@@ -5,7 +5,7 @@ The universal in-browser game console — play anything in your browser, **legal
 - **The Player** (`player.html`): bring-your-own-file EmulatorJS console for 20+ classic systems (GBA, SNES, NES, Genesis, GB/GBC, N64, PlayStation, …). File picker, drag-and-drop, URL loading, on-screen/keyboard/gamepad controls, save states, fullscreen. The site hosts zero ROMs; your file never leaves your machine.
 - **The Converter** (`converter.html`): drop in a GBA file you own → download a single self-contained `.html` browser game (ROM embedded, boots straight into play). 100% client-side.
 - **89 curated browser games** (`games.html`): puzzle, action, roguelike, idle, multiplayer, retro, horror, cozy. Every URL curl-verified live. Search, genre filters, favorites (localStorage), random game, game of the day.
-- **10 hand-built collections** (`collections.html`), **8 emulation guides** (`emulation.html` → `guides/`), **monster-taming corner**, and **play-legal.html** — the one clear legal page.
+- **10 hand-built collections** (`collections.html`), **14 emulation guides** (`emulation.html` → `guides/`), incl. 6 per-system guides (GBA, SNES, N64, PS1, Genesis, Game Boy/Color) + the system-picker quiz (`system-picker.html`), **monster-taming corner**, and **play-legal.html** — the one clear legal page.
 - **Legal lane (non-negotiable)**: no ROM download links, no piracy sites, no cracked-game links, no BIOS downloads. Emulators are software; games come from your own dumps, homebrew, or legal archives.
 
 ## Structure
@@ -14,12 +14,12 @@ The universal in-browser game console — play anything in your browser, **legal
 - `player.html` / `converter.html` — the two centerpieces (`assets/js/player.js`, `assets/js/converter.js`, `assets/vendor/template-game.html`)
 - `games.html` / `collections.html` — directory + collections (rendered from `data/`)
 - `emulation.html`, `monster-taming.html`, `play-legal.html` — hubs and policy
-- `guides/<slug>.html` — 8 guides (some with interactive checklists)
+- `guides/<slug>.html` — 14 guides (some with interactive checklists)
 - `data/` — `games.json`, `collections.json`, `emulators.json`, `guides.json` (sources of truth)
 - `api/v1/` — `index/games/collections/emulators/guides.json` + `schema/` (static JSON API)
 - `assets/css/` — `tokens/base/layout/components/guides.css` (arcade design system)
 - `assets/js/` — `store/directory/player/converter/checklists.js`
-- `skills/` — 9 agent skills: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, retro-guide, classroom-games
+- `skills/` — 12 agent skills: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker
 - `pipeline/` — `watch_itch.py`, `watch_emulator_releases.py` → `review_queue.json` (human review, never auto-publishes)
 - `scripts/` — `build.py` (validate + regenerate), `build_api.py`, `build_site.py`, `check_links.py`
 - `llms.txt` / `llms-full.txt` — agent-readable site summaries

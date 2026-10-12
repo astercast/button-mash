@@ -1,10 +1,10 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T01:18:10Z",
+  "generated_at": "2026-10-12T01:31:37Z",
   "endpoint": "guides",
   "description": "Emulation guides and explainers (summaries; full text in data/guides.json).",
-  "count": 8,
+  "count": 14,
   "guides": [
     {
       "id": "emulatorjs-selfhost",
@@ -77,6 +77,60 @@
       "time_minutes": 6,
       "summary": "One honest emulator pick per classic system: accuracy, ease of use, platform notes. Software only — no ROM links.",
       "section_count": 2
+    },
+    {
+      "id": "system-guide-gba",
+      "slug": "gba",
+      "title": "Game Boy Advance emulation guide",
+      "difficulty": "Beginner",
+      "time_minutes": 12,
+      "summary": "The Player's gba core is mGBA (verified backend, the single GBA backend in the EmulatorJS core list). BIOS-free. Covers the settings that matter (color correction, fast-forward, Keep in Browser), save states/cheats wired to Player 2.0, a Player deep link (player.html?core=gba), and a curl-verified homebrew starter pack.",
+      "section_count": 6
+    },
+    {
+      "id": "system-guide-snes",
+      "slug": "snes",
+      "title": "SNES emulation guide",
+      "difficulty": "Beginner",
+      "time_minutes": 12,
+      "summary": "The Player's snes core is Snes9x (default SNES backend in the EmulatorJS core list; bsnes is the alternate for accuracy purists). BIOS-free. Covers hi-res blending, sound buffer/latency, save states and Game Genie/Pro Action Replay cheats via Player 2.0, deep link (player.html?core=snes), and a verified homebrew starter pack.",
+      "section_count": 7
+    },
+    {
+      "id": "system-guide-n64",
+      "slug": "n64",
+      "title": "Nintendo 64 emulation guide",
+      "difficulty": "Intermediate",
+      "time_minutes": 15,
+      "summary": "The Player's n64 core is Mupen64Plus-Next (default N64 backend in the EmulatorJS core list; alternate Parallel-N64). BIOS-free. Honest about per-game quirks and real hardware requirements: framebuffer emulation fixes most games, internal resolution is the performance lever, weak devices should pick SNES/GBA instead. Deep link (player.html?core=n64) and verified homebrew starter pack.",
+      "section_count": 6
+    },
+    {
+      "id": "system-guide-ps1",
+      "slug": "ps1",
+      "title": "PlayStation emulation guide",
+      "difficulty": "Intermediate",
+      "time_minutes": 15,
+      "summary": "The Player's psx core is PCSX-ReARMed (default PSX backend in the EmulatorJS core list; alternate Mednafen PSX HW). BIOS honesty: boots via HLE with no BIOS, but a user-dumped scph BIOS improves accuracy (never download one). Covers enhanced resolution, fast-load, saves/cheats via Player 2.0, deep link (player.html?core=psx), and a verified homebrew starter pack.",
+      "section_count": 7
+    },
+    {
+      "id": "system-guide-genesis",
+      "slug": "genesis",
+      "title": "Genesis emulation guide",
+      "difficulty": "Beginner",
+      "time_minutes": 12,
+      "summary": "The Player's segaMD core is Genesis Plus GX (default Genesis/Game Gear/Sega CD backend in the EmulatorJS core list). BIOS-free (Sega CD aside). Covers region/6-button-pad/SRAM-autosave/audio-filter settings, saves and Game Genie cheats via Player 2.0, deep link (player.html?core=segaMD), and a verified homebrew starter pack.",
+      "section_count": 6
+    },
+    {
+      "id": "system-guide-gameboy",
+      "slug": "gameboy",
+      "title": "Game Boy / Color emulation guide",
+      "difficulty": "Beginner",
+      "time_minutes": 10,
+      "summary": "The Player's gb core is Gambatte (default GB backend in the EmulatorJS core list; alternate mGBA) — cycle-accurate, BIOS-free, and full speed on any device. Covers colorization palettes, saves and Game Genie/GameShark cheats via Player 2.0, deep link (player.html?core=gb), and a verified homebrew starter pack (GBDev community included).",
+      "section_count": 7
     }
   ]
 }

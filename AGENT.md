@@ -17,7 +17,8 @@ How any agent (or script) uses Button Mash programmatically. Everything below is
 | `GET api/v1/games.json` | 114 game records. Each: `id`, `title`, `url` (curl-verified live 2026-10-11 — never invented), `genre` (`puzzle`/`action`/`roguelike`/`idle`/`multiplayer`/`retro`/`horror`/`cozy`), `controls`, `description` (original, CC0), optional `tags` (`party` + sub-tags like `drawing`/`arena`/`shooter`/`board`/`trivia`/`coop`/`word` power the party planner). Schema: `api/v1/schema/games.schema.json` |
 | `GET api/v1/collections.json` | 11 hand-built collections: `id`, `title`, `tagline`, `description`, `game_ids[]` (all IDs exist in `games.json`) |
 | `GET api/v1/emulators.json` | 10 emulator software picks: `id`, `name`, `systems[]`, `url`, `license`, `platforms[]`, `notes`, `bios_required`. Software only — no ROMs/BIOS. |
-| `GET api/v1/guides.json` | 8 guide summaries: `id`, `slug` (`guides/<slug>.html` page), `title`, `difficulty`, `time_minutes`, `summary`, `section_count`. Full texts: `data/guides.json` or `llms-full.txt`. Schema: `api/v1/schema/guides.schema.json` |
+| `GET api/v1/guides.json` | 14 guide summaries: `id`, `slug` (`guides/<slug>.html` page), `title`, `difficulty`, `time_minutes`, `summary`, `section_count`. Includes 6 per-system guides (`gba`, `snes`, `n64`, `ps1`, `genesis`, `gameboy`): best EmulatorJS core (verified against the official core list), settings that matter, performance tips, saves/cheats wired to Player 2.0, honest BIOS notes, Player deep link (`player.html?core=<core>`), and a verified homebrew starter pack. Full texts: `data/guides.json` or `llms-full.txt`. Schema: `api/v1/schema/guides.schema.json` |
+| `GET api/v1/homebrew-packs.json` | Per-system homebrew starter packs: the legal on-ramps for the Player. Every URL verified live 2026-10-11 (pdroms.de system sections, itch.io system tags, gbdev.io, n64.dev, psxdev.net, psx.dev, GameBrew lists). Schema: `api/v1/schema/homebrew-packs.schema.json` |
 
 All schemas are **JSON Schema draft 2020-12**. Data is validated at build time (`python3 scripts/build.py`).
 
@@ -96,4 +97,6 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
 - Freshness: check `generated_at` in any envelope before trusting counts.
 - Breaking changes arrive as a new `v2/` path — never a silent shape change. Shared conventions: `API.md`.
 - Source data lives in `data/`; regenerate with `python3 scripts/build.py` after edits.
-- Skills: `skills/` — game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games.
+- Skills: `skills/` — game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker.
+- System picker (`system-picker.html`): 4-question quiz (era, device power, game taste, tinkering tolerance) → recommended system + guide link + Player deep link. Weak devices exclude N64/PS1 honestly. Logic in `assets/js/system-picker.js`; skill `skills/system-picker.md` mirrors the weights for manual scoring.
+- Player deep links: `player.html?core=<shortname>` pre-selects the system (`gb gba snes segaMD n64 psx` …) — used by all six system guides and the quiz result.

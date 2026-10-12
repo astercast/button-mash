@@ -18,6 +18,7 @@ ENDPOINTS = {
     "collections": "Hand-built game collections.",
     "emulators": "Emulator software picks (no ROMs, software only).",
     "guides": "Emulation guides and explainers (summaries; full text in data/guides.json).",
+    "homebrew-packs": "Per-system homebrew starter packs: the legal on-ramps for the Player (every URL verified live 2026-10-11).",
 }
 
 USAGE = (
@@ -73,6 +74,9 @@ def main():
         for g in guides
     ]
     write("guides.json", envelope("guides", guide_summaries, ENDPOINTS["guides"]))
+
+    packs_doc = load("homebrew-packs.json")
+    write("homebrew-packs.json", envelope("homebrew-packs", packs_doc["packs"], ENDPOINTS["homebrew-packs"]))
 
     index = {
         "name": "Button Mash",
