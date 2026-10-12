@@ -32,3 +32,94 @@
 }
 .guide-list li:hover { border-color: var(--neon-cyan); }
 .guide-list a { font-weight: 800; }
+
+/* ============================================================
+   Wave 13 — long-form reading craft + scroll-driven chrome.
+   Mobile-first, progressive enhancement throughout. The arcade
+   identity (neon palette, display type, tokens) is untouched.
+   ============================================================ */
+
+/* --- Measure & vertical rhythm -------------------------------- */
+.guide-page { max-width: 65ch; line-height: 1.75; }
+.guide-page p { text-wrap: pretty; margin-block: 0 1.15em; }
+.guide-page h1, .guide-page h2, .guide-page h3 { text-wrap: balance; }
+.guide-page .lede { line-height: 1.6; }
+.guide-section {
+  margin-block: 2.75rem 0;
+  padding-block-start: 2.25rem;
+  border-block-start: 1px solid var(--edge);
+  scroll-margin-top: 1rem;
+}
+.guide-section h2 { margin-block: 0 1.1rem; line-height: 1.3; }
+.guide-section .sec-num {
+  font-family: var(--font-mono); font-size: 0.85em; color: var(--neon-pink);
+  margin-inline-end: 0.6rem;
+}
+.guide-section code {
+  font-family: var(--font-mono); font-size: 0.88em;
+  background: var(--panel-2); border: 1px solid var(--edge);
+  border-radius: 6px; padding: 0.12em 0.4em; color: var(--neon-cyan);
+}
+.guide-section pre code { display: block; padding: 1rem 1.2rem; overflow-x: auto; }
+.guide-section dl { display: grid; gap: 0.9rem; margin: 1.2rem 0; }
+.guide-section dt { font-weight: 800; color: var(--ink); }
+.guide-section dd { margin: 0.2rem 0 0; color: var(--ink-dim); }
+
+/* --- Key-point callout (sibling of .legal-note) ----------------- */
+.key-point {
+  border-inline-start: 4px solid var(--neon-cyan);
+  background: var(--panel); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  padding: 1rem 1.25rem; margin: 1.5rem 0;
+}
+.key-point strong { color: var(--neon-cyan); }
+.key-point p:last-child { margin-block-end: 0; }
+
+/* --- Breadcrumb trail ------------------------------------------ */
+.crumbs ol {
+  list-style: none; display: flex; flex-wrap: wrap; align-items: center;
+  gap: 0.5rem; padding: 0; margin: 0;
+}
+.crumbs li { display: flex; align-items: center; gap: 0.5rem; }
+.crumbs li + li::before { content: "›"; color: var(--ink-dim); }
+.crumbs [aria-current="page"] { color: var(--ink); font-weight: 700; }
+
+/* --- Scroll-driven reading progress (progressive) --------------- */
+/* Scroll-linked (user-driven), so it stays on under reduced motion. */
+.reading-progress {
+  position: sticky; top: 0; z-index: 60; height: 4px;
+  background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
+  transform: scaleX(0); transform-origin: left center;
+}
+@supports (animation-timeline: scroll()) {
+  .reading-progress { animation: bm-read-progress linear both; animation-timeline: scroll(root); }
+  @keyframes bm-read-progress { to { transform: scaleX(1); } }
+}
+@supports not (animation-timeline: scroll()) {
+  .reading-progress { display: none; }
+}
+
+/* --- Sticky TOC + scroll-spy (JS sets aria-current) ------------- */
+.toc { scroll-margin-top: 1rem; }
+@media (min-width: 60rem) {
+  .toc--sticky { position: sticky; top: 1rem; }
+}
+.toc a[aria-current="true"] {
+  color: var(--neon-pink); font-weight: 800;
+  border-inline-start: 3px solid var(--neon-pink);
+  padding-inline-start: 0.6rem; margin-inline-start: -0.6rem;
+}
+
+/* --- Cross-document view transitions (Chromium, motion-safe) ---- */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+
+/* --- Guide print: article only ---------------------------------- */
+@media print {
+  .site-header, .site-footer, .toc, .reading-progress,
+  .guide-page .chips, .crumbs { display: none !important; }
+  .guide-page { max-width: none; }
+  body { background: #fff; color: #111; }
+  .guide-section h2 { color: #111; }
+  .guide-section p, .guide-section li { color: #222; }
+}

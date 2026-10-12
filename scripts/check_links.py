@@ -18,6 +18,10 @@ external_count = 0
 pages = sorted(ROOT.rglob("*.html"))
 # skip node_modules-style noise; only repo html
 pages = [p for p in pages if ".git" not in p.parts]
+# build templates carry unreplaced __BM_*__ tokens and root-relative-at-output
+# links (e.g. the generated game's player.html?core= deep link) — they are not
+# browsable pages, so their raw hrefs can never resolve here.
+pages = [p for p in pages if not p.relative_to(ROOT).as_posix().startswith("assets/vendor/")]
 
 for page in pages:
     text = page.read_text()

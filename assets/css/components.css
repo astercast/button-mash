@@ -365,6 +365,88 @@ select, .chip-select {
   transition: width 0.2s ease;
 }
 .progress-label { font-family: var(--font-mono); font-size: 0.82rem; color: var(--ink-dim); margin-top: 0.4rem; }
+@media (prefers-reduced-motion: reduce) {
+  .progress-fill { transition: none; }
+}
+
+/* ---- Web-craft pass (wave 12): typography + container queries ----
+   Findings applied from research_notes/web-craft-20261011-2014:
+   - text-wrap: balance is Baseline 2024 — safe on headings.
+   - text-wrap: pretty is progressive enhancement (not Firefox mid-2026) —
+     harmless where unsupported.
+   - Container queries: page layout = media queries, component layout =
+     container queries. The queue row adapts to its container, not the viewport.
+   - :has() is Baseline since 2023 — row state tints without extra JS classes.
+   - Restraint budget honored: no ambient loops in the dense queue; the only
+     motion is progress width (already reduced-motion gated). View transitions
+     were considered and skipped — the queue re-renders via innerHTML, so
+     transitions would fight the DOM churn. */
+.hero h1 { text-wrap: balance; }
+.conv-step h3, .feature-card h3 { text-wrap: balance; }
+.lede, .feature-card p { text-wrap: pretty; }
+
+.conv-queue { container-type: inline-size; container-name: convqueue; }
+@container convqueue (max-width: 36rem) {
+  .q-head { flex-direction: column; align-items: stretch; gap: 0.6rem; }
+  .q-actions { justify-content: flex-start; }
+}
+.q-row:has(.q-msg-error) { border-color: #a3122e; }
+.q-row:has(.q-chip.q-done) { border-color: var(--neon-lime); }
+
+/* ---- Converter v3: batch queue ---- */
+.conv-queue { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: 0.7rem; }
+.q-row {
+  background: var(--bg);
+  border: 1px solid var(--edge);
+  border-radius: var(--r-sm);
+  padding: 0.8rem 1rem;
+  display: grid;
+  gap: 0.55rem;
+}
+.q-head { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: baseline; justify-content: space-between; }
+.q-file { font-family: var(--font-mono); font-size: 0.88rem; overflow-wrap: anywhere; }
+.q-sys {
+  display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--neon-cyan); border: 1px solid var(--neon-cyan); border-radius: 999px; padding: 0.1em 0.6em; margin-left: 0.5rem;
+  white-space: nowrap;
+}
+.q-size { color: var(--ink-dim); font-size: 0.78rem; margin-left: 0.5rem; white-space: nowrap; }
+.q-actions { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+.q-chip {
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  border-radius: 999px; padding: 0.2em 0.7em; border: 1px solid var(--edge-bright); color: var(--ink-dim);
+  white-space: nowrap;
+}
+.q-chip.q-active { color: var(--neon-lime); border-color: var(--neon-lime); }
+.q-chip.q-done { color: #0e2a12; background: var(--neon-lime); border-color: var(--neon-lime); }
+.q-chip.q-error { color: #fff; background: #a3122e; border-color: #a3122e; }
+.q-chip.q-cancelled { color: var(--neon-amber); border-color: var(--neon-amber); }
+.q-title-label { display: flex; gap: 0.5rem; align-items: center; font-size: 0.82rem; color: var(--ink-dim); }
+.q-title {
+  flex: 1; min-width: 10rem; font-family: var(--font-mono); font-size: 0.88rem; color: var(--ink);
+  background: var(--panel); border: 1px solid var(--edge-bright); border-radius: var(--r-sm); padding: 0.35rem 0.6rem;
+}
+.q-bar { height: 0.7rem; }
+.q-msg { font-size: 0.85rem; border-radius: var(--r-sm); padding: 0.55rem 0.8rem; }
+.q-msg-error { border: 1px solid #a3122e; background: rgba(163, 18, 46, 0.12); }
+.q-msg-warn { border: 1px solid var(--neon-amber); background: rgba(255, 184, 0, 0.07); }
+.q-msg-ok { border: 1px solid var(--neon-lime); background: rgba(204, 255, 0, 0.06); }
+.q-msg-info { border: 1px solid var(--edge-bright); background: rgba(0, 229, 255, 0.05); color: var(--ink-dim); }
+.q-msg a { color: var(--neon-cyan); }
+
+/* ---- Converter v3: options ---- */
+.conv-opts { border: 1px solid var(--edge); border-radius: var(--r-sm); padding: 0.9rem 1rem; margin: 1rem 0 0; }
+.conv-opts legend { font-weight: 700; padding: 0 0.5rem; }
+.conv-opts label { display: block; padding: 0.35rem 0; font-size: 0.9rem; cursor: pointer; }
+.conv-opts label span { color: var(--ink-dim); }
+.conv-opts input[type="radio"] { accent-color: var(--neon-pink); width: 1.1rem; height: 1.1rem; vertical-align: -0.2rem; }
+.conv-presets { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.6rem; font-size: 0.85rem; color: var(--ink-dim); }
+.conv-note { font-size: 0.85rem; color: var(--ink-dim); margin: 0.6rem 0 0; }
+.conv-cover-row { margin-top: 1rem; display: grid; gap: 0.5rem; }
+.conv-cover-row input[type="file"] { font-size: 0.9rem; }
+#conv-cover-prev { width: 4rem; height: 4rem; object-fit: cover; border-radius: var(--r-sm); border: 2px solid var(--edge-bright); }
+.conv-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 1.2rem; }
+.btn-small { font-size: 0.78rem; padding: 0.35rem 0.7rem; }
 
 /* ---- Checklist guides ---- */
 .checklist { list-style: none; margin: 1.5rem 0; padding: 0; display: grid; gap: 0.7rem; }

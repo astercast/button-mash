@@ -14,7 +14,7 @@ PAGES = [
     ("index.html", "Home — the universal in-browser game console"),
     ("games.html", "Game directory: curated free browser games, search + genre filters"),
     ("player.html", "The Player: bring-your-own-file EmulatorJS console (20+ systems)"),
-    ("converter.html", "ROM-to-browser-game converter (GBA/GB/GBC/NES file in, self-contained .html out)"),
+    ("converter.html", "Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 4 compression levels + presets, honest ROM validation, custom titles + cover art, Player-mode deep links"),
     ("party-planner.html", "Party planner 2.0: guest list + game voting + rotation scheduler + snack-break timer + party timeline (setup->games->tournament->free play), kids-party mode from the 50 kid-safe games, tournament handoff with real names (?names=), shareable party links"),
     ("tournament.html", "Tournament brackets 2.0: seeded 2-16 player single or double elimination, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, print + copy"),
     ("system-picker.html", "Which system should you emulate? — 1-minute quiz with honest device-limit recommendations"),
@@ -64,8 +64,8 @@ def build_llms():
     lines.append(
         "The universal in-browser game console. Three centerpieces: (1) the Player — "
         "a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; "
-        "the user's file never leaves their machine); (2) the Converter — drop in a GBA, GB/GBC or NES file you own, "
-        "get back a single self-contained playable .html browser game (client-side only, all three cores BIOS-free); "
+        "the user's file never leaves their machine); (2) the Converter 3.0 — batch-convert GBA, GB/GBC, NES, SNES or Genesis files you own "
+        "into self-contained playable .html browser games (client-side only, all five cores BIOS-free, honest validation, compression levels); "
         "(3) the Party Planner — headcount + time + vibe in, timed game-night rotation plan out. "
         f"Plus a curated directory of {ngames} free, legal browser games (every link verified live 2026-10-11), "
         "hand-built collections, genre deep dives, and legal-lane emulation guides. "
@@ -74,7 +74,7 @@ def build_llms():
     lines.append("")
     lines.append("## Play")
     lines.append("- player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.1: named save slots + auto-save, per-system keyboard+gamepad remap, cheat-code entry, display options (CRT/integer-scale/aspect, per-system quick settings), honest netplay notes)")
-    lines.append("- converter.html — ROM-to-browser-game converter (GBA/GB/GBC/NES in, self-contained .html out)")
+    lines.append("- converter.html — Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 5 BIOS-free cores (mGBA/Gambatte/FCEUmm/Snes9x/Genesis Plus GX), 4 compression levels + presets, honest ROM validation (refuses empty/all-zero/bad-NES, warns on blank headers / missing SEGA string, keeps SNES copier headers), custom titles + cover art, ▶ Player mode deep links")
     lines.append("- party-planner.html — Party planner 2.0: guest list (2-16 names), per-guest game voting (ties go to the earliest-picked game), fair rotation scheduler (hot-seat groups of 4), party timeline with snack break + tournament slot, snack-break timer, kids-party mode from the 50 kid-safe games, tournament handoff 2.0 (?players=N&names=A,B&games=ids&format=), shareable #p= party links, print party pack + copy-as-text")
     lines.append("- tournament.html — Tournament 2.0: single- or double-elimination brackets for game night (2-16 players, manual seeding UI + randomize, honest byes, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids))")
     lines.append(f"- games.html — the {ngames}-game directory (search, genre filters, favorites, random game, game of the day)")

@@ -43,11 +43,15 @@ const template = fs.readFileSync(path.join(ROOT, "assets/vendor/template-game.ht
 const converter = fs.readFileSync(path.join(ROOT, "assets/js/converter.js"), "utf8");
 const tokens = template.match(/__BM_[A-Z0-9_]+__/g) || [];
 const uniqueTokens = [...new Set(tokens)];
-check("WF2 template tokens present", uniqueTokens.length >= 9, uniqueTokens.join(", "));
-check("WF2 converter fills every token", uniqueTokens.every((t) => converter.includes(".split('" + t + "')")),
-  "all tokens replaced");
-check("WF2 all three cores supported", ["gba", "gb", "nes"].every((c) => converter.includes("core: '" + c + "'")),
-  "gba/gb/nes profiles");
+check("WF2 template tokens present", uniqueTokens.length === 11, uniqueTokens.join(", "));
+check("WF2 converter fills every token (via ConverterCore.buildHtml)",
+  ["name:", "gameId:", "buildDate:", "romSize:", "romB64:", "core:", "coreLabel:", "system:", "hint:", "compressed:", "cover:"]
+    .every((f) => converter.includes(f)),
+  "all 11 fields passed");
+check("WF2 all five cores supported",
+  ["key: 'gba'", "key: 'gb'", "key: 'nes'", "key: 'snes'", "key: 'segamd'"].every((k) =>
+    fs.readFileSync(path.join(ROOT, "assets/js/converter-core.js"), "utf8").includes(k)),
+  "gba/gb/nes/snes/segamd profiles");
 check("WF2 BIOS-free documented",
   fs.readFileSync(path.join(ROOT, "converter.html"), "utf8").includes("No BIOS needed"),
   "per-core BIOS notes on converter.html");
@@ -383,6 +387,55 @@ check("WF11 party-planner-runner skill documents 2.0",
 check("WF11 AGENT.md + llms.txt mention Party Planner 2.0",
   fs.readFileSync(path.join(ROOT, "AGENT.md"), "utf8").includes("Party Planner 2.0") &&
   fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("Party planner 2.0"),
+  "agentic surface current");
+
+// Workflow 12 (AGENT.md): Converter 3.0 — batch conversion, compression, validation
+const convCore = require("../assets/js/converter-core.js");
+const convHtml = fs.readFileSync(path.join(ROOT, "converter.html"), "utf8");
+const convUiJs = fs.readFileSync(path.join(ROOT, "assets/js/converter.js"), "utf8");
+const convTemplate = fs.readFileSync(path.join(ROOT, "assets/vendor/template-game.html"), "utf8");
+check("WF12 converter-core loads (UMD, node)",
+  convCore.VERSION === "3.0" && Object.keys(convCore.PROFILES).length === 5, "v3.0, 5 profiles");
+check("WF12 format detection: 8 extensions, rejects others",
+  ["a.gba", "b.gb", "c.gbc", "d.nes", "e.sfc", "f.smc", "g.md", "h.gen"].every((n) => convCore.profileFor(n)) &&
+  ["i.zip", "j.smd", "k.bin", "l.iso"].every((n) => !convCore.profileFor(n)), "gba/gb/gbc/nes/sfc/smc/md/gen only");
+check("WF12 validation: real homebrew warns, never errors",
+  (() => {
+    const b = new Uint8Array(fs.readFileSync(path.join(ROOT, "tests/homebrew-test-roms/rkanoid-latest-demo.gba")));
+    const v = convCore.validateRom(b, "gba");
+    return v.errors.length === 0 && v.warnings.length > 0;
+  })(), "rkanoid zeroed header -> warning");
+check("WF12 validation: bad NES refused",
+  convCore.validateRom(new Uint8Array([1, 2, 3, 4]), "nes").errors.length > 0, "missing magic");
+check("WF12 token contract: 11 tokens, all replaced",
+  convCore.TOKENS.length === 11 &&
+  convCore.TOKENS.every((t) => convTemplate.includes(t)) &&
+  !/__BM_[A-Z0-9_]+__/.test(convCore.buildHtml(convTemplate, {
+    name: "t", gameId: "g", buildDate: "d", romSize: "s", romB64: "QUJD",
+    core: "gba", coreLabel: "mGBA core", system: "Game Boy Advance",
+    hint: "h", compressed: "1", cover: ""
+  })), "template + assembly agree");
+check("WF12 pako vendored for compression",
+  fs.existsSync(path.join(ROOT, "assets/vendor/pako.min.js")) &&
+  convHtml.includes("assets/vendor/pako.min.js"), "local, no new CDN dep");
+check("WF12 output boots compressed builds + links Player",
+  convTemplate.includes("DecompressionStream") && convTemplate.includes("player.html?core=__BM_CORE__") &&
+  convTemplate.includes("__BM_COVER__"), "inflate path, deep link, cover token");
+check("WF12 batch UI present",
+  ["conv-queue", "conv-cancel", "conv-download-all", "conv-cover", "conv-status", 'value="best"']
+    .every((s) => convHtml.includes(s)) && convHtml.includes('multiple'), "queue, cancel, cover, radios, multi");
+check("WF12 error isolation + cancel in UI layer",
+  convUiJs.includes("processQueue") && convUiJs.includes("cancelFlag"), "sequential runner, cancel");
+check("WF12 converter12 test suite exists",
+  fs.existsSync(path.join(ROOT, "scripts/test_converter12.js")), "pinned fixtures");
+check("WF12 converter skill documents 3.0",
+  (() => {
+    const s = fs.readFileSync(path.join(ROOT, "skills/converter-multi-system.md"), "utf8");
+    return s.includes("3.0") && s.includes("batch") && s.includes("compression") && s.includes("11 tokens");
+  })(), "skill current");
+check("WF12 AGENT.md + llms.txt mention Converter 3.0",
+  fs.readFileSync(path.join(ROOT, "AGENT.md"), "utf8").includes("Converter 3.0") &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("Converter 3.0"),
   "agentic surface current");
 
 process.exit(failures ? 1 : 0);

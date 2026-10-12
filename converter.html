@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ROM → Browser Game Converter — Button Mash</title>
-<meta name="description" content="Turn a GBA, Game Boy/Color or NES file you own into a self-contained playable browser game. Drop your file, download one .html that boots straight into the game. 100% client-side — nothing uploads.">
+<meta name="description" content="Turn GBA, Game Boy/Color, NES, SNES or Genesis files you own into self-contained playable browser games. Batch conversion, compression levels, honest validation. 100% client-side — nothing uploads.">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
@@ -36,9 +36,9 @@
 <main id="main">
   <section class="hero">
     <div class="wrap hero-inner">
-      <span class="kicker">Centerpiece 02 · v2</span>
-      <h1>Your ROM in. <span class="pink">A browser game out.</span></h1>
-      <p class="lede">Drop in a Game Boy Advance, Game Boy / Game Boy Color, or NES file <strong>you own</strong> → get back a single <code>.html</code> file that <em>is</em> the game: your ROM embedded inside, boots straight into play, hostable on any static host or double-clickable offline-ish. Everything happens in your browser — <strong>your file never uploads anywhere.</strong></p>
+      <span class="kicker">Centerpiece 02 · v3</span>
+      <h1>Your ROMs in. <span class="pink">Browser games out.</span></h1>
+      <p class="lede">Drop in Game Boy Advance, Game Boy / Game Boy Color, NES, Super Nintendo, or Sega Genesis files <strong>you own</strong> — one or a whole batch — → get back self-contained <code>.html</code> games: each ROM embedded inside, booting straight into play, hostable on any static host. Everything happens in your browser — <strong>your files never upload anywhere.</strong></p>
     </div>
   </section>
 
@@ -46,31 +46,58 @@
     <div class="wrap">
       <div class="converter-steps">
         <div class="conv-step">
-          <h3>Drop your ROM file</h3>
-          <p style="color:var(--ink-dim)">A dump of a cartridge you own, a homebrew file, or any ROM you have the rights to — <code>.gba</code> (Game Boy Advance), <code>.gb</code>/<code>.gbc</code> (Game Boy / Color) or <code>.nes</code> (NES). Max size follows the real hardware: 32MB for GBA, 8MB for GB/GBC, 4MB for NES.</p>
-          <div class="drop-veil" id="conv-drop" style="position:static;min-height:10rem;border:2px dashed var(--edge-bright);border-radius:var(--r-md);cursor:pointer" role="button" tabindex="0" aria-label="Drop a GBA, GB, GBC or NES file or click to choose one">
+          <h3>Drop your ROM files</h3>
+          <p style="color:var(--ink-dim)">Dumps of cartridges you own, homebrew files, or any ROMs you have the rights to — <code>.gba</code> (Game Boy Advance), <code>.gb</code>/<code>.gbc</code> (Game Boy / Color), <code>.nes</code> (NES), <code>.sfc</code>/<code>.smc</code> (Super Nintendo) or <code>.md</code>/<code>.gen</code> (Sega Genesis). Drop one file or a whole folder's worth: each becomes its own game, converted one at a time. Max size follows the real hardware: 32MB for GBA, 8MB for GB/GBC, 4MB for NES, 6MB for SNES, 4MB for Genesis.</p>
+          <div class="drop-veil" id="conv-drop" style="position:static;min-height:10rem;border:2px dashed var(--edge-bright);border-radius:var(--r-md);cursor:pointer" role="button" tabindex="0" aria-label="Drop ROM files, or click to choose files">
             <div class="big-icon" aria-hidden="true">💾</div>
-            <p><strong>Drop your .gba / .gb / .gbc / .nes here</strong> — or click to browse</p>
-            <input type="file" id="conv-file" accept=".gba,.gb,.gbc,.nes" class="sr-only" tabindex="-1" aria-label="Choose a GBA, GB, GBC or NES file">
+            <p><strong>Drop your ROM files here</strong> — or click to browse (multiple OK)</p>
+            <input type="file" id="conv-file" accept=".gba,.gb,.gbc,.nes,.sfc,.smc,.md,.gen" multiple class="sr-only" tabindex="-1" aria-label="Choose ROM files">
           </div>
+          <ul class="conv-queue" id="conv-queue" aria-label="Conversion batch"></ul>
           <div class="rom-info" id="rom-info" hidden></div>
           <div class="size-warn" id="size-warn" hidden></div>
         </div>
 
         <div class="conv-step">
-          <h3>Convert &amp; download</h3>
-          <p style="color:var(--ink-dim)">We detect the system from the file extension, then base64-encode your ROM into a game template bundling the right EmulatorJS core (mGBA for GBA, Gambatte for GB/GBC, FCEUmm for NES). Big files take a minute — the progress bar keeps you posted.</p>
-          <button class="btn btn-primary" id="convert-btn" type="button" disabled>⚡ Convert to browser game</button>
+          <h3>Options, then convert</h3>
+          <p style="color:var(--ink-dim)">Give each game its own title (click the title in the list), pick how hard to squeeze the download, optionally add cover art. Then convert — files process one at a time, and a bad file never stops the rest.</p>
+          <fieldset class="conv-opts">
+            <legend>Download size</legend>
+            <div class="conv-presets" role="group" aria-label="Compression presets">
+              <span>Presets:</span>
+              <button type="button" class="btn btn-small" data-preset="best">Smallest file</button>
+              <button type="button" class="btn btn-small" data-preset="balanced">Balanced</button>
+              <button type="button" class="btn btn-small" data-preset="none">Fastest build</button>
+            </div>
+            <label><input type="radio" name="conv-comp" value="none"> <strong>None — fastest build.</strong> <span>Plain base64. Biggest file (~33% over the ROM).</span></label>
+            <label><input type="radio" name="conv-comp" value="fast"> <strong>Fast.</strong> <span>Quick squeeze — noticeably smaller, barely slower.</span></label>
+            <label><input type="radio" name="conv-comp" value="balanced" checked> <strong>Balanced (recommended).</strong> <span>Much smaller file, a few extra seconds to build.</span></label>
+            <label><input type="radio" name="conv-comp" value="best"> <strong>Best — smallest file.</strong> <span>Squeezes hardest; slowest to build. Big ROMs take a while.</span></label>
+            <p class="conv-note" id="conv-comp-note">Honest trade-off: higher levels only cost <em>build</em> time — the game itself loads and plays the same, since your device inflates the data in a blink. Savings vary: code-heavy ROMs shrink ~30–50%; already-packed data shrinks less.</p>
+          </fieldset>
+          <div class="conv-cover-row">
+            <label for="conv-cover"><strong>Cover art</strong> <span style="color:var(--ink-dim)">(optional, one image for the whole batch — shows on each game's title bar)</span></label>
+            <input type="file" id="conv-cover" accept="image/*">
+            <img id="conv-cover-prev" alt="Cover art preview" hidden>
+            <p class="conv-note" id="conv-cover-msg" hidden></p>
+            <p class="conv-note">2MB max — the image is embedded in every game file, so it adds to each download.</p>
+          </div>
+          <div class="conv-actions">
+            <button class="btn btn-primary" id="convert-btn" type="button" disabled>⚡ Convert to browser games</button>
+            <button class="btn" id="conv-cancel" type="button" hidden>✕ Cancel batch</button>
+            <button class="btn" id="conv-download-all" type="button" hidden>⬇ Download all</button>
+          </div>
           <div class="progress-wrap" id="conv-progress">
-            <div class="progress-bar" role="progressbar" aria-label="Conversion progress" aria-valuemin="0" aria-valuemax="100"><div class="progress-fill" id="conv-fill"></div></div>
-            <div class="progress-label" id="conv-label"></div>
+            <div class="progress-bar" role="progressbar" aria-label="Batch conversion progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="conv-fill"></div></div>
+            <div class="progress-label" id="conv-label" aria-hidden="true"></div>
+            <div class="sr-only" role="status" id="conv-status"></div>
           </div>
           <div class="callout good" id="conv-result" hidden style="margin-top:1rem"></div>
         </div>
 
         <div class="conv-step">
-          <h3>Play &amp; share the file</h3>
-          <p style="color:var(--ink-dim)">Double-click the downloaded <code>.html</code> to play instantly. Host it on any static host (GitHub Pages, itch.io, your own site) and it boots straight into <em>your</em> game — no installer, no emulator setup for the player.</p>
+          <h3>Play &amp; share the files</h3>
+          <p style="color:var(--ink-dim)">Double-click a downloaded <code>.html</code> to play instantly. Host it on any static host (GitHub Pages, itch.io, your own site) and it boots straight into <em>your</em> game — no installer, no emulator setup for the player. Each game also carries a <strong>▶ Player mode</strong> button that re-opens it in the Button Mash Player (right system pre-selected) — handy on slow connections, since the Player streams your original ROM straight from disk.</p>
           <div class="callout">
             <p><strong>How it works, honestly:</strong> your exported game contains your ROM plus a player stub. The emulator <em>engine</em> (EmulatorJS) loads from its public CDN on first run, then it's cached by the browser. So the file needs internet the very first time — after that it plays from cache. Save states persist in the browser via local storage.</p>
           </div>
@@ -89,11 +116,15 @@
       <div class="grid cols-2">
         <article class="feature-card">
           <h3>Size limits, stated plainly</h3>
-          <p>Caps follow the real hardware: 32MB for GBA, 8MB for GB/GBC, 4MB for NES. Base64 embedding adds ~33% overhead (the biggest GBA exports approach 43MB), so we warn well below the cap — for big files, <a href="player.html">Player mode</a> (no embedding, streams from your disk) is the better experience.</p>
+          <p>Caps follow the real hardware: 32MB for GBA, 8MB for GB/GBC, 4MB for NES, 6MB for SNES (48 Mbit — the biggest real carts), 4MB for Genesis (32 Mbit of directly addressable ROM space; bank-switched carts are exotic — use Player mode for those). Uncompressed base64 adds ~33% overhead; the compression option shrinks that substantially. We warn well below the cap — for big files, <a href="player.html">Player mode</a> (no embedding, streams from your disk) is the better experience. Batches over 100MB of input get a memory heads-up: your browser holds it all while converting.</p>
         </article>
         <article class="feature-card">
-          <h3>No BIOS needed — for any of the three</h3>
-          <p>All three export cores boot with zero extra files: mGBA ships its own built-in BIOS replacement, and Gambatte (GB/GBC) plus FCEUmm (NES) need no BIOS at all. Your game boots the moment it loads. Save states and in-game saves persist in the player's browser via local storage.</p>
+          <h3>We check your file — humbly</h3>
+          <p>Every file gets validated before conversion: empty files, all-zero dumps, and NES files missing the <code>NES</code> signature are refused with a plain-language reason. A blank cartridge header only earns a <em>warning</em> — many homebrew ROMs look like that and boot fine. GB/GBC header checksums are verified arithmetically; Genesis ROMs are checked for the <code>SEGA</code> header string (missing only warns — emulators don't enforce it); SNES copier headers are detected and kept as-is. One bad file never stops the rest of the batch.</p>
+        </article>
+        <article class="feature-card">
+          <h3>No BIOS needed — for all five</h3>
+          <p>All five export cores boot with zero extra files: mGBA ships its own built-in BIOS replacement, and Gambatte (GB/GBC), FCEUmm (NES), Snes9x (SNES) plus Genesis Plus GX (Genesis cartridges) need no BIOS at all. Your game boots the moment it loads. Save states and in-game saves persist in the player's browser via local storage.</p>
         </article>
         <article class="feature-card">
           <h3>Curious how GBA-in-browser works?</h3>
@@ -152,6 +183,8 @@
   </div>
 </footer>
 
+<script src="assets/vendor/pako.min.js"></script>
+<script src="assets/js/converter-core.js"></script>
 <script src="assets/js/converter.js"></script>
 </body>
 </html>
