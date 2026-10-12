@@ -2,6 +2,31 @@
 
 Running record of build waves. Newest first.
 
+## Wave 11 — 2026-10-11 — Party Planner 2.0: guests, voting, rotation, timeline, snack timer, kids mode, handoff 2.0, share links
+
+**What shipped:**
+- **Guest list** (`party-planner.html` + `assets/js/party.js`): the w3 headcount number input is now a name textarea (2–16 names, one per line, live guest count, `<2 guests` honestly rejected). Guest names drive the rotation scheduler, game voting, and the tournament handoff.
+- **Game voting**: one vote per guest (re-vote moves it), tally with an aria-live list; ties go to the earliest-picked candidate (same rule as w10's per-round voting). "Rebuild plan with voted games" puts voted games first in the slots; the tournament handoff takes the top voted picks as the round-game candidates (`Party2.tally` / `topVoted`).
+- **Rotation scheduler** (`Party2.scheduleRotation`): hot-seat games play in groups of up to 4, the group offset rotating one guest per slot — over a full cycle every guest sits out the same number of times (pinned fixture: 5 guests / 5 slots → everyone sits exactly once, plays 4×). Arenas list "everyone plays at once".
+- **Party timeline** (`Party2.buildTimeline`): 30-min setup → game slots → snack break (inserted after the middle slot) → suggested 30-min tournament → 30-min free play. Wall-clock labels when a party start time is set, relative `+0:00` offsets otherwise.
+- **Snack-break timer**: configurable break length (5–30 min), Start/Pause/Reset, `role="timer"` face, aria announcements on start/pause/finish only (per-second updates would be chatty), no animation (reduced-motion safe).
+- **Tournament handoff 2.0**: "Run a tournament for this party" → `tournament.html?players=N&names=Ana,Ben&games=id1,id2&format=single|double`. `tournament.js`'s `initFromURL` now parses validated `?names=` (2–16 names, safe chars, ≤32) and pre-fills real names instead of "Player 1..N". The w10 "fresh tournament" rule holds: no stale saved bracket is restored under handoff params.
+- **Share/print/copy**: same-origin `#p=` party links (encode inputs only — guests/opts/games/votes; slots + timeline are re-derived on import, never trusted; `decodeShare` validates version, counts, name shapes, game-id shapes, and sanitizes votes; tampered links rejected with an error), print party pack (form/controls hidden, timeline + slots + votes + rotation shown), copy-plan-as-text for the group chat.
+- **Kids party toggle**: restricts picks to the 50 kid-safe games from `api/v1/kid-safe.json` (youngest-age-band selector 5–7/8–10/11–12, bands nest), all hot-seat hand-the-controller. Verified by data: only 1 of the 27 party-tagged games is kid-safe, so kids parties deliberately don't require the `party` tag — stated honestly in the UI and skill. Vibe + skill-mix fieldsets disable with an explanation while kids mode is on.
+- **Docs**: `skills/party-planner-runner.md` rewritten for 2.0 (verified facts only — voting rules, rotation math, kids-pool behavior, handoff params, share-link privacy note); AGENT.md Party Planner bullet → 2.0, workflow 4 rewritten, Tournament bullet's handoff params updated to `?players=N&names=A,B&games=ids&format=`; `scripts/build_site.py` party blurb → llms.txt/llms-full.txt regenerated. No new skill — no genuine gap (party-planner-runner owns this surface).
+- **Agentic surface**: `scripts/check_api_workflows.js` gained WF11 (12 checks; 76/76 pass, was 64/64); new `scripts/test_party11.js`: **36/36 pinned-fixture assertions** (guest validation, voting ties + re-vote, rotation fairness, timeline phases + wall clock, share round-trip + tamper rejections, kids-pool bands, option cleaning); new `scripts/test_party_planner11.js`: **30/30 headless UI checks** — 2.0 controls, live guest count, plan build, timeline order, rotation sit-outs, voting + tally + re-vote + apply, share clipboard round-trip, kids filtering (12 candidates, all kid-safe), timer start/pause/reset, handoff URL + pre-filled names + fresh bracket, tamper rejection, zero pageerrors.
+
+**Validation (wave 11):**
+- `scripts/build.py`: BUILD OK — 125 games (111 domains), 13 collections, 10 emulators, 14 guides; LEGAL GATE OK (30 pages, 125 game URLs, 0 piracy links)
+- `node scripts/check_api_workflows.js`: 76/76 pass (WF1–WF11), 0 failures
+- `scripts/check_links.py`: LINK CHECK OK — 30 pages, 824 local links, 63 external links, 0 broken
+- `node scripts/test_party11.js`: 36/36 pass; `node --check`: clean on party2.js, party.js, tournament.js, both new test scripts
+- `node scripts/test_party_planner11.js`: 30/30 PASS, zero pageerrors
+- Regression: `node scripts/test_tournament10.js`: 26/26 PASS, zero pageerrors (names= handoff is additive); `~/workspace/smoke/test.js` (standard path): zero pageerrors — only the known expected CDN tunnel noise on player.html
+- Headless: kids.html + converter.html covered by smoke run — zero pageerrors (no regressions)
+
+**Legal lane**: unchanged — zero new external links (kids games all come from the existing verified catalog); share links are same-origin `#p=` URLs. (Real-engine boot test still needs parent browser delegation: `BM_BOOT_TEST=1 node ~/workspace/smoke/test.js`.)
+
 ## Wave 10 — 2026-10-11 — Tournament 2.0: double elimination + seeding UI + game voting + history/undo + share links
 
 **What shipped:**

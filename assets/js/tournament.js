@@ -925,7 +925,15 @@
     catch (e) { return; }
     var n = parseInt(q.get('players'), 10);
     var ta = $('t-players');
-    if (n >= B.MIN_PLAYERS && n <= B.MAX_PLAYERS && ta) {
+    /* ?names=Ana,Ben,... (party planner 2.0 handoff): real guest names,
+       one per line. Validated: 2-16 names, safe characters, <= 32 chars. */
+    var names = (q.get('names') || '').split(',').map(function (s) { return s.trim().replace(/\s+/g, ' '); })
+      .filter(function (s) { return s.length >= 1 && s.length <= 32 && /^[A-Za-z0-9 .'\-+_]+$/.test(s); })
+      .slice(0, 16);
+    if (names.length >= 2 && ta) {
+      ta.value = names.join('\n');
+      handoffParams = true;
+    } else if (n >= B.MIN_PLAYERS && n <= B.MAX_PLAYERS && ta) {
       var lines = [];
       for (var i = 1; i <= n; i++) { lines.push('Player ' + i); }
       ta.value = lines.join('\n');

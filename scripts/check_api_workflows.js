@@ -312,4 +312,77 @@ check("WF10 build_site tournament blurb is 2.0",
   fs.readFileSync(path.join(ROOT, "scripts/build_site.py"), "utf8").includes("Tournament brackets 2.0"),
   "llms.txt source updated");
 
+// ---- Wave 11: Party Planner 2.0 — guests, voting, rotation, timeline, share, kids mode ----
+const Party2 = require(path.join(ROOT, "assets/js/party2.js"));
+const partyHtml = fs.readFileSync(path.join(ROOT, "party-planner.html"), "utf8");
+const partyJs = fs.readFileSync(path.join(ROOT, "assets/js/party.js"), "utf8");
+const w11party = Party2.createParty(["Ana", "Ben", "Cara"], { format: "double" }, ["skribbl", "bonk", "gartic-phone"]);
+check("WF11 party2 module loads (UMD, node)",
+  !w11party.error && w11party.version === 1 && typeof Party2.tally === "function" &&
+  typeof Party2.scheduleRotation === "function" && typeof Party2.buildTimeline === "function" &&
+  typeof Party2.encodeShare === "function" && typeof Party2.decodeShare === "function",
+  "party 2.0 logic module");
+check("WF11 voting: tie goes to earliest pick, re-vote moves",
+  (() => {
+    const s = Party2.createParty(["A", "B", "C"], {}, ["g1", "g2"]);
+    Party2.addVote(s, "A", "g2"); Party2.addVote(s, "B", "g1"); // 1-1 tie
+    if (Party2.topVoted(s, 2)[0] !== "g1") return false;        // g1 picked first
+    Party2.addVote(s, "A", "g1");                              // A re-votes
+    return Party2.tally(s)[0].gameId === "g1" && Party2.tally(s)[0].count === 2;
+  })(), "tie-break + re-vote pinned fixture");
+check("WF11 rotation: 5 guests / 5 slots -> everyone sits exactly once",
+  (() => {
+    const g = ["A", "B", "C", "D", "E"];
+    const rot = Party2.scheduleRotation(g, g.map(() => ({ hotseat: true })));
+    const sits = {};
+    rot.forEach((r) => r.sits.forEach((x) => { sits[x] = (sits[x] || 0) + 1; }));
+    return g.every((x) => sits[x] === 1);
+  })(), "fair sit-out rotation");
+check("WF11 timeline: setup -> games -> snack -> tournament -> free play",
+  (() => {
+    const tl = Party2.buildTimeline({ startClock: "19:00", snackMin: 15 },
+      [{ gameId: "g1", title: "G", start: 0, end: 20 }], 0);
+    return tl.phases.map((p) => p.phase).join(",") === "setup,game,snack,tournament,freeplay" &&
+      tl.phases[0].clockStart === "6:30 PM";
+  })(), "phase order + wall clock");
+check("WF11 share validation rejects tampering",
+  !Party2.decodeShare("!!!").ok && !Party2.decodeShare(
+    Buffer.from(JSON.stringify({ v: 99, guests: ["A", "B"], games: ["g1"] })).toString("base64url")).ok &&
+    Party2.decodeShare(Party2.encodeShare(w11party)).ok,
+  "round-trip + version gate");
+check("WF11 kids pool stays inside the 50 curated kid-safe ids",
+  (() => {
+    const kidSafe = load("api/v1/kid-safe.json")["kid-safe"];
+    const pool = Party2.kidPool(kidSafe, "8-10");
+    const set = new Set(kidSafe.map((r) => r.id));
+    return pool.length > 0 && pool.length <= 50 && pool.every((id) => set.has(id));
+  })(), "kid-safe subset");
+check("WF11 party-planner.html has 2.0 controls",
+  partyHtml.includes('id="pp-guests-list"') && partyHtml.includes('id="pp-kids"') &&
+  partyHtml.includes('id="pp-start"') && partyHtml.includes('id="pp-format"') &&
+  partyHtml.includes("assets/js/party2.js"),
+  "guests, kids toggle, start time, format, party2.js");
+check("WF11 party.js wires voting + timeline + share + timer + handoff 2.0",
+  partyJs.includes("pp-vote-cast") && partyJs.includes("buildTimeline") &&
+  partyJs.includes("#p=") && partyJs.includes("'pp-timer-'") &&
+  partyJs.includes("&names=") && partyJs.includes("&format="),
+  "vote UI, timeline, share links, snack timer, names handoff");
+check("WF11 tournament.js accepts the names= handoff",
+  tourneyJs.includes("q.get('names')") && tourneyJs.includes("handoffParams = true;"),
+  "?names= pre-fills real guest names");
+check("WF11 logic + UI test suites exist",
+  fs.existsSync(path.join(ROOT, "scripts/test_party11.js")) &&
+  fs.existsSync(path.join(ROOT, "scripts/test_party_planner11.js")),
+  "test_party11.js + test_party_planner11.js");
+check("WF11 party-planner-runner skill documents 2.0",
+  (() => {
+    const s = fs.readFileSync(path.join(ROOT, "skills/party-planner-runner.md"), "utf8");
+    return s.includes("one vote per guest") && s.includes("kid-safe") && s.includes("#p=") &&
+      s.includes("names=");
+  })(), "skill updated");
+check("WF11 AGENT.md + llms.txt mention Party Planner 2.0",
+  fs.readFileSync(path.join(ROOT, "AGENT.md"), "utf8").includes("Party Planner 2.0") &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("Party planner 2.0"),
+  "agentic surface current");
+
 process.exit(failures ? 1 : 0);
