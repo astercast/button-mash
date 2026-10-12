@@ -2,6 +2,31 @@
 
 Running record of build waves. Newest first.
 
+## Vercel Wave A — 2026-10-11 — "The Curator": serverless API + game-night engine
+
+**What shipped** — the repo's first server layer, per `~/workspace/server-program/ARCHITECTURE.md` (service `mash-curator`). Five functions, zero npm dependencies, `nodejs22.x`, envelope-only responses:
+
+- **`api/health.js`** — §1.4 health: status ok/degraded (never 5xx), function roster, per-file freshness (5 static JSONs, 7-day SLA), checks booleans. Edge-cached s-maxage=60.
+- **`api/games.js`** — GET, filters `?genre= ?q= ?players= ?system= ?limit=` (default 50, max 200). Every game enriched with real derived fields (`multiplayer`, `kid_safe`, `vibes`, `system:"browser"`). Unknown system → honest empty list + note (corpus is browser games only); unknown genre → 400 BAD_INPUT. Fallback: `api/v1/games.json`.
+- **`api/collections.js`** — GET all 22 (or `?id=` single, 404 on miss), game_ids resolved to real catalog titles/URLs.
+- **`api/game-night.js`** — POST, stateless deterministic engine: `{group_size 1-12, minutes 15-240, vibe[], systems?, kids?}` → `{lineup, plan_notes, scored_from, scoring_version, scoring_weights, metadata_as_of, inputs_echo}`. Scoring: player fit 40 + session 30 + vibe 20 + kids 10, ties by title. Corpus-only (213 curl-verified browser games) — the safety property. Impossible constraints (e.g. `systems:["ps1"]`) → honest empty lineup + `no_lineup_reason` + why. kids=true restricts to the 113 kid-safe games. Compute-bucket rate limit (20/min). Client fallback parity: same weights ship in `assets/js/game-night.js` (wave B).
+- **`api/cron/curator.js`** — weekly `0 10 * * 1` UTC: 6 emulator release Atom feeds + 2 itch feeds, parallel 4s fetch, diff vs `api/v1/curator-watch.json`, commit on change via GitHub Contents API (content-hash, SHA-retry). New releases are tracked for human review — never auto-published to the catalog. itch bot-gates (403) → recorded as failed source, not "no games". 60s duplicate cooldown. 10s budget guard (commit skipped if <3s remains).
+- **`lib/`** — the five spec helpers (envelope, fetchx, ratelimit, cronauth, github) + `lib/game-night.js` (shared scoring). **Commit-back degrade:** the fine-grained PAT (`GITHUB_REPO_TOKEN`, contents:write) is still pending the user's decision — the cron detects the missing token and degrades to read-only (computes + returns the fresh diff, persists nothing, `degraded:true` + human note). Documented in `lib/github.js` and the cron header.
+- **`vercel.json`** — buildCommand `python3 scripts/build.py` (timed 0.54s, <60s), outputDirectory `.`, nodejs22.x, cron lint (daily-or-slower), §2.2 headers, cleanUrls, trailingSlash false.
+- **`api/v1/schema/envelope.json`** — §1.10 envelope schema (JSON Schema draft 2020-12).
+- **`tests/api.test.sh` + `tests/run_local.js` + `tests/validate_envelope.py`** — 36 checks: envelope asserts, schema validation, 400 gates, 401 gates, static fallback, cron read-only degrade + duplicate cooldown, vercel.json cron lint, game-night determinism + kids + no-lineup edge cases, 50-hit smoke (no 429s, p95<2s). **36/36 green.**
+
+**Validation (Vercel Wave A):**
+- `scripts/build.py`: **BUILD OK — 213 games (149 domains), 22 collections, 10 emulators, 22 guides**; **LEGAL GATE OK (40 pages, 213 game URLs, 0 piracy links)**
+- `node scripts/check_api_workflows.js`: all workflows pass (exit 0)
+- `tests/api.test.sh`: **36/36 green** against the local harness (real function execution)
+- Cron exercised end-to-end: 8 feeds checked, honest-degraded on VM-slow network (all timed out at 4s; github.com reachable at ~8.8s via curl — production will be faster; itch 403 bot-gate confirmed), Atom parser verified against real mGBA feed
+- Existing suites: `test_party11`, `test_bracket`, `test_bracket_double`, `test_converter12` pass. `test_party_planner11`, `test_tournament10`, `test_identity16`, `test_player21`, `test_trophy18`, `test_wave17` fail on the pristine tree too — missing `puppeteer-core` (environment limitation, pre-existing, not a regression)
+
+**Legal lane**: unchanged — zero ROMs hosted, zero ROM/BIOS download links. The game-night engine's corpus is the 213 curl-verified browser games; emulator/ROM territory is unreachable by design (unsupported `systems` → honest no-lineup).
+
+**Not in this wave** (Wave B): frontend wiring (`assets/js/api-client.js` + badges), GO_LIVE.md rewrite to the §11 template, API.md function docs, preview-deploy verification.
+
 ## Wave 18 — 2026-10-11 — "The Trophy Room": persistent play-tracking across the catalog
 
 **What shipped** — the flagship feature wave: every game card now carries persistent state, and a new Trophy Room page is the player's wall. All real logic, all browser-local, The Arcade identity extended (achievements as prize tokens, completion rings as CRT dials, zero keyframe animation — reduced-motion safe by construction).
