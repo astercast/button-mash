@@ -1,0 +1,47 @@
+[
+  {
+    "difficulty": "Intermediate",
+    "id": "emulatorjs-selfhost",
+    "slug": "emulatorjs-self-hosting",
+    "summary": "Host the open-source EmulatorJS player on your own site and play ROMs you dumped yourself \u2014 setup, cores, BIOS, and the legal line.",
+    "time_minutes": 30,
+    "title": "EmulatorJS self-hosting guide",
+    "section_count": 8
+  },
+  {
+    "difficulty": "Beginner",
+    "id": "retroarch-setup",
+    "slug": "retroarch-setup",
+    "summary": "Install RetroArch, add cores for hardware you own, and load your own dumped games \u2014 controllers, save states, shaders, and netplay included.",
+    "time_minutes": 20,
+    "title": "RetroArch setup guide",
+    "section_count": 7
+  },
+  {
+    "difficulty": "Advanced",
+    "id": "gba-wasm-recompiler",
+    "slug": "gba-to-wasm-recompiler",
+    "summary": "Turn a GBA cartridge you own into a self-contained browser page via static recompilation \u2014 the user-supplied-ROMs-only pattern, end to end.",
+    "time_minutes": 90,
+    "title": "GBA-to-WASM recompiler guide",
+    "section_count": 7
+  },
+  {
+    "difficulty": "Beginner",
+    "id": "rip-your-own",
+    "slug": "rip-your-own-cartridges",
+    "summary": "Turn cartridges you own into verified ROM backups with a USB dumper \u2014 hardware picks, the dumping ritual, and the no-distribution rule.",
+    "time_minutes": 45,
+    "title": "Rip-your-own-cartridges guide",
+    "section_count": 6
+  },
+  {
+    "difficulty": "Reference",
+    "id": "homebrew-sources",
+    "slug": "homebrew-and-public-domain",
+    "summary": "Where to find legal homebrew ROMs and public-domain games: archives, dev communities, itch.io, and open-source originals.",
+    "time_minutes": 10,
+    "title": "Homebrew & public-domain sources",
+    "section_count": 4
+  }
+]

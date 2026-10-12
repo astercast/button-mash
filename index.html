@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Button Mash — every game playable in the browser, legally</title>
+<meta name="description" content="The all-in-one browser games + emulation hub. 47 legal browser games — open-source HTML5, .io arenas, itch.io picks, archive collections — plus emulation guides that stay in the legal lane.">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<a class="skip-link" href="#cards">Skip to games</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html" aria-label="Button Mash home">
+      <span class="brand-mark" aria-hidden="true">🕹️</span>
+      <span class="brand-text">Button <strong>Mash</strong></span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="index.html" aria-current="page">Games</a>
+      <a href="#guides">Guides</a>
+      <a href="api/v1/games.json">API</a>
+      <a href="llms.txt">llms.txt</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <span class="kicker">100% legal lane · no ROM piracy, ever</span>
+    <h1 id="hero-title"><span class="neon-pink">Every game</span> playable<br>in the browser, <span class="neon-cyan">legally.</span></h1>
+    <p class="lede">A curated arcade of browser games — open-source HTML5 gems, .io arenas, itch.io picks, Internet Archive collections — plus emulation guides that teach the tools, not the piracy. Bring your own dumped ROMs.</p>
+    <div class="stats" aria-label="Library stats">
+      <div class="stat"><b id="stat-games">–</b><span>games</span></div>
+      <div class="stat"><b id="stat-genres">–</b><span>genres</span></div>
+      <div class="stat"><b id="stat-guides">–</b><span>guides</span></div>
+    </div>
+  </section>
+
+  <div class="browser">
+    <aside aria-label="Filters">
+      <form class="filters" id="filters" onsubmit="return false;">
+        <h2>Find a game</h2>
+        <div class="search-box">
+          <label for="search">Search</label>
+          <input type="search" id="search" name="search" placeholder="tetris, idle, drawing…" autocomplete="off">
+        </div>
+        <fieldset>
+          <legend>Genre</legend>
+          <div class="chip-row" id="genre-chips" role="group" aria-label="Genre"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Players</legend>
+          <div class="chip-row" id="player-chips" role="group" aria-label="Players"></div>
+        </fieldset>
+        <button class="btn btn-random" id="random-btn" type="button">🎲 Random game</button>
+      </form>
+    </aside>
+    <section aria-label="Games">
+      <div class="results-bar">
+        <p><strong id="result-count" role="status" aria-live="polite">Loading…</strong></p>
+      </div>
+      <div class="card-grid" id="cards"></div>
+    </section>
+  </div>
+
+  <section class="guides-section" id="guides" aria-labelledby="guides-h">
+    <span class="kicker">Tools, not piracy</span>
+    <h2 id="guides-h">Emulation guides</h2>
+    <p class="lede" style="text-align:left; margin-left:0;">Learn the tools — EmulatorJS, RetroArch, GBA-to-WASM recompilers, cartridge dumping — and where to find legal homebrew. Every guide assumes one thing: you supply ROMs you dumped from games you own.</p>
+    <ul class="guide-list" id="guide-list"></ul>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>Button Mash</strong> — the all-in-one browser games + emulation hub. Every game here is legal to play: open-source, free-to-play, or archive collections. Emulation guides cover tools only — bring your own dumped ROMs. No ROM download links, no piracy sites, ever.</p>
+    <p><a href="api/v1/games.json">games API</a> · <a href="api/v1/guides.json">guides API</a> · <a href="llms.txt">llms.txt</a> · <a href="API.md">API docs</a></p>
+  </div>
+</footer>
+
+<script src="assets/app.js" defer></script>
+</body>
+</html>

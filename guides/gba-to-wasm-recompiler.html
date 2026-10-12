@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GBA-to-WASM recompiler guide — Button Mash</title>
+<meta name="description" content="Turn a GBA cartridge you own into a self-contained browser page via static recompilation — the user-supplied-ROMs-only pattern, end to end.">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="../index.html" aria-label="Button Mash home">
+      <span class="brand-mark" aria-hidden="true">🕹️</span>
+      <span class="brand-text">Button <strong>Mash</strong></span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="../index.html">Games</a>
+      <a href="../index.html#guides">Guides</a>
+      <a href="../api/v1/games.json">API</a>
+      <a href="../llms.txt">llms.txt</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="main">
+
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#guides">← All guides</a></nav>
+<article class="guide-page">
+  <p class="kicker">Guide · Advanced</p>
+  <h1>GBA-to-WASM recompiler guide</h1>
+  <p class="lede">Turn a GBA cartridge you own into a self-contained browser page via static recompilation — the user-supplied-ROMs-only pattern, end to end.</p>
+  <ul class="chips" aria-label="Guide facts"><li>⏱ ~90 min</li><li>Advanced</li></ul>
+  <aside class="legal-note"><strong>Legal lane:</strong> this guide covers tools and techniques only. Supply ROMs you dumped from games you own, plus homebrew and public-domain titles. No ROM download links, no piracy sites — ever.</aside>
+  <section class="guide-section"><h2>The pattern</h2><p>Most browser emulation interprets a console&#x27;s CPU in real time. A static recompiler takes a different path: it translates the game&#x27;s ARM/Thumb machine code into WebAssembly ahead of time, once. The result is a self-contained web page — WASM plus a small runtime shim — that plays the game with no emulator needed at runtime.</p>
+<p>The open-source demo at agnt-gg/gba-pokemon-rom-to-wasm walks the whole pattern end to end and is the best reference for how the pieces fit.</p></section>
+<section class="guide-section"><h2>The non-negotiable input rule</h2><p>The input ROM must be a dump of a cartridge you physically own — see the rip-your-own-cartridges guide. Two hard rules:</p>
+<p>1. Never feed a downloaded ROM into the toolchain. The recompiler doesn&#x27;t care where the file came from; the law does.<br>2. Don&#x27;t redistribute the built page. The output still contains the original game&#x27;s copyrighted code, so sharing the build is sharing the game.</p>
+<p>Build for yourself, play it yourself. That&#x27;s the legal lane.</p></section>
+<section class="guide-section"><h2>1. Dump your own cartridge</h2><p>Use a cartridge dumper — a GB Operator, Joey Jr., Sanni Cart Reader, or similar — to read your own GBA cartridge into a ROM file on your computer. Verify the dump (most dumper software shows a checksum) before you build.</p></section>
+<section class="guide-section"><h2>2. Run the recompiler on your dump</h2><p>Clone the recompiler repository and follow its README for the toolchain install. Point the build script at your dumped ROM file. The build emits three things: a WASM module with your game&#x27;s translated code, the JavaScript glue and runtime shim (this implements the GBA&#x27;s graphics, sound, and timer hardware), and an HTML shell that loads it all.</p></section>
+<section class="guide-section"><h2>3. Host the build yourself</h2><p>The output is static files, so any static web host works — or just open the HTML file locally. Saves typically persist via localStorage or IndexedDB in the browser. Keep the page private, or share it only with people who own the same cartridge.</p></section>
+<section class="guide-section"><h2>How it works, briefly</h2><p>At build time, each ARM instruction in the game maps to equivalent WebAssembly operations. Anything the game expects from real GBA hardware — the picture processing unit, the sound channels, the timers, the memory-mapped I/O — is implemented in the runtime shim the recompiler ships with. It&#x27;s emulation, just done ahead of time instead of on the fly.</p></section>
+<section class="guide-section"><h2>Limits and gotchas</h2><ul><li>Not every game recompiles cleanly; anti-piracy checks and unusual hardware tricks can break the build</li><li>Performance varies by browser and device; desktop Chrome/Firefox are the smoothest targets</li><li>Debugging a broken build means reading the recompiler&#x27;s logs, not the game&#x27;s code — start with a simple, well-documented game</li><li>This pattern generalizes: the same idea applies to other consoles, with different recompiler projects</li></ul></section>
+  <section aria-labelledby="more-guides"><h2 id="more-guides">More guides</h2>
+  <ul class="guide-list"><li><a href="emulatorjs-self-hosting.html">EmulatorJS self-hosting guide</a> — Host the open-source EmulatorJS player on your own site and play ROMs you dumped yourself — setup, cores, BIOS, and the legal line.</li>
+<li><a href="retroarch-setup.html">RetroArch setup guide</a> — Install RetroArch, add cores for hardware you own, and load your own dumped games — controllers, save states, shaders, and netplay included.</li>
+<li><a href="rip-your-own-cartridges.html">Rip-your-own-cartridges guide</a> — Turn cartridges you own into verified ROM backups with a USB dumper — hardware picks, the dumping ritual, and the no-distribution rule.</li>
+<li><a href="homebrew-and-public-domain.html">Homebrew &amp; public-domain sources</a> — Where to find legal homebrew ROMs and public-domain games: archives, dev communities, itch.io, and open-source originals.</li></ul></section>
+</article>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>Button Mash</strong> — the all-in-one browser games + emulation hub. Every game here is legal to play: open-source, free-to-play, or archive collections. Emulation guides cover tools only — bring your own dumped ROMs.</p>
+    <p><a href="../api/v1/games.json">games API</a> · <a href="../api/v1/guides.json">guides API</a> · <a href="../llms.txt">llms.txt</a> · <a href="../API.md">API docs</a></p>
+  </div>
+</footer>
+</body>
+</html>

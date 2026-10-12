@@ -1,0 +1,71 @@
+/* Button Mash — design tokens. Arcade energy: dark cabinet, neon marquee. */
+:root {
+  /* Surfaces */
+  --bg: #0a0a14;
+  --bg-2: #101020;
+  --bg-3: #161628;
+  --panel: #12121f;
+  --panel-2: #181828;
+  --edge: #26263c;
+  --edge-bright: #3a3a58;
+
+  /* Neon palette */
+  --neon-pink: #ff2e88;
+  --neon-cyan: #00e5ff;
+  --neon-lime: #b6ff2e;
+  --neon-amber: #ffb02e;
+  --neon-purple: #9d4dff;
+
+  /* Text */
+  --ink: #f4f2ff;
+  --ink-dim: #b9b7d4;
+  --ink-mute: #7d7b9c;
+
+  /* Type */
+  --font-display: "Archivo Black", "Arial Black", system-ui, sans-serif;
+  --font-body: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --fs-hero: clamp(2.6rem, 7vw, 5.2rem);
+  --fs-h1: clamp(1.9rem, 4.5vw, 3rem);
+  --fs-h2: clamp(1.35rem, 3vw, 1.9rem);
+  --fs-h3: 1.15rem;
+  --fs-body: 1.02rem;
+  --fs-small: 0.86rem;
+  --fs-micro: 0.72rem;
+
+  /* Shape */
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 20px;
+  --r-pill: 999px;
+
+  /* Neon glow shadows */
+  --glow-pink: 0 0 18px rgba(255, 46, 136, 0.45);
+  --glow-cyan: 0 0 18px rgba(0, 229, 255, 0.4);
+  --glow-lime: 0 0 18px rgba(182, 255, 46, 0.35);
+  --shadow-pop: 4px 4px 0 rgba(0, 0, 0, 0.55);
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.45);
+
+  /* Motion */
+  --dur-fast: 120ms;
+  --dur-med: 240ms;
+  --ease-snap: cubic-bezier(0.2, 1.4, 0.4, 1);
+  --ease-smooth: cubic-bezier(0.3, 0.7, 0.3, 1);
+
+  /* Scanline texture (subtle CRT vibe) */
+  --scanlines: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.025) 0px,
+    rgba(255, 255, 255, 0.025) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-med: 0ms;
+  }
+}

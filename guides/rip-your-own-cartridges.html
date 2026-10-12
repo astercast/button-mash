@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rip-your-own-cartridges guide — Button Mash</title>
+<meta name="description" content="Turn cartridges you own into verified ROM backups with a USB dumper — hardware picks, the dumping ritual, and the no-distribution rule.">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="../index.html" aria-label="Button Mash home">
+      <span class="brand-mark" aria-hidden="true">🕹️</span>
+      <span class="brand-text">Button <strong>Mash</strong></span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="../index.html">Games</a>
+      <a href="../index.html#guides">Guides</a>
+      <a href="../api/v1/games.json">API</a>
+      <a href="../llms.txt">llms.txt</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="main">
+
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html#guides">← All guides</a></nav>
+<article class="guide-page">
+  <p class="kicker">Guide · Beginner</p>
+  <h1>Rip-your-own-cartridges guide</h1>
+  <p class="lede">Turn cartridges you own into verified ROM backups with a USB dumper — hardware picks, the dumping ritual, and the no-distribution rule.</p>
+  <ul class="chips" aria-label="Guide facts"><li>⏱ ~45 min</li><li>Beginner</li></ul>
+  <aside class="legal-note"><strong>Legal lane:</strong> this guide covers tools and techniques only. Supply ROMs you dumped from games you own, plus homebrew and public-domain titles. No ROM download links, no piracy sites — ever.</aside>
+  <section class="guide-section"><h2>The idea</h2><p>Dumping is reading the data off a cartridge or disc you own into a file on your computer. That file — the ROM or disc image — is a backup of your property, and it&#x27;s the only legal way to get game files for the emulators and recompilers in the other guides.</p>
+<p>This guide is practical how-to, not legal advice. The general principle is simple: back up what you own, and never distribute the copies.</p></section>
+<section class="guide-section"><h2>The legal framing (general principles)</h2><p>Making a personal backup of software you own is treated very differently from downloading or sharing copies you have no rights to. The bright line is distribution: uploading your dumps, sharing them with friends, or downloading someone else&#x27;s is piracy regardless of whether you own the game.</p>
+<p>Laws vary by country and change over time. When in doubt, the conservative read — your dumps, your devices, no sharing — keeps you safe everywhere.</p></section>
+<section class="guide-section"><h2>Pick a dumper for your system</h2><ul><li>Game Boy / Game Boy Color / Game Boy Advance: GB Operator (Epilogue) or Joey Jr. — dead simple USB dumpers</li><li>SNES + Genesis: Retrode 2 — plug the cart into a USB adapter that mounts like a drive</li><li>Multi-system DIY: INLretro Dumper or the open-source Sanni Cart Reader — more systems, more tinkering</li><li>Save files: most of these dumpers also back up the save RAM, so your 100-hour file survives</li></ul></section>
+<section class="guide-section"><h2>The dumping ritual</h2><p>1. Clean the cartridge&#x27;s edge connector with isopropyl alcohol and a cotton swab — dirty contacts cause bad dumps<br>2. Seat the cart firmly in the dumper<br>3. Run the dumper software and save the ROM file<br>4. Verify it: good dumper software shows a checksum. Compare it against a known-good database entry for your exact cartridge — a match means a perfect read<br>5. Keep the physical cartridge. It&#x27;s your proof of ownership and the reason the backup is yours to make</p></section>
+<section class="guide-section"><h2>Disc-based games</h2><p>Optical media needs a compatible disc drive plus dumping software; the per-system guides in preservation communities document exact drive models and settings. The same rule applies: your disc, your dump, no sharing. Disc dumps are big — budget storage accordingly.</p></section>
+<section class="guide-section"><h2>Store it right</h2><ul><li>Keep each ROM next to a small text file with its checksum and the cartridge it came from</li><li>Back up save files separately; they&#x27;re tiny and irreplaceable</li><li>Store everything twice (local drive + a backup) — dumped once, kept forever</li><li>Label homebrew and public-domain ROMs as such so your future self knows what&#x27;s shareable</li></ul></section>
+  <section aria-labelledby="more-guides"><h2 id="more-guides">More guides</h2>
+  <ul class="guide-list"><li><a href="emulatorjs-self-hosting.html">EmulatorJS self-hosting guide</a> — Host the open-source EmulatorJS player on your own site and play ROMs you dumped yourself — setup, cores, BIOS, and the legal line.</li>
+<li><a href="retroarch-setup.html">RetroArch setup guide</a> — Install RetroArch, add cores for hardware you own, and load your own dumped games — controllers, save states, shaders, and netplay included.</li>
+<li><a href="gba-to-wasm-recompiler.html">GBA-to-WASM recompiler guide</a> — Turn a GBA cartridge you own into a self-contained browser page via static recompilation — the user-supplied-ROMs-only pattern, end to end.</li>
+<li><a href="homebrew-and-public-domain.html">Homebrew &amp; public-domain sources</a> — Where to find legal homebrew ROMs and public-domain games: archives, dev communities, itch.io, and open-source originals.</li></ul></section>
+</article>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>Button Mash</strong> — the all-in-one browser games + emulation hub. Every game here is legal to play: open-source, free-to-play, or archive collections. Emulation guides cover tools only — bring your own dumped ROMs.</p>
+    <p><a href="../api/v1/games.json">games API</a> · <a href="../api/v1/guides.json">guides API</a> · <a href="../llms.txt">llms.txt</a> · <a href="../API.md">API docs</a></p>
+  </div>
+</footer>
+</body>
+</html>

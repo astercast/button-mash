@@ -1,0 +1,378 @@
+[
+  {
+    "description": "Slide numbered tiles around a 4x4 grid and merge matching pairs. Simple to learn, brutally hard to put down \u2014 chase the 2048 tile.",
+    "genre": "puzzle",
+    "id": "2048",
+    "players": "single",
+    "title": "2048",
+    "url": "https://play2048.co/"
+  },
+  {
+    "description": "Tetris reimagined on a hexagon. Rotate the board to slot falling blocks into place \u2014 fast, colorful, and open source.",
+    "genre": "puzzle",
+    "id": "hextris",
+    "players": "single",
+    "title": "Hextris",
+    "url": "https://hextris.io/"
+  },
+  {
+    "description": "A tiny, perfect logic puzzle: fill grids with red and blue tiles using three simple rules. Open source, endlessly replayable.",
+    "genre": "puzzle",
+    "id": "0hh1",
+    "players": "single",
+    "title": "0hh1",
+    "url": "https://0hh1.com/"
+  },
+  {
+    "description": "The original idle game. Click a cookie, bake millions, hire grandmas and open portals. The web version is still free.",
+    "genre": "idle",
+    "id": "cookie-clicker",
+    "players": "single",
+    "title": "Cookie Clicker",
+    "url": "https://orteil.dashnet.org/cookieclicker/"
+  },
+  {
+    "description": "An open-source take on the one-tap flapping phenomenon. Thread the bird through the pipes; rage responsibly.",
+    "genre": "arcade",
+    "id": "clumsy-bird",
+    "players": "single",
+    "title": "Clumsy Bird",
+    "url": "https://ellisonleao.github.io/clumsy-bird/"
+  },
+  {
+    "description": "A procedurally generated 3D maze that stretches to the horizon. Find the exit, then do it again \u2014 it never repeats.",
+    "genre": "maze",
+    "id": "astray",
+    "players": "single",
+    "title": "Astray",
+    "url": "https://wwwtyro.github.io/Astray/"
+  },
+  {
+    "description": "Starts with a fire in a dark room and a 'stoke fire' button. Unfolds into a strange, gripping minimalist RPG.",
+    "genre": "rpg",
+    "id": "a-dark-room",
+    "players": "single",
+    "title": "A Dark Room",
+    "url": "https://adarkroom.doublespeakgames.com/"
+  },
+  {
+    "description": "You get candies. You eat them. Then things get weird. An ASCII-art RPG that keeps surprising you.",
+    "genre": "rpg",
+    "id": "candy-box-2",
+    "players": "single",
+    "title": "Candy Box 2",
+    "url": "https://candybox2.github.io/"
+  },
+  {
+    "description": "An idle game from CERN where your clicks fund particle-physics research upgrades. Learn the Standard Model by accident.",
+    "genre": "idle",
+    "id": "particle-clicker",
+    "players": "single",
+    "title": "Particle Clicker",
+    "url": "https://particle-clicker.web.cern.ch/"
+  },
+  {
+    "description": "The original PICO-8 Celeste, built in four days at a game jam. Tight jumps, hidden strawberries, one mountain.",
+    "genre": "platformer",
+    "id": "celeste-classic",
+    "players": "single",
+    "title": "Celeste Classic",
+    "url": "https://mattmakesgames.itch.io/celesteclassic"
+  },
+  {
+    "description": "The front door to thousands of free browser games on itch.io. Filter by 'play in browser' and dig \u2014 new gems land daily.",
+    "genre": "browse",
+    "id": "itchio-browser",
+    "players": "both",
+    "title": "itch.io free browser games",
+    "url": "https://itch.io/games"
+  },
+  {
+    "description": "The one that started the .io craze. Eat pellets, dodge bigger cells, become the blob.",
+    "genre": "io",
+    "id": "agar-io",
+    "players": "multiplayer",
+    "title": "agar.io",
+    "url": "https://agar.io/"
+  },
+  {
+    "description": "Snake meets battle royale. Cut off rivals and feast on what they leave behind.",
+    "genre": "io",
+    "id": "slither-io",
+    "players": "multiplayer",
+    "title": "slither.io",
+    "url": "https://slither.io/"
+  },
+  {
+    "description": "Top-down tank warfare with deep upgrade trees. Simple controls, serious strategy.",
+    "genre": "shooter",
+    "id": "diep-io",
+    "players": "multiplayer",
+    "title": "diep.io",
+    "url": "https://diep.io/"
+  },
+  {
+    "description": "2D battle royale in your browser: loot, watch the circle shrink, be the last one standing.",
+    "genre": "battle-royale",
+    "id": "surviv-io",
+    "players": "multiplayer",
+    "title": "surviv.io",
+    "url": "https://surviv.io/"
+  },
+  {
+    "description": "Climb the food chain from mouse to dragon in a living ecosystem full of other players.",
+    "genre": "io",
+    "id": "mope-io",
+    "players": "multiplayer",
+    "title": "mope.io",
+    "url": "https://mope.io/"
+  },
+  {
+    "description": "Carve out territory with your trail and steal everyone else's. Tense, territorial, addictive.",
+    "genre": "io",
+    "id": "splix-io",
+    "players": "multiplayer",
+    "title": "splix.io",
+    "url": "https://splix.io/"
+  },
+  {
+    "description": "Physics-based bumper arenas. Shove your friends off the edge with a perfectly timed bonk.",
+    "genre": "party",
+    "id": "bonk-io",
+    "players": "multiplayer",
+    "title": "bonk.io",
+    "url": "https://bonk.io/"
+  },
+  {
+    "description": "Draw and guess with friends in private rooms. The worse the drawing, the better the story.",
+    "genre": "party",
+    "id": "skribbl-io",
+    "players": "multiplayer",
+    "title": "skribbl.io",
+    "url": "https://skribbl.io/"
+  },
+  {
+    "description": "A shockingly good FPS that runs in a browser tab. Fast rounds, low spec requirements, high skill ceiling.",
+    "genre": "fps",
+    "id": "krunker-io",
+    "players": "multiplayer",
+    "title": "krunker.io",
+    "url": "https://krunker.io/"
+  },
+  {
+    "description": "Cartoon battle royale with quick matches. Drop in, loot up, outlast the lobby.",
+    "genre": "battle-royale",
+    "id": "zombsroyale-io",
+    "players": "multiplayer",
+    "title": "zombsroyale.io",
+    "url": "https://zombsroyale.io/"
+  },
+  {
+    "description": "Modern competitive Tetris in the browser, with ranked matchmaking and buttery netcode. Solo sprint modes too.",
+    "genre": "puzzle",
+    "id": "tetr-io",
+    "players": "both",
+    "title": "TETR.IO",
+    "url": "https://tetr.io/"
+  },
+  {
+    "description": "Dogfight in the skies, swoop down to steal weapons. Pure arcade chaos.",
+    "genre": "io",
+    "id": "wings-io",
+    "players": "multiplayer",
+    "title": "wings.io",
+    "url": "https://wings.io/"
+  },
+  {
+    "description": "Team up with strangers to raid dungeons and fight bosses in this co-op .io RPG.",
+    "genre": "rpg",
+    "id": "wilds-io",
+    "players": "multiplayer",
+    "title": "wilds.io",
+    "url": "https://wilds.io/"
+  },
+  {
+    "description": "Don't starve, don't freeze, don't get eaten. A harsh little survival MMO in a single tab.",
+    "genre": "survival",
+    "id": "starve-io",
+    "players": "multiplayer",
+    "title": "starve.io",
+    "url": "https://starve.io/"
+  },
+  {
+    "description": "Top-down gun game with armor, upgrades, and satisfyingly chunky combat.",
+    "genre": "shooter",
+    "id": "gats-io",
+    "players": "multiplayer",
+    "title": "gats.io",
+    "url": "https://gats.io/"
+  },
+  {
+    "description": "Pilot a helicopter, build walls, claim territory. Part shooter, part tower defense.",
+    "genre": "io",
+    "id": "defly-io",
+    "players": "multiplayer",
+    "title": "defly.io",
+    "url": "https://defly.io/"
+  },
+  {
+    "description": "Battle karts with power-ups and ramps. Kart-racer energy, zero install.",
+    "genre": "racing",
+    "id": "kartwars-io",
+    "players": "multiplayer",
+    "title": "kartwars.io",
+    "url": "https://kartwars.io/"
+  },
+  {
+    "description": "Neon snake with a speed-boost twist. Thread the needle between rivals at full throttle.",
+    "genre": "io",
+    "id": "powerline-io",
+    "players": "multiplayer",
+    "title": "powerline.io",
+    "url": "https://powerline.io/"
+  },
+  {
+    "description": "A slither-style arena with skills, boosts, and potions to shake up the formula.",
+    "genre": "io",
+    "id": "wormax-io",
+    "players": "multiplayer",
+    "title": "wormax.io",
+    "url": "https://wormax.io/"
+  },
+  {
+    "description": "Fast top-down arena shooter with classes and perks. Quick to learn, hard to master.",
+    "genre": "shooter",
+    "id": "vertix-io",
+    "players": "multiplayer",
+    "title": "vertix.io",
+    "url": "https://vertix.io/"
+  },
+  {
+    "description": "A stick-figure comedy MMO running since 2003. Absurd writing, deep systems, free forever.",
+    "genre": "rpg",
+    "id": "kingdom-of-loathing",
+    "players": "single",
+    "title": "Kingdom of Loathing",
+    "url": "https://www.kingdomofloathing.com/"
+  },
+  {
+    "description": "Gothic storytelling in a sunken Victorian London. Some of the best writing on the web, full stop.",
+    "genre": "story",
+    "id": "fallen-london",
+    "players": "single",
+    "title": "Fallen London",
+    "url": "https://www.fallenlondon.com/"
+  },
+  {
+    "description": "Start with four elements and combine your way to hundreds of discoveries. Oddly meditative.",
+    "genre": "puzzle",
+    "id": "little-alchemy-2",
+    "players": "single",
+    "title": "Little Alchemy 2",
+    "url": "https://littlealchemy2.com/"
+  },
+  {
+    "description": "Google's neural net tries to guess your doodles in 20 seconds. Humbling and hilarious.",
+    "genre": "party",
+    "id": "quick-draw",
+    "players": "single",
+    "title": "Quick, Draw!",
+    "url": "https://quickdraw.withgoogle.com/"
+  },
+  {
+    "description": "Race from one Wikipedia article to another using only links. Speedrunning knowledge itself.",
+    "genre": "trivia",
+    "id": "the-wiki-game",
+    "players": "both",
+    "title": "The Wiki Game",
+    "url": "https://www.thewikigame.com/"
+  },
+  {
+    "description": "The classic free-to-play MMO still runs in browsers. Grind skills, slay dragons, relive 2007.",
+    "genre": "mmo",
+    "id": "runescape",
+    "players": "multiplayer",
+    "title": "RuneScape",
+    "url": "https://www.runescape.com/"
+  },
+  {
+    "description": "The virtual-pet classic is still alive in the browser. Feed your Neopet, play games, earn Neopoints.",
+    "genre": "virtual-pet",
+    "id": "neopets",
+    "players": "single",
+    "title": "Neopets",
+    "url": "https://www.neopets.com/"
+  },
+  {
+    "description": "The legendary ragdoll obstacle course. Goofy, gory, and endlessly replayable thanks to community levels.",
+    "genre": "ragdoll",
+    "id": "happy-wheels",
+    "players": "single",
+    "title": "Happy Wheels",
+    "url": "https://www.totaljerkface.com/"
+  },
+  {
+    "description": "An idle game about an AI that makes paperclips. Starts cute, ends existential \u2014 and it has an actual ending.",
+    "genre": "idle",
+    "id": "universal-paperclips",
+    "players": "single",
+    "title": "Universal Paperclips",
+    "url": "https://www.decisionproblem.com/paperclips/index.html"
+  },
+  {
+    "description": "The original creative-mode Minecraft, free in your browser with multiplayer. Build something silly with friends.",
+    "genre": "sandbox",
+    "id": "minecraft-classic",
+    "players": "both",
+    "title": "Minecraft Classic",
+    "url": "https://classic.minecraft.net/"
+  },
+  {
+    "description": "Geography quizzes that are weirdly addictive. Learn every country on Earth by accident.",
+    "genre": "trivia",
+    "id": "seterra",
+    "players": "single",
+    "title": "Seterra",
+    "url": "https://www.seterra.com/"
+  },
+  {
+    "description": "An open-source futuristic hover-racer in HTML5. Fast, sleek, and free.",
+    "genre": "racing",
+    "id": "hexgl",
+    "players": "single",
+    "title": "HexGL",
+    "url": "https://hexgl.bkcore.com/"
+  },
+  {
+    "description": "A surprisingly complete flight simulator in a browser tab, with real-world terrain and multiplayer skies.",
+    "genre": "flight",
+    "id": "geofs",
+    "players": "both",
+    "title": "GeoFS",
+    "url": "https://www.geo-fs.com/"
+  },
+  {
+    "description": "Hundreds of DOS classics playable in-browser through the Archive's emulator. Check each item's rights info.",
+    "genre": "collection",
+    "id": "ia-msdos",
+    "players": "single",
+    "title": "MS-DOS Games (Internet Archive)",
+    "url": "https://archive.org/details/softwarelibrary_msdos_games"
+  },
+  {
+    "description": "Real arcade cabinet games running in your browser via in-browser emulation. A museum you can play.",
+    "genre": "collection",
+    "id": "ia-arcade",
+    "players": "single",
+    "title": "Internet Arcade (Internet Archive)",
+    "url": "https://archive.org/details/internetarcade"
+  },
+  {
+    "description": "Console games in the browser from the Archive's software library. Browse, click, play.",
+    "genre": "collection",
+    "id": "ia-console",
+    "players": "single",
+    "title": "Console Living Room (Internet Archive)",
+    "url": "https://archive.org/details/consolelivingroom"
+  }
+]
