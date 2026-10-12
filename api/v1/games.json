@@ -1,10 +1,10 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T03:24:09Z",
+  "generated_at": "2026-10-12T03:40:47Z",
   "endpoint": "games",
   "description": "Curated browser games directory (every URL verified live — never invented).",
-  "count": 125,
+  "count": 162,
   "games": [
     {
       "controls": "Arrow keys / swipe",
@@ -1115,6 +1115,302 @@
       "genre": "action",
       "controls": "Keyboard",
       "description": "Three.js arcade plane combat in one static page. No accounts, no installs."
+    },
+    {
+      "id": "evolution-of-trust",
+      "title": "The Evolution of Trust",
+      "url": "https://ncase.me/trust/",
+      "genre": "puzzle",
+      "controls": "Mouse — click through the interactive story",
+      "description": "An interactive essay on game theory: play trust games against copycats, cheaters, and grudgers to see what cooperation is really worth."
+    },
+    {
+      "id": "better-ballot",
+      "title": "To Build a Better Ballot",
+      "url": "https://ncase.me/ballot/",
+      "genre": "puzzle",
+      "controls": "Mouse — run elections",
+      "description": "An interactive explainer of voting systems — run the same election under different rules and watch different winners emerge."
+    },
+    {
+      "id": "parable-of-polygons",
+      "title": "Parable of the Polygons",
+      "url": "https://ncase.me/polygons/",
+      "genre": "puzzle",
+      "controls": "Mouse — drag shapes",
+      "description": "A playable parable about tiny biases and big patterns: shuffle shapes around and watch neighborhoods segregate themselves."
+    },
+    {
+      "id": "wisdom-madness-crowds",
+      "title": "The Wisdom and/or Madness of Crowds",
+      "url": "https://ncase.me/crowds/",
+      "genre": "puzzle",
+      "controls": "Mouse — place bets",
+      "description": "An interactive essay on when crowds are wise and when they are a mob — bet on guesses and watch the network think."
+    },
+    {
+      "id": "sight-and-light",
+      "title": "Sight & Light",
+      "url": "https://ncase.me/sight-and-light/",
+      "genre": "puzzle",
+      "controls": "Mouse — flip panels",
+      "description": "A short interactive comic about how eyes and light actually work, with little optics toys tucked into the panels."
+    },
+    {
+      "id": "bitburner",
+      "title": "Bitburner",
+      "url": "https://danielyxie.github.io/bitburner/",
+      "genre": "idle",
+      "controls": "Keyboard — type commands; mouse for menus",
+      "description": "A hacking incremental: write real JavaScript to automate servers and climb a fictional cyber-underworld. Free and open source."
+    },
+    {
+      "id": "mindustry",
+      "title": "Mindustry",
+      "url": "https://mindustrygame.github.io/",
+      "genre": "action",
+      "controls": "Mouse + WASD — build, pan, command",
+      "description": "Open-source factory defense: design conveyor-fed production lines, then hold them against waves. The web build is the full game."
+    },
+    {
+      "id": "shapez",
+      "title": "shapez.io",
+      "url": "https://shapez.io/",
+      "genre": "puzzle",
+      "controls": "Mouse — place belts and machines",
+      "description": "Design ever-more-elegant factories that cut, paint, and stack shapes into ordered chaos. Meditative automation puzzling."
+    },
+    {
+      "id": "dcss-webtiles",
+      "title": "Dungeon Crawl Stone Soup",
+      "url": "https://crawl.akrasiac.org/",
+      "genre": "roguelike",
+      "controls": "Keyboard — full keybinds; mouse for menus",
+      "description": "The legendary open-source roguelike in the browser: turn-based, brutally fair, and deep enough to lose a year to."
+    },
+    {
+      "id": "angband-live",
+      "title": "Angband",
+      "url": "https://angband.live/",
+      "genre": "roguelike",
+      "controls": "Keyboard — roguelike keybinds",
+      "description": "The granddaddy of roguelikes, live in your browser: descend a 100-level Tolkien-inspired dungeon one careful turn at a time."
+    },
+    {
+      "id": "nethack-web",
+      "title": "NetHack",
+      "url": "https://www.alt.org/nethack/",
+      "genre": "roguelike",
+      "controls": "Keyboard — classic keybinds",
+      "description": "NetHack in a terminal, in your browser. The 1987 classic that named the genre — still undefeated, still hilarious."
+    },
+    {
+      "id": "spelunky-classic",
+      "title": "Spelunky Classic",
+      "url": "https://spelunkyworld.com/original.html",
+      "genre": "roguelike",
+      "controls": "Arrow keys to move, Z / X to act",
+      "description": "The original free Spelunky as an HTML5 port: procedural caves, shopkeepers with long memories, and glorious deaths."
+    },
+    {
+      "id": "powder-game",
+      "title": "Powder Game",
+      "url": "https://dan-ball.jp/en/javagame/dust2/",
+      "genre": "cozy",
+      "controls": "Mouse — pick elements, paint",
+      "description": "The original falling-sand toy: pour powder, water, fire, and acid into a sandbox and watch the physics play out."
+    },
+    {
+      "id": "stick-ranger",
+      "title": "Stick Ranger",
+      "url": "https://dan-ball.jp/en/javagame/ranger/",
+      "genre": "idle",
+      "controls": "Mouse — mostly runs itself",
+      "description": "A tiny idle RPG: four stick figures march right, fighting monsters automatically while you nudge their stats. Weirdly absorbing."
+    },
+    {
+      "id": "flexbox-froggy",
+      "title": "Flexbox Froggy",
+      "url": "https://flexboxfroggy.com/",
+      "genre": "puzzle",
+      "controls": "Keyboard — write flexbox CSS",
+      "description": "Rescue frogs with flexbox: 24 gentle levels that teach CSS layout better than any tutorial."
+    },
+    {
+      "id": "grid-garden",
+      "title": "Grid Garden",
+      "url": "https://cssgridgarden.com/",
+      "genre": "puzzle",
+      "controls": "Keyboard — write grid CSS",
+      "description": "Grow a garden with CSS grid: 28 levels of planting carrots that turn the grid spec into something you can see."
+    },
+    {
+      "id": "codingame",
+      "title": "CodinGame",
+      "url": "https://www.codingame.com/start/",
+      "genre": "puzzle",
+      "controls": "Keyboard — write code",
+      "description": "Coding puzzles and bot-arena battles in 25+ languages — solve solo challenges or clash your AI against other programmers'."
+    },
+    {
+      "id": "codecombat",
+      "title": "CodeCombat",
+      "url": "https://codecombat.com/",
+      "genre": "puzzle",
+      "controls": "Keyboard — write code",
+      "description": "Learn to code by commanding heroes: type real Python or JavaScript to move, fight, and quest through a fantasy campaign."
+    },
+    {
+      "id": "vampire-survivors",
+      "title": "Vampire Survivors",
+      "url": "https://poncle.itch.io/vampire-survivors",
+      "genre": "roguelike",
+      "controls": "WASD / arrows — move; attacks are automatic",
+      "description": "The official web demo of the bullet-heaven phenomenon: pick a build, survive the swarm, become the storm."
+    },
+    {
+      "id": "doing-work",
+      "title": "It is as if you were doing work",
+      "url": "https://pippinbarr.com/itisasifyouweredoingwork/",
+      "genre": "cozy",
+      "controls": "Mouse + keyboard — do the work",
+      "description": "Pippin Barr's office parody: do fake data entry, dodge your fake boss, and feel weirdly seen. An art game about the 9-to-5."
+    },
+    {
+      "id": "chogue",
+      "title": "Chogue",
+      "url": "https://pippinbarr.com/chogue/",
+      "genre": "roguelike",
+      "controls": "Mouse — move like chess",
+      "description": "Chess meets roguelike: every piece you capture joins your party for a dungeon crawl. Pippin Barr's strangest hybrid."
+    },
+    {
+      "id": "absurdle",
+      "title": "Absurdle",
+      "url": "https://qntm.org/files/absurdle/absurdle.html",
+      "genre": "puzzle",
+      "controls": "Keyboard — type guesses",
+      "description": "Wordle's adversarial twin: the game changes its answer to dodge your guesses as long as possible. Bring your best opener."
+    },
+    {
+      "id": "semantle",
+      "title": "Semantle",
+      "url": "https://semantle.com/",
+      "genre": "puzzle",
+      "controls": "Keyboard — type guesses",
+      "description": "Guess the secret word by meaning: every guess is scored on semantic similarity, not spelling. Strangely philosophical."
+    },
+    {
+      "id": "waffle",
+      "title": "Waffle",
+      "url": "https://wafflegame.net/",
+      "genre": "puzzle",
+      "controls": "Mouse / keyboard — swap letters",
+      "description": "A waffle-ironed word puzzle: swap letters in a grid to bake six words at once. Fifteen swaps, no more, new puzzle daily."
+    },
+    {
+      "id": "contexto",
+      "title": "Contexto",
+      "url": "https://contexto.me/",
+      "genre": "puzzle",
+      "controls": "Keyboard — type guesses",
+      "description": "Guess the secret word while an AI ranks every try by closeness. Unlimited guesses, infinite rabbit holes, daily word."
+    },
+    {
+      "id": "bandle",
+      "title": "Bandle",
+      "url": "https://bandle.app/",
+      "genre": "puzzle",
+      "controls": "Mouse / keyboard — guess the song",
+      "description": "Name that tune from an increasingly long clip — six tries, new song every day, for people who hear in genres."
+    },
+    {
+      "id": "pointer-pointer",
+      "title": "Pointer Pointer",
+      "url": "https://pointerpointer.com/",
+      "genre": "cozy",
+      "controls": "Mouse — move the pointer",
+      "description": "Move your cursor and the internet points at it — a photo always finds your pointer. Oddly delightful, every time."
+    },
+    {
+      "id": "hacker-typer",
+      "title": "Hacker Typer",
+      "url": "https://hackertyper.net/",
+      "genre": "cozy",
+      "controls": "Keyboard — mash keys",
+      "description": "Smash the keyboard and look like a movie hacker: every keystroke writes flawless exploit code. Zero skill required."
+    },
+    {
+      "id": "doom-1993",
+      "title": "DOOM (1993)",
+      "url": "https://archive.org/details/msdos_DOOM_1993",
+      "genre": "retro",
+      "controls": "Arrow keys — move; Ctrl — fire",
+      "description": "The 1993 shareware episode in the Internet Archive's DOSBox: the game that invented the FPS, exactly as it was."
+    },
+    {
+      "id": "oregon-trail",
+      "title": "The Oregon Trail",
+      "url": "https://archive.org/details/msdos_Oregon_Trail_The_1990",
+      "genre": "retro",
+      "controls": "Keyboard — menus and hunting",
+      "description": "The 1990 DOS classic in the Archive: ford rivers, hunt buffalo, and try not to die of dysentery on the trail west."
+    },
+    {
+      "id": "prince-of-persia",
+      "title": "Prince of Persia",
+      "url": "https://archive.org/details/msdos_Prince_of_Persia_1990",
+      "genre": "retro",
+      "controls": "Arrow keys — run, jump, fight",
+      "description": "Jordan Mechner's 1990 rotoscoped classic in the Archive: sixty minutes to save the princess, one leap of faith at a time."
+    },
+    {
+      "id": "wolfenstein-3d",
+      "title": "Wolfenstein 3D",
+      "url": "https://archive.org/details/msdos_Wolfenstein_3D_1992",
+      "genre": "retro",
+      "controls": "Arrow keys — move; Ctrl — fire",
+      "description": "The 1992 shareware episode in the Archive: id Software's maze-blaster that started it all. Achtung!"
+    },
+    {
+      "id": "recoil-foundry",
+      "title": "Recoil Foundry",
+      "url": "https://caleb-guyer.itch.io/recoil-foundry",
+      "genre": "action",
+      "controls": "Mouse — aim and fire; recoil moves you",
+      "description": "A 2026 jam gem: build one gun whose recoil throws you across a factory. Movement IS the weapon — master the kick."
+    },
+    {
+      "id": "hatchstead",
+      "title": "Hatchstead",
+      "url": "https://hatchstead.onyxrefinery.co.uk/",
+      "genre": "cozy",
+      "controls": "Mouse — breed and manage",
+      "description": "A free browser creature-breeding sim: hatch snakes, breed new bloodlines, and grow your reptile collection. A demo of the upcoming Kickstarter game."
+    },
+    {
+      "id": "floodlines",
+      "title": "Floodlines",
+      "url": "https://hydroengineer.itch.io/floodlines",
+      "genre": "puzzle",
+      "controls": "Mouse — place defenses",
+      "description": "An open-source tower defense about real floods: place levees and pumps using real rainfall data to save the town."
+    },
+    {
+      "id": "hydro-operator",
+      "title": "Hydro Operator",
+      "url": "https://hydroengineer.itch.io/hydro-operator",
+      "genre": "puzzle",
+      "controls": "Mouse — manage flows",
+      "description": "Balance a dam in this open-source sim: juggle water levels, power demand, and flood risk like a real river operator."
+    },
+    {
+      "id": "skystack",
+      "title": "SkyStack",
+      "url": "https://hydroengineer.itch.io/skystack",
+      "genre": "puzzle",
+      "controls": "Mouse — build floors",
+      "description": "An open-source SimTower homage: stack apartments, offices, and lobbies into a skyscraper that actually works."
     }
   ]
 }

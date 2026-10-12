@@ -214,7 +214,7 @@ check("WF8 collections.html header nav has Tournament + Party planner links",
   /<header[\s\S]*?href="party-planner\.html"[\s\S]*?<\/header>/.test(fs.readFileSync(path.join(ROOT, "collections.html"), "utf8")),
   "wave-6 inconsistency fixed");
 check("WF8 llms.txt has live counts + new collections",
-  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("125-game directory") &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("162-game directory") &&
   fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("Homebrew radar"),
   "dynamic counts in build_site.py");
 check("WF8 every wave-8 game has a kids.json verdict",
@@ -354,12 +354,12 @@ check("WF11 share validation rejects tampering",
     Buffer.from(JSON.stringify({ v: 99, guests: ["A", "B"], games: ["g1"] })).toString("base64url")).ok &&
     Party2.decodeShare(Party2.encodeShare(w11party)).ok,
   "round-trip + version gate");
-check("WF11 kids pool stays inside the 50 curated kid-safe ids",
+check("WF11 kids pool stays inside the 75 curated kid-safe ids",
   (() => {
     const kidSafe = load("api/v1/kid-safe.json")["kid-safe"];
     const pool = Party2.kidPool(kidSafe, "8-10");
     const set = new Set(kidSafe.map((r) => r.id));
-    return pool.length > 0 && pool.length <= 50 && pool.every((id) => set.has(id));
+    return pool.length > 0 && pool.length <= kidSafe.length && pool.every((id) => set.has(id));
   })(), "kid-safe subset");
 check("WF11 party-planner.html has 2.0 controls",
   partyHtml.includes('id="pp-guests-list"') && partyHtml.includes('id="pp-kids"') &&
@@ -489,5 +489,54 @@ check("WF13 design CSS: progress bar + sticky TOC + view-transition present",
       c.includes("@view-transition") && c.includes("prefers-reduced-motion: no-preference") &&
       c.includes("@media print");
   })(), "scroll chrome, motion-safe VT, print");
+
+// ---- Wave 14: games catalog expansion (37 new, 162 total) ----
+const wave14Ids = ["evolution-of-trust", "better-ballot", "parable-of-polygons", "wisdom-madness-crowds",
+  "sight-and-light", "bitburner", "mindustry", "shapez", "dcss-webtiles", "angband-live", "nethack-web",
+  "spelunky-classic", "powder-game", "stick-ranger", "flexbox-froggy", "grid-garden", "codingame",
+  "codecombat", "vampire-survivors", "doing-work", "chogue", "absurdle", "semantle", "waffle",
+  "contexto", "bandle", "pointer-pointer", "hacker-typer", "doom-1993", "oregon-trail", "prince-of-persia",
+  "wolfenstein-3d", "recoil-foundry", "hatchstead", "floodlines", "hydro-operator", "skystack"];
+check("WF14 games count 162 (125 + 37 new)",
+  games.length === 162, games.length + " games");
+check("WF14 all 37 wave-14 games in api/v1/games.json",
+  wave14Ids.every((id) => gameIds.has(id)), wave14Ids.length + " new games present");
+check("WF14 new game records complete (https url, genre, controls, description)",
+  wave14Ids.every((id) => {
+    const g = byId.get(id);
+    return g && g.url.startsWith("https://") && g.genre && g.controls && g.description && g.title;
+  }), "all fields non-empty");
+check("WF14 genre totals after expansion",
+  (() => {
+    const want = { puzzle: 45, action: 30, roguelike: 15, idle: 12, multiplayer: 25, retro: 13, horror: 6, cozy: 16 };
+    return Object.entries(want).every(([gr, n]) => games.filter((g) => g.genre === gr).length === n);
+  })(), "p45/a30/r15/i12/m25/re13/h6/c16");
+const newCols = {
+  "playable-essays": ["evolution-of-trust", "better-ballot", "parable-of-polygons", "wisdom-madness-crowds", "sight-and-light", "doing-work", "chogue"],
+  "open-source-web": ["bitburner", "mindustry", "shapez", "dcss-webtiles", "angband-live", "nethack-web"],
+  "code-playground": ["flexbox-froggy", "grid-garden", "codingame", "codecombat", "hacker-typer"],
+  "daily-word-games": ["absurdle", "semantle", "waffle", "contexto", "bandle"],
+  "cozy-toys": ["hatchstead", "powder-game", "pointer-pointer", "doing-work"],
+  "roguelike-forever": ["dcss-webtiles", "angband-live", "nethack-web", "spelunky-classic", "vampire-survivors", "chogue"],
+};
+check("WF14 19 collections (13 + 6 new)",
+  collections.length === 19, collections.length + " collections");
+check("WF14 new collections exact contents",
+  Object.entries(newCols).every(([cid, ids]) => {
+    const c = collections.find((x) => x.id === cid);
+    return !!c && c.game_ids.length === ids.length && ids.every((id) => c.game_ids.includes(id));
+  }), Object.keys(newCols).join(", "));
+check("WF14 every wave-14 game has a kids.json verdict",
+  wave14Ids.every((id) => kids.some((k) => k.id === id) || load("data/kids.json").excluded.some((k) => k.id === id)),
+  "25 curated + 12 excluded");
+check("WF14 llms.txt mentions new collections",
+  ["Playable essays", "Open source, zero install", "Roguelikes, forever"].every((t) =>
+    fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes(t)),
+  "new shelf titles in llms.txt");
+check("WF14 dropped candidates stayed out (unverifiable URLs never shipped)",
+  ["freeciv-web", "ztype", "sinuous", "gridland", "sql-murder-mystery", "css-diner",
+   "spaceteam", "shattered-pixel-dungeon", "artist-is-present", "redactle",
+   "spend-bill-gates-money", "design-next-iphone"].every((id) => !gameIds.has(id)),
+  "12 rejected, 0 in catalog");
 
 process.exit(failures ? 1 : 0);

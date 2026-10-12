@@ -55,7 +55,7 @@
   border-color: var(--neon-cyan);
   box-shadow: 0 0 0 1px var(--neon-cyan), 0 10px 30px rgba(0,229,255,0.18);
 }
-.game-card h3 { margin: 0; font-size: 1.12rem; }
+.game-card h3 { margin: 0; font-size: 1.12rem; text-wrap: balance; }
 .game-card h3 a { color: var(--ink); text-decoration: none; }
 .game-card h3 a:hover { color: var(--neon-cyan); }
 .game-card h3 a::after {

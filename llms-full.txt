@@ -2,17 +2,17 @@
 
 # Button Mash
 
-The universal in-browser game console. Three centerpieces: (1) the Player — a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) the Converter 3.0 — batch-convert GBA, GB/GBC, NES, SNES or Genesis files you own into self-contained playable .html browser games (client-side only, all five cores BIOS-free, honest validation, compression levels); (3) the Party Planner — headcount + time + vibe in, timed game-night rotation plan out. Plus a curated directory of 125 free, legal browser games (every link verified live 2026-10-11), hand-built collections, genre deep dives, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads — ever.
+The universal in-browser game console. Three centerpieces: (1) the Player — a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) the Converter 3.0 — batch-convert GBA, GB/GBC, NES, SNES or Genesis files you own into self-contained playable .html browser games (client-side only, all five cores BIOS-free, honest validation, compression levels); (3) the Party Planner — headcount + time + vibe in, timed game-night rotation plan out. Plus a curated directory of 162 free, legal browser games (every link verified live 2026-10-11), hand-built collections, genre deep dives, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads — ever.
 
 ## Play
 - player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.1: named save slots + auto-save, per-system keyboard+gamepad remap, cheat-code entry, display options (CRT/integer-scale/aspect, per-system quick settings), honest netplay notes)
 - converter.html — Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 5 BIOS-free cores (mGBA/Gambatte/FCEUmm/Snes9x/Genesis Plus GX), 4 compression levels + presets, honest ROM validation (refuses empty/all-zero/bad-NES, warns on blank headers / missing SEGA string, keeps SNES copier headers), custom titles + cover art, ▶ Player mode deep links
-- party-planner.html — Party planner 2.0: guest list (2-16 names), per-guest game voting (ties go to the earliest-picked game), fair rotation scheduler (hot-seat groups of 4), party timeline with snack break + tournament slot, snack-break timer, kids-party mode from the 50 kid-safe games, tournament handoff 2.0 (?players=N&names=A,B&games=ids&format=), shareable #p= party links, print party pack + copy-as-text
+- party-planner.html — Party planner 2.0: guest list (2-16 names), per-guest game voting (ties go to the earliest-picked game), fair rotation scheduler (hot-seat groups of 4), party timeline with snack break + tournament slot, snack-break timer, kids-party mode from the 75 kid-safe games, tournament handoff 2.0 (?players=N&names=A,B&games=ids&format=), shareable #p= party links, print party pack + copy-as-text
 - tournament.html — Tournament 2.0: single- or double-elimination brackets for game night (2-16 players, manual seeding UI + randomize, honest byes, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids))
-- games.html — the 125-game directory (search, genre filters, favorites, random game, game of the day)
-- kids.html — Kids corner: 50 kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default
+- games.html — the 162-game directory (search, genre filters, favorites, random game, game of the day)
+- kids.html — Kids corner: 75 kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default
 - parents.html — parent guide: curation method, honesty policy (assessments not guarantees — play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick
-- collections.html — 13 hand-built collections
+- collections.html — 19 hand-built collections
 - genres/roguelike.html, genres/cozy.html — genre deep dives with start-here picks
 
 ## Learn
@@ -40,7 +40,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - guides/accessibility-in-retro-gaming.html — Retro games for every player: an accessibility guide
 - guides/preserving-your-games.html — Keep your games forever: the preservation guide
 
-## Games (125 total)
+## Games (162 total)
 
 - 2048 [puzzle · Arrow keys / swipe] — Slide numbered tiles and merge them to reach 2048. Deceptively simple, endlessly restartable. Play: https://play2048.co/
 - Wordle [puzzle · Keyboard] — One five-letter word a day, six guesses. The whole internet solves the same puzzle. Play: https://www.nytimes.com/games/wordle/index.html
@@ -167,22 +167,65 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Tank Battle [action · Keyboard] — Top-down tank combat in a single vanilla-JS page — no download, no account. Play: https://wqnlll.github.io/tank-battle.html
 - Red Alert-style RTS [action · Mouse / keyboard] — A Red Alert-style RTS built lockstep in vanilla JS, with fog of war and an AI that respects it. No accounts, no installs. Play: https://wqnlll.github.io/rts.html
 - 3D Plane Battle [action · Keyboard] — Three.js arcade plane combat in one static page. No accounts, no installs. Play: https://wqnlll.github.io/3d-plane.html
+- The Evolution of Trust [puzzle · Mouse — click through the interactive story] — An interactive essay on game theory: play trust games against copycats, cheaters, and grudgers to see what cooperation is really worth. Play: https://ncase.me/trust/
+- To Build a Better Ballot [puzzle · Mouse — run elections] — An interactive explainer of voting systems — run the same election under different rules and watch different winners emerge. Play: https://ncase.me/ballot/
+- Parable of the Polygons [puzzle · Mouse — drag shapes] — A playable parable about tiny biases and big patterns: shuffle shapes around and watch neighborhoods segregate themselves. Play: https://ncase.me/polygons/
+- The Wisdom and/or Madness of Crowds [puzzle · Mouse — place bets] — An interactive essay on when crowds are wise and when they are a mob — bet on guesses and watch the network think. Play: https://ncase.me/crowds/
+- Sight & Light [puzzle · Mouse — flip panels] — A short interactive comic about how eyes and light actually work, with little optics toys tucked into the panels. Play: https://ncase.me/sight-and-light/
+- Bitburner [idle · Keyboard — type commands; mouse for menus] — A hacking incremental: write real JavaScript to automate servers and climb a fictional cyber-underworld. Free and open source. Play: https://danielyxie.github.io/bitburner/
+- Mindustry [action · Mouse + WASD — build, pan, command] — Open-source factory defense: design conveyor-fed production lines, then hold them against waves. The web build is the full game. Play: https://mindustrygame.github.io/
+- shapez.io [puzzle · Mouse — place belts and machines] — Design ever-more-elegant factories that cut, paint, and stack shapes into ordered chaos. Meditative automation puzzling. Play: https://shapez.io/
+- Dungeon Crawl Stone Soup [roguelike · Keyboard — full keybinds; mouse for menus] — The legendary open-source roguelike in the browser: turn-based, brutally fair, and deep enough to lose a year to. Play: https://crawl.akrasiac.org/
+- Angband [roguelike · Keyboard — roguelike keybinds] — The granddaddy of roguelikes, live in your browser: descend a 100-level Tolkien-inspired dungeon one careful turn at a time. Play: https://angband.live/
+- NetHack [roguelike · Keyboard — classic keybinds] — NetHack in a terminal, in your browser. The 1987 classic that named the genre — still undefeated, still hilarious. Play: https://www.alt.org/nethack/
+- Spelunky Classic [roguelike · Arrow keys to move, Z / X to act] — The original free Spelunky as an HTML5 port: procedural caves, shopkeepers with long memories, and glorious deaths. Play: https://spelunkyworld.com/original.html
+- Powder Game [cozy · Mouse — pick elements, paint] — The original falling-sand toy: pour powder, water, fire, and acid into a sandbox and watch the physics play out. Play: https://dan-ball.jp/en/javagame/dust2/
+- Stick Ranger [idle · Mouse — mostly runs itself] — A tiny idle RPG: four stick figures march right, fighting monsters automatically while you nudge their stats. Weirdly absorbing. Play: https://dan-ball.jp/en/javagame/ranger/
+- Flexbox Froggy [puzzle · Keyboard — write flexbox CSS] — Rescue frogs with flexbox: 24 gentle levels that teach CSS layout better than any tutorial. Play: https://flexboxfroggy.com/
+- Grid Garden [puzzle · Keyboard — write grid CSS] — Grow a garden with CSS grid: 28 levels of planting carrots that turn the grid spec into something you can see. Play: https://cssgridgarden.com/
+- CodinGame [puzzle · Keyboard — write code] — Coding puzzles and bot-arena battles in 25+ languages — solve solo challenges or clash your AI against other programmers'. Play: https://www.codingame.com/start/
+- CodeCombat [puzzle · Keyboard — write code] — Learn to code by commanding heroes: type real Python or JavaScript to move, fight, and quest through a fantasy campaign. Play: https://codecombat.com/
+- Vampire Survivors [roguelike · WASD / arrows — move; attacks are automatic] — The official web demo of the bullet-heaven phenomenon: pick a build, survive the swarm, become the storm. Play: https://poncle.itch.io/vampire-survivors
+- It is as if you were doing work [cozy · Mouse + keyboard — do the work] — Pippin Barr's office parody: do fake data entry, dodge your fake boss, and feel weirdly seen. An art game about the 9-to-5. Play: https://pippinbarr.com/itisasifyouweredoingwork/
+- Chogue [roguelike · Mouse — move like chess] — Chess meets roguelike: every piece you capture joins your party for a dungeon crawl. Pippin Barr's strangest hybrid. Play: https://pippinbarr.com/chogue/
+- Absurdle [puzzle · Keyboard — type guesses] — Wordle's adversarial twin: the game changes its answer to dodge your guesses as long as possible. Bring your best opener. Play: https://qntm.org/files/absurdle/absurdle.html
+- Semantle [puzzle · Keyboard — type guesses] — Guess the secret word by meaning: every guess is scored on semantic similarity, not spelling. Strangely philosophical. Play: https://semantle.com/
+- Waffle [puzzle · Mouse / keyboard — swap letters] — A waffle-ironed word puzzle: swap letters in a grid to bake six words at once. Fifteen swaps, no more, new puzzle daily. Play: https://wafflegame.net/
+- Contexto [puzzle · Keyboard — type guesses] — Guess the secret word while an AI ranks every try by closeness. Unlimited guesses, infinite rabbit holes, daily word. Play: https://contexto.me/
+- Bandle [puzzle · Mouse / keyboard — guess the song] — Name that tune from an increasingly long clip — six tries, new song every day, for people who hear in genres. Play: https://bandle.app/
+- Pointer Pointer [cozy · Mouse — move the pointer] — Move your cursor and the internet points at it — a photo always finds your pointer. Oddly delightful, every time. Play: https://pointerpointer.com/
+- Hacker Typer [cozy · Keyboard — mash keys] — Smash the keyboard and look like a movie hacker: every keystroke writes flawless exploit code. Zero skill required. Play: https://hackertyper.net/
+- DOOM (1993) [retro · Arrow keys — move; Ctrl — fire] — The 1993 shareware episode in the Internet Archive's DOSBox: the game that invented the FPS, exactly as it was. Play: https://archive.org/details/msdos_DOOM_1993
+- The Oregon Trail [retro · Keyboard — menus and hunting] — The 1990 DOS classic in the Archive: ford rivers, hunt buffalo, and try not to die of dysentery on the trail west. Play: https://archive.org/details/msdos_Oregon_Trail_The_1990
+- Prince of Persia [retro · Arrow keys — run, jump, fight] — Jordan Mechner's 1990 rotoscoped classic in the Archive: sixty minutes to save the princess, one leap of faith at a time. Play: https://archive.org/details/msdos_Prince_of_Persia_1990
+- Wolfenstein 3D [retro · Arrow keys — move; Ctrl — fire] — The 1992 shareware episode in the Archive: id Software's maze-blaster that started it all. Achtung! Play: https://archive.org/details/msdos_Wolfenstein_3D_1992
+- Recoil Foundry [action · Mouse — aim and fire; recoil moves you] — A 2026 jam gem: build one gun whose recoil throws you across a factory. Movement IS the weapon — master the kick. Play: https://caleb-guyer.itch.io/recoil-foundry
+- Hatchstead [cozy · Mouse — breed and manage] — A free browser creature-breeding sim: hatch snakes, breed new bloodlines, and grow your reptile collection. A demo of the upcoming Kickstarter game. Play: https://hatchstead.onyxrefinery.co.uk/
+- Floodlines [puzzle · Mouse — place defenses] — An open-source tower defense about real floods: place levees and pumps using real rainfall data to save the town. Play: https://hydroengineer.itch.io/floodlines
+- Hydro Operator [puzzle · Mouse — manage flows] — Balance a dam in this open-source sim: juggle water levels, power demand, and flood risk like a real river operator. Play: https://hydroengineer.itch.io/hydro-operator
+- SkyStack [puzzle · Mouse — build floors] — An open-source SimTower homage: stack apartments, offices, and lobbies into a skyscraper that actually works. Play: https://hydroengineer.itch.io/skystack
 
-## Collections (13 total)
+## Collections (19 total)
 
 - Cozy games for a rainy day: Gentle games for grey weather — Serenitrove; Townscaper; Six Cats Under; goodbye, doggy; A Tale of Crowns; Slow Roads; Fallen London; purrgatory; Little Troubles in Spooky Town; Little Alchemy 2; The Deep Sea; Sandspiel
-- One-more-turn idle games: Numbers go up while you do nothing — Cookie Clicker; A Dark Room; Universal Paperclips; Candy Box 2; Kittens Game; Trimps; Antimatter Dimensions; Prerolled
+- One-more-turn idle games: Numbers go up while you do nothing — Cookie Clicker; A Dark Room; Universal Paperclips; Candy Box 2; Kittens Game; Trimps; Antimatter Dimensions; Prerolled; Stick Ranger; Bitburner
 - .io arena essentials: The arenas that defined a genre — Agar.io; Slither.io; Diep.io; Bonk.io; Powerline.io; Splix.io; Starblast.io; ZombsRoyale.io; Deeeep.io; Wormate.io; Paper.io
 - Party night with friends: Multiplayer chaos for friend groups — skribbl.io; Gartic Phone; JKLM.fun; Codenames; Secret Hitler; Make It Meme; Drawasaurus; PlayingCards.io; HaxBall; AirConsole; Lexulous; Paper.io
 - PICO-8 pocket gems: 128x128 pixels of joy — Poom; Celeste Classic; Moss Moss; Top PICO-8 Games (collection)
 - Five-minute wonders: One strong idea, zero filler — We Become What We Behold; Adventures With Anxiety; The Password Game; Infinite Craft; Draw Logos From Memory; Framed; Globle
-- Strategy & deduction deep cuts: Outthink everyone, including yourself — Colonist.io; Board Game Arena; Town of Salem; Lichess; GeoGuessr; Worldle; Type Help
-- Retro time machine: Gaming history, playable — Internet Archive: Console Living Room; Internet Archive: Internet Arcade; Internet Archive: MS-DOS Library; Kingdom of Loathing; Urban Dead
+- Strategy & deduction deep cuts: Outthink everyone, including yourself — Colonist.io; Board Game Arena; Town of Salem; Lichess; GeoGuessr; Worldle; Type Help; Floodlines; Hydro Operator; SkyStack; shapez.io
+- Retro time machine: Gaming history, playable — Internet Archive: Console Living Room; Internet Archive: Internet Arcade; Internet Archive: MS-DOS Library; Kingdom of Loathing; Urban Dead; DOOM (1993); The Oregon Trail; Prince of Persia; Wolfenstein 3D
 - Adrenaline: action & shooters: Reflexes required — Krunker; Shell Shockers; SmashKarts; Venge.io; REPULS.io; ev.io; Kirka.io; Gats.io; Friday Night Funkin'; QWOP; Canabalt; Happy Wheels
 - Brain food: puzzlers: Daily rituals and deep thinkers — 2048; Wordle; Connections; TETR.IO; Jstris; Sudoku; Asteroid Launcher; Tetris (Official); Seterra; 0hh1; Quick, Draw!; Koalas to the Max
 - Daily puzzle rituals: One puzzle a day keeps the boredom away — Wordle; Connections; Framed; Worldle; Globle; 0hh1; The Password Game; Draw Logos From Memory
 - Homebrew radar: Fresh from the scene — Tristram; Die in the Dungeon CLASSIC; The Archives of Trevosa; Prerolled; Zombie Nest GBA; Dare To Doku
 - Vanilla JS, zero dependencies: No frameworks, no accounts — English Brick Breaker; Math Challenge; Tank Battle; Red Alert-style RTS; 3D Plane Battle
+- Playable essays: Games with something to say — The Evolution of Trust; To Build a Better Ballot; Parable of the Polygons; The Wisdom and/or Madness of Crowds; Sight & Light; It is as if you were doing work; Chogue
+- Open source, zero install: Free software, full games — Bitburner; Mindustry; shapez.io; Dungeon Crawl Stone Soup; Angband; NetHack
+- Learn to code by playing: Playgrounds that teach — Flexbox Froggy; Grid Garden; CodinGame; CodeCombat; Hacker Typer
+- Daily word games: Fresh puzzles every day — Absurdle; Semantle; Waffle; Contexto; Bandle
+- Cozy toys: No fail states, only vibes — Hatchstead; Powder Game; Pointer Pointer; It is as if you were doing work
+- Roguelikes, forever: Die, learn, die better — Dungeon Crawl Stone Soup; Angband; NetHack; Spelunky Classic; Vampire Survivors; Chogue
 
 ## Emulators (10 picks, software only)
 

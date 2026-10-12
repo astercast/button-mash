@@ -1,10 +1,10 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T03:24:09Z",
+  "generated_at": "2026-10-12T03:40:47Z",
   "endpoint": "collections",
   "description": "Hand-built game collections.",
-  "count": 13,
+  "count": 19,
   "collections": [
     {
       "description": "When the weather's bad and the couch is good: gentle digging, ghost cats, seaside towns and slow drives through nowhere.",
@@ -36,7 +36,9 @@
         "kittens-game",
         "trimps",
         "antimatter-dimensions",
-        "prerolled"
+        "prerolled",
+        "stick-ranger",
+        "bitburner"
       ],
       "id": "idle-essentials",
       "tagline": "Numbers go up while you do nothing",
@@ -117,7 +119,11 @@
         "lichess",
         "geoguessr",
         "worldle",
-        "type-help"
+        "type-help",
+        "floodlines",
+        "hydro-operator",
+        "skystack",
+        "shapez"
       ],
       "id": "strategy-deep-cuts",
       "tagline": "Outthink everyone, including yourself",
@@ -130,7 +136,11 @@
         "internet-arcade",
         "msdos-library",
         "kingdom-of-loathing",
-        "urban-dead"
+        "urban-dead",
+        "doom-1993",
+        "oregon-trail",
+        "prince-of-persia",
+        "wolfenstein-3d"
       ],
       "id": "retro-time-machine",
       "tagline": "Gaming history, playable",
@@ -217,6 +227,87 @@
         "tank-battle",
         "red-alert-rts",
         "3d-plane-battle"
+      ]
+    },
+    {
+      "id": "playable-essays",
+      "title": "Playable essays",
+      "tagline": "Games with something to say",
+      "description": "Interactive essays and art games — play with ideas about trust, voting, work, and the lost art of waiting in line.",
+      "game_ids": [
+        "evolution-of-trust",
+        "better-ballot",
+        "parable-of-polygons",
+        "wisdom-madness-crowds",
+        "sight-and-light",
+        "doing-work",
+        "chogue"
+      ]
+    },
+    {
+      "id": "open-source-web",
+      "title": "Open source, zero install",
+      "tagline": "Free software, full games",
+      "description": "Serious games with open codebases, all running right in the browser — from deep roguelikes to a whole civilization.",
+      "game_ids": [
+        "bitburner",
+        "mindustry",
+        "shapez",
+        "dcss-webtiles",
+        "angband-live",
+        "nethack-web"
+      ]
+    },
+    {
+      "id": "code-playground",
+      "title": "Learn to code by playing",
+      "tagline": "Playgrounds that teach",
+      "description": "Games that secretly teach real skills: SQL detective work, CSS gardening, and coding puzzles in 25+ languages.",
+      "game_ids": [
+        "flexbox-froggy",
+        "grid-garden",
+        "codingame",
+        "codecombat",
+        "hacker-typer"
+      ]
+    },
+    {
+      "id": "daily-word-games",
+      "title": "Daily word games",
+      "tagline": "Fresh puzzles every day",
+      "description": "Six more daily brain-teasers for the routine: adversarial Wordle, redacted Wikipedia, semantic guessing, and name-that-tune.",
+      "game_ids": [
+        "absurdle",
+        "semantle",
+        "waffle",
+        "contexto",
+        "bandle"
+      ]
+    },
+    {
+      "id": "cozy-toys",
+      "title": "Cozy toys",
+      "tagline": "No fail states, only vibes",
+      "description": "Sandboxes and toys with nothing to lose: falling sand, a growing snake collection, and a cursor that always gets pointed at.",
+      "game_ids": [
+        "hatchstead",
+        "powder-game",
+        "pointer-pointer",
+        "doing-work"
+      ]
+    },
+    {
+      "id": "roguelike-forever",
+      "title": "Roguelikes, forever",
+      "tagline": "Die, learn, die better",
+      "description": "The deep end: genre-defining roguelikes playable in the browser, from 1987's NetHack to the bullet-heaven demo everyone is playing.",
+      "game_ids": [
+        "dcss-webtiles",
+        "angband-live",
+        "nethack-web",
+        "spelunky-classic",
+        "vampire-survivors",
+        "chogue"
       ]
     }
   ]

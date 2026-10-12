@@ -455,6 +455,231 @@
       "parent_note": "Cozy dice-shop sim — sell silly dice boxes, upgrade your shop, pay rent. No chat. The rent timer can feel pressuring; co-play the first run.",
       "verify_live": true,
       "audit_basis": "itch.io HTML5 shop sim by Red Sauce Games; single-player strategy, no accounts/chat in the game; economy/rent theme flagged for parents, hence the verify flag."
+    },
+    {
+      "id": "evolution-of-trust",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "An interactive story about cooperation with cartoon characters. No chat, no accounts — just clicking through a clever essay.",
+      "verify_live": false,
+      "audit_basis": "Single-player page on ncase.me; no accounts, chat, or user-generated content."
+    },
+    {
+      "id": "better-ballot",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "An interactive lesson on voting systems. No chat, no accounts — pure clicking and thinking.",
+      "verify_live": false,
+      "audit_basis": "Single-player page on ncase.me; no accounts, chat, or user-generated content."
+    },
+    {
+      "id": "parable-of-polygons",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "A gentle interactive story about neighborhoods and bias, told with shapes. No chat, no accounts.",
+      "verify_live": false,
+      "audit_basis": "Single-player page on ncase.me; no accounts, chat, or user-generated content."
+    },
+    {
+      "id": "wisdom-madness-crowds",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "11-12",
+      "parent_note": "A longer interactive essay about crowds and networks. Reading-heavy, no chat, no accounts.",
+      "verify_live": false,
+      "audit_basis": "Single-player page on ncase.me; no accounts, chat, or user-generated content."
+    },
+    {
+      "id": "sight-and-light",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "A short comic about eyes and light with little toys in the panels. No chat, no accounts.",
+      "verify_live": false,
+      "audit_basis": "Single-player page on ncase.me; no accounts, chat, or user-generated content."
+    },
+    {
+      "id": "bitburner",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "11-12",
+      "parent_note": "A text-based hacking game — the 'hacking' is fictional and it teaches real JavaScript. No chat, single-player.",
+      "verify_live": false,
+      "audit_basis": "Single-player page; danielyxie.github.io hosts the open-source game with no accounts or chat."
+    },
+    {
+      "id": "shapez",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Build peaceful factories that cut and stack shapes. No enemies, no chat, no accounts.",
+      "verify_live": false,
+      "audit_basis": "Single-player page on shapez.io; no accounts, chat, or user content."
+    },
+    {
+      "id": "powder-game",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "A digital sandbox: pour sand, water, and fire and watch what happens. No goals, no chat, no accounts.",
+      "verify_live": false,
+      "audit_basis": "Single-player sandbox on dan-ball.jp; no accounts, chat, or user content."
+    },
+    {
+      "id": "stick-ranger",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Tiny stick figures fight monsters automatically. Very abstract, no gore, no chat.",
+      "verify_live": false,
+      "audit_basis": "Single-player page on dan-ball.jp; no accounts, chat, or user content."
+    },
+    {
+      "id": "flexbox-froggy",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "Help frogs with CSS — 24 gentle puzzles. No chat, no accounts.",
+      "verify_live": false,
+      "audit_basis": "Single-player static page; no accounts, chat, or user-generated content."
+    },
+    {
+      "id": "grid-garden",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "Grow carrots with CSS grid. Calm, cute, no chat, no accounts.",
+      "verify_live": false,
+      "audit_basis": "Single-player static page; no accounts, chat, or user-generated content."
+    },
+    {
+      "id": "doing-work",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "A gentle parody of office work with no fail state. No chat, no accounts.",
+      "verify_live": false,
+      "audit_basis": "Single-player page on pippinbarr.github.io; no accounts, chat, or user content."
+    },
+    {
+      "id": "chogue",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Chess pieces explore a dungeon. Abstract fantasy combat, no chat.",
+      "verify_live": false,
+      "audit_basis": "Single-player page on pippinbarr.github.io; no accounts, chat, or user content."
+    },
+    {
+      "id": "absurdle",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "A tricky word game against the computer. No chat, no accounts.",
+      "verify_live": false,
+      "audit_basis": "Single-player static page; no accounts, chat, or user-generated content."
+    },
+    {
+      "id": "semantle",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Guess the secret word by meaning. No chat, no accounts.",
+      "verify_live": false,
+      "audit_basis": "Single-player page; no accounts, chat, or user-generated content."
+    },
+    {
+      "id": "waffle",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "Swap letters to make six words. Calm daily puzzle, no chat.",
+      "verify_live": false,
+      "audit_basis": "Single-player page; no accounts, chat, or user-generated content."
+    },
+    {
+      "id": "contexto",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Guess the daily word by closeness. No chat, no accounts.",
+      "verify_live": false,
+      "audit_basis": "Single-player page; no accounts, chat, or user-generated content."
+    },
+    {
+      "id": "bandle",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Daily song-guessing with short music clips. No chat, no accounts.",
+      "verify_live": false,
+      "audit_basis": "Single-player page; no accounts, chat, or user-generated content."
+    },
+    {
+      "id": "pointer-pointer",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "Move your mouse and funny photos point at it. No chat, no accounts.",
+      "verify_live": false,
+      "audit_basis": "Single-player page; fixed photo set, no user-generated content."
+    },
+    {
+      "id": "hacker-typer",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "5-7",
+      "parent_note": "Mash the keyboard and pretend to hack. Harmless and hilarious, no chat.",
+      "verify_live": false,
+      "audit_basis": "Single-player page; no accounts, chat, or user-generated content."
+    },
+    {
+      "id": "oregon-trail",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "The educational frontier classic. Hunting and 'died of dysentery' — plain 90s text, no gore.",
+      "verify_live": false,
+      "audit_basis": "Archive.org DOSBox emulation of the 1990 educational game; single-player, no chat."
+    },
+    {
+      "id": "hatchstead",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Breed cartoon snakes and grow your collection. Gentle, no chat, no accounts.",
+      "verify_live": true,
+      "audit_basis": "Developer's official demo page; single-player with no accounts or chat."
+    },
+    {
+      "id": "floodlines",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "An educational tower defense about stopping floods. No chat.",
+      "verify_live": true,
+      "audit_basis": "itch.io page for the open-source game; single-player browser build."
+    },
+    {
+      "id": "hydro-operator",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Run a dam in a calm management sim. No chat.",
+      "verify_live": true,
+      "audit_basis": "itch.io page for the open-source game; single-player browser build."
+    },
+    {
+      "id": "skystack",
+      "kid_safe": true,
+      "no_chat": true,
+      "age_band": "8-10",
+      "parent_note": "Build a skyscraper floor by floor. No chat.",
+      "verify_live": true,
+      "audit_basis": "itch.io page for the open-source game; single-player browser build."
     }
   ],
   "excluded": [
@@ -757,6 +982,54 @@
     {
       "id": "trevosa",
       "reason": "Dense reading game: translate an invented language and untangle a 30-person royal family tree with succession/exile themes. Text-heavy and not pitched at kids — when in doubt, excluded."
+    },
+    {
+      "id": "mindustry",
+      "reason": "Tower-defense combat against waves of enemies."
+    },
+    {
+      "id": "dcss-webtiles",
+      "reason": "Fantasy combat with permadeath; online play needs an account."
+    },
+    {
+      "id": "angband-live",
+      "reason": "Fantasy combat in a deep dungeon crawler."
+    },
+    {
+      "id": "nethack-web",
+      "reason": "Fantasy combat; dense terminal-style interface."
+    },
+    {
+      "id": "spelunky-classic",
+      "reason": "Cartoon combat — whips, traps, and enemies."
+    },
+    {
+      "id": "codingame",
+      "reason": "Accounts required; community clashes, leaderboards, and forums with other users."
+    },
+    {
+      "id": "codecombat",
+      "reason": "Accounts required; classroom and multiplayer arena features."
+    },
+    {
+      "id": "vampire-survivors",
+      "reason": "Constant combat against monster swarms."
+    },
+    {
+      "id": "doom-1993",
+      "reason": "First-person shooter with graphic-for-its-era violence."
+    },
+    {
+      "id": "prince-of-persia",
+      "reason": "Sword combat with death animations."
+    },
+    {
+      "id": "wolfenstein-3d",
+      "reason": "First-person shooter combat."
+    },
+    {
+      "id": "recoil-foundry",
+      "reason": "Shooter with gun combat."
     }
   ]
 }

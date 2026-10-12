@@ -3,7 +3,7 @@
    - guest list: textarea, live count, validation (<2 guests rejected)
    - plan build: timeline phases, slots, rotation with guest names
    - voting: cast votes, tally, re-vote moves, apply-votes rebuilds plan
-   - kids party toggle: picks restricted to the 50 kid-safe games
+   - kids party toggle: picks restricted to the 75 kid-safe games
    - snack timer: start/pause/reset, face updates
    - share: #p= round-trip in the browser UMD build + tamper rejection
    - handoff 2.0: tournament.html?names=..&games=..&format=.. pre-fills

@@ -53,13 +53,31 @@
 
     function render() {
       var list = filtered();
-      grid.innerHTML = '';
-      if (!list.length) {
-        grid.innerHTML = '<div class="empty-state"><p>No games match. Try a different search or genre.</p></div>';
+      // Same-document view transition for filter/search changes (web-craft finding:
+      // Baseline since Oct 2025; gated on no-preference so reduced-motion users get
+      // the instant path). Content is never hidden waiting on the transition.
+      var apply = function () {
+        grid.innerHTML = '';
+        if (!list.length) {
+          grid.innerHTML = '<div class="empty-state"><p>No games match. Try a different search or genre.</p></div>';
+        } else {
+          list.forEach(function (g) { grid.appendChild(BM.gameCard(g)); });
+        }
+        countEl.textContent = list.length + ' of ' + games.length + ' games';
+      };
+      if (document.startViewTransition &&
+          window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+        // Swallow skip-rejections: rapid successive filters abort the in-flight
+        // transition, which rejects its promises — that is normal, not an error.
+        var vt = document.startViewTransition(apply);
+        if (vt) {
+          ["finished", "ready", "updateCallbackDone"].forEach(function (k) {
+            if (vt[k] && vt[k].catch) vt[k].catch(function () {});
+          });
+        }
       } else {
-        list.forEach(function (g) { grid.appendChild(BM.gameCard(g)); });
+        apply();
       }
-      countEl.textContent = list.length + ' of ' + games.length + ' games';
     }
 
     if (searchInput) {
@@ -93,6 +111,13 @@
     try { games = await BM.loadGames(); } catch (e) { return; }
     var pick = BM.gameOfDay(games);
     if (!pick) return;
+    // Live catalog counts (data-driven; static HTML carries the last verified number as fallback)
+    var heroCount = document.getElementById('hero-game-count');
+    if (heroCount) heroCount.textContent = games.length + ' free games.';
+    var browseBtn = document.getElementById('browse-games-btn');
+    if (browseBtn) browseBtn.textContent = 'Browse ' + games.length + ' games';
+    var allLink = document.getElementById('all-games-link');
+    if (allLink) allLink.textContent = 'All ' + games.length + ' games \u2192';
     gotdBox.innerHTML = '';
     gotdBox.appendChild(BM.el('span', 'gotd-label', 'Game of the day'));
     var h = BM.el('h3');

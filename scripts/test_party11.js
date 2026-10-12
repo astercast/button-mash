@@ -7,7 +7,7 @@
    - timeline phases: setup -> games -> snack -> tournament -> free play,
      wall-clock labels with a start time
    - share-link encode/decode round-trip + tamper rejections
-   - kids-party pool filtering by age band (subset of the 50 curated ids)
+   - kids-party pool filtering by age band (subset of the 75 curated ids)
    Run: node scripts/test_party11.js
    Exit 0 = all checks pass. */
 "use strict";
@@ -136,14 +136,14 @@ check("share: drops votes from non-guests / unknown games",
 const kidSafe = JSON.parse(fs.readFileSync(path.join(ROOT, "api/v1/kid-safe.json"), "utf8"))["kid-safe"];
 const pool7 = P2.kidPool(kidSafe, "5-7");
 const poolAll = P2.kidPool(kidSafe, "11-12");
-check("kids pool: 5-7 band is 9 games", pool7.length === 9, pool7.length + " games");
-check("kids pool: 11-12 band is all 50", poolAll.length === 50, poolAll.length + " games");
+check("kids pool: 5-7 band is 16 games", pool7.length === 16, pool7.length + " games");
+check("kids pool: 11-12 band is all 75", poolAll.length === 75, poolAll.length + " games");
 check("kids pool: 5-7 subset of 11-12",
   pool7.every((id) => poolAll.indexOf(id) !== -1), "bands nest");
 check("kids pool: only 5-7 age bands",
   pool7.every((id) => kidSafe.find((r) => r.id === id).age_band === "5-7"), "band filter");
 check("kids pool: unknown band defaults to full set",
-  P2.kidPool(kidSafe, "nope").length === 50, "fallback");
+  P2.kidPool(kidSafe, "nope").length === kidSafe.length, "fallback");
 
 // ---- option cleaning ----
 check("opts: bad vibe/skill fall back",

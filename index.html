@@ -37,12 +37,12 @@
   <section class="hero">
     <div class="wrap hero-inner">
       <span class="kicker">Your browser is the console</span>
-      <h1>Drop a file. <span class="pink">Press start.</span><br>Or pick from <span class="cyan">89 free games.</span></h1>
+      <h1>Drop a file. <span class="pink">Press start.</span><br>Or pick from <span class="cyan" id="hero-game-count">162 free games.</span></h1>
       <p class="lede">Button Mash is a universal in-browser player: your own game files run right here through EmulatorJS, your GBA collection becomes shareable browser games with one click — and when you just want something new, there's a curated shelf of free browser games. Everything here is playable without piracy.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="player.html">▶ Open the Player</a>
         <a class="btn btn-cyan" href="converter.html">⚡ ROM → Browser Game</a>
-        <a class="btn btn-ghost" href="games.html">Browse 89 games</a>
+        <a class="btn btn-ghost" id="browse-games-btn" href="games.html">Browse 162 games</a>
       </div>
     </div>
   </section>
@@ -88,7 +88,7 @@
     <div class="wrap">
       <div class="section-head">
         <h2><span class="tick">▸</span> Fresh from the shelf</h2>
-        <a href="games.html">All 89 games →</a>
+        <a href="games.html" id="all-games-link">All 162 games →</a>
       </div>
       <div class="grid cols-4" id="genre-sampler"></div>
     </div>
