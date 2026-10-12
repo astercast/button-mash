@@ -87,7 +87,7 @@
 .genre-retro { color: #ff9e5e; border-color: #ff9e5e; }
 .genre-horror { color: #b28cff; border-color: #b28cff; }
 .genre-cozy { color: #7dffb2; border-color: #7dffb2; }
-.controls-hint { color: var(--ink-faint); font-family: var(--font-mono); font-size: 0.75rem; }
+.controls-hint { color: var(--ink-mute); font-family: var(--font-mono); font-size: 0.75rem; }
 .fav-btn {
   position: absolute;
   top: 0.6rem; right: 0.6rem;
@@ -141,11 +141,11 @@
   font-size: 1rem;
   padding: 0.65rem 0.9rem 0.65rem 2.6rem;
 }
-.search-box input::placeholder { color: var(--ink-faint); }
+.search-box input::placeholder { color: var(--ink-mute); }
 .search-box .search-icon {
   position: absolute; left: 0.9rem; top: 50%;
   transform: translateY(-50%);
-  color: var(--ink-faint);
+  color: var(--ink-mute);
   pointer-events: none;
 }
 select, .chip-select {
@@ -178,7 +178,7 @@ select, .chip-select {
   font-weight: 700;
   box-shadow: 0 0 12px var(--glow-cyan);
 }
-.results-count { color: var(--ink-faint); font-family: var(--font-mono); font-size: 0.85rem; margin-left: auto; }
+.results-count { color: var(--ink-mute); font-family: var(--font-mono); font-size: 0.85rem; margin-left: auto; }
 
 /* ---- Game of the day ---- */
 .gotd {
@@ -224,7 +224,7 @@ select, .chip-select {
   box-shadow: 0 0 10px var(--neon-lime);
   flex: none;
 }
-.console-bar .led.idle { background: var(--ink-faint); box-shadow: none; }
+.console-bar .led.idle { background: var(--ink-mute); box-shadow: none; }
 .console-title {
   font-family: var(--font-display);
   font-size: 1rem;
@@ -441,3 +441,69 @@ select, .chip-select {
 .toc h2 { font-size: 1.05rem; margin-bottom: 0.6rem; font-family: var(--font-body); }
 .toc ol { margin: 0; padding-left: 1.3rem; }
 .toc li { margin-bottom: 0.35rem; }
+
+/* ---------- Player 2.0 ---------- */
+.crt-overlay {
+  position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,.28) 0 1px, transparent 1px 3px);
+}
+.crt-overlay::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 52%, rgba(0,0,0,.5) 100%);
+}
+/* Subtle tube flicker — animation only; static scanlines under reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .crt-overlay { animation: crt-flicker 5s infinite steps(48); }
+}
+@keyframes crt-flicker { 0%, 100% { opacity: 1; } 50% { opacity: .94; } }
+
+.tools-grid {
+  display: grid; gap: 1.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+}
+.tool-card {
+  background: var(--bg-2);
+  border: 2px solid var(--edge);
+  border-radius: var(--r-md, 12px);
+  padding: 1.2rem 1.3rem;
+}
+.tool-card h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
+.tool-card h3 .tick { color: var(--neon-cyan); }
+.tool-card p { font-size: 0.9rem; color: var(--ink-dim); }
+.tool-card .tool-status {
+  font-size: 0.85rem; color: var(--ink-dim);
+  border-left: 3px solid var(--neon-cyan);
+  padding: 0.35rem 0.7rem; margin: 0.8rem 0;
+  background: rgba(255,255,255,0.02);
+}
+.tool-card .tool-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 0.8rem 0; }
+.tool-card ul.plain { list-style: none; margin: 0.8rem 0; padding: 0; }
+.tool-card ul.plain li {
+  display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;
+  padding: 0.45rem 0; border-bottom: 1px dashed var(--edge);
+  font-size: 0.88rem;
+}
+.tool-card ul.plain li:last-child { border-bottom: 0; }
+.tool-card .grow { flex: 1; min-width: 10rem; }
+.tool-card .mono { font-family: var(--font-mono); font-size: 0.82rem; word-break: break-all; }
+.tool-card input[type="text"], .tool-card input[type="file"] {
+  background: var(--bg); border: 2px solid var(--edge); border-radius: var(--r-sm, 8px);
+  color: var(--ink); padding: 0.55rem 0.8rem; font-size: 0.9rem; width: 100%;
+}
+.tool-card .form-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 0.6rem 0; }
+.tool-card .form-row > * { flex: 1 1 8rem; }
+.tool-card .hint { font-size: 0.8rem; color: var(--ink-mute); }
+.tool-card .warn-line { font-size: 0.85rem; color: var(--neon-amber); }
+kbd.key {
+  font-family: var(--font-mono); font-size: 0.78rem;
+  background: var(--bg); border: 1px solid var(--edge-bright);
+  border-bottom-width: 3px; border-radius: 6px;
+  padding: 0.15rem 0.5rem; white-space: nowrap;
+}
+.remap-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 0.6rem 0; }
+.remap-table th, .remap-table td { text-align: left; padding: 0.4rem 0.5rem; border-bottom: 1px solid var(--edge); vertical-align: middle; }
+.remap-table th { color: var(--ink-dim); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.remap-table td .btn { margin: 0.1rem; }
+.honest-list { margin: 0.8rem 0; padding-left: 1.2rem; color: var(--ink-dim); font-size: 0.92rem; }
+.honest-list li { margin-bottom: 0.5rem; }
+.honest-list strong { color: var(--ink); }

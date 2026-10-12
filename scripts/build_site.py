@@ -61,7 +61,7 @@ def build_llms():
     )
     lines.append("")
     lines.append("## Play")
-    lines.append("- player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen)")
+    lines.append("- player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.0: save-state export/import, keyboard+gamepad remap UI, cheat-code entry, CRT filter, honest netplay notes)")
     lines.append("- converter.html — ROM-to-browser-game converter (GBA/GB/GBC/NES in, self-contained .html out)")
     lines.append("- party-planner.html — timed game-night rotation planner across party-tagged games (print-friendly)")
     lines.append("- games.html — the 114-game directory (search, genre filters, favorites, random game, game of the day)")

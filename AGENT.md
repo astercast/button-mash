@@ -31,7 +31,7 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
 
 ## The centerpieces (for user questions)
 
-- **Player** (`player.html`): bring-your-own-file EmulatorJS console, 20+ systems. File never leaves the user's machine. Core short names (official): `nes snes gb gba segaMD segaMS segaGG sega32x segaCD psx n64 nds pce vb atari2600 atari7800 lynx ngp ws coleco`. PSX/Sega CD need a user-dumped BIOS; the rest boot BIOS-free. See `skills/player-guide.md`.
+- **Player** (`player.html`): bring-your-own-file EmulatorJS console, 20+ systems. File never leaves the user's machine. Core short names (official): `nes snes gb gba segaMD segaMS segaGG sega32x segaCD psx n64 nds pce vb atari2600 atari7800 lynx ngp ws coleco`. PSX/Sega CD need a user-dumped BIOS; the rest boot BIOS-free. **Player 2.0 tools** (all client-side): save-state export/import (engine default downloads `.state` files; "Keep in Browser" mode lets the Save tool export/import/delete browser-kept states via IndexedDB `EmulatorJS-states`), keyboard+gamepad remap UI for Player 1 (reads/writes the engine's `ejs-<gameId>-<core>-<gameName>-settings` localStorage key, verified per-core button labels from the 4.2.3 stable build; applies on next boot), cheat-code entry per game (injected via the documented `window.EJS_cheats = [[name, code], ...]`; toggle in the engine's cheat manager — per-core code-format behavior is NOT verified, never claim it), CRT scanline/vignette filter (toolbar toggle, `prefers-reduced-motion`-safe), and an honest netplay notes section (engine advertises WebRTC room-code netplay as "being worked on"; NOT verified on the stable build — not enabled, not promised). See `skills/player-guide.md`.
 - **Converter v2** (`converter.html`): user's file → self-contained playable `.html` (ROM embedded as base64; engine loads from the EmulatorJS CDN on first run). Three systems: GBA (`.gba`, mGBA core, 32MB max), Game Boy/Color (`.gb`/`.gbc`, Gambatte core, 8MB max), NES (`.nes`, FCEUmm core, 4MB max). **All three cores are BIOS-free** — zero extra files. Non-ROM formats refused gracefully (points at the Player). Template token contract: `__BM_GAME_NAME__`, `__BM_GAME_ID__`, `__BM_BUILD_DATE__`, `__BM_ROM_SIZE__`, `__BM_ROM_B64__`, `__BM_CORE__`, `__BM_CORE_LABEL__`, `__BM_SYSTEM__`, `__BM_HINT__`. See `skills/converter-multi-system.md`.
 - **Party Planner** (`party-planner.html`): headcount + time + vibe + skill mix + inputs → timed rotation plan across party-tagged catalog games, with hand-the-controller rotation order and print-friendly output. Semantic HTML, keyboard-accessible, aria-live plan summary, reduced-motion aware. See `skills/party-planner-runner.md`.
 - **Genre deep dives** (`genres/roguelike.html`, `genres/cozy.html`): curated lists from the catalog with start-here picks and why-each-fits blurbs.
@@ -74,6 +74,20 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
 3. Apply skill mix + input limits (shooters need keyboard+mouse).
 4. 20-min slots (30 for chill/cooperative), rotate the starter each slot.
    See skills/party-planner-runner.md, or just send the user to party-planner.html.
+```
+
+### 5. "Move my save to another device" / "remap my controls" / "add a cheat" (Player 2.0)
+
+```
+1. Send the user to player.html — they boot their own file first.
+2. Save: by default the engine downloads .state files on save — those ARE the portable
+   format (send the file to the other device and use the Save tool → Import, with the
+   engine in "Keep in Browser" mode; or just keep the downloaded file).
+3. Controls: the Controls tool shows Player 1's keyboard + gamepad bindings with
+   press-a-key / press-a-pad-button capture; changes apply on next boot.
+4. Cheats: name + code per game, injected into the engine's cheat manager on boot —
+   toggle there. Never claim a core "supports" a code format (unverified).
+5. Netplay: NEVER promise it. Honest state only (see skills/player-guide.md).
 ```
 
 ## Rate & freshness notes

@@ -2,6 +2,26 @@
 
 Running record of build waves. Newest first.
 
+## Wave 4 — 2026-10-11 — Player 2.0 (interactive tools wave)
+
+**What shipped:**
+- **Save-state export/import** (`player.html` #player-2-tools + `assets/js/player.js`): engine-verified facts first — the 4.2.3 stable engine defaults to *downloading* `<basefile>.state` files on save (raw state bytes); with the engine in *Keep in Browser* mode states live in IndexedDB `EmulatorJS-states` / store `states`, key = baseFileName + `.state`. The Save tool lists browser-kept states (current game's tagged), exports any as a downloadable `.state` file, imports a `.state` file back under the current game's key, and deletes. Files are tied to the emulator build; cross-version loads may fail. Share-saves = send the file; friend needs their own copy of the same game file.
+- **Controller remapping UI**: Player 1 keyboard + gamepad bindings read from the engine's own stored settings (`ejs-<gameId>-<core>-<gameName>-settings` in localStorage), press-a-key / press-a-pad-button capture, reset-to-defaults (deletes the key). Button label tables are the engine's per-core control-scheme lists and the keyMap/defaultControllers tables — all extracted from the 4.2.3 stable build, no invented labels. Remaps apply on next boot (documented in the UI). Analog-stick axes stay in the engine's own Control Settings — said honestly in the UI.
+- **CRT filter toggle**: scanline + vignette CSS overlay on the stage, toolbar + tool-panel toggles (`aria-pressed`), persisted in `bm-crt`. Flicker animation exists only under `prefers-reduced-motion: no-preference` — static scanlines otherwise.
+- **Cheat-code support**: name + code entry per game, stored in `bm-cheats-<gameID>`, injected as the documented `window.EJS_cheats = [[name, code], ...]` before boot so they land in the engine's cheat manager (toggle with the cheat icon in-game). Documented honestly: code formats are applied by each core's own cheat engine — per-core format support is NOT verified and is never claimed. Engine-verified facts: `EJS_cheats` array option, `EJS_cheatPath` dynamic per-core JSON.
+- **Netplay notes** (new section on player.html): honest state only — engine advertises WebRTC room-code netplay but its own docs flag it "being worked on" (historically pre-4.0 + old cores + signaling server); NOT verified end-to-end on the stable build; not enabled, not promised in Button Mash.
+- **Docs**: `skills/player-guide.md` (Player 2.0 workflows + honesty rules), `AGENT.md` (Player 2.0 centerpiece detail + new example workflow 5), `llms.txt`/`llms-full.txt` refreshed via `scripts/build_site.py`.
+
+**Validation (wave 4):**
+- `scripts/build.py`: BUILD OK — 114 games (104 domains), 11 collections, 10 emulators, 8 guides; LEGAL GATE OK (0 piracy links)
+- `node --check assets/js/*.js`: all 6 pass
+- `node scripts/check_api_workflows.js`: all PASS
+- `scripts/check_links.py`: LINK CHECK OK — 20 pages, 516 local, 38 external, 0 broken
+- `~/workspace/smoke/test.js`: zero pageerrors (only environmental note: sandbox proxy blocks the EmulatorJS CDN tunnel, so the engine can't boot here — the wave-3.1 null-guard veil path handled it cleanly)
+- Puppeteer round-trip tests (new, `/tmp/verify-p2.js`, `/tmp/verify-saves.js`): 16-row GBA remap table renders with engine labels; key remap writes the exact engine settings key (`ejs-…-gba-…-settings`); reset restores defaults; cheat add/remove works; save-state import → export (byte-identical 12-byte file) → delete all succeed; eject returns panels to no-game state; CRT toggle persists. Zero pageerrors throughout.
+
+**Legal lane**: unchanged — zero ROMs hosted, zero ROM/BIOS download links; all features operate on the user's own files and saves, client-side only.
+
 ## Wave 3 — 2026-10-11 — Converter v2, Party Planner, 100+ games
 
 **What shipped:**
