@@ -5,24 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EmulatorJS self-hosting guide — Button Mash</title>
 <meta name="description" content="Host the open-source EmulatorJS player on your own site and play ROMs you dumped yourself — setup, cores, BIOS, and the legal line.">
-<link rel="stylesheet" href="../assets/style.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/guides.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap header-inner">
-    <a class="brand" href="../index.html" aria-label="Button Mash home">
-      <span class="brand-mark" aria-hidden="true">🕹️</span>
-      <span class="brand-text">Button <strong>Mash</strong></span>
-    </a>
-    <nav aria-label="Primary">
-      <a href="../index.html">Games</a>
-      <a href="../index.html#guides">Guides</a>
-      <a href="../api/v1/games.json">API</a>
-      <a href="../llms.txt">llms.txt</a>
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../games.html">Games</a></li>
+        <li><a href="../collections.html">Collections</a></li>
+        <li><a href="../emulation.html">Emulation</a></li>
+        <li><a href="../monster-taming.html">Monster Taming</a></li>
+        <li><a href="../play-legal.html">Play Legal</a></li>
+        <li><a class="nav-cta" href="../player.html">▶ Play</a></li>
+      </ul>
     </nav>
   </div>
 </header>
@@ -35,6 +38,15 @@
   <p class="lede">Host the open-source EmulatorJS player on your own site and play ROMs you dumped yourself — setup, cores, BIOS, and the legal line.</p>
   <ul class="chips" aria-label="Guide facts"><li>⏱ ~30 min</li><li>Intermediate</li></ul>
   <aside class="legal-note"><strong>Legal lane:</strong> this guide covers tools and techniques only. Supply ROMs you dumped from games you own, plus homebrew and public-domain titles. No ROM download links, no piracy sites — ever.</aside>
+  <section class="guide-section" aria-labelledby="checklist-h"><h2 id="checklist-h">Setup checklist</h2>
+  <p style="color:var(--ink-dim)">Tick steps off as you go — your progress is saved in this browser.</p>
+  <ul class="checklist" data-page="emulatorjs-setup">
+    <li><div class="step-text"><strong>Get the release ZIP</strong><p>Download the latest release from github.com/EmulatorJS/EmulatorJS and unzip it into your site folder (loader, cores, data directory).</p></div></li>
+    <li><div class="step-text"><strong>Add only your own games</strong><p>Create a <code>roms/</code> folder — one subfolder per system — and copy in ROMs you dumped yourself, plus homebrew / public domain.</p></div></li>
+    <li><div class="step-text"><strong>Embed the player</strong><p>Set <code>EJS_player</code>, <code>EJS_core</code>, <code>EJS_gameUrl</code> and <code>EJS_pathtodata</code>, then load <code>loader.js</code>. Or skip all of this and just use <a href="../player.html">this site's Player</a>.</p></div></li>
+    <li><div class="step-text"><strong>Handle BIOS honestly</strong><p>PlayStation / Sega CD cores need a BIOS dumped from your own hardware. Never download one.</p></div></li>
+    <li><div class="step-text"><strong>Test controls &amp; saves</strong><p>Check gamepad input, save states, and mobile layout before sharing the page with anyone.</p></div></li>
+  </ul></section>
   <section class="guide-section"><h2>What it is (and the legal line)</h2><p>EmulatorJS is a free, open-source project that puts classic console emulation in a web page. It bundles libretro cores compiled to WebAssembly, so systems from the NES to the GBA run right in the browser with no plugins.</p>
 <p>The software itself is completely legal — and it ships with zero games. You supply the game files, and this is the part that matters: only load ROMs you dumped from cartridges or discs you own, plus homebrew and public-domain titles. Downloading commercial ROMs you don&#x27;t own is piracy, no matter how nicely the player is skinned.</p></section>
 <section class="guide-section"><h2>What you need</h2><ul><li>A web host that serves static files (any static host works), or just your own computer for local play</li><li>ROM files you dumped yourself — see the rip-your-own-cartridges guide</li><li>For some systems, a BIOS file dumped from hardware you own (GBA and PlayStation cores need one)</li><li>About 30 minutes</li></ul></section>
@@ -52,15 +64,22 @@
   <ul class="guide-list"><li><a href="retroarch-setup.html">RetroArch setup guide</a> — Install RetroArch, add cores for hardware you own, and load your own dumped games — controllers, save states, shaders, and netplay included.</li>
 <li><a href="gba-to-wasm-recompiler.html">GBA-to-WASM recompiler guide</a> — Turn a GBA cartridge you own into a self-contained browser page via static recompilation — the user-supplied-ROMs-only pattern, end to end.</li>
 <li><a href="rip-your-own-cartridges.html">Rip-your-own-cartridges guide</a> — Turn cartridges you own into verified ROM backups with a USB dumper — hardware picks, the dumping ritual, and the no-distribution rule.</li>
-<li><a href="homebrew-and-public-domain.html">Homebrew &amp; public-domain sources</a> — Where to find legal homebrew ROMs and public-domain games: archives, dev communities, itch.io, and open-source originals.</li></ul></section>
+<li><a href="homebrew-and-public-domain.html">Homebrew &amp; public-domain sources</a> — Where to find legal homebrew ROMs and public-domain games: archives, dev communities, itch.io, and open-source originals.</li><li><a href="gba-wasm.html">How GBA becomes WebAssembly</a> — the reverse-engineering pattern behind browser GBA: ARM/THUMB to WASM, frame timing, memory mapping.</li>
+<li><a href="how-emulation-works.html">How emulation works</a> — interpreters vs. recompilers, cycle accuracy, and what a BIOS actually does.</li>
+<li><a href="best-emulator-per-system.html">Best emulator per system</a> — one honest pick per classic system.</li>
+</ul></section>
 </article>
 
 </main>
 <footer class="site-footer">
   <div class="wrap">
-    <p><strong>Button Mash</strong> — the all-in-one browser games + emulation hub. Every game here is legal to play: open-source, free-to-play, or archive collections. Emulation guides cover tools only — bring your own dumped ROMs.</p>
-    <p><a href="../api/v1/games.json">games API</a> · <a href="../api/v1/guides.json">guides API</a> · <a href="../llms.txt">llms.txt</a> · <a href="../API.md">API docs</a></p>
+    <div class="footer-note">
+      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links.</span>
+    </div>
   </div>
 </footer>
+<script src="../assets/js/store.js"></script>
+<script src="../assets/js/checklists.js"></script>
 </body>
 </html>

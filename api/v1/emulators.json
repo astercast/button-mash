@@ -1,0 +1,193 @@
+{
+  "name": "Button Mash",
+  "version": "1.0.0",
+  "generated_at": "2026-10-12T00:44:29Z",
+  "endpoint": "emulators",
+  "description": "Emulator software picks (no ROMs, software only).",
+  "count": 10,
+  "emulators": [
+    {
+      "bios_required": false,
+      "id": "emulatorjs",
+      "license": "GPL-3.0",
+      "name": "EmulatorJS",
+      "notes": "The engine behind this site's Player. 20+ systems in a web page; embed on any site.",
+      "platforms": [
+        "Web"
+      ],
+      "systems": [
+        "NES",
+        "SNES",
+        "GB",
+        "GBC",
+        "GBA",
+        "Genesis",
+        "Master System",
+        "Game Gear",
+        "N64",
+        "NDS",
+        "PlayStation",
+        "Atari",
+        "and more"
+      ],
+      "url": "https://emulatorjs.org/"
+    },
+    {
+      "bios_required": false,
+      "id": "retroarch",
+      "license": "GPL-3.0",
+      "name": "RetroArch",
+      "notes": "All-in-one frontend: install once, add one core per system. Shaders, netplay, run-ahead latency reduction, RetroAchievements.",
+      "platforms": [
+        "Windows",
+        "macOS",
+        "Linux",
+        "Android",
+        "iOS",
+        "Web"
+      ],
+      "systems": [
+        "Dozens via cores"
+      ],
+      "url": "https://www.retroarch.com/"
+    },
+    {
+      "bios_required": false,
+      "id": "mgba",
+      "license": "MPL-2.0",
+      "name": "mGBA",
+      "notes": "The accuracy king for GBA; also the core in this site's Player and Converter. No BIOS needed.",
+      "platforms": [
+        "Windows",
+        "macOS",
+        "Linux"
+      ],
+      "systems": [
+        "GBA",
+        "GB",
+        "GBC"
+      ],
+      "url": "https://mgba.io/"
+    },
+    {
+      "bios_required": false,
+      "id": "sameboy",
+      "license": "MIT",
+      "name": "SameBoy",
+      "notes": "Cycle-accurate Game Boy / Color emulation, beautifully maintained.",
+      "platforms": [
+        "Windows",
+        "macOS",
+        "Linux"
+      ],
+      "systems": [
+        "GB",
+        "GBC"
+      ],
+      "url": "https://sameboy.github.io/"
+    },
+    {
+      "bios_required": false,
+      "id": "mesen",
+      "license": "GPL-3.0",
+      "name": "Mesen",
+      "notes": "The most accurate NES emulator ever made, with a legendary debugger. Also covers SNES/GB.",
+      "platforms": [
+        "Windows",
+        "Linux"
+      ],
+      "systems": [
+        "NES",
+        "SNES",
+        "GB",
+        "GBC"
+      ],
+      "url": "https://mesen.ca/"
+    },
+    {
+      "bios_note": "Dump from your own PlayStation hardware. Never download one.",
+      "bios_required": true,
+      "id": "duckstation",
+      "license": "GPL-3.0",
+      "name": "DuckStation",
+      "notes": "Modern, fast PlayStation emulator with gorgeous upscaling.",
+      "platforms": [
+        "Windows",
+        "macOS",
+        "Linux",
+        "Android"
+      ],
+      "systems": [
+        "PlayStation"
+      ],
+      "url": "https://www.duckstation.org/"
+    },
+    {
+      "bios_note": "Dump from your own PS2 hardware. Never download one.",
+      "bios_required": true,
+      "id": "pcsx2",
+      "license": "GPL-3.0 / LGPL-3.0",
+      "name": "PCSX2",
+      "notes": "The long-reigning PS2 emulator, still actively improved.",
+      "platforms": [
+        "Windows",
+        "macOS",
+        "Linux"
+      ],
+      "systems": [
+        "PlayStation 2"
+      ],
+      "url": "https://pcsx2.net/"
+    },
+    {
+      "bios_required": false,
+      "id": "ppsspp",
+      "license": "GPL-2.0+",
+      "name": "PPSSPP",
+      "notes": "Plays the PSP library at HD resolutions on almost anything.",
+      "platforms": [
+        "Windows",
+        "macOS",
+        "Linux",
+        "Android",
+        "iOS"
+      ],
+      "systems": [
+        "PSP"
+      ],
+      "url": "https://www.ppsspp.org/"
+    },
+    {
+      "bios_required": false,
+      "id": "dolphin",
+      "license": "GPL-2.0+",
+      "name": "Dolphin",
+      "notes": "GameCube and Wii emulation at HD resolutions. One of the most polished emulators ever made.",
+      "platforms": [
+        "Windows",
+        "macOS",
+        "Linux",
+        "Android"
+      ],
+      "systems": [
+        "GameCube",
+        "Wii"
+      ],
+      "url": "https://dolphin-emu.org/"
+    },
+    {
+      "bios_required": false,
+      "id": "webretro",
+      "license": "GPL-3.0",
+      "name": "webretro",
+      "notes": "RetroArch cores in the browser via a clean web frontend. Good alternative embedding option.",
+      "platforms": [
+        "Web"
+      ],
+      "systems": [
+        "Many via libretro cores"
+      ],
+      "url": "https://github.com/BinBashBanana/webretro"
+    }
+  ]
+}

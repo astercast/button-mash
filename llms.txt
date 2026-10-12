@@ -1,81 +1,148 @@
 # Button Mash
 
-The all-in-one browser games + emulation hub. Every game is legal to play in the browser: open-source HTML5 games, .io games, free-to-play browser games, itch.io picks, and Internet Archive playable collections. Emulation guides cover tools only (EmulatorJS, RetroArch, GBA-to-WASM recompilers, cartridge dumping) — users supply their own dumped ROMs. No ROM download links, no piracy sites, ever.
+The universal in-browser game console. Two centerpieces: (1) the Player — a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) the Converter — drop in a GBA file you own, get back a single self-contained playable .html browser game (client-side only). Plus a curated directory of 89 free, legal browser games (every link verified live 2026-10-11), hand-built collections, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads — ever.
 
-## Games (47 total; genres: arcade, battle-royale, browse, collection, flight, fps, idle, io, maze, mmo, party, platformer, puzzle, racing, ragdoll, rpg, sandbox, shooter, story, survival, trivia, virtual-pet)
+## Play
+- player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen)
+- converter.html — ROM-to-browser-game converter (GBA in, self-contained .html out)
+- games.html — the 89-game directory (search, genre filters, favorites, random game, game of the day)
+- collections.html — 10 hand-built collections
 
-- 2048 [puzzle · single] — Slide numbered tiles around a 4x4 grid and merge matching pairs. Simple to learn, brutally hard to put down — chase the 2048 tile. Play: https://play2048.co/
-- Hextris [puzzle · single] — Tetris reimagined on a hexagon. Rotate the board to slot falling blocks into place — fast, colorful, and open source. Play: https://hextris.io/
-- 0hh1 [puzzle · single] — A tiny, perfect logic puzzle: fill grids with red and blue tiles using three simple rules. Open source, endlessly replayable. Play: https://0hh1.com/
-- Cookie Clicker [idle · single] — The original idle game. Click a cookie, bake millions, hire grandmas and open portals. The web version is still free. Play: https://orteil.dashnet.org/cookieclicker/
-- Clumsy Bird [arcade · single] — An open-source take on the one-tap flapping phenomenon. Thread the bird through the pipes; rage responsibly. Play: https://ellisonleao.github.io/clumsy-bird/
-- Astray [maze · single] — A procedurally generated 3D maze that stretches to the horizon. Find the exit, then do it again — it never repeats. Play: https://wwwtyro.github.io/Astray/
-- A Dark Room [rpg · single] — Starts with a fire in a dark room and a 'stoke fire' button. Unfolds into a strange, gripping minimalist RPG. Play: https://adarkroom.doublespeakgames.com/
-- Candy Box 2 [rpg · single] — You get candies. You eat them. Then things get weird. An ASCII-art RPG that keeps surprising you. Play: https://candybox2.github.io/
-- Particle Clicker [idle · single] — An idle game from CERN where your clicks fund particle-physics research upgrades. Learn the Standard Model by accident. Play: https://particle-clicker.web.cern.ch/
-- Celeste Classic [platformer · single] — The original PICO-8 Celeste, built in four days at a game jam. Tight jumps, hidden strawberries, one mountain. Play: https://mattmakesgames.itch.io/celesteclassic
-- itch.io free browser games [browse · both] — The front door to thousands of free browser games on itch.io. Filter by 'play in browser' and dig — new gems land daily. Play: https://itch.io/games
-- agar.io [io · multiplayer] — The one that started the .io craze. Eat pellets, dodge bigger cells, become the blob. Play: https://agar.io/
-- slither.io [io · multiplayer] — Snake meets battle royale. Cut off rivals and feast on what they leave behind. Play: https://slither.io/
-- diep.io [shooter · multiplayer] — Top-down tank warfare with deep upgrade trees. Simple controls, serious strategy. Play: https://diep.io/
-- surviv.io [battle-royale · multiplayer] — 2D battle royale in your browser: loot, watch the circle shrink, be the last one standing. Play: https://surviv.io/
-- mope.io [io · multiplayer] — Climb the food chain from mouse to dragon in a living ecosystem full of other players. Play: https://mope.io/
-- splix.io [io · multiplayer] — Carve out territory with your trail and steal everyone else's. Tense, territorial, addictive. Play: https://splix.io/
-- bonk.io [party · multiplayer] — Physics-based bumper arenas. Shove your friends off the edge with a perfectly timed bonk. Play: https://bonk.io/
-- skribbl.io [party · multiplayer] — Draw and guess with friends in private rooms. The worse the drawing, the better the story. Play: https://skribbl.io/
-- krunker.io [fps · multiplayer] — A shockingly good FPS that runs in a browser tab. Fast rounds, low spec requirements, high skill ceiling. Play: https://krunker.io/
-- zombsroyale.io [battle-royale · multiplayer] — Cartoon battle royale with quick matches. Drop in, loot up, outlast the lobby. Play: https://zombsroyale.io/
-- TETR.IO [puzzle · both] — Modern competitive Tetris in the browser, with ranked matchmaking and buttery netcode. Solo sprint modes too. Play: https://tetr.io/
-- wings.io [io · multiplayer] — Dogfight in the skies, swoop down to steal weapons. Pure arcade chaos. Play: https://wings.io/
-- wilds.io [rpg · multiplayer] — Team up with strangers to raid dungeons and fight bosses in this co-op .io RPG. Play: https://wilds.io/
-- starve.io [survival · multiplayer] — Don't starve, don't freeze, don't get eaten. A harsh little survival MMO in a single tab. Play: https://starve.io/
-- gats.io [shooter · multiplayer] — Top-down gun game with armor, upgrades, and satisfyingly chunky combat. Play: https://gats.io/
-- defly.io [io · multiplayer] — Pilot a helicopter, build walls, claim territory. Part shooter, part tower defense. Play: https://defly.io/
-- kartwars.io [racing · multiplayer] — Battle karts with power-ups and ramps. Kart-racer energy, zero install. Play: https://kartwars.io/
-- powerline.io [io · multiplayer] — Neon snake with a speed-boost twist. Thread the needle between rivals at full throttle. Play: https://powerline.io/
-- wormax.io [io · multiplayer] — A slither-style arena with skills, boosts, and potions to shake up the formula. Play: https://wormax.io/
-- vertix.io [shooter · multiplayer] — Fast top-down arena shooter with classes and perks. Quick to learn, hard to master. Play: https://vertix.io/
-- Kingdom of Loathing [rpg · single] — A stick-figure comedy MMO running since 2003. Absurd writing, deep systems, free forever. Play: https://www.kingdomofloathing.com/
-- Fallen London [story · single] — Gothic storytelling in a sunken Victorian London. Some of the best writing on the web, full stop. Play: https://www.fallenlondon.com/
-- Little Alchemy 2 [puzzle · single] — Start with four elements and combine your way to hundreds of discoveries. Oddly meditative. Play: https://littlealchemy2.com/
-- Quick, Draw! [party · single] — Google's neural net tries to guess your doodles in 20 seconds. Humbling and hilarious. Play: https://quickdraw.withgoogle.com/
-- The Wiki Game [trivia · both] — Race from one Wikipedia article to another using only links. Speedrunning knowledge itself. Play: https://www.thewikigame.com/
-- RuneScape [mmo · multiplayer] — The classic free-to-play MMO still runs in browsers. Grind skills, slay dragons, relive 2007. Play: https://www.runescape.com/
-- Neopets [virtual-pet · single] — The virtual-pet classic is still alive in the browser. Feed your Neopet, play games, earn Neopoints. Play: https://www.neopets.com/
-- Happy Wheels [ragdoll · single] — The legendary ragdoll obstacle course. Goofy, gory, and endlessly replayable thanks to community levels. Play: https://www.totaljerkface.com/
-- Universal Paperclips [idle · single] — An idle game about an AI that makes paperclips. Starts cute, ends existential — and it has an actual ending. Play: https://www.decisionproblem.com/paperclips/index.html
-- Minecraft Classic [sandbox · both] — The original creative-mode Minecraft, free in your browser with multiplayer. Build something silly with friends. Play: https://classic.minecraft.net/
-- Seterra [trivia · single] — Geography quizzes that are weirdly addictive. Learn every country on Earth by accident. Play: https://www.seterra.com/
-- HexGL [racing · single] — An open-source futuristic hover-racer in HTML5. Fast, sleek, and free. Play: https://hexgl.bkcore.com/
-- GeoFS [flight · both] — A surprisingly complete flight simulator in a browser tab, with real-world terrain and multiplayer skies. Play: https://www.geo-fs.com/
-- MS-DOS Games (Internet Archive) [collection · single] — Hundreds of DOS classics playable in-browser through the Archive's emulator. Check each item's rights info. Play: https://archive.org/details/softwarelibrary_msdos_games
-- Internet Arcade (Internet Archive) [collection · single] — Real arcade cabinet games running in your browser via in-browser emulation. A museum you can play. Play: https://archive.org/details/internetarcade
-- Console Living Room (Internet Archive) [collection · single] — Console games in the browser from the Archive's software library. Browse, click, play. Play: https://archive.org/details/consolelivingroom
+## Learn
+- emulation.html — emulation hub
+- monster-taming.html — original-IP monster-taming games + GBA-to-WASM tech
+- play-legal.html — the one clear legal page
+- guides/emulatorjs-self-hosting.html — EmulatorJS self-hosting guide
+- guides/retroarch-setup.html — RetroArch setup guide
+- guides/gba-to-wasm-recompiler.html — GBA-to-WASM recompiler guide (hands-on)
+- guides/gba-wasm.html — How GBA becomes WebAssembly (tech explainer)
+- guides/how-emulation-works.html — How emulation works (explainer)
+- guides/best-emulator-per-system.html — Best emulator per system (reference)
+- guides/rip-your-own-cartridges.html — Rip your own cartridges guide
+- guides/homebrew-and-public-domain.html — Homebrew & public-domain sources
 
-## Guides
+## Games (89 total)
 
-- EmulatorJS self-hosting guide (Intermediate, ~30 min) — Host the open-source EmulatorJS player on your own site and play ROMs you dumped yourself — setup, cores, BIOS, and the legal line. Page: guides/emulatorjs-self-hosting.html
-- RetroArch setup guide (Beginner, ~20 min) — Install RetroArch, add cores for hardware you own, and load your own dumped games — controllers, save states, shaders, and netplay included. Page: guides/retroarch-setup.html
-- GBA-to-WASM recompiler guide (Advanced, ~90 min) — Turn a GBA cartridge you own into a self-contained browser page via static recompilation — the user-supplied-ROMs-only pattern, end to end. Page: guides/gba-to-wasm-recompiler.html
-- Rip-your-own-cartridges guide (Beginner, ~45 min) — Turn cartridges you own into verified ROM backups with a USB dumper — hardware picks, the dumping ritual, and the no-distribution rule. Page: guides/rip-your-own-cartridges.html
-- Homebrew & public-domain sources (Reference, ~10 min) — Where to find legal homebrew ROMs and public-domain games: archives, dev communities, itch.io, and open-source originals. Page: guides/homebrew-and-public-domain.html
+- 2048 [puzzle · Arrow keys / swipe] — Slide numbered tiles and merge them to reach 2048. Deceptively simple, endlessly restartable. Play: https://play2048.co/
+- Wordle [puzzle · Keyboard] — One five-letter word a day, six guesses. The whole internet solves the same puzzle. Play: https://www.nytimes.com/games/wordle/index.html
+- Connections [puzzle · Mouse / touch] — Sort sixteen words into four secret groups. Much harder than it looks. Play: https://www.nytimes.com/games/connections
+- TETR.IO [puzzle · Keyboard (customizable)] — Blisteringly fast modern Tetris with ranked matchmaking. The esport of falling blocks. Play: https://tetr.io/
+- Jstris [puzzle · Keyboard (customizable)] — No-frills multiplayer Tetris in the browser. Pure block-stacking competition. Play: https://jstris.jezevec10.com/
+- Little Alchemy 2 [puzzle · Mouse / touch] — Combine earth, fire, air and water to discover 700+ items. Digital tinkering at its finest. Play: https://littlealchemy.com/
+- Infinite Craft [puzzle · Mouse] — Infinite combinations from four starting elements. Craft 'philosophy' before lunch. Play: https://neal.fun/infinite-craft/
+- The Password Game [puzzle · Keyboard] — A password field with increasingly unhinged rules. You will lose. You will laugh. Play: https://neal.fun/password-game/
+- Draw Logos From Memory [puzzle · Mouse / touch] — Redraw famous logos from memory and get mercilessly judged. Deeply humbling. Play: https://neal.fun/logos-from-memory/
+- Globle [puzzle · Mouse] — Guess the mystery country from hot/cold distance hints. Geography Wordle. Play: https://globle-game.com/
+- Worldle [puzzle · Mouse] — Name the country from its silhouette alone. One a day. Play: https://worldle.teuteuf.fr/
+- Framed [puzzle · Mouse] — Guess the movie from a single frame. Six frames, one answer. Play: https://framed.wtf/
+- GeoGuessr [puzzle · Mouse] — Dropped somewhere on Earth via Street View. Figure out where you are. Free tier included. Play: https://www.geoguessr.com/
+- Sudoku [puzzle · Mouse / keyboard] — Fast, clean browser Sudoku with note mode. Zero friction, all logic. Play: https://sergesgames.itch.io/sudoku
+- Type Help [puzzle · Mouse / keyboard] — A long-form computer-file mystery in the spirit of Her Story and Obra Dinn. Play: https://william-rous.itch.io/type-help
+- Asteroid Launcher [puzzle · Mouse] — Drop asteroids on any city and watch the physics play out. Science, but fun. Play: https://neal.fun/asteroid-launcher/
+- Krunker [action · WASD + mouse] — Low-poly browser FPS with classes, maps and surprisingly crisp gunplay. Play: https://krunker.io/
+- Shell Shockers [action · WASD + mouse] — Multiplayer FPS where everyone is an egg with a gun. Absurd and excellent. Play: https://shellshock.io/
+- SmashKarts [action · WASD / arrows + space] — Kart racing meets battle arena. Pickups, explosions, glorious chaos. Play: https://smashkarts.io/
+- Venge.io [action · WASD + mouse] — Hero-based objective FPS in the browser. Pick a hero, hold the point. Play: https://live.venge.io/
+- REPULS.io [action · WASD + mouse] — Sleek sci-fi arena shooter with jetpacks, slide-hopping and style. Play: https://repuls.io/
+- ev.io [action · WASD + mouse] — Fast halo-style arena shooter that runs on almost anything. Play: https://ev.io/
+- Kirka.io [action · WASD + mouse] — Another crisp browser arena FPS with ranked play and tight movement. Play: https://kirka.io/
+- Gats.io [action · WASD + mouse] — Top-down 2D shooter with a deep loadout progression system. Play: https://gats.io/
+- Friday Night Funkin' [action · Arrow keys] — The browser rhythm battler that launched a thousand mods. Bopeebo. Play: https://ninja-muffin24.itch.io/funkin
+- Bonk.io [action · Arrows / WASD] — Physics-based multiplayer brawls. Shove your friends off the map. Play: https://bonk.io/
+- Diep.io [action · WASD + mouse] — Tank survival with deep upgrade trees. Deceptively strategic. Play: https://diep.io/
+- Starblast.io [action · WASD / arrows + mouse] — Mine asteroids, upgrade your spaceship, dominate the sector. Play: https://starblast.io/
+- Powerline.io [action · Mouse] — Snake meets Tron: eat to grow, cut rivals off at lightspeed. Play: https://powerline.io/
+- Splix.io [action · Arrows / WASD] — Territory-capture snake. Greedy expansion gets you killed. Play: https://splix.io/
+- QWOP [action · Q W O P keys] — Run 100 meters with four keys controlling individual leg muscles. A masterpiece of suffering. Play: https://www.foddy.net/legacy/Athletics.html
+- Canabalt [action · One button (space / click)] — The one-button endless runner that started a genre. Jump or die. Play: https://adamatomic.com/canabalt/
+- Happy Wheels [action · Arrows + space] — Physics ragdoll chaos on a segway. A browser legend, still going. Play: https://totaljerkface.com/happy_wheels.tjf
+- Line Rider [action · Mouse (draw)] — Draw the track, then sled it. Part game, part physics toy, part art form. Play: https://www.linerider.com/
+- Breach Command [roguelike · Mouse / keyboard] — Tactical roguelike: breach rooms, outthink the enemy, die, learn, repeat. Play: https://parris-tech-services.github.io/breach-command/
+- Dragonsweeper [roguelike · Mouse] — Minesweeper reborn as a monster-slaying roguelike. Every number is a tactical puzzle. Play: https://danielben.itch.io/dragonsweeper
+- Hordes.io [roguelike · WASD + mouse] — 3D browser MMORPG with roguelike permadeath dungeons and party play. Play: https://hordes.io/
+- Poom [roguelike · Arrows / WASD + Z X] — A Doom demake squeezed into PICO-8's tiny 128x128 pixels. Impossibly impressive. Play: https://freds72.itch.io/poom
+- Celeste Classic [roguelike · Arrows + Z X] — The original PICO-8 Celeste: brutally precise mountain climbing across 30 levels. Play: https://maddymakesgamesinc.itch.io/celesteclassic
+- Kaaarot [roguelike · Keyboard (multi)] — 2-4 player party brawler about bouncing carrots. Chaotic couch-style fun. Play: https://lambdahumans.itch.io/kaaarot
+- Cookie Clicker [idle · Mouse (click)] — The idle game that defined idle games. Bake cookies. Achieve absurdity. Play: https://www.cookieclicker.com/
+- A Dark Room [idle · Mouse] — Starts as a text game about keeping a fire lit. Becomes something much stranger. Play: https://adarkroom.doublespeakgames.com/
+- Universal Paperclips [idle · Mouse] — An AI that makes paperclips. That's it. That's the game. (It's incredible.) Play: https://www.decisionproblem.com/paperclips/
+- Candy Box 2 [idle · Mouse] — Eat candy. Get a sword. Save the world. The ASCII adventure that keeps surprising you. Play: https://candybox2.github.io/
+- Kittens Game [idle · Mouse] — Manage a kitten civilization from mud huts to interstellar travel. Absurdly deep. Play: https://kittensgame.com/web/
+- Trimps [idle · Mouse] — Lead tiny creatures through zones of escalating danger. Idle with teeth. Play: https://trimps.github.io/
+- Antimatter Dimensions [idle · Mouse] — Prestige-layered incremental about reaching infinity. Then going past it. Play: https://ivark.github.io/AntimatterDimensions/
+- Agar.io [multiplayer · Mouse] — Eat or be eaten in the cell arena that defined .io games. Play: https://agar.io/
+- Slither.io [multiplayer · Mouse] — The multiplayer snake. Coil around rivals and feast on their remains. Play: https://slither.io/
+- skribbl.io [multiplayer · Mouse (draw)] — Online Pictionary with strangers. Hilarious with friends. Play: https://skribbl.io/
+- Gartic Phone [multiplayer · Mouse (draw)] — Telephone meets drawing. The results are always unhinged. Play: https://garticphone.com/
+- HaxBall [multiplayer · Arrows + X] — Top-down physics soccer with friends. Simple, perfect, timeless. Play: https://www.haxball.com/
+- Pokémon Showdown [multiplayer · Mouse] — Fan-made monster battle simulator. Team-build and battle in seconds, no downloads. Play: https://pokemonshowdown.com/
+- Town of Salem [multiplayer · Mouse] — Social deduction: find the mafia before they find you. Trust no one. Play: https://townofsalem.com/
+- Board Game Arena [multiplayer · Mouse] — Hundreds of real board games, playable live with friends around the world. Play: https://en.boardgamearena.com/
+- Colonist.io [multiplayer · Mouse] — Settlers-style strategy in the browser. Trade, build, win. Play: https://colonist.io/
+- Codenames [multiplayer · Mouse] — The official online version of the word-association party classic. Play: https://codenames.game/
+- Secret Hitler [multiplayer · Mouse] — Social deduction in 1930s Germany. Lie convincingly or sniff out the fascists. Play: https://secrethitler.io/
+- JKLM.fun [multiplayer · Keyboard] — Fast party word games: BombParty and PopSauce right in your browser. Play: https://jklm.fun/
+- Drawasaurus [multiplayer · Mouse (draw)] — Draw and guess with rooms for friends. Pictionary night, online. Play: https://www.drawasaurus.org/
+- PlayingCards.io [multiplayer · Mouse] — A virtual tabletop: play any card game with friends, your rules. Play: https://playingcards.io/
+- Make It Meme [multiplayer · Keyboard / mouse] — Caption memes against your friends. Democracy decides the winner. Play: https://makeitmeme.com/
+- Lichess [multiplayer · Mouse] — Completely free chess: matchmaking, puzzles, tournaments. No account needed to play. Play: https://lichess.org/
+- Bloxd.io [multiplayer · WASD + mouse] — Minecraft-style voxel sandbox with game modes, all in the browser. Play: https://bloxd.io/
+- Moomoo.io [multiplayer · Mouse / WASD] — Gather resources, build a base, and survive with your tribe. Play: https://moomoo.io/
+- Zombs.io [multiplayer · Mouse / WASD] — Build defenses by day, survive the zombie horde by night. Play: https://zombs.io/
+- ZombsRoyale.io [multiplayer · WASD + mouse] — 2D battle royale: loot, dodge the shrinking circle, be the last one standing. Play: https://zombsroyale.io/
+- Deeeep.io [multiplayer · Mouse] — Evolve from a tiny fish to the ocean's apex predator. Play: https://deeeep.io/
+- Wormate.io [multiplayer · Mouse] — Candy-fueled worm arena with power-ups, skins and dirty tricks. Play: https://wormate.io/
+- Internet Archive: Console Living Room [retro · Keyboard (on-screen pad)] — Hundreds of vintage console games, legally emulated right in your browser. Play: https://archive.org/details/consolelivingroom
+- Internet Archive: Internet Arcade [retro · Keyboard (on-screen pad)] — Hundreds of arcade classics, preserved and playable. Insert coin. Play: https://archive.org/details/internetarcade
+- Internet Archive: MS-DOS Library [retro · Keyboard] — Thousands of DOS games: Oregon Trail, DOOM, Prince of Persia and more. Play: https://archive.org/details/softwarelibrary_msdos
+- Moss Moss [retro · Arrows + Z X] — A tiny PICO-8 exploration game about covering the world in moss. Play: https://noelcody.itch.io/moss-moss
+- Top PICO-8 Games (collection) [retro · Arrows + Z X] — A curated shelf of the fantasy console's greatest hits, all free in-browser. Play: https://itch.io/c/4233781/top-pico-8-games
+- Kingdom of Loathing [retro · Mouse] — The legendary stick-figure browser RPG. Still running, still funny. Play: https://www.kingdomofloathing.com/
+- Urban Dead [retro · Mouse] — Browser zombie-survival MMO in a quarantined city. A 2005 classic. Play: https://www.urbandead.com/
+- We Become What We Behold [horror · Mouse] — A five-minute game about cameras, crowds and hate. It will sit with you. Play: https://ncase.itch.io/wbwwb
+- Adventures With Anxiety [horror · Mouse] — You play AS the anxiety. Funny, honest, quietly devastating. Play: https://ncase.itch.io/anxiety
+- purrgatory [horror · Mouse] — A hand-drawn point-and-click set in cat-filled purgatory. Melancholy and sweet. Play: https://nivrad00.itch.io/purrgatory
+- Lookouts [horror · Mouse] — A story-rich western visual novel about two outlaws in the desert. (Spooky-tinged.) Play: https://paranoidhawk.itch.io/lookouts
+- Little Troubles in Spooky Town [horror · Mouse] — A little ghost solving townsfolk problems. Spooky-cozy, not spooky-scary. Play: https://kenney.itch.io/little-troubles-in-spooky-town
+- Dating Killmulator 2 [horror · Mouse] — A dark-comedy dating sim where everyone might be a killer. Swipe at your own risk. Play: https://coolom-games.itch.io/dating-killmulator-2
+- Serenitrove [cozy · Mouse] — Dig, discover, upgrade. The coziest hole you'll ever dig. Play: https://alfredncy.itch.io/serenitrove
+- Townscaper [cozy · Mouse] — Click to build a gorgeous seaside town. No goals, no fail states, just vibes. Play: https://oskarstalberg.com/Townscaper/
+- Six Cats Under [cozy · Mouse] — A ghost rescuing cats in a point-and-click afterlife. Play: https://teambeanloop.itch.io/six-cats-under
+- goodbye, doggy [cozy · Mouse] — Help a family as their ghostly dog. Short, tender, and free. Play: https://picogram.itch.io/goodbye-doggy
+- A Tale of Crowns [cozy · Mouse / keyboard] — A sprawling fantasy interactive-fiction romance. A cozy epic. Play: https://qeresi.itch.io/a-tale-of-crowns
+- Slow Roads [cozy · Arrows / WASD] — Endless procedural driving through generated landscapes. Pure zen. Play: https://slowroads.io/
+- Fallen London [cozy · Mouse] — A gothic narrative RPG beneath a stolen London. Years of stories, free. Play: https://www.fallenlondon.com/
+
+## Collections (10 total)
+
+- Cozy games for a rainy day: Gentle games for grey weather — Serenitrove; Townscaper; Six Cats Under; goodbye, doggy; A Tale of Crowns; Slow Roads; Fallen London; purrgatory; Little Troubles in Spooky Town; Little Alchemy 2
+- One-more-turn idle games: Numbers go up while you do nothing — Cookie Clicker; A Dark Room; Universal Paperclips; Candy Box 2; Kittens Game; Trimps; Antimatter Dimensions
+- .io arena essentials: The arenas that defined a genre — Agar.io; Slither.io; Diep.io; Bonk.io; Powerline.io; Splix.io; Starblast.io; ZombsRoyale.io; Deeeep.io; Wormate.io
+- Party night with friends: Multiplayer chaos for friend groups — skribbl.io; Gartic Phone; JKLM.fun; Codenames; Secret Hitler; Make It Meme; Drawasaurus; PlayingCards.io; HaxBall
+- PICO-8 pocket gems: 128x128 pixels of joy — Poom; Celeste Classic; Moss Moss; Top PICO-8 Games (collection)
+- Five-minute wonders: One strong idea, zero filler — We Become What We Behold; Adventures With Anxiety; The Password Game; Infinite Craft; Draw Logos From Memory; Framed; Globle
+- Strategy & deduction deep cuts: Outthink everyone, including yourself — Colonist.io; Board Game Arena; Town of Salem; Lichess; GeoGuessr; Worldle; Type Help
+- Retro time machine: Gaming history, playable — Internet Archive: Console Living Room; Internet Archive: Internet Arcade; Internet Archive: MS-DOS Library; Kingdom of Loathing; Urban Dead
+- Adrenaline: action & shooters: Reflexes required — Krunker; Shell Shockers; SmashKarts; Venge.io; REPULS.io; ev.io; Kirka.io; Gats.io; Friday Night Funkin'; QWOP; Canabalt; Happy Wheels
+- Brain food: puzzlers: Daily rituals and deep thinkers — 2048; Wordle; Connections; TETR.IO; Jstris; Sudoku; Asteroid Launcher
+
+## Emulators (10 picks, software only)
+
+- EmulatorJS [NES, SNES, GB, GBC, GBA, Genesis, Master System, Game Gear, N64, NDS, PlayStation, Atari, and more] — The engine behind this site's Player. 20+ systems in a web page; embed on any site. https://emulatorjs.org/
+- RetroArch [Dozens via cores] — All-in-one frontend: install once, add one core per system. Shaders, netplay, run-ahead latency reduction, RetroAchievements. https://www.retroarch.com/
+- mGBA [GBA, GB, GBC] — The accuracy king for GBA; also the core in this site's Player and Converter. No BIOS needed. https://mgba.io/
+- SameBoy [GB, GBC] — Cycle-accurate Game Boy / Color emulation, beautifully maintained. https://sameboy.github.io/
+- Mesen [NES, SNES, GB, GBC] — The most accurate NES emulator ever made, with a legendary debugger. Also covers SNES/GB. https://mesen.ca/
+- DuckStation [PlayStation] (needs your own dumped BIOS) — Modern, fast PlayStation emulator with gorgeous upscaling. https://www.duckstation.org/
+- PCSX2 [PlayStation 2] (needs your own dumped BIOS) — The long-reigning PS2 emulator, still actively improved. https://pcsx2.net/
+- PPSSPP [PSP] — Plays the PSP library at HD resolutions on almost anything. https://www.ppsspp.org/
+- Dolphin [GameCube, Wii] — GameCube and Wii emulation at HD resolutions. One of the most polished emulators ever made. https://dolphin-emu.org/
+- webretro [Many via libretro cores] — RetroArch cores in the browser via a clean web frontend. Good alternative embedding option. https://github.com/BinBashBanana/webretro
 
 ## API
-- api/v1/games.json — full game records
-- api/v1/guides.json — guide index (summaries)
-- api/v1/schema/games.schema.json — game JSON schema
-- api/v1/schema/guides.schema.json — guide JSON schema
+- api/v1/index.json — endpoint catalog
+- api/v1/games.json, collections.json, emulators.json, guides.json
+- skills/: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, retro-guide, classroom-games
 
-## Skills
-- skills/game-finder.md
-- skills/emulator-setup.md
-- skills/homebrew-hunter.md
-- skills/party-game-picker.md
-- skills/retro-guide.md
-
-## Docs
-- README.md — project overview
-- API.md — API documentation
-- GO_LIVE.md — deployment checklist
-- PIPELINE.md — content pipeline
-- WAVELOG.md — build history
+## Legal
+Zero ROMs hosted. Zero piracy links. All game descriptions original (CC0).

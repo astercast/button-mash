@@ -2,62 +2,67 @@
 
 Static JSON API. Same-origin fetch works on any static host (including GitHub Pages). No auth, no rate limits, no keys.
 
+## Conventions
+
+- Base: `api/v1/` relative to the site root.
+- Every endpoint (except the schemas) uses an envelope: `name`, `version`, `generated_at` (ISO-8601 UTC), `endpoint`, `description`, `count`, plus the payload array under the endpoint's name.
+- Start at `api/v1/index.json` — the manifest with every endpoint, its description, and usage notes.
+- Payloads are complete snapshots sized for client-side filtering. Empty results are `[]`, never `null`.
+- Breaking changes get a new `v2/` path, never a silent shape change.
+
 ## Endpoints
+
+### `GET api/v1/index.json`
+
+Manifest: description, legal note, endpoint catalog, usage.
 
 ### `GET api/v1/games.json`
 
-Full game records. Array of objects:
+Curated browser games (89 records, every URL curl-verified HTTP 200 on 2026-10-11). Envelope + `games` array:
 
 ```json
 {
-  "id": "tetr-io",
+  "id": "tetrio",
   "title": "TETR.IO",
   "url": "https://tetr.io/",
   "genre": "puzzle",
-  "players": "multiplayer",
-  "description": "Modern competitive Tetris in the browser…"
+  "controls": "Keyboard (customizable)",
+  "description": "Blisteringly fast modern Tetris…"
 }
 ```
 
 | Field | Type | Notes |
 |---|---|---|
-| `id` | string | `^[a-z0-9-]+$`, unique. Game page: `games/<id>.html` |
+| `id` | string | `^[a-z0-9-]+$`, unique |
 | `title` | string | Display title |
-| `url` | string | Play URL. Always a verified, allowlisted domain — never an invented link |
-| `genre` | string | e.g. `puzzle`, `io`, `shooter`, `party`, `rpg`, `collection` |
-| `players` | enum | `single` \| `multiplayer` \| `both` |
-| `description` | string | Original description in our own words |
+| `url` | string | Play URL — verified live, never invented |
+| `genre` | enum | `puzzle` `action` `roguelike` `idle` `multiplayer` `retro` `horror` `cozy` |
+| `controls` | string | How it's controlled |
+| `description` | string | Original description (CC0) |
+
+Schema: `api/v1/schema/games.schema.json`.
+
+### `GET api/v1/collections.json`
+
+Hand-built collections. Envelope + `collections` array: `id`, `title`, `tagline`, `description`, `game_ids[]` (all IDs exist in `games.json`).
+
+### `GET api/v1/emulators.json`
+
+Emulator software picks (10). Envelope + `emulators` array: `id`, `name`, `systems[]`, `url`, `license`, `platforms[]`, `notes`, `bios_required`, optional `bios_note`. Software only — no ROMs, no BIOS files.
 
 ### `GET api/v1/guides.json`
 
-Guide index (summaries, no full text — see `llms-full.txt` or the guide pages). Array of objects:
+Guide index (8 summaries; full text in `data/guides.json` and `llms-full.txt`). Envelope + `guides` array: `id`, `slug` (page: `guides/<slug>.html`), `title`, `difficulty`, `time_minutes`, `summary`, `section_count`.
 
-```json
-{
-  "id": "emulatorjs-selfhost",
-  "slug": "emulatorjs-self-hosting",
-  "title": "EmulatorJS self-hosting guide",
-  "summary": "Host the open-source EmulatorJS player…",
-  "difficulty": "Intermediate",
-  "time_minutes": 30,
-  "section_count": 7
-}
-```
-
-Guide page: `guides/<slug>.html`.
-
-### Schemas
-
-- `api/v1/schema/games.schema.json` — JSON Schema (draft 2020-12) for game records
-- `api/v1/schema/guides.schema.json` — JSON Schema (draft 2020-12) for guide records
+Schema: `api/v1/schema/guides.schema.json`.
 
 ## Usage notes
 
-- Filter client-side: `games.filter(g => g.genre === "puzzle" && g.players !== "multiplayer")`.
-- `players: "both"` matches solo and group queries — don't exclude it.
-- Link users to the Button Mash game page (`games/<id>.html`) for context, or straight to `url` to play.
-- The URL allowlist is enforced at build time (`scripts/build.py`): every `url` domain must be a known-verified domain. Treat any URL outside the API as unverified.
+- Filter client-side: `games.filter(g => g.genre === "puzzle")`.
+- Link users straight to `url` to play, or to `games.html` for the browsable directory.
+- Rebuild after editing `data/`: `python3 scripts/build.py` (validates + regenerates everything).
+- The domain audit runs at build time (`scripts/build.py`): every external link in guide HTML must be on the allowlist (verified game domains + verified reference domains). New game domains must be curl-verified (HTTP 200) before adding.
 
 ## The legal lane
 
-The API will never serve ROM download URLs, piracy-site links, or copyrighted game files. Guides cover tools only. Agents consuming this API must not invent game URLs — if an id isn't in `games.json`, it doesn't exist here.
+The API will never serve ROM download URLs, piracy-site links, BIOS files, or copyrighted game files. Guides cover tools only. Agents consuming this API must not invent game URLs — if an id isn't in `games.json`, it doesn't exist here.

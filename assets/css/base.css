@@ -1,0 +1,120 @@
+/* Button Mash — base: reset, typography, focus, motion guards. */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image: var(--scanlines);
+}
+
+main { flex: 1; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: 1.08;
+  margin: 0 0 0.6em;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); font-family: var(--font-body); font-weight: 800; }
+
+p { margin: 0 0 1em; }
+
+a {
+  color: var(--neon-cyan);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+a:hover { color: #7df3ff; }
+
+img { max-width: 100%; height: auto; }
+
+code, kbd, pre {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+pre {
+  background: var(--bg-2);
+  border: 1px solid var(--edge);
+  border-radius: var(--r-md);
+  padding: 1rem 1.2rem;
+  overflow-x: auto;
+}
+code {
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+}
+pre code { background: none; border: none; padding: 0; }
+
+kbd {
+  background: var(--panel-2);
+  border: 1px solid var(--edge-bright);
+  border-bottom-width: 3px;
+  border-radius: 6px;
+  padding: 0.1em 0.5em;
+  white-space: nowrap;
+}
+
+/* Focus: visible neon ring everywhere */
+:focus-visible {
+  outline: 3px solid var(--neon-lime);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--neon-pink);
+  color: #fff;
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--neon-lime);
+  color: #0a0a14;
+  font-weight: 800;
+  padding: 0.7rem 1.2rem;
+  z-index: 200;
+  border-radius: 0 0 var(--r-md) 0;
+}
+.skip-link:focus { left: 0; }
+
+/* Screen-reader only */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reduced motion: kill animation everywhere */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

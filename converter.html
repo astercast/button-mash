@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ROM → Browser Game Converter — Button Mash</title>
+<meta name="description" content="Turn a GBA file you own into a self-contained playable browser game. Drop your file, download one .html that boots straight into the game. 100% client-side — nothing uploads.">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="collections.html">Collections</a></li>
+        <li><a href="emulation.html">Emulation</a></li>
+        <li><a href="monster-taming.html">Monster Taming</a></li>
+        <li><a href="play-legal.html">Play Legal</a></li>
+        <li><a class="nav-cta" href="player.html">▶ Play</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <span class="kicker">Centerpiece 02</span>
+      <h1>Your ROM in. <span class="pink">A browser game out.</span></h1>
+      <p class="lede">Drop in a Game Boy Advance file <strong>you own</strong> → get back a single <code>.html</code> file that <em>is</em> the game: your ROM embedded inside, boots straight into play, hostable on any static host or double-clickable offline-ish. Everything happens in your browser — <strong>your file never uploads anywhere.</strong></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="converter-steps">
+        <div class="conv-step">
+          <h3>Drop your GBA file</h3>
+          <p style="color:var(--ink-dim)">A dump of a cartridge you own, a homebrew <code>.gba</code>, or any GBA file you have the rights to. Max 32MB (the largest real GBA cart).</p>
+          <div class="drop-veil" id="conv-drop" style="position:static;min-height:10rem;border:2px dashed var(--edge-bright);border-radius:var(--r-md);cursor:pointer" role="button" tabindex="0" aria-label="Drop a GBA file or click to choose one">
+            <div class="big-icon" aria-hidden="true">💾</div>
+            <p><strong>Drop your .gba here</strong> — or click to browse</p>
+            <input type="file" id="conv-file" accept=".gba" class="sr-only" tabindex="-1" aria-label="Choose a GBA file">
+          </div>
+          <div class="rom-info" id="rom-info" hidden></div>
+          <div class="size-warn" id="size-warn" hidden></div>
+        </div>
+
+        <div class="conv-step">
+          <h3>Convert &amp; download</h3>
+          <p style="color:var(--ink-dim)">We base64-encode your ROM into a game template bundling the EmulatorJS mGBA core. Big files take a minute — the progress bar keeps you posted.</p>
+          <button class="btn btn-primary" id="convert-btn" type="button" disabled>⚡ Convert to browser game</button>
+          <div class="progress-wrap" id="conv-progress">
+            <div class="progress-bar" role="progressbar" aria-label="Conversion progress" aria-valuemin="0" aria-valuemax="100"><div class="progress-fill" id="conv-fill"></div></div>
+            <div class="progress-label" id="conv-label"></div>
+          </div>
+          <div class="callout good" id="conv-result" hidden style="margin-top:1rem"></div>
+        </div>
+
+        <div class="conv-step">
+          <h3>Play &amp; share the file</h3>
+          <p style="color:var(--ink-dim)">Double-click the downloaded <code>.html</code> to play instantly. Host it on any static host (GitHub Pages, itch.io, your own site) and it boots straight into <em>your</em> game — no installer, no emulator setup for the player.</p>
+          <div class="callout">
+            <p><strong>How it works, honestly:</strong> your exported game contains your ROM plus a player stub. The emulator <em>engine</em> (EmulatorJS) loads from its public CDN on first run, then it's cached by the browser. So the file needs internet the very first time — after that it plays from cache. Save states persist in the browser via local storage.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="legal-banner">
+        <strong>🛡️ Legal lane:</strong> only convert files you own — dumps of cartridges you physically own, homebrew, or public-domain releases. Don't convert (or share) ROMs of games you don't own. <a href="play-legal.html">Read the rules</a> · <a href="guides/rip-your-own-cartridges.html">How to dump your own cartridges</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2><span class="tick">▸</span> Engineering notes</h2></div>
+      <div class="grid cols-2">
+        <article class="feature-card">
+          <h3>Size limits, stated plainly</h3>
+          <p>GBA ROMs run up to 32MB; base64 embedding adds ~33% overhead, so the biggest exports approach 43MB. We warn above 16MB and refuse above 32MB — for big files, <a href="player.html">Player mode</a> (no embedding, streams from your disk) is the better experience.</p>
+        </article>
+        <article class="feature-card">
+          <h3>No BIOS needed</h3>
+          <p>The export uses the mGBA core, which ships its own BIOS replacement — your game boots with zero extra files. Save states and in-game saves persist in the player's browser via local storage.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Curious how GBA-in-browser works?</h3>
+          <p>Read the original explainer: how ARM/THUMB code gets lifted into WebAssembly, how frame timing and memory mapping work, and what the pioneering recompiler projects actually do.</p>
+          <a class="card-link" href="guides/gba-wasm.html">How GBA becomes WASM →</a>
+        </article>
+        <article class="feature-card">
+          <h3>Just want to play, not convert?</h3>
+          <p>The Player runs your file directly — no conversion step, no giant download. Twenty-plus systems, same legal lane.</p>
+          <a class="card-link" href="player.html">Open the Player →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>Play</h3>
+        <ul>
+          <li><a href="player.html">The Player</a></li>
+          <li><a href="converter.html">ROM → Browser Game</a></li>
+          <li><a href="games.html">Game directory</a></li>
+          <li><a href="collections.html">Collections</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Learn</h3>
+        <ul>
+          <li><a href="emulation.html">Emulation hub</a></li>
+          <li><a href="guides/gba-wasm.html">GBA → WASM explainer</a></li>
+          <li><a href="monster-taming.html">Monster-taming corner</a></li>
+          <li><a href="play-legal.html">Play it legal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>For machines</h3>
+        <ul>
+          <li><a href="api/v1/">API v1</a></li>
+          <li><a href="API.md">API.md</a></li>
+          <li><a href="llms.txt">llms.txt</a></li>
+          <li><a href="skills/">skills/</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-note">
+      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links. Your files never leave your machine.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/converter.js"></script>
+</body>
+</html>

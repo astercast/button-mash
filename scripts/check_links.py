@@ -48,6 +48,8 @@ for page in pages:
     rel = page.relative_to(ROOT).as_posix()
     if rel == "index.html":
         continue
+    if rel.startswith("assets/vendor/"):
+        continue  # build templates, not browsable pages
     if f"<loc>{rel}</loc>" not in sitemap:
         missing_sm.append(rel)
 

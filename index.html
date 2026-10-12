@@ -3,84 +3,170 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Button Mash — every game playable in the browser, legally</title>
-<meta name="description" content="The all-in-one browser games + emulation hub. 47 legal browser games — open-source HTML5, .io arenas, itch.io picks, archive collections — plus emulation guides that stay in the legal lane.">
-<link rel="stylesheet" href="assets/style.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
+<title>Button Mash — Play Anything in Your Browser</title>
+<meta name="description" content="Button Mash: a universal in-browser game console. Play 89 curated browser games, run your own game files with EmulatorJS, or convert a GBA ROM you own into a self-contained browser game. Legal lane only.">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
 </head>
 <body>
-<a class="skip-link" href="#cards">Skip to games</a>
+<a class="skip-link" href="#main">Skip to content</a>
+
 <header class="site-header">
   <div class="wrap header-inner">
-    <a class="brand" href="index.html" aria-label="Button Mash home">
-      <span class="brand-mark" aria-hidden="true">🕹️</span>
-      <span class="brand-text">Button <strong>Mash</strong></span>
-    </a>
-    <nav aria-label="Primary">
-      <a href="index.html" aria-current="page">Games</a>
-      <a href="#guides">Guides</a>
-      <a href="api/v1/games.json">API</a>
-      <a href="llms.txt">llms.txt</a>
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="collections.html">Collections</a></li>
+        <li><a href="emulation.html">Emulation</a></li>
+        <li><a href="monster-taming.html">Monster Taming</a></li>
+        <li><a href="play-legal.html">Play Legal</a></li>
+        <li><a class="nav-cta" href="player.html">▶ Play</a></li>
+      </ul>
     </nav>
   </div>
 </header>
 
-<main class="wrap" id="main">
-  <section class="hero" aria-labelledby="hero-title">
-    <span class="kicker">100% legal lane · no ROM piracy, ever</span>
-    <h1 id="hero-title"><span class="neon-pink">Every game</span> playable<br>in the browser, <span class="neon-cyan">legally.</span></h1>
-    <p class="lede">A curated arcade of browser games — open-source HTML5 gems, .io arenas, itch.io picks, Internet Archive collections — plus emulation guides that teach the tools, not the piracy. Bring your own dumped ROMs.</p>
-    <div class="stats" aria-label="Library stats">
-      <div class="stat"><b id="stat-games">–</b><span>games</span></div>
-      <div class="stat"><b id="stat-genres">–</b><span>genres</span></div>
-      <div class="stat"><b id="stat-guides">–</b><span>guides</span></div>
+<main id="main">
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <span class="kicker">Your browser is the console</span>
+      <h1>Drop a file. <span class="pink">Press start.</span><br>Or pick from <span class="cyan">89 free games.</span></h1>
+      <p class="lede">Button Mash is a universal in-browser player: your own game files run right here through EmulatorJS, your GBA collection becomes shareable browser games with one click — and when you just want something new, there's a curated shelf of free browser games. Everything here is playable without piracy.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="player.html">▶ Open the Player</a>
+        <a class="btn btn-cyan" href="converter.html">⚡ ROM → Browser Game</a>
+        <a class="btn btn-ghost" href="games.html">Browse 89 games</a>
+      </div>
     </div>
   </section>
 
-  <div class="browser">
-    <aside aria-label="Filters">
-      <form class="filters" id="filters" onsubmit="return false;">
-        <h2>Find a game</h2>
-        <div class="search-box">
-          <label for="search">Search</label>
-          <input type="search" id="search" name="search" placeholder="tetris, idle, drawing…" autocomplete="off">
-        </div>
-        <fieldset>
-          <legend>Genre</legend>
-          <div class="chip-row" id="genre-chips" role="group" aria-label="Genre"></div>
-        </fieldset>
-        <fieldset>
-          <legend>Players</legend>
-          <div class="chip-row" id="player-chips" role="group" aria-label="Players"></div>
-        </fieldset>
-        <button class="btn btn-random" id="random-btn" type="button">🎲 Random game</button>
-      </form>
-    </aside>
-    <section aria-label="Games">
-      <div class="results-bar">
-        <p><strong id="result-count" role="status" aria-live="polite">Loading…</strong></p>
-      </div>
-      <div class="card-grid" id="cards"></div>
-    </section>
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>▶ INSERT COIN</span><span>★ 89 CURATED GAMES</span><span>⚡ GBA → BROWSER</span><span>🕹️ 20+ SYSTEMS</span><span>♥ SAVE STATES</span><span>★ NO PIRACY, EVER</span><span>▶ INSERT COIN</span><span>★ 89 CURATED GAMES</span><span>⚡ GBA → BROWSER</span><span>🕹️ 20+ SYSTEMS</span><span>♥ SAVE STATES</span><span>★ NO PIRACY, EVER</span>
+    </div>
   </div>
 
-  <section class="guides-section" id="guides" aria-labelledby="guides-h">
-    <span class="kicker">Tools, not piracy</span>
-    <h2 id="guides-h">Emulation guides</h2>
-    <p class="lede" style="text-align:left; margin-left:0;">Learn the tools — EmulatorJS, RetroArch, GBA-to-WASM recompilers, cartridge dumping — and where to find legal homebrew. Every guide assumes one thing: you supply ROMs you dumped from games you own.</p>
-    <ul class="guide-list" id="guide-list"></ul>
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2><span class="tick">▸</span> The two centerpieces</h2>
+      </div>
+      <div class="grid cols-2">
+        <article class="feature-card">
+          <div class="icon" aria-hidden="true">🎮</div>
+          <h3>The Player — your files, in the browser</h3>
+          <p>Drag in a game file you own — GBA, SNES, NES, Genesis, Game Boy, N64, PlayStation and 15+ more systems via EmulatorJS cores. On-screen controls, keyboard + gamepad, save states, fullscreen. The site hosts zero ROMs; your file never leaves your machine.</p>
+          <a class="card-link" href="player.html">Open the Player →</a>
+        </article>
+        <article class="feature-card">
+          <div class="icon" aria-hidden="true">⚡</div>
+          <h3>The Converter — ROM to browser game</h3>
+          <p>Drop in a GBA file you own and get back a single <code>.html</code> file that <em>is</em> your game: ROM embedded, boots straight into play, hostable anywhere. Pure client-side — nothing uploads anywhere.</p>
+          <a class="card-link" href="converter.html">Try the Converter →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="gotd" id="gotd" aria-live="polite">
+        <span class="gotd-label">Game of the day</span>
+        <p>Loading today's pick…</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2><span class="tick">▸</span> Fresh from the shelf</h2>
+        <a href="games.html">All 89 games →</a>
+      </div>
+      <div class="grid cols-4" id="genre-sampler"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2><span class="tick">▸</span> Learn the craft</h2>
+      </div>
+      <div class="grid cols-3">
+        <article class="feature-card">
+          <div class="icon" aria-hidden="true">🔧</div>
+          <h3>Emulation hub</h3>
+          <p>Setup guides for EmulatorJS, RetroArch and mGBA, a per-system best-emulator table, and plain-English explainers on how emulation actually works.</p>
+          <a class="card-link" href="emulation.html">Enter the hub →</a>
+        </article>
+        <article class="feature-card">
+          <div class="icon" aria-hidden="true">🧬</div>
+          <h3>How GBA becomes WebAssembly</h3>
+          <p>The reverse-engineering pattern behind browser GBA: lifting ARM/THUMB code into WASM, frame timing, memory mapping. Original explainer, real tech.</p>
+          <a class="card-link" href="guides/gba-wasm.html">Read the explainer →</a>
+        </article>
+        <article class="feature-card">
+          <div class="icon" aria-hidden="true">⚖️</div>
+          <h3>Play it legal</h3>
+          <p>One clear page: what you can and can't do here, legal ROM sources, and how to rip games you physically own. No piracy links, ever.</p>
+          <a class="card-link" href="play-legal.html">Read the rules →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="legal-banner">
+        <strong>🛡️ The Button Mash promise:</strong> this site hosts zero ROMs, links zero ROMs, and will never point you at piracy. Emulation here means emulators as software, your own files, homebrew, and legal archives. <a href="play-legal.html">Read the full legal lane →</a>
+      </div>
+    </div>
   </section>
 </main>
 
 <footer class="site-footer">
   <div class="wrap">
-    <p><strong>Button Mash</strong> — the all-in-one browser games + emulation hub. Every game here is legal to play: open-source, free-to-play, or archive collections. Emulation guides cover tools only — bring your own dumped ROMs. No ROM download links, no piracy sites, ever.</p>
-    <p><a href="api/v1/games.json">games API</a> · <a href="api/v1/guides.json">guides API</a> · <a href="llms.txt">llms.txt</a> · <a href="API.md">API docs</a></p>
+    <div class="footer-grid">
+      <div>
+        <h3>Play</h3>
+        <ul>
+          <li><a href="player.html">The Player</a></li>
+          <li><a href="converter.html">ROM → Browser Game</a></li>
+          <li><a href="games.html">Game directory</a></li>
+          <li><a href="collections.html">Collections</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Learn</h3>
+        <ul>
+          <li><a href="emulation.html">Emulation hub</a></li>
+          <li><a href="guides/gba-wasm.html">GBA → WASM explainer</a></li>
+          <li><a href="monster-taming.html">Monster-taming corner</a></li>
+          <li><a href="play-legal.html">Play it legal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>For machines</h3>
+        <ul>
+          <li><a href="api/v1/">API v1</a></li>
+          <li><a href="API.md">API.md</a></li>
+          <li><a href="llms.txt">llms.txt</a></li>
+          <li><a href="skills/">skills/</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-note">
+      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links. All game descriptions original.</span>
+    </div>
   </div>
 </footer>
 
-<script src="assets/app.js" defer></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/directory.js"></script>
 </body>
 </html>

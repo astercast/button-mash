@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__BM_GAME_NAME__ — playable in your browser</title>
+<meta name="description" content="__BM_GAME_NAME__ as a self-contained browser game. Built from a user-supplied ROM with Button Mash.">
+<style>
+  :root { --pink:#ff2d78; --cyan:#00e5ff; --bg:#07070f; --panel:#101018; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:#eef; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+  header { padding:1rem 1.2rem; border-bottom:2px solid #23232f; display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; }
+  .logo { width:2rem; height:2rem; display:grid; place-items:center; background:var(--pink); border-radius:8px; font-size:1.2rem; }
+  h1 { font-size:1.15rem; margin:0; font-family:ui-monospace,Menlo,Consolas,monospace; }
+  h1 small { display:block; font-size:.72rem; color:#9a9ab0; font-weight:400; }
+  .spacer { flex:1; }
+  .btn { font-family:ui-monospace,Menlo,monospace; font-size:.85rem; padding:.5rem 1rem; border-radius:8px; border:2px solid var(--cyan); background:transparent; color:var(--cyan); cursor:pointer; text-decoration:none; }
+  .btn:hover { background:var(--cyan); color:#02222b; }
+  #stage { flex:1; display:flex; align-items:center; justify-content:center; background:#000; min-height:60vh; position:relative; }
+  #game { width:100%; max-width:960px; aspect-ratio:3/2; }
+  #loading { position:absolute; inset:0; display:flex; flex-direction:column; gap:1rem; align-items:center; justify-content:center; background:#000; z-index:5; text-align:center; padding:2rem; }
+  #loading .spin { font-size:2.4rem; animation:spin 1.2s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  footer { padding:1rem 1.2rem; border-top:2px solid #23232f; font-size:.8rem; color:#9a9ab0; display:flex; gap:1rem; flex-wrap:wrap; justify-content:space-between; }
+  footer a { color:var(--cyan); }
+  .hint { padding:.8rem 1.2rem; font-size:.85rem; color:#9a9ab0; background:var(--panel); border-top:1px solid #23232f; }
+  .hint kbd { background:#1c1c28; border:1px solid #34344a; border-bottom-width:3px; border-radius:6px; padding:.1em .5em; font-family:ui-monospace,monospace; }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" aria-hidden="true">🕹️</div>
+  <h1>__BM_GAME_NAME__<small>Self-contained browser game · ROM __BM_ROM_SIZE__ · built __BM_BUILD_DATE__</small></h1>
+  <div class="spacer"></div>
+  <button class="btn" id="fs-btn" type="button">⛶ Fullscreen</button>
+</header>
+
+<div id="stage">
+  <div id="loading" role="status">
+    <div class="spin" aria-hidden="true">💾</div>
+    <p>Unpacking your game…<br><small>(large ROMs take a moment — everything happens on your device)</small></p>
+  </div>
+  <div id="game"></div>
+</div>
+
+<div class="hint">
+  <strong>Controls:</strong> keyboard works out of the box (arrow keys + <kbd>Z</kbd>/<kbd>X</kbd> cover most GBA games) — open the in-game menu (gear icon) → <em>Controls</em> to see the exact mapping and remap. Gamepads supported. Touch devices get on-screen buttons. Save states live under the menu's <em>Save State</em> options and persist in this browser.
+</div>
+
+<footer>
+  <span>This game file was built from a ROM <strong>you</strong> supplied. Only play games you own or that are freely licensed.</span>
+  <span>Engine: <a href="https://emulatorjs.org" target="_blank" rel="noopener">EmulatorJS</a> (mGBA core) · Built with Button Mash</span>
+</footer>
+
+<script>
+/* ============================================================
+   Embedded ROM — base64 of the file YOU supplied at build time.
+   ============================================================ */
+var BM_ROM_B64 = "__BM_ROM_B64__";
+
+function b64ToBlobUrl(b64) {
+  var CHUNK = 0x8000;
+  var rawLen = b64.length;
+  var bytes = new Uint8Array(Math.ceil(rawLen * 3 / 4));
+  var byteLen = 0;
+  for (var i = 0; i < rawLen; i += CHUNK) {
+    var piece = atob(b64.slice(i, i + CHUNK));
+    for (var j = 0; j < piece.length; j++) bytes[byteLen++] = piece.charCodeAt(j);
+  }
+  return URL.createObjectURL(new Blob([bytes.subarray(0, byteLen)], { type: 'application/octet-stream' }));
+}
+
+window.EJS_player = '#game';
+window.EJS_core = 'gba';
+window.EJS_gameName = "__BM_GAME_NAME__";
+window.EJS_gameID = "__BM_GAME_ID__";
+window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
+window.EJS_startOnLoaded = true;
+window.EJS_backgroundColor = '#000000';
+window.EJS_gameUrl = b64ToBlobUrl(BM_ROM_B64);
+BM_ROM_B64 = null; /* free the giant string once decoded */
+
+window.EJS_onGameStart = function () {
+  var l = document.getElementById('loading');
+  if (l) l.style.display = 'none';
+};
+
+document.getElementById('fs-btn').addEventListener('click', function () {
+  var st = document.getElementById('stage');
+  if (document.fullscreenElement) document.exitFullscreen();
+  else if (st.requestFullscreen) st.requestFullscreen();
+});
+</script>
+<script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+</body>
+</html>

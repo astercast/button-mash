@@ -5,24 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Homebrew &amp; public-domain sources — Button Mash</title>
 <meta name="description" content="Where to find legal homebrew ROMs and public-domain games: archives, dev communities, itch.io, and open-source originals.">
-<link rel="stylesheet" href="../assets/style.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/guides.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap header-inner">
-    <a class="brand" href="../index.html" aria-label="Button Mash home">
-      <span class="brand-mark" aria-hidden="true">🕹️</span>
-      <span class="brand-text">Button <strong>Mash</strong></span>
-    </a>
-    <nav aria-label="Primary">
-      <a href="../index.html">Games</a>
-      <a href="../index.html#guides">Guides</a>
-      <a href="../api/v1/games.json">API</a>
-      <a href="../llms.txt">llms.txt</a>
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../games.html">Games</a></li>
+        <li><a href="../collections.html">Collections</a></li>
+        <li><a href="../emulation.html">Emulation</a></li>
+        <li><a href="../monster-taming.html">Monster Taming</a></li>
+        <li><a href="../play-legal.html">Play Legal</a></li>
+        <li><a class="nav-cta" href="../player.html">▶ Play</a></li>
+      </ul>
     </nav>
   </div>
 </header>
@@ -43,14 +46,19 @@
   <ul class="guide-list"><li><a href="emulatorjs-self-hosting.html">EmulatorJS self-hosting guide</a> — Host the open-source EmulatorJS player on your own site and play ROMs you dumped yourself — setup, cores, BIOS, and the legal line.</li>
 <li><a href="retroarch-setup.html">RetroArch setup guide</a> — Install RetroArch, add cores for hardware you own, and load your own dumped games — controllers, save states, shaders, and netplay included.</li>
 <li><a href="gba-to-wasm-recompiler.html">GBA-to-WASM recompiler guide</a> — Turn a GBA cartridge you own into a self-contained browser page via static recompilation — the user-supplied-ROMs-only pattern, end to end.</li>
-<li><a href="rip-your-own-cartridges.html">Rip-your-own-cartridges guide</a> — Turn cartridges you own into verified ROM backups with a USB dumper — hardware picks, the dumping ritual, and the no-distribution rule.</li></ul></section>
+<li><a href="rip-your-own-cartridges.html">Rip-your-own-cartridges guide</a> — Turn cartridges you own into verified ROM backups with a USB dumper — hardware picks, the dumping ritual, and the no-distribution rule.</li><li><a href="gba-wasm.html">How GBA becomes WebAssembly</a> — the reverse-engineering pattern behind browser GBA: ARM/THUMB to WASM, frame timing, memory mapping.</li>
+<li><a href="how-emulation-works.html">How emulation works</a> — interpreters vs. recompilers, cycle accuracy, and what a BIOS actually does.</li>
+<li><a href="best-emulator-per-system.html">Best emulator per system</a> — one honest pick per classic system.</li>
+</ul></section>
 </article>
 
 </main>
 <footer class="site-footer">
   <div class="wrap">
-    <p><strong>Button Mash</strong> — the all-in-one browser games + emulation hub. Every game here is legal to play: open-source, free-to-play, or archive collections. Emulation guides cover tools only — bring your own dumped ROMs.</p>
-    <p><a href="../api/v1/games.json">games API</a> · <a href="../api/v1/guides.json">guides API</a> · <a href="../llms.txt">llms.txt</a> · <a href="../API.md">API docs</a></p>
+    <div class="footer-note">
+      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links.</span>
+    </div>
   </div>
 </footer>
 </body>

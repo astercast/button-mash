@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game Directory — Button Mash</title>
+<meta name="description" content="89 curated, free, legal browser games: puzzle, action, roguelike, idle, multiplayer, retro, horror, cozy. Search, filter by genre, save favorites.">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="games.html" aria-current="page">Games</a></li>
+        <li><a href="collections.html">Collections</a></li>
+        <li><a href="emulation.html">Emulation</a></li>
+        <li><a href="monster-taming.html">Monster Taming</a></li>
+        <li><a href="play-legal.html">Play Legal</a></li>
+        <li><a class="nav-cta" href="player.html">▶ Play</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <span class="kicker">The shelf</span>
+      <h1>89 games. <span class="cyan">Zero installs.</span></h1>
+      <p class="lede">Every link hand-checked and live. Search, filter by genre, heart your favorites (they live in your browser, not our servers).</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" id="random-game" type="button">🎲 Random game</button>
+        <a class="btn btn-ghost" href="collections.html">Browse collections</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="filters" role="search" aria-label="Filter games">
+        <div class="search-box">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input type="search" id="game-search" placeholder="Search games…" aria-label="Search games">
+        </div>
+        <div class="genre-chips" id="genre-chips" role="group" aria-label="Genre filter"></div>
+        <button class="chip" id="fav-only" type="button" aria-pressed="false">♥ Favorites</button>
+        <span class="results-count" id="results-count" aria-live="polite"></span>
+      </div>
+      <div class="grid cols-3" id="games-grid" aria-live="polite">
+        <div class="empty-state"><p>Loading games…</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="legal-banner">
+        <strong>🛡️ Legal lane:</strong> every game here is free-to-play on its official site. Want to play your <em>own</em> files instead? <a href="player.html">Open the Player</a> or <a href="converter.html">convert a GBA ROM you own</a> — the site hosts zero ROMs.
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>Play</h3>
+        <ul>
+          <li><a href="player.html">The Player</a></li>
+          <li><a href="converter.html">ROM → Browser Game</a></li>
+          <li><a href="games.html">Game directory</a></li>
+          <li><a href="collections.html">Collections</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Learn</h3>
+        <ul>
+          <li><a href="emulation.html">Emulation hub</a></li>
+          <li><a href="guides/gba-wasm.html">GBA → WASM explainer</a></li>
+          <li><a href="monster-taming.html">Monster-taming corner</a></li>
+          <li><a href="play-legal.html">Play it legal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>For machines</h3>
+        <ul>
+          <li><a href="api/v1/">API v1</a></li>
+          <li><a href="API.md">API.md</a></li>
+          <li><a href="llms.txt">llms.txt</a></li>
+          <li><a href="skills/">skills/</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-note">
+      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links. All game descriptions original.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/store.js"></script>
+<script src="assets/js/directory.js"></script>
+</body>
+</html>

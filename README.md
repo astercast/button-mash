@@ -1,31 +1,36 @@
 # Button Mash 🕹️
 
-The all-in-one browser games + emulation hub — every game playable in the browser, **legally**.
+The universal in-browser game console — play anything in your browser, **legally**.
 
-- **47 curated games**: open-source HTML5 games, .io arenas, free-to-play browser classics, itch.io picks, and Internet Archive playable collections. Filter by genre and players, search, or hit the random-game button.
-- **5 emulation guides**: EmulatorJS self-hosting, RetroArch setup, GBA-to-WASM recompilation, rip-your-own-cartridges, and homebrew/public-domain sources. Tools and techniques only — you supply ROMs dumped from games you own.
-- **Legal lane (non-negotiable)**: no ROM download links, no piracy sites, no cracked-game links. When in doubt, we link the guide and the tool — never the pirated content.
+- **The Player** (`player.html`): bring-your-own-file EmulatorJS console for 20+ classic systems (GBA, SNES, NES, Genesis, GB/GBC, N64, PlayStation, …). File picker, drag-and-drop, URL loading, on-screen/keyboard/gamepad controls, save states, fullscreen. The site hosts zero ROMs; your file never leaves your machine.
+- **The Converter** (`converter.html`): drop in a GBA file you own → download a single self-contained `.html` browser game (ROM embedded, boots straight into play). 100% client-side.
+- **89 curated browser games** (`games.html`): puzzle, action, roguelike, idle, multiplayer, retro, horror, cozy. Every URL curl-verified live. Search, genre filters, favorites (localStorage), random game, game of the day.
+- **10 hand-built collections** (`collections.html`), **8 emulation guides** (`emulation.html` → `guides/`), **monster-taming corner**, and **play-legal.html** — the one clear legal page.
+- **Legal lane (non-negotiable)**: no ROM download links, no piracy sites, no cracked-game links, no BIOS downloads. Emulators are software; games come from your own dumps, homebrew, or legal archives.
 
 ## Structure
 
-- `index.html` — game browser (filters, search, random pick) + guides index
-- `games/<id>.html` — one page per game (47)
-- `guides/<slug>.html` — one page per guide (5)
-- `data/games.json`, `data/guides.json` — source data (the build validates and generates from these)
-- `api/v1/` — `games.json`, `guides.json`, `schema/` (JSON schemas)
-- `assets/` — `style.css` (neon-on-dark arcade theme), `app.js` (browser UI)
-- `skills/` — 5 agent skills: game-finder, emulator-setup, homebrew-hunter, party-game-picker, retro-guide
-- `scripts/build.py` — validates data (including a URL allowlist audit: no invented domains) and generates pages, API, sitemap, llms.txt
-- `scripts/check_links.py` — link check: 0 broken local links
+- `index.html` — hub: centerpieces, game of the day, genre sampler
+- `player.html` / `converter.html` — the two centerpieces (`assets/js/player.js`, `assets/js/converter.js`, `assets/vendor/template-game.html`)
+- `games.html` / `collections.html` — directory + collections (rendered from `data/`)
+- `emulation.html`, `monster-taming.html`, `play-legal.html` — hubs and policy
+- `guides/<slug>.html` — 8 guides (some with interactive checklists)
+- `data/` — `games.json`, `collections.json`, `emulators.json`, `guides.json` (sources of truth)
+- `api/v1/` — `index/games/collections/emulators/guides.json` + `schema/` (static JSON API)
+- `assets/css/` — `tokens/base/layout/components/guides.css` (arcade design system)
+- `assets/js/` — `store/directory/player/converter/checklists.js`
+- `skills/` — 9 agent skills: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, retro-guide, classroom-games
+- `pipeline/` — `watch_itch.py`, `watch_emulator_releases.py` → `review_queue.json` (human review, never auto-publishes)
+- `scripts/` — `build.py` (validate + regenerate), `build_api.py`, `build_site.py`, `check_links.py`
 - `llms.txt` / `llms-full.txt` — agent-readable site summaries
 - `API.md`, `GO_LIVE.md`, `PIPELINE.md`, `WAVELOG.md` — docs
 
 ## Build & validate
 
 ```bash
-python3 scripts/build.py        # validate + generate (prints BUILD OK)
-python3 scripts/check_links.py  # link check (prints LINK CHECK OK)
-node --check assets/app.js      # JS syntax
+python3 scripts/build.py        # validate + regenerate api/llms/sitemap (prints BUILD OK)
+python3 scripts/check_links.py  # link check (prints LINK CHECK OK, 0 broken)
+node --check assets/js/*.js     # JS syntax
 python3 -m http.server          # serve locally, open index.html
 ```
 
@@ -35,4 +40,4 @@ GitHub-only, no Vercel (standing rule). See `GO_LIVE.md`. Pushes go through `pyt
 
 ## The legal lane
 
-This repo will never contain: ROM download links, ROM piracy sites, cracked-game links, copyrighted game files, or BIOS downloads. Guides teach tools; the user's own dumped cartridges supply the games. Every game URL in `data/games.json` is audited against an allowlist of verified domains at build time — an invented link fails the build.
+This repo will never contain: ROM download links, ROM piracy sites, cracked-game links, copyrighted game files, or BIOS downloads. The Player and Converter are bring-your-own-file tools. Every game URL in `data/games.json` was curl-verified (HTTP 200) on 2026-10-11; the build audits external link domains. An invented link fails the build.
