@@ -2,6 +2,38 @@
 
 Running record of build waves. Newest first.
 
+## Wave 15 — 2026-10-11 — "The Arcade" visual identity rework (wave 1): core design system
+
+**What shipped** — the user's top-priority directive: a massive identity overhaul at award-winning standard. Button Mash's identity is now **"The Arcade"**, executed as a full design system, not a reskin. Content, tools, data, and API surfaces untouched — visual overhaul only (plus two stale-count fact fixes).
+
+- **Typography (self-hosted, OFL, latin-subset WOFF2 in `assets/fonts/`)**: Press Start 2P (pixel display — marquees, heroes, section plates, kickers), Space Grotesk variable wght 300–700 (chunky body), VT323 (terminal readouts, labels, badges), system mono stack kept for code. `font-display: swap`, display + body preloaded, metric fallbacks. Total font payload ~53KB. Glyph audit: replaced ★▶♥⚡→▸ in pixel/mono contexts with in-subset glyphs (» « • › ·) — verified via fontTools cmap, no tofu.
+- **Marquee header treatments**: the site header is now a cabinet marquee — lit pixel brand badge, chase-light bulb strip along its bottom edge (two-layer stepped chase), nav on its own strip, "» Play" CTA.
+- **Chase-light motion language**: `chase-x` keyframes (dim static bulbs + lit bulbs jumping a half-period in steps) drive header, hero marquee, console shell, guide h1s, and the kick-plate footer. Every instance gated behind `prefers-reduced-motion: no-preference` AND `html:not(.fx-off)`.
+- **Coin-slot CTAs**: every `.btn-primary` is now a coin slot (dark bezel + vertical slot + neon coin-return glow); new `.coin-plate-cta` standalone insert-coin plate (404, hero-adjacent); kick-plate footer with "• GAME OVER? INSERT COIN TO CONTINUE •" coin-return plate.
+- **Cabinet side-art dividers**: section heads are marquee plates with neon stripe-run dividers (`border-image` hard-stop gradients); guide sections get the same treatment; converter steps are cabinet panels with pixel step marquees; tool cards are control panels.
+- **Cabinet game cards**: genre art-strip top edge (per-genre gradient via `:has()`), corner screws, bezel shadows, VT323 genre tags, hover lift + neon edge. **Kid-safe badges** (wave-14 flagged handoff): `★`→`• KID SAFE` lime badges on all 75 kid-safe cards — `arcade.js` wraps `BM.gameCard`, `directory.js` awaits `BM.kidSafeReady` before first render so first paint is complete.
+- **CRT texture, toggleable**: fixed scanline + vignette layer over the whole page; the **FX switch** (header, injected by `arcade.js`, persisted in localStorage, defaults OFF for reduced-motion visitors) kills scanlines, chase, flicker, ticker, and attract mode — the wave-14 sensory-envelope toggle, shipped.
+- **Attract mode**: the homepage marquee ticker is data-driven (24 rotating catalog titles, duplicated for a seamless -50% loop, static fallback if fetch fails); after 30s idle the hero shows an "ATTRACT MODE — TOUCH TO PLAY" ribbon and the ticker speeds up. Any input exits. Fully gated on reduced-motion/FX.
+- **Custom details everywhere**: amber-on-black selection, cabinet-rail scrollbars, lime focus rings (forced-colors aware), "unlit cabinet screen" empty states, arcade **404.html** ("GAME OVER" + insert-coin CTA, added to sitemap/PAGES), breadcrumbs on the games directory + arcade token-trail breadcrumb styling on guides, footer kick plate.
+- **Motion tokens** (wave-14 handoff): 5 durations + standard/decelerate/accelerate/snap easings in `tokens.css`; reduced-motion collapses durations and kills travel/chase/flicker while keeping opacity fades.
+- **Guides template**: marquee h1 with chase bulbs + grille texture, side-art section dividers, terminal-readout fact chips, safety-plate legal notes, score-bar reading progress, print stylesheet that kills the cabinet. Cross-document view transitions restored (gated).
+- **Stale-count fact fixes**: index meta description + marquee strip "89" → 162; games.html hero "89 games" → 162 (hero counts were already data-driven; these static strings weren't).
+- **Design-system handoff applied from waves 12–14**: motion tokens, breadcrumbs, kid-safe badges, sensory-envelope toggle. Deferred to identity wave 2 (page-type extension): anchor+Popover card tooltips, URL-synced filtered views, tag filter chips, collection anchor links, search-across-tags.
+- **Validation**: `check_api_workflows.js` gained **WF15 (12 checks; 117/117 pass total)** — vendored WOFF2 magic, @font-face wiring, motion/texture tokens, chase keyframes, coin-slot CSS, arcade.js contracts + page coverage, stale-count fixes, guide treatment, 404, reduced-motion/FX kills.
+
+**Validation (wave 15):**
+- `scripts/build.py`: **BUILD OK — 162 games (136 domains), 19 collections, 10 emulators, 20 guides**; **LEGAL GATE OK (37 pages, 162 game URLs, 0 piracy links)**
+- `scripts/check_links.py`: **LINK CHECK OK — 36 pages, 1063 local links, 71 external links, 0 broken** (404.html added to sitemap via `build_site.py` PAGES)
+- `node scripts/check_api_workflows.js`: **117/117 pass (WF1–WF15)**, 0 failures
+- `node --check`: clean on all `assets/js/*.js` (incl. new `arcade.js`, edited `directory.js`)
+- Regression: test_bracket 82/82, test_bracket_double 105/105, test_party11 36/36, test_converter12 66/66
+- `~/workspace/smoke/test.js`: zero pageerrors (only the known expected CDN tunnel noise on player.html)
+- Headless functional (puppeteer-core): games.html 162 cards + 75 kid badges + "162 of 162" + puzzle filter → 45 via view transition; FX toggle flips `html.fx-off` + aria-pressed; index ticker 48 spans populated, sampler 4 cards; player/converter/guide/404 render; **zero pageerrors/console errors**
+- A11y/contrast audit: 17 key pairs computed — all pass WCAG AA (ink-faint 4.03 used decoratively only); screenshots verified (hero marquee, games hero, guide template, 404)
+- Fonts: all three files OFL, `wOF2` magic verified; no external font requests (self-hosted)
+
+**Legal lane**: unchanged — zero ROMs hosted, zero ROM/BIOS download links; fonts are OFL-licensed and self-hosted (no new external deps); all features operate on user-supplied files, client-side only.
+
 ## Wave 14 — 2026-10-11 — Games catalog expansion: 125 → 162 (+37, biggest single expansion) + web-craft applications
 
 **What shipped:**

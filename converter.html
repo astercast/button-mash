@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ROM → Browser Game Converter — Button Mash</title>
 <meta name="description" content="Turn GBA, Game Boy/Color, NES, SNES or Genesis files you own into self-contained playable browser games. Batch conversion, compression levels, honest validation. 100% client-side — nothing uploads.">
+<link rel="preload" href="assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
@@ -27,7 +29,7 @@
         <li><a href="emulation.html">Emulation</a></li>
         <li><a href="monster-taming.html">Monster Taming</a></li>
         <li><a href="play-legal.html">Play Legal</a></li>
-        <li><a class="nav-cta" href="player.html">▶ Play</a></li>
+        <li><a class="nav-cta" href="player.html">» Play</a></li>
       </ul>
     </nav>
   </div>
@@ -112,7 +114,7 @@
 
   <section class="section">
     <div class="wrap">
-      <div class="section-head"><h2><span class="tick">▸</span> Engineering notes</h2></div>
+      <div class="section-head"><h2><span class="tick">»</span> Engineering notes</h2></div>
       <div class="grid cols-2">
         <article class="feature-card">
           <h3>Size limits, stated plainly</h3>
@@ -129,12 +131,12 @@
         <article class="feature-card">
           <h3>Curious how GBA-in-browser works?</h3>
           <p>Read the original explainer: how ARM/THUMB code gets lifted into WebAssembly, how frame timing and memory mapping work, and what the pioneering recompiler projects actually do.</p>
-          <a class="card-link" href="guides/gba-wasm.html">How GBA becomes WASM →</a>
+          <a class="card-link" href="guides/gba-wasm.html">How GBA becomes WASM ›</a>
         </article>
         <article class="feature-card">
           <h3>Just want to play, not convert?</h3>
           <p>The Player runs your file directly — no conversion step, no giant download. Twenty-plus systems, same legal lane.</p>
-          <a class="card-link" href="player.html">Open the Player →</a>
+          <a class="card-link" href="player.html">Open the Player ›</a>
         </article>
       </div>
     </div>
@@ -180,11 +182,13 @@
       <span>Button Mash — your browser is the console. Built 2026.</span>
       <span>Zero ROMs hosted. Zero piracy links. Your files never leave your machine.</span>
     </div>
+    <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>
   </div>
 </footer>
 
 <script src="assets/vendor/pako.min.js"></script>
 <script src="assets/js/converter-core.js"></script>
 <script src="assets/js/converter.js"></script>
+<script src="assets/js/arcade.js"></script>
 </body>
 </html>

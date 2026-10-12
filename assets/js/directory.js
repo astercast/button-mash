@@ -100,6 +100,9 @@
       if (state.favsOnly) render();
     });
 
+    // Kid-safe badges (arcade.js): wait for the id set so first paint is complete.
+    try { if (BM.kidSafeReady) await BM.kidSafeReady; } catch (e) {}
+
     render();
   }
 
@@ -117,7 +120,7 @@
     var browseBtn = document.getElementById('browse-games-btn');
     if (browseBtn) browseBtn.textContent = 'Browse ' + games.length + ' games';
     var allLink = document.getElementById('all-games-link');
-    if (allLink) allLink.textContent = 'All ' + games.length + ' games \u2192';
+    if (allLink) allLink.textContent = 'All ' + games.length + ' games \u203a';
     gotdBox.innerHTML = '';
     gotdBox.appendChild(BM.el('span', 'gotd-label', 'Game of the day'));
     var h = BM.el('h3');
@@ -127,7 +130,7 @@
     gotdBox.appendChild(h);
     gotdBox.appendChild(BM.el('p', null, pick.description));
     var row = BM.el('div', 'hero-actions');
-    var play = BM.el('a', 'btn btn-primary btn-sm', '▶ Play now');
+    var play = BM.el('a', 'btn btn-primary btn-sm', '» Play now');
     play.href = pick.url; play.target = '_blank'; play.rel = 'noopener noreferrer';
     var browse = BM.el('a', 'btn btn-ghost btn-sm', 'Browse all games');
     browse.href = 'games.html';

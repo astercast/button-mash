@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Player — Button Mash</title>
 <meta name="description" content="Button Mash Player: run your own game files in the browser via EmulatorJS. 20+ systems, save states, on-screen controls, fullscreen. Bring your own file — the site hosts zero ROMs.">
+<link rel="preload" href="assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
@@ -27,7 +29,7 @@
         <li><a href="emulation.html">Emulation</a></li>
         <li><a href="monster-taming.html">Monster Taming</a></li>
         <li><a href="play-legal.html">Play Legal</a></li>
-        <li><a class="nav-cta" href="player.html" aria-current="page">▶ Play</a></li>
+        <li><a class="nav-cta" href="player.html" aria-current="page">» Play</a></li>
       </ul>
     </nav>
   </div>
@@ -97,7 +99,7 @@
 
   <section class="section" id="player-2-tools" aria-labelledby="tools-heading">
     <div class="wrap">
-      <div class="section-head"><h2 id="tools-heading"><span class="tick">▸</span> Player 2.1 tools</h2></div>
+      <div class="section-head"><h2 id="tools-heading"><span class="tick">»</span> Player 2.1 tools</h2></div>
       <p class="section-sub">Client-side upgrades. Everything below runs in your browser — your files, saves and settings never leave your machine.</p>
       <div class="tools-grid">
 
@@ -237,7 +239,7 @@
 
   <section class="section" id="netplay-notes" aria-labelledby="netplay-heading">
     <div class="wrap">
-      <div class="section-head"><h2 id="netplay-heading"><span class="tick">▸</span> Netplay — the honest state</h2></div>
+      <div class="section-head"><h2 id="netplay-heading"><span class="tick">»</span> Netplay — the honest state</h2></div>
       <ul class="honest-list">
         <li><strong>What it is:</strong> the EmulatorJS engine advertises a WebRTC room-code netplay feature (a host creates a room, others join with a code, inputs sync peer-to-peer). Both players need their own copy of the same game file — no file ever travels through us.</li>
         <li><strong>The honest state:</strong> the engine's own docs flag netplay as <em>"being worked on"</em> — historically it needed pre-4.0 builds, old cores, and a signaling server. Button Mash has <strong>not</strong> verified netplay end-to-end on the stable engine build, so it is <strong>not enabled or promised</strong> here. Expect latency; not every core or game behaves.</li>
@@ -248,7 +250,7 @@
 
   <section class="section">
     <div class="wrap">
-      <div class="section-head"><h2><span class="tick">▸</span> How to play</h2></div>
+      <div class="section-head"><h2><span class="tick">»</span> How to play</h2></div>
       <div class="grid cols-3">
         <article class="feature-card">
           <div class="icon" aria-hidden="true">1️⃣</div>
@@ -271,7 +273,7 @@
 
   <section class="section">
     <div class="wrap">
-      <div class="section-head"><h2><span class="tick">▸</span> Supported systems</h2></div>
+      <div class="section-head"><h2><span class="tick">»</span> Supported systems</h2></div>
       <p class="section-sub">Cores via EmulatorJS (stable CDN). If your file's extension isn't auto-detected, pick the system manually before dropping it in.</p>
       <div style="overflow-x:auto">
       <table class="keymap">
@@ -304,7 +306,7 @@
 
   <section class="section">
     <div class="wrap">
-      <div class="section-head"><h2><span class="tick">▸</span> Make it portable</h2></div>
+      <div class="section-head"><h2><span class="tick">»</span> Make it portable</h2></div>
       <p class="section-sub">Love a game you own on GBA? The Converter wraps your ROM into a single <code>.html</code> file that boots straight into the game — host it anywhere, share the file, double-click to play.</p>
       <a class="btn btn-cyan" href="converter.html">⚡ Open the ROM → Browser Game Converter</a>
     </div>
@@ -350,9 +352,11 @@
       <span>Button Mash — your browser is the console. Built 2026.</span>
       <span>Zero ROMs hosted. Zero piracy links. Engine: EmulatorJS (GPL-3.0).</span>
     </div>
+    <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>
   </div>
 </footer>
 
 <script src="assets/js/player.js"></script>
+<script src="assets/js/arcade.js"></script>
 </body>
 </html>

@@ -28,6 +28,7 @@ PAGES = [
     ("genres/cozy.html", "Genre deep dive: cozy games — gentle games for grey weather"),
     ("api/v1/", "JSON API index"),
     ("API.md", "API documentation"),
+    ("404.html", "Game over: arcade-styled 404 with insert-coin home CTA"),
 ]
 
 GUIDES = [

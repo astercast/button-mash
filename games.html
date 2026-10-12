@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Game Directory — Button Mash</title>
 <meta name="description" content="162 curated, free, legal browser games: puzzle, action, roguelike, idle, multiplayer, retro, horror, cozy. Search, filter by genre, save favorites.">
+<link rel="preload" href="assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
@@ -27,17 +29,20 @@
         <li><a href="emulation.html">Emulation</a></li>
         <li><a href="monster-taming.html">Monster Taming</a></li>
         <li><a href="play-legal.html">Play Legal</a></li>
-        <li><a class="nav-cta" href="player.html">▶ Play</a></li>
+        <li><a class="nav-cta" href="player.html">» Play</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
 <main id="main">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span class="crumb-sep" aria-hidden="true">›</span><span aria-current="page">Game directory</span></nav>
+  </div>
   <section class="hero">
     <div class="wrap hero-inner">
       <span class="kicker">The shelf</span>
-      <h1>89 games. <span class="cyan">Zero installs.</span></h1>
+      <h1>162 games. <span class="cyan">Zero installs.</span></h1>
       <p class="lede">Every link hand-checked and live. Search, filter by genre, heart your favorites (they live in your browser, not our servers).</p>
       <div class="hero-actions">
         <button class="btn btn-primary" id="random-game" type="button">🎲 Random game</button>
@@ -65,19 +70,19 @@
 
   <section class="section">
     <div class="wrap">
-      <div class="section-head"><h2><span class="tick">▸</span> Genre deep dives</h2></div>
+      <div class="section-head"><h2><span class="tick">»</span> Genre deep dives</h2></div>
       <div class="grid cols-2">
         <article class="feature-card">
           <div class="icon" aria-hidden="true">💀</div>
           <h3>Roguelikes: die, learn, die better</h3>
           <p>Six free browser roguelikes with start-here picks and why-each-fits blurbs — from Dragonsweeper's gentle on-ramp to Poom's 128-pixel demon-blasting.</p>
-          <a class="card-link" href="genres/roguelike.html">Read the deep dive →</a>
+          <a class="card-link" href="genres/roguelike.html">Read the deep dive ›</a>
         </article>
         <article class="feature-card">
           <div class="icon" aria-hidden="true">🍵</div>
           <h3>Cozy games: no fail states, only vibes</h3>
           <p>Eleven gentle games with start-here picks — seaside towns, ghost cats, falling sand, and a scroll into the abyss.</p>
-          <a class="card-link" href="genres/cozy.html">Read the deep dive →</a>
+          <a class="card-link" href="genres/cozy.html">Read the deep dive ›</a>
         </article>
       </div>
     </div>
@@ -131,10 +136,12 @@
       <span>Button Mash — your browser is the console. Built 2026.</span>
       <span>Zero ROMs hosted. Zero piracy links. All game descriptions original.</span>
     </div>
+    <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>
   </div>
 </footer>
 
 <script src="assets/js/store.js"></script>
+<script src="assets/js/arcade.js"></script>
 <script src="assets/js/directory.js"></script>
 </body>
 </html>

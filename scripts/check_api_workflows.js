@@ -539,4 +539,64 @@ check("WF14 dropped candidates stayed out (unverifiable URLs never shipped)",
    "spend-bill-gates-money", "design-next-iphone"].every((id) => !gameIds.has(id)),
   "12 rejected, 0 in catalog");
 
+// Workflow 15 (wave 15): "The Arcade" identity system
+const tokens15 = fs.readFileSync(path.join(ROOT, "assets/css/tokens.css"), "utf8");
+const base15 = fs.readFileSync(path.join(ROOT, "assets/css/base.css"), "utf8");
+const layout15 = fs.readFileSync(path.join(ROOT, "assets/css/layout.css"), "utf8");
+const comp15 = compCss;
+const guides15 = fs.readFileSync(path.join(ROOT, "assets/css/guides.css"), "utf8");
+const arcadeJs = fs.readFileSync(path.join(ROOT, "assets/js/arcade.js"), "utf8");
+const indexHtml = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+const gamesHtml = fs.readFileSync(path.join(ROOT, "games.html"), "utf8");
+const woff2magic = (p) => fs.readFileSync(path.join(ROOT, p)).subarray(0, 4).toString("hex") === "774f4632";
+check("WF15 self-hosted fonts vendored (valid WOFF2)",
+  ["assets/fonts/press-start-2p-latin.woff2", "assets/fonts/vt323-latin.woff2",
+   "assets/fonts/space-grotesk-latin.woff2"].every(woff2magic),
+  "press-start-2p / vt323 / space-grotesk");
+check("WF15 @font-face wired in tokens.css",
+  ["Press Start 2P", "VT323", "Space Grotesk"].every((f) => tokens15.includes('font-family: "' + f + '"')),
+  "display + readout + body faces");
+check("WF15 motion tokens defined",
+  ["--dur-fast", "--dur-base", "--dur-moderate", "--dur-slow",
+   "--ease-standard", "--ease-decelerate", "--ease-accelerate"].every((t) => tokens15.includes(t)),
+  "5 durations + named easings");
+check("WF15 texture tokens defined",
+  ["--scanlines", "--grille", "--side-art", "--bulb", "--chase-period", "--chase-dur"]
+    .every((t) => tokens15.includes(t)),
+  "scanlines/grille/side-art/bulb/chase");
+check("WF15 chase-light keyframes in layout.css",
+  layout15.includes("@keyframes chase-x") && layout15.includes(".site-header::after") &&
+  layout15.includes("prefers-reduced-motion: no-preference"),
+  "header chase, motion-gated");
+check("WF15 coin-slot CTA in components.css",
+  comp15.includes(".btn-primary::after") && comp15.includes(".coin-plate-cta") &&
+  comp15.includes(".kid-badge"),
+  "coin slot, coin plate, kid badge");
+check("WF15 arcade.js contracts",
+  arcadeJs.includes("bm-fx") && arcadeJs.includes("attract") &&
+  arcadeJs.includes("kid-safe.json") && arcadeJs.includes("kidSafeReady"),
+  "FX toggle + attract + ticker + kid-safe");
+check("WF15 arcade.js on in-scope pages",
+  ["index.html", "games.html", "player.html", "converter.html"]
+    .every((p) => fs.readFileSync(path.join(ROOT, p), "utf8").includes("assets/js/arcade.js")) &&
+  fs.readdirSync(path.join(ROOT, "guides")).filter((f) => f.endsWith(".html"))
+    .every((f) => fs.readFileSync(path.join(ROOT, "guides", f), "utf8").includes("assets/js/arcade.js")),
+  "home + games + player + converter + 20 guides");
+check("WF15 stale counts fixed (89 -> 162)",
+  !indexHtml.includes("89 CURATED") && !indexHtml.includes("89 curated") &&
+  gamesHtml.includes("162 games."),
+  "marquee + meta + directory hero");
+check("WF15 guides template arcade treatment",
+  guides15.includes("chase-x") && guides15.includes(".guide-page h1::before") &&
+  guides15.includes("border-image"),
+  "marquee h1, chase bulbs, side-art dividers");
+check("WF15 custom 404 exists",
+  fs.existsSync(path.join(ROOT, "404.html")) &&
+  fs.readFileSync(path.join(ROOT, "404.html"), "utf8").includes("GAME OVER"),
+  "arcade 404 with insert-coin CTA");
+check("WF15 reduced-motion + FX-off kills",
+  base15.includes("html.fx-off") && comp15.includes("html:not(.fx-off)") &&
+  base15.includes("@media (prefers-reduced-motion: reduce)"),
+  "sensory envelope + reduced motion");
+
 process.exit(failures ? 1 : 0);
