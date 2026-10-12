@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>__BM_GAME_NAME__ — playable in your browser</title>
-<meta name="description" content="__BM_GAME_NAME__ as a self-contained browser game. Built from a user-supplied ROM with Button Mash.">
+<title>__BM_GAME_NAME__ (__BM_SYSTEM__) — playable in your browser</title>
+<meta name="description" content="__BM_GAME_NAME__ (__BM_SYSTEM__) as a self-contained browser game. Built from a user-supplied ROM with Button Mash.">
 <style>
   :root { --pink:#ff2d78; --cyan:#00e5ff; --bg:#07070f; --panel:#101018; }
   * { box-sizing:border-box; }
@@ -30,7 +30,7 @@
 <body>
 <header>
   <div class="logo" aria-hidden="true">🕹️</div>
-  <h1>__BM_GAME_NAME__<small>Self-contained browser game · ROM __BM_ROM_SIZE__ · built __BM_BUILD_DATE__</small></h1>
+  <h1>__BM_GAME_NAME__<small>__BM_SYSTEM__ · self-contained browser game · ROM __BM_ROM_SIZE__ · built __BM_BUILD_DATE__</small></h1>
   <div class="spacer"></div>
   <button class="btn" id="fs-btn" type="button">⛶ Fullscreen</button>
 </header>
@@ -44,12 +44,12 @@
 </div>
 
 <div class="hint">
-  <strong>Controls:</strong> keyboard works out of the box (arrow keys + <kbd>Z</kbd>/<kbd>X</kbd> cover most GBA games) — open the in-game menu (gear icon) → <em>Controls</em> to see the exact mapping and remap. Gamepads supported. Touch devices get on-screen buttons. Save states live under the menu's <em>Save State</em> options and persist in this browser.
+  <strong>Controls:</strong> __BM_HINT__ — open the in-game menu (gear icon) → <em>Controls</em> to see the exact mapping and remap. Gamepads supported. Touch devices get on-screen buttons. Save states live under the menu's <em>Save State</em> options and persist in this browser.
 </div>
 
 <footer>
   <span>This game file was built from a ROM <strong>you</strong> supplied. Only play games you own or that are freely licensed.</span>
-  <span>Engine: <a href="https://emulatorjs.org" target="_blank" rel="noopener">EmulatorJS</a> (mGBA core) · Built with Button Mash</span>
+  <span>Engine: <a href="https://emulatorjs.org" target="_blank" rel="noopener">EmulatorJS</a> (__BM_CORE_LABEL__) · Built with Button Mash</span>
 </footer>
 
 <script>
@@ -71,7 +71,7 @@ function b64ToBlobUrl(b64) {
 }
 
 window.EJS_player = '#game';
-window.EJS_core = 'gba';
+window.EJS_core = '__BM_CORE__';
 window.EJS_gameName = "__BM_GAME_NAME__";
 window.EJS_gameID = "__BM_GAME_ID__";
 window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';

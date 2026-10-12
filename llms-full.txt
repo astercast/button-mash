@@ -2,13 +2,15 @@
 
 # Button Mash
 
-The universal in-browser game console. Two centerpieces: (1) the Player — a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) the Converter — drop in a GBA file you own, get back a single self-contained playable .html browser game (client-side only). Plus a curated directory of 89 free, legal browser games (every link verified live 2026-10-11), hand-built collections, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads — ever.
+The universal in-browser game console. Three centerpieces: (1) the Player — a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) the Converter — drop in a GBA, GB/GBC or NES file you own, get back a single self-contained playable .html browser game (client-side only, all three cores BIOS-free); (3) the Party Planner — headcount + time + vibe in, timed game-night rotation plan out. Plus a curated directory of 114 free, legal browser games (every link verified live 2026-10-11), hand-built collections, genre deep dives, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads — ever.
 
 ## Play
 - player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen)
-- converter.html — ROM-to-browser-game converter (GBA in, self-contained .html out)
-- games.html — the 89-game directory (search, genre filters, favorites, random game, game of the day)
-- collections.html — 10 hand-built collections
+- converter.html — ROM-to-browser-game converter (GBA/GB/GBC/NES in, self-contained .html out)
+- party-planner.html — timed game-night rotation planner across party-tagged games (print-friendly)
+- games.html — the 114-game directory (search, genre filters, favorites, random game, game of the day)
+- collections.html — 11 hand-built collections
+- genres/roguelike.html, genres/cozy.html — genre deep dives with start-here picks
 
 ## Learn
 - emulation.html — emulation hub
@@ -23,7 +25,7 @@ The universal in-browser game console. Two centerpieces: (1) the Player — a br
 - guides/rip-your-own-cartridges.html — Rip your own cartridges guide
 - guides/homebrew-and-public-domain.html — Homebrew & public-domain sources
 
-## Games (89 total)
+## Games (114 total)
 
 - 2048 [puzzle · Arrow keys / swipe] — Slide numbered tiles and merge them to reach 2048. Deceptively simple, endlessly restartable. Play: https://play2048.co/
 - Wordle [puzzle · Keyboard] — One five-letter word a day, six guesses. The whole internet solves the same puzzle. Play: https://www.nytimes.com/games/wordle/index.html
@@ -74,7 +76,7 @@ The universal in-browser game console. Two centerpieces: (1) the Player — a br
 - Antimatter Dimensions [idle · Mouse] — Prestige-layered incremental about reaching infinity. Then going past it. Play: https://ivark.github.io/AntimatterDimensions/
 - Agar.io [multiplayer · Mouse] — Eat or be eaten in the cell arena that defined .io games. Play: https://agar.io/
 - Slither.io [multiplayer · Mouse] — The multiplayer snake. Coil around rivals and feast on their remains. Play: https://slither.io/
-- skribbl.io [multiplayer · Mouse (draw)] — Online Pictionary with strangers. Hilarious with friends. Play: https://skribbl.io/
+- skribbl.io [multiplayer · Mouse (draw)] — Online Pictionary with strangers, or a private room for just your friends. Hilarious either way. Play: https://skribbl.io/
 - Gartic Phone [multiplayer · Mouse (draw)] — Telephone meets drawing. The results are always unhinged. Play: https://garticphone.com/
 - HaxBall [multiplayer · Arrows + X] — Top-down physics soccer with friends. Simple, perfect, timeless. Play: https://www.haxball.com/
 - Pokémon Showdown [multiplayer · Mouse] — Fan-made monster battle simulator. Team-build and battle in seconds, no downloads. Play: https://pokemonshowdown.com/
@@ -114,19 +116,45 @@ The universal in-browser game console. Two centerpieces: (1) the Player — a br
 - A Tale of Crowns [cozy · Mouse / keyboard] — A sprawling fantasy interactive-fiction romance. A cozy epic. Play: https://qeresi.itch.io/a-tale-of-crowns
 - Slow Roads [cozy · Arrows / WASD] — Endless procedural driving through generated landscapes. Pure zen. Play: https://slowroads.io/
 - Fallen London [cozy · Mouse] — A gothic narrative RPG beneath a stolen London. Years of stories, free. Play: https://www.fallenlondon.com/
+- Paper.io [action · Mouse / touch] — Claim territory by drawing loops in this slick .io arena. Cut rivals' trails to steal their land — get cut and you're done. Play: https://paper-io.com/
+- Slope [action · Arrow keys / A-D] — Steer a ball down an endless neon slope at breakneck speed. One wrong twitch and the run is over. Play: https://www.crazygames.com/game/slope
+- Moto X3M [action · Arrow keys] — Flip a dirt bike over 22 stunt tracks packed with explosives. Land the backflip or eat the ramp. Play: https://www.crazygames.com/game/moto-x3m
+- Tetris (Official) [puzzle · Keyboard (customizable)] — The official free Tetris in your browser. Marathon, sprint and daily challenges on the real deal. Play: https://www.tetris.com/play-tetris
+- Seterra [puzzle · Mouse / touch] — Geography quizzes with 400+ map challenges. You'll learn every capital by accident. Play: https://www.seterra.com/
+- 0hh1 [puzzle · Mouse / touch] — A tiny perfect logic puzzle: fill the grid red or blue, no three in a row. Fresh puzzles every day. Play: https://0hh1.com/
+- Clumsy Bird [action · Click / tap / spacebar] — The open-source Flappy Bird. Tap through the pipes, rage, repeat — and the code is right there to read. Play: https://ellisonleao.github.io/clumsy-bird/
+- Astray [action · WASD + mouse] — A procedurally generated 3D maze walked in first person. Open source, quietly unsettling, different every run. Play: https://wwwtyro.github.io/Astray/
+- HexGL [action · Arrow keys / gamepad] — A futuristic anti-gravity racer in WebGL. Open source and still slick more than a decade later. Play: https://hexgl.bkcore.com/
+- Minecraft Classic [action · WASD + mouse] — The 2009 creative-mode classic, free in the browser. Build with the original 32 blocks, invite friends to your world. Play: https://classic.minecraft.net/
+- Lexulous [multiplayer · Mouse] — Scrabble-style word battles against friends or strangers. The dictionary is the battlefield. Play: https://www.lexulous.com/
+- AirConsole [multiplayer · Phones as controllers] — Turn every phone into a controller: 100+ party games on one big screen. Couch co-op with zero installs. Play: https://www.airconsole.com/
+- PlayOK [multiplayer · Mouse] — Free board and card classics — chess, checkers, hearts, reversi — against real people, no signup. Play: https://www.playok.com/
+- Swarm Sim [idle · Mouse] — Grow a meat-eating bug swarm from a few larvae to a galaxy-devouring horde. Absurdly deep, fully open source. Play: https://swarmsim.com/
+- Melvor Idle [idle · Mouse] — RuneScape-style skilling as a pure idle game. Chop, fish and fight while you do literally anything else. Play: https://www.melvoridle.com/
+- Quick, Draw! [puzzle · Mouse / touch] — Doodle against a neural net that guesses your drawing in 20 seconds. Humbling for actual artists. Play: https://quickdraw.withgoogle.com/
+- Sandspiel [cozy · Mouse / touch] — A falling-sand toy with fire, water, plants and acid. No goals, no score — just beautiful chaos. Play: https://sandspiel.club/
+- Chrome Music Lab: Song Maker [cozy · Mouse / touch] — Google's dead-simple music maker. Paint notes on a grid, press play, share the tune. Play: https://musiclab.chromeexperiments.com/Song-Maker/
+- The Deep Sea [cozy · Scroll] — Scroll from sunlit waves to the abyss, meeting real deep-sea creatures on the way down. Meditative and factual. Play: https://neal.fun/deep-sea/
+- Nested [cozy · Mouse] — A universe inside a universe inside a universe, from the Cookie Clicker creator. Zoom in forever. Play: https://orteil.dashnet.org/nested
+- Koalas to the Max [puzzle · Mouse] — Split a photo into smaller and smaller circles to reveal what's underneath. Weirdly, deeply addictive. Play: https://koalastothemax.com/
+- Space Elevator [puzzle · Scroll] — Ride a space elevator from Earth to orbit, learning real orbital physics as you climb. Play: https://neal.fun/space-elevator/
+- ClassicReload [retro · Keyboard / mouse] — Hundreds of DOS-era classics playable in the browser. The 90s shareware shelf, preserved and playable. Play: https://classicreload.com/
+- PICO-8 BBS [retro · Keyboard] — The PICO-8 community board: thousands of tiny games and demos that run right in your browser. Play: https://www.lexaloffle.com/bbs/?cat=7
+- JetPunk [puzzle · Keyboard / mouse] — Timed trivia quizzes on everything from flags to periodic tables. Built for speedruns against the clock. Play: https://www.jetpunk.com/
 
-## Collections (10 total)
+## Collections (11 total)
 
-- Cozy games for a rainy day: Gentle games for grey weather — Serenitrove; Townscaper; Six Cats Under; goodbye, doggy; A Tale of Crowns; Slow Roads; Fallen London; purrgatory; Little Troubles in Spooky Town; Little Alchemy 2
+- Cozy games for a rainy day: Gentle games for grey weather — Serenitrove; Townscaper; Six Cats Under; goodbye, doggy; A Tale of Crowns; Slow Roads; Fallen London; purrgatory; Little Troubles in Spooky Town; Little Alchemy 2; The Deep Sea; Sandspiel
 - One-more-turn idle games: Numbers go up while you do nothing — Cookie Clicker; A Dark Room; Universal Paperclips; Candy Box 2; Kittens Game; Trimps; Antimatter Dimensions
-- .io arena essentials: The arenas that defined a genre — Agar.io; Slither.io; Diep.io; Bonk.io; Powerline.io; Splix.io; Starblast.io; ZombsRoyale.io; Deeeep.io; Wormate.io
-- Party night with friends: Multiplayer chaos for friend groups — skribbl.io; Gartic Phone; JKLM.fun; Codenames; Secret Hitler; Make It Meme; Drawasaurus; PlayingCards.io; HaxBall
+- .io arena essentials: The arenas that defined a genre — Agar.io; Slither.io; Diep.io; Bonk.io; Powerline.io; Splix.io; Starblast.io; ZombsRoyale.io; Deeeep.io; Wormate.io; Paper.io
+- Party night with friends: Multiplayer chaos for friend groups — skribbl.io; Gartic Phone; JKLM.fun; Codenames; Secret Hitler; Make It Meme; Drawasaurus; PlayingCards.io; HaxBall; AirConsole; Lexulous; Paper.io
 - PICO-8 pocket gems: 128x128 pixels of joy — Poom; Celeste Classic; Moss Moss; Top PICO-8 Games (collection)
 - Five-minute wonders: One strong idea, zero filler — We Become What We Behold; Adventures With Anxiety; The Password Game; Infinite Craft; Draw Logos From Memory; Framed; Globle
 - Strategy & deduction deep cuts: Outthink everyone, including yourself — Colonist.io; Board Game Arena; Town of Salem; Lichess; GeoGuessr; Worldle; Type Help
 - Retro time machine: Gaming history, playable — Internet Archive: Console Living Room; Internet Archive: Internet Arcade; Internet Archive: MS-DOS Library; Kingdom of Loathing; Urban Dead
 - Adrenaline: action & shooters: Reflexes required — Krunker; Shell Shockers; SmashKarts; Venge.io; REPULS.io; ev.io; Kirka.io; Gats.io; Friday Night Funkin'; QWOP; Canabalt; Happy Wheels
-- Brain food: puzzlers: Daily rituals and deep thinkers — 2048; Wordle; Connections; TETR.IO; Jstris; Sudoku; Asteroid Launcher
+- Brain food: puzzlers: Daily rituals and deep thinkers — 2048; Wordle; Connections; TETR.IO; Jstris; Sudoku; Asteroid Launcher; Tetris (Official); Seterra; 0hh1; Quick, Draw!; Koalas to the Max
+- Daily puzzle rituals: One puzzle a day keeps the boredom away — Wordle; Connections; Framed; Worldle; Globle; 0hh1; The Password Game; Draw Logos From Memory
 
 ## Emulators (10 picks, software only)
 
@@ -144,7 +172,7 @@ The universal in-browser game console. Two centerpieces: (1) the Player — a br
 ## API
 - api/v1/index.json — endpoint catalog
 - api/v1/games.json, collections.json, emulators.json, guides.json
-- skills/: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, retro-guide, classroom-games
+- skills/: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games
 
 ## Legal
 Zero ROMs hosted. Zero piracy links. All game descriptions original (CC0).

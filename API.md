@@ -18,7 +18,7 @@ Manifest: description, legal note, endpoint catalog, usage.
 
 ### `GET api/v1/games.json`
 
-Curated browser games (89 records, every URL curl-verified HTTP 200 on 2026-10-11). Envelope + `games` array:
+Curated browser games (114 records, every URL curl-verified HTTP 200 on 2026-10-11). Envelope + `games` array:
 
 ```json
 {
@@ -39,6 +39,7 @@ Curated browser games (89 records, every URL curl-verified HTTP 200 on 2026-10-1
 | `genre` | enum | `puzzle` `action` `roguelike` `idle` `multiplayer` `retro` `horror` `cozy` |
 | `controls` | string | How it's controlled |
 | `description` | string | Original description (CC0) |
+| `tags` | string[] (optional) | `party` + sub-tags (`drawing`/`arena`/`shooter`/`board`/`trivia`/`coop`/`word`/`racing`/`sports`/`phone`) — powers the party planner |
 
 Schema: `api/v1/schema/games.schema.json`.
 

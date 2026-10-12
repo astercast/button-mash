@@ -1,5 +1,6 @@
-/* Wave 2 validation: executes the AGENT.md example workflows against the real
-   local api/v1 JSON files. Run: node scripts/check_api_workflows.js
+/* Wave 3 validation: executes the AGENT.md example workflows against the real
+   local api/v1 JSON files plus the Converter v2 token contract.
+   Run: node scripts/check_api_workflows.js
    Exit 0 = all workflows produce non-empty, contract-correct results. */
 "use strict";
 const fs = require("fs");
@@ -14,45 +15,63 @@ function check(name, cond, detail) {
   else { failures++; console.error("FAIL", name, "—", detail); }
 }
 
-const games = load("api/v1/games.json");
-const guides = load("api/v1/guides.json");
-const index = load("api/v1/index.json");
+const gamesEnv = load("api/v1/games.json");
+const guidesEnv = load("api/v1/guides.json");
+const indexEnv = load("api/v1/index.json");
+const games = gamesEnv.games;
+const guides = guidesEnv.guides;
 
 // Contract sanity
-check("games.json is array of 47", Array.isArray(games) && games.length === 47, games.length + " records");
-check("guides.json is array of 5", Array.isArray(guides) && guides.length === 5, guides.length + " records");
-check("index.json lists 3 endpoints", index.endpoints && index.endpoints.length === 3,
-  index.endpoints.map((e) => e.path).join(", "));
+check("games envelope shape", gamesEnv.endpoint === "games" && Array.isArray(games) && gamesEnv.count === games.length,
+  games.length + " records");
+check("100+ games", games.length >= 100, games.length + " records");
+check("no duplicate ids", new Set(games.map((g) => g.id)).size === games.length, "unique");
+check("guides envelope shape", guidesEnv.endpoint === "guides" && guidesEnv.count === guides.length,
+  guides.length + " guides");
+check("index.json lists endpoints", indexEnv.endpoints && Object.keys(indexEnv.endpoints).length >= 4,
+  Object.keys(indexEnv.endpoints).join(", "));
 
-// Workflow 1 (AGENT.md): "Find a multiplayer .io game for a party"
-const party = games.filter((g) => g.players === "multiplayer" && (g.genre === "party" || g.genre === "io"));
+// Workflow 1 (AGENT.md): "Find a multiplayer party game"
+const party = games.filter((g) => (g.tags || []).includes("party") && g.genre === "multiplayer");
 check("WF1 party filter non-empty", party.length > 0, party.map((g) => g.id).join(", "));
-const skribbl = games.find((g) => g.id === "skribbl-io");
+const skribbl = games.find((g) => g.id === "skribbl");
 check("WF1 skribbl.io has private rooms", !!skribbl && /private room/i.test(skribbl.description),
   skribbl ? skribbl.description.slice(0, 60) + "…" : "missing");
-check("WF1 game page pattern maps", !!skribbl && fs.existsSync(path.join(ROOT, "games", skribbl.id + ".html")),
-  "games/skribbl-io.html");
 
-// Workflow 2 (AGENT.md): "Set up GBA emulation with my own ROM"
-const gba = guides.find((g) => g.id === "gba-wasm-recompiler");
-check("WF2 guide found", !!gba, gba ? `${gba.title} (${gba.difficulty}, ~${gba.time_minutes} min)` : "missing");
-const fullText = fs.readFileSync(path.join(ROOT, "llms-full.txt"), "utf8");
-check("WF2 full text in llms-full.txt", !!gba && fullText.includes("### " + gba.title), "section header present");
-check("WF2 guide page exists", !!gba && fs.existsSync(path.join(ROOT, "guides", gba.slug + ".html")),
-  gba ? "guides/" + gba.slug + ".html" : "missing");
-const homebrew = guides.find((g) => g.id === "homebrew-sources");
-check("WF2 homebrew cross-check guide exists", !!homebrew, homebrew ? homebrew.title : "missing");
+// Workflow 2 (AGENT.md): "Convert my own GBA/GB/NES file to a browser game"
+const template = fs.readFileSync(path.join(ROOT, "assets/vendor/template-game.html"), "utf8");
+const converter = fs.readFileSync(path.join(ROOT, "assets/js/converter.js"), "utf8");
+const tokens = template.match(/__BM_[A-Z0-9_]+__/g) || [];
+const uniqueTokens = [...new Set(tokens)];
+check("WF2 template tokens present", uniqueTokens.length >= 9, uniqueTokens.join(", "));
+check("WF2 converter fills every token", uniqueTokens.every((t) => converter.includes(".split('" + t + "')")),
+  "all tokens replaced");
+check("WF2 all three cores supported", ["gba", "gb", "nes"].every((c) => converter.includes("core: '" + c + "'")),
+  "gba/gb/nes profiles");
+check("WF2 BIOS-free documented",
+  fs.readFileSync(path.join(ROOT, "converter.html"), "utf8").includes("No BIOS needed"),
+  "per-core BIOS notes on converter.html");
 
-// Workflow 3 (AGENT.md): "Find a single-player puzzle game for a quiet evening"
-const solo = games.filter((g) => g.players !== "multiplayer" && g.genre === "puzzle");
-check("WF3 solo-puzzle filter non-empty", solo.length > 0, solo.map((g) => g.id).join(", "));
-check("WF3 records carry verified URLs", solo.every((g) => /^https?:\/\//.test(g.url)),
-  solo.map((g) => g.url).join(", "));
+// Workflow 3 (AGENT.md): "Something cozy for a rainy day"
+const cols = load("api/v1/collections.json").collections;
+const cozy = cols.find((c) => c.id === "rainy-day-cozy");
+const byId = new Map(games.map((g) => [g.id, g]));
+check("WF3 cozy collection resolves", !!cozy && cozy.game_ids.every((id) => byId.has(id)),
+  cozy ? cozy.game_ids.length + " games" : "missing");
 
-// Workflow 4 (AGENT.md): "Build a classroom-friendly shortlist (teacher)"
-const classroom = games.filter((g) => g.players === "single" && ["trivia", "puzzle"].includes(g.genre));
-check("WF4 classroom filter non-empty", classroom.length > 0, classroom.map((g) => g.id).join(", "));
-check("WF4 no stranger-lobby multiplayer picks", classroom.every((g) => g.players === "single"),
-  "all single-player");
+// Workflow 4 (AGENT.md): "Plan our game night" (party planner)
+const vibes = { chaotic: ["arena", "drawing", "word"], competitive: ["shooter", "arena", "racing", "sports"],
+  cooperative: ["coop", "board"], creative: ["drawing", "word"], chill: ["trivia", "board", "word"] };
+let wf4ok = true;
+const wf4detail = [];
+for (const [vibe, tags] of Object.entries(vibes)) {
+  const pool = games.filter((g) => (g.tags || []).includes("party") && (g.tags || []).some((t) => tags.includes(t)));
+  wf4ok = wf4ok && pool.length >= 2;
+  wf4detail.push(vibe + ":" + pool.length);
+}
+check("WF4 every vibe has a pool", wf4ok, wf4detail.join(" "));
+check("WF4 aria-live summary in page",
+  fs.readFileSync(path.join(ROOT, "party-planner.html"), "utf8").includes('aria-live="polite"'),
+  "plan summary announced");
 
 process.exit(failures ? 1 : 0);

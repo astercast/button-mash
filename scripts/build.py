@@ -66,7 +66,7 @@ def main():
     game_domains = set()
     for g in games:
         where = f"games.json:{g.get('id')}"
-        check(set(g.keys()) == {"id", "title", "url", "genre", "controls", "description"},
+        check(set(g.keys()) <= {"id", "title", "url", "genre", "controls", "description", "tags"},
               f"{where}: bad fields {sorted(g.keys())}")
         check(bool(ID_RE.match(g.get("id", "") or "")), f"{where}: bad id")
         check(g.get("id") not in seen, f"{where}: duplicate id")
@@ -79,6 +79,10 @@ def main():
         check(p.scheme == "https", f"{where}: URL must be https: {g.get('url')!r}")
         check(bool(p.hostname) and "." in (p.hostname or ""), f"{where}: bad host")
         game_domains.add(p.hostname or "")
+        if "tags" in g:
+            check(isinstance(g["tags"], list) and all(
+                isinstance(t, str) and ID_RE.match(t) for t in g["tags"]),
+                f"{where}: tags must be a list of slug strings")
 
     # --- collections reference real games ---
     cseen = set()
@@ -120,6 +124,14 @@ def main():
         for e in errors:
             print(" -", e)
         sys.exit(1)
+
+    # Legal-lane gate: no ROM/BIOS download links, no piracy domains.
+    r = subprocess.run([sys.executable, str(ROOT / "scripts" / "check_legal.py")],
+                       capture_output=True, text=True)
+    print(r.stdout.strip())
+    if r.returncode != 0:
+        print(r.stderr)
+        sys.exit("scripts/check_legal.py failed")
 
     for script in ("scripts/build_api.py", "scripts/build_site.py"):
         r = subprocess.run([sys.executable, str(ROOT / script)], capture_output=True, text=True)

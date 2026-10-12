@@ -14,7 +14,7 @@ API = ROOT / "api" / "v1"
 VERSION = "1.0.0"
 
 ENDPOINTS = {
-    "games": "Curated browser games directory (79 entries, verified live).",
+    "games": "Curated browser games directory (every URL verified live — never invented).",
     "collections": "Hand-built game collections.",
     "emulators": "Emulator software picks (no ROMs, software only).",
     "guides": "Emulation guides and explainers (summaries; full text in data/guides.json).",
@@ -22,7 +22,7 @@ ENDPOINTS = {
 
 USAGE = (
     "Static JSON, no auth, no rate limits. Fetch any endpoint directly, e.g. "
-    "api/v1/games.json. Filter client-side by genre/id. All game descriptions "
+    "api/v1/games.json. Filter client-side by genre/id/tags. All game descriptions "
     "are original (CC0). Game URLs were verified live on 2026-10-11."
 )
 

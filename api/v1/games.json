@@ -1,10 +1,10 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T00:44:29Z",
+  "generated_at": "2026-10-12T00:59:58Z",
   "endpoint": "games",
-  "description": "Curated browser games directory (79 entries, verified live).",
-  "count": 89,
+  "description": "Curated browser games directory (every URL verified live — never invented).",
+  "count": 114,
   "games": [
     {
       "controls": "Arrow keys / swipe",
@@ -36,7 +36,11 @@
       "genre": "puzzle",
       "id": "tetrio",
       "title": "TETR.IO",
-      "url": "https://tetr.io/"
+      "url": "https://tetr.io/",
+      "tags": [
+        "party",
+        "racing"
+      ]
     },
     {
       "controls": "Keyboard (customizable)",
@@ -108,7 +112,11 @@
       "genre": "puzzle",
       "id": "geoguessr",
       "title": "GeoGuessr",
-      "url": "https://www.geoguessr.com/"
+      "url": "https://www.geoguessr.com/",
+      "tags": [
+        "party",
+        "trivia"
+      ]
     },
     {
       "controls": "Mouse / keyboard",
@@ -140,7 +148,11 @@
       "genre": "action",
       "id": "krunker",
       "title": "Krunker",
-      "url": "https://krunker.io/"
+      "url": "https://krunker.io/",
+      "tags": [
+        "party",
+        "shooter"
+      ]
     },
     {
       "controls": "WASD + mouse",
@@ -148,7 +160,11 @@
       "genre": "action",
       "id": "shell-shockers",
       "title": "Shell Shockers",
-      "url": "https://shellshock.io/"
+      "url": "https://shellshock.io/",
+      "tags": [
+        "party",
+        "shooter"
+      ]
     },
     {
       "controls": "WASD / arrows + space",
@@ -156,7 +172,11 @@
       "genre": "action",
       "id": "smashkarts",
       "title": "SmashKarts",
-      "url": "https://smashkarts.io/"
+      "url": "https://smashkarts.io/",
+      "tags": [
+        "party",
+        "shooter"
+      ]
     },
     {
       "controls": "WASD + mouse",
@@ -212,7 +232,11 @@
       "genre": "action",
       "id": "bonk",
       "title": "Bonk.io",
-      "url": "https://bonk.io/"
+      "url": "https://bonk.io/",
+      "tags": [
+        "party",
+        "arena"
+      ]
     },
     {
       "controls": "WASD + mouse",
@@ -388,7 +412,11 @@
       "genre": "multiplayer",
       "id": "agar",
       "title": "Agar.io",
-      "url": "https://agar.io/"
+      "url": "https://agar.io/",
+      "tags": [
+        "party",
+        "arena"
+      ]
     },
     {
       "controls": "Mouse",
@@ -396,15 +424,23 @@
       "genre": "multiplayer",
       "id": "slither",
       "title": "Slither.io",
-      "url": "https://slither.io/"
+      "url": "https://slither.io/",
+      "tags": [
+        "party",
+        "arena"
+      ]
     },
     {
       "controls": "Mouse (draw)",
-      "description": "Online Pictionary with strangers. Hilarious with friends.",
+      "description": "Online Pictionary with strangers, or a private room for just your friends. Hilarious either way.",
       "genre": "multiplayer",
       "id": "skribbl",
       "title": "skribbl.io",
-      "url": "https://skribbl.io/"
+      "url": "https://skribbl.io/",
+      "tags": [
+        "party",
+        "drawing"
+      ]
     },
     {
       "controls": "Mouse (draw)",
@@ -412,7 +448,11 @@
       "genre": "multiplayer",
       "id": "gartic-phone",
       "title": "Gartic Phone",
-      "url": "https://garticphone.com/"
+      "url": "https://garticphone.com/",
+      "tags": [
+        "party",
+        "drawing"
+      ]
     },
     {
       "controls": "Arrows + X",
@@ -420,7 +460,11 @@
       "genre": "multiplayer",
       "id": "haxball",
       "title": "HaxBall",
-      "url": "https://www.haxball.com/"
+      "url": "https://www.haxball.com/",
+      "tags": [
+        "party",
+        "sports"
+      ]
     },
     {
       "controls": "Mouse",
@@ -436,7 +480,11 @@
       "genre": "multiplayer",
       "id": "town-of-salem",
       "title": "Town of Salem",
-      "url": "https://townofsalem.com/"
+      "url": "https://townofsalem.com/",
+      "tags": [
+        "party",
+        "word"
+      ]
     },
     {
       "controls": "Mouse",
@@ -444,7 +492,11 @@
       "genre": "multiplayer",
       "id": "board-game-arena",
       "title": "Board Game Arena",
-      "url": "https://en.boardgamearena.com/"
+      "url": "https://en.boardgamearena.com/",
+      "tags": [
+        "party",
+        "board"
+      ]
     },
     {
       "controls": "Mouse",
@@ -452,7 +504,12 @@
       "genre": "multiplayer",
       "id": "colonist",
       "title": "Colonist.io",
-      "url": "https://colonist.io/"
+      "url": "https://colonist.io/",
+      "tags": [
+        "party",
+        "board",
+        "coop"
+      ]
     },
     {
       "controls": "Mouse",
@@ -460,7 +517,12 @@
       "genre": "multiplayer",
       "id": "codenames",
       "title": "Codenames",
-      "url": "https://codenames.game/"
+      "url": "https://codenames.game/",
+      "tags": [
+        "party",
+        "word",
+        "coop"
+      ]
     },
     {
       "controls": "Mouse",
@@ -468,7 +530,11 @@
       "genre": "multiplayer",
       "id": "secret-hitler",
       "title": "Secret Hitler",
-      "url": "https://secrethitler.io/"
+      "url": "https://secrethitler.io/",
+      "tags": [
+        "party",
+        "word"
+      ]
     },
     {
       "controls": "Keyboard",
@@ -476,7 +542,11 @@
       "genre": "multiplayer",
       "id": "jklm",
       "title": "JKLM.fun",
-      "url": "https://jklm.fun/"
+      "url": "https://jklm.fun/",
+      "tags": [
+        "party",
+        "word"
+      ]
     },
     {
       "controls": "Mouse (draw)",
@@ -484,7 +554,11 @@
       "genre": "multiplayer",
       "id": "drawasaurus",
       "title": "Drawasaurus",
-      "url": "https://www.drawasaurus.org/"
+      "url": "https://www.drawasaurus.org/",
+      "tags": [
+        "party",
+        "drawing"
+      ]
     },
     {
       "controls": "Mouse",
@@ -492,7 +566,11 @@
       "genre": "multiplayer",
       "id": "playingcards",
       "title": "PlayingCards.io",
-      "url": "https://playingcards.io/"
+      "url": "https://playingcards.io/",
+      "tags": [
+        "party",
+        "board"
+      ]
     },
     {
       "controls": "Keyboard / mouse",
@@ -500,7 +578,11 @@
       "genre": "multiplayer",
       "id": "make-it-meme",
       "title": "Make It Meme",
-      "url": "https://makeitmeme.com/"
+      "url": "https://makeitmeme.com/",
+      "tags": [
+        "party",
+        "drawing"
+      ]
     },
     {
       "controls": "Mouse",
@@ -508,7 +590,11 @@
       "genre": "multiplayer",
       "id": "lichess",
       "title": "Lichess",
-      "url": "https://lichess.org/"
+      "url": "https://lichess.org/",
+      "tags": [
+        "party",
+        "board"
+      ]
     },
     {
       "controls": "WASD + mouse",
@@ -717,6 +803,230 @@
       "id": "fallen-london",
       "title": "Fallen London",
       "url": "https://www.fallenlondon.com/"
+    },
+    {
+      "id": "paper-io",
+      "title": "Paper.io",
+      "url": "https://paper-io.com/",
+      "genre": "action",
+      "controls": "Mouse / touch",
+      "description": "Claim territory by drawing loops in this slick .io arena. Cut rivals' trails to steal their land — get cut and you're done.",
+      "tags": [
+        "party",
+        "arena"
+      ]
+    },
+    {
+      "id": "slope",
+      "title": "Slope",
+      "url": "https://www.crazygames.com/game/slope",
+      "genre": "action",
+      "controls": "Arrow keys / A-D",
+      "description": "Steer a ball down an endless neon slope at breakneck speed. One wrong twitch and the run is over."
+    },
+    {
+      "id": "moto-x3m",
+      "title": "Moto X3M",
+      "url": "https://www.crazygames.com/game/moto-x3m",
+      "genre": "action",
+      "controls": "Arrow keys",
+      "description": "Flip a dirt bike over 22 stunt tracks packed with explosives. Land the backflip or eat the ramp."
+    },
+    {
+      "id": "tetris-official",
+      "title": "Tetris (Official)",
+      "url": "https://www.tetris.com/play-tetris",
+      "genre": "puzzle",
+      "controls": "Keyboard (customizable)",
+      "description": "The official free Tetris in your browser. Marathon, sprint and daily challenges on the real deal."
+    },
+    {
+      "id": "seterra",
+      "title": "Seterra",
+      "url": "https://www.seterra.com/",
+      "genre": "puzzle",
+      "controls": "Mouse / touch",
+      "description": "Geography quizzes with 400+ map challenges. You'll learn every capital by accident."
+    },
+    {
+      "id": "zero-hh1",
+      "title": "0hh1",
+      "url": "https://0hh1.com/",
+      "genre": "puzzle",
+      "controls": "Mouse / touch",
+      "description": "A tiny perfect logic puzzle: fill the grid red or blue, no three in a row. Fresh puzzles every day."
+    },
+    {
+      "id": "clumsy-bird",
+      "title": "Clumsy Bird",
+      "url": "https://ellisonleao.github.io/clumsy-bird/",
+      "genre": "action",
+      "controls": "Click / tap / spacebar",
+      "description": "The open-source Flappy Bird. Tap through the pipes, rage, repeat — and the code is right there to read."
+    },
+    {
+      "id": "astray",
+      "title": "Astray",
+      "url": "https://wwwtyro.github.io/Astray/",
+      "genre": "action",
+      "controls": "WASD + mouse",
+      "description": "A procedurally generated 3D maze walked in first person. Open source, quietly unsettling, different every run."
+    },
+    {
+      "id": "hexgl",
+      "title": "HexGL",
+      "url": "https://hexgl.bkcore.com/",
+      "genre": "action",
+      "controls": "Arrow keys / gamepad",
+      "description": "A futuristic anti-gravity racer in WebGL. Open source and still slick more than a decade later."
+    },
+    {
+      "id": "minecraft-classic",
+      "title": "Minecraft Classic",
+      "url": "https://classic.minecraft.net/",
+      "genre": "action",
+      "controls": "WASD + mouse",
+      "description": "The 2009 creative-mode classic, free in the browser. Build with the original 32 blocks, invite friends to your world.",
+      "tags": [
+        "party",
+        "coop"
+      ]
+    },
+    {
+      "id": "lexulous",
+      "title": "Lexulous",
+      "url": "https://www.lexulous.com/",
+      "genre": "multiplayer",
+      "controls": "Mouse",
+      "description": "Scrabble-style word battles against friends or strangers. The dictionary is the battlefield.",
+      "tags": [
+        "party",
+        "word"
+      ]
+    },
+    {
+      "id": "airconsole",
+      "title": "AirConsole",
+      "url": "https://www.airconsole.com/",
+      "genre": "multiplayer",
+      "controls": "Phones as controllers",
+      "description": "Turn every phone into a controller: 100+ party games on one big screen. Couch co-op with zero installs.",
+      "tags": [
+        "party",
+        "phone"
+      ]
+    },
+    {
+      "id": "playok",
+      "title": "PlayOK",
+      "url": "https://www.playok.com/",
+      "genre": "multiplayer",
+      "controls": "Mouse",
+      "description": "Free board and card classics — chess, checkers, hearts, reversi — against real people, no signup.",
+      "tags": [
+        "party",
+        "board"
+      ]
+    },
+    {
+      "id": "swarm-sim",
+      "title": "Swarm Sim",
+      "url": "https://swarmsim.com/",
+      "genre": "idle",
+      "controls": "Mouse",
+      "description": "Grow a meat-eating bug swarm from a few larvae to a galaxy-devouring horde. Absurdly deep, fully open source."
+    },
+    {
+      "id": "melvor-idle",
+      "title": "Melvor Idle",
+      "url": "https://www.melvoridle.com/",
+      "genre": "idle",
+      "controls": "Mouse",
+      "description": "RuneScape-style skilling as a pure idle game. Chop, fish and fight while you do literally anything else."
+    },
+    {
+      "id": "quickdraw",
+      "title": "Quick, Draw!",
+      "url": "https://quickdraw.withgoogle.com/",
+      "genre": "puzzle",
+      "controls": "Mouse / touch",
+      "description": "Doodle against a neural net that guesses your drawing in 20 seconds. Humbling for actual artists."
+    },
+    {
+      "id": "sandspiel",
+      "title": "Sandspiel",
+      "url": "https://sandspiel.club/",
+      "genre": "cozy",
+      "controls": "Mouse / touch",
+      "description": "A falling-sand toy with fire, water, plants and acid. No goals, no score — just beautiful chaos."
+    },
+    {
+      "id": "song-maker",
+      "title": "Chrome Music Lab: Song Maker",
+      "url": "https://musiclab.chromeexperiments.com/Song-Maker/",
+      "genre": "cozy",
+      "controls": "Mouse / touch",
+      "description": "Google's dead-simple music maker. Paint notes on a grid, press play, share the tune."
+    },
+    {
+      "id": "deep-sea",
+      "title": "The Deep Sea",
+      "url": "https://neal.fun/deep-sea/",
+      "genre": "cozy",
+      "controls": "Scroll",
+      "description": "Scroll from sunlit waves to the abyss, meeting real deep-sea creatures on the way down. Meditative and factual."
+    },
+    {
+      "id": "nested",
+      "title": "Nested",
+      "url": "https://orteil.dashnet.org/nested",
+      "genre": "cozy",
+      "controls": "Mouse",
+      "description": "A universe inside a universe inside a universe, from the Cookie Clicker creator. Zoom in forever."
+    },
+    {
+      "id": "koala-max",
+      "title": "Koalas to the Max",
+      "url": "https://koalastothemax.com/",
+      "genre": "puzzle",
+      "controls": "Mouse",
+      "description": "Split a photo into smaller and smaller circles to reveal what's underneath. Weirdly, deeply addictive."
+    },
+    {
+      "id": "space-elevator",
+      "title": "Space Elevator",
+      "url": "https://neal.fun/space-elevator/",
+      "genre": "puzzle",
+      "controls": "Scroll",
+      "description": "Ride a space elevator from Earth to orbit, learning real orbital physics as you climb."
+    },
+    {
+      "id": "classicreload",
+      "title": "ClassicReload",
+      "url": "https://classicreload.com/",
+      "genre": "retro",
+      "controls": "Keyboard / mouse",
+      "description": "Hundreds of DOS-era classics playable in the browser. The 90s shareware shelf, preserved and playable."
+    },
+    {
+      "id": "lexaloffle-bbs",
+      "title": "PICO-8 BBS",
+      "url": "https://www.lexaloffle.com/bbs/?cat=7",
+      "genre": "retro",
+      "controls": "Keyboard",
+      "description": "The PICO-8 community board: thousands of tiny games and demos that run right in your browser."
+    },
+    {
+      "id": "jetpunk",
+      "title": "JetPunk",
+      "url": "https://www.jetpunk.com/",
+      "genre": "puzzle",
+      "controls": "Keyboard / mouse",
+      "description": "Timed trivia quizzes on everything from flags to periodic tables. Built for speedruns against the clock.",
+      "tags": [
+        "party",
+        "trivia"
+      ]
     }
   ]
 }

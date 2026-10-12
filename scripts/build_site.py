@@ -12,13 +12,16 @@ DATA = ROOT / "data"
 
 PAGES = [
     ("index.html", "Home — the universal in-browser game console"),
-    ("games.html", "Game directory: 89 curated free browser games, search + genre filters"),
+    ("games.html", "Game directory: 114 curated free browser games, search + genre filters"),
     ("player.html", "The Player: bring-your-own-file EmulatorJS console (20+ systems)"),
-    ("converter.html", "ROM-to-browser-game converter (GBA file in, self-contained .html out)"),
+    ("converter.html", "ROM-to-browser-game converter (GBA/GB/GBC/NES file in, self-contained .html out)"),
+    ("party-planner.html", "Party planner: timed game-night rotation plans across party-tagged games"),
     ("collections.html", "Hand-built game collections"),
     ("emulation.html", "Emulation hub: guides, explainers, legal sources"),
     ("monster-taming.html", "Monster-taming corner: original-IP creature games + GBA tech"),
     ("play-legal.html", "Play it legal: the site's one clear legal page"),
+    ("genres/roguelike.html", "Genre deep dive: roguelikes — die, learn, die better"),
+    ("genres/cozy.html", "Genre deep dive: cozy games — gentle games for grey weather"),
     ("api/v1/", "JSON API index"),
     ("API.md", "API documentation"),
 ]
@@ -47,20 +50,23 @@ def build_llms():
 
     lines = ["# Button Mash", ""]
     lines.append(
-        "The universal in-browser game console. Two centerpieces: (1) the Player — "
+        "The universal in-browser game console. Three centerpieces: (1) the Player — "
         "a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; "
-        "the user's file never leaves their machine); (2) the Converter — drop in a GBA file you own, "
-        "get back a single self-contained playable .html browser game (client-side only). "
-        "Plus a curated directory of 89 free, legal browser games (every link verified live 2026-10-11), "
-        "hand-built collections, and legal-lane emulation guides. "
+        "the user's file never leaves their machine); (2) the Converter — drop in a GBA, GB/GBC or NES file you own, "
+        "get back a single self-contained playable .html browser game (client-side only, all three cores BIOS-free); "
+        "(3) the Party Planner — headcount + time + vibe in, timed game-night rotation plan out. "
+        "Plus a curated directory of 114 free, legal browser games (every link verified live 2026-10-11), "
+        "hand-built collections, genre deep dives, and legal-lane emulation guides. "
         "No ROM piracy links, no cracked-game sites, no commercial ROM downloads — ever."
     )
     lines.append("")
     lines.append("## Play")
     lines.append("- player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen)")
-    lines.append("- converter.html — ROM-to-browser-game converter (GBA in, self-contained .html out)")
-    lines.append("- games.html — the 89-game directory (search, genre filters, favorites, random game, game of the day)")
-    lines.append("- collections.html — 10 hand-built collections")
+    lines.append("- converter.html — ROM-to-browser-game converter (GBA/GB/GBC/NES in, self-contained .html out)")
+    lines.append("- party-planner.html — timed game-night rotation planner across party-tagged games (print-friendly)")
+    lines.append("- games.html — the 114-game directory (search, genre filters, favorites, random game, game of the day)")
+    lines.append("- collections.html — 11 hand-built collections")
+    lines.append("- genres/roguelike.html, genres/cozy.html — genre deep dives with start-here picks")
     lines.append("")
     lines.append("## Learn")
     lines.append("- emulation.html — emulation hub")
@@ -95,7 +101,7 @@ def build_llms():
     lines.append("## API")
     lines.append("- api/v1/index.json — endpoint catalog")
     lines.append("- api/v1/games.json, collections.json, emulators.json, guides.json")
-    lines.append("- skills/: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, retro-guide, classroom-games")
+    lines.append("- skills/: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games")
     lines.append("")
     lines.append("## Legal")
     lines.append("Zero ROMs hosted. Zero piracy links. All game descriptions original (CC0).")

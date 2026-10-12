@@ -1,10 +1,10 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T00:44:29Z",
+  "generated_at": "2026-10-12T00:59:58Z",
   "endpoint": "collections",
   "description": "Hand-built game collections.",
-  "count": 10,
+  "count": 11,
   "collections": [
     {
       "description": "When the weather's bad and the couch is good: gentle digging, ghost cats, seaside towns and slow drives through nowhere.",
@@ -18,7 +18,9 @@
         "fallen-london",
         "purrgatory",
         "spooky-town",
-        "little-alchemy-2"
+        "little-alchemy-2",
+        "deep-sea",
+        "sandspiel"
       ],
       "id": "rainy-day-cozy",
       "tagline": "Gentle games for grey weather",
@@ -51,7 +53,8 @@
         "starblast",
         "zombsroyale",
         "deeeep",
-        "wormate"
+        "wormate",
+        "paper-io"
       ],
       "id": "io-essentials",
       "tagline": "The arenas that defined a genre",
@@ -68,7 +71,10 @@
         "make-it-meme",
         "drawasaurus",
         "playingcards",
-        "haxball"
+        "haxball",
+        "airconsole",
+        "lexulous",
+        "paper-io"
       ],
       "id": "party-night",
       "tagline": "Multiplayer chaos for friend groups",
@@ -158,11 +164,32 @@
         "tetrio",
         "jstris",
         "sudoku-serges",
-        "asteroid-launcher"
+        "asteroid-launcher",
+        "tetris-official",
+        "seterra",
+        "zero-hh1",
+        "quickdraw",
+        "koala-max"
       ],
       "id": "brain-food",
       "tagline": "Daily rituals and deep thinkers",
       "title": "Brain food: puzzlers"
+    },
+    {
+      "id": "daily-rituals",
+      "title": "Daily puzzle rituals",
+      "tagline": "One puzzle a day keeps the boredom away",
+      "description": "The games the whole internet plays at the same time: one fresh puzzle a day, a streak to protect, a group chat to compare scores with.",
+      "game_ids": [
+        "wordle",
+        "connections",
+        "framed",
+        "worldle",
+        "globle",
+        "zero-hh1",
+        "password-game",
+        "logos-memory"
+      ]
     }
   ]
 }
