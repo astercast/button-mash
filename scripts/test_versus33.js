@@ -46,10 +46,10 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
 {
   check("core surface: UMD, genre-dive registry names only the dives that exist",
     typeof V.compare === "function" && typeof V.profile === "function" &&
-    Object.keys(V.GENRE_DIVES).sort().join(",") === "cozy,puzzle,roguelike" &&
+    Object.keys(V.GENRE_DIVES).sort().join(",") === "cozy,puzzle,retro,roguelike" &&
     fs.existsSync(path.join(ROOT, "genres/roguelike.html")) && fs.existsSync(path.join(ROOT, "genres/cozy.html")) &&
-    fs.existsSync(path.join(ROOT, "genres/puzzle.html")),
-    "roguelike + cozy + puzzle (wave 36) dives exist on disk; no other genre is claimed");
+    fs.existsSync(path.join(ROOT, "genres/puzzle.html")) && fs.existsSync(path.join(ROOT, "genres/retro.html")),
+    "roguelike + cozy + puzzle (wave 36) + retro (wave 37) dives exist on disk; no other genre is claimed");
 
   check("year rule: 2048's name number is not a year (the census exclusion)",
     V.yearNamed(byId["2048"].description, "2048") === null &&
@@ -79,10 +79,12 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
     "2048 sits on 3 shelves; Zork I on none — the orphan fact renders as a fact");
 
   const cmp = V.compare(byId["zork1"], byId["2048"], CTX);
-  check("verdicts: only record-backed lines — footprint + coverage fire (wave 36: 2048 has the puzzle dive), era stays silent (one year missing)",
-    cmp.ok && !cmp.thin && cmp.verdicts.length === 2 &&
-    cmp.verdicts[0].kind === "footprint" && cmp.verdicts[1].kind === "coverage" &&
-    cmp.verdicts[1].text.includes("Genre deep dive: puzzle") &&
+  check("verdicts: only record-backed lines — footprint fires; coverage tied since wave 37 (Zork has the retro dive, 2048 the puzzle dive, both Kids-listed at 2 each), era stays silent (one year missing)",
+    cmp.ok && !cmp.thin && cmp.verdicts.length === 1 &&
+    cmp.verdicts[0].kind === "footprint" &&
+    zork.coverageCount === 2 && g2048.coverageCount === 2 &&
+    zork.coverage.some((c) => c.label === "Genre deep dive: retro") &&
+    g2048.coverage.some((c) => c.label === "Genre deep dive: puzzle") &&
     cmp.verdicts.every((v) => !/score|rating|better|winner|best/i.test(v.text)),
     cmp.verdicts.map((v) => v.text).join(" "));
 

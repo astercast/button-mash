@@ -56,7 +56,7 @@
 
   /* The only genres with a deep-dive page on this site. A game in
      another genre has no dive — the row says so by absence. */
-  var GENRE_DIVES = { roguelike: 'genres/roguelike.html', cozy: 'genres/cozy.html', puzzle: 'genres/puzzle.html' };
+  var GENRE_DIVES = { roguelike: 'genres/roguelike.html', cozy: 'genres/cozy.html', puzzle: 'genres/puzzle.html', retro: 'genres/retro.html' };
 
   function hostOf(url) {
     var m = /^https:\/\/([^/]+)/.exec(String(url || ''));

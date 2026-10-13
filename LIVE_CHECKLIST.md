@@ -212,7 +212,7 @@ absolute og:image, WF38). All of it is wired at the generator
 level (`scripts/build.py` `wire_placement`, idempotent — a second
 build stamps 0 pages) and pinned by WF39/WF40 (suite 320/320):
 
-- **Canonical**: `rel="canonical"` on all 47 pages, absolute and
+- **Canonical**: `rel="canonical"` on all 48 pages, absolute and
   self-referential on the recorded host
   `https://button-mash-live.vercel.app` (root URL for index.html).
 - **robots.txt**: allow-all + `Sitemap:` pointer to the published
@@ -245,7 +245,7 @@ build stamps 0 pages) and pinned by WF39/WF40 (suite 320/320):
   at build time (`wire_exclusions`); `data/v1/kid-safe.json` still
   exposes only the curated subset by design.
 - **View Transitions**: the `bm-vt` block is stamped by
-  `wire_placement` on 43 of 47 pages (progressive enhancement —
+  `wire_placement` on 44 of 48 pages (progressive enhancement —
   browsers without cross-document VT support navigate as before;
   zero JS, zero cost when unsupported). `player.html`,
   `converter.html`, `kids.html`, `parents.html` are deliberately

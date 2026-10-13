@@ -1823,7 +1823,7 @@ const vsHtml = fs.readFileSync(path.join(ROOT, "versus.html"), "utf8");
 const vsCtx = { collections: cols, kidIds: new Set((load("data/v1/kid-safe.json")["kid-safe"] || []).filter((k) => k.kid_safe).map((k) => k.id)) };
 check("WF37 versus core: UMD, no bracket/storage deps, dive registry names only existing dives",
   typeof VS33.compare === "function" && typeof VS33.shareCard === "function" &&
-  Object.keys(VS33.GENRE_DIVES).sort().join(",") === "cozy,puzzle,roguelike",
+  Object.keys(VS33.GENRE_DIVES).sort().join(",") === "cozy,puzzle,retro,roguelike",
   "comparison is pure record math over the catalog, nothing else");
 check("WF37 versus: the year rule matches the closed census (45 dated records, 2048 excluded)",
   games.filter((g) => VS33.profile(g, vsCtx).year !== null).length === 45 &&
@@ -1833,12 +1833,15 @@ check("WF37 versus: the year rule matches the closed census (45 dated records, 2
 check("WF37 versus: verdicts fire only on era/footprint/coverage/Kids facts, never quality language",
   (() => {
     const c = VS33.compare(byId24["zork1"], byId24["2048"], vsCtx);
-    return c.ok && !c.thin && c.verdicts.length === 2 && c.verdicts[0].kind === "footprint" &&
-      c.verdicts[1].kind === "coverage" && c.verdicts[1].text.includes("Genre deep dive: puzzle") &&
+    const za = VS33.profile(byId24["zork1"], vsCtx), zb = VS33.profile(byId24["2048"], vsCtx);
+    return c.ok && !c.thin && c.verdicts.length === 1 && c.verdicts[0].kind === "footprint" &&
+      za.coverageCount === 2 && zb.coverageCount === 2 &&
+      za.coverage.some((x) => x.label === "Genre deep dive: retro") &&
+      zb.coverage.some((x) => x.label === "Genre deep dive: puzzle") &&
       !/score|rating|better|winner|best/i.test(c.verdicts.map((v) => v.text).join(" ")) &&
       VS33.compare(byId24["wordle"], byId24["wordle"], vsCtx).ok === false;
   })(),
-  "one-sided year stays silent; footprint + the wave-36 puzzle-dive coverage fire; self-pairing refuses; no winner is ever declared");
+  "one-sided year stays silent; coverage is tied 2-2 since wave 37 (retro dive + puzzle dive, both Kids-listed) so only footprint fires; self-pairing refuses; no winner is ever declared");
 check("WF37 versus: the bare tail gets the honest no-basis state",
   (() => { const t = VS33.compare(byId24["kaaarot"], byId24["bloxd"], vsCtx); return t.ok && t.thin && t.verdicts.length === 0; })() &&
   VS33.shareCard(VS33.compare(byId24["kaaarot"], byId24["bloxd"], vsCtx), "").includes("No basis to compare"),
@@ -1894,7 +1897,7 @@ check("WF38 og card: the Foundry asset is in the repo at the canonical path, 120
   })(),
   "assets/og-card.png — the arcade-cabinet card, copied per the Foundry manifest");
 check("WF38 og wiring: every page carries og:image + summary_large_image, titles/descriptions reused verbatim",
-  allPages38.length === 47 && allPages38.every((f) => {
+  allPages38.length === 48 && allPages38.every((f) => {
     const t = fs.readFileSync(f, "utf8");
     const title = (t.match(/<title>([^<]*)<\/title>/) || [])[1];
     const desc = (t.match(/<meta name="description" content="([^"]*)">/) || [])[1];
@@ -1907,7 +1910,7 @@ check("WF38 og wiring: every page carries og:image + summary_large_image, titles
       t.includes('<meta name="twitter:image" content="' + ABS_OG + '">') &&
       fs.existsSync(path.join(ROOT, "assets/og-card.png"));
   }),
-  "47 pages; og:image + twitter:image are the absolute https://button-mash-live.vercel.app/assets/og-card.png (relative paths fail — crawlers require absolute URLs); local asset validated by the check above; no invented copy");
+  "48 pages; og:image + twitter:image are the absolute https://button-mash-live.vercel.app/assets/og-card.png (relative paths fail — crawlers require absolute URLs); local asset validated by the check above; no invented copy");
 check("WF38 QA-006: homepage has exactly one h1 — the hero title; the cabinet marquee sign is an h2",
   (fs.readFileSync(path.join(ROOT, "index.html"), "utf8").match(/<h1[\s>]/g) || []).length === 1 &&
   vsHtml && fs.readFileSync(path.join(ROOT, "index.html"), "utf8").includes('<h1 class="hero-title">') &&
@@ -1932,12 +1935,12 @@ const HOST39 = "https://button-mash-live.vercel.app";
 const relOf39 = (f) => path.relative(ROOT, f).split(path.sep).join("/");
 const canonOf39 = (rel) => rel === "index.html" ? HOST39 + "/" : HOST39 + "/" + rel;
 check("WF39 canonical: every page carries exactly one absolute self-referential canonical",
-  allPages38.length === 47 && allPages38.every((f) => {
+  allPages38.length === 48 && allPages38.every((f) => {
     const t = fs.readFileSync(f, "utf8");
     const hits = t.match(/<link rel="canonical" href="[^"]*">/g) || [];
     return hits.length === 1 && hits[0] === '<link rel="canonical" href="' + canonOf39(relOf39(f)) + '">';
   }),
-  "47 pages; canonical = https://button-mash-live.vercel.app/<page> (root for index.html)");
+  "48 pages; canonical = https://button-mash-live.vercel.app/<page> (root for index.html)");
 check("WF39 theme-color + favicons + og dimensions: every page head carries the full placement block",
   allPages38.every((f) => {
     const t = fs.readFileSync(f, "utf8");
@@ -2126,7 +2129,7 @@ check("WF41 view transitions: stamped on the browsing pages, absent from the fou
     }) && guidesCss.includes("@view-transition") &&
       guidesCss.includes("prefers-reduced-motion: no-preference");
   })(),
-  "43 stamped, both gates (reduced-motion + FX switch); player/converter/kids/parents stay instant; guides keep their wave-13 rule");
+  "44 stamped, both gates (reduced-motion + FX switch); player/converter/kids/parents stay instant; guides keep their wave-13 rule");
 check("WF41 ledger wiring: lookup box + filter script on parents, ledger link on kids, no chance in the script",
   parents41.includes('id="ledger-search"') && parents41.includes('id="not-in-the-corner"') &&
   parents41.includes("assets/js/ledger-filter.js") &&
@@ -2186,6 +2189,60 @@ check("WF42 puzzle dive: view transitions stamped like the other browsing pages"
   puzzle36.includes("data-bm-vt") && puzzle36.includes("@view-transition { navigation: auto; }"),
   "the 47th page joins the 43-page VT set; the four instant pages stay instant (WF41)");
 check("WF42 taxonomy: STILL not reshelved — the brief's call stays with the human",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules");
+
+// ---- Wave 37: the Retro Deep Dive. The wave-33 completeness
+// audit's dive debt, ordered by genre size: after puzzle (48,
+// wave 36), retro (44) was the largest remaining undived genre.
+// Dives go 3-of-8 to 4-of-8. Every featured card is pinned to
+// its catalog record — id, genre, play URL and controls line —
+// and Versus's coverage registry must name exactly the dives
+// that exist on disk. One pinned pairing's truth changed with
+// the record: Zork I (retro) vs 2048 (puzzle) — coverage is
+// now tied 2-2, so WF37 asserts footprint only.
+const retro37 = fs.readFileSync(path.join(ROOT, "genres/retro.html"), "utf8");
+const featured37 = [...retro37.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
+const retroGames37 = games.filter((g) => g.genre === "retro");
+check("WF43 retro dive: page exists with exactly one h1 and a kicker that counts its own cards",
+  (retro37.match(/<h1[\s>]/g) || []).length === 1 &&
+  retro37.includes("Genre deep dive · " + featured37.length + " games") &&
+  featured37.length === 15 && new Set(featured37).size === featured37.length,
+  featured37.length + " featured cards, counted from the page itself");
+check("WF43 retro dive: every featured card is a real retro record — URL and controls verbatim",
+  featured37.every((id) => {
+    const g = byId24[id];
+    if (!g || g.genre !== "retro") return false;
+    const card = retro37.slice(retro37.indexOf('data-game="' + id + '"'));
+    const cardEnd = card.indexOf("</article>");
+    const slice = card.slice(0, cardEnd);
+    return slice.includes('href="' + g.url + '"') && slice.includes("Controls: " + g.controls);
+  }),
+  "15 cards; each links the record's own URL and prints the record's own controls line");
+check("WF43 retro dive: the page names the full shelf it curates from, derived from the records",
+  retro37.includes(retroGames37.length + " of the catalog") &&
+  retro37.includes("All " + retroGames37.length + " retro games"),
+  retroGames37.length + " retro games in the catalog; the dive curates 15 and says so");
+check("WF43 versus coverage: the dive registry names exactly the dives on disk",
+  (() => {
+    const core = fs.readFileSync(path.join(ROOT, "assets/js/versus-core.js"), "utf8");
+    return core.includes("retro: 'genres/retro.html'") &&
+      ["roguelike", "cozy", "puzzle", "retro"].every((d) => fs.existsSync(path.join(ROOT, "genres", d + ".html"))) &&
+      Object.keys(VS33.GENRE_DIVES).sort().join(",") === "cozy,puzzle,retro,roguelike";
+  })(),
+  "GENRE_DIVES = roguelike + cozy + puzzle + retro; a retro game now carries dive coverage in Versus");
+check("WF43 retro dive wiring: directory card + sitemap + llms registration",
+  fs.readFileSync(path.join(ROOT, "games.html"), "utf8").includes('href="genres/retro.html"') &&
+  fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8").includes("<loc>genres/retro.html</loc>") &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("genres/retro.html"),
+  "games.html Genre deep dives section links it; build_site.py PAGES carries it into sitemap + llms");
+check("WF43 retro dive: view transitions stamped like the other browsing pages",
+  retro37.includes("data-bm-vt") && retro37.includes("@view-transition { navigation: auto; }"),
+  "the 48th page joins the 44-page VT set; the four instant pages stay instant (WF41)");
+check("WF43 taxonomy: STILL not reshelved — the brief's call stays with the human",
   byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
   byId24["spooky-town"].genre === "horror" &&
   games.filter((g) => g.genre === "horror").length === 6 &&

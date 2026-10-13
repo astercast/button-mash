@@ -2,6 +2,217 @@
 
 Running record of build waves. Newest first.
 
+## Wave 37 — 2026-10-13 — HEADLINE (stated before building): The Retro Deep Dive — the largest remaining genre gets its dive, dives go 3-of-8 to 4-of-8
+
+**Headline**: rotation 16 takes the next line on the wave-33
+completeness audit's dive debt, ordered by catalog size as
+wave 36 ordered it: puzzle (48) was largest and got its dive
+in wave 36; retro — 44 of 213 games — is the largest
+remaining undived genre (action 41, multiplayer 31, idle 15,
+horror 6 still wait). Wave 37 builds `genres/retro.html`,
+fifteen curated games in five families, every card pinned to
+its catalog record. The site grows 47 → 48 pages and every
+page-count pin moves with it. Because Versus counts a genre
+dive as written coverage, the dive also lands in the
+comparison layer: all 44 retro games gain a coverage entry,
+and the one pinned pairing whose truth changed (Zork I vs
+2048) now ties on coverage 2–2 — each game carries its own
+genre's dive plus a Kids listing — so only the footprint
+verdict fires, with WF37 and `test_versus33` updated to the
+new record-derived expectation, asserted explicitly rather
+than loosened. The wave changes the truth and the pins say
+so. **Tickets**: no open Button Mash tickets at rotation
+open (the ticket book verified empty fleet-side; QA-006
+stays CLOSED; the new page carries exactly one `<h1>`,
+guarded by WF43 + `test_retro37`). **Seed discipline**: the
+wave adds no chance-bearing surface — a curated dive deals
+nothing — so no new seed is needed and no `Math.random` call
+is added anywhere (the one `Math.random` string in
+versus-core.js remains a comment about the wave-34
+conversion). **Exclusion Ledger integrity**: untouched and
+re-verified — WF41 green on the final tree (213 audited =
+113 in + 100 out, reasons verbatim, accounting derived).
+Taxonomy untouched: TAXONOMY_BRIEF.md stays **UNDECIDED**,
+parked for a human ruling (213 / horror 6 / cozy 16); census
+untouched (117/117 verified).
+
+**What shipped**
+
+- **FLAGSHIP — the Retro Deep Dive** (`genres/retro.html`,
+  built on the three existing dives' exact template — head
+  block, cabinet header, feature-card families, callout,
+  footer): fifteen of the catalog's 44 retro games in five
+  families — Start here: the archive doors (Internet Arcade,
+  Console Living Room, MS-DOS Library), The DOS canon (DOOM
+  1993, The Oregon Trail, Zork I), Golden-age arcade (Space
+  Invaders, Missile Command, Robotron: 2084), Empires and
+  city halls (SimCity 1989, Civilization, Railroad Tycoon),
+  Jump, point, click (Commander Keen 3, Prince of Persia,
+  The Secret of Monkey Island). Every card links the
+  record's own play URL and prints the record's own controls
+  line; every "why it fits" blurb is grounded in the game's
+  catalog description (no years, makers or features the
+  record does not state). The lede and closing callout name
+  the full shelf honestly: 44 retro games, 15 curated here,
+  the other 29 in the directory. Registration: AGENT.md
+  workflow 12 + centerpiece lines, `build_site.py` PAGES +
+  llms line (sitemap + llms.txt regenerated), a fourth card
+  in games.html's Genre deep dives section, WF43,
+  `test_retro37.js`.
+- **Versus coverage, widened by the record.** `GENRE_DIVES`
+  in `versus-core.js` gains `retro: 'genres/retro.html'` —
+  the registry again names exactly the dives that exist on
+  disk (WF37 + WF43 + test_versus33 all pin the four-key
+  set; test_puzzle36's registry line updated to match). The
+  one consequence in the pinned expectations: Zork I vs
+  2048, which since wave 36 earned footprint + coverage
+  (2048's puzzle dive against Zork's none), now ties on
+  coverage — Zork carries the retro dive, 2048 the puzzle
+  dive, both carry a Kids listing — so the strip fires
+  footprint alone. Both suites' checks were updated to
+  assert the tied 2–2 coverage and the single verdict
+  explicitly. The bare tail shrinks honestly with it:
+  ClassicReload and the PICO-8 BBS are retro records, so
+  they leave the no-coverage tail; four games (kaaarot,
+  bloxd, moomoo, zombs) remain bare, and the thin-state
+  check still passes on exactly those four.
+- **The 48th page, fully placed.** The new page carries the
+  complete placement block in source (absolute OG + Twitter
+  image, canonical on the recorded host, theme-color,
+  favicons, OG dimensions) and the `bm-vt` view-transition
+  stamp — `wire_placement` reported 48 pages stamped, 0
+  updated, so the generator agrees the page was born placed.
+  WF38/WF39 page-count pins move 47 → 48; the WF41 VT label
+  moves 43 → 44 stamped (the skip set is unchanged: player,
+  converter, kids, parents stay instant); LIVE_CHECKLIST's
+  canonical/VT counts updated to match. The legal gate
+  counts 49 pages including the vendor template, 0 piracy
+  links.
+- **Commons adoptions (align-on-touch)**: the fleet's
+  genre-dive pattern as this site practices it (curated
+  subset, record-verbatim facts, honest full-shelf count) —
+  applied unchanged to a fourth genre; the wave-36 pattern
+  of pinning a page's every factual line to its source
+  records (WF43 derives featured ids, URLs and controls
+  from `data/games.json`).
+
+**Validation (wave 37, final runs):**
+- `scripts/build.py`: **BUILD OK — 213 games (149 domains),
+  24 collections, 10 emulators, 24 guides**; **LEGAL GATE OK
+  (49 pages incl. the vendor template, 213 game URLs, 0
+  piracy links)**; placement wiring 48 pages stamped, 0
+  updated (idempotent — the new page was born placed); ledger
+  stamps 100 verdicts. The build's timestamp-only `data/v1`
+  regeneration churn was reverted — this wave is pages +
+  wiring + assets + docs.
+- `scripts/check_links.py`: **LINK CHECK OK — 48 pages, 2053
+  local links, 157 external links, 0 broken** (local count
+  up from 2014: the new page's links + games.html's fourth
+  dive card).
+- `node scripts/check_api_workflows.js`: **341/341 pass
+  (WF1–WF43)** — new WF43 (7 checks: one-h1 + self-counting
+  kicker, featured-card record integrity, derived full-shelf
+  count, the four-dive registry, directory/sitemap/llms
+  wiring, VT stamp, taxonomy pin); WF37's registry + verdict
+  expectations updated to the wave's new record truth; WF41
+  (ledger + VT split) green at 44 stamped.
+- New `test_retro37`: **ALL PASS (10 checks)** — 15 distinct
+  featured ids, all real retro records, URL + controls +
+  title verbatim per card, derived shelf counts, one h1 + VT
+  stamp in source, Versus profile coverage for Zork I, the
+  pinned pairing's tied coverage, and headless: 15 cards
+  rendered under exactly one h1, 390px zero overflow, zero
+  pageerrors. (First attempt died at a LifecycleWatcher
+  disposal under load with all static checks already green;
+  the solo re-run on the same tree is the record — see the
+  load note below.)
+- Named suites: the full battery ran detached; its first
+  pass collided with this wave's own screenshot browsers
+  (two Chromium workloads at once on a box at loadavg ~9–12)
+  and produced **zero assertion failures tree-wide** — every
+  non-zero exit was a browser-harness error (TargetCloseError,
+  navigation/selector timeouts, one launch failure). The
+  affected fifteen suites were re-run as a second detached
+  battery, strictly sequential with no concurrent browser
+  work — the stuck→improved countermeasure — and **all 15
+  ran green**: `test_puzzle36` ALL PASS; `test_versus33`
+  ALL PASS (20); `test_emulatorversus34` ALL PASS;
+  `test_ledger35` ALL PASS; `test_tournamentnight32` ALL
+  PASS; `test_passport31` ALL PASS; `test_player21` ALL
+  PASSED; `test_curatornight21` ALL PASS; `test_wave17` ALL
+  PASS; `test_wave19` ALL PASS; `test_trophy18` ALL PASSED;
+  `test_party_planner11` ALL PASS; `test_tournament10` ALL
+  PASS; `test_wow1` **WOW1 ALL CHECKS PASS**; smoke exit 0.
+  First-pass suites that never faltered: `test_curator24`–
+  `test_curator32` ALL PASS (census closed, untouched),
+  `test_lineups23` ALL PASS; `test_converter12` 66/66;
+  `test_gamenight_parity` PARITY OK; `test_gamenight22` ALL
+  PASS; `test_bracket` 82/82; `test_bracket_double` 105/105;
+  `test_party11` 36/36; `tests/api.test.sh` **40/40**.
+- **Load honesty, stated plainly**: `test_identity16` is
+  reported on this wave's evidence, not its reputation: in
+  the sequential battery it ran **ALL PASS (41 PASS lines,
+  RESULT: ALL PASS, exit 0)** — the first clean pass in
+  several waves, credited to the sequential run discipline
+  (no competing Chromium) rather than to any change in the
+  suite or the site; it is recorded as a sequential-run
+  verdict, and its documented stall signature under parallel
+  load stands in the earlier entries.
+- **Regression sweep (grep)**: exactly-one-`<h1>`: 47 pages
+  static + game.html (data-titled, pre-existing pattern);
+  the new page carries 1 in source and renders 1
+  (test_retro37); og:image absolute **48/48** pages and
+  canonical absolute **48/48** (WF38/WF39 at the new count);
+  VT stamp **44/48**, skip set exactly {player, converter,
+  kids, parents}; CRLF audit 0 files; `node --check` clean
+  on all new/edited JS; AI-slop denylist grep clean on the
+  wave's prose; no TODOs.
+- Screenshots inspected (zero pageerrors): `genres/retro.html`
+  hero desktop (kicker "15 GAMES", h1, the 44-of-213 lede) +
+  golden-age section desktop + 390px mobile (no overflow,
+  header wraps clean); `versus.html?a=zork1&b=2048` verdict
+  strip (both dive coverage chips up, footprint the only
+  verdict, common ground naming the shared Kids pass);
+  games.html Genre deep dives section with all four cards.
+  Archived to
+  `~/workspace/progress-archive/button-mash/rotation-016/`.
+  One transport note: this sandbox's Chromium refuses local
+  HTTP (`ERR_BLOCKED_BY_LOCAL_NETWORK_ACCESS_CHECKS`, the
+  wave-35 documented limit), so the shots were taken over
+  file:// with element-clipped framing — stated plainly
+  rather than dressed as an HTTP run.
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download
+links. The dive links only the games' own official play pages,
+already in the catalog (the retro shelf's Archive items are
+the Internet Archive's own preserved, playable copies).
+
+**Parked**: the taxonomy recommendation remains **PARKED for
+a human ruling** — untouched this wave, as ordered. The
+audit's remaining recorded debts stay on the list with their
+reasons: 52 orphan games (a new shelf moves the Passport's
+pinned 24-collection count; curation is human-grade work),
+three more genre dives (action 41, multiplayer 31, idle 15,
+horror 6 — each flagship-scale writing), and structured
+year/maker fields (a curator-grade re-verification project,
+not a schema edit).
+
+**Self-assessment**: the dive debt is now half paid, in the
+audit's own size order, and the pattern is fully load-bearing:
+the page is the easy half; the honest half is the blast radius
+— a registry four suites pin, a pinned pairing whose correct
+answer flipped from "2048 is better covered" to "coverage is
+tied" because the site now genuinely covers Zork too, and a
+bare-tail definition that shrank by two games because the
+record changed underneath it. Each was updated to assert the
+new truth explicitly. The wave's operational lesson is its
+own stuck→improved receipt: the first battery's failures were
+self-inflicted browser contention, and the sequential re-run
+not only cleared all fifteen suites but produced the first
+clean identity16 pass in several waves — running one browser
+at a time is now this repo's battery discipline, recorded
+here so the next wave inherits it.
+
 ## Wave 36 — 2026-10-13 — HEADLINE (stated before building): The Puzzle Deep Dive — the largest genre gets its dive, dives go 2-of-8 to 3-of-8
 
 **Headline**: the WAVELOG named no wave-36 shape, so the wave
