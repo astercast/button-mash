@@ -1394,4 +1394,40 @@ check("WF27 no ROM/BIOS download phrasing in wave-25 files",
   !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(cheatHtml),
   "legal lane holds");
 
+// ---- Wave 26: accuracy sweep — the blanket-claim audit. Wave 25 corrected
+// DuckStation's record to CC BY-NC-ND 4.0 (source-available, not open
+// source), which made every blanket "emulators are open-source" line on
+// the site strictly false. The flagged emulation-hub hero is corrected,
+// the same blanket in the how-emulation-works legal note is corrected,
+// and the audit's other findings are pinned here so they cannot regress.
+const emuHtml26 = fs.readFileSync(path.join(ROOT, "emulation.html"), "utf8");
+const howEmu26 = fs.readFileSync(path.join(ROOT, "guides/how-emulation-works.html"), "utf8");
+const playLegal26 = fs.readFileSync(path.join(ROOT, "play-legal.html"), "utf8");
+check("WF28 hero copy: the blanket open-source claim is gone from the emulation hub",
+  emuHtml26.includes("legal, fascinating, and mostly open-source") &&
+  !emuHtml26.includes("legal, open-source, and fascinating"),
+  "one of the ten catalog emulators (DuckStation) is source-available since Sept 2024, not open source");
+check("WF28 guide legal note: the same blanket is gone from how-emulation-works",
+  howEmu26.includes("legal, and mostly open-source") &&
+  !howEmu26.includes("legal and open-source"),
+  "the legal note now matches the catalog's own license data");
+check("WF28 audit — specific claims that checked out stay exactly as written",
+  playLegal26.includes("EmulatorJS, RetroArch, mGBA — all legal, all open-source") &&
+  fs.readFileSync(path.join(ROOT, "player.html"), "utf8").includes("Powered by the open-source") &&
+  fs.readFileSync(path.join(ROOT, "guides/best-emulator-per-system.html"), "utf8")
+    .includes("emulators are legal software. They ship with zero games"),
+  "the named three are GPL-3.0/GPL-3.0/MPL-2.0 in data/v1/emulators.json; the best-emulator note claims legality, not licenses");
+check("WF28 audit — emulator catalog licenses still sum to nine open + one source-available",
+  (emuEnv25.emulators || []).filter((e) => e.license !== "CC BY-NC-ND 4.0").length === 9 &&
+  (emuEnv25.emulators || []).length === 10,
+  "'mostly' is the accurate word for 9 of 10");
+check("WF28 audit — Mindustry's unverifiable superlative is softened, its verified claim kept",
+  byId24["mindustry"].description.includes("Open-source factory defense") &&
+  !byId24["mindustry"].description.includes("full game") &&
+  byId24["mindustry"].description.includes("runs right in your browser"),
+  "GPL-3.0 verified outside the repo; 'the web build is the full game' could not be, so it no longer ships");
+check("WF28 no ROM/BIOS download phrasing in wave-26 files",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(emuHtml26 + howEmu26),
+  "legal lane holds");
+
 process.exit(failures ? 1 : 0);

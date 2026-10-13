@@ -90,10 +90,21 @@ Hobby timeout. Frontend calls `/api/*` first (7s timeout) and falls back to
 | `GITHUB_REPO` | set to `astercast/button-mash-live` on the live track so watch commits land there |
 | `REPO_STATIC_PREFIX` | empty = repo root (correct for this snapshot) |
 
-## Known-good status (verified 2026-10-12, wave 25, working repo)
+## Known-good status (verified 2026-10-12, wave 26, working repo)
 
 - `python3 scripts/build.py` → BUILD OK (213 games, 24 collections,
   10 emulators, 24 guides; game-night twin in sync)
+- Wave 26: WF1–WF28 242/242, test_curator26 ALL PASS (14 checks),
+  test_identity16 41/41, test_lineups23 ALL PASS, test_curator24
+  ALL PASS, test_curator25 ALL PASS, test_player21 ALL PASSED,
+  test_converter12 66/66; blanket-claim audit shipped: emulation
+  hub hero + how-emulation-works legal note corrected to "mostly
+  open-source" (9 of 10 catalog emulators are open; DuckStation is
+  CC BY-NC-ND 4.0 source-available), Mindustry's unverifiable
+  "web build is the full game" softened, all other audited
+  absolute claims verified and left as written (full list in
+  WAVELOG wave 26); cozy/horror taxonomy still NOT reshelved
+  pending a human call; Curator scoring v2.2.0
 - Wave 25: WF1–WF27 236/236, api tests 40/40, test_identity16 41/41,
   test_lineups23 ALL PASS, test_curator24 ALL PASS, test_curator25
   ALL PASS (19 checks), test_player21 ALL PASSED, test_converter12

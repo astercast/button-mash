@@ -2,6 +2,91 @@
 
 Running record of build waves. Newest first.
 
+## Wave 26 — 2026-10-12 — "Accuracy sweep": the blanket-claim audit
+
+**What shipped** — wave 25's DuckStation correction (CC BY-NC-ND 4.0,
+source-available since Sept 2024) quietly falsified every blanket
+"emulators are open-source" line on the site. Wave 25 flagged the
+emulation hub's hero; this wave fixes it, then audits the whole site
+for the same class of claim.
+
+- **The flagged hero fix** (`emulation.html`): "Emulators are software
+  — legal, open-source, and fascinating" is now "Emulators are
+  software — **legal, fascinating, and mostly open-source**." Mostly is
+  arithmetic, not a hedge: nine of the ten catalog emulators carry
+  GPL/MPL/MIT licenses; DuckStation alone is source-available.
+- **The same blanket, second home** (`guides/how-emulation-works.html`):
+  its legal note said "legal and open-source" — the identical claim,
+  the identical fix ("legal, and mostly open-source"). A site-wide
+  scan of all 41 HTML pages confirms no blanket phrasing survives.
+- **The blanket-claim audit — checked, and what happened to each:**
+  *Fixed (false):* the two emulator blankets above.
+  *Fixed (unverifiable):* **Mindustry**'s description claimed "the web
+  build is the full game" — no source outside the repo settles what
+  the web build contains, so the superlative no longer ships; the
+  sentence now says only what can be checked ("The web build runs
+  right in your browser"). Its verified claim stays: Mindustry is
+  GPL-3.0 (upstream repo / Flathub metadata).
+  *Left (true, specific):* `play-legal.html`'s "EmulatorJS, RetroArch,
+  mGBA — all legal, all open-source" names three emulators, and all
+  three are open source (GPL-3.0 / GPL-3.0 / MPL-2.0 in
+  `data/v1/emulators.json`). The Player's "powered by the open-source
+  EmulatorJS engine," SameBoy (MIT) and RetroArch (GPL-3.0) in their
+  guides, and the best-emulator guide's note (which claims legality
+  and zero bundled games, not licenses) all stand as written.
+  *Left (true, games):* every description that calls a game open
+  source was re-checked — Clumsy Bird, Astray, HexGL, Swarm Sim
+  (public repo `swarmsim/swarm`), Bitburner (public source repo),
+  DCSS, ClassiCube, Synergism, arras.io (public source archives), and
+  the HydroEngineer trio Floodlines / Hydro Operator / SkyStack (the
+  dev's own itch announcement: all three "Free, and Open Source").
+  The `open-source-web` shelf's six (Bitburner, Mindustry, shapez —
+  GPL-3.0 per the community-edition repo — DCSS, Angband, NetHack)
+  all hold. Spot-checked free claims hold too: Lichess ("completely
+  free," no account needed), PlayOK (no signup), the official Tetris
+  (free), Minecraft Classic (free in the browser), GeoGuessr ("free
+  tier included" — a tier claim, not a blanket), Fallen London (free),
+  the shareware episodes (Duke/Quake — free and legal as shareware).
+  Tuxemon on the monster-taming page: open-source, free,
+  community-built — stands. The PICO-8 guide's "play free in the
+  browser" is scoped to BBS carts, which are free to play; stands.
+  The homepage eyebrow ("free games · no installs · no accounts")
+  and `games.html`'s "every game here is free-to-play on its official
+  site" describe the site's own terms and the catalog's curation
+  standard (each entry playable free at its verified link; paid
+  tiers/demos are disclosed in the entries themselves) — left as
+  written, deliberately: they are claims about this shelf, checked
+  against this catalog, not about the software's licenses.
+- **Taxonomy: still untouched.** The cozy/horror call remains a
+  human's; purrgatory and Lookouts stay pinned in horror (census
+  unchanged: 213 games, horror 6, cozy 16), enforced by
+  `test_curator25`/`test_curator26` and WF27.
+- **Agentic surface**: WF28 (6 checks — both blanket fixes, the
+  specific claims left standing, the 9-of-10 license arithmetic, the
+  Mindustry softening, legal lane) — **242/242 pass (WF1–WF28)**.
+  New `scripts/test_curator26.js`: **ALL PASS (14 checks)** — the
+  fixes, a site-wide no-blanket scan, the left-true pins, the census.
+
+**Validation:**
+- `scripts/build.py`: **BUILD OK — 213 games, 24 collections, 10 emulators, 24 guides**; **LEGAL GATE OK (44 pages, 0 piracy links)**
+- `scripts/check_links.py`: **0 broken (43 pages, 1439 local links)**
+- `node scripts/check_api_workflows.js`: **242/242 pass (WF1–WF28)**
+- `node scripts/test_curator26.js`: **ALL PASS (14 checks)** (new)
+- Named suites re-run: `test_identity16` **41/41 ALL PASS** (second attempt; the first reproduced the documented load stall at loadavg ~8.3, zero assertion failures, exactly as waves 21–23 recorded); `test_lineups23` **ALL PASS**; `test_curator24` **ALL PASS**; `test_curator25` **ALL PASS (19 checks)**; `test_converter12` **66/66**; `test_player21` **ALL PASSED**
+- `tests/api.test.sh`: **40/40**; `~/workspace/smoke/test.js`: exit 0, zero errors (known CDN tunnel noise only)
+- `node --check`: clean on the new/edited JS; AI-slop denylist grep clean on the corrected prose
+- Screenshots inspected: `emulation.html` hero (corrected lede renders in the hero panel, H1 + CTAs intact, zero pageerrors) and the `how-emulation-works` legal note on mobile width (corrected wording renders, zero pageerrors)
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links.
+
+**Self-assessment**: the interesting find was not the flagged hero —
+it was that the same sentence had a second home in a guide's legal
+note, where nobody had flagged it. Blanket claims replicate by
+copy-paste; an audit that only fixes the flagged instance leaves the
+strain alive. The Mindustry line is the wave's other lesson: a claim
+can be probably-true and still not meet the bar — if no outside
+source settles it, it does not ship as fact.
+
 ## Wave 25 — 2026-10-12 — "Close the flagged follow-ups": the cheat-code guide, the DuckStation verdict, a taxonomy call left for a human
 
 **What shipped** — rotation 3's self-assessment left three honest items

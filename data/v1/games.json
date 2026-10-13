@@ -1,7 +1,7 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-13T00:36:44Z",
+  "generated_at": "2026-10-13T00:52:13Z",
   "endpoint": "games",
   "description": "Curated browser games directory (every URL verified live — never invented).",
   "count": 213,
@@ -1170,7 +1170,7 @@
       "url": "https://mindustrygame.github.io/",
       "genre": "action",
       "controls": "Mouse + WASD — build, pan, command",
-      "description": "Open-source factory defense: design conveyor-fed production lines, then hold them against waves. The web build is the full game."
+      "description": "Open-source factory defense: design conveyor-fed production lines, then hold them against waves. The web build runs right in your browser."
     },
     {
       "id": "shapez",
