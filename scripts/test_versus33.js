@@ -46,10 +46,11 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
 {
   check("core surface: UMD, genre-dive registry names only the dives that exist",
     typeof V.compare === "function" && typeof V.profile === "function" &&
-    Object.keys(V.GENRE_DIVES).sort().join(",") === "cozy,puzzle,retro,roguelike" &&
+    Object.keys(V.GENRE_DIVES).sort().join(",") === "action,cozy,puzzle,retro,roguelike" &&
     fs.existsSync(path.join(ROOT, "genres/roguelike.html")) && fs.existsSync(path.join(ROOT, "genres/cozy.html")) &&
-    fs.existsSync(path.join(ROOT, "genres/puzzle.html")) && fs.existsSync(path.join(ROOT, "genres/retro.html")),
-    "roguelike + cozy + puzzle (wave 36) + retro (wave 37) dives exist on disk; no other genre is claimed");
+    fs.existsSync(path.join(ROOT, "genres/puzzle.html")) && fs.existsSync(path.join(ROOT, "genres/retro.html")) &&
+    fs.existsSync(path.join(ROOT, "genres/action.html")),
+    "roguelike + cozy + puzzle (wave 36) + retro (wave 37) + action (wave 38) dives exist on disk; no other genre is claimed");
 
   check("year rule: 2048's name number is not a year (the census exclusion)",
     V.yearNamed(byId["2048"].description, "2048") === null &&
@@ -120,10 +121,12 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
     card.includes(cmp.verdicts[0].text) && !/score|rating|winner/i.test(card),
     "the card is the comparison, in plain text");
 
-  check("coverage: a cozy game with a Kids pass carries both coverage entries; an action game may carry none",
+  check("coverage: a cozy game with a Kids pass carries both coverage entries; since wave 38 every action game carries the action dive, and a dive-less genre still carries none",
     (() => { const cozyKid = games.find((g) => { const p = V.profile(g, CTX); return p.genre === "cozy" && p.kidSafe; }); return cozyKid && V.profile(cozyKid, CTX).coverageCount === 2; })() &&
+    V.profile(byId["krunker"], CTX).coverageCount === 1 &&
+    V.profile(byId["krunker"], CTX).coverage.some((c) => c.label === "Genre deep dive: action" && c.href === "genres/action.html") &&
     V.profile(byId["kaaarot"], CTX).coverageCount === 0,
-    "coverage counts pages that exist, per game");
+    "coverage counts pages that exist, per game — krunker (action, no Kids pass) carries exactly the dive; kaaarot (multiplayer, no dive) carries none");
 }
 
 /* ---------------- (2)+(3) headless ---------------- */

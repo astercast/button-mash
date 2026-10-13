@@ -1823,8 +1823,8 @@ const vsHtml = fs.readFileSync(path.join(ROOT, "versus.html"), "utf8");
 const vsCtx = { collections: cols, kidIds: new Set((load("data/v1/kid-safe.json")["kid-safe"] || []).filter((k) => k.kid_safe).map((k) => k.id)) };
 check("WF37 versus core: UMD, no bracket/storage deps, dive registry names only existing dives",
   typeof VS33.compare === "function" && typeof VS33.shareCard === "function" &&
-  Object.keys(VS33.GENRE_DIVES).sort().join(",") === "cozy,puzzle,retro,roguelike",
-  "comparison is pure record math over the catalog, nothing else");
+  Object.keys(VS33.GENRE_DIVES).sort().join(",") === "action,cozy,puzzle,retro,roguelike",
+  "comparison is pure record math over the catalog, nothing else (registry updated wave 38: action dive added)");
 check("WF37 versus: the year rule matches the closed census (45 dated records, 2048 excluded)",
   games.filter((g) => VS33.profile(g, vsCtx).year !== null).length === 45 &&
   VS33.yearNamed(byId24["2048"].description, "2048") === null &&
@@ -1897,7 +1897,7 @@ check("WF38 og card: the Foundry asset is in the repo at the canonical path, 120
   })(),
   "assets/og-card.png — the arcade-cabinet card, copied per the Foundry manifest");
 check("WF38 og wiring: every page carries og:image + summary_large_image, titles/descriptions reused verbatim",
-  allPages38.length === 48 && allPages38.every((f) => {
+  allPages38.length === 49 && allPages38.every((f) => {
     const t = fs.readFileSync(f, "utf8");
     const title = (t.match(/<title>([^<]*)<\/title>/) || [])[1];
     const desc = (t.match(/<meta name="description" content="([^"]*)">/) || [])[1];
@@ -1910,7 +1910,7 @@ check("WF38 og wiring: every page carries og:image + summary_large_image, titles
       t.includes('<meta name="twitter:image" content="' + ABS_OG + '">') &&
       fs.existsSync(path.join(ROOT, "assets/og-card.png"));
   }),
-  "48 pages; og:image + twitter:image are the absolute https://button-mash-live.vercel.app/assets/og-card.png (relative paths fail — crawlers require absolute URLs); local asset validated by the check above; no invented copy");
+  "49 pages; og:image + twitter:image are the absolute https://button-mash-live.vercel.app/assets/og-card.png (relative paths fail — crawlers require absolute URLs); local asset validated by the check above; no invented copy");
 check("WF38 QA-006: homepage has exactly one h1 — the hero title; the cabinet marquee sign is an h2",
   (fs.readFileSync(path.join(ROOT, "index.html"), "utf8").match(/<h1[\s>]/g) || []).length === 1 &&
   vsHtml && fs.readFileSync(path.join(ROOT, "index.html"), "utf8").includes('<h1 class="hero-title">') &&
@@ -1935,12 +1935,12 @@ const HOST39 = "https://button-mash-live.vercel.app";
 const relOf39 = (f) => path.relative(ROOT, f).split(path.sep).join("/");
 const canonOf39 = (rel) => rel === "index.html" ? HOST39 + "/" : HOST39 + "/" + rel;
 check("WF39 canonical: every page carries exactly one absolute self-referential canonical",
-  allPages38.length === 48 && allPages38.every((f) => {
+  allPages38.length === 49 && allPages38.every((f) => {
     const t = fs.readFileSync(f, "utf8");
     const hits = t.match(/<link rel="canonical" href="[^"]*">/g) || [];
     return hits.length === 1 && hits[0] === '<link rel="canonical" href="' + canonOf39(relOf39(f)) + '">';
   }),
-  "48 pages; canonical = https://button-mash-live.vercel.app/<page> (root for index.html)");
+  "49 pages; canonical = https://button-mash-live.vercel.app/<page> (root for index.html)");
 check("WF39 theme-color + favicons + og dimensions: every page head carries the full placement block",
   allPages38.every((f) => {
     const t = fs.readFileSync(f, "utf8");
@@ -2129,7 +2129,7 @@ check("WF41 view transitions: stamped on the browsing pages, absent from the fou
     }) && guidesCss.includes("@view-transition") &&
       guidesCss.includes("prefers-reduced-motion: no-preference");
   })(),
-  "44 stamped, both gates (reduced-motion + FX switch); player/converter/kids/parents stay instant; guides keep their wave-13 rule");
+  "45 stamped, both gates (reduced-motion + FX switch); player/converter/kids/parents stay instant; guides keep their wave-13 rule");
 check("WF41 ledger wiring: lookup box + filter script on parents, ledger link on kids, no chance in the script",
   parents41.includes('id="ledger-search"') && parents41.includes('id="not-in-the-corner"') &&
   parents41.includes("assets/js/ledger-filter.js") &&
@@ -2231,9 +2231,9 @@ check("WF43 versus coverage: the dive registry names exactly the dives on disk",
     const core = fs.readFileSync(path.join(ROOT, "assets/js/versus-core.js"), "utf8");
     return core.includes("retro: 'genres/retro.html'") &&
       ["roguelike", "cozy", "puzzle", "retro"].every((d) => fs.existsSync(path.join(ROOT, "genres", d + ".html"))) &&
-      Object.keys(VS33.GENRE_DIVES).sort().join(",") === "cozy,puzzle,retro,roguelike";
+      Object.keys(VS33.GENRE_DIVES).sort().join(",") === "action,cozy,puzzle,retro,roguelike";
   })(),
-  "GENRE_DIVES = roguelike + cozy + puzzle + retro; a retro game now carries dive coverage in Versus");
+  "GENRE_DIVES = roguelike + cozy + puzzle + retro (registry updated wave 38: action added); a retro game now carries dive coverage in Versus");
 check("WF43 retro dive wiring: directory card + sitemap + llms registration",
   fs.readFileSync(path.join(ROOT, "games.html"), "utf8").includes('href="genres/retro.html"') &&
   fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8").includes("<loc>genres/retro.html</loc>") &&
@@ -2243,6 +2243,72 @@ check("WF43 retro dive: view transitions stamped like the other browsing pages",
   retro37.includes("data-bm-vt") && retro37.includes("@view-transition { navigation: auto; }"),
   "the 48th page joins the 44-page VT set; the four instant pages stay instant (WF41)");
 check("WF43 taxonomy: STILL not reshelved — the brief's call stays with the human",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules");
+
+// ---- Wave 38: the Action Deep Dive. The wave-33 completeness
+// audit's dive debt, ordered by genre size: after puzzle (48,
+// wave 36) and retro (44, wave 37), action (41) was the largest
+// remaining undived genre. Dives go 4-of-8 to 5-of-8. Every
+// featured card is pinned to its catalog record — id, genre,
+// play URL and controls line — and Versus's coverage registry
+// must name exactly the dives that exist on disk. One pinned
+// pairing's truth changed with the record: Venge.io (action)
+// vs kaaarot (multiplayer) — footprint fired before; now the
+// coverage verdict fires too, because Venge.io carries the
+// action dive and kaaarot carries none.
+const action38 = fs.readFileSync(path.join(ROOT, "genres/action.html"), "utf8");
+const featured38 = [...action38.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
+const actionGames38 = games.filter((g) => g.genre === "action");
+check("WF44 action dive: page exists with exactly one h1 and a kicker that counts its own cards",
+  (action38.match(/<h1[\s>]/g) || []).length === 1 &&
+  action38.includes("Genre deep dive · " + featured38.length + " games") &&
+  featured38.length === 15 && new Set(featured38).size === featured38.length,
+  featured38.length + " featured cards, counted from the page itself");
+check("WF44 action dive: every featured card is a real action record — URL and controls verbatim",
+  featured38.every((id) => {
+    const g = byId24[id];
+    if (!g || g.genre !== "action") return false;
+    const card = action38.slice(action38.indexOf('data-game="' + id + '"'));
+    const cardEnd = card.indexOf("</article>");
+    const slice = card.slice(0, cardEnd);
+    return slice.includes('href="' + g.url + '"') && slice.includes("Controls: " + g.controls);
+  }),
+  "15 cards; each links the record's own URL and prints the record's own controls line");
+check("WF44 action dive: the page names the full shelf it curates from, derived from the records",
+  action38.includes(actionGames38.length + " of the catalog") &&
+  action38.includes("All " + actionGames38.length + " action games"),
+  actionGames38.length + " action games in the catalog; the dive curates 15 and says so");
+check("WF44 versus coverage: the dive registry names exactly the dives on disk",
+  (() => {
+    const core = fs.readFileSync(path.join(ROOT, "assets/js/versus-core.js"), "utf8");
+    return core.includes("action: 'genres/action.html'") &&
+      ["roguelike", "cozy", "puzzle", "retro", "action"].every((d) => fs.existsSync(path.join(ROOT, "genres", d + ".html"))) &&
+      Object.keys(VS33.GENRE_DIVES).sort().join(",") === "action,cozy,puzzle,retro,roguelike";
+  })(),
+  "GENRE_DIVES = roguelike + cozy + puzzle + retro + action; an action game now carries dive coverage in Versus");
+check("WF44 versus: the changed pairing — Venge.io vs kaaarot now fires footprint AND coverage",
+  (() => {
+    const c = VS33.compare(byId24["venge"], byId24["kaaarot"], vsCtx);
+    return c.ok && !c.thin && c.verdicts.length === 2 &&
+      c.verdicts.some((v) => v.kind === "footprint") &&
+      c.verdicts.some((v) => v.kind === "coverage" && v.text.includes("Genre deep dive: action")) &&
+      VS33.profile(byId24["venge"], vsCtx).coverageCount === 1 &&
+      VS33.profile(byId24["kaaarot"], vsCtx).coverageCount === 0;
+  })(),
+  "before wave 38 only footprint fired (1 shelf to 0, no coverage either side); the action dive adds the coverage line — asserted as the new truth, not loosened");
+check("WF44 action dive wiring: directory card + sitemap + llms registration",
+  fs.readFileSync(path.join(ROOT, "games.html"), "utf8").includes('href="genres/action.html"') &&
+  fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8").includes("<loc>genres/action.html</loc>") &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("genres/action.html"),
+  "games.html Genre deep dives section links it; build_site.py PAGES carries it into sitemap + llms");
+check("WF44 action dive: view transitions stamped like the other browsing pages",
+  action38.includes("data-bm-vt") && action38.includes("@view-transition { navigation: auto; }"),
+  "the 49th page joins the 45-page VT set; the four instant pages stay instant (WF41)");
+check("WF44 taxonomy: STILL not reshelved — the brief's call stays with the human",
   byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
   byId24["spooky-town"].genre === "horror" &&
   games.filter((g) => g.genre === "horror").length === 6 &&
