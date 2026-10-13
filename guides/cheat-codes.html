@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cheat codes, decoded: Game Genie, GameShark &amp; the Konami Code — Button Mash</title>
+<meta name="description" content="What a cheat code actually is (an address and a value), how the Game Genie patched games without touching the cartridge, the court case that made cheat devices legal, GameShark and Action Replay, cheats in this site's Player, and how to find your own codes with a memory search.">
+<link rel="preload" href="../assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/wave16.css">
+<link rel="stylesheet" href="../assets/css/guides.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../games.html">Games</a></li>
+        <li><a href="../collections.html">Collections</a></li>
+        <li><a href="../emulation.html">Emulation</a></li>
+        <li><a href="../monster-taming.html">Monster Taming</a></li>
+        <li><a href="../play-legal.html">Play Legal</a></li>
+        <li><a href="../trophy-room.html">Trophy room</a></li>
+        <li><a class="nav-cta" href="../player.html">» Play</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="main">
+<div class="reading-progress" aria-hidden="true"></div>
+
+<nav class="crumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../emulation.html">Emulation hub</a></li>
+    <li><a href="cheat-codes.html" aria-current="page">Cheat codes, decoded</a></li>
+  </ol>
+</nav>
+
+<article class="guide-page">
+  <p class="kicker">Deep-dive guide · Bend the rules, keep the game</p>
+  <h1>Cheat codes, decoded</h1>
+  <p class="lede">Every cheat code ever typed is the same small idea wearing different costumes: find where the game keeps a number, and change the number. This guide takes the idea apart — the Konami Code, the Game Genie, the lawsuit that settled whether any of it was legal, and how to hunt down codes of your own.</p>
+  <ul class="chips" aria-label="Guide facts"><li>Covers: Game Genie · GameShark · Action Replay · RetroArch · this site's Player</li><li>⏱ ~12 min</li><li>Beginner</li></ul>
+  <aside class="legal-note"><strong>Legal lane:</strong> cheat codes are numbers, not downloads — typing one into a game you own is yours to do (a US federal appeals court said so in 1992, see section 4). Nothing here links to ROMs, BIOS files, or trainer programs. Cheats are for your own single-player games; keep them out of other people's multiplayer matches.</aside>
+
+  <div class="toc toc--sticky" data-spy>
+    <h2>On this page</h2>
+    <ol>
+      <li><a href="#anatomy">What a cheat code actually is</a></li>
+      <li><a href="#builtin">Built-in codes: the Konami Code</a></li>
+      <li><a href="#genie">The Game Genie: a cartridge that lies</a></li>
+      <li><a href="#court">The court case that made it legal</a></li>
+      <li><a href="#shark">GameShark &amp; Action Replay: the RAM years</a></li>
+      <li><a href="#player">Cheats in emulators &amp; this site's Player</a></li>
+      <li><a href="#diy">Find your own codes: the memory search</a></li>
+      <li><a href="#manners">Cheat manners: where codes don't belong</a></li>
+    </ol>
+  </div>
+
+  <section class="guide-section" id="anatomy" aria-labelledby="anatomy-h">
+    <h2 id="anatomy-h"><span class="sec-num">01</span>What a cheat code actually is</h2>
+    <p>Strip away the branding and a cheat code is two things: <strong>an address</strong> (where in memory the game stores something — your lives, your health, your ammo) and <strong>a value</strong> (what to put there, or what to force it to stay at). "Infinite lives" is not a spell. It is one byte, somewhere in RAM, that the game decrements every time you die — and a code that keeps writing the same number back into it.</p>
+    <p>That gives cheat codes two families, and the split explains almost everything else in this guide:</p>
+    <dl>
+      <dt>RAM codes</dt>
+      <dd>Watch a spot in the console's working memory and hold it at a value, or poke a new value in. GameShark and Action Replay codes work this way, and so do most emulator cheat engines. Turn the code off and the game goes back to counting normally.</dd>
+      <dt>ROM patches</dt>
+      <dd>Change what the game's own program says as the console reads it — swap one instruction or constant for another, mid-stream. The Game Genie works this way. The cartridge itself is never written to; the patch exists only while the machine is on.</dd>
+    </dl>
+    <p>One practical consequence: a code is written for <em>one version of one game</em>. The address that holds lives in the US release may hold something else entirely in the European one, which is why codes copied from a forum sometimes do nothing — or freeze the game. Region and revision are part of the code, even when nobody writes them down.</p>
+  </section>
+
+  <section class="guide-section" id="builtin" aria-labelledby="builtin-h">
+    <h2 id="builtin-h"><span class="sec-num">02</span>Built-in codes: the Konami Code</h2>
+    <p>The oldest cheats needed no hardware at all, because the developers put them there. The famous one — <strong>↑ ↑ ↓ ↓ ← → ← → B A</strong> — was written by Konami programmer Kazuhisa Hashimoto while he was porting the arcade shooter <em>Gradius</em> to the NES in 1986. Hashimoto found the game too hard to play through while testing it, so he gave himself a sequence that handed over the full power-up set. He picked a sequence he could remember and that nobody would type by accident — and then the code shipped, still in the game, because removing it never happened.</p>
+    <p>Players found it, word spread, and Konami kept the sequence in later games on purpose. It became legend in 1988, when the NES version of <em>Contra</em> — a game stingy enough to be famous for it — answered the code with <strong>30 lives</strong> instead of the usual three. A generation of players can still type it from muscle memory, and the sequence has been turning up as an Easter egg in games and software ever since.</p>
+    <p>Built-in codes come in a few other shapes worth knowing:</p>
+    <ul>
+      <li><strong>Debug leftovers:</strong> level selects, sound tests, and invincibility toggles left in from development. Some were meant to ship; some are scaffolding nobody removed.</li>
+      <li><strong>Passwords:</strong> not cheats exactly — a password screen encodes your progress, and a "password" that starts you at the last level with everything unlocked is the developer's own back door.</li>
+      <li><strong>Name-entry codes:</strong> typing a specific name or initials triggers an effect. Same idea, friendlier costume.</li>
+    </ul>
+  </section>
+
+  <section class="guide-section" id="genie" aria-labelledby="genie-h">
+    <h2 id="genie-h"><span class="sec-num">03</span>The Game Genie: a cartridge that lies</h2>
+    <p>The Game Genie, developed by the British studio Codemasters and sold by Galoob in the US (Camerica in Canada), arrived for the NES in 1990. It was a pass-through cartridge: the game plugged into the Genie, the Genie plugged into the console, and every byte the console asked the cartridge for passed through the Genie first. When the console read an address the player had targeted, the Genie handed back a different byte than the one on the cartridge. The game never knew. The cartridge was never modified — pull the Genie out and the game is factory-stock again.</p>
+    <p>Those mysterious letter codes are just the address and value scrambled into an alphabet of sixteen letters so kids could copy them out of magazines without hex errors:</p>
+    <ul>
+      <li><strong>Six-letter codes</strong> decode to an address in the game's ROM plus a replacement byte. Every time the console reads that address, it gets the replacement. Unconditional.</li>
+      <li><strong>Eight-letter codes</strong> add a <em>compare</em> byte: the replacement is only served when the byte actually on the cartridge matches the compare value. Later NES games swapped banks of ROM in and out of the same address window, so several different bytes could live at one address — the compare byte is how a code says "only patch it when the right bank is showing."</li>
+    </ul>
+    <p>Versions followed for the SNES, Game Boy, Genesis, and Game Gear, but the trick stayed the same, and so did the limit: a ROM patch can only change what the program <em>says</em>, not what the console <em>remembers</em>. Freezing a RAM value like a countdown timer was the next generation's job.</p>
+  </section>
+
+  <section class="guide-section" id="court" aria-labelledby="court-h">
+    <h2 id="court-h"><span class="sec-num">04</span>The court case that made it legal</h2>
+    <p>Nintendo did not care for an unlicensed cartridge that rewired how its games played, and sued Galoob for copyright infringement, arguing the Game Genie created unauthorized derivative works of its games. US sales were halted while the case ran (Canada, outside the injunction, kept selling — magazine ads of the era thanked Canadian players for it).</p>
+    <p>The courts sided with Galoob. A federal district court ruled in 1991, and the Ninth Circuit Court of Appeals affirmed in 1992 in <em>Lewis Galoob Toys, Inc. v. Nintendo of America, Inc.</em>: the Genie created no permanent altered copy of any game — switch the console off and nothing remained — and a player's use of it at home was fair use, in the same spirit as skipping ahead in a book you own. Sega, for its part, went the other way entirely and gave the Genesis version its official seal of approval.</p>
+    <div class="key-point"><p><strong>Why this still matters:</strong> the ruling is the legal ground every cheat device, emulator cheat engine, and this site's Cheats tool stands on. Modifying how a game plays <em>on your own machine, for your own play</em> is not infringement. It says nothing about distributing copies of games — that lane stays closed, which is why this site hosts none.</p></div>
+  </section>
+
+  <section class="guide-section" id="shark" aria-labelledby="shark-h">
+    <h2 id="shark-h"><span class="sec-num">05</span>GameShark &amp; Action Replay: the RAM years</h2>
+    <p>The disc era changed what a cheat device had to be. Games now loaded from CD into comparatively roomy RAM, and the interesting numbers — health, money, items — lived in memory, not on the disc. The British company Datel's <strong>Action Replay</strong> line went after RAM: find the address, hold the value. When InterAct brought Datel's devices to the US in 1996, it sold them under a new name — <strong>GameShark</strong> — which is why the two brands' codes are interchangeable for the PlayStation, Saturn, and Nintendo 64 era: same hardware family, different badge.</p>
+    <p>These codes look different from Genie letters because they are barely encoded at all: a string of hex that reads, more or less, as <em>address, value</em>. The Pro models went further and added <strong>code searching</strong> — snapshot memory, change something in the game, snapshot again, and keep the addresses that moved the right way. That search is the single most useful cheat skill there is, and section 7 walks through it, because modern emulators have it built in.</p>
+    <p>The brands faded as consoles moved online and started patching themselves, but the format never died. Open a cheat file for a modern emulator and you are looking at the GameShark's homework: lists of addresses, values, and plain-language names.</p>
+  </section>
+
+  <section class="guide-section" id="player" aria-labelledby="player-h">
+    <h2 id="player-h"><span class="sec-num">06</span>Cheats in emulators &amp; this site's Player</h2>
+    <p>Emulators fold all of the above into the cheat engine of each core: codes are decoded to address-and-value pairs and applied as the virtual machine runs, which is why one engine can accept Game Genie, GameShark, and Action Replay formats side by side. Support is per-core, not universal — a code format the core doesn't speak simply won't take.</p>
+    <p>On this site, the Player's <strong>Cheats tool</strong> (on <a href="../player.html">player.html</a>) works like this:</p>
+    <ul>
+      <li>Boot a game you supplied, then add codes under the Cheats card — a name and the code itself. Codes are stored <strong>per game</strong>, in your browser only.</li>
+      <li>At boot, your codes are handed to the engine's cheat manager (the documented <code>EJS_cheats</code> list). Toggle individual codes on and off from the cheat icon in the in-game menu.</li>
+      <li>Codes are injected <em>before</em> boot, so a code added mid-session takes effect on the next boot of that game.</li>
+    </ul>
+    <p>Honest limits, the same ones the Player card itself states: code formats are applied by each core's own cheat engine, what works varies by system, and none of it is guaranteed. A code written for a different region or revision of the same game is the usual suspect when nothing happens — and a code that glitches the game should be switched off in the cheat manager, not fought with. The per-system guides carry the cheat notes for their machines: the <a href="nes.html">NES guide</a> covers Game Genie codes in the Player, and the <a href="ps1.html">PlayStation guide</a> covers the GameShark's home turf.</p>
+  </section>
+
+  <section class="guide-section" id="diy" aria-labelledby="diy-h">
+    <h2 id="diy-h"><span class="sec-num">07</span>Find your own codes: the memory search</h2>
+    <p>You do not need to wait for somebody to publish a code for the thing you want to change. If a game displays a number — lives, health, coins, a timer — that number lives at an address, and a memory search finds it by elimination. This is the same technique the GameShark Pro put on a cartridge menu, and RetroArch has shipped it built in since version 1.7.4 (Quick Menu → Cheats → Start or Continue Cheat Search):</p>
+    <ol>
+      <li><strong>Start the search</strong> with a value on screen. Pick a bit size that fits the number: lives are small (8-bit is plenty), health bars and money can run bigger (16-bit).</li>
+      <li><strong>Change the number in the game.</strong> Lose a life, spend some coins, take a hit — then search again for values that went <em>down</em> (or <em>up</em>, or to an exact new number). Every pass throws away every address that didn't move the right way.</li>
+      <li><strong>Repeat.</strong> Thousands of candidates become dozens, then a handful. Run out of lives mid-search? Reload a save state — your count goes back up, so search for <em>greater than before</em> and keep going. (States and searches are natural partners; the <a href="save-workflows.html">save workflows guide</a> covers keeping the states themselves safe.)</li>
+      <li><strong>Add the survivors to your cheat list</strong> and test them one at a time: set the value you want, and watch whether the game obeys. The address that holds is your code — name it, save the cheat file, and it loads with the game from then on.</li>
+    </ol>
+    <p>Two traps, both classic. Some games store a number <em>transformed</em> — doubled, offset, or displayed one higher than stored (a lives counter that shows your spare lives, not your current one) — so an exact-value search comes up empty while a greater/less search still works. And some addresses are decoys: the display copy of a number, refreshed from the real one every frame. Freeze the display copy and the number looks locked while the game keeps counting underneath. Test before you celebrate.</p>
+  </section>
+
+  <section class="guide-section" id="manners" aria-labelledby="manners-h">
+    <h2 id="manners-h"><span class="sec-num">08</span>Cheat manners: where codes don't belong</h2>
+    <ul>
+      <li><strong>Your game, your rules.</strong> In a single-player game, a cheat is a difficulty dial the developer didn't ship. Nobody's run is harmed by your 30 lives.</li>
+      <li><strong>Other people's games are off-limits.</strong> In multiplayer and netplay, a memory cheat stops being a dial and becomes tampering with a shared session — and practically, most netplay desyncs the moment one side's memory disagrees with the other's. See the <a href="netplay.html">netplay guide</a> for why both sides must run identical state.</li>
+      <li><strong>Achievements keep their own house rules.</strong> Hardcore achievement modes lock cheats (and usually save states) out on purpose: the badge certifies an unassisted run. Play assisted all you like — just not under the hardcore flag.</li>
+      <li><strong>Save before you experiment.</strong> A wrong address can corrupt a save or wedge a game mid-write. Keep one clean in-game save that no session with codes switched on ever touches.</li>
+      <li><strong>One code at a time.</strong> When a game freezes, the last code added is the first suspect. Stack codes after each has proven itself alone.</li>
+    </ul>
+    <p>The through-line, from Hashimoto's test code to the Galoob ruling to the search box in a modern emulator: cheating at your own games was never the shady part of this hobby. It is players poking at machines they own, learning how the numbers move — which is, not coincidentally, where a lot of programmers started.</p>
+  </section>
+
+  <section aria-labelledby="more-guides"><h2 id="more-guides">More guides</h2>
+  <ul class="guide-list">
+    <li><a href="nes.html">NES emulation guide</a> — Game Genie codes in the Player, on the system the Genie was built for.</li>
+    <li><a href="save-workflows.html">Saves that survive</a> — the save states a good memory search leans on, and how to back them up.</li>
+    <li><a href="netplay.html">Play together online: the netplay guide</a> — why cheats and shared sessions don't mix.</li>
+    <li><a href="retroarch-setup.html">RetroArch setup guide</a> — get the emulator whose cheat search section 7 uses.</li>
+    <li><a href="../player.html">The Player</a> — the built-in Cheats tool: per-game codes, toggled from the in-game menu.</li>
+  </ul></section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-note">
+      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links.</span>
+    </div>
+    <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>
+  </div>
+</footer>
+<script src="../assets/js/guide-toc.js" defer></script>
+<script src="../assets/js/arcade.js"></script>
+</body>
+</html>

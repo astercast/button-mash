@@ -128,13 +128,13 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         errors.join(" | ").slice(0, 300));
       await page.close();
     }
-    // --- emulation.html: 8 deep-dive hub cards ---
+    // --- emulation.html: deep-dive hub cards (8 at wave 17; wave 25 added the cheat-code guide = 9) ---
     {
       const { page, errors } = await newPage(browser);
       await page.goto(BASE + "/emulation.html", { waitUntil: "networkidle0", timeout: 60000 });
       const cards = await page.evaluate(() =>
         document.querySelectorAll("#deep-dives .feature-card").length);
-      check("emulation.html: 8 deep-dive hub cards", cards === 8, cards + " cards");
+      check("emulation.html: 9 deep-dive hub cards (8 + cheat-codes, wave 25)", cards === 9, cards + " cards");
       check("emulation.html: zero pageerrors", errors.length === 0,
         errors.join(" | ").slice(0, 300));
       await page.close();

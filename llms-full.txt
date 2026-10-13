@@ -45,6 +45,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - guides/preserving-your-games.html — Keep your games forever: the preservation guide
 - guides/gamepad-setup.html — Controllers in the browser: the gamepad setup guide
 - guides/pico8-spotlight.html — PICO-8 spotlight: the fantasy console's best corners
+- guides/cheat-codes.html — Cheat codes, decoded: Game Genie, GameShark & the Konami Code
 
 ## Games (213 total)
 
@@ -296,7 +297,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - mGBA [GBA, GB, GBC] — The accuracy king for GBA; also the core in this site's Player and Converter. No BIOS needed. https://mgba.io/
 - SameBoy [GB, GBC] — Cycle-accurate Game Boy / Color emulation, beautifully maintained. https://sameboy.github.io/
 - Mesen [NES, SNES, GB, GBC] — The most accurate NES emulator ever made, with a legendary debugger. Also covers SNES/GB. https://mesen.ca/
-- DuckStation [PlayStation] (needs your own dumped BIOS) — Modern, fast PlayStation emulator with gorgeous upscaling. https://www.duckstation.org/
+- DuckStation [PlayStation] (needs your own dumped BIOS) — Modern, fast PlayStation emulator with gorgeous upscaling. Relicensed Sept 2024: GPL-3.0 until then, now source-available under CC BY-NC-ND 4.0 (not open source). https://www.duckstation.org/
 - PCSX2 [PlayStation 2] (needs your own dumped BIOS) — The long-reigning PS2 emulator, still actively improved. https://pcsx2.net/
 - PPSSPP [PSP] — Plays the PSP library at HD resolutions on almost anything. https://www.ppsspp.org/
 - Dolphin [GameCube, Wii] — GameCube and Wii emulation at HD resolutions. One of the most polished emulators ever made. https://dolphin-emu.org/
@@ -1111,4 +1112,41 @@ If the $15 calls to you: PICO-8's editor is code, sprites, map, sound, and music
 ### Why it matters
 
 PICO-8 proved that constraints make better games and friendlier developers. Thousands of people finished and shipped something — most for the first time in their lives — because the canvas was small enough to fill. Whether you play the shelf, browse the BBS, or buy the console and make your own, you're participating in the healthiest corner of game development. Start with someone else's cart. End with your own.
+
+## Cheat codes, decoded: Game Genie, GameShark & the Konami Code
+Difficulty: Beginner · ~12 min · slug: cheat-codes
+
+Every cheat code is an address plus a value. Covers the two families (RAM codes vs ROM patches), the Konami Code's origin (Hashimoto, the 1986 NES Gradius port, Contra's 30 lives in 1988), the Game Genie (Codemasters/Galoob, 1990; six-letter codes patch unconditionally, eight-letter codes add a compare byte), the 1992 Ninth Circuit ruling in Lewis Galoob Toys v. Nintendo that made home cheat use fair use, GameShark/Action Replay (Datel hardware, InterAct's US brand from 1996), cheats in this site's Player (per-game codes via the Cheats tool, EJS_cheats, toggled in the in-game menu), finding your own codes with a RetroArch memory search, and where cheats don't belong (multiplayer, hardcore achievements). Legal lane: codes are numbers, never downloads.
+
+### What a cheat code actually is
+
+An address plus a value: somewhere in memory the game keeps a number (lives, health, ammo), and a code changes it or holds it. Two families: RAM codes (watch/poke working memory; GameShark, Action Replay, most emulator engines) and ROM patches (change what the program says as it is read; the Game Genie). Codes are written for one version of one game — region and revision are part of the code.
+
+### Built-in codes: the Konami Code
+
+Up Up Down Down Left Right Left Right B A. Written by Konami programmer Kazuhisa Hashimoto for the 1986 NES port of Gradius because he could not beat his own port while testing; it granted the full power-up set and shipped still in the game. Contra's NES release (1988) made it legend with 30 lives. Also: debug leftovers, password back doors, name-entry codes.
+
+### The Game Genie: a cartridge that lies
+
+Codemasters developed it; Galoob sold it in the US (Camerica in Canada); NES debut 1990. A pass-through cartridge between game and console that serves a different byte when a targeted ROM address is read — the cartridge itself is never modified. Six-letter codes decode to address + replacement, applied unconditionally; eight-letter codes add a compare byte so bank-switched games are only patched when the right bank is showing.
+
+### The court case that made it legal
+
+Nintendo sued Galoob, arguing derivative works; US sales were halted mid-case. The district court ruled for Galoob in 1991 and the Ninth Circuit affirmed in 1992 (Lewis Galoob Toys, Inc. v. Nintendo of America, Inc.): no permanent altered copy exists once the power is off, and home use is fair use. Sega instead gave the Genesis version its official seal of approval. The ruling is the ground emulator cheat engines stand on; it never licensed distributing games.
+
+### GameShark & Action Replay: the RAM years
+
+Datel's Action Replay went after RAM, where disc-era games keep health, money, and items. InterAct sold Datel's devices in the US from 1996 under the GameShark name — same hardware family, different badge, interchangeable codes. Codes are barely-encoded hex: address, value. Pro models added code searching, the skill section 7 teaches.
+
+### Cheats in emulators & this site's Player
+
+Emulator cores decode Genie/GameShark/Action Replay formats to address-and-value pairs, applied per core — support varies and nothing is guaranteed. In this site's Player: boot your game, add named codes under the Cheats card; they are stored per game in your browser, handed to the engine's cheat manager (EJS_cheats) before boot, and toggled from the cheat icon in the in-game menu.
+
+### Find your own codes: the memory search
+
+Any number a game displays lives at an address. RetroArch's built-in cheat search (since 1.7.4; Quick Menu -> Cheats -> Start or Continue Cheat Search) finds it by elimination: snapshot memory, change the number in-game, keep only addresses that moved the right way (less/greater/exact), repeat until a handful remain, then add and test them one at a time. Traps: transformed values (search direction, not exact) and display-copy decoy addresses.
+
+### Cheat manners: where codes don't belong
+
+Single-player: your game, your difficulty dial. Multiplayer/netplay: off-limits — tampering with a shared session, and one side's altered memory desyncs the rest. Hardcore achievement modes lock cheats out by design. Practice: keep one clean save no cheat session touches, and stack codes one at a time so the last added is the first suspect when something freezes.
 

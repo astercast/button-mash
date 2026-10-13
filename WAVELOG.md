@@ -2,6 +2,101 @@
 
 Running record of build waves. Newest first.
 
+## Wave 25 — 2026-10-12 — "Close the flagged follow-ups": the cheat-code guide, the DuckStation verdict, a taxonomy call left for a human
+
+**What shipped** — rotation 3's self-assessment left three honest items
+on the record. This wave closes two and rules on the third without
+acting on it.
+
+- **The cheat-code guide — wave 20's last flagged gap, closed**:
+  `guides/cheat-codes.html` + a `cheat-codes` record in
+  `data/guides.json` (8 sections, Beginner, ~12 min), a hub card in the
+  emulation deep-dives (now 9 cards), a `build_site.py` page entry, a
+  sitemap entry, and the homepage stat corrected 23 → **24 guides**.
+  Every claim verified against a source outside the repo before it
+  shipped, the Curator standard: a cheat code is an address plus a
+  value (RAM codes vs ROM patches); the Konami Code was Kazuhisa
+  Hashimoto's testing aid for the 1986 NES port of *Gradius* (full
+  power-up set; it shipped still in the game) and *Contra* (1988) made
+  it legend with 30 lives; the Game Genie was developed by Codemasters
+  and sold by Galoob in the US / Camerica in Canada from 1990 — a
+  pass-through cartridge whose six-letter codes patch unconditionally
+  and whose eight-letter codes add a compare byte for bank-switched
+  carts; the lawsuit ended with the Ninth Circuit affirming in 1992
+  (*Lewis Galoob Toys, Inc. v. Nintendo of America, Inc.*) that home
+  cheat use creates no derivative work and is fair use; GameShark was
+  Datel's Action Replay hardware under InterAct's US brand from 1996;
+  RetroArch's built-in cheat search (since 1.7.4) finds codes by
+  elimination. The Player section describes the Cheats tool exactly as
+  shipped (per-game browser storage, `EJS_cheats` injected before boot,
+  in-game-menu toggles, per-core honesty). Legal lane held: codes are
+  numbers, never downloads; multiplayer and hardcore-achievement play
+  are named as out of bounds.
+- **The DuckStation license re-check — verdict: the record was stale,
+  now corrected.** Wave 24 investigated a possible license change and
+  its verification search failed (a tool error, not a finding), so
+  `data/emulators.json` kept saying GPL-3.0. This wave's clean sources
+  settle it: the upstream repo's own license-change commit
+  (`stenzek/duckstation@9ca6b54`, September 2024) removes the GPLv3
+  header in favor of the PolyForm Strict License 1.0.0, and the
+  project then moved to **CC BY-NC-ND 4.0** — corroborated by the
+  archived last-GPL fork's README (`niq1/duckstation-gpl`) and current
+  setup coverage. DuckStation is source-available now, not open
+  source. The catalog record is corrected (`license: "CC BY-NC-ND
+  4.0"`) with the history kept in its notes ("Relicensed Sept 2024:
+  GPL-3.0 until then…"). The other nine emulator licenses were
+  re-checked against the same pass and stand.
+- **Cozy/horror taxonomy — evidence gathered, recommendation
+  recorded, nothing moved.** The two flagged games sit in horror on
+  setting, not on scares. Evidence: (1) **purrgatory**'s own itch page
+  presents it as a whimsical point-and-click visual novel about
+  befriending seven characters in an afterlife — no horror framing
+  anywhere on its store page; this catalog's own description agrees
+  ("Melancholy and sweet"). (2) **Lookouts**' own itch page presents
+  it as "a romance visual novel" about two outlaws "finding refuge in
+  each other, and a little hope for a better life"; its content
+  warnings (alcohol, smoking, gun violence, blood, injury) are
+  western-drama material, and this catalog's description already
+  hedges "(Spooky-tinged.)". (3) Comparable shelving in this same
+  catalog: **Six Cats Under** (a ghost rescuing cats in a
+  point-and-click afterlife) and **goodbye, doggy** (a ghostly dog,
+  "short, tender") sit in **cozy**, as does **Fallen London** (a
+  gothic narrative RPG); the horror shelf's center is dread —
+  *We Become What We Behold*, *Adventures With Anxiety*, *Dating
+  Killmulator 2* — and even its own *Little Troubles in Spooky Town*
+  entry hedges "spooky-cozy, not spooky-scary." Wave 24's own
+  reshelve principle was that genre follows the game's own
+  description, not its furniture.
+  **Taxonomy recommendation**: when a human rules on it, move both
+  **purrgatory** and **Lookouts** to **cozy** (horror 6 → 4, cozy
+  16 → 18, census checks updated in the same wave), and let the same
+  ruling settle *Little Troubles in Spooky Town*. Until that call,
+  both games stay exactly where they were — this wave moves nothing,
+  and `test_curator25.js` pins them in horror so a silent reshelve
+  can never sneak through as a side effect.
+
+**Validation:**
+- `scripts/build.py`: **BUILD OK — 213 games, 24 collections, 10 emulators, 24 guides**; **LEGAL GATE OK (44 pages, 0 piracy links)**
+- `scripts/check_links.py`: **0 broken (43 pages, 1439 local links)**
+- `node scripts/check_api_workflows.js`: **236/236 pass (WF1–WF27)** — new WF27 (5 checks: the cheat guide wired end to end, its verified facts on the page, the DuckStation correction, the taxonomy no-reshelve pin, legal lane); WF13's count moved 23 → 24
+- `node scripts/test_curator25.js`: **ALL PASS (19 checks)** — guide facts as shipped, the surgical license correction (other nine untouched), taxonomy pinned in horror with census unchanged
+- Named suites re-run: `test_identity16` **41/41 ALL PASS** (first attempt; loadavg ~7.5, cleared in ~85s — no stall this time); `test_lineups23` **ALL PASS**; `test_curator24` **ALL PASS** (its guide-count check moved 23 → 24); `test_converter12` **66/66**; `test_player21` **ALL PASSED**
+- Regression: `test_gamenight22` ALL PASS; `test_curatornight21` ALL PASS; `test_gamenight_parity` PARITY OK; `tests/api.test.sh` **40/40**; `test_wave19` ALL PASS; `test_wave17` ALL PASS after one test-rot repair (its hub-card pin moved 8 → 9 for the new card, labeled in the check); `test_trophy18` ALL PASSED; `test_party_planner11` ALL PASS; `test_tournament10` ALL PASS; `test_wow1` + powerunit + playertail ALL PASS; `test_bracket` 82/82; `test_bracket_double` 105/105; `test_party11` 36/36
+- `~/workspace/smoke/test.js`: exit 0, zero errors (known CDN tunnel noise only)
+- `node --check`: clean on every new/edited JS file; AI-slop denylist grep clean on all new prose
+- Screenshots inspected: `guides/cheat-codes.html` (template, chips, legal lane, TOC all render; zero pageerrors), homepage hero (3-second read intact; stat band now 24 guides), `emulation.html` hero
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links;
+the cheat guide's only external-facing claims are historical and
+sourced, and its legal note states the lane on the page.
+
+**Self-assessment**: all three rotation-3 flags are now off the
+record — two closed with shipped work, one converted from a vague
+unease into a written evidence file a human can rule on in one read.
+The DuckStation correction is the wave's quiet lesson: "could not
+verify" must never fossilize into "verified false" — the catalog said
+GPL-3.0 for a wave longer than the truth did.
+
 ## Wave 24 — 2026-10-12 — "The Curator, second pass": verified metadata, calibration follow-ups, the NES guide
 
 **What shipped** — three tracks: a fact pass over the catalog with sources

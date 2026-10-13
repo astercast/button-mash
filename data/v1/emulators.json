@@ -1,7 +1,7 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T23:40:19Z",
+  "generated_at": "2026-10-13T00:36:44Z",
   "endpoint": "emulators",
   "description": "Emulator software picks (no ROMs, software only).",
   "count": 10,
@@ -108,9 +108,9 @@
       "bios_note": "Dump from your own PlayStation hardware. Never download one.",
       "bios_required": true,
       "id": "duckstation",
-      "license": "GPL-3.0",
+      "license": "CC BY-NC-ND 4.0",
       "name": "DuckStation",
-      "notes": "Modern, fast PlayStation emulator with gorgeous upscaling.",
+      "notes": "Modern, fast PlayStation emulator with gorgeous upscaling. Relicensed Sept 2024: GPL-3.0 until then, now source-available under CC BY-NC-ND 4.0 (not open source).",
       "platforms": [
         "Windows",
         "macOS",

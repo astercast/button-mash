@@ -58,6 +58,7 @@ GUIDES = [
     ("guides/preserving-your-games.html", "Keep your games forever: the preservation guide"),
     ("guides/gamepad-setup.html", "Controllers in the browser: the gamepad setup guide"),
     ("guides/pico8-spotlight.html", "PICO-8 spotlight: the fantasy console's best corners"),
+    ("guides/cheat-codes.html", "Cheat codes, decoded: Game Genie, GameShark & the Konami Code"),
 ]
 
 

@@ -1,10 +1,10 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T23:40:19Z",
+  "generated_at": "2026-10-13T00:36:44Z",
   "endpoint": "guides",
   "description": "Emulation guides and explainers (summaries; full text in data/guides.json).",
-  "count": 23,
+  "count": 24,
   "guides": [
     {
       "id": "emulatorjs-selfhost",
@@ -211,6 +211,15 @@
       "difficulty": "Beginner",
       "time_minutes": 15,
       "summary": "Meet the fantasy console with thousands of tiny games: Splore, the Lexaloffle BBS, where the gems hide, and how to play everything free in your browser.",
+      "section_count": 8
+    },
+    {
+      "id": "cheat-codes",
+      "slug": "cheat-codes",
+      "title": "Cheat codes, decoded: Game Genie, GameShark & the Konami Code",
+      "difficulty": "Beginner",
+      "time_minutes": 12,
+      "summary": "Every cheat code is an address plus a value. Covers the two families (RAM codes vs ROM patches), the Konami Code's origin (Hashimoto, the 1986 NES Gradius port, Contra's 30 lives in 1988), the Game Genie (Codemasters/Galoob, 1990; six-letter codes patch unconditionally, eight-letter codes add a compare byte), the 1992 Ninth Circuit ruling in Lewis Galoob Toys v. Nintendo that made home cheat use fair use, GameShark/Action Replay (Datel hardware, InterAct's US brand from 1996), cheats in this site's Player (per-game codes via the Cheats tool, EJS_cheats, toggled in the in-game menu), finding your own codes with a RetroArch memory search, and where cheats don't belong (multiplayer, hardcore achievements). Legal lane: codes are numbers, never downloads.",
       "section_count": 8
     }
   ]

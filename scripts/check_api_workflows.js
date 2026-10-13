@@ -441,8 +441,8 @@ check("WF12 AGENT.md + llms.txt mention Converter 3.0",
 // Wave 13: deep-dive guides knowledge hub
 const w13Slugs = ["homebrew-development", "netplay", "save-workflows",
   "crt-shaders-display", "accessibility-in-retro-gaming", "preserving-your-games"];
-check("WF13 guides count 23 (22 + NES, wave 24)",
-  guides.length === 23, guides.length + " guides");
+check("WF13 guides count 24 (23 + cheat-codes, wave 25)",
+  guides.length === 24, guides.length + " guides");
 check("WF13 all 6 new guides in data/v1/guides.json",
   w13Slugs.every((s) => guides.some((g) => g.slug === s)), w13Slugs.join(", "));
 check("WF13 new guide pages exist + load TOC spy script + progress bar",
@@ -1359,6 +1359,39 @@ check("WF26 NES guide: record + page + hub card + pack, all wired",
 check("WF26 no ROM/BIOS download phrasing in wave-24 files",
   !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(
     fs.readFileSync(path.join(ROOT, "guides/nes.html"), "utf8")),
+  "legal lane holds");
+
+// ---- Wave 25: rotation-4 follow-ups — the cheat-code guide (wave 20's
+// last flagged gap), the DuckStation license re-check with a clean source,
+// and the cozy/horror taxonomy call (evidence + recommendation recorded in
+// WAVELOG; deliberately NO reshelve without a human call).
+const cheatHtml = fs.readFileSync(path.join(ROOT, "guides/cheat-codes.html"), "utf8");
+const emuEnv25 = load("data/v1/emulators.json");
+const duck25 = (emuEnv25.emulators || emuEnv25).find((e) => e.id === "duckstation");
+check("WF27 cheat-code guide: record + page + hub card + sitemap, all wired",
+  guides.some((g) => g.id === "cheat-codes" && g.slug === "cheat-codes" && g.section_count === 8) &&
+  cheatHtml.includes('class="guide-page"') && cheatHtml.includes("coin-plate") &&
+  cheatHtml.includes("assets/js/guide-toc.js") && cheatHtml.includes("assets/js/arcade.js") &&
+  fs.readFileSync(path.join(ROOT, "emulation.html"), "utf8").includes("guides/cheat-codes.html") &&
+  fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8").includes("<loc>guides/cheat-codes.html</loc>") &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("cheat-codes"),
+  "the wave-20 flagged cheat-code gap is closed: guide, record, hub card, sitemap, llms");
+check("WF27 cheat-code guide: the verified facts are the ones on the page",
+  cheatHtml.includes("Hashimoto") && cheatHtml.includes("Gradius") && cheatHtml.includes("30 lives") &&
+  cheatHtml.includes("Codemasters") && cheatHtml.includes("Galoob") &&
+  cheatHtml.includes("Lewis Galoob Toys") && cheatHtml.includes("compare") &&
+  cheatHtml.includes("GameShark") && cheatHtml.includes("Datel") && cheatHtml.includes("EJS_cheats"),
+  "konami-code origin, genie makers + compare byte, the 1992 ruling, datel/interact, player wiring");
+check("WF27 DuckStation license corrected with evidence (relicensing verified outside the repo)",
+  !!duck25 && duck25.license === "CC BY-NC-ND 4.0" && /Sept 2024/.test(duck25.notes) &&
+  /GPL-3\.0 until then/.test(duck25.notes),
+  "was GPL-3.0 in the catalog; upstream commit 9ca6b54 (Sept 2024) dropped GPLv3 for PolyForm Strict, then CC BY-NC-ND 4.0");
+check("WF27 taxonomy call recorded, games NOT reshelved (human call pending)",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  fs.readFileSync(path.join(ROOT, "WAVELOG.md"), "utf8").includes("Taxonomy recommendation"),
+  "purrgatory + lookouts stay in horror until a human rules; evidence + recommendation live in the wave-25 WAVELOG entry");
+check("WF27 no ROM/BIOS download phrasing in wave-25 files",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(cheatHtml),
   "legal lane holds");
 
 process.exit(failures ? 1 : 0);

@@ -125,8 +125,8 @@ const g = (id) => byId[id];
     !!pack && pack.guide_slug === "nes" && pack.entries.length >= 3 &&
     pack.entries.every((e) => /^https:\/\//.test(e.url)),
     pack ? pack.entries.map((e) => e.url).join(" ") : "no pack");
-  check("guides: the shelf now holds 23, packs 7",
-    guidesDoc.guides.length === 23 && packsDoc["homebrew-packs"].length === 7,
+  check("guides: the shelf now holds 24 (wave 25 added cheat-codes), packs 7",
+    guidesDoc.guides.length === 24 && packsDoc["homebrew-packs"].length === 7,
     guidesDoc.guides.length + " guides, " + packsDoc["homebrew-packs"].length + " packs");
 }
 

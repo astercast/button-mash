@@ -43,6 +43,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - guides/preserving-your-games.html — Keep your games forever: the preservation guide
 - guides/gamepad-setup.html — Controllers in the browser: the gamepad setup guide
 - guides/pico8-spotlight.html — PICO-8 spotlight: the fantasy console's best corners
+- guides/cheat-codes.html — Cheat codes, decoded: Game Genie, GameShark & the Konami Code
 
 ## Games (213 total)
 
@@ -294,7 +295,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - mGBA [GBA, GB, GBC] — The accuracy king for GBA; also the core in this site's Player and Converter. No BIOS needed. https://mgba.io/
 - SameBoy [GB, GBC] — Cycle-accurate Game Boy / Color emulation, beautifully maintained. https://sameboy.github.io/
 - Mesen [NES, SNES, GB, GBC] — The most accurate NES emulator ever made, with a legendary debugger. Also covers SNES/GB. https://mesen.ca/
-- DuckStation [PlayStation] (needs your own dumped BIOS) — Modern, fast PlayStation emulator with gorgeous upscaling. https://www.duckstation.org/
+- DuckStation [PlayStation] (needs your own dumped BIOS) — Modern, fast PlayStation emulator with gorgeous upscaling. Relicensed Sept 2024: GPL-3.0 until then, now source-available under CC BY-NC-ND 4.0 (not open source). https://www.duckstation.org/
 - PCSX2 [PlayStation 2] (needs your own dumped BIOS) — The long-reigning PS2 emulator, still actively improved. https://pcsx2.net/
 - PPSSPP [PSP] — Plays the PSP library at HD resolutions on almost anything. https://www.ppsspp.org/
 - Dolphin [GameCube, Wii] — GameCube and Wii emulation at HD resolutions. One of the most polished emulators ever made. https://dolphin-emu.org/

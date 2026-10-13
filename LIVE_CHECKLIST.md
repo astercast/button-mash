@@ -90,14 +90,19 @@ Hobby timeout. Frontend calls `/api/*` first (7s timeout) and falls back to
 | `GITHUB_REPO` | set to `astercast/button-mash-live` on the live track so watch commits land there |
 | `REPO_STATIC_PREFIX` | empty = repo root (correct for this snapshot) |
 
-## Known-good status (verified 2026-10-12, wave 24, working repo)
+## Known-good status (verified 2026-10-12, wave 25, working repo)
 
 - `python3 scripts/build.py` → BUILD OK (213 games, 24 collections,
-  10 emulators, 23 guides; game-night twin in sync)
-- Wave 24: WF1–WF26 231/231, api tests 40/40, test_identity16 41/41,
-  test_lineups23 ALL PASS, test_player21 ALL PASSED, test_converter12
-  66/66; NES system guide added (7th per-system guide + 7th homebrew
-  pack); Curator scoring v2.2.0
+  10 emulators, 24 guides; game-night twin in sync)
+- Wave 25: WF1–WF27 236/236, api tests 40/40, test_identity16 41/41,
+  test_lineups23 ALL PASS, test_curator24 ALL PASS, test_curator25
+  ALL PASS (19 checks), test_player21 ALL PASSED, test_converter12
+  66/66; cheat-code guide added (9th deep-dive; 24 guides total);
+  DuckStation license corrected to CC BY-NC-ND 4.0 (Sept 2024
+  relicense, verified against the upstream license-change commit);
+  cozy/horror taxonomy recommendation recorded in WAVELOG, games
+  deliberately NOT reshelved pending a human call; Curator scoring
+  v2.2.0
 - Legal gate → 0 piracy links (40 pages, 213 game URLs; zero ROMs hosted,
   zero ROM/BIOS download links)
 - Link check → 0 broken (39 pages, 1261 local, 76 external)
