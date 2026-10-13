@@ -1866,6 +1866,12 @@ check("WF37 no ROM/BIOS download phrasing on the versus page",
 // llms/sitemap/data), so the block survives rebuilds by
 // construction; these checks are the tripwire that fails the
 // suite if any page ever loses it.
+// Foundry round 6 (absolute-URL catch): og:image/twitter:image
+// must be the ABSOLUTE production URL below — major social
+// crawlers do not resolve site-relative paths, so a relative
+// value renders no card. The local asset at assets/og-card.png
+// is still validated separately (1200x630, present in-repo);
+// the check fails on any regression to a relative path.
 const allPages38 = [];
 (function walk38(dir) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -1888,14 +1894,15 @@ check("WF38 og wiring: every page carries og:image + summary_large_image, titles
     const title = (t.match(/<title>([^<]*)<\/title>/) || [])[1];
     const desc = (t.match(/<meta name="description" content="([^"]*)">/) || [])[1];
     const img = (t.match(/<meta property="og:image" content="([^"]*)">/) || [])[1];
-    return title && desc && img && img.endsWith("assets/og-card.png") &&
+    const ABS_OG = "https://button-mash-live.vercel.app/assets/og-card.png";
+    return title && desc && img && img === ABS_OG &&
       t.includes('<meta name="twitter:card" content="summary_large_image">') &&
       t.includes('<meta property="og:title" content="' + title + '">') &&
       t.includes('<meta property="og:description" content="' + desc + '">') &&
-      t.includes('<meta name="twitter:image" content="' + img + '">') &&
-      fs.existsSync(path.resolve(path.dirname(f), img));
+      t.includes('<meta name="twitter:image" content="' + ABS_OG + '">') &&
+      fs.existsSync(path.join(ROOT, "assets/og-card.png"));
   }),
-  "46 pages; og:image resolves to a real file from every page's depth; no invented copy");
+  "46 pages; og:image + twitter:image are the absolute https://button-mash-live.vercel.app/assets/og-card.png (relative paths fail — crawlers require absolute URLs); local asset validated by the check above; no invented copy");
 check("WF38 QA-006: homepage has exactly one h1 — the hero title; the cabinet marquee sign is an h2",
   (fs.readFileSync(path.join(ROOT, "index.html"), "utf8").match(/<h1[\s>]/g) || []).length === 1 &&
   vsHtml && fs.readFileSync(path.join(ROOT, "index.html"), "utf8").includes('<h1 class="hero-title">') &&

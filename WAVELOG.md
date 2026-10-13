@@ -2,6 +2,39 @@
 
 Running record of build waves. Newest first.
 
+## Addendum — 2026-10-13 — Foundry round 6 absolute-URL catch (priority fix)
+
+- **Before (relative, crawler-blind):** rotation 12 / Foundry
+  round 2 wired `og:image` + `twitter:image` on all 46 pages
+  with site-relative paths (`assets/og-card.png` at root,
+  `../assets/og-card.png` one level down). Browsers resolve
+  those, but major social crawlers require absolute URLs — as
+  wired, shared links rendered no card.
+- **After (absolute):** every page's `og:image` and
+  `twitter:image` is now the single absolute URL
+  `https://button-mash-live.vercel.app/assets/og-card.png`
+  (46 pages × 2 tags; grep confirms 46 absolute, 0 relative).
+  The local asset is unchanged (`assets/og-card.png`,
+  1200×630, byte-stable).
+- **Tripwire:** WF38 in `scripts/check_api_workflows.js` now
+  requires that exact absolute URL on every page (strict
+  equality, so any regression to a relative path fails —
+  verified by a negative test: reverting one page to relative
+  made WF38 fail, 306/307) and still validates the local asset
+  at `assets/og-card.png` (present, 1200×630).
+- **General rule for the fleet:** sites with live domains
+  absolutize `og:image`/`twitter:image` in the working repo;
+  sites without one carry a GO_LIVE.md deploy-time note to
+  absolutize when a host is confirmed — never an invented
+  domain.
+- **Validation:** `node scripts/check_api_workflows.js`
+  **307/307 pass (WF1–WF38, incl. updated WF38)**;
+  `scripts/build.py` **BUILD OK** (213 games, LEGAL GATE OK);
+  `scripts/check_links.py` **LINK CHECK OK — 46 pages, 1731
+  local links, 0 broken**. The build's timestamp-only
+  `data/v1` regeneration churn was reverted — this fix is
+  pages + tripwire + this entry only.
+
 ## Wave 33 — 2026-10-13 — Versus, the completeness audit, and the free-tier audit
 
 **What shipped** — three tracks: a flagship (Versus, head-to-head
