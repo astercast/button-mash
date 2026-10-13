@@ -1544,4 +1544,52 @@ check("WF31 no ROM/BIOS download phrasing in wave-29 entries",
     byId24["prince-of-persia"].description),
   "legal lane holds");
 
+// ---- Wave 30: the full-catalog claim census. Wave 29 closed
+// the Curator's named list; this wave counts what no pass ever
+// scoped — every year/maker/superlative claim in all 213
+// descriptions, by the definitions in test_curator30. Finding:
+// 119 claim instances across 72 entries; 88 verified in waves
+// 24–29; 31 instances across 29 entries remain unverified
+// (5 year, 19 maker/attribution, 7 superlative), each named in
+// test_curator30's remainder lists. Nothing was fixed or
+// reshelved this wave — the census is the finding.
+check("WF32 census: the catalog and claim totals reconcile",
+  games.length === 213 &&
+  games.filter((g) => /\b(19|20)\d\d\b/.test(g.description)).length === 47,
+  "213 entries; 47 explicit-year hits = 46 year claims + 2048's title number");
+check("WF32 census: the unverified year remainder stands as counted",
+  byId24["urban-dead"].description.includes("2005") &&
+  byId24["minecraft-classic"].description.includes("2009") &&
+  byId24["dare-to-doku"].description.includes("2026") &&
+  byId24["recoil-foundry"].description.includes("2026") &&
+  byId24["adventure-capitalist"].description.includes("2015"),
+  "five year claims no pass has checked outside the repo, left exactly as written");
+check("WF32 census: the unverified maker remainder stands as counted",
+  byId24["song-maker"].description.includes("Google's") &&
+  byId24["doing-work"].description.includes("Pippin Barr's") &&
+  byId24["chogue"].description.includes("Pippin Barr's") &&
+  byId24["subway-surfers"].description.includes("SYBO's") &&
+  byId24["sort-the-court"].description.includes("Graebor's") &&
+  byId24["nested"].description.includes("Cookie Clicker creator") &&
+  byId24["tristram"].description.includes("Ludum Dare 55"),
+  "named makers, official-status and provenance claims — 19 in the full remainder list in test_curator30");
+check("WF32 census: the unverified superlative remainder stands as counted",
+  byId24["canabalt"].description.includes("started a genre") &&
+  byId24["cookie-clicker"].description.includes("defined idle games") &&
+  byId24["agar"].description.includes("defined .io games") &&
+  byId24["powder-game"].description.includes("The original falling-sand toy") &&
+  byId24["spelunky-classic"].description.includes("The original free Spelunky"),
+  "precedence claims — 7 in the full remainder list in test_curator30");
+check("WF32 taxonomy: STILL not reshelved — the brief's call stays with the human",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules");
+check("WF32 no ROM/BIOS download phrasing in the census remainder entries",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(
+    byId24["urban-dead"].description + byId24["canabalt"].description +
+    byId24["sort-the-court"].description),
+  "legal lane holds");
+
 process.exit(failures ? 1 : 0);

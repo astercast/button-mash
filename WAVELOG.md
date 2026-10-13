@@ -2,6 +2,105 @@
 
 Running record of build waves. Newest first.
 
+## Wave 30 — 2026-10-12 — The census: every claim in the catalog, counted
+
+**What shipped** — wave 29 closed the Curator's named list: every
+tranche waves 24–28 queued has been worked, and its self-assessment
+named the only thing left — "scattered year/maker claims outside
+the retro/DOS/Flash shelves, if a future pass wants to sweep the
+whole catalog description by description." This wave is that
+sweep, run as a census rather than a pass: it verifies nothing new
+and fixes nothing, and its finding is the size and shape of the
+remainder, with every unverified claim named.
+
+- **The census** (`scripts/test_curator30.js`): all 213 game
+  descriptions read claim by claim under three definitions — a
+  YEAR claim is an explicit 4-digit release/era year (2048's title
+  number is not a year; a setting's decade is not a release year);
+  a MAKER claim names a person/studio/collective, claims official
+  status for the linked build, or claims a lineage/provenance
+  (host credits and character possessives do not count); a
+  SUPERLATIVE claim is a checkable precedence assertion
+  (first/original/pioneer/defined/started/named-the-genre), with
+  subjective puffery and numeric/content counts out of scope by
+  rule, and open-source/free claims out of scope because wave 26
+  closed that audit. **The count: 72 of 213 entries carry at
+  least one such claim — 119 claim instances in all. 88 instances
+  across 43 entries stand verified by waves 24–29. 31 instances
+  across 29 entries remain unverified: 5 year, 19 maker/
+  attribution, 7 superlative. The other 141 entries carry no
+  claim of these types at all.**
+- **The remainder, by type.** *Year (5):* Urban Dead's "2005
+  classic," Minecraft Classic's 2009, Dare to Doku's GBA Jam
+  2026, Recoil Foundry's "2026 jam gem," AdVenture Capitalist's
+  "ate 2015." *Maker/attribution (19):* the named possessives
+  (Google's Song Maker, Pippin Barr's two entries, SYBO, Madbox,
+  Voodoo, Scopely, Pseudo-Corp, Divine Games, Hyper Hippo,
+  Graebor, Player03), the official-status claims (Codenames,
+  Vampire Survivors' web demo, Tanki, Tatham's JavaScript
+  builds, and the "officially on Poki/Kongregate" riders inside
+  the SYBO/Madbox/Scopely/Divine Games entries), and the
+  provenance claims (Nested's "Cookie Clicker creator,"
+  Tristram's Ludum Dare 55, Arras.io's diep.io succession).
+  *Superlative (7):* Canabalt "started a genre," Cookie Clicker
+  and Agar.io each "defined" their form, and four "original"
+  claims — Celeste Classic, Spelunky Classic, Powder Game, and
+  Minecraft Classic's "original 32 blocks."
+- **Honest edges, recorded in the test so they are not
+  re-litigated:** three remainder entries are partially verified
+  on other axes — Minecraft Classic's free claim and Synergism's
+  and Arras.io's open-source claims were checked in wave 26;
+  their year/original and maker claims were not. Angband counts
+  in the verified-superlative set as a closed case: wave 24
+  removed its superlative rather than verifying it. Five
+  keyword hits are ruled non-claims (2048's name-number,
+  Astray's "first person," PICO-8's platform possessive,
+  Absurdle's "Wordle's twin" genre metaphor, Universal
+  Paperclips' pronouns). The census is load-bearing, not a
+  snapshot: test_curator30's gate fails any future description
+  that adds a year, maker, or precedence claim anywhere in the
+  catalog until a curator pass accounts for it — the remainder
+  can only shrink by verification, never grow by drift.
+- **Taxonomy: still untouched, deliberately.** The
+  TAXONOMY_BRIEF.md call stays **UNDECIDED**; purrgatory,
+  Lookouts and Little Troubles in Spooky Town remain pinned in
+  horror (census 213 / horror 6 / cozy 16), now enforced by
+  `test_curator30` and WF32 alongside 25–29.
+- **Agentic surface**: WF32 (6 checks — the census totals, the
+  three remainders standing as counted, the still-pinned
+  taxonomy, legal lane) — **267/267 pass (WF1–WF32)**. New
+  `scripts/test_curator30.js`: **ALL PASS (16 checks)** — the
+  headline numbers, every remainder claim's marker present in
+  its description, the keyword gate, the exact year-scan
+  reconciliation (47 hits = 46 year claims + 2048's title).
+
+**Validation:**
+- `scripts/build.py`: **BUILD OK — 213 games, 24 collections, 10 emulators, 24 guides**; **LEGAL GATE OK (44 pages, 0 piracy links)**
+- `scripts/check_links.py`: **0 broken (43 pages, 1439 local links)**
+- `node scripts/check_api_workflows.js`: **267/267 pass (WF1–WF32)**
+- `node scripts/test_curator30.js`: **ALL PASS (16 checks)** (new)
+- Named suites re-run: `test_identity16` **41/41 ALL PASS** (fourth attempt; attempts 1–3 reproduced the documented load stall exactly — 28/41 green, zero assertion failures, `waitCards` timeout at loadavg ~8.1–11.7 — and attempt 4 at ~11.3 ran clean, the wave-24/27/29 pattern end to end); `test_lineups23` **ALL PASS**; `test_curator24` **ALL PASS**; `test_curator25` **ALL PASS**; `test_curator26` **ALL PASS**; `test_curator27` **ALL PASS**; `test_curator28` **ALL PASS**; `test_curator29` **ALL PASS**; `test_converter12` **66/66**; `test_player21` **ALL PASSED**
+- Regression: `test_gamenight_parity` PARITY OK; `test_gamenight22` ALL PASS; `test_curatornight21` ALL PASS (solo re-run — its loaded batch run showed 1 failure, zero on re-run); `test_wave19` ALL PASS; `test_wave17` ALL PASS; `test_trophy18` ALL PASSED; `test_party_planner11` ALL PASS; `test_tournament10` ALL PASS; `test_bracket` 82/82; `test_bracket_double` 105/105; `test_party11` 36/36; `test_wow1` ALL PASS (solo re-run — 1 failure in the loaded batch run, zero on re-run) + powerunit ALL PASS + playertail PASS; `tests/api.test.sh` **40/40**; `~/workspace/smoke/test.js`: exit 0, zero errors (known CDN tunnel noise only)
+- `node --check`: clean on the new/edited JS; AI-slop denylist grep clean on all new prose; no TODOs or dead code in the wave's files
+- Screenshots inspected: homepage hero (3-second read intact — eyebrow, H1, one CTA) and `games.html` directory hero ("213 games. Zero installs."), both over file:// with zero pageerrors
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links.
+
+**Self-assessment**: the census reframes the Curator's work:
+five passes verified the famous shelves, and what is left is
+not a shelf at all — it is 29 scattered entries, most of them
+modern web games whose descriptions casually name a studio or
+claim an "official" build, plus a handful of precedence claims
+("defined idle games," "started a genre," four "originals")
+that read as flavor and are exactly the class of claim waves
+24–29 kept finding wrong on the retro shelves. Nothing in the
+remainder is known false; it is known *unchecked*, which is a
+different and now precisely bounded problem. A future pass can
+work it in tranches — the seven superlatives first (cheapest to
+settle, likeliest to be wrong in the Transport Tycoon way),
+then the five years, then the maker/official list, which needs
+the linked builds checked as much as the names.
+
 ## Wave 29 — 2026-10-12 — Curator pass 5: the DOS/shareware shelf
 
 **What shipped** — the Curator's fifth pass works the tranche wave
