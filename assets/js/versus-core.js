@@ -9,8 +9,9 @@
  *   records — data/games.json (title, url, genre, controls,
  *   description, tags), data/collections.json (which shelves hold
  *   the game), data/kids.json's curated set (the Kids corner audit
- *   pass), and the two genre deep dives that exist on this site
- *   (genres/roguelike.html, genres/cozy.html). Nothing is scored,
+ *   pass), and the genre deep dives that exist on this site
+ *   (genres/roguelike.html, genres/cozy.html, genres/puzzle.html).
+ *   Nothing is scored,
  *   ranked, or rated: there are no invented numbers anywhere in
  *   this module, and no winner is ever declared.
  *
@@ -55,7 +56,7 @@
 
   /* The only genres with a deep-dive page on this site. A game in
      another genre has no dive — the row says so by absence. */
-  var GENRE_DIVES = { roguelike: 'genres/roguelike.html', cozy: 'genres/cozy.html' };
+  var GENRE_DIVES = { roguelike: 'genres/roguelike.html', cozy: 'genres/cozy.html', puzzle: 'genres/puzzle.html' };
 
   function hostOf(url) {
     var m = /^https:\/\/([^/]+)/.exec(String(url || ''));
