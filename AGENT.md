@@ -146,6 +146,27 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
    See versus.html, or just send the user to versus.html?a=<id>&b=<id>.
 ```
 
+### 9. "Compare two emulators side by side" (Emulator Side-by-Side, wave 34)
+
+```
+1. GET data/v1/emulators.json (10 records).
+2. Resolve both ids through the records — unknown ids are dropped, never guessed;
+   an emulator cannot face itself.
+3. Build each side with BMEmulatorVersus.profile (assets/js/emulator-versus-core.js):
+   systems/platforms/license/BIOS copied verbatim. A systems list counts ONLY when
+   every entry names a specific system — RetroArch ("Dozens via cores"), EmulatorJS
+   ("and more") and webretro ("Many via libretro cores") are shown, never counted.
+4. BMEmulatorVersus.compare returns verdict lines ONLY where the records support
+   them (listed-system/platform counts, one-sided BIOS need, license difference)
+   plus common-ground lines. Never invent a score, ranking, or winner.
+5. The surprise pairing is SEEDED (Seed-Reckoning): BMEmulatorVersus.seededPair —
+   FNV-1a(seed + sorted ids) -> mulberry32. Same seed + same catalog = same pairing;
+   the seed rides in the link (?ea=&eb=&seed=) and on the share card. Versus's
+   surprise button deals the same way (BMVersus.seededPair). No unseeded
+   Math.random touches a content-bearing pick on either surface.
+   See the #side-by-side section of emulation.html.
+```
+
 ### 7. "Run a tournament night for the games themselves" (Tournament Night)
 
 ```

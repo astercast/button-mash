@@ -186,11 +186,14 @@ def main():
         check(isinstance(e.get("reason"), str) and e["reason"].strip(),
               f"{where}: exclusion reason must be non-empty")
 
-    # --- external links inside guide HTML: allowlist ---
+    # --- external links inside guide HTML bodies: allowlist ---
+    # (Heads are out of scope: since wave 34 they carry the site's own
+    # canonical URL on the recorded production host, which is not a
+    # guide-body reference link.)
     allowed = game_domains | REFERENCE_DOMAINS
     href_re = re.compile(r'href="(https?://[^"]+)"')
     for html in sorted((ROOT / "guides").glob("*.html")):
-        for m in href_re.finditer(html.read_text()):
+        for m in href_re.finditer(html.read_text().partition("</head>")[2]):
             host = urlparse(m.group(1)).hostname or ""
             if host not in allowed:
                 fail(f"{html.name}: external link to non-allowlisted domain {host!r} ({m.group(1)[:70]})")
@@ -224,8 +227,137 @@ def main():
             print(" -", e)
         sys.exit(1)
 
+    wire_placement(games, collections, emulators)
+    if errors:
+        print("BUILD FAILED:")
+        for e in errors:
+            print(" -", e)
+        sys.exit(1)
+
     print(f"BUILD OK — {len(games)} games ({len(game_domains)} domains), "
           f"{len(collections)} collections, {len(emulators)} emulators, {len(guides)} guides")
+
+
+# ---------------------------------------------------------------------------
+# Placement pass (wave 34, completing rotation 12's OG/absolute-URL work).
+# Page heads are source in this repo, but the placement block is WIRED
+# HERE, at the generator level, so a rebuild re-stamps every page and a
+# hand-edit that drops a line is healed (and WF39 fails the suite if the
+# wiring itself ever stops producing it). Per page, in <head>, right
+# after the twitter:image meta:
+#   - rel="canonical": absolute, self-referential, on the one recorded
+#     production host (the same host WF38 pins for og:image).
+#   - theme-color: #07070f — the --bg token verbatim (cabinet black),
+#     per the Foundry icon/theme proposal.
+#   - file favicons: the proposal's head block, with depth-relative
+#     hrefs (the repo's link checker and file:// browsing cannot
+#     resolve root-absolute hrefs; the live host serves the same
+#     files from the same root). Files: favicon.ico/.svg,
+#     apple-touch-icon.png (+ icon-192/512 for manifests/installers).
+#   - og:image:width/height: the OG card's real 1200x630.
+# JSON-LD is stamped between bm-jsonld markers only where a list
+# honestly fits, built from the real records loaded above — an
+# ItemList of the catalog on games.html, of the collections on
+# collections.html, of the emulator picks on emulation.html, and a
+# WebSite block on the homepage. No ratings, no prices, nothing
+# invented. robots.txt is regenerated here too (allow-all + the
+# sitemap this repo publishes).
+HOST = "https://button-mash-live.vercel.app"
+
+_STRIP_RES = [
+    re.compile(r'<link rel="canonical"[^>]*>\n?'),
+    re.compile(r'<meta name="theme-color"[^>]*>\n?'),
+    re.compile(r'<link rel="icon"[^>]*>\n?'),
+    re.compile(r'<link rel="apple-touch-icon"[^>]*>\n?'),
+    re.compile(r'<meta property="og:image:(?:width|height)"[^>]*>\n?'),
+    re.compile(r'<!-- bm-jsonld:start -->.*?<!-- bm-jsonld:end -->\n?', re.S),
+]
+
+
+def _canonical_for(rel):
+    return HOST + "/" if rel == "index.html" else HOST + "/" + rel
+
+
+def _jsonld_for(rel, head, games, collections, emulators):
+    if rel == "index.html":
+        m = re.search(r'<meta name="description" content="([^"]*)">', head)
+        return {"@context": "https://schema.org", "@type": "WebSite",
+                "name": "Button Mash", "url": HOST + "/",
+                "description": m.group(1) if m else ""}
+    if rel == "games.html":
+        return {"@context": "https://schema.org", "@type": "ItemList",
+                "name": "Button Mash game catalog",
+                "numberOfItems": len(games),
+                "itemListElement": [
+                    {"@type": "ListItem", "position": i + 1, "name": g["title"],
+                     "url": HOST + "/game.html?id=" + g["id"]}
+                    for i, g in enumerate(games)]}
+    if rel == "collections.html":
+        return {"@context": "https://schema.org", "@type": "ItemList",
+                "name": "Button Mash collections",
+                "numberOfItems": len(collections),
+                "itemListElement": [
+                    {"@type": "ListItem", "position": i + 1, "name": c["title"],
+                     "url": HOST + "/collections.html#shelf-" + c["id"]}
+                    for i, c in enumerate(collections)]}
+    if rel == "emulation.html":
+        return {"@context": "https://schema.org", "@type": "ItemList",
+                "name": "Button Mash emulator picks",
+                "numberOfItems": len(emulators),
+                "itemListElement": [
+                    {"@type": "ListItem", "position": i + 1, "name": e["name"],
+                     "url": e["url"]}
+                    for i, e in enumerate(emulators)]}
+    return None
+
+
+def wire_placement(games, collections, emulators):
+    pages = sorted(
+        p for p in ROOT.rglob("*.html")
+        if ".git" not in p.parts
+        and not p.relative_to(ROOT).as_posix().startswith("assets/vendor/"))
+    stamped = 0
+    for page in pages:
+        rel = page.relative_to(ROOT).as_posix()
+        text = page.read_text()
+        head, sep, rest = text.partition("</head>")
+        if not sep:
+            fail(f"{rel}: no </head> — cannot wire placement block")
+            continue
+        for rx in _STRIP_RES:
+            head = rx.sub("", head)
+        prefix = "../" * rel.count("/")
+        block = "\n".join([
+            f'<link rel="canonical" href="{_canonical_for(rel)}">',
+            '<meta name="theme-color" content="#07070f">',
+            f'<link rel="icon" href="{prefix}favicon.ico" sizes="48x48">',
+            f'<link rel="icon" href="{prefix}favicon.svg" type="image/svg+xml">',
+            f'<link rel="apple-touch-icon" href="{prefix}apple-touch-icon.png">',
+            '<meta property="og:image:width" content="1200">',
+            '<meta property="og:image:height" content="630">',
+        ])
+        ld = _jsonld_for(rel, head, games, collections, emulators)
+        if ld is not None:
+            block += ("\n<!-- bm-jsonld:start -->\n"
+                      '<script type="application/ld+json" data-bm-jsonld>\n'
+                      + json.dumps(ld, indent=1, ensure_ascii=False)
+                      + "\n</script>\n<!-- bm-jsonld:end -->")
+        anchor = '<meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">'
+        if anchor not in head:
+            fail(f"{rel}: twitter:image anchor missing — placement block not wired")
+            continue
+        head = head.replace(anchor, anchor + "\n" + block, 1)
+        new_text = head + sep + rest
+        if new_text != text:
+            page.write_text(new_text)
+            stamped += 1
+    robots = ("User-agent: *\nAllow: /\n\n"
+              f"Sitemap: {HOST}/sitemap.xml\n")
+    robots_path = ROOT / "robots.txt"
+    if not robots_path.exists() or robots_path.read_text() != robots:
+        robots_path.write_text(robots)
+    print(f"placement wiring: {len(pages)} pages stamped "
+          f"({stamped} updated), robots.txt in place")
 
 
 if __name__ == "__main__":

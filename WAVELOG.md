@@ -2,6 +2,189 @@
 
 Running record of build waves. Newest first.
 
+## Wave 34 — 2026-10-13 — HEADLINE (stated before building): Emulator Side-by-Side + the Placement Pass completed
+
+**Headline**: the post-Versus frontier the wave-33 completeness
+audit named — "no emulator side-by-side (10 emulators, compared
+only in guide prose): emulator records differ in shape and
+deserve their own treatment of the Versus pattern" — lands as a
+side-by-side section on the Emulation hub itself (no new page:
+the 46-page surface and its pins hold). Any two of the 10
+emulator records side by side from `data/emulators.json` only,
+with a verdict strip limited to what the records support.
+**Seed discipline (Seed-Reckoning pattern, named here for the
+technique ledger)**: the surprise pairing is SEEDED — an FNV-1a
+hash of the recorded seed string + the sorted catalog ids feeds
+a mulberry32 PRNG; the seed is shown on the page and printed on
+the share card, so the same seed against the same catalog deals
+the same pairing every time. No unseeded `Math.random` touches
+a content-bearing pick on the new surface, and Versus's own
+surprise button is converted to the same seeded mechanism this
+wave. **Placement Pass remainder** (rotation 12 landed the OG
+card + absolute URLs; this wave completes the rest):
+`robots.txt`, absolute self-referential `rel="canonical"` on
+all pages, honest JSON-LD (ItemList from real game/collection/
+emulator records only), `theme-color` + file favicons from the
+Foundry icon proposal — all wired at the generator level in
+`scripts/build.py` and pinned by new WF39/WF40 tripwires.
+Taxonomy untouched: TAXONOMY_BRIEF.md stays **UNDECIDED**
+(213 / horror 6 / cozy 16); census untouched (117/117 verified).
+
+**What shipped**
+
+- **FLAGSHIP — Emulator Side-by-Side** (`emulation.html`
+  `#side-by-side` + `assets/js/emulator-versus-core.js` (UMD,
+  `BM.EmulatorVersus`) + `assets/js/emulator-versus.js` +
+  `assets/css/emulator-versus.css`, reusing versus.css's
+  fight-card layout): any two of the 10 emulator records side by
+  side — systems, platforms, license, the BIOS story, each
+  project's own notes verbatim. The verdict strip reports only
+  record-backed lines: a listed-system count (only when both
+  lists are countable), a platform count, a one-sided BIOS need,
+  a license difference reported as a difference. No scores, no
+  rankings, no winner. Pairings are URL state
+  (`emulation.html?ea=&eb=&seed=`; unknown ids drop with a note,
+  an emulator cannot face itself) with a plain-text share card.
+  Registration: AGENT.md workflow 9, build_site llms/PAGES lines,
+  WF40, `test_emulatorversus34.js`.
+- **The counting rule is the flagship's honesty work.** Three
+  of the 10 records describe their reach in words, not lists —
+  RetroArch's systems are "Dozens via cores," EmulatorJS's list
+  ends "and more," webretro's is "Many via libretro cores."
+  Those lists render verbatim and are never counted, no systems
+  verdict is ever computed against them, and the common-ground
+  lines say why. Platform lists are specific on all 10 records,
+  so platform counts always stand.
+- **SEED DISCIPLINE — the seeded surprise (Seed-Reckoning,
+  adopted from the 9th-site test-bed; technique ledger).** Both
+  surprise surfaces deal from a recorded seed: an FNV-1a hash of
+  the seed string plus the SORTED catalog ids feeds a mulberry32
+  PRNG. The seed sits in the seed box, rides in the pairing URL,
+  and prints on the share card — the same seed against the same
+  catalog deals the same pairing every time, and anyone can
+  re-deal it and check. Versus's surprise button — this site's
+  last unseeded `Math.random` content pick — is converted to
+  the identical mechanism (`BMVersus.seededPair`, seed box on
+  versus.html); WF40 regex-pins that no `Math.random` call
+  remains in any of the four surface files. Dealt in tests:
+  seed "cabinet-34" → Mesen vs mGBA; "first-coin" → Missile
+  Command vs Cookie Clicker.
+- **PLACEMENT PASS REMAINDER — generator-wired**
+  (`scripts/build.py` `wire_placement`, idempotent: a second
+  build stamps 0 pages). **Canonical**: absolute,
+  self-referential, on the recorded host — 46/46 pages (root
+  URL for index.html). **robots.txt**: allow-all + the
+  `Sitemap:` pointer (this repo publishes sitemap.xml; its
+  `<loc>` entries stay relative per the WF6/7/13/17/18/21/23
+  pins — the robots pointer carries the absolute URL the spec
+  requires). **JSON-LD**, stamped from the real records only
+  and only where a list honestly fits: ItemList of the 213
+  games (games.html), of the 24 collections (collections.html),
+  of the 10 emulator picks (emulation.html), WebSite on the
+  homepage — no ratings, no prices; the records carry none.
+  **theme-color + favicons** (Foundry icon/theme proposal):
+  `#07070f` — the `--bg` token verbatim — on all 46 pages, and
+  the button mark (cabinet-black field, bezel ring `#45456e`,
+  one neon-pink disc `#ff2e88`, ink highlight arc) as
+  `favicon.svg` (master), `favicon.ico` (16/32/48),
+  `apple-touch-icon.png` (180×180), `icon-192/512.png`, all at
+  the repo root. One deviation, forced and recorded: the
+  proposal's head block uses root-absolute hrefs; this repo's
+  link checker and file:// browsing cannot resolve those, so
+  the links are depth-relative to the same root files (the OG
+  rollout's own original form). **`og:image:width/height`**
+  1200/630 on all pages — the Foundry's standing minor, closed.
+  Two existing checks were aligned to their intent on the way:
+  build.py's guide allowlist scan and WF17 now scope to
+  reference links — the head canonical is the site's own
+  recorded host, not a guide reference.
+- **RULE 1762**: line endings audited — **0 CRLF files**
+  tree-wide; `.gitattributes` added, pinning `* text eol=lf`
+  **with binary carve-outs** (`*.png`/`*.ico`/`*.woff2`/… marked
+  `binary`). The carve-outs are load-bearing, and the catch is
+  recorded for the fleet: a bare `* text eol=lf` made git
+  normalize CRLF byte pairs inside the new PNG/ICO files on
+  `git add` — the committed blobs differed from disk (verified
+  by sha256) until the attributes were fixed and the files
+  re-added byte-identical. A line-ending pin that silently
+  rewrites binary assets is worse than no pin.
+- **Commons adoptions (align-on-touch, noted per the rule)**:
+  the canonical sibling of rotation 12's OG-absolutize pattern
+  (same recorded host, strict-equality WF pin — WF39), the
+  Foundry icon/theme proposal (values verbatim), and the
+  Seed-Reckoning seed discipline from the 9th-site test-bed.
+
+**Validation (wave 34, final runs):**
+- `scripts/build.py`: **BUILD OK — 213 games (149 domains), 24
+  collections, 10 emulators, 24 guides**; **LEGAL GATE OK (47
+  pages, 213 game URLs, 0 piracy links)**; placement wiring
+  stamps 46 pages on first build, 0 on rebuild (idempotent).
+  The build's timestamp-only `data/v1` regeneration churn was
+  reverted — this wave is pages + wiring + assets + this entry.
+- `scripts/check_links.py`: **LINK CHECK OK — 46 pages, 1874
+  local links, 125 external links, 0 broken** (local count up
+  from 1731: the per-page canonical/favicon links resolve).
+- `node scripts/check_api_workflows.js`: **320/320 pass
+  (WF1–WF40)** — new WF39 (7 checks: canonical exact on 46,
+  theme/favicon/og-dims block, favicon files + geometry tokens,
+  robots, JSON-LD derivation + honesty, taxonomy pin) + WF40
+  (6 checks: emulator profiles/counting rule, verdict
+  discipline, seed reproducibility on both surfaces, the
+  no-`Math.random`-call pin, page wiring, taxonomy pin).
+- New `test_emulatorversus34`: **ALL PASS (18 checks)** — core
+  units on the real records, seeded-deal reproducibility in the
+  page (deal → core's exact pairing → seed in URL + on card),
+  dropped-id note, 390px zero overflow, zero pageerrors.
+- Named suites re-run, all green: `test_versus33` ALL PASS;
+  `test_curator24`–`test_curator32` ALL PASS (census closed,
+  untouched); `test_tournamentnight32` ALL PASS;
+  `test_passport31` ALL PASS; `test_lineups23` ALL PASS;
+  `test_converter12` 66/66; `test_player21` ALL PASSED;
+  `test_gamenight_parity` PARITY OK; `test_gamenight22` ALL
+  PASS; `test_curatornight21` ALL PASS; `test_wave17` ALL PASS
+  (emulation hub incl. the new section, zero pageerrors);
+  `test_wave19` ALL PASS; `test_trophy18` ALL PASSED;
+  `test_party_planner11` ALL PASS; `test_tournament10` ALL
+  PASS; `test_bracket` 82/82; `test_bracket_double` 105/105;
+  `test_party11` 36/36; `test_wow1` **WOW1 ALL CHECKS PASS**;
+  `tests/api.test.sh` **40/40**; `~/workspace/smoke/test.js` exit 0.
+- **Regression sweep (grep + rendered)**: og:image absolute
+  **46/46** pages (0 relative); canonical absolute **46/46**;
+  exactly-one-`<h1>`: 45 pages static, and game.html — whose
+  title is data — renders exactly one (`h1Count = 1`, "Zork I")
+  via game-detail.js, the pre-existing pattern, verified
+  headless with zero pageerrors; emulation.html rendered
+  `h1 = 1` with both side-by-side cards up.
+- **Load honesty, stated plainly**: the box ran loadavg
+  ~10–14 through the rotation. `test_identity16` reproduced
+  its documented stall signature exactly in the battery and in
+  two solo re-runs — 28 PASS lines counted, **zero assertion
+  failures**, `waitCards` timeout at the same call site as
+  waves 30/31 — and is reported as load-blocked, not passed.
+  Every other suite completed clean on this tree.
+- `node --check`: clean on all new/edited JS; AI-slop denylist
+  grep clean on all wave-34 prose; no TODOs in the wave's files.
+- Screenshots inspected (zero pageerrors): `emulation.html`
+  side-by-side desktop (mgba vs DuckStation: cards, BIOS +
+  license lines) + 390px mobile; archived to
+  `~/workspace/progress-archive/button-mash/rotation-013/`.
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download
+links.
+
+**Self-assessment**: wave 33's audit said the emulator records
+"deserve their own treatment of the Versus pattern" because
+their shape differs — the shape difference turned out to be the
+interesting part: a third of the records refuse to be counted,
+and a comparison tool that counted them anyway would have been
+inventing precision. The seeded surprise is the wave's other
+product: two surfaces that used to roll dice now show their
+work, and the seed on the share card means a pairing somebody
+screenshots can be re-dealt and verified by anyone, forever,
+from two recorded inputs. The placement pass closes the same
+way the OG fix did — wired in the generator, pinned by strict
+checks, and verified by counts rather than by looking.
+
 ## Addendum — 2026-10-13 — Foundry round 6 absolute-URL catch (priority fix)
 
 - **Before (relative, crawler-blind):** rotation 12 / Foundry

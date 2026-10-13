@@ -190,11 +190,52 @@
     return { a: a || null, b: b || null, dropped: dropped };
   }
 
+  /* ---------------- seeded surprise (wave 34, Seed-Reckoning) ----------------
+     Versus's surprise pairing used to roll unseeded Math.random.
+     It now deals from a recorded seed exactly like Emulator
+     Side-by-Side: FNV-1a over the seed + the sorted catalog ids,
+     mulberry32 to pick. Same seed + same catalog = same pairing,
+     and the seed prints on the share card. */
+
+  function hashSeed(str) {
+    var h = 0x811c9dc5;
+    var s = String(str);
+    for (var i = 0; i < s.length; i++) {
+      h ^= s.charCodeAt(i);
+      h = Math.imul(h, 0x01000193);
+    }
+    return h >>> 0;
+  }
+
+  function mulberry32(seedInt) {
+    var t = seedInt >>> 0;
+    return function () {
+      t = (t + 0x6D2B79F5) >>> 0;
+      var r = t;
+      r = Math.imul(r ^ (r >>> 15), r | 1);
+      r ^= r + Math.imul(r ^ (r >>> 7), r | 61);
+      return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function seededPair(seed, games) {
+    if (typeof seed !== 'string' || !seed.trim()) return null;
+    var ids = (games || []).map(function (g) { return g && g.id; })
+      .filter(function (id) { return typeof id === 'string' && id; })
+      .sort();
+    if (ids.length < 2) return null;
+    var rand = mulberry32(hashSeed(seed.trim() + '|' + ids.join(',')));
+    var i = Math.floor(rand() * ids.length);
+    var j = Math.floor(rand() * (ids.length - 1));
+    if (j >= i) j += 1;
+    return { seed: seed.trim(), aId: ids[i], bId: ids[j], inputs: ids };
+  }
+
   /* ---------------- the share card ----------------
      Plain text, paste-anywhere. Only the rows and verdict lines
      the comparison itself produced — no score, no winner. */
 
-  function shareCard(cmp, pairUrl) {
+  function shareCard(cmp, pairUrl, seed) {
     if (!cmp || !cmp.ok) return '';
     var a = cmp.a, b = cmp.b;
     function row(label, va, vb) { return '  ' + label + ': ' + va + ' | ' + vb; }
@@ -219,6 +260,9 @@
       lines.push('', 'Common ground:');
       cmp.common.forEach(function (t) { lines.push('  • ' + t); });
     }
+    if (seed) {
+      lines.push('', 'Seeded pairing — seed: "' + seed + '". Same seed + same catalog deals this same pairing; re-deal it on the Versus page and check.');
+    }
     lines.push('', 'Play ' + a.title + ': ' + a.url, 'Play ' + b.title + ': ' + b.url);
     if (pairUrl) lines.push('This pairing: ' + pairUrl);
     return lines.join('\n');
@@ -232,6 +276,9 @@
     compare: compare,
     encodePair: encodePair,
     parsePair: parsePair,
+    hashSeed: hashSeed,
+    mulberry32: mulberry32,
+    seededPair: seededPair,
     shareCard: shareCard,
   };
 }));

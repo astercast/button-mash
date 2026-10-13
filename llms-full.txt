@@ -21,7 +21,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - genres/roguelike.html, genres/cozy.html — genre deep dives with start-here picks
 
 ## Learn
-- emulation.html — emulation hub
+- emulation.html — emulation hub, incl. Emulator Side-by-Side (any two of the 10 picks, record against record; seeded surprise pairing)
 - monster-taming.html — original-IP monster-taming games + GBA-to-WASM tech
 - play-legal.html — the one clear legal page
 - guides/emulatorjs-self-hosting.html — EmulatorJS self-hosting guide

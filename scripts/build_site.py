@@ -24,7 +24,7 @@ PAGES = [
     ("kids.html", "Kids corner: kid-safe browser games, no chat, age bands 5–7 / 8–10 / 11–12, parent notes on every game, reduced-motion default"),
     ("parents.html", "Parent guide: how Kids corner curation works, the honesty policy, common-sense screen-time tips, the 'one more level' save-state trick"),
     ("collections.html", "Hand-built game collections"),
-    ("emulation.html", "Emulation hub: guides, explainers, legal sources"),
+    ("emulation.html", "Emulation hub: guides, explainers, legal sources, and Emulator Side-by-Side — any two of the 10 emulator picks record against record (systems, platforms, license, BIOS) with a record-backed verdict strip and a seeded surprise pairing (recorded seed + sorted ids, FNV-1a/mulberry32 — same seed, same pairing)"),
     ("monster-taming.html", "Monster-taming corner: original-IP creature games + GBA tech"),
     ("trophy-room.html", "The Trophy Room: persistent play-tracking — games played/beaten, per-genre completion dials, 16-prize achievement case, collection progress, JSON export/import"),
     ("passport.html", "Arcade Passport: a stamp booklet for the 24 collections — a stamp lands when a shelf actually scrolls into view on the Collections page, guide marks derive from the guides' own checklist store; browser-local only, no play telemetry"),
@@ -106,7 +106,7 @@ def build_llms():
     lines.append("- genres/roguelike.html, genres/cozy.html — genre deep dives with start-here picks")
     lines.append("")
     lines.append("## Learn")
-    lines.append("- emulation.html — emulation hub")
+    lines.append("- emulation.html — emulation hub, incl. Emulator Side-by-Side (any two of the 10 picks, record against record; seeded surprise pairing)")
     lines.append("- monster-taming.html — original-IP monster-taming games + GBA-to-WASM tech")
     lines.append("- play-legal.html — the one clear legal page")
     for slug, title in GUIDES:

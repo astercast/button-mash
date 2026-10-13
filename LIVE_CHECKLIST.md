@@ -205,6 +205,39 @@ when a snapshot is next ordered.
   GitHub commit path is the only outbound write (skipped when the
   token is absent).
 
+## Placement pass — wave 34 (2026-10-13, working repo)
+
+Completes the placement remainder rotation 12 started (OG card +
+absolute og:image, WF38). All of it is wired at the generator
+level (`scripts/build.py` `wire_placement`, idempotent — a second
+build stamps 0 pages) and pinned by WF39/WF40 (suite 320/320):
+
+- **Canonical**: `rel="canonical"` on all 46 pages, absolute and
+  self-referential on the recorded host
+  `https://button-mash-live.vercel.app` (root URL for index.html).
+- **robots.txt**: allow-all + `Sitemap:` pointer to the published
+  `sitemap.xml` (whose `<loc>` entries stay relative — WF6/7/13/
+  17/18/21/23 pin that form; the robots pointer is the absolute
+  URL the spec requires).
+- **JSON-LD**: stamped only where a list honestly fits, from the
+  real records — ItemList of the 213 games (games.html), of the
+  24 collections (collections.html), of the 10 emulator picks
+  (emulation.html), WebSite on index.html. No ratings/prices.
+- **theme-color + favicons**: `#07070f` (the `--bg` token
+  verbatim) and the Foundry icon proposal's button mark —
+  `favicon.svg` (master), `favicon.ico` (16/32/48),
+  `apple-touch-icon.png` (180), `icon-192/512.png` — files at the
+  repo root, linked depth-relative (the link checker and file://
+  browsing cannot resolve root-absolute hrefs; same files, same
+  root on the live host). Plus `og:image:width/height` 1200/630.
+- **Line endings (Rule 1762)**: audited — 0 CRLF files in the
+  tree; `.gitattributes` now pins `* text eol=lf`.
+- **Commons adoptions this wave**: align-on-touch — the OG
+  absolutize pattern's canonical sibling (same recorded host,
+  strict-equality WF pin), the Foundry icon/theme proposal
+  (values verbatim), and the Seed-Reckoning seed discipline
+  adopted from the 9th-site test-bed onto both surprise surfaces.
+
 ## After the deploy
 
 - Vercel project: Framework Preset **Other**, no build command, output `.`

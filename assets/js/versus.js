@@ -26,10 +26,12 @@
     return n;
   }
 
-  var state = { games: [], byId: {}, ctx: null };
+  var state = { games: [], byId: {}, ctx: null, lastSeed: null };
 
   function pairUrl(a, b) {
-    return 'versus.html?' + V.encodePair(a, b);
+    var q = V.encodePair(a, b);
+    if (state.lastSeed) q += '&seed=' + encodeURIComponent(state.lastSeed);
+    return 'versus.html?' + q;
   }
 
   function fillPicker(sel, games, selected) {
@@ -105,7 +107,8 @@
 
     /* Keep the URL honest: it always names the current pairing. */
     try {
-      var qs = (aId || bId) ? '?' + V.encodePair(aId || '', bId || '') : '';
+      var qs = (aId || bId) ? '?' + V.encodePair(aId || '', bId || '') +
+        (state.lastSeed ? '&seed=' + encodeURIComponent(state.lastSeed) : '') : '';
       history.replaceState(null, '', 'versus.html' + qs);
     } catch (e) { /* file:// in some browsers — the page still works */ }
 
@@ -156,7 +159,7 @@
 
     var absUrl = pairUrl(cmp.a.id, cmp.b.id);
     try { absUrl = new URL(absUrl, location.href).href; } catch (e) { /* keep relative */ }
-    $('vs-card-text').textContent = V.shareCard(cmp, absUrl);
+    $('vs-card-text').textContent = V.shareCard(cmp, absUrl, state.lastSeed);
     cardBox.hidden = false;
     $('vs-live').textContent = cmp.thin
       ? cmp.a.title + ' versus ' + cmp.b.title + ': no basis to compare in the catalog records.'
@@ -182,6 +185,11 @@
     var pair = V.parsePair(location.search, state.byId);
     fillPicker($('vs-a'), games, pair.a);
     fillPicker($('vs-b'), games, pair.b);
+    var seedParam = (new URLSearchParams(location.search).get('seed') || '').trim();
+    if (seedParam) {
+      state.lastSeed = seedParam;
+      $('vs-seed').value = seedParam;
+    }
     /* A bare visit gets an honest default pairing to look at:
        the catalog's first game against its oldest dated record —
        chosen from the data, labelled as a starter, changeable. */
@@ -206,22 +214,32 @@
 
   function init() {
     if (!V) { $('vs-error').textContent = 'The Versus engine did not load — reload the page.'; return; }
-    $('vs-a').addEventListener('change', render);
-    $('vs-b').addEventListener('change', render);
+    $('vs-a').addEventListener('change', function () { state.lastSeed = null; render(); });
+    $('vs-b').addEventListener('change', function () { state.lastSeed = null; render(); });
     $('vs-swap').addEventListener('click', function () {
       var a = $('vs-a').value;
       $('vs-a').value = $('vs-b').value;
       $('vs-b').value = a;
+      state.lastSeed = null;
       render();
     });
+    /* Surprise pairing — SEEDED since wave 34 (Seed-Reckoning):
+       the seed in the seed box deals the pairing via the core's
+       FNV-1a + mulberry32, and the seed rides in the URL and on
+       the share card. Same seed + same catalog = same pairing. */
     $('vs-surprise').addEventListener('click', function () {
       if (state.games.length < 2) return;
-      var i = Math.floor(Math.random() * state.games.length);
-      var j = Math.floor(Math.random() * (state.games.length - 1));
-      if (j >= i) j += 1;
-      $('vs-a').value = state.games[i].id;
-      $('vs-b').value = state.games[j].id;
+      var dealt = V.seededPair($('vs-seed').value, state.games);
+      if (!dealt) {
+        $('vs-error').textContent = 'Type a seed first — any word or phrase. The same seed always deals the same pairing.';
+        return;
+      }
+      state.lastSeed = dealt.seed;
+      $('vs-a').value = dealt.aId;
+      $('vs-b').value = dealt.bId;
+      $('vs-starter').hidden = true;
       render();
+      $('vs-seed-note').textContent = 'Dealt by seed "' + dealt.seed + '" — re-deal it any time; the same seed against the same catalog lands on this exact pairing.';
     });
     $('vs-copy').addEventListener('click', function () {
       copyText($('vs-card-text').textContent, $('vs-copy'), '✓ Card copied');

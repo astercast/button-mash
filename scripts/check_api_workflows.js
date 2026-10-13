@@ -738,7 +738,11 @@ check("WF17 new guides in sitemap + llms.txt + emulation hub",
   "sitemap + llms + hub cards");
 check("WF17 new guide external links on the allowlist",
   ["gamepad-setup", "pico8-spotlight"].every((slug) => {
-    const h = fs.readFileSync(path.join(ROOT, "guides", slug + ".html"), "utf8");
+    /* The wave-34 placement canonical in <head> is the site's own
+       recorded host, not a guide reference link — strip it before
+       the allowlist scan, which governs reference links only. */
+    const h = fs.readFileSync(path.join(ROOT, "guides", slug + ".html"), "utf8")
+      .replace(/<link rel="canonical"[^>]*>/g, "");
     const allowed = ["developer.mozilla.org", "html5gamepad.com", "www.w3.org",
       "lexaloffle.com", "www.lexaloffle.com"];
     const hrefs = [...h.matchAll(/href="(https?:\/\/[^"]+)"/g)].map((m) => m[1]);
@@ -1909,6 +1913,158 @@ check("WF38 QA-006: homepage has exactly one h1 — the hero title; the cabinet 
   fs.readFileSync(path.join(ROOT, "index.html"), "utf8").includes('<h2 class="marquee-title">'),
   "h1Count = 1 on the homepage (QA Corps round 1, verify-close ready)");
 check("WF38 taxonomy: STILL not reshelved — the brief's call stays with the human",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules");
+
+// ---- Wave 34: the Placement Pass, completed. Rotation 12 wired
+// the OG card + absolute og:image (WF38); wave 34 wires the rest
+// at the GENERATOR level (scripts/build.py wire_placement): an
+// absolute self-referential canonical on the recorded host,
+// theme-color from the --bg token, file favicons from the Foundry
+// icon proposal, og:image dimensions, honest JSON-LD stamped
+// from the real records, and robots.txt. These checks pin the
+// stamped output so a page that loses any piece fails the suite.
+const HOST39 = "https://button-mash-live.vercel.app";
+const relOf39 = (f) => path.relative(ROOT, f).split(path.sep).join("/");
+const canonOf39 = (rel) => rel === "index.html" ? HOST39 + "/" : HOST39 + "/" + rel;
+check("WF39 canonical: every page carries exactly one absolute self-referential canonical",
+  allPages38.length === 46 && allPages38.every((f) => {
+    const t = fs.readFileSync(f, "utf8");
+    const hits = t.match(/<link rel="canonical" href="[^"]*">/g) || [];
+    return hits.length === 1 && hits[0] === '<link rel="canonical" href="' + canonOf39(relOf39(f)) + '">';
+  }),
+  "46 pages; canonical = https://button-mash-live.vercel.app/<page> (root for index.html)");
+check("WF39 theme-color + favicons + og dimensions: every page head carries the full placement block",
+  allPages38.every((f) => {
+    const t = fs.readFileSync(f, "utf8");
+    const prefix = "../".repeat(relOf39(f).split("/").length - 1);
+    return t.includes('<meta name="theme-color" content="#07070f">') &&
+      t.includes('<link rel="icon" href="' + prefix + 'favicon.ico" sizes="48x48">') &&
+      t.includes('<link rel="icon" href="' + prefix + 'favicon.svg" type="image/svg+xml">') &&
+      t.includes('<link rel="apple-touch-icon" href="' + prefix + 'apple-touch-icon.png">') &&
+      t.includes('<meta property="og:image:width" content="1200">') &&
+      t.includes('<meta property="og:image:height" content="630">') &&
+      fs.existsSync(path.join(ROOT, "favicon.ico"));
+  }),
+  "theme-color #07070f (the --bg token verbatim); depth-relative icon hrefs resolve to the root files");
+check("WF39 favicon files: the proposal's button mark, in every promised format",
+  (() => {
+    try {
+      const svg = fs.readFileSync(path.join(ROOT, "favicon.svg"), "utf8");
+      const dim = (p) => { const b = fs.readFileSync(path.join(ROOT, p)); return [b.readUInt32BE(16), b.readUInt32BE(20)]; };
+      return svg.includes("#07070f") && svg.includes("#45456e") && svg.includes("#ff2e88") &&
+        fs.statSync(path.join(ROOT, "favicon.ico")).size > 1000 &&
+        JSON.stringify(dim("apple-touch-icon.png")) === "[180,180]" &&
+        JSON.stringify(dim("icon-192.png")) === "[192,192]" &&
+        JSON.stringify(dim("icon-512.png")) === "[512,512]";
+    } catch (e) { return false; }
+  })(),
+  "cabinet-black field, bezel ring #45456e, one neon-pink disc #ff2e88; ico + 180/192/512 PNGs on disk");
+check("WF39 robots.txt: allow-all with the sitemap pointer (this repo publishes sitemap.xml)",
+  (() => {
+    try {
+      const r = fs.readFileSync(path.join(ROOT, "robots.txt"), "utf8");
+      return r.includes("User-agent: *") && r.includes("Allow: /") &&
+        r.includes("Sitemap: " + HOST39 + "/sitemap.xml") && !/Disallow: \/(?!$)/m.test(r.replace("Allow: /", ""));
+    } catch (e) { return false; }
+  })(),
+  "allow-all; the only pointer is the published sitemap");
+check("WF39 JSON-LD: ItemLists derive from the real records, counts and names exact, nothing invented",
+  (() => {
+    try {
+      const ld = (rel) => {
+        const t = fs.readFileSync(path.join(ROOT, rel), "utf8");
+        const m = t.match(/<script type="application\/ld\+json" data-bm-jsonld>([\s\S]*?)<\/script>/);
+        return m ? JSON.parse(m[1]) : null;
+      };
+      const g = ld("games.html"), c = ld("collections.html"), e = ld("emulation.html"), w = ld("index.html");
+      const cols = load("data/v1/collections.json").collections;
+      const emus = load("data/v1/emulators.json").emulators;
+      return g && g["@type"] === "ItemList" && g.numberOfItems === games.length &&
+        g.itemListElement.length === games.length &&
+        g.itemListElement.every((it, i) => it.name === games[i].title && it.url === HOST39 + "/game.html?id=" + games[i].id) &&
+        c && c["@type"] === "ItemList" && c.numberOfItems === cols.length &&
+        c.itemListElement.every((it, i) => it.name === cols[i].title && it.url === HOST39 + "/collections.html#shelf-" + cols[i].id) &&
+        e && e["@type"] === "ItemList" && e.numberOfItems === emus.length &&
+        e.itemListElement.every((it, i) => it.name === emus[i].name && it.url === emus[i].url) &&
+        w && w["@type"] === "WebSite" && w.url === HOST39 + "/";
+    } catch (err) { return false; }
+  })(),
+  "games 213 / collections 24 / emulators 10, in record order; homepage carries WebSite");
+check("WF39 JSON-LD honesty: only the four stamped pages carry it; no ratings, prices, or reviews anywhere",
+  allPages38.every((f) => {
+    const t = fs.readFileSync(f, "utf8");
+    const has = t.includes('type="application/ld+json"');
+    const stamped = ["index.html", "games.html", "collections.html", "emulation.html"].includes(relOf39(f));
+    return has === stamped && !/aggregateRating|"offers"|reviewCount|"price"/.test(t.match(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/)?.[1] || "");
+  }),
+  "ItemList/WebSite only — the records carry no ratings or prices, so the JSON-LD doesn't either");
+check("WF39 taxonomy: STILL not reshelved — the brief's call stays with the human",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules");
+
+// ---- Wave 34 flagship: Emulator Side-by-Side on the Emulation
+// hub (the Versus pattern on the emulator records) + the
+// Seed-Reckoning seed discipline on both surprise surfaces.
+const EV40 = require(path.join(ROOT, "assets/js/emulator-versus-core.js"));
+const VS40 = require(path.join(ROOT, "assets/js/versus-core.js"));
+const emus40 = load("data/v1/emulators.json").emulators;
+const emuById40 = {}; emus40.forEach((e) => { emuById40[e.id] = e; });
+check("WF40 emulator profiles: fields copied verbatim; word-described system lists stay uncounted",
+  EV40.profile(emuById40["mgba"]).systemCount === 3 &&
+  EV40.systemCount(emuById40["retroarch"].systems) === null &&
+  EV40.systemCount(emuById40["emulatorjs"].systems) === null &&
+  EV40.systemCount(emuById40["webretro"].systems) === null &&
+  EV40.profile(emuById40["duckstation"]).biosRequired === true &&
+  EV40.profile(emuById40["duckstation"]).notes === emuById40["duckstation"].notes,
+  "mGBA counts 3; RetroArch/EmulatorJS/webretro describe reach in words — shown, never counted");
+check("WF40 emulator verdicts: only record-backed lines (platforms, BIOS, license), never quality language",
+  (() => {
+    const cmp = EV40.compare(emuById40["mgba"], emuById40["duckstation"]);
+    const uncounted = EV40.compare(emuById40["emulatorjs"], emuById40["mgba"]);
+    return cmp.ok && cmp.verdicts.some((v) => v.kind === "bios") &&
+      cmp.verdicts.every((v) => !/score|rating|better|winner|best/i.test(v.text)) &&
+      !uncounted.verdicts.some((v) => v.kind === "systems") &&
+      uncounted.common.some((t) => t.includes("left uncounted")) &&
+      EV40.compare(emuById40["mgba"], emuById40["mgba"]).ok === false;
+  })(),
+  "BIOS line fires one-sided; no systems verdict against an uncounted list; self-pairing refuses");
+check("WF40 seed discipline: seeded pairs reproduce exactly, on both surprise surfaces",
+  (() => {
+    const a1 = EV40.seededPair("cabinet-34", emus40), a2 = EV40.seededPair("cabinet-34", emus40);
+    const v1 = VS40.seededPair("first-coin", games), v2 = VS40.seededPair("first-coin", games);
+    const variety = new Set(); for (let i = 0; i < 20; i++) { const p = EV40.seededPair("seed-" + i, emus40); variety.add(p.aId + "|" + p.bId); }
+    return a1 && a2 && a1.aId === a2.aId && a1.bId === a2.bId && a1.aId !== a1.bId &&
+      v1 && v2 && v1.aId === v2.aId && v1.bId === v2.bId &&
+      EV40.seededPair("  ", emus40) === null && variety.size >= 5 &&
+      EV40.shareCard(EV40.compare(emuById40["mgba"], emuById40["sameboy"]), "emulation.html?ea=mgba&eb=sameboy", "cabinet-34").includes('seed: "cabinet-34"');
+  })(),
+  "FNV-1a(seed + sorted ids) -> mulberry32; same seed + same catalog = same pairing; empty seed deals nothing");
+check("WF40 no unseeded chance: neither surprise surface calls Math.random",
+  !/Math\.random\s*\(/.test(fs.readFileSync(path.join(ROOT, "assets/js/emulator-versus.js"), "utf8")) &&
+  !/Math\.random\s*\(/.test(fs.readFileSync(path.join(ROOT, "assets/js/emulator-versus-core.js"), "utf8")) &&
+  !/Math\.random\s*\(/.test(fs.readFileSync(path.join(ROOT, "assets/js/versus.js"), "utf8")) &&
+  !/Math\.random\s*\(/.test(fs.readFileSync(path.join(ROOT, "assets/js/versus-core.js"), "utf8")) &&
+  fs.readFileSync(path.join(ROOT, "assets/js/versus.js"), "utf8").includes("seededPair"),
+  "content-bearing picks derive from a recorded seed + recorded inputs only");
+check("WF40 side-by-side page: hub section wired (pickers, seed box, core before UI), Versus seed box wired",
+  (() => {
+    const emu = fs.readFileSync(path.join(ROOT, "emulation.html"), "utf8");
+    const vs = fs.readFileSync(path.join(ROOT, "versus.html"), "utf8");
+    return emu.includes('id="side-by-side"') && emu.includes('id="ev-a"') && emu.includes('id="ev-b"') &&
+      emu.includes('id="ev-seed"') && emu.includes('id="ev-deal"') &&
+      emu.indexOf("emulator-versus-core.js") !== -1 &&
+      emu.indexOf("emulator-versus-core.js") < emu.indexOf("emulator-versus.js") &&
+      vs.includes('id="vs-seed"') && vs.includes("Deal the seeded pairing");
+  })(),
+  "emulation.html #side-by-side + versus.html seed box; exactly one h1 stays pinned by the regression sweep");
+check("WF40 taxonomy: STILL not reshelved — the brief's call stays with the human",
   byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
   byId24["spooky-town"].genre === "horror" &&
   games.filter((g) => g.genre === "horror").length === 6 &&

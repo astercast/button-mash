@@ -13,11 +13,92 @@
 <meta name="twitter:title" content="Emulation Hub — Button Mash">
 <meta name="twitter:description" content="Emulation guides that stay in the legal lane: EmulatorJS setup, RetroArch, mGBA, per-system best emulators, how emulation works, ripping your own games, and legal ROM sources.">
 <meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
+<link rel="canonical" href="https://button-mash-live.vercel.app/emulation.html">
+<meta name="theme-color" content="#07070f">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<!-- bm-jsonld:start -->
+<script type="application/ld+json" data-bm-jsonld>
+{
+ "@context": "https://schema.org",
+ "@type": "ItemList",
+ "name": "Button Mash emulator picks",
+ "numberOfItems": 10,
+ "itemListElement": [
+  {
+   "@type": "ListItem",
+   "position": 1,
+   "name": "EmulatorJS",
+   "url": "https://emulatorjs.org/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 2,
+   "name": "RetroArch",
+   "url": "https://www.retroarch.com/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 3,
+   "name": "mGBA",
+   "url": "https://mgba.io/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 4,
+   "name": "SameBoy",
+   "url": "https://sameboy.github.io/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 5,
+   "name": "Mesen",
+   "url": "https://mesen.ca/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 6,
+   "name": "DuckStation",
+   "url": "https://www.duckstation.org/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 7,
+   "name": "PCSX2",
+   "url": "https://pcsx2.net/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 8,
+   "name": "PPSSPP",
+   "url": "https://www.ppsspp.org/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 9,
+   "name": "Dolphin",
+   "url": "https://dolphin-emu.org/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 10,
+   "name": "webretro",
+   "url": "https://github.com/BinBashBanana/webretro"
+  }
+ ]
+}
+</script>
+<!-- bm-jsonld:end -->
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
 <link rel="stylesheet" href="assets/css/wave16.css">
+<link rel="stylesheet" href="assets/css/versus.css">
+<link rel="stylesheet" href="assets/css/emulator-versus.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -97,6 +178,51 @@
           <a class="card-link" href="system-picker.html">Take the quiz ›</a>
         </article>
       </div>
+    </div>
+  </section>
+
+  <section class="section" id="side-by-side">
+    <div class="wrap">
+      <div class="section-head"><h2><span class="tick">»</span> Emulators, side by side</h2><span class="results-count">the 10 picks, record against record</span></div>
+      <p class="vs-note">The guides above argue in prose; this is the fight card. Pick any two of the cabinet's <strong>10 emulator picks</strong> and their real records sit side by side — systems, platforms, license, the BIOS story, each project's own notes. The verdict strip reports only what the records support: a bigger listed footprint, a BIOS one side needs and the other doesn't, a license difference. No scores, no rankings, no winner. Where a record describes its reach in words ("Dozens via cores"), the words are shown verbatim and left uncounted — a shrug is never compared against a number. Games get the same treatment at <a href="versus.html">Versus</a>.</p>
+      <div class="vs-pickers">
+        <div class="vs-pick">
+          <label for="ev-a"><strong>Corner A</strong></label>
+          <select id="ev-a"></select>
+        </div>
+        <div class="vs-pick-actions">
+          <button class="btn btn-ghost" id="ev-swap" type="button">⇄ Swap corners</button>
+        </div>
+        <div class="vs-pick">
+          <label for="ev-b"><strong>Corner B</strong></label>
+          <select id="ev-b"></select>
+        </div>
+      </div>
+      <div class="ev-seedrow">
+        <div class="vs-pick">
+          <label for="ev-seed"><strong>Surprise seed</strong> — any word or phrase</label>
+          <input id="ev-seed" type="text" value="cabinet-34" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="vs-pick-actions">
+          <button class="btn btn-cyan" id="ev-deal" type="button">🎲 Deal the seeded pairing</button>
+        </div>
+      </div>
+      <p class="vs-note">The deal is seeded, not random: an FNV-1a hash of your seed plus the sorted emulator ids feeds a mulberry32 generator, so the same seed against the same catalog deals the same pairing every time. The seed rides in the pairing link and on the share card — re-deal it and check our work.</p>
+      <p id="ev-error" role="alert"></p>
+      <p class="vs-note" id="ev-seed-note" aria-live="polite"></p>
+      <p class="vs-note" id="ev-starter" hidden>Starter pairing on the marquee: the cabinet's first two picks. Change either corner — or deal a seed — and it is your card.</p>
+      <div id="ev-stage"></div>
+      <div id="ev-verdict" aria-live="polite"></div>
+      <section class="vs-cardbox" id="ev-cardbox" hidden aria-label="Share card">
+        <h3>Share card</h3>
+        <p class="vs-note">Plain text, ready to paste into the group chat. It carries only the rows and verdict lines above.</p>
+        <pre id="ev-card-text"></pre>
+        <div class="vs-actions">
+          <button class="btn btn-cyan" id="ev-copy" type="button">📋 Copy share card</button>
+          <button class="btn btn-ghost" id="ev-copy-link" type="button">🔗 Copy pairing link</button>
+        </div>
+      </section>
+      <p id="ev-live" class="sr-only" aria-live="polite"></p>
     </div>
   </section>
 
@@ -306,5 +432,7 @@
   </div>
 </footer>
 <script src="assets/js/arcade.js"></script>
+<script src="assets/js/emulator-versus-core.js"></script>
+<script src="assets/js/emulator-versus.js"></script>
 </body>
 </html>

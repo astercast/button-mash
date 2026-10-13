@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://button-mash-live.vercel.app/sitemap.xml
