@@ -1,7 +1,7 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-13T05:43:10Z",
+  "generated_at": "2026-10-13T07:02:41Z",
   "endpoint": "games",
   "description": "Curated browser games directory (every URL verified live — never invented).",
   "count": 213,
@@ -1282,7 +1282,7 @@
       "url": "https://pippinbarr.com/chogue/",
       "genre": "roguelike",
       "controls": "Mouse — move like chess",
-      "description": "Chess meets roguelike: every piece you capture joins your party for a dungeon crawl. Pippin Barr's strangest hybrid."
+      "description": "Chess meets roguelike: every piece you capture joins your party for a dungeon crawl. Pippin Barr and Jonathan Lessard's strangest hybrid."
     },
     {
       "id": "absurdle",
@@ -1740,7 +1740,7 @@
     {
       "id": "run-3",
       "title": "Run 3",
-      "url": "https://player03.com/",
+      "url": "https://www.player03.com/run/3/",
       "genre": "action",
       "controls": "Arrow keys / WASD",
       "description": "Player03's endless tunnel-runner: sprint through collapsing space tunnels in the series' official web version."

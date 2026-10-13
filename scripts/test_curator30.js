@@ -32,24 +32,27 @@
      per entry per type: an entry with two unverified claim types
      counts twice in the instance total, once in the entry total.
 
-   THE CENSUS (as updated by wave 31): of 213 entries, 70 carry
-   at least one claim of these types (117 claim instances). 99
-   instances across 52 entries stand verified by waves 24–31.
-   18 instances across 18 entries remain unverified — all of
-   them maker/attribution; every year and superlative claim in
-   the catalog has now been checked. 143 entries carry no claim
-   of these types at all. (Wave 30's original count was 119
-   instances / 88 verified / 31 unverified across 29 entries;
-   wave 31 verified 9 instances, fixed-and-verified 3 more,
-   settled 1 maker claim in passing, and closed 2 instances by
-   removal — Powder Game's false "original" and Recoil Foundry's
-   unsettled "2026 jam gem" — so the instance total itself fell
-   to 117.) Two of the 18 remainder entries are partially
-   verified on other axes — Synergism's and Arras.io's
-   open-source claims were checked in wave 26; their maker
-   claims were not. Angband sits in the verified-superlative
-   list as a closed case: wave 24 removed its superlative rather
-   than verifying it.
+   THE CENSUS (as updated by wave 32): of 213 entries, 70 carry
+   at least one claim of these types (117 claim instances). All
+   117 instances across 70 entries stand verified by waves
+   24–32 — the census is CLOSED: no year, maker/attribution, or
+   superlative claim in the catalog remains unverified. 143
+   entries carry no claim of these types at all. (Wave 30's
+   original count was 119 instances / 88 verified / 31 unverified
+   across 29 entries; wave 31 verified 9 instances, fixed-and-
+   verified 3 more, settled 1 maker claim in passing, and closed
+   2 instances by removal — Powder Game's false "original" and
+   Recoil Foundry's unsettled "2026 jam gem" — so the instance
+   total itself fell to 117. Wave 32 then worked the last
+   tranche, the 18 maker/attribution claims: 17 stand as written
+   and are pinned verbatim in test_curator32, and Chogue's
+   singular possessive was fixed to co-credit its second maker,
+   Jonathan Lessard — pinned fixed-and-verified in the same
+   suite.) Synergism's and Arras.io's open-source claims were
+   checked in wave 26; wave 32 checked their maker claims too.
+   Angband sits in the verified-superlative list as a closed
+   case: wave 24 removed its superlative rather than verifying
+   it.
 
    The gate below makes the census load-bearing: every
    description matching a claim keyword must sit in one of the
@@ -102,6 +105,10 @@ const VERIFIED_MAKER = [
   "bubble-bobble-2", "sfa2", "congo-bongo", "fancy-pants-1",
   "alien-hominid-flash", "dad-n-me", "achievement-unlocked", "time-fcuk",
   "tetris-official", "adventure-capitalist",
+  "codenames", "song-maker", "nested", "tristram", "vampire-survivors",
+  "doing-work", "chogue", "run-3", "subway-surfers", "stickman-hook",
+  "arras-io", "hole-io", "tanki", "stumble-guys", "synergism",
+  "realm-grinder", "tatham-puzzles", "sort-the-court",
 ];
 const VERIFIED_SUPERLATIVE = [
   "zork1", "simcity-1989", "wolfenstein-3d", "civ1", "alone-dark",
@@ -112,30 +119,14 @@ const VERIFIED_SUPERLATIVE = [
 ];
 
 /* ---------------- the unverified remainder, named ----------------
-   Wave 31 worked the year and superlative lists to zero: every
-   claim was verified, fixed-and-verified, or closed by removal
-   (CLOSED_BY_REMOVAL below). Only the maker list remains. */
+   Wave 31 worked the year and superlative lists to zero, and
+   wave 32 worked the maker list to zero the same way: every
+   claim verified, fixed-and-verified (Chogue's co-credit), or
+   closed by removal (CLOSED_BY_REMOVAL below). The remainder
+   lists stand empty — the census is closed, and the gate below
+   is what keeps it closed. */
 const UNVERIFIED_YEAR = [];
-const UNVERIFIED_MAKER = [
-  "codenames",         /* "the official online version" */
-  "song-maker",        /* "Google's … music maker" */
-  "nested",            /* "from the Cookie Clicker creator" */
-  "tristram",          /* "Made in 72 hours for Ludum Dare 55" */
-  "vampire-survivors", /* "the official web demo" */
-  "doing-work",        /* "Pippin Barr's" */
-  "chogue",            /* "Pippin Barr's" */
-  "run-3",             /* "Player03's" + "the series' official web version" */
-  "subway-surfers",    /* "SYBO's" */
-  "stickman-hook",     /* "Madbox's" */
-  "arras-io",          /* "the open-source diep.io successor" (its open-source claim was verified in wave 26) */
-  "hole-io",           /* "Voodoo's" */
-  "tanki",             /* "the official browser tank MMO" */
-  "stumble-guys",      /* "Scopely's official web version" */
-  "synergism",         /* "Pseudo-Corp's" (its open-source claim was verified in wave 26) */
-  "realm-grinder",     /* "Divine Games'" + "officially on Kongregate" */
-  "tatham-puzzles",    /* "official JavaScript builds" */
-  "sort-the-court",    /* "Graebor's" */
-];
+const UNVERIFIED_MAKER = [];
 const UNVERIFIED_SUPERLATIVE = [];
 /* Claims closed by removal in wave 31 — the claim no longer
    exists, so these entries carry nothing for the gate to find:
@@ -159,19 +150,19 @@ const UNVERIFIED = union([UNVERIFIED_YEAR, UNVERIFIED_MAKER, UNVERIFIED_SUPERLAT
 {
   check("census: the catalog still holds 213 entries",
     gamesDoc.games.length === 213, gamesDoc.games.length + " games");
-  check("census: verified claim instances total 99 (45 year + 32 maker + 22 superlative)",
-    VERIFIED_YEAR.length === 45 && VERIFIED_MAKER.length === 32 && VERIFIED_SUPERLATIVE.length === 22 &&
-    VERIFIED_YEAR.length + VERIFIED_MAKER.length + VERIFIED_SUPERLATIVE.length === 99,
-    "waves 24–31, pinned by test_curator24–31 and the wave-26 audit");
-  check("census: 52 entries carry only verified claims of these types",
-    VERIFIED.size === 52, VERIFIED.size + " entries");
-  check("census: the unverified remainder is 18 instances (0 year + 18 maker + 0 superlative)",
-    UNVERIFIED_YEAR.length === 0 && UNVERIFIED_MAKER.length === 18 && UNVERIFIED_SUPERLATIVE.length === 0 &&
-    UNVERIFIED_YEAR.length + UNVERIFIED_MAKER.length + UNVERIFIED_SUPERLATIVE.length === 18,
-    "wave 31 closed the year and superlative lists; the maker list is what remains");
-  check("census: the remainder spans 18 entries, disjoint from the verified set",
-    UNVERIFIED.size === 18 && [...UNVERIFIED].every((id) => !VERIFIED.has(id)),
-    "no entry overlaps a verified entry");
+  check("census: verified claim instances total 117 (45 year + 50 maker + 22 superlative)",
+    VERIFIED_YEAR.length === 45 && VERIFIED_MAKER.length === 50 && VERIFIED_SUPERLATIVE.length === 22 &&
+    VERIFIED_YEAR.length + VERIFIED_MAKER.length + VERIFIED_SUPERLATIVE.length === 117,
+    "waves 24–32, pinned by test_curator24–32 and the wave-26 audit");
+  check("census: 70 entries carry verified claims of these types",
+    VERIFIED.size === 70, VERIFIED.size + " entries");
+  check("census: the unverified remainder is closed — 0 instances of any type",
+    UNVERIFIED_YEAR.length === 0 && UNVERIFIED_MAKER.length === 0 && UNVERIFIED_SUPERLATIVE.length === 0 &&
+    UNVERIFIED_YEAR.length + UNVERIFIED_MAKER.length + UNVERIFIED_SUPERLATIVE.length === 0,
+    "wave 31 closed the year and superlative lists; wave 32 closed the maker list");
+  check("census: the remainder spans 0 entries, disjoint from the verified set",
+    UNVERIFIED.size === 0 && [...UNVERIFIED].every((id) => !VERIFIED.has(id)),
+    "nothing is left unverified");
   check("census: 70 entries carry a claim of these types; 143 carry none",
     VERIFIED.size + UNVERIFIED.size === 70 && gamesDoc.games.length - 70 === 143,
     "117 claim instances in total across the catalog (119 at wave 30; two closed by removal)");
@@ -186,26 +177,26 @@ const UNVERIFIED = union([UNVERIFIED_YEAR, UNVERIFIED_MAKER, UNVERIFIED_SUPERLAT
     "codenames": "official online version", "song-maker": "Google's",
     "nested": "Cookie Clicker creator", "tristram": "Ludum Dare 55",
     "vampire-survivors": "official web demo", "doing-work": "Pippin Barr's",
-    "chogue": "Pippin Barr's", "run-3": "Player03's",
+    "chogue": "Jonathan Lessard's", "run-3": "Player03's",
     "subway-surfers": "SYBO's", "stickman-hook": "Madbox's",
     "arras-io": "successor", "hole-io": "Voodoo's", "tanki": "official",
     "stumble-guys": "Scopely's", "synergism": "Pseudo-Corp's",
     "realm-grinder": "Divine Games'",
     "tatham-puzzles": "official JavaScript builds", "sort-the-court": "Graebor's",
   };
-  check("remainder: every unverified-maker entry carries its named marker",
+  check("closed census: every wave-32 maker entry still carries its named marker, now verified",
     Object.keys(makerMarkers).every((id) => byId[id] && byId[id].description.includes(makerMarkers[id])) &&
-    Object.keys(makerMarkers).length === UNVERIFIED_MAKER.length,
-    "named maker / official status / lineage marker present in each description");
+    Object.keys(makerMarkers).length === 18 && VERIFIED_MAKER.length === 50,
+    "named maker / official status / lineage marker present in each description, all 18 in the verified set");
   const supMarkers = {};
   check("remainder: no superlative claim in the catalog remains unverified",
     Object.keys(supMarkers).length === UNVERIFIED_SUPERLATIVE.length &&
     UNVERIFIED_SUPERLATIVE.length === 0,
     "wave 31 verified, fixed, or removed every precedence claim the census named");
-  check("remainder: the partially verified pair is honestly scoped",
+  check("closed census: the formerly partial pair is now verified on both axes",
     byId["synergism"].description.includes("open-source") &&
     byId["arras-io"].description.includes("open-source"),
-    "wave 26 verified synergism's and arras-io's open-source claims — only those axes; their maker claims remain in the remainder");
+    "wave 26 verified synergism's and arras-io's open-source claims; wave 32 verified their maker claims too");
   check("remainder: the two wave-31 closures by removal carry no claim anymore",
     CLOSED_BY_REMOVAL.every((id) => byId[id] &&
       !/\b(19|20)\d\d\b/.test(byId[id].description) &&
@@ -248,9 +239,9 @@ const UNVERIFIED = union([UNVERIFIED_YEAR, UNVERIFIED_MAKER, UNVERIFIED_SUPERLAT
 
 /* ---------------- prose hygiene + legal lane ---------------- */
 {
-  check("legal lane: no ROM/BIOS download phrasing in any remainder description",
+  check("legal lane: no ROM/BIOS download phrasing in any formerly-remainder description",
     [...UNVERIFIED].every((id) => !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(byId[id].description)),
-    "legal lane holds across the census remainder");
+    "legal lane holds across the closed census");
 }
 
 console.log(failures ? "\n" + failures + " FAILURES" : "\nALL PASS");

@@ -107,7 +107,7 @@ const TRANCHE_YEAR = ["urban-dead", "minecraft-classic", "dare-to-doku",
     byId["song-maker"].description.includes("Google's") &&
     byId["subway-surfers"].description.includes("SYBO's") &&
     byId["sort-the-court"].description.includes("Graebor's"),
-    "18 maker/attribution instances stay unverified for a future pass");
+    "18 maker/attribution instances stayed unverified after this pass; wave 32 (pass 7) worked them all");
 }
 
 /* ------- verified as written, pinned verbatim ------- */

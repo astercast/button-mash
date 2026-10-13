@@ -2,6 +2,124 @@
 
 Running record of build waves. Newest first.
 
+## Wave 32 — 2026-10-13 — Curator pass 7 (the census closes) and Tournament Night
+
+**Recovery note**: this rotation's builder parked mid-build —
+the full wave sat uncommitted in the working tree on top of
+wave 31's `648ae56`. A recovery pass audited the diff file by
+file (games.json, the new tournament-night files, the curator
+suites, the workflow registration), found both duties complete
+and coherent, ran the whole battery below, added this entry,
+and shipped it as one commit. Nothing in the parked diff was
+discarded or rewritten.
+
+**What shipped** — two tracks: Curator pass 7, the final census
+tranche (all 18 remaining unverified maker/attribution claims),
+and a flagship: Tournament Night, a bracket night whose entrants
+are the games themselves. Taxonomy untouched throughout:
+TAXONOMY_BRIEF.md stays **UNDECIDED**, nothing reshelved
+(213 / horror 6 / cozy 16).
+
+- **Curator pass 7 — the maker tranche** (`data/games.json`,
+  each checked 2026-10-12 against sources outside the repo —
+  Wikipedia, MobyGames, the games' own pages, the makers' own
+  sites/repos). **Seventeen stand as written** and are pinned
+  verbatim in `test_curator32`: Codenames (codenames.game is
+  Czech Games Edition's own), Song Maker (Google's Chrome Music
+  Lab), Nested (Orteil's, on his own DashNet domain — its own
+  page's fetch was blocked here, so the pin rests on the domain,
+  Wikipedia, and the secondary record, stated honestly in the
+  suite), Tristram (its own itch page: "MADE IN 72 HOURS FOR
+  LUDUM DARE 55"), Vampire Survivors (poncle's own itch page,
+  whose FAQ calls the web build "pretty much like a demo"),
+  Doing Work (Pippin Barr's own project list), Run 3's maker
+  claim (Player03 is Joseph Cloutier; player03.com is his author
+  site), Subway Surfers (SYBO's; Poki is SYBO's official web
+  partner), Stickman Hook (Madbox, credited on the linked Poki
+  page), arras.io (the record's "fan-made sequel to diep.io" —
+  a successor, exactly as claimed), Hole.io (Voodoo, per
+  Wikipedia), Tanki Online (its own official domain;
+  AlternativaPlatform per Wikipedia), Stumble Guys (Scopely's,
+  on the game's own domain), Synergism (the Pseudo-Corp GitHub
+  org's own Pages build of its SynergismOfficial repo), Realm
+  Grinder (Divine Games per MobyGames/Steam; the linked
+  Kongregate build is the developer's own upload), Simon
+  Tatham's Puzzles (the JS builds on Tatham's own chiark site),
+  Sort the Court (its own itch page credits Graeme Borland,
+  @graebor). **One fix**, an attribution error of the Dad 'n Me
+  family: **Chogue** called itself "Pippin Barr's strangest
+  hybrid" — it is co-created by Pippin Barr AND Jonathan
+  Lessard (the game's own repo and press kit name both); the
+  entry now co-credits Lessard. **One link fix**: Run 3 linked
+  player03.com's root, which the author's own overhaul turned
+  into his blog — the entry now links the game itself at
+  player03.com/run/3/ (a direct fetch of that path failed in
+  this environment; the pin rests on the record plus the
+  author's own blog, stated honestly in the suite).
+- **The census is closed**: 117 claim instances, ALL verified
+  (45 year + 50 maker + 22 superlative); 0 unverified; 70
+  entries carry a claim, 143 carry none. `test_curator30`'s
+  keyword gate is updated to the closed counts and keeps the
+  census closed; `test_curator31`'s remainder note now points
+  at this pass. No fetch in this pass raised a sharing/data
+  approval card; the two sources that could not be fetched
+  directly (Nested's own page, Run 3's /run/3/) were pinned on
+  the surrounding record and named as such in the suite rather
+  than retried through another route.
+- **FLAGSHIP — Tournament Night** (`tournament-night.html` +
+  `assets/js/tournament-night-core.js` + `assets/js/tournament-night.js`
+  + `assets/css/tournament-night.css`): the games take the
+  bracket. Pick a hand-built collection or a saved Game Night
+  lineup (`bm.lineups.v1`, read through the lineups store, never
+  a copy) and its real games seed a single-elimination bracket
+  in source order — first game, top seed, honest top-seed byes —
+  on the cabinet's own bracket engine (`assets/js/bracket.js`;
+  the math is not reinvented). One click picks a match winner;
+  picks persist client-side in `bm.tournament-night.v1`
+  (in-memory fallback with an on-page notice when storage is
+  blocked; a stored night validates whole — bracket players must
+  equal the entrant titles exactly or the night drops, never
+  half-renders). A finished night crowns its champion with the
+  game's real catalog description and play URL, and the results
+  card is plain text listing only matches the bracket actually
+  decided. Registration the established way: nav on all pages,
+  `build_site.py` page + llms lines, AGENT.md workflow 7, sitemap,
+  WF35 (curator pass 7) + WF36 (Tournament Night) in
+  `check_api_workflows.js`, `test_tournamentnight32.js` (27
+  checks: entrants from both sources, seeding, picks, cascade,
+  persistence round-trip, the card, the headless night end to
+  end, 390px zero overflow, zero pageerrors).
+
+**Validation (wave 32, final runs):**
+- `scripts/build.py`: **BUILD OK — 213 games (149 domains), 24 collections, 10 emulators, 24 guides**; **LEGAL GATE OK (46 pages, 213 game URLs, 0 piracy links)**
+- `scripts/check_links.py`: **LINK CHECK OK — 45 pages, 1635 local links, 79 external links, 0 broken**
+- `node scripts/check_api_workflows.js`: **295/295 pass (WF1–WF36)** — new WF35 (8 checks, pass 7 + closed census) + WF36 (tournament night)
+- Curator suites: `test_curator24`–`test_curator32` **ALL PASS** (32 = new: tranche scope, 17 pinned verbatim, Chogue fix + Run 3 link fix pinned, census-closed checks, taxonomy pins)
+- Named suites re-run: `test_tournamentnight32` **ALL PASS (27 checks)**; `test_lineups23` ALL PASS; `test_converter12` 66/66; `test_player21` ALL PASSED; `test_gamenight_parity` PARITY OK; `test_gamenight22` ALL PASS; `test_curatornight21` ALL PASS; `test_wave17` ALL PASS; `test_wave19` ALL PASS; `test_trophy18` ALL PASSED; `test_party_planner11` ALL PASS; `test_tournament10` ALL PASS; `test_passport31` ALL PASS; `test_bracket` 82/82; `test_bracket_double` 105/105; `test_party11` 36/36; `tests/api.test.sh` **40/40**
+- **Load honesty, stated plainly**: the box ran loadavg ~9–10
+  during this recovery. Both documented load-flake suites got
+  clean solo runs this rotation: `test_identity16` **ALL PASS
+  (42 PASS lines)** and `test_wow1` **WOW1 ALL CHECKS PASS (49
+  PASS lines, 0 FAIL)** — solo re-run verdicts, stated as such;
+  their powerunit/playertail sub-suites also passed in the
+  battery. `~/workspace/smoke/test.js`: exit 0.
+- `node --check`: clean on all new JS; AI-slop denylist grep clean on all wave-32 prose; no TODOs in the wave's files
+- Screenshots inspected (zero pageerrors): homepage desktop + 390px mobile (hero intact, Tournament night in nav, stat band 213/113/24/24), `tournament-night.html` desktop + 390px mobile (marquee hero, nav current state, no overflow)
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links.
+
+**Self-assessment**: the census that wave 30 opened at 119
+instances closes at 117, every one of them read against a source
+outside this repo — and the tranche's only error was the shape
+this catalog keeps making: a singular possessive on split work.
+Chogue joins Dad 'n Me in that small, now-twice-documented
+family. Tournament Night is the flagship the bracket engine was
+always pointed at: Tournament 2.0 ran players through games;
+this runs the games themselves, and its honesty rules are the
+passport's — the card lists only what the bracket decided, the
+champion's copy is the catalog's own words, and a corrupt night
+is dropped whole rather than half-shown.
+
 ## Wave 31 — 2026-10-12 — Curator pass 6 (superlatives + years) and the Arcade Passport
 
 **What shipped** — two tracks: the census remainder worked in

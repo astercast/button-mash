@@ -1276,7 +1276,7 @@
       "url": "https://pippinbarr.com/chogue/",
       "genre": "roguelike",
       "controls": "Mouse — move like chess",
-      "description": "Chess meets roguelike: every piece you capture joins your party for a dungeon crawl. Pippin Barr's strangest hybrid."
+      "description": "Chess meets roguelike: every piece you capture joins your party for a dungeon crawl. Pippin Barr and Jonathan Lessard's strangest hybrid."
     },
     {
       "id": "absurdle",
@@ -1734,7 +1734,7 @@
     {
       "id": "run-3",
       "title": "Run 3",
-      "url": "https://player03.com/",
+      "url": "https://www.player03.com/run/3/",
       "genre": "action",
       "controls": "Arrow keys / WASD",
       "description": "Player03's endless tunnel-runner: sprint through collapsing space tunnels in the series' official web version."

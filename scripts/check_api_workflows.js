@@ -1564,15 +1564,15 @@ check("WF32 census: the year remainder is closed (wave 31)",
   !/\b(19|20)\d\d\b/.test(byId24["recoil-foundry"].description) &&
   byId24["adventure-capitalist"].description.includes("2014"),
   "three verified as written; recoil-foundry's unsettled 2026 removed; AdVenture Capitalist corrected 2015 → 2014");
-check("WF32 census: the unverified maker remainder stands as counted",
+check("WF32 census: the maker tranche stood as counted (closed by wave 32 — see WF35)",
   byId24["song-maker"].description.includes("Google's") &&
   byId24["doing-work"].description.includes("Pippin Barr's") &&
-  byId24["chogue"].description.includes("Pippin Barr's") &&
+  byId24["chogue"].description.includes("Jonathan Lessard's") &&
   byId24["subway-surfers"].description.includes("SYBO's") &&
   byId24["sort-the-court"].description.includes("Graebor's") &&
   byId24["nested"].description.includes("Cookie Clicker creator") &&
   byId24["tristram"].description.includes("Ludum Dare 55"),
-  "named makers, official-status and provenance claims — 18 in the full remainder list in test_curator30");
+  "named makers, official-status and provenance claims — the 18-instance tranche test_curator30 counted and test_curator32 closed");
 check("WF32 census: the superlative remainder is closed (wave 31)",
   byId24["canabalt"].description.includes("popularized the endless runner") &&
   byId24["cookie-clicker"].description.includes("popularized idle games") &&
@@ -1694,6 +1694,118 @@ check("WF34 taxonomy: STILL not reshelved — the brief's call stays with the hu
   "horror 6 / cozy 16 until a human rules");
 check("WF34 no ROM/BIOS download phrasing on the passport page",
   !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(ppHtml),
+  "legal lane holds");
+
+// ---- Wave 32: Curator pass 7 — the final tranche. All 18
+// maker/attribution claims worked against sources outside the
+// repo: 17 stand as written (publishers' own pages, makers' own
+// sites/repos, Wikipedia, MobyGames); Chogue's singular
+// possessive is fixed to co-credit Jonathan Lessard alongside
+// Pippin Barr (the Dad 'n Me shape); Run 3's link moves from the
+// author's blog root to /run/3/, the game's own page on the same
+// domain. Census CLOSED: 117 instances, all verified, 0 left.
+check("WF35 curator pass 7 — the verified makers stand as written",
+  byId24["codenames"].description === "The official online version of the word-association party classic." &&
+  byId24["song-maker"].description.includes("Google's") &&
+  byId24["nested"].description.includes("from the Cookie Clicker creator") &&
+  byId24["tristram"].description.includes("Made in 72 hours for Ludum Dare 55") &&
+  byId24["vampire-survivors"].description.includes("The official web demo") &&
+  byId24["tatham-puzzles"].description.includes("official JavaScript builds"),
+  "CGE's own Codenames site; Google's Song Maker; Orteil's Nested; Tristram's own LD55 line; poncle's own demo FAQ; Tatham's own JS builds");
+check("WF35 curator pass 7 — the official-status and linked-build claims stand",
+  byId24["subway-surfers"].description.includes("officially on Poki") &&
+  byId24["stickman-hook"].description.includes("officially on Poki") &&
+  byId24["realm-grinder"].description.includes("officially on Kongregate") &&
+  byId24["realm-grinder"].url.includes("kongregate.com/games/divinegames/") &&
+  byId24["synergism"].url.includes("pseudo-corp.github.io/SynergismOfficial/") &&
+  byId24["stumble-guys"].description.includes("Scopely's official web version"),
+  "SYBO/Poki partnership pages; Madbox credited on its Poki page; Divine Games' own Kongregate upload; Pseudo-Corp's own Pages build; Scopely's own web version");
+check("WF35 curator pass 7 — Chogue co-credits its second maker",
+  byId24["chogue"].description ===
+    "Chess meets roguelike: every piece you capture joins your party for a dungeon crawl. Pippin Barr and Jonathan Lessard's strangest hybrid." &&
+  !byId24["chogue"].description.includes("Pippin Barr's"),
+  "the game's own repo/press kit name Jonathan Lessard and Pippin Barr as its creators");
+check("WF35 curator pass 7 — Run 3 links the game, not the author's blog root",
+  byId24["run-3"].url === "https://www.player03.com/run/3/" &&
+  byId24["run-3"].description.includes("Player03's"),
+  "player03.com's root is now the author's blog; /run/3/ is the release's official author page on the same domain");
+check("WF35 census closed: no claim type has an unverified remainder",
+  games.length === 213 &&
+  games.filter((g) => /\b(19|20)\d\d\b/.test(g.description)).length === 46,
+  "117 of 117 instances verified (45 year + 50 maker + 22 superlative); test_curator30's gate keeps the census closed");
+check("WF35 taxonomy: STILL not reshelved — the brief's call stays with the human",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules");
+check("WF35 no ROM/BIOS download phrasing in wave-32 entries",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(
+    byId24["chogue"].description + byId24["run-3"].description + byId24["nested"].description),
+  "legal lane holds");
+
+// ---- Wave 32 flagship: Tournament Night. A bracket night whose
+// entrants are real catalog games: a saved lineup or a collection
+// seeds a single-elimination bracket in source order on the
+// existing bracket engine (bracket.js); picks persist in
+// bm.tournament-night.v1; the champion and the results card
+// derive from the bracket only. Core: tournament-night-core.js.
+const TN32 = require(path.join(ROOT, "assets/js/tournament-night-core.js"));
+const tnCoreJs = fs.readFileSync(path.join(ROOT, "assets/js/tournament-night-core.js"), "utf8");
+const tnHtml = fs.readFileSync(path.join(ROOT, "tournament-night.html"), "utf8");
+check("WF36 tournament night core: UMD over the existing bracket engine, storage key registered",
+  TN32.STORE_KEY === "bm.tournament-night.v1" && tnCoreJs.includes("require('./bracket.js')") &&
+  tnCoreJs.includes("root.Bracket") && typeof TN32.createNight === "function" &&
+  typeof TN32.resultsCard === "function",
+  "bm.tournament-night.v1; bracket math delegated to bracket.js, never reinvented");
+check("WF36 tournament night: entrants resolve from a real collection, in source order",
+  (() => {
+    const byIdMap = {}; games.forEach((g) => { byIdMap[g.id] = g; });
+    const col = cols.find((c) => c.id === "rainy-day-cozy");
+    const built = TN32.entrantsFromCollection(col, byIdMap);
+    const res = TN32.createNight({ source: { type: "collection", id: col.id, name: col.title }, entrants: built.entrants, now: 1000 });
+    return built.skipped.length === 0 && res.ok &&
+      JSON.stringify(res.night.bracket.players) === JSON.stringify(col.game_ids.map((id) => byIdMap[id].title)) &&
+      res.night.entrants.length === col.game_ids.length;
+  })(),
+  "seeds are the collection's real games, first game = top seed");
+check("WF36 tournament night: picks advance on bracket.js and crown a real champion",
+  (() => {
+    const byIdMap = {}; games.forEach((g) => { byIdMap[g.id] = g; });
+    const four = ["2048", "wordle", "tetrio", "connections"].map((id) => byIdMap[id]);
+    const res = TN32.createNight({ source: { type: "collection", id: "t", name: "T" }, entrants: four, now: 1000 });
+    const n = res.night;
+    TN32.pick(n, 0, 0, "a"); TN32.pick(n, 0, 1, "b");
+    const fin = TN32.pick(n, 1, 0, "a");
+    const champ = TN32.champion(n);
+    return fin.ok && champ && champ.id === "2048" && TN32.progress(n).complete &&
+      TN32.resultsCard(n).includes("CHAMPION: 2048") && TN32.resultsCard(n).includes(champ.url);
+  })(),
+  "two semifinals + a final on the shared engine; the card names the champion with its real play URL");
+check("WF36 tournament night: a corrupt stored night is dropped whole, never half-rendered",
+  TN32.loadNight({ getItem: () => JSON.stringify({ v: 1, name: "X", entrants: [] }), setItem: () => {}, removeItem: () => {} }) === null &&
+  TN32.createNight({ source: { type: "collection", id: "t", name: "T" }, entrants: [games[0]] }).ok === false,
+  "validation is whole-bracket; a one-game source refuses with a plain reason");
+check("WF36 tournament night page: marquee, one primary action, core before UI, nav present",
+  tnHtml.includes('id="tn-start"') && tnHtml.includes("Start the night") &&
+  tnHtml.includes('id="tn-bracket"') && tnHtml.includes('id="tn-card-text"') &&
+  tnHtml.indexOf("assets/js/bracket.js") < tnHtml.indexOf("assets/js/tournament-night-core.js") &&
+  tnHtml.indexOf("assets/js/tournament-night-core.js") < tnHtml.indexOf("assets/js/tournament-night.js") &&
+  tnHtml.includes('href="tournament-night.html" aria-current="page"') &&
+  tnHtml.includes("No invented games. No invented results."),
+  "seed → bracket → champion → results card, wired in dependency order");
+check("WF36 tournament night: lineup sources read the shelf's own store, never a copy",
+  fs.readFileSync(path.join(ROOT, "assets/js/tournament-night.js"), "utf8").includes("BMCuratorLineups.createStore()") &&
+  fs.readFileSync(path.join(ROOT, "assets/js/tournament-night.js"), "utf8").includes("entrantsFromLineup"),
+  "saved lineups resolve through curator-night-lineups.js against the live catalog");
+check("WF36 taxonomy: STILL not reshelved — the brief's call stays with the human",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules");
+check("WF36 no ROM/BIOS download phrasing on the tournament night page",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(tnHtml),
   "legal lane holds");
 
 process.exit(failures ? 1 : 0);
