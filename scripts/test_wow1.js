@@ -13,6 +13,14 @@ const ROOT = "/home/hatch/workspace/button-mash";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const gamesData = JSON.parse(fs.readFileSync(path.join(ROOT, "data/games.json"), "utf8")).games;
+/* Expected callout stats derive from the real catalog files, the
+   same numbers attract.js renders (wave 33 fix: this suite's
+   hardcoded "22 CURATED SHELVES" went stale when the catalog
+   grew to 24 collections — the check then passed or failed on
+   which callout the rotation happened to be showing). */
+const colsData33 = JSON.parse(fs.readFileSync(path.join(ROOT, "data/collections.json"), "utf8")).collections;
+const kidCount33 = JSON.parse(fs.readFileSync(path.join(ROOT, "data/kids.json"), "utf8")).curated.length;
+const CALLOUT_RE33 = new RegExp(gamesData.length + " GAMES ON THE SHELF|" + kidCount33 + " KID-SAFE PICKS|" + colsData33.length + " CURATED SHELVES");
 const SECTION = process.argv[2] || "all";
 const want = (name) => SECTION === "all" || SECTION === name;
 const byId = {};
@@ -178,7 +186,7 @@ const errors = [];
 
   /* stat callouts: real numbers, cycling */
   const callout1 = await page.$eval("#demo-callout", (e) => e.textContent);
-  check("callout shows real catalog stats", /213 GAMES ON THE SHELF|113 KID-SAFE PICKS|22 CURATED SHELVES/.test(callout1), callout1);
+  check("callout shows real catalog stats", CALLOUT_RE33.test(callout1), callout1);
   await sleep(4600);
   const callout2 = await page.$eval("#demo-callout", (e) => e.textContent);
   check("callouts rotate", callout1 !== callout2, callout2);

@@ -103,6 +103,50 @@ all verified, 0 unverified — no new census pass was needed).
   a full game file; the trophy room already tracks collection
   progress; the horror shelf's thinness (6) is the pending
   human taxonomy call, untouched by design.
+- **QA-006 (QA Corps round 1) — homepage had two `<h1>`s.**
+  The hero's "Your browser is the console." is the page's
+  primary first-visit heading and stays the only `<h1>`; the
+  cabinet marquee's "BUTTON MASH" sign (`index.html`,
+  `.marquee-title`) is demoted to `<h2>` — it is the attract
+  cabinet's branding inside a section that already carries its
+  own `<h2>`, not the page heading. No CSS change was needed:
+  `.marquee-title` in attract.css declares its own font, size,
+  and margins, and base.css treats h1/h2 identically, so the
+  rendering is unchanged. Homepage now has exactly one `<h1>`
+  (verified by grep + the headless re-check below); the other
+  pages this wave touched were swept opportunistically and
+  each already has exactly one (versus, tournament-night,
+  passport, collections, game-night).
+- **Foundry round 2 — the OG card, wired site-wide (the
+  canonical pattern, for the Commons to harvest).** The
+  gate-passed card from the Asset Foundry
+  (`fleet-ops/assets/button-mash/og-card.png`, 1200×630,
+  typographic arcade-cabinet treatment, no generated imagery)
+  is copied to **`assets/og-card.png`** — the repo's asset
+  convention — byte-identical to the Foundry source. Every one
+  of the site's 46 pages (root, genres/, guides/; the
+  assets/vendor build template is not a page and is excluded)
+  now carries the same eight-line block **immediately after
+  its `<meta name="description">`**: `og:type` (website),
+  `og:title`, `og:description`, `og:image`,
+  `twitter:card` (**summary_large_image**), `twitter:title`,
+  `twitter:description`, `twitter:image`. Two rules make it
+  canonical: **(1) no invented copy** — og:title is the page's
+  own `<title>` and og:description its own description meta,
+  reused verbatim per page; **(2) generator-safe by pin, not
+  by hope** — page heads are source in this repo (the build
+  regenerates only llms/sitemap/data and cannot strip them),
+  and **WF38** fails the suite if any page loses the block,
+  mistypes the card value, points og:image at a file that does
+  not resolve from that page's depth, or lets the asset drift
+  from 1200×630. og:image is the site-relative path
+  (`assets/og-card.png`, `../assets/og-card.png` one level
+  down): no canonical production host is recorded for this
+  site, and prefixing an invented domain would be worse than
+  an honest relative path — when a host is confirmed, prefix
+  it in one pass and WF38 still holds. Before this wave the
+  fleet grep for og:image on this site returned **zero**; it
+  now returns all 46 pages.
 - **AUDIT WORKSTREAM — free-tier / best-pattern** (full text in
   LIVE_CHECKLIST.md): **5 functions of the 12 cap** (health,
   games, collections, game-night, cron/curator), all
@@ -132,7 +176,8 @@ all verified, 0 unverified — no new census pass was needed).
 **Validation (wave 33, final runs):**
 - `scripts/build.py`: **BUILD OK — 213 games (149 domains), 24 collections, 10 emulators, 24 guides**; **LEGAL GATE OK (47 pages, 213 game URLs, 0 piracy links)**
 - `scripts/check_links.py`: **LINK CHECK OK — 46 pages, 1731 local links, 79 external links, 0 broken**
-- `node scripts/check_api_workflows.js`: **303/303 pass (WF1–WF37)** — new WF37 (8 checks: versus core, census-matched year rule, verdict discipline, thin state, pairing validation, page wiring, taxonomy pin, legal lane)
+- `node scripts/check_api_workflows.js`: **307/307 pass (WF1–WF38)** — new WF37 (8 checks: versus core, census-matched year rule, verdict discipline, thin state, pairing validation, page wiring, taxonomy pin, legal lane) + WF38 (4 checks: OG card asset + wiring on all 46 pages, QA-006 one-h1 pin, taxonomy pin)
+- **QA-006 + Foundry round 2 verification**: rendered-DOM re-sweep of the homepage — `h1Count = 1` (sole h1: the hero title), marquee is `<h2 class="marquee-title">` with computed style unchanged (Press Start 2P, 41.6px at desktop width, declared margins), zero pageerrors; og:image grep returns all 46 pages before and after a full `build.py` rebuild. `test_wow1` note: its hardcoded "22 CURATED SHELVES" expectation had gone stale against the real 24 (the page was right; the check passed only when the rotation sample landed on another callout) — the expectation now derives from data/collections.json + data/kids.json, and the suite runs **WOW1 ALL CHECKS PASS (48 PASS lines)** on the fixed tree; the same suite on a wave-32 worktree also passed, confirming no wave-33 regression in the demo loop
 - New `test_versus33`: **ALL PASS (20 checks)**; curator suites `test_curator24`–`test_curator32` **ALL PASS** (census closed, untouched)
 - Named suites re-run: `test_tournamentnight32` **ALL PASS**; `test_passport31` **ALL PASS**; `test_lineups23` ALL PASS; `test_converter12` 66/66; `test_player21` ALL PASSED; `test_gamenight_parity` PARITY OK; `test_gamenight22` ALL PASS; `test_curatornight21` **ALL PASS (43 checks)** — after the header fix above; its pre-fix runs (batch + two solos) each stopped at 40 PASS with zero assertion failures on the mobile click the header covered, and the fix + probes are documented in the entry; `test_wave17` ALL PASS; `test_wave19` ALL PASS; `test_trophy18` ALL PASSED; `test_party_planner11` ALL PASS; `test_tournament10` ALL PASS; `test_bracket` 82/82; `test_bracket_double` 105/105; `test_party11` 36/36; `tests/api.test.sh` **40/40**
 - **Load honesty, stated plainly**: the box ran loadavg ~8–12

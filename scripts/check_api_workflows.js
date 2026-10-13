@@ -1857,4 +1857,55 @@ check("WF37 no ROM/BIOS download phrasing on the versus page",
   !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(vsHtml),
   "legal lane holds");
 
+// ---- Foundry round 2 + QA-006: social-card wiring and the
+// one-h1 homepage. The OG card (Foundry, gate-passed) lives at
+// assets/og-card.png; every page head carries the og:/twitter:
+// block immediately after its description meta, reusing that
+// page's own <title> and description verbatim — no invented
+// copy. Page heads are source (the build regenerates only
+// llms/sitemap/data), so the block survives rebuilds by
+// construction; these checks are the tripwire that fails the
+// suite if any page ever loses it.
+const allPages38 = [];
+(function walk38(dir) {
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, e.name);
+    if (e.isDirectory()) { if (e.name !== ".git" && !full.includes(path.join("assets", "vendor"))) walk38(full); }
+    else if (e.name.endsWith(".html")) allPages38.push(full);
+  }
+}(ROOT));
+check("WF38 og card: the Foundry asset is in the repo at the canonical path, 1200x630",
+  (() => {
+    try {
+      const buf = fs.readFileSync(path.join(ROOT, "assets/og-card.png"));
+      return buf.length > 10000 && buf.readUInt32BE(16) === 1200 && buf.readUInt32BE(20) === 630;
+    } catch (e) { return false; }
+  })(),
+  "assets/og-card.png — the arcade-cabinet card, copied per the Foundry manifest");
+check("WF38 og wiring: every page carries og:image + summary_large_image, titles/descriptions reused verbatim",
+  allPages38.length === 46 && allPages38.every((f) => {
+    const t = fs.readFileSync(f, "utf8");
+    const title = (t.match(/<title>([^<]*)<\/title>/) || [])[1];
+    const desc = (t.match(/<meta name="description" content="([^"]*)">/) || [])[1];
+    const img = (t.match(/<meta property="og:image" content="([^"]*)">/) || [])[1];
+    return title && desc && img && img.endsWith("assets/og-card.png") &&
+      t.includes('<meta name="twitter:card" content="summary_large_image">') &&
+      t.includes('<meta property="og:title" content="' + title + '">') &&
+      t.includes('<meta property="og:description" content="' + desc + '">') &&
+      t.includes('<meta name="twitter:image" content="' + img + '">') &&
+      fs.existsSync(path.resolve(path.dirname(f), img));
+  }),
+  "46 pages; og:image resolves to a real file from every page's depth; no invented copy");
+check("WF38 QA-006: homepage has exactly one h1 — the hero title; the cabinet marquee sign is an h2",
+  (fs.readFileSync(path.join(ROOT, "index.html"), "utf8").match(/<h1[\s>]/g) || []).length === 1 &&
+  vsHtml && fs.readFileSync(path.join(ROOT, "index.html"), "utf8").includes('<h1 class="hero-title">') &&
+  fs.readFileSync(path.join(ROOT, "index.html"), "utf8").includes('<h2 class="marquee-title">'),
+  "h1Count = 1 on the homepage (QA Corps round 1, verify-close ready)");
+check("WF38 taxonomy: STILL not reshelved — the brief's call stays with the human",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules");
+
 process.exit(failures ? 1 : 0);
