@@ -1,5 +1,5 @@
 /* collections.js — curated shelves, wired to the Curator (wave 19).
-   Static-first: renders all 22 shelves from data/v1/collections.json
+   Static-first: renders all 24 shelves from data/v1/collections.json
    immediately, then probes GET /api/collections through
    ApiClient.fetchWithFallback. Live → the Curator's resolved titles/URLs are
    overlaid onto the shelf rows and the badge reads "live". Miss/timeout →
@@ -80,6 +80,78 @@
       grid.appendChild(card);
     });
     paintShelfProgress(grid, cols);
+    wirePassport(grid, cols);
+  }
+
+  /* Arcade Passport (wave 31): a shelf earns its stamp when it is
+     actually seen — an IntersectionObserver fires as each card
+     enters the viewport, and the first sighting is the one that
+     counts (BM.Passport.stamp never re-dates). Stamped cards wear
+     an ink ribbon; the hero chip carries the running count. No
+     observer support → jump-link clicks and deep-link arrivals
+     stamp instead, the same "you were here" fact by hand. */
+  var ppObserver = null;
+  function paintPassport(grid, cols) {
+    if (!window.BM || !BM.Passport) return;
+    var state = BM.Passport.loadState();
+    grid.querySelectorAll('.collection-card').forEach(function (card) {
+      var id = card.id.replace(/^shelf-/, '');
+      var top = card.querySelector('.card-top');
+      if (!top) return;
+      var ribbon = top.querySelector('.stamp-ribbon');
+      if (BM.Passport.hasStamp(state, id)) {
+        if (!ribbon) {
+          ribbon = BM.el('span', 'stamp-ribbon', 'Stamped');
+          top.appendChild(ribbon);
+        }
+      } else if (ribbon) { ribbon.remove(); }
+    });
+    var chip = document.getElementById('passport-chip');
+    if (chip) {
+      var n = BM.Passport.stampCount(state);
+      chip.innerHTML = '';
+      chip.appendChild(document.createTextNode('Arcade passport: '));
+      chip.appendChild(BM.el('strong', null, n + ' / ' + cols.length + ' stamped'));
+      chip.appendChild(document.createTextNode(' » view the booklet'));
+    }
+  }
+  function stampShelf(id) {
+    if (!window.BM || !BM.Passport) return;
+    var state = BM.Passport.loadState();
+    if (BM.Passport.stamp(state, id)) {
+      BM.Passport.saveState(state);
+      document.dispatchEvent(new CustomEvent('bm:passport-changed'));
+    }
+  }
+  function wirePassport(grid, cols) {
+    if (!window.BM || !BM.Passport) return;
+    paintPassport(grid, cols);
+    if (ppObserver) { ppObserver.disconnect(); ppObserver = null; }
+    if ('IntersectionObserver' in window) {
+      ppObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          stampShelf(en.target.id.replace(/^shelf-/, ''));
+          ppObserver.unobserve(en.target);
+          paintPassport(grid, cols);
+        });
+      }, { threshold: 0.25 });
+      grid.querySelectorAll('.collection-card').forEach(function (card) {
+        var state = BM.Passport.loadState();
+        if (!BM.Passport.hasStamp(state, card.id.replace(/^shelf-/, ''))) ppObserver.observe(card);
+      });
+    } else {
+      var jump = document.getElementById('shelf-jump');
+      if (jump && !jump.hasAttribute('data-pp-fallback')) {
+        jump.setAttribute('data-pp-fallback', '1');
+        jump.addEventListener('click', function (ev) {
+          var href = ev.target && ev.target.getAttribute && ev.target.getAttribute('href');
+          if (href && href.indexOf('#shelf-') === 0) stampShelf(href.slice(7));
+        });
+      }
+      if (location.hash.indexOf('#shelf-') === 0) stampShelf(location.hash.slice(7));
+    }
+    document.addEventListener('bm:passport-changed', function () { paintPassport(grid, cols); });
   }
 
   function paintShelfProgress(grid, cols) {

@@ -32,16 +32,24 @@
      per entry per type: an entry with two unverified claim types
      counts twice in the instance total, once in the entry total.
 
-   THE CENSUS: of 213 entries, 72 carry at least one claim of
-   these types (119 claim instances). 88 instances across 43
-   entries stand verified by waves 24–29. 31 instances across 29
-   entries remain unverified: 5 year, 19 maker/attribution, 7
-   superlative. 141 entries carry no claim of these types at all.
-   Three of the 29 are partially verified on other axes —
-   Minecraft Classic's free claim and Synergism's and Arras.io's
-   open-source claims were checked in wave 26; their
-   year/original and maker claims were not. Angband sits in the verified-superlative list as a closed
-   case: wave 24 removed its superlative rather than verifying it.
+   THE CENSUS (as updated by wave 31): of 213 entries, 70 carry
+   at least one claim of these types (117 claim instances). 99
+   instances across 52 entries stand verified by waves 24–31.
+   18 instances across 18 entries remain unverified — all of
+   them maker/attribution; every year and superlative claim in
+   the catalog has now been checked. 143 entries carry no claim
+   of these types at all. (Wave 30's original count was 119
+   instances / 88 verified / 31 unverified across 29 entries;
+   wave 31 verified 9 instances, fixed-and-verified 3 more,
+   settled 1 maker claim in passing, and closed 2 instances by
+   removal — Powder Game's false "original" and Recoil Foundry's
+   unsettled "2026 jam gem" — so the instance total itself fell
+   to 117.) Two of the 18 remainder entries are partially
+   verified on other axes — Synergism's and Arras.io's
+   open-source claims were checked in wave 26; their maker
+   claims were not. Angband sits in the verified-superlative
+   list as a closed case: wave 24 removed its superlative rather
+   than verifying it.
 
    The gate below makes the census load-bearing: every
    description matching a claim keyword must sit in one of the
@@ -71,7 +79,7 @@ const gamesDoc = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/games.json"
 const byId = {};
 gamesDoc.games.forEach((g) => { byId[g.id] = g; });
 
-/* ---------------- the verified sets (waves 24–29) ---------------- */
+/* ---------------- the verified sets (waves 24–31) ---------------- */
 const VERIFIED_YEAR = [
   "zork1", "simcity-1989", "monkey-island", "lemmings-1991", "theme-park",
   "wolfenstein-3d", "doom-1993", "quake-shareware", "duke3d-shareware",
@@ -82,7 +90,8 @@ const VERIFIED_YEAR = [
   "tempest", "robotron", "1942", "galaga88", "pac-gal-20th",
   "bubble-bobble-2", "sfa2", "congo-bongo", "fancy-pants-1",
   "alien-hominid-flash", "dad-n-me", "achievement-unlocked", "time-fcuk",
-  "nethack-web",
+  "nethack-web", "urban-dead", "minecraft-classic", "dare-to-doku",
+  "adventure-capitalist",
 ];
 const VERIFIED_MAKER = [
   "simcity-1989", "monkey-island", "lemmings-1991", "theme-park",
@@ -92,23 +101,21 @@ const VERIFIED_MAKER = [
   "missile-command", "defender", "qbert", "tempest", "1942", "galaga88",
   "bubble-bobble-2", "sfa2", "congo-bongo", "fancy-pants-1",
   "alien-hominid-flash", "dad-n-me", "achievement-unlocked", "time-fcuk",
-  "tetris-official",
+  "tetris-official", "adventure-capitalist",
 ];
 const VERIFIED_SUPERLATIVE = [
   "zork1", "simcity-1989", "wolfenstein-3d", "civ1", "alone-dark",
   "transport-tycoon", "master-of-orion", "space-invaders", "defender",
   "tempest", "robotron", "1942", "nethack-web", "angband-live",
-  "doom-1993", "prince-of-persia",
+  "doom-1993", "prince-of-persia", "canabalt", "cookie-clicker",
+  "agar", "celeste-classic", "spelunky-classic", "minecraft-classic",
 ];
 
-/* ---------------- the unverified remainder, named ---------------- */
-const UNVERIFIED_YEAR = [
-  "urban-dead",        /* "A 2005 classic" */
-  "minecraft-classic", /* 2009 — its free claim was verified in wave 26, the year was not pinned */
-  "dare-to-doku",      /* "GBA Jam 2026" */
-  "recoil-foundry",    /* "A 2026 jam gem" */
-  "adventure-capitalist", /* "the idle game that ate 2015" */
-];
+/* ---------------- the unverified remainder, named ----------------
+   Wave 31 worked the year and superlative lists to zero: every
+   claim was verified, fixed-and-verified, or closed by removal
+   (CLOSED_BY_REMOVAL below). Only the maker list remains. */
+const UNVERIFIED_YEAR = [];
 const UNVERIFIED_MAKER = [
   "codenames",         /* "the official online version" */
   "song-maker",        /* "Google's … music maker" */
@@ -126,19 +133,16 @@ const UNVERIFIED_MAKER = [
   "stumble-guys",      /* "Scopely's official web version" */
   "synergism",         /* "Pseudo-Corp's" (its open-source claim was verified in wave 26) */
   "realm-grinder",     /* "Divine Games'" + "officially on Kongregate" */
-  "adventure-capitalist", /* "Hyper Hippo's" */
   "tatham-puzzles",    /* "official JavaScript builds" */
   "sort-the-court",    /* "Graebor's" */
 ];
-const UNVERIFIED_SUPERLATIVE = [
-  "canabalt",          /* "the one-button endless runner that started a genre" */
-  "celeste-classic",   /* "The original PICO-8 Celeste" */
-  "cookie-clicker",    /* "The idle game that defined idle games" */
-  "agar",              /* "the cell arena that defined .io games" */
-  "minecraft-classic", /* "the original 32 blocks" */
-  "spelunky-classic",  /* "The original free Spelunky" */
-  "powder-game",       /* "The original falling-sand toy" */
-];
+const UNVERIFIED_SUPERLATIVE = [];
+/* Claims closed by removal in wave 31 — the claim no longer
+   exists, so these entries carry nothing for the gate to find:
+   powder-game's "original falling-sand toy" (false — the 2005
+   Dofi-Blog applet is the genre's original) and recoil-foundry's
+   "2026 jam gem" (no source settles a jam or a year). */
+const CLOSED_BY_REMOVAL = ["powder-game", "recoil-foundry"];
 /* Keyword hits that are not claims of these types, by rule:
    2048 (the number is the game's name and goal), astray ("first
    person"), poom ("PICO-8's" names the platform, not a maker),
@@ -155,22 +159,22 @@ const UNVERIFIED = union([UNVERIFIED_YEAR, UNVERIFIED_MAKER, UNVERIFIED_SUPERLAT
 {
   check("census: the catalog still holds 213 entries",
     gamesDoc.games.length === 213, gamesDoc.games.length + " games");
-  check("census: verified claim instances total 88 (41 year + 31 maker + 16 superlative)",
-    VERIFIED_YEAR.length === 41 && VERIFIED_MAKER.length === 31 && VERIFIED_SUPERLATIVE.length === 16 &&
-    VERIFIED_YEAR.length + VERIFIED_MAKER.length + VERIFIED_SUPERLATIVE.length === 88,
-    "waves 24–29, pinned by test_curator24–29 and the wave-26 audit");
-  check("census: 43 entries carry only verified claims of these types",
-    VERIFIED.size === 43, VERIFIED.size + " entries");
-  check("census: the unverified remainder is 31 instances (5 year + 19 maker + 7 superlative)",
-    UNVERIFIED_YEAR.length === 5 && UNVERIFIED_MAKER.length === 19 && UNVERIFIED_SUPERLATIVE.length === 7 &&
-    UNVERIFIED_YEAR.length + UNVERIFIED_MAKER.length + UNVERIFIED_SUPERLATIVE.length === 31,
-    "the wave-30 finding, named entry by entry in the lists above");
-  check("census: the remainder spans 29 entries, disjoint from the verified set",
-    UNVERIFIED.size === 29 && [...UNVERIFIED].every((id) => !VERIFIED.has(id)),
-    "two entries overlap types (adventure-capitalist year+maker, minecraft-classic year+superlative), none overlaps a verified entry");
-  check("census: 72 entries carry a claim of these types; 141 carry none",
-    VERIFIED.size + UNVERIFIED.size === 72 && gamesDoc.games.length - 72 === 141,
-    "119 claim instances in total across the catalog");
+  check("census: verified claim instances total 99 (45 year + 32 maker + 22 superlative)",
+    VERIFIED_YEAR.length === 45 && VERIFIED_MAKER.length === 32 && VERIFIED_SUPERLATIVE.length === 22 &&
+    VERIFIED_YEAR.length + VERIFIED_MAKER.length + VERIFIED_SUPERLATIVE.length === 99,
+    "waves 24–31, pinned by test_curator24–31 and the wave-26 audit");
+  check("census: 52 entries carry only verified claims of these types",
+    VERIFIED.size === 52, VERIFIED.size + " entries");
+  check("census: the unverified remainder is 18 instances (0 year + 18 maker + 0 superlative)",
+    UNVERIFIED_YEAR.length === 0 && UNVERIFIED_MAKER.length === 18 && UNVERIFIED_SUPERLATIVE.length === 0 &&
+    UNVERIFIED_YEAR.length + UNVERIFIED_MAKER.length + UNVERIFIED_SUPERLATIVE.length === 18,
+    "wave 31 closed the year and superlative lists; the maker list is what remains");
+  check("census: the remainder spans 18 entries, disjoint from the verified set",
+    UNVERIFIED.size === 18 && [...UNVERIFIED].every((id) => !VERIFIED.has(id)),
+    "no entry overlaps a verified entry");
+  check("census: 70 entries carry a claim of these types; 143 carry none",
+    VERIFIED.size + UNVERIFIED.size === 70 && gamesDoc.games.length - 70 === 143,
+    "117 claim instances in total across the catalog (119 at wave 30; two closed by removal)");
 }
 
 /* ---------------- every listed claim is really in its description ---------------- */
@@ -186,28 +190,27 @@ const UNVERIFIED = union([UNVERIFIED_YEAR, UNVERIFIED_MAKER, UNVERIFIED_SUPERLAT
     "subway-surfers": "SYBO's", "stickman-hook": "Madbox's",
     "arras-io": "successor", "hole-io": "Voodoo's", "tanki": "official",
     "stumble-guys": "Scopely's", "synergism": "Pseudo-Corp's",
-    "realm-grinder": "Divine Games'", "adventure-capitalist": "Hyper Hippo's",
+    "realm-grinder": "Divine Games'",
     "tatham-puzzles": "official JavaScript builds", "sort-the-court": "Graebor's",
   };
   check("remainder: every unverified-maker entry carries its named marker",
     Object.keys(makerMarkers).every((id) => byId[id] && byId[id].description.includes(makerMarkers[id])) &&
     Object.keys(makerMarkers).length === UNVERIFIED_MAKER.length,
     "named maker / official status / lineage marker present in each description");
-  const supMarkers = {
-    "canabalt": "started a genre", "celeste-classic": "The original PICO-8 Celeste",
-    "cookie-clicker": "defined idle games", "agar": "defined .io games",
-    "minecraft-classic": "original 32 blocks", "spelunky-classic": "The original free Spelunky",
-    "powder-game": "The original falling-sand toy",
-  };
-  check("remainder: every unverified-superlative entry carries its precedence claim",
-    Object.keys(supMarkers).every((id) => byId[id] && byId[id].description.includes(supMarkers[id])) &&
-    Object.keys(supMarkers).length === UNVERIFIED_SUPERLATIVE.length,
-    "first/original/defined/started claims present as written, still unchecked outside the repo");
+  const supMarkers = {};
+  check("remainder: no superlative claim in the catalog remains unverified",
+    Object.keys(supMarkers).length === UNVERIFIED_SUPERLATIVE.length &&
+    UNVERIFIED_SUPERLATIVE.length === 0,
+    "wave 31 verified, fixed, or removed every precedence claim the census named");
   check("remainder: the partially verified pair is honestly scoped",
-    byId["minecraft-classic"].description.includes("free in the browser") &&
     byId["synergism"].description.includes("open-source") &&
     byId["arras-io"].description.includes("open-source"),
-    "wave 26 verified minecraft-classic's free claim and synergism's/arras-io's open-source claims — only those axes");
+    "wave 26 verified synergism's and arras-io's open-source claims — only those axes; their maker claims remain in the remainder");
+  check("remainder: the two wave-31 closures by removal carry no claim anymore",
+    CLOSED_BY_REMOVAL.every((id) => byId[id] &&
+      !/\b(19|20)\d\d\b/.test(byId[id].description) &&
+      !/\b(first|original|defined|started|pioneer|popularized)\b/i.test(byId[id].description)),
+    "powder-game and recoil-foundry: the claims were removed, not softened into new ones");
 }
 
 /* ---------------- the gate: no claim escapes the lists ---------------- */
@@ -224,10 +227,10 @@ const UNVERIFIED = union([UNVERIFIED_YEAR, UNVERIFIED_MAKER, UNVERIFIED_SUPERLAT
   check("gate: the false-positive set is exactly the five ruled non-claims",
     FALSE_POSITIVES.length === 5 && FALSE_POSITIVES.every((id) => byId[id] && claimLike(byId[id].description)),
     FALSE_POSITIVES.join(", "));
-  check("gate: the year scan reconciles exactly (46 real year claims + the 2048 title)",
+  check("gate: the year scan reconciles exactly (45 verified year claims + the 2048 title)",
     gamesDoc.games.filter((g) => /\b(19|20)\d\d\b/.test(g.description)).length ===
       VERIFIED_YEAR.length + UNVERIFIED_YEAR.length + 1,
-    "every explicit year in the catalog is either verified, in the remainder, or 2048's name");
+    "every explicit year in the catalog is now verified, or is 2048's name");
 }
 
 /* ---------------- taxonomy: still pinned, census unchanged ---------------- */

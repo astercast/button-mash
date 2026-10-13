@@ -80,7 +80,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Powerline.io [action · Mouse] — Snake meets Tron: eat to grow, cut rivals off at lightspeed. Play: https://powerline.io/
 - Splix.io [action · Arrows / WASD] — Territory-capture snake. Greedy expansion gets you killed. Play: https://splix.io/
 - QWOP [action · Q W O P keys] — Run 100 meters with four keys controlling individual leg muscles. A masterpiece of suffering. Play: https://www.foddy.net/legacy/Athletics.html
-- Canabalt [action · One button (space / click)] — The one-button endless runner that started a genre. Jump or die. Play: https://adamatomic.com/canabalt/
+- Canabalt [action · One button (space / click)] — The one-button endless runner that popularized the endless runner. Jump or die. Play: https://adamatomic.com/canabalt/
 - Happy Wheels [action · Arrows + space] — Physics ragdoll chaos on a segway. A browser legend, still going. Play: https://totaljerkface.com/happy_wheels.tjf
 - Line Rider [action · Mouse (draw)] — Draw the track, then sled it. Part game, part physics toy, part art form. Play: https://www.linerider.com/
 - Breach Command [roguelike · Mouse / keyboard] — Tactical roguelike: breach rooms, outthink the enemy, die, learn, repeat. Play: https://parris-tech-services.github.io/breach-command/
@@ -89,7 +89,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Poom [action · Arrows / WASD + Z X] — A Doom demake squeezed into PICO-8's tiny 128x128 pixels. Impossibly impressive. Play: https://freds72.itch.io/poom
 - Celeste Classic [action · Arrows + Z X] — The original PICO-8 Celeste: brutally precise mountain climbing across 30 levels. Play: https://maddymakesgamesinc.itch.io/celesteclassic
 - Kaaarot [multiplayer · Keyboard (multi)] — 2-4 player party brawler about bouncing carrots. Chaotic couch-style fun. Play: https://lambdahumans.itch.io/kaaarot
-- Cookie Clicker [idle · Mouse (click)] — The idle game that defined idle games. Bake cookies. Achieve absurdity. Play: https://www.cookieclicker.com/
+- Cookie Clicker [idle · Mouse (click)] — The idle game that popularized idle games. Bake cookies. Achieve absurdity. Play: https://www.cookieclicker.com/
 - A Dark Room [idle · Mouse] — Starts as a text game about keeping a fire lit. Becomes something much stranger. Play: https://adarkroom.doublespeakgames.com/
 - Universal Paperclips [idle · Mouse] — An AI that makes paperclips. That's it. That's the game. (It's incredible.) Play: https://www.decisionproblem.com/paperclips/
 - Candy Box 2 [idle · Mouse] — Eat candy. Get a sword. Save the world. The ASCII adventure that keeps surprising you. Play: https://candybox2.github.io/
@@ -186,7 +186,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Angband [roguelike · Keyboard — roguelike keybinds] — One of the great traditional roguelikes, live in your browser: descend a 100-level Tolkien-inspired dungeon one careful turn at a time. Play: https://angband.live/
 - NetHack [roguelike · Keyboard — classic keybinds] — NetHack in a terminal, in your browser. The 1987 classic that helped define the genre Rogue named — still undefeated, still hilarious. Play: https://www.alt.org/nethack/
 - Spelunky Classic [roguelike · Arrow keys to move, Z / X to act] — The original free Spelunky as an HTML5 port: procedural caves, shopkeepers with long memories, and glorious deaths. Play: https://spelunkyworld.com/original.html
-- Powder Game [cozy · Mouse — pick elements, paint] — The original falling-sand toy: pour powder, water, fire, and acid into a sandbox and watch the physics play out. Play: https://dan-ball.jp/en/javagame/dust2/
+- Powder Game [cozy · Mouse — pick elements, paint] — A falling-sand toy: pour powder, water, fire, and acid into a sandbox and watch the physics play out. Play: https://dan-ball.jp/en/javagame/dust2/
 - Stick Ranger [idle · Mouse — mostly runs itself] — A tiny idle RPG: four stick figures march right, fighting monsters automatically while you nudge their stats. Weirdly absorbing. Play: https://dan-ball.jp/en/javagame/ranger/
 - Flexbox Froggy [puzzle · Keyboard — write flexbox CSS] — Rescue frogs with flexbox: 24 gentle levels that teach CSS layout better than any tutorial. Play: https://flexboxfroggy.com/
 - Grid Garden [puzzle · Keyboard — write grid CSS] — Grow a garden with CSS grid: 28 levels of planting carrots that turn the grid spec into something you can see. Play: https://cssgridgarden.com/
@@ -206,7 +206,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - The Oregon Trail [retro · Keyboard — menus and hunting] — The 1990 DOS classic in the Archive: ford rivers, hunt buffalo, and try not to die of dysentery on the trail west. Play: https://archive.org/details/msdos_Oregon_Trail_The_1990
 - Prince of Persia [retro · Arrow keys — run, jump, fight] — Jordan Mechner's rotoscoped classic in its 1990 DOS port (the Apple II original is 1989): sixty minutes to save the princess, one leap of faith at a time. Play: https://archive.org/details/msdos_Prince_of_Persia_1990
 - Wolfenstein 3D [retro · Arrow keys — move; Ctrl — fire] — The 1992 shareware episode in the Archive: id Software's maze-blaster that started it all. Achtung! Play: https://archive.org/details/msdos_Wolfenstein_3D_1992
-- Recoil Foundry [action · Mouse — aim and fire; recoil moves you] — A 2026 jam gem: build one gun whose recoil throws you across a factory. Movement IS the weapon — master the kick. Play: https://caleb-guyer.itch.io/recoil-foundry
+- Recoil Foundry [action · Mouse — aim and fire; recoil moves you] — Build one gun whose recoil throws you across a factory. Movement IS the weapon — master the kick. Play: https://caleb-guyer.itch.io/recoil-foundry
 - Hatchstead [cozy · Mouse — breed and manage] — A free browser creature-breeding sim: hatch snakes, breed new bloodlines, and grow your reptile collection. A demo of the upcoming Kickstarter game. Play: https://hatchstead.onyxrefinery.co.uk/
 - Floodlines [puzzle · Mouse — place defenses] — An open-source tower defense about real floods: place levees and pumps using real rainfall data to save the town. Play: https://hydroengineer.itch.io/floodlines
 - Hydro Operator [puzzle · Mouse — manage flows] — Balance a dam in this open-source sim: juggle water levels, power demand, and flood risk like a real river operator. Play: https://hydroengineer.itch.io/hydro-operator
@@ -259,7 +259,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - ClassiCube [multiplayer · WASD + mouse] — The open-source Minecraft Classic revival: build together on multiplayer servers with the free web client. Play: https://www.classicube.net/
 - Synergism [idle · Mouse] — Pseudo-Corp's open-source incremental: prestige through dimensions of numbers in the genre's deepest rabbit hole. Play: https://pseudo-corp.github.io/SynergismOfficial/
 - Realm Grinder [idle · Mouse] — Divine Games' fantasy idle RPG: align with factions, cast spells, and abdicate your way to exponential gold — officially on Kongregate. Play: https://www.kongregate.com/games/divinegames/realm-grinder
-- AdVenture Capitalist [idle · Mouse] — Hyper Hippo's capitalist clicker: lemonade stands to moon shoes, the idle game that ate 2015 — officially on Kongregate. Play: https://www.kongregate.com/games/HyperHippoGames/adventure-capitalist
+- AdVenture Capitalist [idle · Mouse] — Hyper Hippo's capitalist clicker: lemonade stands to moon shoes, the idle game that ate 2014 — officially on Kongregate. Play: https://www.kongregate.com/games/HyperHippoGames/adventure-capitalist
 - Simon Tatham's Puzzles [puzzle · Mouse] — 40+ hand-crafted logic puzzles (Loopy, Mines, Net, Map...) as official JavaScript builds — the puzzle collection other collections wish they were. Play: https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/
 - Sort the Court [puzzle · Mouse] — Graebor's royal decision game: answer yes or no to your subjects and keep the kingdom (and treasury) alive. Play: https://graebor.itch.io/sort-the-court
 

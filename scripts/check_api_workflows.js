@@ -1555,15 +1555,15 @@ check("WF31 no ROM/BIOS download phrasing in wave-29 entries",
 // reshelved this wave — the census is the finding.
 check("WF32 census: the catalog and claim totals reconcile",
   games.length === 213 &&
-  games.filter((g) => /\b(19|20)\d\d\b/.test(g.description)).length === 47,
-  "213 entries; 47 explicit-year hits = 46 year claims + 2048's title number");
-check("WF32 census: the unverified year remainder stands as counted",
+  games.filter((g) => /\b(19|20)\d\d\b/.test(g.description)).length === 46,
+  "213 entries; 46 explicit-year hits = 45 verified year claims + 2048's title number (wave 31 removed the 47th)");
+check("WF32 census: the year remainder is closed (wave 31)",
   byId24["urban-dead"].description.includes("2005") &&
   byId24["minecraft-classic"].description.includes("2009") &&
   byId24["dare-to-doku"].description.includes("2026") &&
-  byId24["recoil-foundry"].description.includes("2026") &&
-  byId24["adventure-capitalist"].description.includes("2015"),
-  "five year claims no pass has checked outside the repo, left exactly as written");
+  !/\b(19|20)\d\d\b/.test(byId24["recoil-foundry"].description) &&
+  byId24["adventure-capitalist"].description.includes("2014"),
+  "three verified as written; recoil-foundry's unsettled 2026 removed; AdVenture Capitalist corrected 2015 → 2014");
 check("WF32 census: the unverified maker remainder stands as counted",
   byId24["song-maker"].description.includes("Google's") &&
   byId24["doing-work"].description.includes("Pippin Barr's") &&
@@ -1572,14 +1572,14 @@ check("WF32 census: the unverified maker remainder stands as counted",
   byId24["sort-the-court"].description.includes("Graebor's") &&
   byId24["nested"].description.includes("Cookie Clicker creator") &&
   byId24["tristram"].description.includes("Ludum Dare 55"),
-  "named makers, official-status and provenance claims — 19 in the full remainder list in test_curator30");
-check("WF32 census: the unverified superlative remainder stands as counted",
-  byId24["canabalt"].description.includes("started a genre") &&
-  byId24["cookie-clicker"].description.includes("defined idle games") &&
+  "named makers, official-status and provenance claims — 18 in the full remainder list in test_curator30");
+check("WF32 census: the superlative remainder is closed (wave 31)",
+  byId24["canabalt"].description.includes("popularized the endless runner") &&
+  byId24["cookie-clicker"].description.includes("popularized idle games") &&
   byId24["agar"].description.includes("defined .io games") &&
-  byId24["powder-game"].description.includes("The original falling-sand toy") &&
+  !byId24["powder-game"].description.includes("original") &&
   byId24["spelunky-classic"].description.includes("The original free Spelunky"),
-  "precedence claims — 7 in the full remainder list in test_curator30");
+  "four verified as written, two softened to the record's own verb, one false 'original' removed");
 check("WF32 taxonomy: STILL not reshelved — the brief's call stays with the human",
   byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
   byId24["spooky-town"].genre === "horror" &&
@@ -1590,6 +1590,110 @@ check("WF32 no ROM/BIOS download phrasing in the census remainder entries",
   !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(
     byId24["urban-dead"].description + byId24["canabalt"].description +
     byId24["sort-the-court"].description),
+  "legal lane holds");
+
+// ---- Wave 31: Curator pass 6 — the census remainder's
+// superlatives and years, worked in the wave-30 order. Four
+// superlatives and three years stand as written; Canabalt and
+// Cookie Clicker are softened to "popularized" (the record's own
+// verb — Ovenbreak predates Canabalt, Cow Clicker/Candy Box!
+// predate Cookie Clicker); Powder Game's false "original" and
+// Recoil Foundry's unsettled "2026 jam gem" are removed;
+// AdVenture Capitalist's year is corrected to the 2014 its
+// linked Kongregate edition owns, settling its Hyper Hippo
+// maker claim in passing. Census: 117 instances, 99 verified,
+// 18 unverified — all maker/attribution. Taxonomy untouched.
+check("WF33 curator pass 6 — the verified superlatives stand as written",
+  byId24["agar"].description.includes("defined .io games") &&
+  byId24["celeste-classic"].description.includes("The original PICO-8 Celeste") &&
+  byId24["spelunky-classic"].description.includes("The original free Spelunky") &&
+  byId24["minecraft-classic"].description.includes("original 32 blocks"),
+  "Agar.io birthed the .io genre; Celeste Classic is the 2015 PICO-8 original; Spelunky Classic is the 2008 freeware; Mojang's own statement gives Minecraft Classic 32 blocks");
+check("WF33 curator pass 6 — the two 'popularized' fixes carry the record's verb",
+  byId24["canabalt"].description ===
+    "The one-button endless runner that popularized the endless runner. Jump or die." &&
+  byId24["cookie-clicker"].description ===
+    "The idle game that popularized idle games. Bake cookies. Achieve absurdity.",
+  "Wikipedia credits both with popularizing their genres; neither started or defined them");
+check("WF33 curator pass 6 — the two closures by removal",
+  byId24["powder-game"].description ===
+    "A falling-sand toy: pour powder, water, fire, and acid into a sandbox and watch the physics play out." &&
+  byId24["recoil-foundry"].description ===
+    "Build one gun whose recoil throws you across a factory. Movement IS the weapon — master the kick.",
+  "Powder Game (2007) is not the falling-sand original (2005 Dofi-Blog applet); Recoil Foundry's own page names no jam and no year");
+check("WF33 curator pass 6 — the verified years stand, the one edition fix holds",
+  byId24["urban-dead"].description.includes("A 2005 classic") &&
+  byId24["dare-to-doku"].description.includes("GBA Jam 2026") &&
+  byId24["adventure-capitalist"].description ===
+    "Hyper Hippo's capitalist clicker: lemonade stands to moon shoes, the idle game that ate 2014 — officially on Kongregate.",
+  "Urban Dead launched July 3, 2005; Dare to Doku's own page names GBA Jam 2026; AdVenture Capitalist launched on Kongregate May 30, 2014 and was its most played game of 2014");
+check("WF33 taxonomy: STILL not reshelved — the brief's call stays with the human",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules");
+check("WF33 no ROM/BIOS download phrasing in wave-31 entries",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(
+    byId24["canabalt"].description + byId24["powder-game"].description +
+    byId24["recoil-foundry"].description + byId24["adventure-capitalist"].description),
+  "legal lane holds");
+
+// ---- Wave 31 flagship: the Arcade Passport. A stamp booklet for
+// the 24 collections: a stamp lands only when a shelf actually
+// scrolls into view on collections.html (IntersectionObserver,
+// first sighting wins); guide marks derive live from the guides'
+// own checklist store (bm_checks_v1). State bm.passport.v1,
+// browser-local, no play telemetry invented.
+const PP31 = require(path.join(ROOT, "assets/js/passport-core.js"));
+const ppCoreJs = fs.readFileSync(path.join(ROOT, "assets/js/passport-core.js"), "utf8");
+const ppHtml = fs.readFileSync(path.join(ROOT, "passport.html"), "utf8");
+const colHtml31 = fs.readFileSync(path.join(ROOT, "collections.html"), "utf8");
+const colJs31 = fs.readFileSync(path.join(ROOT, "assets/js/collections.js"), "utf8");
+check("WF34 passport core: UMD, DOM-free, storage key + honesty registry",
+  ppCoreJs.includes("STORE_KEY = 'bm.passport.v1'") && ppCoreJs.includes("typeof module") &&
+  !/document\.|window\./.test(ppCoreJs) && PP31.STORE_KEY === "bm.passport.v1" &&
+  PP31.GUIDE_CHECKLISTS.length === 2 &&
+  typeof PP31.stamp === "function" && typeof PP31.guideMarks === "function",
+  "bm.passport.v1; marks derive from the checklist store, never stored twice");
+check("WF34 passport core: stamp semantics — first sighting wins, corrupt entries dropped",
+  (() => {
+    const s = PP31.emptyState();
+    const added = PP31.stamp(s, "rainy-day-cozy", 1000);
+    const redated = PP31.stamp(s, "rainy-day-cozy", 2000);
+    const clean = PP31.validateState({ stamps: { a: 5, b: "x", c: -1, d: 7 } });
+    return added && !redated && s.stamps["rainy-day-cozy"] === 1000 &&
+      PP31.stampCount(clean) === 2 && clean.stamps.a === 5 && clean.stamps.d === 7;
+  })(),
+  "re-visits never re-date; validation is per-entry, not all-or-nothing");
+check("WF34 passport core: a guide mark means every checklist step ticked",
+  (() => {
+    const partial = PP31.guideMarks((p) => (p === "retroarch-setup" ? [0, 1, 2] : []));
+    const full = PP31.guideMarks((p) => [0, 1, 2, 3, 4]);
+    return partial[0].ticked === 3 && !partial[0].complete &&
+      full.every((m) => m.complete) && full.length === 2;
+  })(),
+  "partial progress reported as progress; the mark is all-steps or nothing");
+check("WF34 passport page: booklet wired, honest counting copy, nav present",
+  ppHtml.includes('id="stamp-grid"') && ppHtml.includes('id="visa-list"') &&
+  ppHtml.includes("assets/js/passport-core.js") && ppHtml.includes("assets/js/passport.js") &&
+  ppHtml.includes("never claims you played") && ppHtml.includes('href="passport.html" aria-current="page"') &&
+  ppHtml.includes("Surrender passport"),
+  "stamp grid + visa pages + the no-play-telemetry disclaimer on the page itself");
+check("WF34 collections wiring: observer stamps, chip counts, core loaded before the page script",
+  colJs31.includes("IntersectionObserver") && colJs31.includes("stampShelf") &&
+  colJs31.includes("passport-chip") && colHtml31.includes('id="passport-chip"') &&
+  colHtml31.indexOf("assets/js/passport-core.js") < colHtml31.indexOf("assets/js/collections.js") &&
+  colHtml31.includes("assets/css/passport.css"),
+  "shelves stamp on first view; the chip reads the same store the booklet renders");
+check("WF34 taxonomy: STILL not reshelved — the brief's call stays with the human",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules");
+check("WF34 no ROM/BIOS download phrasing on the passport page",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(ppHtml),
   "legal lane holds");
 
 process.exit(failures ? 1 : 0);

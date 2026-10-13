@@ -2,6 +2,130 @@
 
 Running record of build waves. Newest first.
 
+## Wave 31 — 2026-10-12 — Curator pass 6 (superlatives + years) and the Arcade Passport
+
+**What shipped** — two tracks: the census remainder worked in
+wave 30's own order (the seven superlatives first, then the five
+years), and a flagship: the Arcade Passport, a stamp booklet for
+the 24 collections. Taxonomy untouched throughout:
+TAXONOMY_BRIEF.md stays **UNDECIDED**, nothing reshelved.
+
+- **Curator pass 6 — the superlatives** (`data/games.json`, each
+  checked 2026-10-12 against Wikipedia, Mojang's own statement,
+  and the games' own pages). **Four stand as written** and are
+  pinned verbatim in `test_curator31`: **Agar.io** "defined .io
+  games" (its rise "led to the beginning of a new genre of
+  browser games, dubbed '.io games'"), **Celeste Classic** "The
+  original PICO-8 Celeste" (the August 2015 PICO-8 jam game,
+  retroactively titled Classic), **Spelunky Classic** "The
+  original free Spelunky" (Derek Yu's December 21, 2008 freeware;
+  the entry links and names its HTML5 port), **Minecraft
+  Classic** "the original 32 blocks" (Mojang's anniversary
+  statement: "the original creative mode, complete with 32
+  blocks"). **Three fixes**: **Canabalt** "started a genre" is
+  the record's own named misconception — Ovenbreak reached the
+  App Store two months earlier, and Canabalt is credited with
+  *popularizing* the endless runner; the entry now claims that.
+  **Cookie Clicker** "defined idle games" — Cow Clicker and
+  Candy Box! predate it; incremental games "gained popularity in
+  2013 after the success of Cookie Clicker," so it too now says
+  *popularized*. **Powder Game** "The original falling-sand toy"
+  is simply false — the genre's original is the 2005 Dofi-Blog
+  applet; Powder Game (2007) is a later entry — so the claim is
+  removed, the Angband shape.
+- **Curator pass 6 — the years.** **Three stand as written**:
+  **Urban Dead**'s 2005 (launched July 3, 2005), **Minecraft
+  Classic**'s 2009 (the Classic phase, May–December 2009, is
+  what the linked anniversary build preserves), **Dare to
+  Doku**'s GBA Jam 2026 (the game's own itch page states it was
+  made for the jam, and confirms its 10,000 levels and 4–10
+  grids). **One fix**: **AdVenture Capitalist** "ate 2015" —
+  the browser game launched on Kongregate May 30, 2014 and was
+  Kongregate's most played game of 2014 (Hyper Hippo's own
+  post-mortem); 2015 was the Steam/mobile expansion. In the
+  Transport Tycoon shape the entry now names 2014, and the same
+  sources settle its maker claim in passing (Hyper Hippo
+  Productions, developer and publisher; the linked build is
+  their own Kongregate upload), so it leaves the maker
+  remainder too. **One closure by removal**: **Recoil Foundry**'s
+  "2026 jam gem" — its own itch page names no jam and no year
+  and presents an expanded, still-updated full release; no
+  source settles the claim, so the framing is removed (the
+  Mindustry rule).
+- **The census after pass 6** (updated in `test_curator30`, gate
+  intact): **117 claim instances** (two removed, not relocated),
+  **99 verified (45 year + 32 maker + 22 superlative)**, **18
+  unverified — all maker/attribution, across 18 entries**; 70
+  entries carry a claim, 143 carry none. Every year and
+  superlative claim in the catalog has now been checked against
+  a source outside the repo. What remains is one tranche: the
+  maker/official-status list, which needs the linked builds
+  checked as much as the names.
+- **The flagship — Arcade Passport** (`passport.html`,
+  `assets/js/passport-core.js`, `assets/js/passport.js`,
+  `assets/css/passport.css`): the 24 collections as a stamped
+  booklet — cream paper, perforated edge, ink stamps rotated per
+  shelf. A stamp lands only when a shelf actually scrolls into
+  view on `collections.html` (IntersectionObserver, threshold
+  0.25; first sighting wins and is never re-dated; stamped
+  shelves wear an ink ribbon and the Collections hero chip
+  carries the running count). Guide marks are the passport's
+  visa pages: derived at render time from the guides' own
+  checklist store (`bm_checks_v1` via `BM.getChecks`), never
+  stored twice — a mark means every step of a checklist guide
+  (RetroArch setup, EmulatorJS self-hosting — the only guides
+  whose completion the site tracks) is ticked, and the
+  registry's step counts are pinned against the real guide pages
+  by `test_passport31`. State is `bm.passport.v1`, browser-local
+  with the standard in-memory fallback and on-page notice. The
+  page says plainly what is not counted: no play telemetry —
+  playing happens on other sites, and the Trophy Room owns that
+  record. Wired into the primary nav of all 44 site pages,
+  `build_site.py`'s page list (llms/sitemap regenerated),
+  AGENT.md, and WF34.
+- **Taxonomy: still untouched, deliberately.** purrgatory,
+  Lookouts and Little Troubles in Spooky Town remain pinned in
+  horror (census 213 / horror 6 / cozy 16), now enforced by
+  `test_curator30`, `test_curator31` and WF32–WF34.
+
+**Validation:**
+- `scripts/build.py`: **BUILD OK — 213 games, 24 collections, 10 emulators, 24 guides**; **LEGAL GATE OK (44 pages, 0 piracy links)**
+- `scripts/check_links.py`: **0 broken (44 pages, 1540 local links)**
+- `node scripts/check_api_workflows.js`: **280/280 pass (WF1–WF34)** — new WF33 (6 checks, pass 6) + WF34 (7 checks, the Passport); WF32's census checks updated to the post-pass-6 counts (46 year hits = 45 verified + 2048's title)
+- `node scripts/test_curator30.js`: **ALL PASS** (census updated); `node scripts/test_curator31.js`: **ALL PASS** (new — tranche scope, six pinned verbatim, five fixes/closures verbatim, census-aftermath)
+- `node scripts/test_passport31.js`: **ALL PASS** (new — core units with injected storage, registry pins against the real guides, headless stamp flow: scroll → stamps persist → booklet renders the same counts → checklist completion earns the visa mark → surrender clears stamps only; mobile 390px zero overflow; zero pageerrors)
+- Named suites re-run: `test_lineups23` **ALL PASS**; `test_curator24`–`test_curator29` **ALL PASS**; `test_converter12` **66/66**; `test_player21` **ALL PASSED**; `test_gamenight_parity` PARITY OK; `test_gamenight22` ALL PASS; `test_curatornight21` ALL PASS; `test_wave19` ALL PASS; `test_wave17` ALL PASS; `test_trophy18` ALL PASSED; `test_party_planner11` ALL PASS; `test_tournament10` ALL PASS; `test_bracket` 82/82; `test_bracket_double` 105/105; `test_party11` 36/36; `tests/api.test.sh` **40/40**; `~/workspace/smoke/test.js`: exit 0
+- **Load honesty, stated plainly**: the box ran loadavg ~10–14
+  all night (parallel flagship builds). `test_identity16` did
+  NOT get a clean run this wave: seven attempts, every one the
+  documented stall — 28/41 green where counted, zero assertion
+  failures, `waitCards` timeout — and it is reported as not-run,
+  not as passed. `test_wow1` is in the same state: its powerunit
+  and playertail suites passed in the battery, and the main run
+  produced partial all-PASS prefixes (48 PASS lines on one solo)
+  before harness context/timeout errors under the same load —
+  zero assertion failures observed in any attempt. Every other
+  suite above completed clean on this tree, most of them twice.
+- `node --check`: clean on all new/edited JS; AI-slop denylist grep clean on all new prose; no TODOs in the wave's files
+- Screenshots inspected (zero pageerrors): homepage hero (3-second read intact, passport in nav, stat band 213/113/24/24), `games.html` directory hero ("213 games. Zero installs."), `collections.html` shelves mid-scroll with stamps landing, `passport.html` hero with real seeded progress (3/24 stamped, 1/2 guide marks, first-stamp date) and the booklet grid, passport at 390px mobile (zero overflow). Archived to `~/workspace/progress-archive/button-mash/rotation-010/`.
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links.
+
+**Self-assessment**: pass 6 found the remainder healthier than
+the retro shelves were — nine of twelve claims were right — but
+its three errors were the familiar kinds: two verbs one notch
+too strong ("started"/"defined" where the record says
+"popularized"), one "original" that belonged to a 2005 applet
+two years older than the game, and one year that belonged to a
+game's expansion rather than its launch. The Passport's honesty
+rule is the wave's other product: a progress system that only
+counts what the site can see (a shelf on screen, a checklist
+ticked) and says so on its own page is worth more than a bigger
+number invented from telemetry the site does not have. What
+remains on the Curator's list: the 18 maker/attribution claims —
+the last tranche, and the one where the linked builds matter
+most.
+
 ## Wave 30 — 2026-10-12 — The census: every claim in the catalog, counted
 
 **What shipped** — wave 29 closed the Curator's named list: every

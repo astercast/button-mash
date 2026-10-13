@@ -274,7 +274,7 @@
     },
     {
       "controls": "One button (space / click)",
-      "description": "The one-button endless runner that started a genre. Jump or die.",
+      "description": "The one-button endless runner that popularized the endless runner. Jump or die.",
       "genre": "action",
       "id": "canabalt",
       "title": "Canabalt",
@@ -346,7 +346,7 @@
     },
     {
       "controls": "Mouse (click)",
-      "description": "The idle game that defined idle games. Bake cookies. Achieve absurdity.",
+      "description": "The idle game that popularized idle games. Bake cookies. Achieve absurdity.",
       "genre": "idle",
       "id": "cookie-clicker",
       "title": "Cookie Clicker",
@@ -1212,7 +1212,7 @@
       "url": "https://dan-ball.jp/en/javagame/dust2/",
       "genre": "cozy",
       "controls": "Mouse — pick elements, paint",
-      "description": "The original falling-sand toy: pour powder, water, fire, and acid into a sandbox and watch the physics play out."
+      "description": "A falling-sand toy: pour powder, water, fire, and acid into a sandbox and watch the physics play out."
     },
     {
       "id": "stick-ranger",
@@ -1372,7 +1372,7 @@
       "url": "https://caleb-guyer.itch.io/recoil-foundry",
       "genre": "action",
       "controls": "Mouse — aim and fire; recoil moves you",
-      "description": "A 2026 jam gem: build one gun whose recoil throws you across a factory. Movement IS the weapon — master the kick."
+      "description": "Build one gun whose recoil throws you across a factory. Movement IS the weapon — master the kick."
     },
     {
       "id": "hatchstead",
@@ -1853,7 +1853,7 @@
       "url": "https://www.kongregate.com/games/HyperHippoGames/adventure-capitalist",
       "genre": "idle",
       "controls": "Mouse",
-      "description": "Hyper Hippo's capitalist clicker: lemonade stands to moon shoes, the idle game that ate 2015 — officially on Kongregate."
+      "description": "Hyper Hippo's capitalist clicker: lemonade stands to moon shoes, the idle game that ate 2014 — officially on Kongregate."
     },
     {
       "id": "tatham-puzzles",

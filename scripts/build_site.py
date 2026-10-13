@@ -26,6 +26,7 @@ PAGES = [
     ("emulation.html", "Emulation hub: guides, explainers, legal sources"),
     ("monster-taming.html", "Monster-taming corner: original-IP creature games + GBA tech"),
     ("trophy-room.html", "The Trophy Room: persistent play-tracking — games played/beaten, per-genre completion dials, 16-prize achievement case, collection progress, JSON export/import"),
+    ("passport.html", "Arcade Passport: a stamp booklet for the 24 collections — a stamp lands when a shelf actually scrolls into view on the Collections page, guide marks derive from the guides' own checklist store; browser-local only, no play telemetry"),
     ("play-legal.html", "Play it legal: the site's one clear legal page"),
     ("genres/roguelike.html", "Genre deep dive: roguelikes — die, learn, die better"),
     ("genres/cozy.html", "Genre deep dive: cozy games — gentle games for grey weather"),

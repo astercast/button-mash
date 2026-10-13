@@ -1,0 +1,128 @@
+/* Arcade Passport — a stamped booklet inside the cabinet.
+   The booklet is paper inside a neon cabinet: cream pages, ink
+   stamps, perforated edges, set against the site's dark bezel.
+   Stamps land rotated (deterministic per shelf, set inline by
+   passport.js) like a border officer actually hit the page. */
+
+.passport-hero .lede { max-width: 62ch; }
+
+.passport-book {
+  background: #f3ead8;
+  color: #23202a;
+  border-radius: 10px;
+  border: 1px solid #d8cbae;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .45), inset 0 0 0 6px #f3ead8, inset 0 0 0 7px #d8cbae;
+  padding: clamp(20px, 4vw, 44px);
+  position: relative;
+}
+.passport-book::before {
+  /* perforated left edge, like a torn-from-the-pad booklet */
+  content: "";
+  position: absolute; top: 14px; bottom: 14px; left: 10px; width: 4px;
+  background-image: radial-gradient(circle, #b7a67f 1.6px, transparent 1.7px);
+  background-size: 4px 14px;
+  opacity: .8;
+}
+.passport-book-head {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 2px solid #23202a;
+  padding-bottom: 12px; margin-bottom: 8px;
+}
+.passport-book-head h2 {
+  font-family: var(--font-display);
+  font-size: clamp(15px, 2.4vw, 21px);
+  letter-spacing: .04em; margin: 0; color: #23202a;
+}
+.passport-book-head .pp-no {
+  font-family: var(--font-mono); font-size: var(--fs-readout);
+  color: #6d6350; letter-spacing: .12em; text-transform: uppercase;
+}
+.pp-progress-line {
+  font-family: var(--font-mono); font-size: var(--fs-readout);
+  color: #4c4636; margin: 10px 0 22px;
+}
+.pp-progress-line strong { color: #9a3412; }
+
+.stamp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+  gap: 16px;
+  list-style: none; margin: 0; padding: 0;
+}
+.stamp-cell {
+  border: 1.5px dashed #b7a67f;
+  border-radius: 8px;
+  min-height: 148px;
+  padding: 14px;
+  display: flex; flex-direction: column; gap: 8px;
+  position: relative; overflow: hidden;
+}
+.stamp-cell h3 { margin: 0; font-size: 17px; line-height: 1.25; color: #23202a; }
+.stamp-cell .pp-tag { font-size: 13px; color: #6d6350; margin: 0; }
+.stamp-cell .pp-games { font-family: var(--font-mono); font-size: 15px; color: #8a7c5c; margin-top: auto; }
+.stamp-cell .pp-visit {
+  font-family: var(--font-mono); font-size: 15px; color: #4c4636;
+  text-decoration: underline; text-underline-offset: 3px;
+}
+.stamp-cell .pp-unvisited { font-family: var(--font-mono); font-size: 15px; color: #a2936f; margin-top: auto; }
+
+/* the ink stamp itself */
+.ink-stamp {
+  position: absolute; right: 10px; bottom: 10px;
+  border: 3px double currentColor; border-radius: 6px;
+  padding: 5px 9px 4px;
+  font-family: var(--font-display); font-size: 9px; letter-spacing: .08em;
+  text-transform: uppercase; text-align: center; line-height: 1.5;
+  opacity: .82; mix-blend-mode: multiply; pointer-events: none;
+}
+.ink-stamp .pp-date { display: block; font-family: var(--font-mono); font-size: 13px; letter-spacing: .06em; }
+.stamp-cell.s-ink-0 { color: #b3352b; } .stamp-cell.s-ink-0 .ink-stamp { color: #b3352b; }
+.stamp-cell.s-ink-1 { color: #1d4ed8; } .stamp-cell.s-ink-1 .ink-stamp { color: #1d4ed8; }
+.stamp-cell.s-ink-2 { color: #15803d; } .stamp-cell.s-ink-2 .ink-stamp { color: #15803d; }
+.stamp-cell.s-ink-3 { color: #7c3aed; } .stamp-cell.s-ink-3 .ink-stamp { color: #7c3aed; }
+.stamp-cell.is-stamped { border-style: solid; border-color: #c9b98f; background: #efe5cd; }
+
+/* guide marks — the visa pages */
+.visa-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.visa-row {
+  display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center;
+  border: 1.5px solid #c9b98f; border-radius: 8px; padding: 14px 16px; background: #efe5cd;
+}
+.visa-row h3 { margin: 0; font-size: 17px; color: #23202a; }
+.visa-row .pp-steps { font-family: var(--font-mono); font-size: 15px; color: #6d6350; }
+.visa-row .pp-mark {
+  margin-left: auto; font-family: var(--font-display); font-size: 9px; letter-spacing: .08em;
+  border: 3px double #b3352b; color: #b3352b; border-radius: 6px; padding: 5px 9px 4px;
+  transform: rotate(-4deg); text-transform: uppercase; opacity: .85; mix-blend-mode: multiply;
+}
+.visa-row .pp-mark.is-pending { border-color: #a2936f; color: #a2936f; transform: none; }
+
+.pp-how {
+  border-top: 2px solid #23202a; margin-top: 26px; padding-top: 16px;
+  font-size: 15px; color: #4c4636; max-width: 68ch;
+}
+.pp-how p { margin: 0 0 10px; }
+.pp-actions { margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* collections page: the stamp ribbon + passport chip */
+.passport-chip {
+  display: inline-flex; gap: 10px; align-items: center;
+  font-family: var(--font-mono); font-size: var(--fs-readout);
+  border: 1px solid var(--edge-bright); border-radius: 999px;
+  padding: 6px 14px; margin-top: 14px; color: var(--ink);
+  text-decoration: none; background: rgba(0, 0, 0, .25);
+}
+.passport-chip strong { color: var(--bulb); }
+.stamp-ribbon {
+  font-family: var(--font-display); font-size: 8px; letter-spacing: .08em;
+  text-transform: uppercase; color: #ffd166;
+  border: 2px solid #ffd166; border-radius: 4px; padding: 4px 7px 3px;
+  transform: rotate(-3deg); display: inline-block;
+}
+
+@media (max-width: 560px) {
+  .stamp-grid { grid-template-columns: 1fr; }
+  .stamp-cell { min-height: 128px; }
+  .passport-book { padding: 20px 16px 20px 24px; }
+}
