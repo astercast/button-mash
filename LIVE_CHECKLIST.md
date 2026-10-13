@@ -137,6 +137,74 @@ Hobby timeout. Frontend calls `/api/*` first (7s timeout) and falls back to
   `veilError()` in `assets/js/player.js`)
 - `vercel.json` parses; no buildCommand; publish dir root
 
+## Free-tier / best-pattern audit — wave 33 (2026-10-13, working repo)
+
+Measured on the working tree (handlers invoked in-process with mock
+req/res, 15–25 runs each, warm); the live track inherits these numbers
+when a snapshot is next ordered.
+
+- **Function count: 5 of the 12-function Hobby cap** — `api/health.js`,
+  `api/games.js`, `api/collections.js`, `api/game-night.js`,
+  `api/cron/curator.js`. All zero-npm-dependency, explicit paths in
+  `vercel.json`, `maxDuration: 10` each, no `runtime` key (WF21 pins
+  this). Headroom: 7 functions.
+- **Estimated monthly invocations (assumption stated):** 10,000 page
+  views/month — a generous figure for this site — with at most ~2
+  live-API probes per view (directory, collections, game file, and
+  Game Night are the API-calling surfaces; every other page is pure
+  static + `data/v1` JSON). That is **≤ ~20,000 invocations/month
+  before edge caching**; the envelope's SWR headers (`s-maxage=600`)
+  collapse repeat origin hits inside each 10-minute window across a
+  small URL space (games list/detail variants, collections, health),
+  so realistic origin invocations land in the **low thousands**. Cron
+  adds ~4–5/month (weekly). All figures sit far under the Hobby
+  allowance (100k invocations/month fleet-wide note); Hobby pauses
+  rather than bills on overage, and the static fallback keeps the
+  site fully usable while paused.
+- **Worst-case duration vs the 10s ceiling:** measured medians —
+  health 1.58ms (p95 5.33ms; it re-reads 5 static JSON files per
+  call), games list 0.17ms, games `?id=` 0.05ms, collections 0.24ms,
+  game-night POST 0.56ms (max observed 12.95ms). Even with a cold
+  start plus ~150KB of bundled JSON parsing, every request handler
+  keeps **>30× headroom** under 10s. The one long pole is the cron:
+  8 feeds race in parallel under 4s per-feed timeouts inside a
+  **9.5s internal hard stop** (`BUDGET_MS`, with a 3s write reserve —
+  the commit is skipped, never the deadline), i.e. worst case 9.5s
+  of the 10s ceiling, by design.
+- **First degradation point:** the per-instance in-memory rate
+  limiter (60/min public, 20/min compute, per IP) sheds load first —
+  by design, with a 429 + `Retry-After` and the frontend already on
+  its static fallback. Behind it, the invocation budget is the first
+  hard wall (≈5× the traffic assumption above); degradation there is
+  graceful, not a bill: functions pause, `ApiClient.fetchWithFallback`
+  serves `data/v1/*.json`, and every page still renders. Bandwidth
+  is not a near-term constraint (largest static payload is
+  kid-safe.json at 71KB, games.json 66KB, both edge-cached).
+- **Alignment check (static-first, SWR, precomputed JSON, coalescing,
+  honest fallbacks, small handlers, health surfacing):** static-first
+  ✓ (frontend renders from `data/v1`, probes live second); precomputed
+  JSON ✓ (build regenerates `data/v1`; handlers only filter/shape
+  bundled data — no upstream calls except the cron's bounded feeds);
+  SWR ✓ on the API envelope (`s-maxage=600, stale-while-revalidate=
+  86400`; health `s-maxage=60`); honest fallbacks ✓ (7s live timeout →
+  static → labelled `none` state; cron degrades read-only without a
+  token and says so); small handlers ✓ (45–230 lines each); health
+  surfacing ✓ (`/api/health` never 5xxes, reports freshness per file
+  against a 7-day SLA matching the weekly cron). Coalescing: the
+  frontend has no request dedupe layer, but the URL space is tiny and
+  edge SWR does the coalescing — recorded as acceptable, not a gap.
+- **Fix shipped this wave:** `vercel.json` gained explicit
+  `Cache-Control` SWR headers for the static surfaces that previously
+  had none — `/data/v1/(.*)` gets `public, s-maxage=600,
+  stale-while-revalidate=86400` (mirroring the API envelope) and
+  `/assets/(.*)` gets `max-age=3600, s-maxage=3600,
+  stale-while-revalidate=86400`. Functions map, crons, and the
+  no-`runtime` rule are untouched (WF21 + api.test.sh §7 re-verified).
+  Nothing else in the audit would break, throttle, or bill: no
+  function writes state, no external API is metered, and the cron's
+  GitHub commit path is the only outbound write (skipped when the
+  token is absent).
+
 ## After the deploy
 
 - Vercel project: Framework Preset **Other**, no build command, output `.`

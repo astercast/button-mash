@@ -1808,4 +1808,53 @@ check("WF36 no ROM/BIOS download phrasing on the tournament night page",
   !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(tnHtml),
   "legal lane holds");
 
+// ---- Wave 33 flagship: Versus. Any two catalog games side by side
+// from their real records (versus-core.js): year named in the
+// description under the census's rules, collection footprint,
+// genre/controls/tags, Kids corner pass, written coverage. The
+// verdict strip reports only what the data supports; thin pairs
+// get the no-basis state. No scores, rankings, or winners, ever.
+const VS33 = require(path.join(ROOT, "assets/js/versus-core.js"));
+const vsHtml = fs.readFileSync(path.join(ROOT, "versus.html"), "utf8");
+const vsCtx = { collections: cols, kidIds: new Set((load("data/v1/kid-safe.json")["kid-safe"] || []).filter((k) => k.kid_safe).map((k) => k.id)) };
+check("WF37 versus core: UMD, no bracket/storage deps, dive registry names only existing dives",
+  typeof VS33.compare === "function" && typeof VS33.shareCard === "function" &&
+  Object.keys(VS33.GENRE_DIVES).sort().join(",") === "cozy,roguelike",
+  "comparison is pure record math over the catalog, nothing else");
+check("WF37 versus: the year rule matches the closed census (45 dated records, 2048 excluded)",
+  games.filter((g) => VS33.profile(g, vsCtx).year !== null).length === 45 &&
+  VS33.yearNamed(byId24["2048"].description, "2048") === null &&
+  VS33.yearNamed(byId24["zork1"].description, "zork1") === 1980,
+  "every year Versus can show is a census-verified description claim");
+check("WF37 versus: verdicts fire only on era/footprint/coverage/Kids facts, never quality language",
+  (() => {
+    const c = VS33.compare(byId24["zork1"], byId24["2048"], vsCtx);
+    return c.ok && !c.thin && c.verdicts.length === 1 && c.verdicts[0].kind === "footprint" &&
+      !/score|rating|better|winner|best/i.test(c.verdicts.map((v) => v.text).join(" ")) &&
+      VS33.compare(byId24["wordle"], byId24["wordle"], vsCtx).ok === false;
+  })(),
+  "one-sided year stays silent; self-pairing refuses; no winner is ever declared");
+check("WF37 versus: the bare tail gets the honest no-basis state",
+  (() => { const t = VS33.compare(byId24["kaaarot"], byId24["bloxd"], vsCtx); return t.ok && t.thin && t.verdicts.length === 0; })() &&
+  VS33.shareCard(VS33.compare(byId24["kaaarot"], byId24["bloxd"], vsCtx), "").includes("No basis to compare"),
+  "no year/shelf/tag/coverage/Kids pass on either side → the strip reports nothing");
+check("WF37 versus: pairing validates against the catalog (unknown ids drop)",
+  (() => { const p = VS33.parsePair("?a=zork1&b=no-such-game", byId24); return p.a === "zork1" && p.b === null && p.dropped[0] === "no-such-game"; })(),
+  "versus.html?a=&b= state is catalog-checked on load");
+check("WF37 versus page: two pickers, verdict strip, share card, core before UI, nav present",
+  vsHtml.includes('id="vs-a"') && vsHtml.includes('id="vs-b"') && vsHtml.includes('id="vs-verdict"') &&
+  vsHtml.includes('id="vs-card-text"') && vsHtml.includes("No scores. No rankings. No invented winner.") &&
+  vsHtml.indexOf("assets/js/versus-core.js") < vsHtml.indexOf("assets/js/versus.js") &&
+  vsHtml.includes('href="versus.html" aria-current="page"'),
+  "call the pairing → records → strip → card, wired in dependency order");
+check("WF37 taxonomy: STILL not reshelved — the brief's call stays with the human",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules");
+check("WF37 no ROM/BIOS download phrasing on the versus page",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(vsHtml),
+  "legal lane holds");
+
 process.exit(failures ? 1 : 0);

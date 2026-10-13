@@ -40,6 +40,7 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
 - **Tournament Night** (`tournament-night.html`): a full bracket night whose entrants are games, not players. Pick a saved Game Night lineup (`bm.lineups.v1`, read through the lineups store) or a hand-built collection; its real games seed a single-elimination bracket in source order (first game = top seed, honest top-seed byes at odd counts) on the Tournament 2.0 bracket engine (`assets/js/bracket.js`). One click picks a match winner; picks persist client-side in localStorage under `bm.tournament-night.v1` (in-memory fallback with an on-page notice when storage is blocked), a finished night crowns its champion with the game's real catalog description + play link, and the results card is plain text listing only matches the bracket actually decided. No game data is invented — names, descriptions, and URLs come only from the catalog records the entrants were resolved from. Pure logic in `assets/js/tournament-night-core.js` (UMD; `scripts/test_tournamentnight32.js` covers entrants, seeding, picks, persistence, the card, and the headless night).
 - **Genre deep dives** (`genres/roguelike.html`, `genres/cozy.html`): curated lists from the catalog with start-here picks and why-each-fits blurbs.
 - **Trophy Room** (`trophy-room.html`): persistent play-tracking across the whole catalog. Every game card carries **Played** / **Beaten** prize-token toggles (keyboard-operable, `aria-pressed`); state lives in localStorage under `bm.trophy.v1` (in-memory fallback with an honest "memory-only mode" notice when storage is blocked). Beating a game implies playing it; un-playing clears beaten. Favorites stay in wave-16's `bm_favs_v1` — the store reads them, never duplicates, so the directory's ♥ filter and the wall agree. The room shows: a stat band (played/beaten/favorites/day-streak/prizes), 8 genre shelves with static CRT-style completion dials (SVG, reduced-motion safe) + stacked played/beaten bars, a 16-prize achievement case (real rules: first-play, first-beat, heart-5/20, player-10/50/100, beater-5/25, puzzle-breaker, genre-tourist/master, streak-3/7 via UTC day keys, shelf-clearer, marathon), per-collection progress (also painted on every `collections.html` shelf), and JSON export/import (`bm.trophy.export` schema v1 — validated atomically, corrupt imports rejected with the current wall untouched). Pure logic in `assets/js/trophy-core.js` (UMD; `scripts/test_trophy18.js` covers state, achievements, streaks, export/import, migrations).
+- **Versus** (`versus.html?a=<id>&b=<id>`): head-to-head comparison of any two catalog games from their real records only — year named in the description (the catalog has no structured year field; every description claim was verified by the Curator census, waves 24–32; 2048's name number is not a year), collections each game sits on, genre, controls, tags, Kids corner audit pass, and written coverage on this site (a genre deep dive exists only for roguelike/cozy; a Kids listing carries a parent note). The verdict strip reports only what the data supports (older/newer when both years are named, bigger/equal collection footprint, more coverage, a one-sided Kids pass) — no scores, no rankings, no declared winner. When neither record carries a year, shelf, tag, coverage, or Kids pass, the strip shows an honest "no basis to compare" state and the rows still render. Pairings are URL state (unknown ids dropped, a game cannot face itself) with a plain-text share card listing only the rows and verdict lines produced. Pure logic in `assets/js/versus-core.js` (UMD; `scripts/test_versus33.js` covers profiles, year rules, verdicts, the thin state, pairing, and the card).
 - **Arcade Passport** (`passport.html`): a stamp booklet for the 24 collections. A shelf earns its stamp when it actually scrolls into view on `collections.html` (IntersectionObserver in `assets/js/collections.js`; first sighting wins, never re-dated); guide marks are derived at render time from the guides' own checklist store (`bm_checks_v1` via `BM.getChecks`) — a mark means every step of that guide's checklist is ticked. State lives in localStorage under `bm.passport.v1` (in-memory fallback with an on-page notice when storage is blocked). The passport counts only what the browser observed — shelf views and checklist ticks — and never claims a game was played. Pure logic in `assets/js/passport-core.js` (UMD; `scripts/test_passport31.js` covers state, validation, marks, and the headless stamp flow).
 
 ## Example workflows
@@ -126,6 +127,23 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
    A finished party plan already links there with players + games pre-filled.
    Share a finished bracket with "Copy share link" (#b=... — validated on import).
    See skills/tournament-runner.md.
+```
+
+### 8. "Compare two games head-to-head" (Versus)
+
+```
+1. GET data/v1/games.json + data/v1/collections.json + data/v1/kid-safe.json.
+2. Resolve both ids through the catalog — unknown ids are dropped, never guessed;
+   a game cannot face itself.
+3. Build each side with BMVersus.profile (assets/js/versus-core.js): year = the first
+   explicit year its description names (2048's name number excluded, per the Curator
+   census rules), collections = the shelves listing it, coverage = genre deep dive
+   (roguelike/cozy only) and/or Kids corner listing.
+4. BMVersus.compare returns verdict lines ONLY where the records support them
+   (era, footprint, coverage, one-sided Kids pass) plus common-ground lines.
+   If it returns thin:true, say there is no basis to compare — do not dress up
+   genre/controls as a result, and never invent a score, ranking, or winner.
+   See versus.html, or just send the user to versus.html?a=<id>&b=<id>.
 ```
 
 ### 7. "Run a tournament night for the games themselves" (Tournament Night)

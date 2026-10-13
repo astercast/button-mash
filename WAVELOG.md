@@ -2,6 +2,168 @@
 
 Running record of build waves. Newest first.
 
+## Wave 33 — 2026-10-13 — Versus, the completeness audit, and the free-tier audit
+
+**What shipped** — three tracks: a flagship (Versus, head-to-head
+game comparison on the fleet's Showdown pattern), the standing
+completeness audit walked over every collection/category surface,
+and the free-tier / best-pattern engineering audit written into
+LIVE_CHECKLIST.md. Taxonomy untouched throughout:
+TAXONOMY_BRIEF.md stays **UNDECIDED**, nothing reshelved
+(213 / horror 6 / cozy 16). No claim text was touched, and the
+curator suites stay green on the closed census (117 instances,
+all verified, 0 unverified — no new census pass was needed).
+
+- **FLAGSHIP — Versus** (`versus.html` + `assets/js/versus-core.js`
+  + `assets/js/versus.js` + `assets/css/versus.css`): any two
+  catalog games side by side, built only from real catalog
+  records. Each corner shows the game's own description verbatim,
+  the year its description names, genre, controls, play host,
+  the collections it sits on (counted from collections.json),
+  tags, its Kids corner audit status, and its written coverage
+  on this site (a genre deep dive — only roguelike and cozy have
+  one — and/or a Kids listing with a parent note). The catalog
+  carries no structured year/maker fields, so Versus invents
+  none: the year is read from the description under the Curator
+  census's own rules (first explicit 4-digit year; 2048's name
+  number excluded; a decade is not a year), which lands on
+  exactly the census's 45 verified year claims, and maker facts
+  stay where the census verified them — inside the quoted
+  description. The verdict strip reports only what the two
+  records support: older/newer when both years are named, a
+  bigger or equal collection footprint, more written coverage,
+  a one-sided Kids pass — ties reported as ties, common ground
+  listed separately, and **no scores, rankings, or winner,
+  ever**. Where neither record carries a year, a shelf, a tag,
+  coverage, or a Kids pass (the catalog's bare tail — kaaarot,
+  bloxd, moomoo, zombs, classicreload, lexaloffle-bbs and four
+  more), the strip shows an honest **"no basis to compare"**
+  state and the rows still render. Pairings are URL state
+  (`versus.html?a=<id>&b=<id>`; unknown ids drop with a note, a
+  game cannot face itself), with swap + surprise pairing and a
+  plain-text share card listing only the rows and verdict lines
+  produced. Registration the established way: nav on all 46
+  pages, `build_site.py` page + llms lines, AGENT.md centerpiece
+  + workflow 8, sitemap, WF37 (8 checks) in
+  `check_api_workflows.js`, `test_versus33.js` (20 checks:
+  profile/year/verdict/thin/pairing/card units on the real
+  catalog, the headless dated + bare pairings, the dropped-id
+  note, swap, 390px zero overflow, zero pageerrors).
+- **The regression this wave caused — and fixed.** Adding the
+  Versus nav item pushed the wrapped sticky header at 390px
+  from 379px (wave-32 tree, measured) to 427px — half the
+  viewport, sitting over the controls below it.
+  `test_curatornight21` caught it: 40 PASS and zero assertion
+  failures, then its mobile scenario's click on Deal landed
+  under the header three runs in a row. Probes isolated it
+  (JS-dispatched click deals instantly; a wave-32 worktree
+  deals on the same harness click at 379px), and the fix is in
+  `assets/css/layout.css`: under 40rem the header keeps its
+  marquee and chase strip but scrolls with the page
+  (`position: relative`) instead of sticking. curatornight21
+  then ran **ALL PASS (43 checks)** solo, and every other
+  mobile-sensitive suite was re-run green on the fixed tree.
+  The wave's own test caught a second, smaller bug the same
+  way: the dropped-id notice was set before `render()` cleared
+  the alert line, so it could never be seen — the notice now
+  posts after render, and the test waits on the condition
+  instead of a fixed sleep that flaked once under load.
+- **COMPLETENESS AUDIT — findings and verdicts.** Walked: the
+  directory, the game file, collections + passport, kids +
+  parents, genres, the guides hub, emulators, player/converter,
+  party/game-night/tournament/tournament-night, trophy room,
+  system picker, monster taming, the v1 API. *Filled this
+  wave:* the missing head-to-head comparison (Versus itself —
+  the one decision surface the catalog's 213 records could not
+  answer side by side). *Recorded, with reasons:* **52 of 213
+  games sit on no collection shelf** (Zork I, Minecraft
+  Classic, Monkey Island among them) — not filled: a new shelf
+  moves the 24-collection count the Passport and its suites
+  pin, and shelf curation is the Curator's human-grade work,
+  not a wave drive-by; Versus gives every orphan a side-by-side
+  surface meanwhile. **Genre deep dives exist for 2 of 8
+  genres** (roguelike, cozy); puzzle — the largest genre at 48
+  — action, multiplayer, retro, idle, and horror have none:
+  each dive is flagship-scale curated writing, queued as
+  future waves; the Versus coverage row names the absence per
+  game instead of hiding it. **Kids exclusion reasons** (100
+  games, in data/kids.json) surface nowhere user-facing and
+  kid-safe.json exposes only the curated subset — publishing
+  per-game exclusion reasons on a parents' surface needs a
+  copy/sensitivity pass of its own. **No emulator
+  side-by-side** (10 emulators, compared only in guide prose):
+  emulator records differ in shape (systems/platforms/license/
+  BIOS) and deserve their own treatment of the Versus pattern.
+  **No structured year/maker fields** in games.json: the facts
+  live in census-verified prose, and structuring them is a
+  curator-grade re-verification project, not a schema edit.
+  *Checked and NOT gaps:* the collections page already carries
+  shelf-jump navigation; the directory already has search,
+  filters, random, and game-of-the-day; every game already has
+  a full game file; the trophy room already tracks collection
+  progress; the horror shelf's thinness (6) is the pending
+  human taxonomy call, untouched by design.
+- **AUDIT WORKSTREAM — free-tier / best-pattern** (full text in
+  LIVE_CHECKLIST.md): **5 functions of the 12 cap** (health,
+  games, collections, game-night, cron/curator), all
+  zero-dependency, `maxDuration: 10`, no `runtime` key.
+  **Estimated invocations: ≤ ~20,000/month before edge caching**
+  at a stated assumption of 10,000 page views/month with ≤2
+  live probes per view; SWR collapses origin hits to the low
+  thousands in practice; cron adds ~4–5. **Durations measured
+  in-process:** health median 1.58ms (p95 5.33ms), games list
+  0.17ms, games `?id=` 0.05ms, collections 0.24ms, game-night
+  POST 0.56ms (max 12.95ms) — >30× headroom under the 10s
+  ceiling even cold; the cron is the only long pole, bounded
+  by its 9.5s internal hard stop by design. **First
+  degradation point:** the per-instance rate limiter sheds
+  first (429 + Retry-After, frontend already on static
+  fallback); behind it the invocation budget at ~5× the stated
+  traffic — and Hobby pauses rather than bills, with every
+  page still rendering from `data/v1`. **Fix shipped:**
+  `vercel.json` gained explicit SWR `Cache-Control` headers
+  for `/data/v1/(.*)` (mirroring the API envelope) and
+  `/assets/(.*)` — the static surfaces previously had none.
+  Alignment otherwise holds: static-first, precomputed JSON,
+  honest fallbacks, small handlers, health surfacing (the
+  Live Wire model); frontend request dedupe is absent by
+  design — the URL space is tiny and edge SWR coalesces.
+
+**Validation (wave 33, final runs):**
+- `scripts/build.py`: **BUILD OK — 213 games (149 domains), 24 collections, 10 emulators, 24 guides**; **LEGAL GATE OK (47 pages, 213 game URLs, 0 piracy links)**
+- `scripts/check_links.py`: **LINK CHECK OK — 46 pages, 1731 local links, 79 external links, 0 broken**
+- `node scripts/check_api_workflows.js`: **303/303 pass (WF1–WF37)** — new WF37 (8 checks: versus core, census-matched year rule, verdict discipline, thin state, pairing validation, page wiring, taxonomy pin, legal lane)
+- New `test_versus33`: **ALL PASS (20 checks)**; curator suites `test_curator24`–`test_curator32` **ALL PASS** (census closed, untouched)
+- Named suites re-run: `test_tournamentnight32` **ALL PASS**; `test_passport31` **ALL PASS**; `test_lineups23` ALL PASS; `test_converter12` 66/66; `test_player21` ALL PASSED; `test_gamenight_parity` PARITY OK; `test_gamenight22` ALL PASS; `test_curatornight21` **ALL PASS (43 checks)** — after the header fix above; its pre-fix runs (batch + two solos) each stopped at 40 PASS with zero assertion failures on the mobile click the header covered, and the fix + probes are documented in the entry; `test_wave17` ALL PASS; `test_wave19` ALL PASS; `test_trophy18` ALL PASSED; `test_party_planner11` ALL PASS; `test_tournament10` ALL PASS; `test_bracket` 82/82; `test_bracket_double` 105/105; `test_party11` 36/36; `tests/api.test.sh` **40/40**
+- **Load honesty, stated plainly**: the box ran loadavg ~8–12
+  through the rotation (and rebooted once mid-wave, wiping
+  /tmp). Both documented load-flake suites got clean solo runs:
+  `test_identity16` **ALL PASS (41 PASS lines)** and
+  `test_wow1` **WOW1 ALL CHECKS PASS (48 PASS lines, 0 FAIL)**
+  — solo re-run verdicts, stated as such; their powerunit
+  (ALL PASS) and playertail (PASS) sub-suites also passed.
+  `~/workspace/smoke/test.js`: exit 0.
+- `node --check`: clean on all new JS; AI-slop denylist grep clean on all wave-33 prose; no TODOs in the wave's files
+- Screenshots inspected (zero pageerrors): `versus.html` desktop (sign, pickers, both record cards, verdict strip, share card) + 390px mobile pre- and post-header-fix (stacked cards, zero overflow), homepage desktop (Versus in nav, hero intact)
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links.
+
+**Self-assessment**: Versus is the Showdown pattern with this
+catalog's honesty rules bolted on where the fleet's version
+could lean on structured fields: there is no year column here,
+so the wave's quiet work was proving the prose could carry the
+comparison — the year rule lands on exactly the census's 45
+verified claims, and everything the strip says is a count, a
+date, or an audit fact. The wave's other product is a caught
+regression with a receipt: the flagship's own nav line broke
+a three-wave-old mobile flow, the suite caught it, probes in
+two trees isolated it to 48 pixels of sticky header, and the
+fix made every mobile page better, not just the failing one.
+The completeness audit's honest shape is one gap filled and
+five recorded — the recorded five are each a real piece of
+future work with a named reason, which is what the audit is
+for.
+
 ## Wave 32 — 2026-10-13 — Curator pass 7 (the census closes) and Tournament Night
 
 **Recovery note**: this rotation's builder parked mid-build —

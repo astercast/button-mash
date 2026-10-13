@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Versus — Button Mash</title>
+<meta name="description" content="Versus: any two catalog games side by side from their real records — year named in the description, collections, genre, controls, tags, Kids corner pass, written coverage — with a verdict strip that reports only what the data supports. No scores, no invented winner.">
+<link rel="preload" href="assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/wave16.css">
+<link rel="stylesheet" href="assets/css/trophy.css">
+<link rel="stylesheet" href="assets/css/versus.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="kids.html">Kids corner</a></li>
+        <li><a href="collections.html">Collections</a></li>
+        <li><a href="party-planner.html">Party planner</a></li>
+        <li><a href="game-night.html">Game night</a></li>
+        <li><a href="tournament.html">Tournament</a></li>
+        <li><a href="emulation.html">Emulation</a></li>
+        <li><a href="monster-taming.html">Monster Taming</a></li>
+        <li><a href="play-legal.html">Play Legal</a></li>
+        <li><a href="trophy-room.html">Trophy room</a></li>
+        <li><a href="passport.html">Arcade passport</a></li>
+        <li><a href="tournament-night.html">Tournament night</a></li>
+        <li><a href="versus.html" aria-current="page">Versus</a></li>
+        <li><a class="nav-cta" href="player.html">» Play</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero vs-hero">
+    <div class="wrap hero-inner">
+      <span class="kicker">Versus</span>
+      <h1>Two games. <span class="pink">Side by side.</span></h1>
+      <p class="lede">Pick any two games in the catalog and Versus lays their real records next to each other — the year each description names, the shelves each game sits on, genre, controls, tags, the Kids corner audit, the writing that covers it. The verdict strip underneath reports only what those records support. No scores. No rankings. No invented winner.</p>
+      <div class="vs-sign" aria-hidden="true">
+        <p class="vs-sign-line">• Versus • Records, Not Ratings •</p>
+        <p class="vs-sign-sub">Every line below is copied or counted from the catalog. If the records are thin, the strip says so.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>1. Call the pairing</h2>
+      <p class="vs-note">Any two of the <a href="games.html">213 catalog games</a>. The pairing lives in the page address (<code>versus.html?a=…&amp;b=…</code>), so the link you copy is the face-off itself. Years come from the games' own catalog descriptions — every year, maker, and superlative claim in those descriptions was checked against an outside source by the Curator census; a description that names no year gets no year here.</p>
+      <div class="vs-pickers">
+        <div class="vs-pick">
+          <label for="vs-a"><strong>Corner A</strong></label>
+          <select id="vs-a"></select>
+        </div>
+        <div class="vs-pick-actions">
+          <button class="btn btn-ghost" id="vs-swap" type="button">⇄ Swap corners</button>
+        </div>
+        <div class="vs-pick">
+          <label for="vs-b"><strong>Corner B</strong></label>
+          <select id="vs-b"></select>
+        </div>
+        <div class="vs-pick-actions">
+          <button class="btn btn-cyan" id="vs-surprise" type="button">🎲 Surprise pairing</button>
+        </div>
+      </div>
+      <p id="vs-error" role="alert"></p>
+      <p class="vs-note" id="vs-starter" hidden>Starter pairing on the marquee: the catalog's first game against its oldest dated record. Change either corner and it is your card.</p>
+
+      <h2>2. The records</h2>
+      <div id="vs-stage"></div>
+      <div id="vs-verdict" aria-live="polite"></div>
+
+      <section class="vs-cardbox" id="vs-cardbox" hidden aria-label="Share card">
+        <h3>Share card</h3>
+        <p class="vs-note">Plain text, ready to paste into the group chat. It carries only the rows and verdict lines above.</p>
+        <pre id="vs-card-text"></pre>
+        <div class="vs-actions">
+          <button class="btn btn-cyan" id="vs-copy" type="button">📋 Copy share card</button>
+          <button class="btn btn-ghost" id="vs-copy-link" type="button">🔗 Copy pairing link</button>
+        </div>
+      </section>
+
+      <p class="vs-note">Want a verdict the crowd decides instead? <a href="tournament-night.html">Tournament Night</a> runs the games through a bracket you pick, match by match. For a bracket of players, the cabinet keeps <a href="tournament.html">Tournament 2.0</a> one shelf over.</p>
+      <p id="vs-live" class="sr-only" aria-live="polite"></p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>Play</h3>
+        <ul>
+          <li><a href="player.html">The Player</a></li>
+          <li><a href="converter.html">ROM → Browser Game</a></li>
+          <li><a href="party-planner.html">Party planner</a></li>
+          <li><a href="game-night.html">Game night</a></li>
+        <li><a href="tournament.html">Tournament</a></li>
+        <li><a href="tournament-night.html">Tournament night</a></li>
+        <li><a href="versus.html">Versus</a></li>
+        <li><a href="kids.html">Kids corner</a></li>
+          <li><a href="games.html">Game directory</a></li>
+          <li><a href="collections.html">Collections</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Learn</h3>
+        <ul>
+          <li><a href="emulation.html">Emulation hub</a></li>
+          <li><a href="guides/gba-wasm.html">GBA → WASM explainer</a></li>
+          <li><a href="monster-taming.html">Monster-taming corner</a></li>
+          <li><a href="parents.html">Parent guide</a></li>
+          <li><a href="play-legal.html">Play it legal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>For machines</h3>
+        <ul>
+          <li><a href="data/v1/">API v1</a></li>
+          <li><a href="API.md">API.md</a></li>
+          <li><a href="llms.txt">llms.txt</a></li>
+          <li><a href="skills/">skills/</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-note">
+      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links. Your files never leave your machine.</span>
+    </div>
+    <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>
+  </div>
+</footer>
+
+<script src="assets/js/store.js"></script>
+<script src="assets/js/arcade.js"></script>
+<script src="assets/js/versus-core.js"></script>
+<script src="assets/js/versus.js"></script>
+</body>
+</html>
