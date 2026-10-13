@@ -90,10 +90,23 @@ Hobby timeout. Frontend calls `/api/*` first (7s timeout) and falls back to
 | `GITHUB_REPO` | set to `astercast/button-mash-live` on the live track so watch commits land there |
 | `REPO_STATIC_PREFIX` | empty = repo root (correct for this snapshot) |
 
-## Known-good status (verified 2026-10-12, wave 26, working repo)
+## Known-good status (verified 2026-10-12, wave 27, working repo)
 
 - `python3 scripts/build.py` → BUILD OK (213 games, 24 collections,
   10 emulators, 24 guides; game-night twin in sync)
+- Wave 27: WF1–WF29 249/249, test_curator27 ALL PASS (30 checks),
+  test_identity16 41/41 (4th attempt; documented load stall on 1–3),
+  test_lineups23 ALL PASS, test_curator24/25/26 ALL PASS,
+  test_player21 ALL PASSED, test_converter12 66/66; HUMAN DECISION
+  BRIEF for the cozy/horror taxonomy call shipped as
+  `TAXONOMY_BRIEF.md` (evidence + census effect horror 6→4 /
+  cozy 16→18 + Spooky Town rider + recommendation; NOTHING
+  reshelved — games still pinned in horror pending the human
+  ruling); Curator pass 3 verified the retro shelf's 16
+  year/maker claims (14 stand as written; 1942's "granddaddy of
+  the shmup" corrected to first of the 19XX series; Transport
+  Tycoon now names the 1995 Deluxe edition it links, original
+  1994); Curator scoring v2.2.0
 - Wave 26: WF1–WF28 242/242, test_curator26 ALL PASS (14 checks),
   test_identity16 41/41, test_lineups23 ALL PASS, test_curator24
   ALL PASS, test_curator25 ALL PASS, test_player21 ALL PASSED,

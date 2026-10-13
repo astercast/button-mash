@@ -1430,4 +1430,43 @@ check("WF28 no ROM/BIOS download phrasing in wave-26 files",
   !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(emuHtml26 + howEmu26),
   "legal lane holds");
 
+// ---- Wave 27: the taxonomy brief + Curator pass 3. The brief
+// (TAXONOMY_BRIEF.md) puts the cozy/horror call in front of a human
+// with the evidence and decides nothing — both games stay pinned in
+// horror below. Pass 3 verified the retro shelf's year/maker claims
+// against sources outside the repo: fourteen stand as written, and
+// two entries are corrected (1942's origin claim, Transport Tycoon's
+// unnamed edition).
+const brief27 = fs.readFileSync(path.join(ROOT, "TAXONOMY_BRIEF.md"), "utf8");
+check("WF29 brief: the human decision brief exists with census effect + recommendation",
+  brief27.includes("UNDECIDED") && brief27.includes("horror 6 → 4, cozy 16 → 18") &&
+  brief27.includes("**Move purrgatory and Lookouts to cozy"),
+  "one page, evidence first, nothing decided for the human");
+check("WF29 brief: the Spooky Town case rides the same ruling",
+  brief27.includes("Little Troubles in Spooky Town") && brief27.includes("Cozy, Cute, Ghosts"),
+  "its own itch page tags it Cozy/Cute/Wholesome (checked 2026-10-12)");
+check("WF29 taxonomy: STILL not reshelved — brief asks, tests pin",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules");
+check("WF29 curator pass 3 — 1942 corrected to the claim that checks out",
+  byId24["1942"].description.includes("first of the 19XX series") &&
+  !byId24["1942"].description.includes("granddaddy"),
+  "the shmup lineage runs through Space Invaders (1978) and Xevious (1982), not 1942");
+check("WF29 curator pass 3 — Transport Tycoon names the edition it links",
+  byId24["transport-tycoon"].description.includes("1995 Deluxe edition (the original is 1994)") &&
+  byId24["transport-tycoon"].url.includes("Transport_Tycoon_Deluxe_1995"),
+  "original Nov 1994; the linked archive build is the 1995 Deluxe edition");
+check("WF29 curator pass 3 — verified tranche stands as written",
+  byId24["tempest"].description.includes("first game with a selectable starting level") &&
+  byId24["missile-command"].description.includes("six cities with three batteries") &&
+  byId24["master-of-orion"].description.includes("The 1993 4X that named the genre") &&
+  byId24["galaga88"].description.includes("triple-ship power-ups"),
+  "Tempest's SkillStep, Missile Command's 6 cities/3 bases, the 4X coinage, the triple fighter — all confirmed outside the repo");
+check("WF29 no ROM/BIOS download phrasing in wave-27 files",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(brief27),
+  "legal lane holds");
+
 process.exit(failures ? 1 : 0);

@@ -2,6 +2,101 @@
 
 Running record of build waves. Newest first.
 
+## Wave 27 — 2026-10-12 — "The brief": the taxonomy call, written for a human + Curator pass 3
+
+**What shipped** — two tracks: the cozy/horror recommendation from
+wave 25 becomes a decision brief a human can rule on in one read, and
+the Curator's third pass works the next unverified tranche of catalog
+metadata — the retro shelf's year/maker/superlative claims.
+
+- **The HUMAN DECISION BRIEF** (`TAXONOMY_BRIEF.md`, repo root, the
+  docs convention): one page, evidence first, recommendation last,
+  **nothing decided**. Contents: the exact census effect (horror
+  6 → 4, cozy 16 → 18, 213 unchanged); each game's own store-page
+  framing, re-fetched 2026-10-12 — **purrgatory**'s itch page calls it
+  a visual novel about "passing time in an afterlife," a "whimsical
+  point-and-click world" of befriending seven characters, with no
+  horror tag, framing, or warnings anywhere; **Lookouts**' page leads
+  with "a romance visual novel" about two outlaws "finding refuge in
+  each other," and its content warnings (alcohol, smoking, gun
+  violence and death, blood, injury) are western-drama material; the
+  comparable shelving (**Six Cats Under** and **goodbye, doggy** —
+  ghost protagonists, afterlife settings — and gothic **Fallen
+  London** all sit in cozy; horror's centre is bodily dread: *We
+  Become What We Behold*, *Adventures With Anxiety*, *Dating
+  Killmulator 2*); the honest case for leaving them (a thin horror
+  shelf at four; a browsing aid for spooky-season hunters); and the
+  recommendation — **move both to cozy**, by the wave-24 rule that
+  genre follows the game's own description, not its furniture.
+- **The related case, with fresh evidence**: *Little Troubles in
+  Spooky Town*'s own itch page (re-fetched 2026-10-12) tags the game
+  **Cozy, Cute, Ghosts, whimsical, Wholesome**, lists its genre as
+  Adventure, and credits the Girly Game Jam; its stated goal is to
+  "prove to everyone that you can be whatever you want to be." The
+  brief puts it in front of the same ruling, so one human sentence
+  can settle all three. **Taxonomy itself: untouched, again** — all
+  three games stay pinned in horror (census 213 / horror 6 / cozy 16),
+  now enforced by `test_curator27` and WF29 alongside 25/26.
+- **Curator pass 3 — the retro shelf's claims** (`data/games.json`):
+  sixteen descriptions whose years, makers, and superlatives waves
+  24–26 never checked against a source outside the repo (only
+  Robotron's 1982 had been). **Fourteen stand as written** and are
+  pinned verbatim in `test_curator27`: Space Invaders (Taito 1978;
+  first game to save a high score between sessions — the "birth of
+  the high score" holds), Tempest (Atari 1981, Dave Theurer, first
+  selectable starting level — Atari's SkillStep), Missile Command
+  (Atari 1980, six cities, three bases), Dig Dug (Namco 1982, Pookas
+  and Fygars), Joust (Williams 1982), Centipede (Atari 1981, the
+  mushroom field), Defender (Williams 1981; "perhaps the most
+  difficult classic game of all time" is the critical consensus the
+  entry echoes), Q*bert (Gottlieb 1982, Coily), Congo Bongo (Sega
+  1983, the isometric Donkey Kong answer), Galaga '88 (Namco 1987,
+  triple fighter — Bandai Namco's own release notes), Bubble Bobble
+  II (Taito 1994 — the linked MAME set is Bubble Symphony), the
+  Class of 1981 cabinet (2000; "class of 1981" is the machine's own
+  name), Master of Orion (1993; Alan Emrich coined "4X" in his
+  *Computer Gaming World* preview of this game), Street Fighter
+  Alpha 2 (Capcom 1996, air-blocking and custom combos). **Two
+  fixes**: **1942** called itself "the granddaddy of the shmup" —
+  the lineage runs through Space Invaders (1978) and Xevious (1982);
+  what 1942 verifiably is is the first of Capcom's 19XX series, and
+  the entry now says that. **Transport Tycoon** said "1995" with no
+  edition named — the original game is November 1994; 1995 is the
+  Deluxe edition, which is the build the entry links (its own title
+  in the catalog is even *Transport Tycoon Deluxe*). The entry now
+  names the edition it links, original year in parentheses.
+- **Agentic surface**: WF29 (7 checks — the brief's completeness, the
+  Spooky Town rider, the still-pinned taxonomy, both fixes, the
+  verified tranche, legal lane) — **249/249 pass (WF1–WF29)**. New
+  `scripts/test_curator27.js`: **ALL PASS (30 checks)** — the brief's
+  required contents, the census pins, both corrected descriptions
+  verbatim, and the fourteen verified descriptions pinned exactly as
+  written so no future pass can quietly "improve" a true claim.
+
+**Validation:**
+- `scripts/build.py`: **BUILD OK — 213 games, 24 collections, 10 emulators, 24 guides**; **LEGAL GATE OK (44 pages, 0 piracy links)**
+- `scripts/check_links.py`: **0 broken (43 pages, 1439 local links)**
+- `node scripts/check_api_workflows.js`: **249/249 pass (WF1–WF29)**
+- `node scripts/test_curator27.js`: **ALL PASS (30 checks)** (new)
+- Named suites re-run: `test_identity16` **41/41 ALL PASS** (fourth attempt; attempts 1–3 reproduced the documented load stall exactly — 28/41 green, zero assertion failures, `waitCards` timeout at loadavg ~7.7–9.5 — and attempt 4 at loadavg ~6.5 ran clean, the wave 21–26 pattern end to end); `test_lineups23` **ALL PASS**; `test_curator24` **ALL PASS**; `test_curator25` **ALL PASS**; `test_curator26` **ALL PASS**; `test_converter12` **66/66**; `test_player21` **ALL PASSED**
+- Regression: `test_gamenight_parity` PARITY OK; `test_gamenight22` ALL PASS; `test_curatornight21` ALL PASS; `tests/api.test.sh` **40/40**; `~/workspace/smoke/test.js`: exit 0, zero errors (known CDN tunnel noise only)
+- `node --check`: clean on the new/edited JS; AI-slop denylist grep clean on the brief and all new prose
+- Screenshots inspected: homepage hero (3-second read intact — eyebrow, H1, one CTA) and `games.html` directory hero ("213 games. Zero installs."), both over file:// with zero pageerrors (loopback navigation is LNA-blocked in this sandbox, the wave-22 finding)
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links.
+
+**Self-assessment**: the brief is the wave's real product — wave 25
+left a recommendation sitting in a log; this wave makes it a ruling
+a person can make in one read, with the strongest new evidence
+(Spooky Town's own Cozy tag) found by going back to the store pages
+rather than re-arguing old notes. Pass 3's lesson rhymes with wave
+24's Robotron: the two errors were both *almost* true — a year that
+belongs to the sequel edition, a superlative that belongs to the
+genre's neighbours — which is exactly the class of error that
+survives casual reading. What remains on the Curator's list: the
+Flash-era entries' year/creator claims (the Ruffle shelf) are the
+next unverified tranche.
+
 ## Wave 26 — 2026-10-12 — "Accuracy sweep": the blanket-claim audit
 
 **What shipped** — wave 25's DuckStation correction (CC BY-NC-ND 4.0,

@@ -1471,7 +1471,7 @@
       "url": "https://archive.org/details/msdos_Transport_Tycoon_Deluxe_1995",
       "genre": "retro",
       "controls": "Mouse",
-      "description": "Chris Sawyer's 1995 transport empire sim: lay rail, run buses, and out-profit the competition across a century."
+      "description": "Chris Sawyer's transport empire sim in its 1995 Deluxe edition (the original is 1994): lay rail, run buses, and out-profit the competition across a century."
     },
     {
       "id": "theme-park",
@@ -1637,7 +1637,7 @@
       "url": "https://archive.org/details/arcade_1942",
       "genre": "retro",
       "controls": "Arrow keys / buttons",
-      "description": "Capcom's 1984 vertical shooter: loop-de-loop over the Pacific in the granddaddy of the shmup.",
+      "description": "Capcom's 1984 vertical shooter: loop-de-loop over the Pacific in the first of the 19XX series.",
       "tags": [
         "shooter"
       ]

@@ -1,7 +1,7 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-13T00:36:44Z",
+  "generated_at": "2026-10-13T02:32:11Z",
   "endpoint": "emulators",
   "description": "Emulator software picks (no ROMs, software only).",
   "count": 10,
