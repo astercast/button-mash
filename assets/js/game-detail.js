@@ -100,6 +100,9 @@
     play.target = "_blank";
     play.rel = "noopener noreferrer";
     playRow.appendChild(play);
+    var journalLink = el("a", "card-link", "» Journal this game");
+    journalLink.href = "journal.html?game=" + game.id;
+    playRow.appendChild(journalLink);
     var note = el("p", "play-note",
       "Opens in a new tab. Button Mash never hosts the game itself — this link is the official page, verified live.");
     playRow.appendChild(note);

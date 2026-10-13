@@ -2,6 +2,215 @@
 
 Running record of build waves. Newest first.
 
+## Wave 40 — 2026-10-13 — HEADLINE (stated before building): The Idle Deep Dive — the seventh genre dive, dives go 6-of-8 to 7-of-8 — PLUS co-headline (parent directive, user gap-closing order): T-MASH-2 CLOSED — the Play Journal & backlog lands as a first-class surface
+
+**Headline**: rotation 19 takes the next line on the wave-33
+completeness audit's dive debt, ordered by catalog size as
+waves 36–39 ordered it: puzzle (48), retro (44), action (41),
+and multiplayer (31) have their dives; idle — 15 of 213
+games — is next (horror 6 is the last line). The genre is
+small enough to curate whole, so wave 40 builds
+`genres/idle.html` with **all 15** idle games in five
+families (start here: the clicker canon, stories that unfold
+while you wait, prestige: layers on layers, swarms/skills &
+tiny armies, idle but you drive), every card pinned to its
+catalog record — title, play URL, and controls line verbatim,
+and every "why it fits" blurb grounded only in the game's
+catalog description (the wave-36 0hh1 precedent). The dive
+lede states the honest count ("15 of the catalog's 213
+games") and the page says plainly that the dive and the
+shelf are the same fifteen. **Co-headline**: the same
+rotation closes **T-MASH-2** (research cycle 132: personal
+play journal & backlog — status shelves, dated logs,
+multiple logs per playthrough; the site had no journal/list/
+backlog artifact, verified cycles 133–134). Wave 40 builds
+`journal.html` + `assets/js/journal-core.js` +
+`assets/js/journal.js`: per-game status shelves (want to
+play / playing / finished), dated log entries with multiple
+logs per playthrough, persisted in localStorage
+(`bm.journal.v1` — the Trophy Room's persistence pattern),
+all 213 catalog games addressable, no server, no accounts,
+no invented data. Reachable from the directory's journal
+card, from every idle dive card, and from each game's file
+page (`game-detail.js`), deep-linked as
+`journal.html?game=<id>`. T-MASH-1/5 (time-to-beat data) are
+NOT this wave — they need a sourced data pass, deferred by
+name; no playtimes were fabricated. The site grows 50 → 52
+pages and every page-count pin moves with it. Because Versus
+counts a genre dive as written coverage, the idle dive also
+lands in the comparison layer: all 15 idle games gain a
+coverage entry (every idle game was already Kids-listed, so
+each goes 1 → 2), and the one pinned pairing whose truth
+changes gets its suites updated to assert the new truth
+explicitly, never loosened. **Tickets**: no open Button Mash
+tickets at rotation open. **Seed discipline**: the wave adds
+no chance-bearing surface — a curated dive and a journal deal
+nothing — so no new seed is needed and no `Math.random` call
+is added anywhere (WF47 pins the journal core chance-free).
+**Exclusion Ledger integrity**: untouched and re-verified —
+WF41 (213 audited = 113 in + 100 out, reasons verbatim,
+accounting derived). Taxonomy untouched: TAXONOMY_BRIEF.md
+stays **UNDECIDED**, parked for a human ruling (213 / horror
+6 / cozy 16); census untouched.
+
+**What shipped**
+
+- `genres/idle.html` — the Idle Deep Dive on the proven
+  two-template dive pattern: all 15 of the catalog's 15 idle
+  games in five families (the clicker canon — Cookie
+  Clicker, AdVenture Capitalist, Candy Box 2; stories that
+  unfold while you wait — A Dark Room, Universal Paperclips,
+  Kittens Game; prestige: layers on layers — Antimatter
+  Dimensions, Synergism, Realm Grinder; swarms, skills &
+  tiny armies — Swarm Sim, Melvor Idle, Trimps; idle, but
+  you drive — Bitburner, Stick Ranger, Prerolled). Every
+  card pinned verbatim to its `data/games.json` record
+  (title, play URL, controls line) and carrying a
+  `journal.html?game=<id>` link for its own game. Lede +
+  closing callout name the full shelf honestly: 15 idle
+  games, all 15 curated here, none left in the directory.
+  Born placed: full placement block in source —
+  `wire_placement` reports 52 pages stamped, 0 updated —
+  and bm-vt stamped (not in the {player, converter, kids,
+  parents} skip set).
+- `journal.html` + `journal-core.js` + `journal.js` — the
+  Play Journal (T-MASH-2): three status shelves with counts,
+  a one-action editor (pick a game → shelve it → write a
+  dated log entry), the game's log entries in the order
+  written with per-entry removal, and an all-games list that
+  makes every one of the 213 catalog games addressable. The
+  core is UMD and DOM-free on the Trophy Room's storage
+  pattern (probe, localStorage, in-memory fallback);
+  invalid writes (bad status, impossible date, empty text)
+  refuse and change nothing; reads never create entries.
+- Registration per pattern: AGENT.md centerpiece lines +
+  workflows 15 (idle dive) and 16 (journal); `build_site.py`
+  PAGES + llms lines for both pages (sitemap + llms.txt
+  regenerated); a seventh card (idle) and an eighth card
+  (journal) in games.html's Genre deep dives section;
+  `scripts/test_idle40.js` and `scripts/test_journal40.js`
+  (13 + 10 checks, ALL PASS).
+- Versus: `versus-core.js` GENRE_DIVES gains
+  `idle: 'genres/idle.html'` — the registry names exactly
+  the seven dives on disk; all 15 idle games carry dive
+  coverage (coverage 1 → 2 each, on top of their Kids
+  listing). The pinned pairing whose truth changed:
+  **Cookie Clicker vs kaaarot** — wave 39 tied coverage
+  1–1 (Cookie's Kids listing against kaaarot's multiplayer
+  dive) so footprint + Kids alone fired; Cookie now carries
+  the idle dive too, so the coverage verdict fires as well:
+  footprint + coverage + Kids, coverage 2–1. WF37, WF43,
+  WF44, WF45, WF46, `test_versus33`, `test_puzzle36`,
+  `test_retro37`, `test_action38`, and `test_multiplayer39`
+  assert the new truths explicitly. **The thin state does
+  NOT move**: every idle game was already Kids-listed, so no
+  idle record was bare — Lookouts vs Dating Killmulator 2
+  (both horror) remain the catalog's bare tail, asserted by
+  WF46 + `test_idle40`.
+- Page-count pins 50 → 52 everywhere they live: WF38/WF39
+  (52), WF41 VT detail (48 stamped of 52), LIVE_CHECKLIST
+  canonical (52) + VT counts (48 of 52); the legal gate's
+  count is derived (its repo-wide walk reports 53 HTML
+  files — the 52 site pages plus the vendor template the WF
+  page walk excludes — 0 piracy links).
+- Minimal-design pass on the new surfaces (user order,
+  landed mid-rotation): both new pages were screenshot-
+  checked against the minimal/sleek bar in the cabinet
+  identity — one h1, one primary action per view (the
+  journal editor), whitespace over density; the journal's
+  all-games buttons and shelf buttons were restyled from
+  default browser chrome to the site's own tokens before
+  landing, and the editor controls are width-capped (the
+  390px overflow fix).
+
+**Verification (after)**
+
+- `scripts/build.py`: BUILD OK — 213 games, 24
+  collections, 10 emulators, 24 guides; placement wiring 52
+  stamped (0 updated); exclusion ledger 100 verdicts
+  stamped. `check_legal.py`: LEGAL GATE OK (0 piracy
+  links). `check_links.py`: 52 pages, 0 broken.
+- WF battery (`check_api_workflows.js`): **375/375 ALL
+  PASS** (WF1–WF47; +18 over wave 39's 357 — the WF46 idle
+  block, 9, and the WF47 journal block, 9).
+  `test_idle40.js`: ALL PASS (13). `test_journal40.js`:
+  ALL PASS (10) — including the headless flow: shelve
+  Cookie Clicker, write two dated logs, reload, both logs
+  and the status persist from localStorage.
+- Sequential solo battery (detached, one suite at a time):
+  every named suite green — versus (VERSUS33 ALL PASS),
+  ledger, the curator family, retro37, puzzle36, action38,
+  multiplayer39, idle40, journal40, and `tests/api.test.sh`:
+  pass=40 fail=0. **Identity, reported as observed, not
+  hidden**: `test_identity16` timed out in-battery on its
+  waitCards condition (the wave-39 pattern), then failed
+  solo four times at the same line (16.29: waitCards(213)
+  after the clear-filters click) under heavy fleet load
+  (load average ~11, ~20 sibling Chromes; an instrumented
+  copy showed the suite's own click never landing — cards
+  stayed 0 — while the identical DOM sequence in isolation
+  rendered 213 cards in ~1s; a clean-HEAD worktree run and
+  a store-reverted run each passed once in the same
+  window). A per-card journal link in `store.js` was tried
+  and **withdrawn** during diagnosis (journal reachability
+  moved to the game file page instead — see above); with
+  the final tree, `test_identity16` closed **ALL PASS (41)**
+  on a solo re-run once load ebbed. No assertion in the
+  suite was touched or loosened.
+- Captures in `~/workspace/progress-archive/button-mash/
+  rotation-019/`: the dive page full-page desktop (read
+  whole — hero, all five families, callout, footer clean),
+  the dive hero at 390px, the journal full-page desktop
+  (seeded through the real UI flow: Cookie Clicker shelved
+  as playing with one dated log — shelves, editor, log list,
+  and the all-213 list all inspected), games.html's
+  eight-card dives + journal section, and the changed
+  Versus pairing's verdict strip (footprint + coverage +
+  Kids lines, exactly as the suites assert) — zero
+  pageerrors, zero 390px overflow on both new pages, all
+  inspected. Capture note: captures ran over file:// with a
+  fresh browser (the rotation-18 pattern; Chromium 152's
+  local-network-access checks still block loopback HTTP).
+- Untouched, re-verified: Exclusion Ledger integrity
+  (213 = 113 + 100, reasons verbatim, WF41 green);
+  TAXONOMY_BRIEF.md UNDECIDED/PARKED; census untouched;
+  the 52 orphan games stay parked (no new shelf — the
+  Passport's pinned 24-collection count holds). No
+  `Math.random` added; no chance-bearing surface.
+
+**Debt ledger (after wave 40)**
+
+- Genre dives: 7-of-8 shipped (roguelike, cozy, puzzle,
+  retro, action, multiplayer, idle). Remaining: **horror
+  (6 games)** — the last line on the wave-33 dive debt.
+- Gap ledger: **T-MASH-2 CLOSED this wave** (journal
+  surfaces 0 → 1; games addressable 213). T-MASH-1/5
+  (time-to-beat) stay deferred by name — a sourced data
+  pass is required; no fabricated playtimes.
+- Minimal-pass scoping (user order; the fleet-wide pass
+  leads rotation 20 — presentation only, all content
+  kept). Busiest Button Mash pages, measured from source:
+  games.html (43KB; renders all 213 cards — the wall a
+  visitor meets first), parents.html (29KB; the 100-item
+  Exclusion Ledger), player.html (24KB, 7 sections — a
+  deliberate tool surface, and one of the four instant
+  pages), emulation.html (21KB, 9 sections, 25 cards),
+  index.html (14KB but 9 sections — the first impression),
+  and the 24-guide template (16–20KB each, 9 sections /
+  10 h2 per guide). Proposed pass order: (1) games.html —
+  hero + filters first, dives/journal cards to progressive
+  disclosure below the directory; (2) index.html — one
+  3-second hero, sections behind disclosure; (3)
+  emulation.html — hub sections collapsed to one primary
+  action per view; (4) the guides template (one pass moves
+  all 24); (5) parents.html — ledger behind its search,
+  which already exists; (6) player.html last — tool
+  density is deliberate and it stays instant.
+- Parked, awaiting a human ruling (unchanged): the 52
+  orphan games (no new shelf) and the taxonomy brief
+  (TAXONOMY_BRIEF.md UNDECIDED — horror 6 / cozy 16 as
+  committed).
+
 ## Wave 39 — 2026-10-13 — HEADLINE (stated before building): The Multiplayer Deep Dive — the largest remaining genre gets its dive, dives go 5-of-8 to 6-of-8
 
 **Headline**: rotation 18 takes the next line on the wave-33

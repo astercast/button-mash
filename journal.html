@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Play journal — your backlog &amp; logbook — Button Mash</title>
+<meta name="description" content="Your personal play journal and backlog: shelve any of the 213 catalog games as want to play, playing, or finished, and keep dated log entries — as many per playthrough as you write. Everything lives in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Play journal — your backlog &amp; logbook — Button Mash">
+<meta property="og:description" content="Your personal play journal and backlog: shelve any of the 213 catalog games as want to play, playing, or finished, and keep dated log entries — as many per playthrough as you write. Everything lives in your browser.">
+<meta property="og:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Play journal — your backlog &amp; logbook — Button Mash">
+<meta name="twitter:description" content="Your personal play journal and backlog: shelve any of the 213 catalog games as want to play, playing, or finished, and keep dated log entries — as many per playthrough as you write. Everything lives in your browser.">
+<meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
+<link rel="canonical" href="https://button-mash-live.vercel.app/journal.html">
+<meta name="theme-color" content="#07070f">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<!-- bm-vt:start -->
+<style data-bm-vt>
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.fx-off) {
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .18s; }
+  }
+}
+</style>
+<!-- bm-vt:end -->
+<link rel="preload" href="assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/wave16.css">
+<style>
+/* Wave 40 minimal pass: editor controls never exceed their card. */
+#journal-editor select, #journal-editor input, #journal-editor textarea { width: 100%; max-width: 100%; box-sizing: border-box; }
+#journal-all .journal-all-item { overflow-wrap: anywhere; text-align: left; }
+#journal-logs { list-style: none; padding: 0; }
+#journal-logs .journal-log { padding: .4rem 0; border-bottom: 1px solid var(--ink-dim, #333); }
+.journal-log-remove { margin-left: .75rem; }
+#journal-all .journal-all-item, .journal-open, .journal-log-remove {
+  background: var(--panel, #10101e); color: var(--ink, #e8e8f2);
+  border: 1px solid var(--bezel, #45456e); border-radius: 8px;
+  padding: .45rem .6rem; cursor: pointer; font: inherit; font-size: .9rem;
+}
+#journal-all .journal-all-item:hover, .journal-open:hover, .journal-log-remove:hover { border-color: var(--neon-pink, #ff2e88); }
+#journal-all .journal-all-item .genre-tag { margin-left: .5rem; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="kids.html">Kids corner</a></li>
+        <li><a href="collections.html">Collections</a></li>
+        <li><a href="party-planner.html">Party planner</a></li>
+        <li><a href="game-night.html">Game night</a></li>
+        <li><a href="tournament.html">Tournament</a></li>
+        <li><a href="emulation.html">Emulation</a></li>
+        <li><a href="monster-taming.html">Monster Taming</a></li>
+        <li><a href="play-legal.html">Play Legal</a></li>
+        <li><a href="trophy-room.html">Trophy room</a></li>
+        <li><a href="journal.html" aria-current="page">Play journal</a></li>
+        <li><a class="nav-cta" href="player.html">» Play</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <span class="kicker">Play journal · shelves &amp; logs</span>
+      <h1>Play journal: <span class="pink">your backlog, your story.</span></h1>
+      <p class="lede">Every one of the catalog's 213 games can live here: shelve a game as want to play, playing, or finished, then keep dated log entries for it — as many per playthrough as you write. The journal lives only in this browser (localStorage); there is no account and no server, and nothing is recorded until you write it.</p>
+      <p class="lede" id="journal-summary" aria-live="polite">0 want to play · 0 playing · 0 finished · 0 log entries across 0 games</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2><span class="tick">»</span> Want to play <span id="shelf-want-count">0 games</span></h2></div>
+      <div class="grid cols-2" id="shelf-want"><p class="journal-empty">Nothing on this shelf yet.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2><span class="tick">»</span> Playing <span id="shelf-playing-count">0 games</span></h2></div>
+      <div class="grid cols-2" id="shelf-playing"><p class="journal-empty">Nothing on this shelf yet.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2><span class="tick">»</span> Finished <span id="shelf-finished-count">0 games</span></h2></div>
+      <div class="grid cols-2" id="shelf-finished"><p class="journal-empty">Nothing on this shelf yet.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="journal-editor">
+    <div class="wrap">
+      <div class="section-head"><h2><span class="tick">»</span> Journal editor</h2></div>
+      <p class="lede" id="journal-entry-note">Pick a game to shelve it and write log entries.</p>
+      <div class="grid cols-2">
+        <article class="feature-card">
+          <h3>Shelve a game</h3>
+          <p><label for="journal-game">Game</label><br>
+          <select id="journal-game"></select></p>
+          <p><label for="journal-status">Status shelf</label><br>
+          <select id="journal-status">
+            <option value="">Not shelved</option>
+            <option value="want">Want to play</option>
+            <option value="playing">Playing</option>
+            <option value="finished">Finished</option>
+          </select></p>
+          <p>Reach this editor from any game's file page, from a genre deep dive card, or from the all-games list below — the <em>?game=</em> link opens the game here.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Write a log entry</h3>
+          <p><label for="journal-date">Date</label><br>
+          <input type="date" id="journal-date"></p>
+          <p><label for="journal-text">Entry</label><br>
+          <textarea id="journal-text" rows="4" maxlength="500" placeholder="What happened this session?"></textarea></p>
+          <p><button class="btn btn-primary btn-sm" id="journal-add-log" type="button">» Add log entry</button></p>
+        </article>
+      </div>
+      <div class="section-head" style="margin-top:1.5rem"><h2><span class="tick">»</span> Log entries for this game</h2></div>
+      <ul id="journal-logs"></ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2><span class="tick">»</span> <span id="journal-all-count">All 213 catalog games</span></h2></div>
+      <p>Every game in the catalog is addressable in this journal — pick one to shelve it or start its log.</p>
+      <div class="grid cols-3" id="journal-all"></div>
+    </div>
+  </section>
+</main>
+
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>Play</h3>
+        <ul>
+          <li><a href="player.html">The Player</a></li>
+          <li><a href="converter.html">ROM → Browser Game</a></li>
+          <li><a href="games.html">Game directory</a></li>
+          <li><a href="collections.html">Collections</a></li>
+          <li><a href="party-planner.html">Party planner</a></li>
+          <li><a href="game-night.html">Game night</a></li>
+        <li><a href="tournament.html">Tournament</a></li>
+        <li><a href="kids.html">Kids corner</a></li>
+        <li><a href="trophy-room.html">Trophy room</a></li>
+        <li><a href="passport.html">Arcade passport</a></li>
+        <li><a href="tournament-night.html">Tournament night</a></li>
+        <li><a href="versus.html">Versus</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Learn</h3>
+        <ul>
+          <li><a href="emulation.html">Emulation hub</a></li>
+          <li><a href="guides/gba-wasm.html">GBA → WASM explainer</a></li>
+          <li><a href="monster-taming.html">Monster-taming corner</a></li>
+        <li><a href="parents.html">Parent guide</a></li>
+          <li><a href="play-legal.html">Play it legal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>For machines</h3>
+        <ul>
+          <li><a href="data/v1/">API v1</a></li>
+          <li><a href="API.md">API.md</a></li>
+          <li><a href="llms.txt">llms.txt</a></li>
+          <li><a href="skills/">skills/</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-note">
+      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links. All game descriptions original.</span>
+    </div>
+    <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>
+  </div>
+</footer>
+
+<script src="assets/js/store.js"></script>
+<script src="assets/js/journal-core.js"></script>
+<script src="assets/js/arcade.js"></script>
+<script src="assets/js/journal.js"></script>
+</body>
+</html>
