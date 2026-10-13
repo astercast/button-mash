@@ -46,11 +46,11 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
 {
   check("core surface: UMD, genre-dive registry names only the dives that exist",
     typeof V.compare === "function" && typeof V.profile === "function" &&
-    Object.keys(V.GENRE_DIVES).sort().join(",") === "action,cozy,puzzle,retro,roguelike" &&
+    Object.keys(V.GENRE_DIVES).sort().join(",") === "action,cozy,multiplayer,puzzle,retro,roguelike" &&
     fs.existsSync(path.join(ROOT, "genres/roguelike.html")) && fs.existsSync(path.join(ROOT, "genres/cozy.html")) &&
     fs.existsSync(path.join(ROOT, "genres/puzzle.html")) && fs.existsSync(path.join(ROOT, "genres/retro.html")) &&
-    fs.existsSync(path.join(ROOT, "genres/action.html")),
-    "roguelike + cozy + puzzle (wave 36) + retro (wave 37) + action (wave 38) dives exist on disk; no other genre is claimed");
+    fs.existsSync(path.join(ROOT, "genres/action.html")) && fs.existsSync(path.join(ROOT, "genres/multiplayer.html")),
+    "roguelike + cozy + puzzle (wave 36) + retro (wave 37) + action (wave 38) + multiplayer (wave 39) dives exist on disk; no other genre is claimed");
 
   check("year rule: 2048's name number is not a year (the census exclusion)",
     V.yearNamed(byId["2048"].description, "2048") === null &&
@@ -100,11 +100,11 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
     V.compare({ id: "x" }, byId["wordle"], CTX).ok === false,
     "self-pairing and thin air both refuse before any verdict exists");
 
-  const bare = ["kaaarot", "bloxd", "moomoo", "zombs", "classicreload", "lexaloffle-bbs"]
+  const bare = ["lookouts", "dating-killmulator-2"]
     .filter((id) => { const p = V.profile(byId[id], CTX); return p.year === null && p.collectionCount === 0 && !p.tags.length && !p.kidSafe && p.coverageCount === 0; });
-  const thinCmp = V.compare(byId["kaaarot"], byId["bloxd"], CTX);
+  const thinCmp = V.compare(byId["lookouts"], byId["dating-killmulator-2"], CTX);
   check("thin state: the catalog's bare tail (no year/shelf/tag/coverage/Kids pass) gets no verdict",
-    bare.length >= 4 && thinCmp.ok && thinCmp.thin === true && thinCmp.verdicts.length === 0 &&
+    bare.length === 2 && thinCmp.ok && thinCmp.thin === true && thinCmp.verdicts.length === 0 &&
     V.shareCard(thinCmp, "").includes("No basis to compare"),
     bare.join(", ") + " — the strip refuses rather than dressing up genre and controls");
 
@@ -121,12 +121,14 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
     card.includes(cmp.verdicts[0].text) && !/score|rating|winner/i.test(card),
     "the card is the comparison, in plain text");
 
-  check("coverage: a cozy game with a Kids pass carries both coverage entries; since wave 38 every action game carries the action dive, and a dive-less genre still carries none",
+  check("coverage: a cozy game with a Kids pass carries both coverage entries; since wave 38 every action game carries the action dive, since wave 39 every multiplayer game carries the multiplayer dive, and a dive-less genre still carries none",
     (() => { const cozyKid = games.find((g) => { const p = V.profile(g, CTX); return p.genre === "cozy" && p.kidSafe; }); return cozyKid && V.profile(cozyKid, CTX).coverageCount === 2; })() &&
     V.profile(byId["krunker"], CTX).coverageCount === 1 &&
     V.profile(byId["krunker"], CTX).coverage.some((c) => c.label === "Genre deep dive: action" && c.href === "genres/action.html") &&
-    V.profile(byId["kaaarot"], CTX).coverageCount === 0,
-    "coverage counts pages that exist, per game — krunker (action, no Kids pass) carries exactly the dive; kaaarot (multiplayer, no dive) carries none");
+    V.profile(byId["kaaarot"], CTX).coverageCount === 1 &&
+    V.profile(byId["kaaarot"], CTX).coverage.some((c) => c.label === "Genre deep dive: multiplayer" && c.href === "genres/multiplayer.html") &&
+    V.profile(byId["lookouts"], CTX).coverageCount === 0,
+    "coverage counts pages that exist, per game — krunker (action, no Kids pass) carries exactly its dive; kaaarot (multiplayer) carries the multiplayer dive since wave 39; lookouts (horror, no dive yet) carries none");
 }
 
 /* ---------------- (2)+(3) headless ---------------- */
@@ -156,7 +158,7 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
     cardText.includes("VERSUS — Zork I vs 2048") && cardText.includes("versus.html?a=zork1&b=2048"),
     "card + link, ready to copy");
 
-  await page.goto(BASE + "/versus.html?a=kaaarot&b=bloxd", { waitUntil: "networkidle0", timeout: 60000 });
+  await page.goto(BASE + "/versus.html?a=lookouts&b=dating-killmulator-2", { waitUntil: "networkidle0", timeout: 60000 });
   await page.waitForSelector(".vs-card", { timeout: 15000 });
   await sleep(300);
   const thinStrip = await page.$eval("#vs-verdict", (n) => n.textContent);

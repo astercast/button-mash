@@ -2,6 +2,134 @@
 
 Running record of build waves. Newest first.
 
+## Wave 39 — 2026-10-13 — HEADLINE (stated before building): The Multiplayer Deep Dive — the largest remaining genre gets its dive, dives go 5-of-8 to 6-of-8
+
+**Headline**: rotation 18 takes the next line on the wave-33
+completeness audit's dive debt, ordered by catalog size as
+waves 36–38 ordered it: puzzle (48), retro (44), and action
+(41) have their dives; multiplayer — 31 of 213 games — is
+the largest remaining undived genre (idle 15, horror 6
+still wait). Wave 39 builds `genres/multiplayer.html`,
+fifteen curated games in five families (start here: draw &
+guess together, word games & liars, the board-game table,
+.io arenas, couch chaos & big lobbies), every card pinned
+to its catalog record — title, play URL, and controls line
+verbatim, and every "why it fits" blurb grounded only in
+the game's catalog description (the wave-36 0hh1 precedent:
+any draft line adding a rule, year, maker, or feature the
+record does not state is cut before shipping). The site
+grows 49 → 50 pages and every page-count pin moves with it.
+Because Versus counts a genre dive as written coverage, the
+dive also lands in the comparison layer: all 31 multiplayer
+games gain a coverage entry, and every pinned pairing whose
+truth changes gets its suites updated to assert the new
+truth explicitly, never loosened. **Tickets**: no open
+Button Mash tickets at rotation open. **Seed discipline**:
+the wave adds no chance-bearing surface — a curated dive
+deals nothing — so no new seed is needed and no
+`Math.random` call is added anywhere. **Exclusion Ledger
+integrity**: untouched and re-verified — WF41 (213 audited
+= 113 in + 100 out, reasons verbatim, accounting derived).
+Taxonomy untouched: TAXONOMY_BRIEF.md stays **UNDECIDED**,
+parked for a human ruling (213 / horror 6 / cozy 16);
+census untouched.
+
+**What shipped**
+
+- `genres/multiplayer.html` — the Multiplayer Deep Dive on
+  the proven two-template dive pattern: fifteen of the
+  catalog's 31 multiplayer games in five families (start
+  here: draw & guess together — skribbl.io, Gartic Phone,
+  Drawasaurus; word games & liars — Codenames, JKLM.fun,
+  Secret Hitler; the board-game table — Board Game Arena,
+  Lichess, PlayingCards.io; .io arenas: everyone for
+  themselves — Agar.io, Slither.io, mope.io; couch chaos &
+  big lobbies — HaxBall, AirConsole, Stumble Guys). Every
+  card pinned verbatim to its `data/games.json` record
+  (title, play URL, controls line); every blurb grounded
+  only in the game's catalog description. Lede + closing
+  callout name the full shelf honestly: 31 multiplayer
+  games, 15 curated here, the other 16 in the directory.
+  Born placed: full placement block in source —
+  `wire_placement` reports 50 pages stamped, 0 updated —
+  and bm-vt stamped (not in the {player, converter, kids,
+  parents} skip set).
+- Registration per pattern: AGENT.md centerpiece lines +
+  workflow 14; `build_site.py` PAGES + llms line (sitemap
+  + llms.txt regenerated); a sixth card in games.html's
+  Genre deep dives section; `scripts/test_multiplayer39.js`
+  (10 checks, ALL PASS).
+- Versus: `versus-core.js` GENRE_DIVES gains
+  `multiplayer: 'genres/multiplayer.html'` — the registry
+  names exactly the six dives on disk; all 31 multiplayer
+  games carry dive coverage. The pinned pairings whose
+  truth changed: **Venge.io vs kaaarot** — wave 38 fired
+  footprint + coverage (Venge's action dive against
+  kaaarot's none); kaaarot now carries the multiplayer
+  dive, so coverage ties 1–1 and footprint alone fires.
+  And the **thin state moves house**: kaaarot/bloxd/moomoo/
+  zombs all carry dive coverage now, so the catalog's bare
+  tail is the two horror records with no year, shelf, tag,
+  coverage, or Kids pass — Lookouts vs Dating Killmulator
+  2. WF37, WF43, WF44, WF45, `test_versus33`,
+  `test_action38`, `test_puzzle36`, and `test_retro37`
+  assert the new truths explicitly.
+- Page-count pins 49 → 50 everywhere they live: WF38/WF39
+  (50), WF41 VT detail (46 stamped of 50), LIVE_CHECKLIST
+  canonical (50) + VT counts (46 of 50); the legal gate's
+  count is derived (its repo-wide walk reports 51 HTML
+  files — the 50 site pages plus the vendor template the
+  WF page walk excludes — 0 piracy links).
+
+**Verification (after)**
+
+- `scripts/build.py`: BUILD OK — 213 games, 24
+  collections, 10 emulators, 24 guides; placement wiring
+  50 stamped (0 updated); exclusion ledger 100 verdicts
+  stamped. `check_legal.py`: LEGAL GATE OK (0 piracy
+  links). `check_links.py`: 50 pages, 0 broken.
+- WF battery (`check_api_workflows.js`): **357/357 ALL
+  PASS** (WF1–WF45; +8 over wave 38's 349 — the WF45
+  block). `test_multiplayer39.js`: ALL PASS (10).
+- Sequential solo battery (detached, one suite at a
+  time): every named suite green — versus (VERSUS33 ALL
+  PASS), ledger (ALL PASS), the curator family, retro37,
+  puzzle36, action38, and **test_identity16 RESULT: ALL
+  PASS** on a solo re-run — its in-battery run timed out
+  once on a waitCards condition under fleet load (a surface
+  wave 39 does not touch) and passed clean immediately
+  after, reported as observed, not hidden.
+  `tests/api.test.sh`: pass=40 fail=0.
+- Captures in `~/workspace/progress-archive/button-mash/
+  rotation-018/`: the dive page full-page desktop (read
+  whole — hero, all five families, callout, footer clean),
+  the dive hero at 390px, games.html's six-card dives
+  section, and the changed Versus pairing's verdict strip
+  (footprint line only — coverage tied, exactly as the
+  suites assert) — zero pageerrors, zero 390px overflow,
+  all inspected. Capture note: Chromium 152's
+  local-network-access checks blocked the loopback-HTTP
+  capture route even with the disable flags; captures ran
+  over file:// with a fresh browser (the suites' own
+  proven pattern) against the same settled render.
+- Untouched, re-verified: Exclusion Ledger integrity
+  (213 = 113 + 100, reasons verbatim, WF41 green);
+  TAXONOMY_BRIEF.md UNDECIDED/PARKED; census untouched;
+  the 52 orphan games stay parked (no new shelf — the
+  Passport's pinned 24-collection count holds). No
+  `Math.random` added; no chance-bearing surface.
+
+**Debt ledger (after wave 39)**
+
+- Genre dives: 6-of-8 shipped (roguelike, cozy, puzzle,
+  retro, action, multiplayer). Remaining: **idle (15
+  games)** and **horror (6 games)** — the last two lines
+  on the wave-33 dive debt, in catalog-size order.
+- Parked, awaiting a human ruling (unchanged): the 52
+  orphan games (no new shelf) and the taxonomy brief
+  (TAXONOMY_BRIEF.md UNDECIDED — horror 6 / cozy 16 as
+  committed).
+
 ## Wave 38 — 2026-10-13 — HEADLINE (stated before building): The Action Deep Dive — the third-largest genre gets its dive, dives go 4-of-8 to 5-of-8
 
 **Headline**: rotation 17 takes the next line on the wave-33

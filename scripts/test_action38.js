@@ -5,8 +5,10 @@
    the record verbatim, the kicker counts the cards on the page,
    and the page names the full action shelf it curates from;
    (2) versus: BMVersus profiles an action game with the dive as
-   coverage, and the pinned Venge.io vs kaaarot pairing now fires
-   footprint AND coverage (before wave 38, footprint alone);
+   coverage, and the pinned Venge.io vs kaaarot pairing fired
+   footprint AND coverage at wave 38 — since wave 39 kaaarot
+   carries the multiplayer dive too, coverage ties 1-1 and
+   footprint alone fires (asserted in test_multiplayer39);
    (3) headless: the page renders all 15 cards with exactly one
    h1, zero pageerrors, and no 390px overflow.
 
@@ -65,20 +67,19 @@ const featured = [...page38.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
   const p = V.profile(byId["krunker"], { collections: [], kidIds: new Set() });
   check("versus: an action game now carries the dive as written coverage",
     p.coverage.some((c) => c.href === "genres/action.html" && c.label === "Genre deep dive: action") &&
-    Object.keys(V.GENRE_DIVES).sort().join(",") === "action,cozy,puzzle,retro,roguelike",
+    Object.keys(V.GENRE_DIVES).sort().join(",") === "action,cozy,multiplayer,puzzle,retro,roguelike",
     "krunker coverage: " + p.coverage.map((c) => c.label).join("; "));
   const kidsDoc = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/kid-safe.json"), "utf8"));
   const colsDoc = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/collections.json"), "utf8"));
   const CTX = { collections: colsDoc.collections || [],
     kidIds: new Set((kidsDoc["kid-safe"] || []).filter((k) => k.kid_safe).map((k) => k.id)) };
   const cmp = V.compare(byId["venge"], byId["kaaarot"], CTX);
-  check("versus: the changed pairing — Venge.io vs kaaarot fires footprint AND coverage since the dive",
-    cmp.ok && !cmp.thin && cmp.verdicts.length === 2 &&
-    cmp.verdicts.some((v) => v.kind === "footprint") &&
-    cmp.verdicts.some((v) => v.kind === "coverage" && v.text.includes("Genre deep dive: action")) &&
+  check("versus: the pairing as wave 39 leaves it — Venge.io vs kaaarot ties on coverage, footprint alone fires",
+    cmp.ok && !cmp.thin && cmp.verdicts.length === 1 &&
+    cmp.verdicts[0].kind === "footprint" &&
     V.profile(byId["venge"], CTX).coverageCount === 1 &&
-    V.profile(byId["kaaarot"], CTX).coverageCount === 0,
-    "venge carries the action dive (1 coverage entry); kaaarot carries none — before wave 38 only the footprint line fired");
+    V.profile(byId["kaaarot"], CTX).coverageCount === 1,
+    "venge carries the action dive; kaaarot carries the multiplayer dive since wave 39 (1 coverage entry each) — at wave 38 footprint + coverage fired; the tie is the new truth, asserted not loosened");
 }
 
 /* ---------------- (3) headless ---------------- */

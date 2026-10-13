@@ -35,6 +35,7 @@ PAGES = [
     ("genres/puzzle.html", "Genre deep dive: puzzle games — think first, click second"),
     ("genres/retro.html", "Genre deep dive: retro games — insert coin, travel back"),
     ("genres/action.html", "Genre deep dive: action games — move first, think later"),
+    ("genres/multiplayer.html", "Genre deep dive: multiplayer games — bring everyone"),
     ("data/v1/", "JSON API index"),
     ("API.md", "API documentation"),
     ("404.html", "Game over: arcade-styled 404 with insert-coin home CTA"),
@@ -106,7 +107,7 @@ def build_llms():
     lines.append(f"- kids.html — Kids corner: {nkids} kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default")
     lines.append("- parents.html — parent guide: curation method, honesty policy (assessments not guarantees — play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick")
     lines.append(f"- collections.html — {ncols} hand-built collections")
-    lines.append("- genres/roguelike.html, genres/cozy.html, genres/puzzle.html, genres/retro.html, genres/action.html — genre deep dives with start-here picks")
+    lines.append("- genres/roguelike.html, genres/cozy.html, genres/puzzle.html, genres/retro.html, genres/action.html, genres/multiplayer.html — genre deep dives with start-here picks")
     lines.append("")
     lines.append("## Learn")
     lines.append("- emulation.html — emulation hub, incl. Emulator Side-by-Side (any two of the 10 picks, record against record; seeded surprise pairing)")

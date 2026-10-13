@@ -63,8 +63,8 @@ const featured = [...page36.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
   const p = V.profile(byId["2048"], { collections: [], kidIds: new Set() });
   check("versus: a puzzle game now carries the dive as written coverage",
     p.coverage.some((c) => c.href === "genres/puzzle.html" && c.label === "Genre deep dive: puzzle") &&
-    Object.keys(V.GENRE_DIVES).sort().join(",") === "action,cozy,puzzle,retro,roguelike",
-    "2048 coverage: " + p.coverage.map((c) => c.label).join("; ") + " (registry updated wave 37: retro dive added; wave 38: action dive added)");
+    Object.keys(V.GENRE_DIVES).sort().join(",") === "action,cozy,multiplayer,puzzle,retro,roguelike",
+    "2048 coverage: " + p.coverage.map((c) => c.label).join("; ") + " (registry updated wave 37: retro dive added; wave 38: action dive added; wave 39: multiplayer dive added)");
 }
 
 /* ---------------- (3) headless ---------------- */
