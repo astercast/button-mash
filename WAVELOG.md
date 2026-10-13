@@ -2,6 +2,94 @@
 
 Running record of build waves. Newest first.
 
+## Wave 29 — 2026-10-12 — Curator pass 5: the DOS/shareware shelf
+
+**What shipped** — the Curator's fifth pass works the tranche wave
+28 named next: the DOS/shareware and early-PC shelf's year/maker
+claims — Zork, SimCity, Prince of Persia, Monkey Island, Lemmings,
+Theme Park, the four shareware episodes, and the similar claims on
+the same shelf. Its taxonomy rider is unchanged: the
+TAXONOMY_BRIEF.md call stays **UNDECIDED**, and nothing was
+reshelved.
+
+- **Curator pass 5 — the DOS shelf's claims** (`data/games.json`):
+  seventeen DOS-linked entries carry a year and/or maker claim
+  (the three library-door entries name titles only; Transport
+  Tycoon, Master of Orion and Alone in the Dark were verified in
+  waves 24/27 and stay out of scope). Each was checked 2026-10-12
+  against sources outside the repo (Wikipedia, MobyGames, the
+  Apogee FAQ, Mechner's own site, the linked archive.org items).
+  **Sixteen stand as written** and are pinned verbatim in
+  `test_curator29`: **Zork I** (Infocom, published for the TRS-80
+  in December 1980), **SimCity** (Will Wright's design, Maxis,
+  February 1989), **The Secret of Monkey Island** (Lucasfilm
+  Games, October 1990), **Lemmings** (DMA Design, February 14,
+  1991 — the DOS release is 1991 too), **Theme Park** (Bullfrog,
+  1994), the four shareware episodes, each linking the episode it
+  names (**Wolfenstein 3D**, ep. 1 uploaded May 5, 1992; **DOOM**,
+  Knee-Deep in the Dead, December 10, 1993; **Quake**, shareware
+  June 22, 1996, and the linked item is the 1.06 shareware build;
+  **Duke Nukem 3D**, shareware January 29, 1996, opening on
+  Hollywood Holocaust — the linked item is the v1.3 shareware),
+  **The Oregon Trail** and its **Deluxe** edition (MECC's DOS
+  editions of 1990 and 1992 — both entries name the DOS edition
+  they date, so the years attach to the right build),
+  **Civilization** (September 1991), **SimCity 2000** (the 1993
+  sequel), **Railroad Tycoon** (Sid Meier's, 1990),
+  **Commander Keen 3** (the Vorticons finale, December 1990) and
+  **Keen Dreams** (id via Softdisk, 1991 — the 1993 in its archive
+  slug is the item's catalog year for the disk image, not the
+  game's release, and the description dates the game). **One
+  fix**, an edition error of the exact family wave 27's Transport
+  Tycoon named: **Prince of Persia** called itself "Jordan
+  Mechner's 1990 rotoscoped classic" — 1990 is the DOS port the
+  entry links; the game itself is Mechner's 1989 Apple II
+  original. The entry now names the port it links and keeps the
+  original's year in parentheses, the Transport Tycoon shape.
+  With this pass, every year/maker claim the Curator's list ever
+  named has been checked against an outside source: the retro
+  arcade shelf (pass 3), the Ruffle shelf (pass 4), the DOS shelf
+  (this pass), and the waves 24–26 sweeps. No unverified tranche
+  remains on the list.
+- **Taxonomy: still untouched, deliberately.** The horror/cozy
+  question stays a human's call — purrgatory, Lookouts and Little
+  Troubles in Spooky Town remain pinned in horror (census 213 /
+  horror 6 / cozy 16), now enforced by `test_curator29` and WF31
+  alongside 25/26/27/28.
+- **Agentic surface**: WF31 (6 checks — the Prince of Persia fix,
+  the named makers, the four shareware episodes, the similar DOS
+  claims, the still-pinned taxonomy, legal lane) — **261/261 pass
+  (WF1–WF31)**. New `scripts/test_curator29.js`: **ALL PASS (32
+  checks)** — the tranche scope, the corrected description
+  verbatim, the sixteen verified descriptions pinned exactly as
+  written, the edition details (shareware dates, Keen Dreams'
+  slug year, the Oregon Trail DOS editions), the census pins.
+
+**Validation:**
+- `scripts/build.py`: **BUILD OK — 213 games, 24 collections, 10 emulators, 24 guides**; **LEGAL GATE OK (44 pages, 0 piracy links)**
+- `scripts/check_links.py`: **0 broken (43 pages, 1439 local links)**
+- `node scripts/check_api_workflows.js`: **261/261 pass (WF1–WF31)**
+- `node scripts/test_curator29.js`: **ALL PASS (32 checks)** (new)
+- Named suites re-run: `test_identity16` **41/41 ALL PASS** (third attempt; attempts 1–2 reproduced the documented load stall exactly — 28/41 green, zero assertion failures, `waitCards` timeout at loadavg ~9.2–11.7 — and attempt 3 at the same ~9.4 load ran clean, the wave-24 pattern end to end); `test_lineups23` **ALL PASS**; `test_curator24` **ALL PASS**; `test_curator25` **ALL PASS**; `test_curator26` **ALL PASS**; `test_curator27` **ALL PASS**; `test_curator28` **ALL PASS (16 checks)**; `test_converter12` **66/66**; `test_player21` **ALL PASSED**
+- Regression: `test_gamenight_parity` PARITY OK; `test_gamenight22` ALL PASS; `test_curatornight21` ALL PASS; `test_wave19` ALL PASS; `test_wave17` ALL PASS; `test_trophy18` ALL PASSED; `test_party_planner11` ALL PASS; `test_tournament10` ALL PASS; `test_bracket` 82/82; `test_bracket_double` 105/105; `test_party11` 36/36; `test_wow1` + powerunit + playertail ALL PASS; `tests/api.test.sh` **40/40**; `~/workspace/smoke/test.js`: exit 0, zero errors
+- `node --check`: clean on the new/edited JS; AI-slop denylist grep clean on all new prose; no TODOs or dead code in the wave's files
+- Screenshots inspected: homepage hero (3-second read intact — eyebrow, H1, one CTA, stat band 213/113/24/24) and `games.html` directory hero ("213 games. Zero installs."), both over file:// with zero pageerrors
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links.
+
+**Self-assessment**: pass 5's single error was the shelf's most
+famous game wearing its port's year as its own — the same slip as
+Transport Tycoon, on the entry a reader is likeliest to check.
+Everything else on the shelf was right, including two claims that
+look wrong at a glance and aren't: Keen Dreams' 1991 against its
+archive slug's 1993, and Oregon Trail's 1990, which belongs to
+the DOS edition the entry names rather than the 1985 Apple II
+original. That closes the Curator's named list — every tranche
+waves 24–28 queued has now been worked. What remains unverified
+is only what no pass ever scoped: scattered year/maker claims
+outside the retro/DOS/Flash shelves, if a future pass wants to
+sweep the whole catalog description by description.
+
 ## Wave 28 — 2026-10-12 — Curator pass 4: the Flash-era shelf
 
 **What shipped** — the Curator's fourth pass works the tranche wave

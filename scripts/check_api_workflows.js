@@ -1503,4 +1503,45 @@ check("WF30 no ROM/BIOS download phrasing in wave-28 entries",
     byId24["alien-hominid-flash"].description + byId24["dad-n-me"].description),
   "legal lane holds");
 
+// ---- Wave 29: Curator pass 5 — the DOS / shareware and early-PC
+// shelf's year/maker claims, verified outside the repo. Sixteen of
+// seventeen stand as written; one edition fix: Prince of Persia's
+// bare 1990 was the DOS port it links — the game is Mechner's 1989
+// Apple II original, and the entry now names the port (the
+// Transport Tycoon shape). Taxonomy untouched — UNDECIDED still.
+check("WF31 curator pass 5 — Prince of Persia names the edition it links",
+  byId24["prince-of-persia"].description.includes("its 1990 DOS port (the Apple II original is 1989)") &&
+  byId24["prince-of-persia"].url.includes("msdos_Prince_of_Persia_1990"),
+  "Apple II original 1989; the linked archive build is the 1990 DOS port");
+check("WF31 curator pass 5 — the named makers stand as written",
+  byId24["zork1"].description.includes("The 1980 text adventure") &&
+  byId24["simcity-1989"].description.includes("Will Wright's 1989 original") &&
+  byId24["monkey-island"].description.includes("Lucasfilm Games' 1990") &&
+  byId24["lemmings-1991"].description.includes("DMA Design's 1991") &&
+  byId24["theme-park"].description.includes("Bullfrog's 1994"),
+  "Zork I (Dec 1980), Wright's SimCity (Feb 1989), Lucasfilm Games (Oct 1990), DMA Design (Feb 1991), Bullfrog (1994)");
+check("WF31 curator pass 5 — the four shareware episodes stand as written",
+  byId24["wolfenstein-3d"].description.includes("1992 shareware episode") &&
+  byId24["doom-1993"].description.includes("1993 shareware episode") &&
+  byId24["quake-shareware"].description.includes("id Software's 1996") &&
+  byId24["duke3d-shareware"].description.includes("Hollywood Holocaust"),
+  "May 5 1992 / Dec 10 1993 / Jun 22 1996 / Jan 29 1996 shareware releases, each entry linking its episode");
+check("WF31 curator pass 5 — the similar DOS claims stand as written",
+  byId24["oregon-trail"].description.startsWith("The 1990 DOS classic") &&
+  byId24["oregon-trail-deluxe"].description.startsWith("The 1992 deluxe edition") &&
+  byId24["civ1"].description.includes("the 1991 original 4X") &&
+  byId24["railroad-tycoon"].description.includes("Sid Meier's 1990") &&
+  byId24["keen-dreams"].description.includes("id's 1991 fever dream"),
+  "MECC's DOS editions (1990/1992), Civilization (Sep 1991), Meier's Railroad Tycoon (1990), Keen Dreams the game (1991)");
+check("WF31 taxonomy: STILL not reshelved — the brief's call stays with the human",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules");
+check("WF31 no ROM/BIOS download phrasing in wave-29 entries",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(
+    byId24["prince-of-persia"].description),
+  "legal lane holds");
+
 process.exit(failures ? 1 : 0);

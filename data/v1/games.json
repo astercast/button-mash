@@ -1,7 +1,7 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-13T03:22:08Z",
+  "generated_at": "2026-10-13T03:53:01Z",
   "endpoint": "games",
   "description": "Curated browser games directory (every URL verified live — never invented).",
   "count": 213,
@@ -1362,7 +1362,7 @@
       "url": "https://archive.org/details/msdos_Prince_of_Persia_1990",
       "genre": "retro",
       "controls": "Arrow keys — run, jump, fight",
-      "description": "Jordan Mechner's 1990 rotoscoped classic in the Archive: sixty minutes to save the princess, one leap of faith at a time."
+      "description": "Jordan Mechner's rotoscoped classic in its 1990 DOS port (the Apple II original is 1989): sixty minutes to save the princess, one leap of faith at a time."
     },
     {
       "id": "wolfenstein-3d",
