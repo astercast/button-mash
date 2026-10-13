@@ -41,6 +41,7 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
 - **Genre deep dives** (`genres/roguelike.html`, `genres/cozy.html`): curated lists from the catalog with start-here picks and why-each-fits blurbs.
 - **Trophy Room** (`trophy-room.html`): persistent play-tracking across the whole catalog. Every game card carries **Played** / **Beaten** prize-token toggles (keyboard-operable, `aria-pressed`); state lives in localStorage under `bm.trophy.v1` (in-memory fallback with an honest "memory-only mode" notice when storage is blocked). Beating a game implies playing it; un-playing clears beaten. Favorites stay in wave-16's `bm_favs_v1` — the store reads them, never duplicates, so the directory's ♥ filter and the wall agree. The room shows: a stat band (played/beaten/favorites/day-streak/prizes), 8 genre shelves with static CRT-style completion dials (SVG, reduced-motion safe) + stacked played/beaten bars, a 16-prize achievement case (real rules: first-play, first-beat, heart-5/20, player-10/50/100, beater-5/25, puzzle-breaker, genre-tourist/master, streak-3/7 via UTC day keys, shelf-clearer, marathon), per-collection progress (also painted on every `collections.html` shelf), and JSON export/import (`bm.trophy.export` schema v1 — validated atomically, corrupt imports rejected with the current wall untouched). Pure logic in `assets/js/trophy-core.js` (UMD; `scripts/test_trophy18.js` covers state, achievements, streaks, export/import, migrations).
 - **Versus** (`versus.html?a=<id>&b=<id>`): head-to-head comparison of any two catalog games from their real records only — year named in the description (the catalog has no structured year field; every description claim was verified by the Curator census, waves 24–32; 2048's name number is not a year), collections each game sits on, genre, controls, tags, Kids corner audit pass, and written coverage on this site (a genre deep dive exists only for roguelike/cozy; a Kids listing carries a parent note). The verdict strip reports only what the data supports (older/newer when both years are named, bigger/equal collection footprint, more coverage, a one-sided Kids pass) — no scores, no rankings, no declared winner. When neither record carries a year, shelf, tag, coverage, or Kids pass, the strip shows an honest "no basis to compare" state and the rows still render. Pairings are URL state (unknown ids dropped, a game cannot face itself) with a plain-text share card listing only the rows and verdict lines produced. Pure logic in `assets/js/versus-core.js` (UMD; `scripts/test_versus33.js` covers profiles, year rules, verdicts, the thin state, pairing, and the card).
+- **Exclusion Ledger** (`parents.html#not-in-the-corner`): the other half of the Kids corner audit, published. All 100 games kept out of Kids corner, each with the audit's recorded reason from `data/kids.json` word for word, stamped onto the parent guide at build time by `scripts/build.py` (`wire_exclusions`) and pinned by WF41 — a drifted or paraphrased reason fails the suite. The accounting closes: 113 curated + 100 excluded = all 213 catalog games, each with exactly one verdict. The ledger lives on the parents' page, not Kids corner itself, and `data/v1/kid-safe.json` still exposes only the curated subset (the ledger is a human surface, not an endpoint). The lookup box (`assets/js/ledger-filter.js`) only filters rows already on the page — it fetches nothing. Tests: `scripts/test_ledger35.js`.
 - **Arcade Passport** (`passport.html`): a stamp booklet for the 24 collections. A shelf earns its stamp when it actually scrolls into view on `collections.html` (IntersectionObserver in `assets/js/collections.js`; first sighting wins, never re-dated); guide marks are derived at render time from the guides' own checklist store (`bm_checks_v1` via `BM.getChecks`) — a mark means every step of that guide's checklist is ticked. State lives in localStorage under `bm.passport.v1` (in-memory fallback with an on-page notice when storage is blocked). The passport counts only what the browser observed — shelf views and checklist ticks — and never claims a game was played. Pure logic in `assets/js/passport-core.js` (UMD; `scripts/test_passport31.js` covers state, validation, marks, and the headless stamp flow).
 
 ## Example workflows
@@ -165,6 +166,21 @@ There are no query params — payloads are complete snapshots. **Fetch once, fil
    surprise button deals the same way (BMVersus.seededPair). No unseeded
    Math.random touches a content-bearing pick on either surface.
    See the #side-by-side section of emulation.html.
+```
+
+### 10. "Why isn't this game in Kids corner?" (Exclusion Ledger)
+
+```
+1. GET data/kids.json (source data; the API's kid-safe.json carries only the curated subset).
+2. A game is either in curated (113 — kid_safe, with parent_note + audit_basis) or in
+   excluded (100 — one recorded reason). There is no third state: build.py fails if any
+   catalog game lacks a verdict or sits in both lists.
+3. Quote the excluded reason VERBATIM — never paraphrase, soften, or sort it into a bar
+   the audit did not record. The same text is stamped on parents.html#not-in-the-corner
+   (the Exclusion Ledger) for humans; send parents there.
+4. Exclusion is not a quality verdict — several excluded games are excellent for older
+   players; the four bars (chat / unmoderated UGC / gambling / graphic-or-horror) are
+   hard lines, and the ledger exists so anyone can inspect them.
 ```
 
 ### 7. "Run a tournament night for the games themselves" (Tournament Night)

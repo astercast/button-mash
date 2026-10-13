@@ -2,6 +2,194 @@
 
 Running record of build waves. Newest first.
 
+## Wave 35 — 2026-10-13 — HEADLINE (stated before building): The Exclusion Ledger — every Kids Corner verdict, both halves, on the record
+
+**Headline**: the next frontier the wave-33 completeness audit
+named — "Kids exclusion reasons (100 games, in data/kids.json)
+surface nowhere user-facing and kid-safe.json exposes only the
+curated subset — publishing per-game exclusion reasons on a
+parents' surface needs a copy/sensitivity pass of its own" —
+lands as that pass, on the parents' surface the audit pointed
+at. Every one of the 213 catalog games already carries a Kids
+Corner verdict (113 in, 100 out); until now only the "in" half
+was public. The parent guide gains a generator-stamped
+**Exclusion Ledger**: all 100 kept-out games, each with the
+audit's own recorded reason, word for word, searchable from
+the page. The wave also repairs the stale accounting both
+family pages still carry — "70 of our 114 games did not make
+the cut" predates the grown catalog; the true split is 113 of
+213 in, 100 out — and pins the numbers to the data so they
+cannot drift silently again. No new page: the 46-page surface
+and its pins hold. **View Transitions verdict (this wave's
+second duty): ADOPTED, scoped** — cross-document transitions
+graduate from the guides (where `guides.css` has carried them
+since wave 13) to the cabinet's browsing pages, wired at the
+generator level in `wire_placement` under the same two gates
+the guides use (`prefers-reduced-motion: no-preference` and
+the site's own FX switch). Four pages stay instant on
+purpose: the Player and the Converter (tool surfaces that boot
+an engine / handle files — a snapshot crossfade over a live
+canvas earns nothing) and Kids Corner + the parent guide
+(family pages whose standing rule is motion-off by default).
+**Seed discipline**: the wave adds no chance-bearing surface —
+the ledger is a complete record, not a deal — so no new seed
+is needed and no `Math.random` is added anywhere.
+Taxonomy untouched: TAXONOMY_BRIEF.md stays **UNDECIDED**
+(213 / horror 6 / cozy 16); census untouched (117/117 verified).
+
+**What shipped**
+
+- **FLAGSHIP — the Exclusion Ledger** (`parents.html`
+  `#not-in-the-corner` + generator wiring in
+  `scripts/build.py` `wire_exclusions`, idempotent — the
+  stamped block is replaced whole on every build — +
+  `assets/js/ledger-filter.js`): the parent guide now carries
+  the audit's full "out" half. Between `bm-ledger` markers the
+  build stamps the accounting line derived from the records
+  (213 games audited · 113 in Kids corner · 100 kept out) and
+  all 100 excluded games in title order — each title linked to
+  its game file, each reason copied **verbatim** from
+  `data/kids.json`. No reason is paraphrased, softened, or
+  sorted into a bar the audit did not record, and WF41
+  compares every stamped reason against the record so a drift
+  fails the suite. The framing copy is the audit's demanded
+  copy/sensitivity pass: the ledger sits on the parents' page
+  (a child browsing the safe shelf does not need a catalogue
+  of what was kept away from them), exclusion is stated not to
+  be a quality judgment, and parents are told how to dispute
+  a verdict. `data/v1/kid-safe.json` is unchanged — it still
+  exposes only the curated subset; the ledger is a human
+  surface, not an endpoint, and the function count stays 5.
+  The lookup box only filters rows already on the page (no
+  fetch, works read-only without JS) and its no-match state
+  says the honest thing: a catalog game with no row here
+  passed the audit. Registration: AGENT.md workflow 10 +
+  centerpiece bullet, build_site page line, WF41,
+  `test_ledger35.js`.
+- **The stale accounting, repaired and pinned.** Both family
+  pages still told parents "70 of our 114 games did not make
+  the cut" — a sentence from before the catalog grew. Both now
+  carry the true split (100 of 213), and WF41 derives the
+  expected sentence from the records, so the number cannot go
+  stale silently again.
+- **VIEW TRANSITIONS — adopted, scoped, generator-wired.**
+  `wire_placement` now stamps a marked `bm-vt` block into the
+  head of 42 of 46 pages: `@view-transition { navigation:
+  auto }` under `@media (prefers-reduced-motion:
+  no-preference)` and `html:not(.fx-off)` — the same two gates
+  the guides' wave-13 rule uses — with a 180ms crossfade on the
+  root snapshots, so moving between cabinet pages reads as a
+  screen change while the marquee stays lit. Deliberately
+  unstamped (both documents must opt in, so their navigation
+  stays instant): `player.html` and `converter.html` (engine /
+  file surfaces) and `kids.html` + `parents.html` (the family
+  pages' motion-off rule). The guides keep their own
+  `guides.css` rule alongside the stamp. WF41 pins the split.
+  Progressive enhancement only: unsupported browsers navigate
+  exactly as before, and there is no JS involved.
+- **Seed discipline**: no new chance surface; the ledger's
+  only script contains no `Math.random` and no `fetch`
+  (WF41-pinned). The directory's pre-existing random button
+  and game-of-the-day are untouched, as in wave 34's scope.
+- **Commons adoptions (align-on-touch)**: the wave-34
+  generator-wiring pattern itself (stamped block + strict WF
+  pin + idempotence proof) applied to two new surfaces; the
+  View Transitions technique graduates from the guides — the
+  same graduation path Film took site-wide, scoped here to
+  what the cabinet identity supports.
+- **RULE 1762**: line endings audited — **0 CRLF files**
+  tree-wide; `.gitattributes` pin + binary carve-outs intact
+  and untouched.
+
+**Validation (wave 35, final runs):**
+- `scripts/build.py`: **BUILD OK — 213 games (149 domains),
+  24 collections, 10 emulators, 24 guides**; **LEGAL GATE OK
+  (47 pages counted incl. the vendor template, 213 game URLs,
+  0 piracy links)**; placement wiring stamps 46 pages (42
+  updated on first build — exactly the VT set), ledger stamps
+  100 verdicts; a second build stamps 0 pages (idempotent).
+  The build's timestamp-only `data/v1` regeneration churn was
+  reverted — this wave is pages + wiring + assets + docs.
+- `scripts/check_links.py`: **LINK CHECK OK — 46 pages, 1976
+  local links, 125 external links, 0 broken** (local count up
+  from 1874: the ledger's 100 game-file links + the kids →
+  ledger link).
+- `node scripts/check_api_workflows.js`: **327/327 pass
+  (WF1–WF41)** — new WF41 (7 checks: ledger completeness,
+  verbatim reasons, derived accounting, family-page numbers,
+  the VT stamp/skip split + guides rule, ledger wiring + no
+  chance in the script, taxonomy pin). WF38/WF39/WF40
+  tripwires all green on the final tree.
+- New `test_ledger35`: **ALL PASS (12 checks)** — ledger
+  completeness + verbatim tetrio reason against the records,
+  rendered 100 rows with exactly one h1 on parents.html, the
+  lookup narrowing (2 of 100 for "tetr") and its honest
+  no-match state, curated 2048 correctly rowless, the VT block
+  present on games.html and absent on parents.html, 390px
+  zero overflow, zero pageerrors on parents.html. (games.html
+  is asserted on uncaught pageerrors only: over file:// its
+  data fetches are CORS-blocked by design — environmental
+  console noise, the class older suites filter.)
+- Named suites re-run, all green: `test_versus33` ALL PASS;
+  `test_emulatorversus34` ALL PASS; `test_curator24`–
+  `test_curator32` ALL PASS (census closed, untouched);
+  `test_tournamentnight32` ALL PASS; `test_passport31` ALL
+  PASS; `test_lineups23` ALL PASS; `test_converter12` 66/66;
+  `test_player21` ALL PASSED; `test_gamenight_parity` PARITY
+  OK; `test_gamenight22` ALL PASS; `test_curatornight21` ALL
+  PASS; `test_wave17` ALL PASS; `test_wave19` ALL PASS;
+  `test_trophy18` ALL PASSED; `test_party_planner11` ALL
+  PASS; `test_tournament10` 26 PASS / 0 FAIL;
+  `test_bracket` 82/82; `test_bracket_double` 105/105;
+  `test_party11` 36/36; `test_wow1` **WOW1 ALL CHECKS PASS**
+  (solo verdict); `tests/api.test.sh` **40/40**;
+  `~/workspace/smoke/test.js` exit 0.
+- **Regression sweep (grep)**: og:image absolute **46/46**
+  pages (0 relative); canonical absolute **46/46**;
+  exactly-one-`<h1>`: 45 pages static, and game.html — whose
+  title is data — keeps its pre-existing pattern (this wave's
+  diff to game.html is the head-only VT block; its rendered
+  h1 was verified at wave 34 and re-verification over local
+  HTTP is blocked in this environment by the headless
+  browser's local-network access checks, stated plainly
+  rather than re-claimed). View-transition stamp: **42/46**,
+  skip set exactly {player, converter, kids, parents}.
+- **Load honesty, stated plainly**: the box ran loadavg
+  ~8–14 through the rotation. `test_identity16` reproduced
+  its documented stall signature exactly in two attempts —
+  28 PASS lines counted, **zero assertion failures**,
+  `waitCards` timeout at the same call site as waves 30/31/34
+  (test_identity16.js:60 via :274) — and is reported as
+  load-blocked, not passed. Every other suite completed clean
+  on this tree.
+- `node --check`: clean on all new/edited JS; AI-slop
+  denylist grep clean on all wave-35 prose; no TODOs in the
+  wave's files.
+- Screenshots inspected (zero pageerrors): `parents.html`
+  ledger section desktop (accounting line, lookup box, first
+  ledger rows with verbatim reasons) + 390px mobile; archived
+  to `~/workspace/progress-archive/button-mash/rotation-014/`.
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download
+links.
+
+**Self-assessment**: the Kids audit was always two lists; the
+site only ever published the flattering one. Publishing the
+other half verbatim is the same honesty move as the census
+and the seeded surprise — show the record, not a summary of
+it — and the wave's smallest fix may be its most telling: the
+parents' page had been quoting a catalog that no longer
+exists ("70 of our 114") because nothing pinned the sentence
+to the data. Now the generator stamps the count and WF41
+derives the sentence from the records, so the next time the
+catalog grows, the pages either update or fail loudly.
+View Transitions graduated the way techniques are supposed
+to here: proven in the guides since wave 13, adopted where
+cabinet navigation actually gains, and refused — on the
+record — for the four pages where motion is either useless
+(a live emulator canvas) or against the page's own rule
+(the family pages).
+
 ## Wave 34 — 2026-10-13 — HEADLINE (stated before building): Emulator Side-by-Side + the Placement Pass completed
 
 **Headline**: the post-Versus frontier the wave-33 completeness

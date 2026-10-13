@@ -2071,4 +2071,73 @@ check("WF40 taxonomy: STILL not reshelved — the brief's call stays with the hu
   games.filter((g) => g.genre === "cozy").length === 16,
   "horror 6 / cozy 16 until a human rules");
 
+// ---- Wave 35: the Exclusion Ledger (parents.html carries every
+// Kids Corner exclusion reason verbatim, stamped by build.py
+// wire_exclusions from data/kids.json) + View Transitions adopted
+// at the generator level (wire_placement stamps the bm-vt block
+// on the browsing pages; player/converter/kids/parents stay
+// instant on purpose). Seed discipline: the wave adds no
+// chance-bearing surface, and WF41 pins that the ledger's only
+// script deals nothing.
+const kids41 = JSON.parse(fs.readFileSync(path.join(ROOT, "data/kids.json"), "utf8"));
+const parents41 = fs.readFileSync(path.join(ROOT, "parents.html"), "utf8");
+const kidsPage41 = fs.readFileSync(path.join(ROOT, "kids.html"), "utf8");
+const unesc41 = (s) => s.replace(/&quot;/g, '"').replace(/&#39;|&#x27;/g, "'")
+  .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+const ledgerItems41 = [...parents41.matchAll(
+  /<li data-ledger-item data-ledger-id="([^"]+)"><a href="game\.html\?id=[^"]+">([^<]+)<\/a> — ([^<]+)<\/li>/g)]
+  .map((m) => ({ id: m[1], title: unesc41(m[2]), reason: unesc41(m[3]) }));
+check("WF41 ledger completeness: every excluded game listed exactly once, no curated game listed",
+  ledgerItems41.length === kids41.excluded.length &&
+  new Set(ledgerItems41.map((i) => i.id)).size === kids41.excluded.length &&
+  kids41.excluded.every((e) => ledgerItems41.some((i) => i.id === e.id)) &&
+  kids41.curated.every((c) => !ledgerItems41.some((i) => i.id === c.id)) &&
+  ledgerItems41.every((i) => games.some((g) => g.id === i.id)),
+  kids41.excluded.length + " verdicts; curated + excluded = the whole catalog, disjoint");
+check("WF41 ledger verbatim: titles are the catalog's, reasons are the audit's own words",
+  ledgerItems41.every((i) => {
+    const g = games.find((x) => x.id === i.id);
+    const e = kids41.excluded.find((x) => x.id === i.id);
+    return g && e && i.title === g.title && i.reason === e.reason;
+  }),
+  "no paraphrase, no softening — a drifted reason fails here");
+check("WF41 ledger accounting: the stamped count line derives from the records",
+  kids41.curated.length + kids41.excluded.length === games.length &&
+  parents41.includes(games.length + " games audited") &&
+  parents41.includes(kids41.curated.length + " in Kids corner") &&
+  parents41.includes(kids41.excluded.length + " kept out"),
+  games.length + " audited = " + kids41.curated.length + " in + " + kids41.excluded.length + " out");
+check("WF41 family-page numbers: both pages carry the true split, the stale one is gone",
+  parents41.includes(kids41.excluded.length + " of our " + games.length + " games did not make the cut") &&
+  kidsPage41.includes(kids41.excluded.length + " of our " + games.length + " games did not make the cut") &&
+  !parents41.includes("70 of our 114") && !kidsPage41.includes("70 of our 114"),
+  "the pre-growth '70 of our 114' line cannot come back");
+check("WF41 view transitions: stamped on the browsing pages, absent from the four instant pages",
+  (() => {
+    const skip = ["player.html", "converter.html", "kids.html", "parents.html"];
+    const guidesCss = fs.readFileSync(path.join(ROOT, "assets/css/guides.css"), "utf8");
+    return allPages38.every((f) => {
+      const rel = relOf39(f);
+      const t = fs.readFileSync(f, "utf8");
+      if (skip.includes(rel)) return !t.includes("data-bm-vt");
+      return t.includes("data-bm-vt") && t.includes("@view-transition { navigation: auto; }") &&
+        t.includes("prefers-reduced-motion: no-preference") && t.includes("html:not(.fx-off)");
+    }) && guidesCss.includes("@view-transition") &&
+      guidesCss.includes("prefers-reduced-motion: no-preference");
+  })(),
+  "42 stamped, both gates (reduced-motion + FX switch); player/converter/kids/parents stay instant; guides keep their wave-13 rule");
+check("WF41 ledger wiring: lookup box + filter script on parents, ledger link on kids, no chance in the script",
+  parents41.includes('id="ledger-search"') && parents41.includes('id="not-in-the-corner"') &&
+  parents41.includes("assets/js/ledger-filter.js") &&
+  kidsPage41.includes("parents.html#not-in-the-corner") &&
+  !/Math\.random\s*\(/.test(fs.readFileSync(path.join(ROOT, "assets/js/ledger-filter.js"), "utf8")) &&
+  !/fetch\s*\(/.test(fs.readFileSync(path.join(ROOT, "assets/js/ledger-filter.js"), "utf8")),
+  "the ledger is static HTML — the script only filters rows already on the page");
+check("WF41 taxonomy: STILL not reshelved — the brief's call stays with the human",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules");
+
 process.exit(failures ? 1 : 0);

@@ -22,7 +22,7 @@ PAGES = [
     ("tournament-night.html", "Tournament Night: a full bracket night whose entrants are real catalog games — pick a saved Game Night lineup (bm.lineups.v1) or a hand-built collection, seed a single-elimination bracket in source order on the Tournament 2.0 bracket engine, pick winners round by round with picks persisted in the browser (bm.tournament-night.v1), and crown a champion with a plain-text results card"),
     ("system-picker.html", "Which system should you emulate? — 1-minute quiz with honest device-limit recommendations"),
     ("kids.html", "Kids corner: kid-safe browser games, no chat, age bands 5–7 / 8–10 / 11–12, parent notes on every game, reduced-motion default"),
-    ("parents.html", "Parent guide: how Kids corner curation works, the honesty policy, common-sense screen-time tips, the 'one more level' save-state trick"),
+    ("parents.html", "Parent guide: how Kids corner curation works, the honesty policy, common-sense screen-time tips, the 'one more level' save-state trick, and the Exclusion Ledger — every game kept out of Kids corner with the audit's recorded reason, word for word"),
     ("collections.html", "Hand-built game collections"),
     ("emulation.html", "Emulation hub: guides, explainers, legal sources, and Emulator Side-by-Side — any two of the 10 emulator picks record against record (systems, platforms, license, BIOS) with a record-backed verdict strip and a seeded surprise pairing (recorded seed + sorted ids, FNV-1a/mulberry32 — same seed, same pairing)"),
     ("monster-taming.html", "Monster-taming corner: original-IP creature games + GBA tech"),

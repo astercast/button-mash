@@ -13,6 +13,7 @@ Steps:
   3. Regenerate data/v1 (scripts/build_api.py) and llms.txt/llms-full.txt/sitemap.xml
      (scripts/build_site.py).
 """
+import html
 import json
 import re
 import subprocess
@@ -234,6 +235,13 @@ def main():
             print(" -", e)
         sys.exit(1)
 
+    wire_exclusions(games, kids_doc)
+    if errors:
+        print("BUILD FAILED:")
+        for e in errors:
+            print(" -", e)
+        sys.exit(1)
+
     print(f"BUILD OK — {len(games)} games ({len(game_domains)} domains), "
           f"{len(collections)} collections, {len(emulators)} emulators, {len(guides)} guides")
 
@@ -271,7 +279,35 @@ _STRIP_RES = [
     re.compile(r'<link rel="apple-touch-icon"[^>]*>\n?'),
     re.compile(r'<meta property="og:image:(?:width|height)"[^>]*>\n?'),
     re.compile(r'<!-- bm-jsonld:start -->.*?<!-- bm-jsonld:end -->\n?', re.S),
+    re.compile(r'<!-- bm-vt:start -->.*?<!-- bm-vt:end -->\n?', re.S),
 ]
+
+# View Transitions (wave 35): cross-document transitions graduate
+# from the guides (guides.css, wave 13) to the cabinet's browsing
+# pages, stamped here so every page carries the identical block:
+# navigation:auto under BOTH gates the guides use — the visitor's
+# reduced-motion preference and the site's own FX switch — plus a
+# short 180ms crossfade so the swap reads as a screen change, not
+# a blink. Four pages are deliberately NOT stamped, so navigation
+# to and from them stays instant (both documents must opt in):
+# player.html + converter.html boot an engine / handle the
+# visitor's own files, and a snapshot fade over a live canvas
+# earns nothing; kids.html + parents.html are the family pages,
+# whose standing rule is motion-off by default.
+_VT_SKIP = {"player.html", "converter.html", "kids.html", "parents.html"}
+
+_VT_BLOCK = (
+    "<!-- bm-vt:start -->\n"
+    "<style data-bm-vt>\n"
+    "@media (prefers-reduced-motion: no-preference) {\n"
+    "  html:not(.fx-off) {\n"
+    "    @view-transition { navigation: auto; }\n"
+    "    ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .18s; }\n"
+    "  }\n"
+    "}\n"
+    "</style>\n"
+    "<!-- bm-vt:end -->"
+)
 
 
 def _canonical_for(rel):
@@ -342,6 +378,8 @@ def wire_placement(games, collections, emulators):
                       '<script type="application/ld+json" data-bm-jsonld>\n'
                       + json.dumps(ld, indent=1, ensure_ascii=False)
                       + "\n</script>\n<!-- bm-jsonld:end -->")
+        if rel not in _VT_SKIP:
+            block += "\n" + _VT_BLOCK
         anchor = '<meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">'
         if anchor not in head:
             fail(f"{rel}: twitter:image anchor missing — placement block not wired")
@@ -358,6 +396,58 @@ def wire_placement(games, collections, emulators):
         robots_path.write_text(robots)
     print(f"placement wiring: {len(pages)} pages stamped "
           f"({stamped} updated), robots.txt in place")
+
+
+# ---------------------------------------------------------------------------
+# Exclusion Ledger (wave 35). Until this wave the Kids Corner audit
+# published only its "in" half: data/v1/kid-safe.json exposes the
+# 113 curated games, while the 100 exclusion reasons recorded in
+# data/kids.json surfaced nowhere a parent could read them (the
+# wave-33 completeness audit's named gap). The ledger stamps the
+# full "out" half onto parents.html — the parents' surface, NOT
+# kids.html itself — between bm-ledger markers: the accounting
+# line derived from the records (total / in / out), then every
+# excluded game in title order with its title linked to its game
+# file and its reason copied VERBATIM from kids.json. Reasons are
+# never paraphrased, softened, or sorted into bars the audit did
+# not record. Idempotent: the stamped block is replaced whole on
+# every build, and WF41 fails the suite if a reason drifts from
+# the record or a verdict goes missing.
+_LEDGER_RE = re.compile(
+    r"<!-- bm-ledger:start -->.*?<!-- bm-ledger:end -->", re.S)
+
+
+def wire_exclusions(games, kids_doc):
+    titles = {g["id"]: g["title"] for g in games}
+    curated = kids_doc["curated"]
+    excluded = sorted(kids_doc["excluded"],
+                      key=lambda e: titles[e["id"]].lower())
+    lines = [
+        "<!-- bm-ledger:start -->",
+        (f'<p class="ledger-count" data-bm-ledger-count>'
+         f"{len(games)} games audited &middot; {len(curated)} in Kids corner "
+         f"&middot; {len(excluded)} kept out. Every reason below is the "
+         f"audit&rsquo;s own recorded reason, word for word.</p>"),
+        '<ul class="ledger-list">',
+    ]
+    for e in excluded:
+        title = html.escape(titles[e["id"]])
+        reason = html.escape(e["reason"])
+        lines.append(
+            f'<li data-ledger-item data-ledger-id="{e["id"]}">'
+            f'<a href="game.html?id={e["id"]}">{title}</a> — {reason}</li>')
+    lines += ["</ul>", "<!-- bm-ledger:end -->"]
+    block = "\n".join(lines)
+
+    page = ROOT / "parents.html"
+    text = page.read_text()
+    if "<!-- bm-ledger:start -->" not in text:
+        fail("parents.html: bm-ledger markers missing — ledger not wired")
+        return
+    new_text = _LEDGER_RE.sub(lambda _m: block, text, count=1)
+    if new_text != text:
+        page.write_text(new_text)
+    print(f"exclusion ledger: {len(excluded)} verdicts stamped on parents.html")
 
 
 if __name__ == "__main__":

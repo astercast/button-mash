@@ -238,6 +238,21 @@ build stamps 0 pages) and pinned by WF39/WF40 (suite 320/320):
   (values verbatim), and the Seed-Reckoning seed discipline
   adopted from the 9th-site test-bed onto both surprise surfaces.
 
+## Wave 35 — Exclusion Ledger + View Transitions (2026-10-13, working repo)
+
+- **No deploy-shape change**: still 5 functions of the 12 cap, no
+  new endpoint, no cron change. The ledger is static HTML stamped
+  at build time (`wire_exclusions`); `data/v1/kid-safe.json` still
+  exposes only the curated subset by design.
+- **View Transitions**: the `bm-vt` block is stamped by
+  `wire_placement` on 42 of 46 pages (progressive enhancement —
+  browsers without cross-document VT support navigate as before;
+  zero JS, zero cost when unsupported). `player.html`,
+  `converter.html`, `kids.html`, `parents.html` are deliberately
+  unstamped (tool surfaces + the motion-off family pages), so
+  navigation to/from them stays instant. Both gates ride along:
+  `prefers-reduced-motion: no-preference` and the FX switch.
+
 ## After the deploy
 
 - Vercel project: Framework Preset **Other**, no build command, output `.`
