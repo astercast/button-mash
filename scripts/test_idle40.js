@@ -74,7 +74,7 @@ const featured = [...page40.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
   const p = V.profile(byId["cookie-clicker"], { collections: [], kidIds: new Set() });
   check("versus: an idle game now carries the dive as written coverage",
     p.coverage.some((c) => c.href === "genres/idle.html" && c.label === "Genre deep dive: idle") &&
-    Object.keys(V.GENRE_DIVES).sort().join(",") === "action,cozy,idle,multiplayer,puzzle,retro,roguelike",
+    Object.keys(V.GENRE_DIVES).sort().join(",") === "action,cozy,horror,idle,multiplayer,puzzle,retro,roguelike",
     "cookie-clicker coverage: " + p.coverage.map((c) => c.label).join("; "));
   const kidsDoc = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/kid-safe.json"), "utf8"));
   const colsDoc = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/collections.json"), "utf8"));
@@ -88,9 +88,9 @@ const featured = [...page40.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
     V.profile(byId["kaaarot"], CTX).coverageCount === 1,
     "cookie carries the idle dive + Kids listing (2), kaaarot the multiplayer dive (1) — before wave 40 coverage tied 1-1 and footprint + Kids alone fired");
   const thin = V.compare(byId["lookouts"], byId["dating-killmulator-2"], CTX);
-  check("versus: the thin state does not move — the bare tail is still the two horror records",
+  check("versus: the thin state at wave 40 — the bare tail was still the two horror records (wave 41 closes it; test_horror41 pins the new truth)",
     thin.ok && thin.thin && thin.verdicts.length === 0,
-    "every idle game was already Kids-listed; lookouts vs dating-killmulator-2 stays no-basis");
+    "every idle game was already Kids-listed; at wave 40 lookouts vs dating-killmulator-2 was no-basis because both records were bare — since wave 41 both carry the horror dive and the pairing stays thin on a 1-1 coverage tie");
 }
 
 /* ---------------- (3) headless ---------------- */

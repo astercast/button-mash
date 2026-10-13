@@ -46,12 +46,12 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
 {
   check("core surface: UMD, genre-dive registry names only the dives that exist",
     typeof V.compare === "function" && typeof V.profile === "function" &&
-    Object.keys(V.GENRE_DIVES).sort().join(",") === "action,cozy,idle,multiplayer,puzzle,retro,roguelike" &&
+    Object.keys(V.GENRE_DIVES).sort().join(",") === "action,cozy,horror,idle,multiplayer,puzzle,retro,roguelike" &&
     fs.existsSync(path.join(ROOT, "genres/roguelike.html")) && fs.existsSync(path.join(ROOT, "genres/cozy.html")) &&
     fs.existsSync(path.join(ROOT, "genres/puzzle.html")) && fs.existsSync(path.join(ROOT, "genres/retro.html")) &&
     fs.existsSync(path.join(ROOT, "genres/action.html")) && fs.existsSync(path.join(ROOT, "genres/multiplayer.html")) &&
-    fs.existsSync(path.join(ROOT, "genres/idle.html")),
-    "roguelike + cozy + puzzle (wave 36) + retro (wave 37) + action (wave 38) + multiplayer (wave 39) + idle (wave 40) dives exist on disk; no other genre is claimed");
+    fs.existsSync(path.join(ROOT, "genres/idle.html")) && fs.existsSync(path.join(ROOT, "genres/horror.html")),
+    "roguelike + cozy + puzzle (wave 36) + retro (wave 37) + action (wave 38) + multiplayer (wave 39) + idle (wave 40) + horror (wave 41) dives exist on disk — all eight genres; no other genre is claimed");
 
   check("year rule: 2048's name number is not a year (the census exclusion)",
     V.yearNamed(byId["2048"].description, "2048") === null &&
@@ -101,13 +101,15 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
     V.compare({ id: "x" }, byId["wordle"], CTX).ok === false,
     "self-pairing and thin air both refuse before any verdict exists");
 
-  const bare = ["lookouts", "dating-killmulator-2"]
-    .filter((id) => { const p = V.profile(byId[id], CTX); return p.year === null && p.collectionCount === 0 && !p.tags.length && !p.kidSafe && p.coverageCount === 0; });
+  const bare = games
+    .filter((g) => { const p = V.profile(g, CTX); return p.year === null && p.collectionCount === 0 && !p.tags.length && !p.kidSafe && p.coverageCount === 0; });
   const thinCmp = V.compare(byId["lookouts"], byId["dating-killmulator-2"], CTX);
-  check("thin state: the catalog's bare tail (no year/shelf/tag/coverage/Kids pass) gets no verdict",
-    bare.length === 2 && thinCmp.ok && thinCmp.thin === true && thinCmp.verdicts.length === 0 &&
+  check("thin state: no record is bare since wave 41 (the horror dive closed the bare tail), and the former bare pair still gets no verdict — coverage now ties 1-1",
+    bare.length === 0 && thinCmp.ok && thinCmp.thin === true && thinCmp.verdicts.length === 0 &&
+    V.profile(byId["lookouts"], CTX).coverageCount === 1 &&
+    V.profile(byId["dating-killmulator-2"], CTX).coverageCount === 1 &&
     V.shareCard(thinCmp, "").includes("No basis to compare"),
-    bare.join(", ") + " — the strip refuses rather than dressing up genre and controls");
+    "the strip refuses rather than dressing up genre and controls — before wave 41 because both records were bare, now because nothing separates them");
 
   check("pairing: encode/parse round-trips; unknown and repeated ids drop, never guess",
     V.encodePair("zork1", "2048") === "a=zork1&b=2048" &&
@@ -122,7 +124,7 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
     card.includes(cmp.verdicts[0].text) && !/score|rating|winner/i.test(card),
     "the card is the comparison, in plain text");
 
-  check("coverage: a cozy game with a Kids pass carries both coverage entries; since wave 38 every action game carries the action dive, since wave 39 every multiplayer game carries the multiplayer dive, since wave 40 every idle game carries the idle dive, and a dive-less genre still carries none",
+  check("coverage: a cozy game with a Kids pass carries both coverage entries; since wave 38 every action game carries the action dive, since wave 39 every multiplayer game carries the multiplayer dive, since wave 40 every idle game carries the idle dive, and since wave 41 every horror game carries the horror dive — no genre is dive-less anymore",
     (() => { const cozyKid = games.find((g) => { const p = V.profile(g, CTX); return p.genre === "cozy" && p.kidSafe; }); return cozyKid && V.profile(cozyKid, CTX).coverageCount === 2; })() &&
     V.profile(byId["krunker"], CTX).coverageCount === 1 &&
     V.profile(byId["krunker"], CTX).coverage.some((c) => c.label === "Genre deep dive: action" && c.href === "genres/action.html") &&
@@ -130,8 +132,9 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
     V.profile(byId["kaaarot"], CTX).coverage.some((c) => c.label === "Genre deep dive: multiplayer" && c.href === "genres/multiplayer.html") &&
     V.profile(byId["cookie-clicker"], CTX).coverageCount === 2 &&
     V.profile(byId["cookie-clicker"], CTX).coverage.some((c) => c.label === "Genre deep dive: idle" && c.href === "genres/idle.html") &&
-    V.profile(byId["lookouts"], CTX).coverageCount === 0,
-    "coverage counts pages that exist, per game — krunker (action, no Kids pass) carries exactly its dive; kaaarot (multiplayer) carries the multiplayer dive since wave 39; cookie-clicker (idle, Kids-listed) carries its Kids listing plus the idle dive since wave 40 at 2; lookouts (horror, no dive yet) carries none");
+    V.profile(byId["lookouts"], CTX).coverageCount === 1 &&
+    V.profile(byId["lookouts"], CTX).coverage.some((c) => c.label === "Genre deep dive: horror" && c.href === "genres/horror.html"),
+    "coverage counts pages that exist, per game — krunker (action, no Kids pass) carries exactly its dive; kaaarot (multiplayer) carries the multiplayer dive since wave 39; cookie-clicker (idle, Kids-listed) carries its Kids listing plus the idle dive since wave 40 at 2; lookouts (horror) carried none until wave 41 and now carries the horror dive at 1");
 }
 
 /* ---------------- (2)+(3) headless ---------------- */

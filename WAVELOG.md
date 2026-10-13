@@ -2,6 +2,200 @@
 
 Running record of build waves. Newest first.
 
+## Wave 41 — 2026-10-13 — HEADLINE (stated before building): The Horror Deep Dive — the LAST dive standing, dives go 7-of-8 to 8-of-8, THE SET IS COMPLETE
+
+**Headline**: rotation 20 takes the last line on the wave-33
+completeness audit's dive debt, ordered by catalog size as
+waves 36–40 ordered it: puzzle (48), retro (44), action
+(41), multiplayer (31), and idle (15) have their dives;
+horror — 6 of 213 games — is the last one standing. The
+genre is small enough to curate whole, so wave 41 builds
+`genres/horror.html` with **all 6** horror games in three
+families (start here: short, and it stays with you; spooky-
+cozy, not spooky-scary; stories with teeth), every card
+pinned to its catalog record — title, play URL, and
+controls line verbatim, and every "why it fits" blurb
+grounded only in the game's catalog description (the
+wave-36 0hh1 precedent). The dive lede states the honest
+count ("6 of the catalog's 213 games") and the page says
+plainly that the dive and the shelf are the same six. With
+this dive the set is complete — 8 of 8 — and the hub says
+so: games.html's Genre deep dives section now carries the
+standing line "All eight of the catalog's genres now have
+a deep dive — 8 of 8, the full shelf," and the dive page's
+own closing callout says the same. The site grows 52 → 53
+pages and every page-count pin moves with it. Because
+Versus counts a genre dive as written coverage, the dive
+also lands in the comparison layer: all 6 horror games
+gain a coverage entry (each goes 0 → 1 — no horror game is
+Kids-listed, so the dive is each one's first coverage),
+and the catalog's **bare tail is gone**: Lookouts and
+Dating Killmulator 2, the two records that since wave 33
+carried no year, shelf, tag, coverage, or Kids pass, are
+bare no longer — the bare list is empty. Their pairing
+still gets the honest no-basis state, but for the new
+reason: coverage ties 1–1 on the horror dive and nothing
+else separates the records. A second pairing flips the
+other way: Lookouts vs kaaarot, which since wave 39 fired
+kaaarot's coverage verdict (1–0 against bare Lookouts),
+now ties coverage 1–1 and goes thin. Every affected suite
+asserts the new truths explicitly, never loosened.
+**Tickets**: no open Button Mash tickets at rotation open.
+**Seed discipline**: the wave adds no chance-bearing
+surface — a curated dive deals nothing — so no new seed is
+needed and no `Math.random` call is added anywhere.
+**Exclusion Ledger integrity**: untouched and re-verified
+— WF41 (213 audited = 113 in + 100 out, reasons verbatim,
+accounting derived). Taxonomy untouched: TAXONOMY_BRIEF.md
+stays **UNDECIDED**, parked for a human ruling (213 /
+horror 6 / cozy 16) — the dive curates the horror shelf as
+committed; it does not reshelve it. T-MASH-1/5
+(time-to-beat) stay **DEFERRED BY NAME** — no fabricated
+playtimes, ever.
+
+**What shipped**
+
+- `genres/horror.html` — the Horror Deep Dive on the proven
+  two-template dive pattern: all 6 of the catalog's 6
+  horror games in three families (short, and it stays with
+  you — We Become What We Behold, Adventures With Anxiety;
+  spooky-cozy, not spooky-scary — purrgatory, Little
+  Troubles in Spooky Town; stories with teeth — Lookouts,
+  Dating Killmulator 2). Every card pinned verbatim to its
+  `data/games.json` record (title, play URL, controls line)
+  and carrying a `journal.html?game=<id>` link for its own
+  game. Lede + closing callout name the full shelf honestly:
+  6 horror games, all 6 curated here, none left in the
+  directory — and the callout closes the set out loud: all
+  eight genres have a deep dive, 8 of 8. Born placed: full
+  placement block in source — `wire_placement` reports 53
+  pages stamped, 0 updated — and bm-vt stamped (not in the
+  {player, converter, kids, parents} skip set).
+- Registration per pattern: AGENT.md centerpiece lines +
+  workflow 17 (horror dive); `build_site.py` PAGES + llms
+  line (sitemap + llms.txt regenerated); a ninth card
+  (horror) in games.html's Genre deep dives section, under
+  the new standing completeness line (8 of 8, the full
+  shelf); `scripts/test_horror41.js` (16 checks, ALL PASS).
+- Versus: `versus-core.js` GENRE_DIVES gains
+  `horror: 'genres/horror.html'` — the registry now names
+  exactly the eight dives on disk, one per catalog genre.
+  All 6 horror games carry dive coverage (0 → 1 each). The
+  pinned truths that changed: the **bare tail is empty**
+  (was lookouts + dating-killmulator-2 since wave 33);
+  **Lookouts vs Dating Killmulator 2** stays thin, now on a
+  1–1 coverage tie; **Lookouts vs kaaarot** flips from
+  kaaarot's coverage verdict to thin (coverage tied 1–1).
+  WF37, WF42–WF46 registries, `test_versus33` (registry,
+  bare-tail, and coverage checks), `test_puzzle36`,
+  `test_retro37`, `test_action38`, `test_multiplayer39`,
+  and `test_idle40` assert the new truths explicitly.
+  Observed, not changed: the Versus strip's generic
+  no-basis copy still recites the full list of absent
+  bases even when the pair is thin on a tie — the same
+  standing copy waves 39–40 shipped with their tied-thin
+  exemplars; the rows above the strip now show both games'
+  horror-dive coverage chips, so the record is on the page.
+- Page-count pins 52 → 53 everywhere they live: WF38/WF39
+  (53), WF41 VT detail (49 stamped of 53), LIVE_CHECKLIST
+  canonical (53) + VT counts (49 of 53); the legal gate's
+  count is derived (its repo-wide walk reports 54 HTML
+  files — the 53 site pages plus the vendor template the WF
+  page walk excludes — 0 piracy links).
+
+**Verification (after)**
+
+- `scripts/build.py`: BUILD OK — 213 games, 24
+  collections, 10 emulators, 24 guides; placement wiring 53
+  stamped (0 updated); exclusion ledger 100 verdicts
+  stamped. `check_legal.py`: LEGAL GATE OK (0 piracy
+  links). `check_links.py`: 53 pages, 0 broken. The build's
+  timestamp-only `data/v1` regeneration churn was reverted
+  — this wave is pages + wiring + assets + docs.
+- WF battery (`check_api_workflows.js`): **385/385 ALL
+  PASS** (WF1–WF48; +10 over wave 40's 375 — the WF48
+  horror block). `test_horror41.js`: ALL PASS (16) —
+  including the verbatim pin on all 6 cards and the
+  headless render (6 cards, one h1, 390px zero overflow,
+  zero pageerrors).
+- Sequential solo battery (detached launcher + status
+  file, one suite at a time, no concurrent browser work):
+  37 of 38 green on the first pass — versus (after the fix
+  below), ledger, the curator family, retro37, puzzle36,
+  action38, multiplayer39, idle40, journal40, horror41,
+  emulatorversus34, tournamentnight32, passport31,
+  player21, curatornight21, lineups23, converter12,
+  gamenight parity + gamenight22, wave17, wave19, trophy18,
+  party_planner11, tournament10, bracket, bracket_double,
+  party11, wow1, `tests/api.test.sh` (pass=40 fail=0), and
+  smoke exit 0. **One miss, diagnosed and fixed, not
+  hidden**: the first battery pass failed `test_versus33`
+  on exactly one check — its own "core surface" registry
+  pin still asserted the seven-dive key set (the one
+  registry pin this wave's sweep missed; the fix asserts
+  the eight-dive set + the horror page on disk, not a
+  loosening). Solo re-run on the fixed tree: **VERSUS33
+  ALL PASS**.
+- **Identity, reported as observed, not hidden**:
+  `test_identity16` was run SOLO twice in a quiet window
+  (no other browser work of this wave's running; fleet load
+  stayed high — loadavg ~9.5–9.8 with ~7 sibling Chromes
+  from the fleet's other work). Both runs: **28 PASS lines,
+  zero assertion failures, then a timeout at the documented
+  load-flake site** — `waitCards(213)` after the
+  clear-filters click (test_identity16.js:274, check 16.29),
+  exit 2, walls 1m49s and 1m29s. A fresh-load render probe
+  run immediately after measured games.html rendering its
+  cards in ~4.9s under the same load — inside the suite's
+  15s budget on a fresh load; the flake lives at the
+  clear-filters re-render step, as waves 39–40 documented.
+  **This wave does NOT claim identity16 green**: its own
+  observed result is the timeout, stated plainly, with no
+  borrowed verdict from another run. No assertion in the
+  suite was touched or loosened.
+- Captures in `~/workspace/progress-archive/button-mash/
+  rotation-020/`: the dive page full-page desktop (read
+  whole — hero, all three families, the 8-of-8 callout,
+  footer clean), the dive hero at 390px, games.html's
+  nine-card dives + journal section under the 8-of-8
+  completeness line, and the Lookouts vs Dating
+  Killmulator 2 Versus page (both records now carrying
+  "Genre deep dive: horror" coverage chips above the
+  no-basis strip, exactly as the suites assert) — zero
+  pageerrors, zero 390px overflow on the dive page, all
+  inspected. Capture note: captures ran over file:// with a
+  fresh browser (the rotation-18/19 pattern; Chromium 152's
+  local-network-access checks still block loopback HTTP).
+- Untouched, re-verified: Exclusion Ledger integrity
+  (213 = 113 + 100, reasons verbatim, WF41 green);
+  TAXONOMY_BRIEF.md UNDECIDED/PARKED; census untouched;
+  the 52 orphan games stay parked (no new shelf — the
+  Passport's pinned 24-collection count holds). No
+  `Math.random` added; no chance-bearing surface.
+
+**Debt ledger (after wave 41)**
+
+- Genre dives: **8-of-8 shipped — COMPLETE** (roguelike,
+  cozy, puzzle, retro, action, multiplayer, idle, horror).
+  The wave-33 dive debt is fully paid; there is no ninth
+  genre and no remaining dive line.
+- Gap ledger: T-MASH-2 CLOSED in wave 40. T-MASH-1/5
+  (time-to-beat) stay deferred by name — a sourced data
+  pass is required; no fabricated playtimes.
+- Minimal-pass scoping (standing, from rotation 19): the
+  fleet-wide minimal pass is rotation-21 work for this
+  site, presentation only, all content kept. **games.html
+  remains the first candidate** (43KB; renders all 213
+  cards — the wall a visitor meets first): hero + filters
+  first, dives/journal cards to progressive disclosure
+  below the directory. This wave's dive landed minimal on
+  the proven template and did not start the pass.
+- Parked, awaiting a human ruling (unchanged): the 52
+  orphan games (no new shelf) and the taxonomy brief
+  (TAXONOMY_BRIEF.md UNDECIDED — horror 6 / cozy 16 as
+  committed).
+
+
 ## Wave 40 — 2026-10-13 — HEADLINE (stated before building): The Idle Deep Dive — the seventh genre dive, dives go 6-of-8 to 7-of-8 — PLUS co-headline (parent directive, user gap-closing order): T-MASH-2 CLOSED — the Play Journal & backlog lands as a first-class surface
 
 **Headline**: rotation 19 takes the next line on the wave-33

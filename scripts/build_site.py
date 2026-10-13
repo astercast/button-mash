@@ -37,6 +37,7 @@ PAGES = [
     ("genres/action.html", "Genre deep dive: action games — move first, think later"),
     ("genres/multiplayer.html", "Genre deep dive: multiplayer games — bring everyone"),
     ("genres/idle.html", "Genre deep dive: idle games — it plays itself (almost)"),
+    ("genres/horror.html", "Genre deep dive: horror games — small shelf, long shadows"),
     ("journal.html", "Play journal: your backlog & logbook — shelve any of the 213 catalog games as want to play, playing, or finished, and keep dated log entries per playthrough; browser-local only, no account, no server"),
     ("data/v1/", "JSON API index"),
     ("API.md", "API documentation"),
@@ -109,7 +110,7 @@ def build_llms():
     lines.append(f"- kids.html — Kids corner: {nkids} kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default")
     lines.append("- parents.html — parent guide: curation method, honesty policy (assessments not guarantees — play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick")
     lines.append(f"- collections.html — {ncols} hand-built collections")
-    lines.append("- genres/roguelike.html, genres/cozy.html, genres/puzzle.html, genres/retro.html, genres/action.html, genres/multiplayer.html, genres/idle.html — genre deep dives with start-here picks")
+    lines.append("- genres/roguelike.html, genres/cozy.html, genres/puzzle.html, genres/retro.html, genres/action.html, genres/multiplayer.html, genres/idle.html, genres/horror.html — genre deep dives with start-here picks (all eight genres — the set is complete)")
     lines.append("- journal.html — Play journal & backlog (T-MASH-2): per-game status shelves (want to play / playing / finished) and dated log entries, multiple per playthrough, for all 213 catalog games; persisted in this browser only (localStorage bm.journal.v1), no account, no server")
     lines.append("")
     lines.append("## Learn")

@@ -1823,8 +1823,8 @@ const vsHtml = fs.readFileSync(path.join(ROOT, "versus.html"), "utf8");
 const vsCtx = { collections: cols, kidIds: new Set((load("data/v1/kid-safe.json")["kid-safe"] || []).filter((k) => k.kid_safe).map((k) => k.id)) };
 check("WF37 versus core: UMD, no bracket/storage deps, dive registry names only existing dives",
   typeof VS33.compare === "function" && typeof VS33.shareCard === "function" &&
-  Object.keys(VS33.GENRE_DIVES).sort().join(",") === "action,cozy,idle,multiplayer,puzzle,retro,roguelike",
-  "comparison is pure record math over the catalog, nothing else (registry updated wave 38: action dive added; wave 39: multiplayer dive added; wave 40: idle dive added)");
+  Object.keys(VS33.GENRE_DIVES).sort().join(",") === "action,cozy,horror,idle,multiplayer,puzzle,retro,roguelike",
+  "comparison is pure record math over the catalog, nothing else (registry updated wave 38: action dive added; wave 39: multiplayer dive added; wave 40: idle dive added; wave 41: horror dive added — all eight genres, the set is complete)");
 check("WF37 versus: the year rule matches the closed census (45 dated records, 2048 excluded)",
   games.filter((g) => VS33.profile(g, vsCtx).year !== null).length === 45 &&
   VS33.yearNamed(byId24["2048"].description, "2048") === null &&
@@ -1897,7 +1897,7 @@ check("WF38 og card: the Foundry asset is in the repo at the canonical path, 120
   })(),
   "assets/og-card.png — the arcade-cabinet card, copied per the Foundry manifest");
 check("WF38 og wiring: every page carries og:image + summary_large_image, titles/descriptions reused verbatim",
-  allPages38.length === 52 && allPages38.every((f) => {
+  allPages38.length === 53 && allPages38.every((f) => {
     const t = fs.readFileSync(f, "utf8");
     const title = (t.match(/<title>([^<]*)<\/title>/) || [])[1];
     const desc = (t.match(/<meta name="description" content="([^"]*)">/) || [])[1];
@@ -1910,7 +1910,7 @@ check("WF38 og wiring: every page carries og:image + summary_large_image, titles
       t.includes('<meta name="twitter:image" content="' + ABS_OG + '">') &&
       fs.existsSync(path.join(ROOT, "assets/og-card.png"));
   }),
-  "52 pages; og:image + twitter:image are the absolute https://button-mash-live.vercel.app/assets/og-card.png (relative paths fail — crawlers require absolute URLs); local asset validated by the check above; no invented copy");
+  "53 pages; og:image + twitter:image are the absolute https://button-mash-live.vercel.app/assets/og-card.png (relative paths fail — crawlers require absolute URLs); local asset validated by the check above; no invented copy");
 check("WF38 QA-006: homepage has exactly one h1 — the hero title; the cabinet marquee sign is an h2",
   (fs.readFileSync(path.join(ROOT, "index.html"), "utf8").match(/<h1[\s>]/g) || []).length === 1 &&
   vsHtml && fs.readFileSync(path.join(ROOT, "index.html"), "utf8").includes('<h1 class="hero-title">') &&
@@ -1935,12 +1935,12 @@ const HOST39 = "https://button-mash-live.vercel.app";
 const relOf39 = (f) => path.relative(ROOT, f).split(path.sep).join("/");
 const canonOf39 = (rel) => rel === "index.html" ? HOST39 + "/" : HOST39 + "/" + rel;
 check("WF39 canonical: every page carries exactly one absolute self-referential canonical",
-  allPages38.length === 52 && allPages38.every((f) => {
+  allPages38.length === 53 && allPages38.every((f) => {
     const t = fs.readFileSync(f, "utf8");
     const hits = t.match(/<link rel="canonical" href="[^"]*">/g) || [];
     return hits.length === 1 && hits[0] === '<link rel="canonical" href="' + canonOf39(relOf39(f)) + '">';
   }),
-  "52 pages; canonical = https://button-mash-live.vercel.app/<page> (root for index.html)");
+  "53 pages; canonical = https://button-mash-live.vercel.app/<page> (root for index.html)");
 check("WF39 theme-color + favicons + og dimensions: every page head carries the full placement block",
   allPages38.every((f) => {
     const t = fs.readFileSync(f, "utf8");
@@ -2129,7 +2129,7 @@ check("WF41 view transitions: stamped on the browsing pages, absent from the fou
     }) && guidesCss.includes("@view-transition") &&
       guidesCss.includes("prefers-reduced-motion: no-preference");
   })(),
-  "48 stamped, both gates (reduced-motion + FX switch); player/converter/kids/parents stay instant; guides keep their wave-13 rule");
+  "49 stamped, both gates (reduced-motion + FX switch); player/converter/kids/parents stay instant; guides keep their wave-13 rule");
 check("WF41 ledger wiring: lookup box + filter script on parents, ledger link on kids, no chance in the script",
   parents41.includes('id="ledger-search"') && parents41.includes('id="not-in-the-corner"') &&
   parents41.includes("assets/js/ledger-filter.js") &&
@@ -2231,7 +2231,7 @@ check("WF43 versus coverage: the dive registry names exactly the dives on disk",
     const core = fs.readFileSync(path.join(ROOT, "assets/js/versus-core.js"), "utf8");
     return core.includes("retro: 'genres/retro.html'") &&
       ["roguelike", "cozy", "puzzle", "retro"].every((d) => fs.existsSync(path.join(ROOT, "genres", d + ".html"))) &&
-      Object.keys(VS33.GENRE_DIVES).sort().join(",") === "action,cozy,idle,multiplayer,puzzle,retro,roguelike";
+      Object.keys(VS33.GENRE_DIVES).sort().join(",") === "action,cozy,horror,idle,multiplayer,puzzle,retro,roguelike";
   })(),
   "GENRE_DIVES = roguelike + cozy + puzzle + retro (registry updated wave 38: action added; wave 39: multiplayer added); a retro game now carries dive coverage in Versus");
 check("WF43 retro dive wiring: directory card + sitemap + llms registration",
@@ -2287,7 +2287,7 @@ check("WF44 versus coverage: the dive registry names exactly the dives on disk",
     const core = fs.readFileSync(path.join(ROOT, "assets/js/versus-core.js"), "utf8");
     return core.includes("action: 'genres/action.html'") &&
       ["roguelike", "cozy", "puzzle", "retro", "action"].every((d) => fs.existsSync(path.join(ROOT, "genres", d + ".html"))) &&
-      Object.keys(VS33.GENRE_DIVES).sort().join(",") === "action,cozy,idle,multiplayer,puzzle,retro,roguelike";
+      Object.keys(VS33.GENRE_DIVES).sort().join(",") === "action,cozy,horror,idle,multiplayer,puzzle,retro,roguelike";
   })(),
   "GENRE_DIVES = roguelike + cozy + puzzle + retro + action (registry updated wave 39: multiplayer added); an action game now carries dive coverage in Versus");
 check("WF44 versus: the pairing as wave 39 leaves it — Venge.io vs kaaarot ties on coverage, footprint alone fires",
@@ -2352,7 +2352,7 @@ check("WF45 versus coverage: the dive registry names exactly the dives on disk",
     const core = fs.readFileSync(path.join(ROOT, "assets/js/versus-core.js"), "utf8");
     return core.includes("multiplayer: 'genres/multiplayer.html'") &&
       ["roguelike", "cozy", "puzzle", "retro", "action", "multiplayer"].every((d) => fs.existsSync(path.join(ROOT, "genres", d + ".html"))) &&
-      Object.keys(VS33.GENRE_DIVES).sort().join(",") === "action,cozy,idle,multiplayer,puzzle,retro,roguelike";
+      Object.keys(VS33.GENRE_DIVES).sort().join(",") === "action,cozy,horror,idle,multiplayer,puzzle,retro,roguelike";
   })(),
   "GENRE_DIVES = roguelike + cozy + puzzle + retro + action + multiplayer; a multiplayer game now carries dive coverage in Versus");
 check("WF45 versus: the changed pairing — Venge.io vs kaaarot now ties on coverage, footprint alone fires",
@@ -2372,7 +2372,7 @@ check("WF45 multiplayer dive wiring: directory card + sitemap + llms registratio
   "games.html Genre deep dives section links it; build_site.py PAGES carries it into sitemap + llms");
 check("WF45 multiplayer dive: view transitions stamped like the other browsing pages",
   mp39.includes("data-bm-vt") && mp39.includes("@view-transition { navigation: auto; }"),
-  "the 50th page joined the 46-page VT set (wave 40: 52 pages, 48 stamped); the four instant pages stay instant (WF41)");
+  "the 50th page joined the 46-page VT set (wave 40: 52 pages, 48 stamped; wave 41: 53 pages, 49 stamped); the four instant pages stay instant (WF41)");
 check("WF45 taxonomy: STILL not reshelved — the brief's call stays with the human",
   byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
   byId24["spooky-town"].genre === "horror" &&
@@ -2391,9 +2391,12 @@ check("WF45 taxonomy: STILL not reshelved — the brief's call stays with the hu
 // vs kaaarot — coverage tied 1-1 before (Cookie's Kids listing
 // against kaaarot's multiplayer dive); Cookie now carries the
 // idle dive too (2), so the coverage verdict fires alongside
-// footprint + Kids. The thin state does NOT move: Lookouts vs
-// Dating Killmulator 2 (both horror) remain the bare tail —
-// every idle game was already Kids-listed, so none was bare.
+// footprint + Kids. The thin state did NOT move at wave 40:
+// Lookouts vs Dating Killmulator 2 (both horror) remained the
+// bare tail — every idle game was already Kids-listed, so none
+// was bare. (Wave 41's horror dive closes the bare tail; the
+// WF46 thin check below now asserts the empty bare list, and
+// WF48 pins the new truth explicitly.)
 const idle40 = fs.readFileSync(path.join(ROOT, "genres/idle.html"), "utf8");
 const featured40 = [...idle40.matchAll(/data-game="([^\"]+)"/g)].map((m) => m[1]);
 const idleGames40 = games.filter((g) => g.genre === "idle");
@@ -2422,10 +2425,10 @@ check("WF46 versus coverage: the dive registry names exactly the dives on disk",
   (() => {
     const core = fs.readFileSync(path.join(ROOT, "assets/js/versus-core.js"), "utf8");
     return core.includes("idle: 'genres/idle.html'") &&
-      ["roguelike", "cozy", "puzzle", "retro", "action", "multiplayer", "idle"].every((d) => fs.existsSync(path.join(ROOT, "genres", d + ".html"))) &&
-      Object.keys(VS33.GENRE_DIVES).sort().join(",") === "action,cozy,idle,multiplayer,puzzle,retro,roguelike";
+      ["roguelike", "cozy", "puzzle", "retro", "action", "multiplayer", "idle", "horror"].every((d) => fs.existsSync(path.join(ROOT, "genres", d + ".html"))) &&
+      Object.keys(VS33.GENRE_DIVES).sort().join(",") === "action,cozy,horror,idle,multiplayer,puzzle,retro,roguelike";
   })(),
-  "GENRE_DIVES = roguelike + cozy + puzzle + retro + action + multiplayer + idle; an idle game now carries dive coverage in Versus");
+  "GENRE_DIVES = roguelike + cozy + puzzle + retro + action + multiplayer + idle + horror (wave 41 — the registry names all eight dives, the set is complete); an idle game now carries dive coverage in Versus");
 check("WF46 versus: the changed pairing — Cookie Clicker vs kaaarot fires footprint + coverage + Kids since the dive",
   (() => {
     const c = VS33.compare(byId24["cookie-clicker"], byId24["kaaarot"], vsCtx);
@@ -2436,11 +2439,11 @@ check("WF46 versus: the changed pairing — Cookie Clicker vs kaaarot fires foot
       VS33.profile(byId24["cookie-clicker"], vsCtx).coverage.some((x) => x.label === "Genre deep dive: idle");
   })(),
   "before wave 40 coverage tied 1-1 (Cookie's Kids listing vs kaaarot's multiplayer dive) and footprint + Kids alone fired; the idle dive makes coverage 2-1 — asserted as the new truth, not loosened");
-check("WF46 versus: the thin state does NOT move — the bare tail is still the two horror records",
+check("WF46 versus: the thin state then — the bare tail was the two horror records (wave 41 closes it; WF48 pins the new truth)",
   (() => { const th = VS33.compare(byId24["lookouts"], byId24["dating-killmulator-2"], vsCtx); return th.ok && th.thin && th.verdicts.length === 0; })() &&
   games.filter((g) => { const pr = VS33.profile(g, vsCtx); return pr.year === null && pr.collectionCount === 0 && !pr.tags.length && !pr.kidSafe && pr.coverageCount === 0; })
-    .map((g) => g.id).sort().join(",") === "dating-killmulator-2,lookouts",
-  "every idle game was already Kids-listed, so no idle record was bare; lookouts + dating-killmulator-2 remain the catalog's bare tail");
+    .map((g) => g.id).sort().join(",") === "",
+  "at wave 40 the bare tail was lookouts + dating-killmulator-2; wave 41's horror dive covers both, so the bare list is now empty — the pairing stays thin only because their coverage ties 1-1 (WF48)");
 check("WF46 idle dive wiring: directory card + sitemap + llms registration + a journal link on every card",
   fs.readFileSync(path.join(ROOT, "games.html"), "utf8").includes('href="genres/idle.html"') &&
   fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8").includes("<loc>genres/idle.html</loc>") &&
@@ -2449,7 +2452,7 @@ check("WF46 idle dive wiring: directory card + sitemap + llms registration + a j
   "games.html Genre deep dives section links it; build_site.py PAGES carries it into sitemap + llms; every dive card reaches the play journal");
 check("WF46 idle dive: view transitions stamped like the other browsing pages",
   idle40.includes("data-bm-vt") && idle40.includes("@view-transition { navigation: auto; }"),
-  "the 51st page joins the VT set; the four instant pages stay instant (WF41)");
+  "the 51st page joined the VT set (wave 41: the 53rd page joins the 49-page VT set); the four instant pages stay instant (WF41)");
 check("WF46 taxonomy: STILL not reshelved — the brief's call stays with the human",
   byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
   byId24["spooky-town"].genre === "horror" &&
@@ -2534,12 +2537,92 @@ check("WF47 journal: no chance, no fetch-out, no invented data in the core",
   "the core is pure storage over visitor input; the page says where the data lives");
 check("WF47 journal: view transitions stamped like the other browsing pages",
   journal40.includes("data-bm-vt") && journal40.includes("@view-transition { navigation: auto; }"),
-  "the 52nd page joins the 48-page VT set; the four instant pages stay instant (WF41)");
+  "the 52nd page joined the 48-page VT set (wave 41: 53 pages, 49 stamped); the four instant pages stay instant (WF41)");
 check("WF47 taxonomy: STILL not reshelved — the brief's call stays with the human",
   byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
   byId24["spooky-town"].genre === "horror" &&
   games.filter((g) => g.genre === "horror").length === 6 &&
   games.filter((g) => g.genre === "cozy").length === 16,
   "horror 6 / cozy 16 until a human rules");
+
+// ---- Wave 41: the Horror Deep Dive — the LAST dive. The
+// wave-33 completeness audit's dive debt, ordered by genre
+// size: puzzle (48), retro (44), action (41), multiplayer
+// (31), idle (15) have their dives; horror — 6 of 213 games —
+// is the last line. Dives go 7-of-8 to 8-of-8: THE SET IS
+// COMPLETE. The genre is small enough to curate whole: all 6
+// horror games get cards, pinned to their catalog records.
+// Truth changes in Versus: every horror game gains the dive
+// as coverage (0 -> 1; no horror game is Kids-listed), the
+// catalog's bare tail (lookouts + dating-killmulator-2) is
+// GONE — no record is bare anymore — and two pinned pairings
+// change their basis: Lookouts vs Dating Killmulator 2 stays
+// thin, now on a 1-1 coverage tie instead of mutual bareness;
+// Lookouts vs kaaarot flips from kaaarot's coverage verdict
+// (1-0) to thin (coverage tied 1-1).
+const horror41 = fs.readFileSync(path.join(ROOT, "genres/horror.html"), "utf8");
+const featured41 = [...horror41.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
+const horrorGames41 = games.filter((g) => g.genre === "horror");
+check("WF48 horror dive: page exists with exactly one h1 and a kicker that counts its own cards",
+  (horror41.match(/<h1[\s>]/g) || []).length === 1 &&
+  horror41.includes("Genre deep dive · " + featured41.length + " games") &&
+  featured41.length === 6 && new Set(featured41).size === featured41.length,
+  featured41.length + " featured cards, counted from the page itself");
+check("WF48 horror dive: every featured card is a real horror record — URL and controls verbatim",
+  featured41.every((id) => {
+    const g = byId24[id];
+    if (!g || g.genre !== "horror") return false;
+    const card = horror41.slice(horror41.indexOf('data-game="' + id + '"'));
+    const cardEnd = card.indexOf("</article>");
+    const slice = card.slice(0, cardEnd);
+    return slice.includes('href="' + g.url + '"') && slice.includes("Controls: " + g.controls);
+  }),
+  "6 cards; each links the record's own URL and prints the record's own controls line");
+check("WF48 horror dive: the dive curates the WHOLE shelf — every horror record is featured, none left over",
+  horrorGames41.every((g) => featured41.includes(g.id)) && featured41.length === horrorGames41.length &&
+  horror41.includes(horrorGames41.length + " of the catalog") &&
+  horror41.includes("All " + horrorGames41.length + " horror games") &&
+  horror41.includes("every horror game in the catalog is on this page"),
+  horrorGames41.length + " horror games in the catalog; all " + featured41.length + " are on the page, and the page says so");
+check("WF48 versus coverage: the dive registry names exactly the dives on disk — all eight, the set is complete",
+  (() => {
+    const core = fs.readFileSync(path.join(ROOT, "assets/js/versus-core.js"), "utf8");
+    return core.includes("horror: 'genres/horror.html'") &&
+      ["roguelike", "cozy", "puzzle", "retro", "action", "multiplayer", "idle", "horror"].every((d) => fs.existsSync(path.join(ROOT, "genres", d + ".html"))) &&
+      Object.keys(VS33.GENRE_DIVES).sort().join(",") === "action,cozy,horror,idle,multiplayer,puzzle,retro,roguelike";
+  })(),
+  "GENRE_DIVES = all eight genres; every catalog genre now has a dive and every game carries dive coverage in Versus");
+check("WF48 versus: every horror game gains the dive as its coverage (0 -> 1)",
+  horrorGames41.every((g) => { const pr = VS33.profile(g, vsCtx); return pr.coverageCount === 1 && pr.coverage[0].label === "Genre deep dive: horror"; }),
+  "no horror game is Kids-listed, so the dive is each one's first and only coverage entry");
+check("WF48 versus: the bare tail is GONE — no catalog record is bare anymore",
+  games.filter((g) => { const pr = VS33.profile(g, vsCtx); return pr.year === null && pr.collectionCount === 0 && !pr.tags.length && !pr.kidSafe && pr.coverageCount === 0; }).length === 0,
+  "waves 33-40's bare tail (lookouts + dating-killmulator-2) carried no year/shelf/tag/coverage/Kids pass; the horror dive covers both, so the bare list is empty");
+check("WF48 versus: the changed pairings — Lookouts vs Dating stays thin on a coverage tie; Lookouts vs kaaarot flips to thin",
+  (() => {
+    const th = VS33.compare(byId24["lookouts"], byId24["dating-killmulator-2"], vsCtx);
+    const fl = VS33.compare(byId24["lookouts"], byId24["kaaarot"], vsCtx);
+    return th.ok && th.thin && th.verdicts.length === 0 &&
+      VS33.profile(byId24["lookouts"], vsCtx).coverageCount === 1 &&
+      VS33.profile(byId24["dating-killmulator-2"], vsCtx).coverageCount === 1 &&
+      fl.ok && fl.thin && fl.verdicts.length === 0;
+  })(),
+  "before wave 41 the first pairing was thin because both records were bare and the second fired kaaarot's coverage verdict (1-0); now coverage ties 1-1 in both — asserted as the new truth, not loosened");
+check("WF48 horror dive wiring: directory card + hub completeness line + sitemap + llms registration + a journal link on every card",
+  fs.readFileSync(path.join(ROOT, "games.html"), "utf8").includes('href="genres/horror.html"') &&
+  fs.readFileSync(path.join(ROOT, "games.html"), "utf8").includes("8 of 8, the full shelf") &&
+  fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8").includes("<loc>genres/horror.html</loc>") &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("genres/horror.html") &&
+  featured41.every((id) => horror41.includes('href="../journal.html?game=' + id + '"')),
+  "games.html Genre deep dives section links it and says the set is complete (8 of 8); build_site.py PAGES carries it into sitemap + llms; every dive card reaches the play journal");
+check("WF48 horror dive: view transitions stamped like the other browsing pages",
+  horror41.includes("data-bm-vt") && horror41.includes("@view-transition { navigation: auto; }"),
+  "the 53rd page joins the 49-page VT set; the four instant pages stay instant (WF41)");
+check("WF48 taxonomy: STILL not reshelved — the brief's call stays with the human",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules — the dive curates the shelf as committed, it does not reshelve it");
 
 process.exit(failures ? 1 : 0);

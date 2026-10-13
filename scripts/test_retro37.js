@@ -65,7 +65,7 @@ const featured = [...page37.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
   const p = V.profile(byId["zork1"], { collections: [], kidIds: new Set() });
   check("versus: a retro game now carries the dive as written coverage",
     p.coverage.some((c) => c.href === "genres/retro.html" && c.label === "Genre deep dive: retro") &&
-    Object.keys(V.GENRE_DIVES).sort().join(",") === "action,cozy,idle,multiplayer,puzzle,retro,roguelike",
+    Object.keys(V.GENRE_DIVES).sort().join(",") === "action,cozy,horror,idle,multiplayer,puzzle,retro,roguelike",
     "zork1 coverage: " + p.coverage.map((c) => c.label).join("; "));
   const kidsDoc = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/kid-safe.json"), "utf8"));
   const colsDoc = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/collections.json"), "utf8"));

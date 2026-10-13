@@ -68,7 +68,7 @@ const featured = [...page39.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
   const p = V.profile(byId["skribbl"], { collections: [], kidIds: new Set() });
   check("versus: a multiplayer game now carries the dive as written coverage",
     p.coverage.some((c) => c.href === "genres/multiplayer.html" && c.label === "Genre deep dive: multiplayer") &&
-    Object.keys(V.GENRE_DIVES).sort().join(",") === "action,cozy,idle,multiplayer,puzzle,retro,roguelike",
+    Object.keys(V.GENRE_DIVES).sort().join(",") === "action,cozy,horror,idle,multiplayer,puzzle,retro,roguelike",
     "skribbl coverage: " + p.coverage.map((c) => c.label).join("; "));
   const kidsDoc = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/kid-safe.json"), "utf8"));
   const colsDoc = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/collections.json"), "utf8"));

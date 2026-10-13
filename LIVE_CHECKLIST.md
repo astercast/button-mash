@@ -212,7 +212,7 @@ absolute og:image, WF38). All of it is wired at the generator
 level (`scripts/build.py` `wire_placement`, idempotent — a second
 build stamps 0 pages) and pinned by WF39/WF40 (suite 320/320):
 
-- **Canonical**: `rel="canonical"` on all 52 pages, absolute and
+- **Canonical**: `rel="canonical"` on all 53 pages, absolute and
   self-referential on the recorded host
   `https://button-mash-live.vercel.app` (root URL for index.html).
 - **robots.txt**: allow-all + `Sitemap:` pointer to the published
@@ -245,7 +245,7 @@ build stamps 0 pages) and pinned by WF39/WF40 (suite 320/320):
   at build time (`wire_exclusions`); `data/v1/kid-safe.json` still
   exposes only the curated subset by design.
 - **View Transitions**: the `bm-vt` block is stamped by
-  `wire_placement` on 48 of 52 pages (progressive enhancement —
+  `wire_placement` on 49 of 53 pages (progressive enhancement —
   browsers without cross-document VT support navigate as before;
   zero JS, zero cost when unsupported). `player.html`,
   `converter.html`, `kids.html`, `parents.html` are deliberately
@@ -260,7 +260,7 @@ build stamps 0 pages) and pinned by WF39/WF40 (suite 320/320):
   (`genres/idle.html`, `journal.html`); the journal's state is
   browser-local only (localStorage `bm.journal.v1`), so the free
   tier sees zero new load.
-- **View Transitions**: `wire_placement` now stamps 48 of 52
+- **View Transitions**: `wire_placement` now stamps 49 of 53
   pages; both new pages were born placed (0 updated at build).
 - **Gap closure**: T-MASH-2 (personal play journal & backlog,
   research cycle 132) CLOSED by this wave — journal surfaces
@@ -275,3 +275,15 @@ build stamps 0 pages) and pinned by WF39/WF40 (suite 320/320):
 - Assert `/api/health` returns `"status": "ok"` and the 5-function roster
 - Dashboard → Cron Jobs: `/api/cron/curator` listed at `0 10 * * 1`
 - **Never re-push `-live` without an explicit user "push"/"ship it".**
+
+## Wave 41 — Horror Deep Dive, the last dive (2026-10-13, working repo)
+
+- **No deploy-shape change**: still 5 functions of the 12 cap, no
+  new endpoint, no cron change. One new static page
+  (`genres/horror.html`); the site grows 52 → 53 pages.
+- **View Transitions**: `wire_placement` now stamps 49 of 53
+  pages; the horror dive was born placed (0 updated at build).
+- **Dive set complete**: all eight genres now have a deep dive
+  (8 of 8) — the wave-33 dive debt is fully paid. T-MASH-1/5
+  (time-to-beat data) remain deferred by name — they need a
+  sourced data pass; no playtimes were fabricated.

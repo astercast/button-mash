@@ -16,7 +16,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - kids.html — Kids corner: 113 kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default
 - parents.html — parent guide: curation method, honesty policy (assessments not guarantees — play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick
 - collections.html — 24 hand-built collections
-- genres/roguelike.html, genres/cozy.html, genres/puzzle.html, genres/retro.html, genres/action.html, genres/multiplayer.html, genres/idle.html — genre deep dives with start-here picks
+- genres/roguelike.html, genres/cozy.html, genres/puzzle.html, genres/retro.html, genres/action.html, genres/multiplayer.html, genres/idle.html, genres/horror.html — genre deep dives with start-here picks (all eight genres — the set is complete)
 - journal.html — Play journal & backlog (T-MASH-2): per-game status shelves (want to play / playing / finished) and dated log entries, multiple per playthrough, for all 213 catalog games; persisted in this browser only (localStorage bm.journal.v1), no account, no server
 
 ## Learn
