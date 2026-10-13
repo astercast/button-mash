@@ -1469,4 +1469,38 @@ check("WF29 no ROM/BIOS download phrasing in wave-27 files",
   !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(brief27),
   "legal lane holds");
 
+// ---- Wave 28: Curator pass 4 — the Flash-era (Ruffle shelf)
+// year/creator claims, verified outside the repo. Three stand as
+// written; two attribution fixes: Alien Hominid's Flash prototype
+// was Fulp & Paladin's, not The Behemoth's (the company formed
+// after it), and Dad 'n Me's singular possessive dropped Paladin.
+// Taxonomy untouched again — the brief's call stays UNDECIDED.
+check("WF30 curator pass 4 — Alien Hominid credits the Flash game's actual makers",
+  byId24["alien-hominid-flash"].description.startsWith("Tom Fulp and Dan Paladin's 2002") &&
+  !byId24["alien-hominid-flash"].description.includes("Behemoth"),
+  "Fulp (code) + Paladin (art), Newgrounds Aug 2002; The Behemoth formed afterwards");
+check("WF30 curator pass 4 — Dad 'n Me credits both makers",
+  byId24["dad-n-me"].description.startsWith("Tom Fulp and Dan Paladin's 2005"),
+  "July 27, 2005; the game's own credits split programming (Fulp) and art (Paladin)");
+check("WF30 curator pass 4 — verified tranche stands as written",
+  byId24["fancy-pants-1"].description.startsWith("Brad Borne's 2006") &&
+  byId24["achievement-unlocked"].description.startsWith("John Cooney's 2008") &&
+  byId24["achievement-unlocked"].description.includes("100 achievements") &&
+  byId24["time-fcuk"].description.startsWith("Edmund McMillen's 2009"),
+  "Borne (World 1, Mar 14 2006), Cooney (Dec 17 2008, exactly 100), McMillen (Sep 16 2009)");
+check("WF30 curator pass 4 — the shelf's other four carry no year/creator claim",
+  ["canabalt", "line-rider", "happy-wheels", "qwop"].every((id) =>
+    !/\b(19|20)\d\d\b/.test(byId24[id].description)),
+  "nothing unverified left on the Ruffle shelf");
+check("WF30 taxonomy: STILL not reshelved — the brief's call stays with the human",
+  byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
+  byId24["spooky-town"].genre === "horror" &&
+  games.filter((g) => g.genre === "horror").length === 6 &&
+  games.filter((g) => g.genre === "cozy").length === 16,
+  "horror 6 / cozy 16 until a human rules");
+check("WF30 no ROM/BIOS download phrasing in wave-28 entries",
+  !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(
+    byId24["alien-hominid-flash"].description + byId24["dad-n-me"].description),
+  "legal lane holds");
+
 process.exit(failures ? 1 : 0);

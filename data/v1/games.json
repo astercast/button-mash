@@ -1,7 +1,7 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-13T02:32:11Z",
+  "generated_at": "2026-10-13T03:22:08Z",
   "endpoint": "games",
   "description": "Curated browser games directory (every URL verified live — never invented).",
   "count": 213,
@@ -1708,7 +1708,7 @@
       "url": "https://archive.org/details/flash_alien_hominid",
       "genre": "action",
       "controls": "Arrow keys + Z/X",
-      "description": "The Behemoth's 2002 run-and-gun: the little yellow alien's Newgrounds debut, preserved via Ruffle.",
+      "description": "Tom Fulp and Dan Paladin's 2002 run-and-gun: the little yellow alien's Newgrounds debut, preserved via Ruffle.",
       "tags": [
         "shooter"
       ]
@@ -1719,7 +1719,7 @@
       "url": "https://archive.org/details/dadnme",
       "genre": "action",
       "controls": "Arrow keys + A/S",
-      "description": "Tom Fulp's 2005 beat-em-up: a dad, his kid, and a city full of punks — Flash brawling at its finest, via Ruffle."
+      "description": "Tom Fulp and Dan Paladin's 2005 beat-em-up: a dad, his kid, and a city full of punks — Flash brawling at its finest, via Ruffle."
     },
     {
       "id": "achievement-unlocked",

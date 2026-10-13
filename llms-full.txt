@@ -243,8 +243,8 @@ The universal in-browser game console. Three centerpieces: (1) the Player — a 
 - Street Fighter Alpha 2 [retro · Arrows + buttons] — Capcom's 1996 fighter: the Alpha series at its peak — air-blocking, custom combos, and anime-styled sprites. Play: https://archive.org/details/arcade_sfa2
 - Congo Bongo [retro · Arrow keys] — Sega's 1983 isometric platformer: climb, dodge, and outwit the ape in the isometric rival to Donkey Kong. Play: https://archive.org/details/arcade_congo
 - Fancy Pants Adventure: World 1 [action · Arrow keys] — Brad Borne's 2006 stick-figure platformer: the smoothest Flash run-and-slide ever, preserved on the Archive via Ruffle. Play: https://archive.org/details/fpaworld-1-07a_202204
-- Alien Hominid (Flash) [action · Arrow keys + Z/X] — The Behemoth's 2002 run-and-gun: the little yellow alien's Newgrounds debut, preserved via Ruffle. Play: https://archive.org/details/flash_alien_hominid
-- Dad 'n Me [action · Arrow keys + A/S] — Tom Fulp's 2005 beat-em-up: a dad, his kid, and a city full of punks — Flash brawling at its finest, via Ruffle. Play: https://archive.org/details/dadnme
+- Alien Hominid (Flash) [action · Arrow keys + Z/X] — Tom Fulp and Dan Paladin's 2002 run-and-gun: the little yellow alien's Newgrounds debut, preserved via Ruffle. Play: https://archive.org/details/flash_alien_hominid
+- Dad 'n Me [action · Arrow keys + A/S] — Tom Fulp and Dan Paladin's 2005 beat-em-up: a dad, his kid, and a city full of punks — Flash brawling at its finest, via Ruffle. Play: https://archive.org/details/dadnme
 - Achievement Unlocked [action · Arrow keys] — John Cooney's 2008 metagame: a tiny platformer about unlocking 100 achievements for doing literally everything. Play: https://archive.org/details/achievementflash
 - Time Fcuk [puzzle · Arrow keys + Z] — Edmund McMillen's 2009 puzzle-platformer: a box, a time mechanic, and an ending you'll argue about — preserved via Ruffle. Play: https://archive.org/details/time-fcuk
 - Run 3 [action · Arrow keys / WASD] — Player03's endless tunnel-runner: sprint through collapsing space tunnels in the series' official web version. Play: https://player03.com/

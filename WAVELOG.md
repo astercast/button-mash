@@ -2,6 +2,75 @@
 
 Running record of build waves. Newest first.
 
+## Wave 28 — 2026-10-12 — Curator pass 4: the Flash-era shelf
+
+**What shipped** — the Curator's fourth pass works the tranche wave
+27 named next: the Flash-era entries' year/creator claims — the
+"Flash-back machine" collection (the Ruffle shelf), nine entries,
+never checked against a source outside the repo. Its taxonomy rider
+is unchanged: the TAXONOMY_BRIEF.md call stays **UNDECIDED**, and
+nothing was reshelved.
+
+- **Curator pass 4 — the Flash shelf's claims** (`data/games.json`):
+  five of the shelf's nine entries carry a year and/or creator
+  claim; each was checked 2026-10-12 against the games' own records
+  and reputable archives (Wikipedia, MobyGames, the Newgrounds
+  wikis, the linked archive.org items). **Three stand as written**
+  and are pinned verbatim in `test_curator28`: **Fancy Pants
+  Adventure: World 1** (Brad Borne's series; World 1 released March
+  14, 2006), **Achievement Unlocked** (John Cooney, December 17,
+  2008, and the count is exactly 100 — completing all 100 is the
+  game's whole goal), **Time Fcuk** (Edmund McMillen, released on
+  Newgrounds September 16, 2009). **Two fixes**, both attribution
+  errors of the family wave 27's Transport Tycoon named — an entry
+  must credit what it actually links to: **Alien Hominid (Flash)**
+  called itself "The Behemoth's 2002 run-and-gun" — the Behemoth
+  did not make the Flash game and did not exist when it shipped;
+  the prototype was programmed by Tom Fulp with art by Dan Paladin,
+  released on Newgrounds in August 2002, and the company was formed
+  afterwards, prompted by the prototype's success, to build the
+  console version. The archive.org item the entry links is itself
+  credited to Fulp and Paladin, and the entry now names them.
+  **Dad 'n Me** had the right year (July 27, 2005) but a singular
+  possessive — the game's own credits split the work, programming
+  by Fulp and art by Paladin, the same duo; the entry now names
+  both. The shelf's other four entries (Canabalt, Line Rider, Happy
+  Wheels, QWOP) carry no year or creator claim in their copy, so
+  the tranche is fully worked: nothing unverified remains on the
+  Ruffle shelf.
+- **Taxonomy: still untouched, deliberately.** The horror/cozy
+  question from rotation 6 stays a human's call — purrgatory,
+  Lookouts and Little Troubles in Spooky Town remain pinned in
+  horror (census 213 / horror 6 / cozy 16), now enforced by
+  `test_curator28` and WF30 alongside 25/26/27.
+- **Agentic surface**: WF30 (6 checks — both fixes, the verified
+  tranche, the claim-free remainder of the shelf, the still-pinned
+  taxonomy, legal lane) — **255/255 pass (WF1–WF30)**. New
+  `scripts/test_curator28.js`: **ALL PASS (16 checks)** — the
+  tranche scope, both corrected descriptions verbatim, the three
+  verified descriptions pinned exactly as written, the census pins.
+
+**Validation:**
+- `scripts/build.py`: **BUILD OK — 213 games, 24 collections, 10 emulators, 24 guides**; **LEGAL GATE OK (44 pages, 0 piracy links)**
+- `scripts/check_links.py`: **0 broken (43 pages, 1439 local links)**
+- `node scripts/check_api_workflows.js`: **255/255 pass (WF1–WF30)**
+- `node scripts/test_curator28.js`: **ALL PASS (16 checks)** (new)
+- Named suites re-run: `test_identity16` **41/41 ALL PASS** (first attempt; loadavg ~6.0 at launch — no stall this run); `test_lineups23` **ALL PASS**; `test_curator24` **ALL PASS**; `test_curator25` **ALL PASS**; `test_curator26` **ALL PASS**; `test_curator27` **ALL PASS (30 checks)**; `test_converter12` **66/66**; `test_player21` **ALL PASSED**
+- Regression: `test_gamenight_parity` PARITY OK; `test_gamenight22` ALL PASS; `test_curatornight21` ALL PASS; `test_wave19` ALL PASS; `test_wave17` ALL PASS; `test_trophy18` ALL PASSED; `test_party_planner11` ALL PASS; `test_tournament10` ALL PASS; `test_bracket` 82/82; `test_bracket_double` 105/105; `test_party11` 36/36; `test_wow1` + powerunit + playertail ALL PASS; `tests/api.test.sh` **40/40**; `~/workspace/smoke/test.js`: exit 0, zero errors
+- `node --check`: clean on the new/edited JS; AI-slop denylist grep clean on all new prose; no TODOs or dead code in the wave's files
+- Screenshots inspected: homepage hero (3-second read intact — eyebrow, H1, one CTA, stat band 213/113/24/24) and `games.html` directory hero ("213 games. Zero installs."), both over file:// with zero pageerrors
+
+**Legal lane**: unchanged — zero ROMs, zero ROM/BIOS download links.
+
+**Self-assessment**: pass 4's two errors were both credits, not
+dates — every year on the shelf was right. The Behemoth slip is the
+instructive one: the company is so identified with the game that
+the anachronism reads as common sense, and only the linked item's
+own credit line gives it away. What remains on the Curator's list:
+the DOS/shareware and early-PC shelf's year/maker claims (Zork's
+1980, Will Wright's 1989 SimCity, Mechner's Prince of Persia, the
+shareware episodes) are the next unverified tranche.
+
 ## Wave 27 — 2026-10-12 — "The brief": the taxonomy call, written for a human + Curator pass 3
 
 **What shipped** — two tracks: the cozy/horror recommendation from
