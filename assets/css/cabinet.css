@@ -249,10 +249,15 @@ dialog .dialog-card, .dialog-card {
 @media (max-width: 560px) {
   .header-inner { flex-wrap: nowrap; gap: .5rem; }
   .brand { font-size: .62rem; white-space: nowrap; }
-  .site-nav { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
-  .site-nav::-webkit-scrollbar { display: none; }
-  .site-nav > ul, .nav-primary { flex-wrap: nowrap; white-space: nowrap; }
-  .site-nav > ul a { font-size: .56rem; padding: .3rem .35rem; }
+  /* R25 (c): the shrink-to-one-line phone nav is retired. At .56rem
+     the primary list's 308px of nowrap content was flex-shrunk into
+     a 124px scroll window, which sliced the third label,
+     "Collections", mid-word (window right edge 144, label at
+     129-189, measured at base 41b6725). The list now wraps at the
+     system's own .92rem size, set in the R25 section at the end of
+     this sheet; no label is cut, no item dropped, no type shrunk. */
+  .site-nav { flex-wrap: wrap; overflow: visible; }
+  .site-nav > ul, .nav-primary { flex-wrap: wrap; white-space: normal; }
   .nav-cta { white-space: nowrap; }
   .hero { padding-top: 1.1rem; }
   .hero-title { font-size: clamp(1.35rem, 8.4vw, 1.9rem); }
@@ -399,15 +404,13 @@ div:has(> table.remap-table) { overflow-x: auto; }
     order: 3;
     flex: 1 1 100%;
     min-width: 0;
-    overflow: hidden;
+    overflow: visible;
   }
   .site-nav ul.nav-primary {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    white-space: nowrap;
+    flex-wrap: wrap;
+    overflow: visible;
+    white-space: normal;
   }
-  .site-nav ul.nav-primary::-webkit-scrollbar { display: none; }
   .site-nav ul.nav-rest {
     position: fixed;
     left: auto;
@@ -448,4 +451,72 @@ div:has(> table.remap-table) { overflow-x: auto; }
   letter-spacing: .01em;
   line-height: 1.5;
   text-shadow: none;
+}
+
+/* ============================================================
+   R25 FOLLOW-ONS (aesthetics ROUND-049 §4 follow-on set,
+   re-measured firsthand at base 41b6725 before building):
+   (a) Standalone title anchors in list rows stood at text-line
+   height on phones: the collections credit titles at 21px
+   (194 of 196 under the 44px touch floor at 320, all 196 at
+   390), the shelf-jump chips at 39.2px, the parents ledger
+   titles at 22px. At phone widths each becomes a 44px target;
+   the rows give back most of their vertical padding, so the
+   credits and ledger lists keep their rhythm and composition.
+   (b) The converter page measured 321 at a 320 viewport. The
+   cause is content geometry, not box geometry: .conv-cover-row
+   is a grid whose single column was sized by the cover file
+   input's intrinsic 273px width, so the row's label, input and
+   note all rendered 273 wide from x=47.6 (right edge 320.6).
+   The column is capped and the row's items may shrink to it.
+   (c) The phone nav wraps at the system's .92rem size (see the
+   560px blocks above); here its targets meet the same 44px
+   floor, the More summary, the Play action and the brand with
+   them. Geometry only: no token, colour or typeface changes.
+   ============================================================ */
+
+/* (b) converter cover row: cap the grid column at the row width */
+.conv-cover-row { grid-template-columns: minmax(0, 1fr); }
+.conv-cover-row > * { min-width: 0; max-width: 100%; }
+
+/* (a) list-row title anchors reach the touch floor on phones */
+@media (max-width: 700px) {
+  .credit-title, .ledger-list a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    max-width: 100%;
+  }
+  .credit-line { padding-top: .15rem; padding-bottom: .15rem; }
+  .ledger-list li { padding-top: .1rem; padding-bottom: .1rem; }
+  .shelf-jump a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+/* (c) phone nav: whole labels at the system's size, 44px targets */
+@media (max-width: 560px) {
+  .site-nav > ul a {
+    font-size: .92rem;
+    padding: .6rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  .site-nav ul.nav-rest a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  .nav-more > summary {
+    font-size: .92rem;
+    padding: .6rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  .nav-cta { min-height: 44px; display: flex; align-items: center; }
+  .brand { min-height: 44px; }
 }
