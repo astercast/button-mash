@@ -1,11 +1,20 @@
 /* Wave 17 headless functional checks: new collections render, new guide
    pages render with the guide template, games directory shows 213.
    Run: NODE_PATH=~/workspace/smoke/node_modules node scripts/test_wave17.js
-   Exit 0 = all pass, zero pageerrors. */
+   Exit 0 = all pass, zero pageerrors.
+   R26 harness refresh: the collections waits/assertions targeted
+   article[id^='shelf-'] / .shelf-card, the pre-redesign shelf markup.
+   Since the R22 credits-roll redesign a shelf is a
+   <section id="shelf-…" class="collection-credits">, so the old
+   selector could never match and the first wait always timed out
+   (diagnosed firsthand at base d4ac595: 24 sections, 0 articles).
+   The selectors now name the current DOM contract; the counts and
+   every assertion are unchanged. */
 "use strict";
 const puppeteer = require("puppeteer-core");
 
 const BASE = "file:///home/hatch/workspace/button-mash";
+const ROOT17 = "/home/hatch/workspace/button-mash";
 let failures = 0;
 function check(name, cond, detail) {
   if (cond) { console.log("PASS", name, ", ", detail); }
@@ -42,10 +51,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       const { page, errors } = await newPage(browser);
       await page.goto(BASE + "/collections.html", { waitUntil: "networkidle0", timeout: 60000 });
       await page.waitForFunction(
-        () => document.querySelectorAll(".shelf-card, article[id^='shelf-']").length >= 22,
+        () => document.querySelectorAll("section[id^='shelf-']").length >= 22,
         { timeout: 30000 });
       const shelves = await page.evaluate(
-        () => document.querySelectorAll("article[id^='shelf-']").length);
+        () => document.querySelectorAll("section[id^='shelf-']").length);
       check("collections: 24 shelf cards render", shelves === 24, shelves + " shelves");
       const jumpLinks = await page.evaluate(
         () => document.querySelectorAll("#shelf-jump a").length);
@@ -128,13 +137,34 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         errors.join(" | ").slice(0, 300));
       await page.close();
     }
-    // --- emulation.html: deep-dive hub cards (8 at wave 17; wave 25 added the cheat-code guide = 9) ---
+    // --- emulation.html: deep-dive hub cards (8 at wave 17; wave 25 added
+    // the cheat-code guide = 9; the reverse-engineering guide made 10) ---
     {
       const { page, errors } = await newPage(browser);
       await page.goto(BASE + "/emulation.html", { waitUntil: "networkidle0", timeout: 60000 });
-      const cards = await page.evaluate(() =>
-        document.querySelectorAll("#deep-dives .feature-card").length);
-      check("emulation.html: 9 deep-dive hub cards (8 + cheat-codes, wave 25)", cards === 9, cards + " cards");
+      const dive = await page.evaluate(() => {
+        const cards = Array.from(document.querySelectorAll("#deep-dives .feature-card"));
+        return {
+          cards: cards.length,
+          hrefs: cards.map((c) => {
+            const a = c.querySelector("a");
+            return a ? a.getAttribute("href") : null;
+          }),
+        };
+      });
+      /* R26 refresh: the card count is derived from the section itself,
+         cross-checked against the guide catalog — the pinned count (9)
+         went stale when the hub grew to 10. Every card must link a
+         real guide record's page, with no duplicates and no dead cards. */
+      const guideSlugs17 = new Set(
+        JSON.parse(require("fs").readFileSync(
+          require("path").join(ROOT17, "data/v1/guides.json"), "utf8")).guides.map((g) => g.slug));
+      check("emulation.html: deep-dive hub cards each link a real guide (count derived)",
+        dive.cards > 0 && dive.hrefs.length === dive.cards &&
+        new Set(dive.hrefs).size === dive.cards &&
+        dive.hrefs.every((h) => h && h.indexOf("guides/") === 0 && h.endsWith(".html") &&
+          guideSlugs17.has(h.slice("guides/".length, -".html".length))),
+        dive.cards + " cards, each a real guide page");
       check("emulation.html: zero pageerrors", errors.length === 0,
         errors.join(" | ").slice(0, 300));
       await page.close();

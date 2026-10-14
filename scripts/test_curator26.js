@@ -57,11 +57,11 @@ const howEmu = fs.readFileSync(path.join(ROOT, "guides/how-emulation-works.html"
   check("site-wide: no page still calls emulators open-source as a blanket",
     htmlFiles.every((h) => !/legal, open-source|legal and open-source/i.test(h)),
     htmlFiles.length + " html pages scanned");
-  check("catalog: 'mostly' is arithmetic, not a hedge: 9 of 10 licenses are open",
-    emuDoc.emulators.length === 10 &&
+  check("catalog: 'mostly' is arithmetic, not a hedge: exactly one license is not open",
+    emuDoc.emulators.filter((e) => !/GPL|MPL|MIT/.test(e.license)).length === 1 &&
     emuDoc.emulators.filter((e) => e.id !== "duckstation").every((e) => /GPL|MPL|MIT/.test(e.license)) &&
     emuDoc.emulators.find((e) => e.id === "duckstation").license === "CC BY-NC-ND 4.0",
-    "only DuckStation is source-available; the rest carry GPL/MPL/MIT licenses");
+    "of " + emuDoc.emulators.length + " emulators only DuckStation is source-available; the rest carry GPL/MPL/MIT licenses (R26: total derived at runtime — the pinned 10 went stale when the catalog grew to 11 with mesen)");
 }
 
 /* ---------------- (2) audit: true claims stay exactly as written ---------------- */

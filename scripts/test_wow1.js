@@ -149,8 +149,14 @@ const errors = [];
   check("slide 1 is a real catalog game", !!firstGame, firstTitle);
   if (firstGame) {
     const playHref = await page.$eval(".demo-slide.on .demo-play", (e) => e.getAttribute("href"));
-    check("slide PLAY link = the game's real URL", playHref === firstGame.url, playHref);
-    check("slide PLAY opens in a new tab", await page.$eval(".demo-slide.on .demo-play", (e) => e.target) === "_blank", "target=_blank");
+    /* R26 refresh: the R22/R23 no-outbound law abolished the outbound
+       PLAY link (href === the record's URL, target=_blank). The slide's
+       play surface is now the game's on-site file, which routes to the
+       converter/player. These checks pin the current law. */
+    check("slide PLAY link = the game's on-site file (no-outbound law)", playHref === "game.html?id=" + firstGame.id, playHref);
+    check("slide PLAY stays on-site (no new tab, not the record's outbound URL)",
+      (await page.$eval(".demo-slide.on .demo-play", (e) => e.target)) !== "_blank" && playHref !== firstGame.url,
+      "same-tab on-site link");
   }
   const inactiveInert = await page.$$eval(".demo-slide:not(.on)", (els) =>
     els.every((s) => s.hasAttribute("inert") && s.getAttribute("aria-hidden") === "true"));

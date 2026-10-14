@@ -47,8 +47,10 @@ const page = fs.readFileSync(path.join(ROOT, "guides/cheat-codes.html"), "utf8")
     !!rec && rec.slug === "cheat-codes" && rec.section_count === 8 &&
     rec.difficulty === "Beginner" && rec.time_minutes === 12,
     rec ? rec.title : "missing");
-  check("guide: the shelf now holds 24",
-    guidesDoc.guides.length === 24, guidesDoc.guides.length + " guides");
+  check("guide: the shelf count matches the guide pages on disk (derived, R26)",
+    guidesDoc.guides.length ===
+      fs.readdirSync(path.join(ROOT, "guides")).filter((f) => f.endsWith(".html")).length,
+    guidesDoc.guides.length + " guides (the wave-25 pin of 24 went stale when the shelf grew)");
   check("guide: page carries the deep-dive template",
     page.includes('class="guide-page"') && page.includes('data-spy') &&
     page.includes("assets/js/guide-toc.js") && page.includes("assets/js/arcade.js") &&
@@ -85,8 +87,8 @@ const page = fs.readFileSync(path.join(ROOT, "guides/cheat-codes.html"), "utf8")
     fs.readFileSync(path.join(ROOT, "emulation.html"), "utf8").includes("guides/cheat-codes.html") &&
     fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8").includes("<loc>guides/cheat-codes.html</loc>") &&
     fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("cheat-codes") &&
-    fs.readFileSync(path.join(ROOT, "index.html"), "utf8").includes("<dt>guides</dt><dd>24</dd>"),
-    "emulation hub deep-dives (9 cards), sitemap 45 urls, llms, stat band 24");
+    fs.readFileSync(path.join(ROOT, "index.html"), "utf8").includes(guidesDoc.guides.length + " guides"),
+    "emulation hub deep-dives (9 cards), sitemap, llms, homepage stats line names the derived guide count");
   check("guide: no AI-slop phrasing in the new prose",
     !/delve|unlock the power|game-changer|elevate your|fast-paced world|whether you.re a beginner or a pro/i.test(page),
     "denylist clean");
@@ -104,11 +106,11 @@ const page = fs.readFileSync(path.join(ROOT, "guides/cheat-codes.html"), "utf8")
     !!d && /Sept 2024/.test(d.notes) && /GPL-3\.0 until then/.test(d.notes) &&
     /not open source/.test(d.notes),
     d ? d.notes : "missing");
-  check("duckstation: the correction is surgical, the other nine licenses are untouched",
+  check("duckstation: the correction is surgical, the other licenses are untouched",
     emuById["retroarch"].license === "GPL-3.0" && emuById["mgba"].license === "MPL-2.0" &&
     emuById["ppsspp"].license === "GPL-2.0+" && emuById["emulatorjs"].license === "GPL-3.0" &&
-    (emuDoc.emulators || []).length === 10,
-    "10 emulators; only duckstation moved");
+    (emuDoc.emulators || []).every((e) => e.id === "duckstation" || /GPL|MPL|MIT/.test(e.license)),
+    (emuDoc.emulators || []).length + " emulators; duckstation is the only non-open license (R26: the catalog total is derived, not pinned — it grew past 10 when mesen was added, GPL-3.0)");
 }
 
 /* ---------------- (3) taxonomy: evidence recorded, nothing moved ---------------- */

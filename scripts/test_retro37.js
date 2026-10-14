@@ -1,8 +1,11 @@
 /* Wave 37 flagship checks: the Retro Deep Dive (genres/retro.html).
 
    (1) static: every featured card (data-game) is a real catalog
-   record with genre "retro", its play URL and controls line match
-   the record verbatim, the kicker counts the cards on the page,
+   record with genre "retro", its title links the on-site game file
+   and its controls line matches the record verbatim (R26 refresh:
+   the R22/R23 no-outbound law abolished the record-URL card link
+   this suite originally pinned), the kicker counts the cards on
+   the page,
    and the page names the full retro shelf it curates from;
    (2) versus: BMVersus profiles a retro game with the dive as
    coverage, and the pinned Zork I vs 2048 pairing's coverage is
@@ -39,15 +42,16 @@ const featured = [...page37.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
   check("every featured game is a real retro record",
     featured.every((id) => byId[id] && byId[id].genre === "retro"),
     "ids resolve against data/games.json with genre retro");
-  check("every card carries its record's URL and controls verbatim",
+  check("every card links its on-site game file and carries its controls verbatim — no outbound play link",
     featured.every((id) => {
       const card = page37.slice(page37.indexOf('data-game="' + id + '"'));
       const slice = card.slice(0, card.indexOf("</article>"));
-      return slice.includes('href="' + byId[id].url + '"') &&
+      return slice.includes('href="../game.html?id=' + id + '"') &&
+        !slice.includes('href="' + byId[id].url + '"') &&
         slice.includes("Controls: " + byId[id].controls) &&
         slice.includes(">" + byId[id].title + "</a>");
     }),
-    "no invented links, no paraphrased controls");
+    "on-site game-file link per card; the record's outbound URL is not a link anywhere on the card; controls verbatim");
   const retroTotal = games.filter((g) => g.genre === "retro").length;
   check("the page names the shelf it curates from, derived from the records",
     page37.includes(retroTotal + " of the catalog") &&

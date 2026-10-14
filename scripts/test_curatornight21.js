@@ -154,8 +154,18 @@ async function newPage(browser, viewport, motion) {
       /* Deal the night: shuffle beat, then staggered slots. */
       await page.$eval("#cn-group", (el) => { el.value = "4"; el.dispatchEvent(new Event("input")); });
       await page.click("#cn-deal");
-      await sleep(400);
-      const shuffling = await page.$eval("#cn-stage", (el) => el.textContent);
+      /* R26 harness refresh: the beat is polled, not slept on. The fixed
+         400ms sleep raced the ceremony start — in the R26 diagnosis the
+         beat first painted ~570ms after the click (later under battery
+         load), so the suite failed on timing while the beat was reliably
+         shown. The assertion is unchanged: the stage must show the beat. */
+      let shuffling = "";
+      try {
+        await page.waitForFunction(
+          () => /SHUFFLING THE DECK/.test(document.querySelector("#cn-stage").textContent),
+          { timeout: 15000 });
+      } catch (e) { /* fall through: the check below reads the real state */ }
+      shuffling = await page.$eval("#cn-stage", (el) => el.textContent);
       check("ceremony beat: shuffling state shows", /SHUFFLING THE DECK/.test(shuffling), "beat visible");
       await page.waitForSelector(".cn-slot", { timeout: 15000 });
       await sleep(4500); /* let the staggered reveal finish */
@@ -167,8 +177,10 @@ async function newPage(browser, viewport, motion) {
       check("last slot is the cool-down", roles[roles.length - 1] === "THE COOL-DOWN", roles.join(" > "));
       const announcer = await page.$eval("#cn-announcer", (el) => el.textContent);
       check("aria-live announcer narrates the reveal", /Slot \d+ of \d+/.test(announcer), announcer.slice(0, 60));
-      const extLinks = await page.$$eval(".cn-slot h3 a", (els) => els.map((e) => e.href));
-      check("slot titles link real https URLs", extLinks.every((u) => u.indexOf("https://") === 0), extLinks.length + " links");
+      const titleLinks = await page.$$eval(".cn-slot h3 a", (els) => els.map((e) => e.href));
+      check("slot titles link the on-site game file, never outbound (no-outbound law)",
+        titleLinks.length > 0 && titleLinks.every((u) => u.indexOf("game.html?id=") !== -1 && u.indexOf("https://") !== 0),
+        titleLinks.length + " links (R26 refresh: slot titles carried the record's outbound URL before the R22/R23 no-outbound law; curator-night-ui.js now links game.html?id=)");
       const fileLinks = await page.$$eval(".cn-why a", (els) => els.map((e) => e.getAttribute("href")));
       check("every slot links its game file", fileLinks.every((u) => u && u.indexOf("game.html?id=") === 0), fileLinks.length + " file links");
       const summary = await page.$eval(".cn-summary", (el) => el.textContent);

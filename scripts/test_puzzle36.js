@@ -1,8 +1,11 @@
 /* Wave 36 flagship checks: the Puzzle Deep Dive (genres/puzzle.html).
 
    (1) static: every featured card (data-game) is a real catalog
-   record with genre "puzzle", its play URL and controls line match
-   the record verbatim, the kicker counts the cards on the page,
+   record with genre "puzzle", its title links the on-site game file
+   and its controls line matches the record verbatim (R26 refresh:
+   the R22/R23 no-outbound law abolished the record-URL card link
+   this suite originally pinned), the kicker counts the cards on
+   the page,
    and the page names the full puzzle shelf it curates from;
    (2) versus: BMVersus profiles a puzzle game with the dive as
    coverage; (3) headless: the page renders all 15 cards with
@@ -37,15 +40,16 @@ const featured = [...page36.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
   check("every featured game is a real puzzle record",
     featured.every((id) => byId[id] && byId[id].genre === "puzzle"),
     "ids resolve against data/games.json with genre puzzle");
-  check("every card carries its record's URL and controls verbatim",
+  check("every card links its on-site game file and carries its controls verbatim — no outbound play link",
     featured.every((id) => {
       const card = page36.slice(page36.indexOf('data-game="' + id + '"'));
       const slice = card.slice(0, card.indexOf("</article>"));
-      return slice.includes('href="' + byId[id].url + '"') &&
+      return slice.includes('href="../game.html?id=' + id + '"') &&
+        !slice.includes('href="' + byId[id].url + '"') &&
         slice.includes("Controls: " + byId[id].controls) &&
         slice.includes(">" + byId[id].title + "</a>");
     }),
-    "no invented links, no paraphrased controls");
+    "on-site game-file link per card; the record's outbound URL is not a link anywhere on the card; controls verbatim");
   const puzzleTotal = games.filter((g) => g.genre === "puzzle").length;
   check("the page names the shelf it curates from, derived from the records",
     page36.includes(puzzleTotal + " of the catalog") &&

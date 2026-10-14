@@ -5,7 +5,16 @@
    fetch stub since wave 22: Chromium 152 Local Network Access checks
    block loopback navigation in this sandbox; see the section comment).
    Run: NODE_PATH=~/workspace/smoke/node_modules node scripts/test_wave19.js
-   Exit 0 = all pass, zero pageerrors. */
+   Exit 0 = all pass, zero pageerrors.
+   R26 harness refresh (sections E + F): the collections waits targeted
+   article[id^='shelf-'], .shelf-detail-link and .shelf-row — the
+   pre-redesign shelf markup. Since the R22 credits-roll redesign a
+   shelf is a <section id="shelf-…" class="collection-credits">, its
+   rows are .credit-line and its game links are .credit-title anchors
+   to game.html?id=, so the section-E wait always timed out at 30s
+   (diagnosed firsthand at base d4ac595: 24 sections, 0 articles,
+   0 detail links, 0 shelf rows). Selectors now name the current DOM
+   contract; counts and assertions are unchanged. */
 "use strict";
 const fs = require("fs");
 const path = require("path");
@@ -236,14 +245,14 @@ function stubEnvelopes() {
       const { page, errors } = await newPage(browser);
       await page.goto(BASE + "/collections.html", { waitUntil: "networkidle0", timeout: 60000 });
       await page.waitForFunction(
-        () => document.querySelectorAll("article[id^='shelf-']").length === 24, { timeout: 30000 });
+        () => document.querySelectorAll("section[id^='shelf-']").length === 24, { timeout: 30000 });
       const facts = await page.evaluate(() => ({
         badge: document.querySelector("#collections-badge").dataset.apiState,
         badgeText: document.querySelector("#collections-badge").textContent,
         jumpLinks: document.querySelectorAll("#shelf-jump a").length,
-        fileLinks: Array.from(document.querySelectorAll(".shelf-detail-link")).slice(0, 3)
+        fileLinks: Array.from(document.querySelectorAll("section[id^='shelf-'] .credit-title")).slice(0, 3)
           .map((a) => a.getAttribute("href")),
-        rows: document.querySelectorAll("#shelf-score-attack .shelf-row").length,
+        rows: document.querySelectorAll("#shelf-score-attack .credit-line").length,
       }));
       check("collections: badge cached over file://", facts.badge === "cached" && facts.badgeText.includes("cached"),
         facts.badge + " / " + facts.badgeText);
@@ -251,7 +260,7 @@ function stubEnvelopes() {
       check("collections: shelf rows link to game files",
         facts.fileLinks.length > 0 && facts.fileLinks.every((h) => h.indexOf("game.html?id=") === 0),
         facts.fileLinks.join(" | "));
-      check("collections: score-attack rows carry the row wrapper", facts.rows >= 10, facts.rows + " rows");
+      check("collections: score-attack rows carry the row wrapper", facts.rows >= 10, facts.rows + " rows (credit-line rows since the R22 credits-roll redesign)");
       await page.goto(BASE + "/collections.html#shelf-score-attack", { waitUntil: "networkidle0", timeout: 60000 });
       await page.waitForFunction(() => window.scrollY > 200, { timeout: 15000 });
       check("collections: #shelf- deep link scrolls", true, "scrollY=" + await page.evaluate(() => Math.round(window.scrollY)));
@@ -301,7 +310,7 @@ function stubEnvelopes() {
       await page.goto(BASE + "/collections.html", { waitUntil: "networkidle0", timeout: 60000 });
       await page.waitForFunction(
         () => document.querySelector("#collections-badge").dataset.apiState === "live", { timeout: 30000 });
-      const shelves = await page.evaluate(() => document.querySelectorAll("article[id^='shelf-']").length);
+      const shelves = await page.evaluate(() => document.querySelectorAll("section[id^='shelf-']").length);
       check("live probe: collections badge live, 24 shelves", shelves === 24, shelves + " shelves, badge live");
       check("live probe: zero pageerrors", errors.length === 0, errors.join(" | ").slice(0, 300));
       await page.close();

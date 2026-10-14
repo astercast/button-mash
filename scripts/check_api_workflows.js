@@ -395,7 +395,8 @@ const convHtml = fs.readFileSync(path.join(ROOT, "converter.html"), "utf8");
 const convUiJs = fs.readFileSync(path.join(ROOT, "assets/js/converter.js"), "utf8");
 const convTemplate = fs.readFileSync(path.join(ROOT, "assets/vendor/template-game.html"), "utf8");
 check("WF12 converter-core loads (UMD, node)",
-  convCore.VERSION === "3.0" && Object.keys(convCore.PROFILES).length === 5, "v3.0, 5 profiles");
+  convCore.VERSION === "4.0" && Object.keys(convCore.PROFILES).length === 5,
+  "v4.0, 5 profiles (R26 refresh: the pin named 3.0 after Converter 4.0 shipped; the version contract now names the shipped version)");
 check("WF12 format detection: 8 extensions, rejects others",
   ["a.gba", "b.gb", "c.gbc", "d.nes", "e.sfc", "f.smc", "g.md", "h.gen"].every((n) => convCore.profileFor(n)) &&
   ["i.zip", "j.smd", "k.bin", "l.iso"].every((n) => !convCore.profileFor(n)), "gba/gb/gbc/nes/sfc/smc/md/gen only");
@@ -441,8 +442,9 @@ check("WF12 AGENT.md + llms.txt mention Converter 4.0",
 // Wave 13: deep-dive guides knowledge hub
 const w13Slugs = ["homebrew-development", "netplay", "save-workflows",
   "crt-shaders-display", "accessibility-in-retro-gaming", "preserving-your-games"];
-check("WF13 guides count 24 (23 + cheat-codes, wave 25)",
-  guides.length === 24, guides.length + " guides");
+check("WF13 guides count derived from the guide pages on disk (R26; the wave-25 pin was 24)",
+  guides.length === fs.readdirSync(path.join(ROOT, "guides")).filter((f) => f.endsWith(".html")).length,
+  guides.length + " guides");
 check("WF13 all 6 new guides in data/v1/guides.json",
   w13Slugs.every((s) => guides.some((g) => g.slug === s)), w13Slugs.join(", "));
 check("WF13 new guide pages exist + load TOC spy script + progress bar",
@@ -1118,7 +1120,10 @@ check("WF22 homepage hero: 3-second read, one primary CTA",
   indexHtml22.includes('class="hero-title"') && indexHtml22.includes("Your browser") &&
   indexHtml22.includes("is the <em>console</em>") && indexHtml22.includes("data-game-count") &&
   indexHtml22.includes('href="games.html">» Browse the games</a>') &&
-  indexHtml22.includes('href="#how"') && indexHtml22.includes('id="how"') &&
+  /* R26 refresh: the hero's href="#how" jump link was retired in the
+     R23 first-screen rebuild (the hero now carries the single primary
+     CTA only); the #how section itself is still asserted present. */
+  indexHtml22.includes('id="how"') &&
   indexHtml22.includes("assets/css/makeover.css") &&
   indexHtml22.indexOf('section class="hero"') < indexHtml22.indexOf("arcade-cabinet"),
   "hero before cabinet, single primary CTA, data-driven count");
@@ -1410,7 +1415,7 @@ const playLegal26 = fs.readFileSync(path.join(ROOT, "play-legal.html"), "utf8");
 check("WF28 hero copy: the blanket open-source claim is gone from the emulation hub",
   emuHtml26.includes("legal, fascinating, and mostly open-source") &&
   !emuHtml26.includes("legal, open-source, and fascinating"),
-  "one of the ten catalog emulators (DuckStation) is source-available since Sept 2024, not open source");
+  "one of the catalog emulators (DuckStation) is source-available since Sept 2024, not open source");
 check("WF28 guide legal note: the same blanket is gone from how-emulation-works",
   howEmu26.includes("legal, and mostly open-source") &&
   !howEmu26.includes("legal and open-source"),
@@ -1421,10 +1426,12 @@ check("WF28 audit — specific claims that checked out stay exactly as written",
   fs.readFileSync(path.join(ROOT, "guides/best-emulator-per-system.html"), "utf8")
     .includes("emulators are legal software. They ship with zero games"),
   "the named three are GPL-3.0/GPL-3.0/MPL-2.0 in data/v1/emulators.json; the best-emulator note claims legality, not licenses");
-check("WF28 audit — emulator catalog licenses still sum to nine open + one source-available",
-  (emuEnv25.emulators || []).filter((e) => e.license !== "CC BY-NC-ND 4.0").length === 9 &&
-  (emuEnv25.emulators || []).length === 10,
-  "'mostly' is the accurate word for 9 of 10");
+check("WF28 audit — emulator catalog licenses sum to all-but-one open + one source-available (derived, R26)",
+  (emuEnv25.emulators || []).filter((e) => e.license === "CC BY-NC-ND 4.0").length === 1 &&
+  (emuEnv25.emulators || []).filter((e) => e.license !== "CC BY-NC-ND 4.0")
+    .every((e) => /GPL|MPL|MIT/.test(e.license)),
+  "'mostly' is the accurate word: of " + (emuEnv25.emulators || []).length +
+  " catalog emulators exactly one (DuckStation) is source-available; the totals are derived at runtime, not pinned (the catalog grew past 10 when mesen was added)");
 check("WF28 audit — Mindustry's unverifiable superlative is softened, its verified claim kept",
   byId24["mindustry"].description.includes("Open-source factory defense") &&
   !byId24["mindustry"].description.includes("full game") &&
@@ -1783,9 +1790,11 @@ check("WF36 tournament night: picks advance on bracket.js and crown a real champ
     const fin = TN32.pick(n, 1, 0, "a");
     const champ = TN32.champion(n);
     return fin.ok && champ && champ.id === "2048" && TN32.progress(n).complete &&
-      TN32.resultsCard(n).includes("CHAMPION: 2048") && TN32.resultsCard(n).includes(champ.url);
+      TN32.resultsCard(n).includes("CHAMPION: 2048") &&
+      TN32.resultsCard(n).includes("On Button Mash: game.html?id=" + champ.id) &&
+      !TN32.resultsCard(n).includes(champ.url);
   })(),
-  "two semifinals + a final on the shared engine; the card names the champion with its real play URL");
+  "two semifinals + a final on the shared engine; the card names the champion with its on-site game file, never its outbound URL (R26 refresh: the R22/R23 no-outbound law retired the play-URL line this check originally pinned)");
 check("WF36 tournament night: a corrupt stored night is dropped whole, never half-rendered",
   TN32.loadNight({ getItem: () => JSON.stringify({ v: 1, name: "X", entrants: [] }), setItem: () => {}, removeItem: () => {} }) === null &&
   TN32.createNight({ source: { type: "collection", id: "t", name: "T" }, entrants: [games[0]] }).ok === false,
@@ -1897,7 +1906,7 @@ check("WF38 og card: the Foundry asset is in the repo at the canonical path, 120
   })(),
   "assets/og-card.png — the arcade-cabinet card, copied per the Foundry manifest");
 check("WF38 og wiring: every page carries og:image + summary_large_image, titles/descriptions reused verbatim",
-  allPages38.length === 53 && allPages38.every((f) => {
+  allPages38.every((f) => {
     const t = fs.readFileSync(f, "utf8");
     const title = (t.match(/<title>([^<]*)<\/title>/) || [])[1];
     const desc = (t.match(/<meta name="description" content="([^"]*)">/) || [])[1];
@@ -1910,7 +1919,7 @@ check("WF38 og wiring: every page carries og:image + summary_large_image, titles
       t.includes('<meta name="twitter:image" content="' + ABS_OG + '">') &&
       fs.existsSync(path.join(ROOT, "assets/og-card.png"));
   }),
-  "53 pages; og:image + twitter:image are the absolute https://button-mash-live.vercel.app/assets/og-card.png (relative paths fail — crawlers require absolute URLs); local asset validated by the check above; no invented copy");
+  allPages38.length + " pages (counted from disk at runtime, R26 — the pinned 53 went stale as pages were added); og:image + twitter:image are the absolute https://button-mash-live.vercel.app/assets/og-card.png (relative paths fail — crawlers require absolute URLs); local asset validated by the check above; no invented copy");
 check("WF38 QA-006: homepage has exactly one h1 — the hero title; the cabinet marquee sign is an h2",
   (fs.readFileSync(path.join(ROOT, "index.html"), "utf8").match(/<h1[\s>]/g) || []).length === 1 &&
   vsHtml && fs.readFileSync(path.join(ROOT, "index.html"), "utf8").includes('<h1 class="hero-title">') &&
@@ -1935,12 +1944,12 @@ const HOST39 = "https://button-mash-live.vercel.app";
 const relOf39 = (f) => path.relative(ROOT, f).split(path.sep).join("/");
 const canonOf39 = (rel) => rel === "index.html" ? HOST39 + "/" : HOST39 + "/" + rel;
 check("WF39 canonical: every page carries exactly one absolute self-referential canonical",
-  allPages38.length === 53 && allPages38.every((f) => {
+  allPages38.every((f) => {
     const t = fs.readFileSync(f, "utf8");
     const hits = t.match(/<link rel="canonical" href="[^"]*">/g) || [];
     return hits.length === 1 && hits[0] === '<link rel="canonical" href="' + canonOf39(relOf39(f)) + '">';
   }),
-  "53 pages; canonical = https://button-mash-live.vercel.app/<page> (root for index.html)");
+  allPages38.length + " pages (counted from disk at runtime, R26); canonical = https://button-mash-live.vercel.app/<page> (root for index.html)");
 check("WF39 theme-color + favicons + og dimensions: every page head carries the full placement block",
   allPages38.every((f) => {
     const t = fs.readFileSync(f, "utf8");
@@ -2148,7 +2157,7 @@ check("WF41 taxonomy: STILL not reshelved — the brief's call stays with the hu
 // audit recorded genre dives at 2 of 8 (roguelike, cozy); wave 36
 // gives the catalog's LARGEST genre (puzzle, 48 games) its dive.
 // Every featured card is pinned to its catalog record — id, genre,
-// play URL and controls line — so the page cannot drift from the
+// on-site file link and controls line — so the page cannot drift from the
 // data, and Versus's coverage registry must name exactly the
 // dives that exist on disk.
 const puzzle36 = fs.readFileSync(path.join(ROOT, "genres/puzzle.html"), "utf8");
@@ -2159,16 +2168,16 @@ check("WF42 puzzle dive: page exists with exactly one h1 and a kicker that count
   puzzle36.includes("Genre deep dive · " + featured36.length + " games") &&
   featured36.length === 15 && new Set(featured36).size === featured36.length,
   featured36.length + " featured cards, counted from the page itself");
-check("WF42 puzzle dive: every featured card is a real puzzle record — URL and controls verbatim",
+check("WF42 puzzle dive: every featured card is a real puzzle record — on-site file link + controls verbatim, no outbound URL",
   featured36.every((id) => {
     const g = byId24[id];
     if (!g || g.genre !== "puzzle") return false;
     const card = puzzle36.slice(puzzle36.indexOf('data-game="' + id + '"'));
     const cardEnd = card.indexOf("</article>");
     const slice = card.slice(0, cardEnd);
-    return slice.includes('href="' + g.url + '"') && slice.includes("Controls: " + g.controls);
+    return slice.includes('href="../game.html?id=' + id + '"') && !slice.includes('href="' + g.url + '"') && slice.includes("Controls: " + g.controls);
   }),
-  "15 cards; each links the record's own URL and prints the record's own controls line");
+  "15 cards; each links its on-site game file and prints the record's own controls line; the record's outbound URL appears nowhere on the card (R26 refresh: the R22/R23 no-outbound law abolished the record-URL card link)");
 check("WF42 puzzle dive: the page names the full shelf it curates from, derived from the records",
   puzzle36.includes(puzzleGames36.length + " of the catalog") &&
   puzzle36.includes("All " + puzzleGames36.length + " puzzle games"),
@@ -2199,7 +2208,7 @@ check("WF42 taxonomy: STILL not reshelved — the brief's call stays with the hu
 // audit's dive debt, ordered by genre size: after puzzle (48,
 // wave 36), retro (44) was the largest remaining undived genre.
 // Dives go 3-of-8 to 4-of-8. Every featured card is pinned to
-// its catalog record — id, genre, play URL and controls line —
+// its catalog record — id, genre, on-site file link and controls line —
 // and Versus's coverage registry must name exactly the dives
 // that exist on disk. One pinned pairing's truth changed with
 // the record: Zork I (retro) vs 2048 (puzzle) — coverage is
@@ -2212,16 +2221,16 @@ check("WF43 retro dive: page exists with exactly one h1 and a kicker that counts
   retro37.includes("Genre deep dive · " + featured37.length + " games") &&
   featured37.length === 15 && new Set(featured37).size === featured37.length,
   featured37.length + " featured cards, counted from the page itself");
-check("WF43 retro dive: every featured card is a real retro record — URL and controls verbatim",
+check("WF43 retro dive: every featured card is a real retro record — on-site file link + controls verbatim, no outbound URL",
   featured37.every((id) => {
     const g = byId24[id];
     if (!g || g.genre !== "retro") return false;
     const card = retro37.slice(retro37.indexOf('data-game="' + id + '"'));
     const cardEnd = card.indexOf("</article>");
     const slice = card.slice(0, cardEnd);
-    return slice.includes('href="' + g.url + '"') && slice.includes("Controls: " + g.controls);
+    return slice.includes('href="../game.html?id=' + id + '"') && !slice.includes('href="' + g.url + '"') && slice.includes("Controls: " + g.controls);
   }),
-  "15 cards; each links the record's own URL and prints the record's own controls line");
+  "15 cards; each links its on-site game file and prints the record's own controls line; the record's outbound URL appears nowhere on the card (R26 refresh: the R22/R23 no-outbound law abolished the record-URL card link)");
 check("WF43 retro dive: the page names the full shelf it curates from, derived from the records",
   retro37.includes(retroGames37.length + " of the catalog") &&
   retro37.includes("All " + retroGames37.length + " retro games"),
@@ -2254,7 +2263,7 @@ check("WF43 taxonomy: STILL not reshelved — the brief's call stays with the hu
 // wave 36) and retro (44, wave 37), action (41) was the largest
 // remaining undived genre. Dives go 4-of-8 to 5-of-8. Every
 // featured card is pinned to its catalog record — id, genre,
-// play URL and controls line — and Versus's coverage registry
+// on-site file link and controls line — and Versus's coverage registry
 // must name exactly the dives that exist on disk. One pinned
 // pairing's truth changed with the record: Venge.io (action)
 // vs kaaarot (multiplayer) — footprint fired before; now the
@@ -2268,16 +2277,16 @@ check("WF44 action dive: page exists with exactly one h1 and a kicker that count
   action38.includes("Genre deep dive · " + featured38.length + " games") &&
   featured38.length === 15 && new Set(featured38).size === featured38.length,
   featured38.length + " featured cards, counted from the page itself");
-check("WF44 action dive: every featured card is a real action record — URL and controls verbatim",
+check("WF44 action dive: every featured card is a real action record — on-site file link + controls verbatim, no outbound URL",
   featured38.every((id) => {
     const g = byId24[id];
     if (!g || g.genre !== "action") return false;
     const card = action38.slice(action38.indexOf('data-game="' + id + '"'));
     const cardEnd = card.indexOf("</article>");
     const slice = card.slice(0, cardEnd);
-    return slice.includes('href="' + g.url + '"') && slice.includes("Controls: " + g.controls);
+    return slice.includes('href="../game.html?id=' + id + '"') && !slice.includes('href="' + g.url + '"') && slice.includes("Controls: " + g.controls);
   }),
-  "15 cards; each links the record's own URL and prints the record's own controls line");
+  "15 cards; each links its on-site game file and prints the record's own controls line; the record's outbound URL appears nowhere on the card (R26 refresh: the R22/R23 no-outbound law abolished the record-URL card link)");
 check("WF44 action dive: the page names the full shelf it curates from, derived from the records",
   action38.includes(actionGames38.length + " of the catalog") &&
   action38.includes("All " + actionGames38.length + " action games"),
@@ -2333,16 +2342,16 @@ check("WF45 multiplayer dive: page exists with exactly one h1 and a kicker that 
   mp39.includes("Genre deep dive · " + featured39.length + " games") &&
   featured39.length === 15 && new Set(featured39).size === featured39.length,
   featured39.length + " featured cards, counted from the page itself");
-check("WF45 multiplayer dive: every featured card is a real multiplayer record — URL and controls verbatim",
+check("WF45 multiplayer dive: every featured card is a real multiplayer record — on-site file link + controls verbatim, no outbound URL",
   featured39.every((id) => {
     const g = byId24[id];
     if (!g || g.genre !== "multiplayer") return false;
     const card = mp39.slice(mp39.indexOf('data-game="' + id + '"'));
     const cardEnd = card.indexOf("</article>");
     const slice = card.slice(0, cardEnd);
-    return slice.includes('href="' + g.url + '"') && slice.includes("Controls: " + g.controls);
+    return slice.includes('href="../game.html?id=' + id + '"') && !slice.includes('href="' + g.url + '"') && slice.includes("Controls: " + g.controls);
   }),
-  "15 cards; each links the record's own URL and prints the record's own controls line");
+  "15 cards; each links its on-site game file and prints the record's own controls line; the record's outbound URL appears nowhere on the card (R26 refresh: the R22/R23 no-outbound law abolished the record-URL card link)");
 check("WF45 multiplayer dive: the page names the full shelf it curates from, derived from the records",
   mp39.includes(mpGames39.length + " of the catalog") &&
   mp39.includes("All " + mpGames39.length + " multiplayer games"),
@@ -2405,16 +2414,16 @@ check("WF46 idle dive: page exists with exactly one h1 and a kicker that counts 
   idle40.includes("Genre deep dive · " + featured40.length + " games") &&
   featured40.length === 15 && new Set(featured40).size === featured40.length,
   featured40.length + " featured cards, counted from the page itself");
-check("WF46 idle dive: every featured card is a real idle record — URL and controls verbatim",
+check("WF46 idle dive: every featured card is a real idle record — on-site file link + controls verbatim, no outbound URL",
   featured40.every((id) => {
     const g = byId24[id];
     if (!g || g.genre !== "idle") return false;
     const card = idle40.slice(idle40.indexOf('data-game="' + id + '"'));
     const cardEnd = card.indexOf("</article>");
     const slice = card.slice(0, cardEnd);
-    return slice.includes('href="' + g.url + '"') && slice.includes("Controls: " + g.controls);
+    return slice.includes('href="../game.html?id=' + id + '"') && !slice.includes('href="' + g.url + '"') && slice.includes("Controls: " + g.controls);
   }),
-  "15 cards; each links the record's own URL and prints the record's own controls line");
+  "15 cards; each links its on-site game file and prints the record's own controls line; the record's outbound URL appears nowhere on the card (R26 refresh: the R22/R23 no-outbound law abolished the record-URL card link)");
 check("WF46 idle dive: the dive curates the WHOLE shelf — every idle record is featured, none left over",
   idleGames40.every((g) => featured40.includes(g.id)) && featured40.length === idleGames40.length &&
   idle40.includes(idleGames40.length + " of the catalog") &&
@@ -2568,16 +2577,16 @@ check("WF48 horror dive: page exists with exactly one h1 and a kicker that count
   horror41.includes("Genre deep dive · " + featured41.length + " games") &&
   featured41.length === 6 && new Set(featured41).size === featured41.length,
   featured41.length + " featured cards, counted from the page itself");
-check("WF48 horror dive: every featured card is a real horror record — URL and controls verbatim",
+check("WF48 horror dive: every featured card is a real horror record — on-site file link + controls verbatim, no outbound URL",
   featured41.every((id) => {
     const g = byId24[id];
     if (!g || g.genre !== "horror") return false;
     const card = horror41.slice(horror41.indexOf('data-game="' + id + '"'));
     const cardEnd = card.indexOf("</article>");
     const slice = card.slice(0, cardEnd);
-    return slice.includes('href="' + g.url + '"') && slice.includes("Controls: " + g.controls);
+    return slice.includes('href="../game.html?id=' + id + '"') && !slice.includes('href="' + g.url + '"') && slice.includes("Controls: " + g.controls);
   }),
-  "6 cards; each links the record's own URL and prints the record's own controls line");
+  "6 cards; each links its on-site game file and prints the record's own controls line; the record's outbound URL appears nowhere on the card (R26 refresh: the R22/R23 no-outbound law abolished the record-URL card link)");
 check("WF48 horror dive: the dive curates the WHOLE shelf — every horror record is featured, none left over",
   horrorGames41.every((g) => featured41.includes(g.id)) && featured41.length === horrorGames41.length &&
   horror41.includes(horrorGames41.length + " of the catalog") &&
