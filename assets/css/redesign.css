@@ -1,438 +1,509 @@
 /* ============================================================
-   Button Mash — Rotation 21 Design Polish (2026-10-13)
-   "The arcade cabinet, finished at Apple Arcade polish."
+   Button Mash — Rotation 21 REDESIGN v2 (2026-10-13)
+   v1 was rejected by the user: "too messy and vibe coded."
+   The diagnosis, in his terms: decoration competing for
+   attention IS the vibecoded tell. v2 is the restraint pass.
 
-   Study notes applied, not copied: flagship game shelves let
-   the catalogue itself carry colour and hierarchy while the
-   chrome stays quiet (type discipline, spacing rhythm,
-   restraint, hero economy, progressive disclosure). Re-expressed
-   in Mash's own identity: cabinet black stays, the marquee
-   accent is amber, one action colour (pink) at a time, pixel
-   type is reserved for the wordmark and the cabinet below the
-   fold — never for headlines competing with the games.
+   THE SYSTEM
+   - Hero = one headline, one subline, one primary action
+     (+ at most one quiet text link), and whitespace.
+   - Type: TWO families. Space Grotesk does all reading and
+     all headlines. Press Start 2P survives in exactly two
+     licensed jobs: the wordmark (.brand) and the cabinet
+     marquee below the fold (.marquee-title). VT323 is gone
+     from the rendered site (the --font-mono token now points
+     at the body stack, so every readout/kicker/label that
+     referenced it renders in the body face).
+   - Colour: near-monochrome cabinet black + ink, exactly ONE
+     accent (marquee pink #ff2e88), spent only on the primary
+     action, the headline's one coloured word, hover/focus.
+     Cyan, lime, amber, purple no longer appear as fields of
+     colour anywhere in the chrome.
+   - Cards are UNIFORM: one face, one edge, no genre strips,
+     no per-genre colours. Genre is a word, in neutral type.
+   - Sections are separated by SPACE. No seam borders, no
+     side-art dividers, no tickers, no texture overlays.
+   - Identity = typography + the one accent + space. The
+     arcade cabinet survives as ONE authored moment below
+     the fold (form kept, texture and glow removed).
 
    Loaded last on every page (stamped by scripts/build.py,
-   wire_redesign) so this sheet, not the neon-era sheets,
-   has the final word on shared chrome.
+   wire_redesign) so this sheet has the final word.
    ============================================================ */
 
-/* ---- R21 token rebuild: the system's values, restated ----
-   The neon-era tokens stay in tokens.css (the WF battery pins
-   their names); this sheet — loaded last — is where the R21
-   system actually lives: glows collapse to a single soft
-   shadow language, the type scale tightens to three reading
-   steps plus display, and spacing runs on one rhythm. */
+/* ---- Tokens, restated for v2 ---- */
 :root {
-  --glow-pink: 0 8px 22px rgba(255, 46, 136, 0.22);
-  --glow-cyan: 0 8px 22px rgba(0, 229, 255, 0.16);
-  --glow-lime: 0 8px 22px rgba(182, 255, 46, 0.14);
-  --glow-amber: 0 8px 22px rgba(255, 176, 46, 0.18);
-  --shadow-marquee: 0 18px 50px rgba(0, 0, 0, 0.55);
-  --shadow-card: 0 4px 18px rgba(0, 0, 0, 0.35);
-  --shadow-pop: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --fs-hero: clamp(2rem, 4.6vw, 3.3rem);
-  --fs-h1: clamp(1.55rem, 3vw, 2.15rem);
-  --fs-h2: 1.35rem;
+  --font-mono: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --glow-pink: none;
+  --glow-cyan: none;
+  --glow-lime: none;
+  --glow-amber: none;
+  --shadow-marquee: 0 24px 60px rgba(0, 0, 0, 0.5);
+  --shadow-card: none;
+  --shadow-pop: none;
+  --fs-hero: clamp(2.6rem, 5.4vw, 4.1rem);
+  --fs-h1: clamp(1.6rem, 3vw, 2.2rem);
+  --fs-h2: 1.45rem;
   --r-md: 14px;
   --r-lg: 18px;
+  --accent: #ff2e88;
 }
-/* Reading type is the sans everywhere; pixel type keeps only its
-   two licensed jobs — the wordmark and the cabinet marquee. */
-h1, h2 { font-family: var(--font-body); font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; }
-h1 .pink, h2 .pink { color: var(--neon-pink); text-shadow: none; }
-h1 .cyan, h2 .cyan { color: var(--neon-cyan); text-shadow: none; }
 
-/* ---- Forms, tables, lists, empty states: one language ---- */
-input[type="text"], input[type="search"], input[type="date"],
-input[type="number"], textarea, select {
-  border: 1px solid var(--edge-bright);
-  border-radius: var(--r-sm);
-  background: var(--bezel);
-  color: var(--ink);
-  box-shadow: none;
+/* The only two pixel-type jobs left on the site. */
+.brand, .marquee-title {
+  font-family: "Press Start 2P", "Arial Black", sans-serif;
 }
-input:focus, textarea:focus, select:focus {
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.16);
-  outline: none;
+
+/* Literal pixel/VT323 faces in the older sheets, retired here. */
+.game-title, .panel h2, #related-panel h2, .kicker-sm,
+.cn-marquee .kicker, .cn-panel legend, .cn-range-val, .cn-seeds h2,
+.cn-seed strong, .cn-summary .mono, .cn-saved-banner, .cn-shelf h2,
+.cn-shelf-date, .curator-kicker, .curator-sign, .hero-cta-quiet,
+.hero-eyebrow, .hero-stats dd, .hero h1.hero-title em {
+  font-family: var(--font-body);
 }
-table { border-collapse: collapse; width: 100%; }
-th, td { border-bottom: 1px solid var(--edge); padding: 0.65rem 0.8rem; text-align: left; }
-th {
-  font-family: var(--font-mono); font-size: 1rem; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--ink-mute); text-shadow: none;
-}
-.empty-state, .empty-cabinet {
-  border: 1px dashed var(--edge-bright);
-  border-radius: var(--r-md);
-  background: var(--bg-2);
-  box-shadow: none;
+
+/* Glow type is gone everywhere except the cabinet marquee,
+   where it is turned down to a finish, not a glare. */
+body, h1, h2, h3, h4, a, button, input, select, textarea,
+.brand, .brand em, .site-nav a, .kicker, .hero-eyebrow,
+.section-head h2, .section-head h2 .tick, .game-card h3 a,
+.gotd-label, .footer-grid h3, .marquee-track, .coin-plate,
+.demo-kicker, .demo-title, .demo-play, .insert-coin,
+.insert-coin-line, .legal-banner strong, .curator-kicker,
+.reading-progress, th, .key-point strong, .legal-note strong {
   text-shadow: none;
 }
-.callout { border: 1px solid var(--edge-bright); border-radius: var(--r-md); box-shadow: none; }
+.marquee-title { text-shadow: 0 0 14px rgba(255, 46, 136, 0.35); }
 
-/* ---- Guides: the reading surface, re-presented ----
-   The guide h1 was a full neon marquee panel with animated
-   chase bulbs; in the R21 system a guide opens like a chapter:
-   a title, a rule, then the words. Section dividers become the
-   same 1px seam used everywhere else. */
-.guide-page h1 {
-  background: none;
-  border: 0;
-  border-bottom: 1px solid var(--edge);
-  border-radius: 0;
-  box-shadow: none;
-  text-shadow: none;
-  padding: 0.4rem 0 1.1rem;
-}
-.guide-page h1::before { display: none; }
-.guide-section { border-block-start: 1px solid var(--edge); border-image: none; }
-.guide-section h2 { text-shadow: none; font-size: 1.3rem; }
-.guide-section h2 .sec-num { text-shadow: none; }
-.key-point { border: 1px solid var(--edge-bright); border-inline-start: 3px solid var(--neon-cyan); box-shadow: none; }
-.key-point strong { text-shadow: none; }
-.guide-list li, .pack-list li { border: 1px solid var(--edge); box-shadow: none; }
-.guide-list li:hover { box-shadow: none; }
-.reading-progress { background: var(--neon-pink); box-shadow: none; }
-.legal-note { box-shadow: none; }
-.legal-note strong { text-shadow: none; }
-.chips li { box-shadow: none; }
-.guide-toc { border-top: 1px solid var(--edge); border-image: none; }
-.guide-toc a[aria-current="true"] { text-shadow: none; }
+/* ---- The page texture is gone ---- */
+body::after { display: none; }              /* global CRT scanlines: removed */
+.screen-crt { display: none; }               /* cabinet screen scanlines: removed */
 
-/* ---- One quiet header: brand, a few primaries, More, Play ---- */
+/* ---- Links: ink first; the accent is earned on interaction ---- */
+a { color: var(--ink); text-decoration-color: var(--edge-bright); }
+a:hover { color: var(--ink); text-decoration-color: var(--accent); }
+.footer-grid a, .game-card h3 a { text-decoration: none; }
+.footer-grid a:hover { color: var(--ink); }
+.crumbs a { color: var(--ink-dim); text-decoration: none; }
+.crumbs a:hover { color: var(--ink); text-decoration: underline; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+/* ---- Header: one quiet bar ---- */
 .site-header {
   border-bottom: 1px solid var(--edge);
-  background: rgba(7, 7, 15, 0.92);
+  background: rgba(7, 7, 15, 0.94);
 }
-.site-header::after { display: none; }            /* chase strip retired */
-.header-inner {
-  flex-wrap: nowrap;
-  gap: 1.25rem;
-  padding: 0.65rem 0;
-}
+.site-header::after { display: none; }       /* chase-light strip: removed */
+.header-inner { flex-wrap: nowrap; gap: 1.25rem; padding: 0.7rem 0; }
 .brand {
-  background: none;
-  border: 0;
-  box-shadow: none;
-  text-shadow: none;
-  padding: 0.25rem 0;
-  font-size: 0.82rem;
-  letter-spacing: 0.01em;
+  background: none; border: 0; box-shadow: none;
+  padding: 0.25rem 0; font-size: 0.8rem; letter-spacing: 0.01em;
 }
 .brand:hover { box-shadow: none; }
-.brand em { text-shadow: none; }
+.brand em { color: var(--accent); }
 .brand-mark {
-  box-shadow: none;
-  width: 1.75rem; height: 1.75rem;
-  border-radius: 6px;
+  box-shadow: none; transform: none;
+  width: 1.75rem; height: 1.75rem; border-radius: 6px;
+  background: var(--panel-2);
 }
 .site-nav {
-  order: 0;
-  flex: 0 1 auto;
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
+  order: 0; flex: 0 1 auto; margin-left: auto;
+  display: flex; align-items: center; gap: 0.25rem;
 }
-.site-nav ul.nav-primary {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 0.1rem;
-}
+.site-nav ul.nav-primary { display: flex; flex-wrap: nowrap; gap: 0.1rem; }
 .site-nav a {
-  padding: 0.45rem 0.7rem;
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--ink-dim);
-  white-space: nowrap;
+  padding: 0.45rem 0.7rem; font-size: 0.92rem; font-weight: 600;
+  color: var(--ink-dim); white-space: nowrap; text-decoration: none;
 }
-.site-nav a:hover { background: rgba(255,255,255,0.05); border-color: transparent; }
+.site-nav a:hover { background: rgba(255,255,255,0.05); border-color: transparent; color: var(--ink); }
 .site-nav a[aria-current="page"] {
-  color: var(--ink);
-  border-color: transparent;
-  box-shadow: none;
-  text-shadow: none;
+  color: var(--ink); border-color: transparent; box-shadow: none;
   background: rgba(255,255,255,0.07);
 }
-/* Grouped remainder: every original link, one disclosure away */
 .nav-more { position: relative; }
 .nav-more > summary {
-  list-style: none;
-  cursor: pointer;
-  padding: 0.45rem 0.7rem;
-  border-radius: var(--r-sm);
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--ink-dim);
-  white-space: nowrap;
+  list-style: none; cursor: pointer; padding: 0.45rem 0.7rem;
+  border-radius: var(--r-sm); font-size: 0.92rem; font-weight: 600;
+  color: var(--ink-dim); white-space: nowrap;
 }
 .nav-more > summary::-webkit-details-marker { display: none; }
 .nav-more > summary::after { content: " ▾"; color: var(--ink-faint); font-size: 0.8em; }
 .nav-more > summary:hover { color: var(--ink); background: rgba(255,255,255,0.05); }
 .nav-more[open] > summary { color: var(--ink); }
-/* Current location stays evident even when the current page's link
-   lives in the More group: the trigger itself lights up. */
-.nav-more:has(a[aria-current="page"]) > summary {
-  color: var(--ink);
-  background: rgba(255,255,255,0.07);
-}
+.nav-more:has(a[aria-current="page"]) > summary { color: var(--ink); background: rgba(255,255,255,0.07); }
 .site-nav ul.nav-rest {
-  position: absolute;
-  right: 0;
-  top: calc(100% + 0.55rem);
-  min-width: 13.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 0;
-  background: var(--panel-2);
-  border: 1px solid var(--edge-bright);
-  border-radius: var(--r-md);
-  padding: 0.45rem;
-  box-shadow: 0 18px 44px rgba(0,0,0,0.55);
-  z-index: 120;
+  position: absolute; right: 0; top: calc(100% + 0.55rem);
+  min-width: 13.5rem; display: flex; flex-direction: column;
+  align-items: stretch; gap: 0; background: var(--panel-2);
+  border: 1px solid var(--edge-bright); border-radius: var(--r-md);
+  padding: 0.45rem; box-shadow: 0 18px 44px rgba(0,0,0,0.55); z-index: 120;
 }
 .site-nav ul.nav-rest a { display: block; padding: 0.5rem 0.7rem; }
 .header-utils { margin-left: 0; }
-.fx-toggle { box-shadow: none; border-width: 1px; }
-.fx-toggle .fx-led { box-shadow: none; }
-a.nav-cta, .site-nav a.nav-cta {
-  background: var(--neon-pink);
-  color: var(--ink-on-neon) !important;
-  font-family: var(--font-body);
-  font-size: 0.92rem;
-  font-weight: 700;
-  letter-spacing: 0;
-  box-shadow: none;
-  text-shadow: none;
-  margin-left: 0.55rem;
-  padding: 0.5rem 1.05rem;
-  border-radius: var(--r-pill);
-}
-a.nav-cta:hover { background: #ff5fa2; }
 
-/* ---- Hero economy: copy, one action, then the games ---- */
+/* The FX switch keeps its job (it gates motion site-wide and the
+   battery pins it) but loses the pill: no LED, no glow, plain text. */
+.fx-toggle {
+  font-family: var(--font-body); font-size: 0.82rem; font-weight: 600;
+  letter-spacing: 0.02em; color: var(--ink-mute);
+  background: none; border: 1px solid transparent; border-radius: var(--r-sm);
+  box-shadow: none; padding: 0.4rem 0.6rem;
+}
+.fx-toggle .fx-led { display: none; }        /* the FX pill's LED: removed */
+.fx-toggle:hover { border-color: var(--edge); color: var(--ink); box-shadow: none; }
+.fx-toggle[aria-pressed="false"] { color: var(--ink-faint); }
+
+a.nav-cta, .site-nav a.nav-cta {
+  background: var(--accent); color: #fff !important;
+  font-family: var(--font-body); font-size: 0.92rem; font-weight: 700;
+  letter-spacing: 0; box-shadow: none; margin-left: 0.55rem;
+  padding: 0.5rem 1.05rem; border-radius: var(--r-pill);
+}
+a.nav-cta:hover { background: #ff5fa2; color: #fff !important; }
+
+/* ---- Hero: headline, subline, one action, whitespace ---- */
 .hero {
-  padding: clamp(2.6rem, 5.5vw, 4.25rem) 0 clamp(1.8rem, 3.5vw, 2.75rem);
-  background:
-    radial-gradient(640px 260px at 85% 0%, rgba(255, 46, 136, 0.07), transparent 70%),
-    radial-gradient(560px 240px at 8% 10%, rgba(0, 229, 255, 0.05), transparent 70%),
-    var(--bg);
+  padding: clamp(4rem, 9vw, 6.75rem) 0 clamp(3rem, 6vw, 4.5rem);
+  background: var(--bg);
 }
 .hero-inner {
-  border: 0;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-  padding: 0;
-  animation: none !important;
+  border: 0; border-radius: 0; background: none; box-shadow: none;
+  padding: 0; animation: none !important; max-width: 60rem;
 }
 .hero-inner::before, .hero-inner::after { display: none; }
-.kicker, .hero-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 1.02rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--neon-amber);
-  border: 0;
-  box-shadow: none;
-  text-shadow: none;
-  padding: 0;
-  margin-bottom: 1rem;
-  line-height: 1.5;
+/* The eyebrow stat-line and the stats row are furniture, not the
+   message: removed from the hero (the records stay in the DOM —
+   the count is data-driven — the shelf below carries the proof). */
+.hero-eyebrow, .hero-stats { display: none; }
+.kicker {
+  display: inline-block; font-family: var(--font-body);
+  font-size: 0.8rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-mute);
+  border: 0; box-shadow: none; padding: 0; margin-bottom: 1.1rem; line-height: 1.5;
 }
-.hero h1 {
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: clamp(2rem, 4.6vw, 3.3rem);
-  line-height: 1.12;
-  letter-spacing: -0.02em;
-  text-shadow: none;
-  margin-bottom: 0.9rem;
+.hero h1, .hero h1.hero-title {
+  font-family: var(--font-body); font-weight: 700;
+  font-size: var(--fs-hero); line-height: 1.06; letter-spacing: -0.025em;
+  margin-bottom: 1.1rem; text-wrap: balance;
 }
-.hero h1 .pink { color: var(--neon-pink); text-shadow: none; }
-.hero h1 .cyan { color: var(--neon-cyan); text-shadow: none; }
-.hero .lede { color: var(--ink-dim); max-width: 44rem; }
-.hero-actions { margin-top: 1.5rem; gap: 0.75rem; }
+.hero h1 .pink, .hero h1 .cyan { color: var(--accent); }
+.hero h1, .hero h1 .pink, .hero h1 .cyan, .hero h1.hero-title em { text-shadow: none; }
+/* Filter tag-tokens were ridged amber coins; now they match the chips. */
+.tag-token {
+  font-family: var(--font-body); font-size: 0.85rem; font-weight: 600;
+  letter-spacing: 0.02em; text-transform: none;
+  border: 1px solid var(--edge); border-radius: var(--r-pill);
+  background: none; color: var(--ink-dim); box-shadow: none;
+}
+.tag-token:hover { border-color: var(--edge-bright); color: var(--ink); transform: none; }
+.tag-token[aria-pressed="true"] {
+  border-color: var(--edge-bright); color: var(--ink);
+  background: rgba(255,255,255,0.08); box-shadow: none; transform: none;
+}
+.tag-token[aria-pressed="true"] .tok-n { color: var(--ink-mute); }
+.hero h1.hero-title em {
+  font-style: normal; font-size: 1em; letter-spacing: inherit;
+  color: var(--accent); white-space: normal;
+}
+.hero .lede, .hero-sub {
+  color: var(--ink-dim); font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  line-height: 1.65; max-width: 38rem; margin-bottom: 0;
+}
+.hero-cta, .hero-actions {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 1.25rem; margin-top: 2.1rem; margin-bottom: 0;
+}
+.hero-cta-quiet {
+  font-size: 0.98rem; font-weight: 600; color: var(--ink-mute);
+  text-decoration: none; border-bottom: 1px solid var(--edge-bright);
+  padding-bottom: 2px; letter-spacing: 0;
+}
+.hero-cta-quiet:hover { color: var(--ink); border-bottom-color: var(--accent); }
+.dir-hero { padding: 3rem 0 2rem; }
+.dir-hero h1 { font-size: clamp(2rem, 4.4vw, 3.1rem); }
+.insert-coin, .attract-ribbon { display: none; }  /* blinking coin line + idle ribbon: removed */
 
-/* Homepage headline keeps its one pixel word — smaller, no glow */
-.hero h1.hero-title { font-size: clamp(2.5rem, 6.2vw, 4.4rem); }
-.hero h1.hero-title em { text-shadow: none; font-size: 0.58em; }
-.hero-stats { padding-top: 1.1rem; margin-top: 0.5rem; }
-.hero-stats dd { color: var(--ink); font-size: 1.7rem; }
-.hero-stats dt { color: var(--ink-mute); }
-
-/* The shelf, in the first screen (homepage sampler, moved up) */
-.hero-shelf { margin-top: 2.4rem; }
-.hero-shelf .section-head {
-  border: 0;
-  border-image: none;
-  padding-bottom: 0;
-  margin-bottom: 1rem;
+/* ---- Buttons: one primary shape, everything else quiet ---- */
+.btn {
+  font-family: var(--font-body); font-weight: 700; font-size: 0.95rem;
+  letter-spacing: 0; line-height: 1.3; border-radius: var(--r-pill);
+  border: 1px solid transparent; box-shadow: none;
 }
-.hero-shelf .section-head h2 {
-  font-family: var(--font-body);
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: 0;
-}
-
-/* ---- Buttons: defined shapes, no smear, no broken bezel glyph ---- */
+.btn:active { transform: none; }
 .btn-primary, a.btn-primary {
-  background: var(--neon-pink);
-  color: var(--ink-on-neon);
-  border-color: transparent;
-  box-shadow: none;
-  text-shadow: none;
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 0.98rem;
-  letter-spacing: 0;
-  padding: 0.8rem 1.5rem;
-  border-radius: var(--r-pill);
+  background: var(--accent); color: #fff;
+  border-color: transparent; box-shadow: none;
+  padding: 0.85rem 1.6rem; border-radius: var(--r-pill);
 }
-.btn-primary::before, .btn-primary::after { display: none; }  /* coin bezel retired — it rendered as the broken glyph */
-.btn-primary:hover {
-  background: #ff5fa2;
-  color: var(--ink-on-neon);
-  box-shadow: 0 8px 22px rgba(255, 46, 136, 0.28);
-}
-.hero-cta-main { padding: 0.85rem 1.7rem; }
+.btn-primary::before, .btn-primary::after { display: none; }  /* coin bezel + slot: removed */
+.btn-primary:hover { background: #ff5fa2; color: #fff; box-shadow: none; }
+.hero-cta-main { padding: 0.95rem 1.9rem; font-size: 1.02rem; }
 .btn-cyan {
-  background: rgba(0, 229, 255, 0.1);
-  color: var(--neon-cyan);
-  border-color: rgba(0, 229, 255, 0.45);
-  box-shadow: none;
-  text-shadow: none;
+  background: none; color: var(--ink);
+  border-color: var(--edge-bright); box-shadow: none;
 }
-.btn-ghost { box-shadow: none; }
-.btn-ghost:hover { box-shadow: none; text-shadow: none; }
-.coin-plate-cta { box-shadow: none; text-shadow: none; }
+.btn-cyan:hover { background: rgba(255,255,255,0.05); color: var(--ink); box-shadow: none; }
+.btn-ghost {
+  background: none; color: var(--ink-dim); border-color: var(--edge);
+  box-shadow: none; font-size: 0.95rem;
+}
+.btn-ghost:hover { color: var(--ink); border-color: var(--edge-bright); box-shadow: none; }
+.btn-sm { font-size: 0.88rem; padding: 0.55rem 1.05rem; }
+.coin-plate-cta {
+  font-family: var(--font-body); font-size: 0.98rem; font-weight: 700;
+  letter-spacing: 0; color: var(--ink); background: none;
+  border: 1px solid var(--edge-bright); box-shadow: none; padding: 0.8rem 1.3rem;
+}
+.coin-plate-cta .slot { display: none; }
+.coin-plate-cta:hover { color: var(--ink); box-shadow: none; border-color: var(--ink-mute); }
 
-/* ---- Sections & cards: seams and space do the work ---- */
-.section { padding: 3rem 0; }
+/* ---- Sections: space does the separating ---- */
+.section { padding: 4rem 0; }
 .section-head {
-  border-bottom: 1px solid var(--edge);
-  border-image: none;
-  padding-bottom: 0.9rem;
+  border: 0; border-image: none; padding-bottom: 0; margin-bottom: 1.6rem;
+  display: block;
 }
 .section-head h2 {
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 1.35rem;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  background: none;
-  border: 0;
-  box-shadow: none;
-  text-shadow: none;
-  padding: 0;
+  font-family: var(--font-body); font-weight: 700; font-size: var(--fs-h2);
+  line-height: 1.3; letter-spacing: -0.015em;
+  background: none; border: 0; box-shadow: none; padding: 0; display: block;
 }
-.section-head h2 .tick { color: var(--neon-pink); text-shadow: none; }
+.section-head h2 .tick { color: var(--ink-faint); }
+.section-head > a { font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; letter-spacing: 0; }
+.section-sub { color: var(--ink-mute); margin: 0.55rem 0 0; }
+
+/* The shelf the hero used to carry (generator-relocated on the
+   homepage): first content section, same quiet head as the rest. */
+.shelf-section { padding-top: 1rem; }
+.shelf-section .section-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+}
+.shelf-section .section-head h2 { font-size: 1.15rem; }
+
+/* ---- Cards: one uniform face ---- */
+.game-card, .feature-card {
+  background: var(--panel); border: 1px solid var(--edge);
+  border-radius: var(--r-md); box-shadow: none;
+}
+.game-card::before { display: none; }        /* genre rainbow strip: removed */
+.game-card::after { display: none; }         /* corner screws: removed */
 .game-card {
-  border: 1px solid var(--edge);
-  box-shadow: 0 4px 18px rgba(0,0,0,0.35);
-  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  --card-art: none;
+  padding: 1.25rem 1.3rem 1.2rem;
 }
-.game-card::after { display: none; }              /* corner screws retired */
-.game-card::before { height: 3px; }
-.game-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--edge-bright);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+.game-card:hover, .feature-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--edge-bright); box-shadow: none;
 }
-.game-card h3 a:hover { color: var(--neon-cyan); text-shadow: none; }
-.genre-tag { border-width: 1px; background: rgba(0,0,0,0.25); }
-.feature-card {
-  border: 1px solid var(--edge);
-  box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+.game-card h3 { padding-right: 2rem; }
+.game-card h3 a:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); }
+.game-card:has(.genre-puzzle), .game-card:has(.genre-action),
+.game-card:has(.genre-roguelike), .game-card:has(.genre-idle),
+.game-card:has(.genre-multiplayer), .game-card:has(.genre-retro),
+.game-card:has(.genre-horror), .game-card:has(.genre-cozy) { --card-art: none; }
+/* Genre is a word now: one neutral tag for all eight genres. */
+.genre-tag, .genre-puzzle, .genre-action, .genre-roguelike, .genre-idle,
+.genre-multiplayer, .genre-retro, .genre-horror, .genre-cozy {
+  font-family: var(--font-body); font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink-mute); border: 1px solid var(--edge);
+  background: none; padding: 0.18rem 0.55rem;
 }
-.feature-card:hover {
-  border-color: var(--edge-bright);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+.controls-hint { font-family: var(--font-body); font-size: 0.88rem; letter-spacing: 0; color: var(--ink-mute); }
+.kid-badge {
+  font-family: var(--font-body); font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.06em; color: var(--ink-dim); background: none;
+  border: 1px solid var(--edge-bright); box-shadow: none; padding: 0.25rem 0.5rem;
 }
+.fav-btn { border: 1px solid var(--edge); box-shadow: none; background: var(--panel); }
+.fav-btn:hover { border-color: var(--edge-bright); color: var(--ink); }
+.fav-btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); box-shadow: none; }
 .feature-card .icon { filter: none; }
-.card-link:hover { text-shadow: none; }
+.card-link { font-weight: 600; text-decoration: none; }
+.card-link:hover { text-decoration: underline; text-decoration-color: var(--accent); }
 .gotd {
-  border: 1px solid var(--edge-bright);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  border: 1px solid var(--edge); background: var(--panel);
+  box-shadow: none; border-radius: var(--r-md);
 }
-.gotd::before { filter: none; opacity: 0.7; }
-.gotd .gotd-label { text-shadow: none; }
+.gotd::before { display: none; }
+.gotd .gotd-label {
+  font-family: var(--font-body); font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute);
+}
 .gotd h3 { font-family: var(--font-body); font-weight: 700; }
-.gotd h3 a:hover { text-shadow: none; }
-.legal-banner { box-shadow: none; }
-.legal-banner strong { text-shadow: none; }
-.curator-note { box-shadow: none; }
+.curator-note {
+  border: 1px solid var(--edge); border-left: 1px solid var(--edge);
+  background: var(--panel); box-shadow: none; border-radius: var(--r-md);
+}
+.curator-kicker { color: var(--ink-mute); font-size: 0.8rem; letter-spacing: 0.14em; }
+.curator-sign { color: var(--ink-mute); font-size: 0.95rem; }
+.legal-banner {
+  border: 1px solid var(--edge); background: var(--panel);
+  box-shadow: none; border-radius: var(--r-md);
+}
+.legal-banner strong { font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 0; color: var(--ink); }
 
-/* Filters read as one quiet control bar, not a control panel */
+/* ---- Filters: one quiet control bar ---- */
 .filters {
-  border: 1px solid var(--edge);
-  border-image: none;
-  border-radius: var(--r-md);
-  box-shadow: none;
-  background: var(--bg-2);
+  border: 1px solid var(--edge); border-image: none;
+  border-radius: var(--r-md); box-shadow: none; background: var(--bg-2);
 }
-.search-box input { border-width: 1px; box-shadow: none; }
-.search-box input:focus { box-shadow: 0 0 0 3px rgba(0,229,255,0.18); }
+.search-box input { border: 1px solid var(--edge); box-shadow: none; background: var(--panel); }
+.search-box input::placeholder { font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 0; }
+.search-box input:focus { box-shadow: 0 0 0 3px rgba(255, 46, 136, 0.22); border-color: var(--accent); }
 .chip {
-  border-width: 1px;
-  box-shadow: none;
-  background: var(--panel);
-  font-family: var(--font-body);
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: none;
+  border: 1px solid var(--edge); box-shadow: none; background: none;
+  font-family: var(--font-body); font-size: 0.88rem; font-weight: 600;
+  letter-spacing: 0; text-transform: none; color: var(--ink-dim);
 }
-.chip:hover { transform: none; }
+.chip:hover { transform: none; color: var(--ink); border-color: var(--edge-bright); }
 .chip[aria-pressed="true"] {
-  background: rgba(0,229,255,0.12);
-  text-shadow: none;
-  box-shadow: none;
-  transform: none;
+  background: rgba(255,255,255,0.08); color: var(--ink);
+  border-color: var(--edge-bright); box-shadow: none; transform: none;
 }
-select, .chip-select { border-width: 1px; }
+.filter-label { font-family: var(--font-body); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; color: var(--ink-mute); }
+.results-count, .api-badge { font-family: var(--font-body); font-size: 0.9rem; letter-spacing: 0; }
+/* The directory's API state badge was an amber pill — a second
+   accent field. It is a status line now: neutral text, no fill. */
+.api-badge, .api-badge[data-api-state="live"],
+.api-badge[data-api-state="waking"], .api-badge[data-api-state="cached"] {
+  color: var(--ink-mute); background: none; border: 1px solid var(--edge);
+  box-shadow: none; font-size: 0.85rem;
+}
+.api-badge::before, .api-badge[data-api-state="live"]::before,
+.api-badge[data-api-state="waking"]::before,
+.api-badge[data-api-state="cached"]::before {
+  background: var(--ink-mute); box-shadow: none;
+}
+.site-nav a[aria-current="page"] { text-shadow: none; box-shadow: none; }
+.tag-row .filter-label, #tag-filter-label { color: var(--ink-mute); }
 
-/* Ticker + footer: present, but at furniture volume */
-.marquee { border-block: 1px solid var(--edge); }
-.marquee-track { text-shadow: none; }
-.site-footer { border-top: 1px solid var(--edge); }
-.site-footer::before { display: none; }
-.footer-grid h3 { text-shadow: none; }
-.coin-plate { text-shadow: none; border-style: solid; border-width: 1px; }
-.crumbs a { color: var(--neon-cyan); }
+/* ---- Forms, tables, lists, empty states ---- */
+input[type="text"], input[type="search"], input[type="date"],
+input[type="number"], textarea, select {
+  border: 1px solid var(--edge-bright); border-radius: var(--r-sm);
+  background: var(--bezel); color: var(--ink); box-shadow: none;
+  font-family: var(--font-body);
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 46, 136, 0.2); outline: none;
+}
+table { border-collapse: collapse; width: 100%; }
+th, td { border-bottom: 1px solid var(--edge); padding: 0.65rem 0.8rem; text-align: left; }
+th {
+  font-family: var(--font-body); font-size: 0.82rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mute);
+}
+.empty-state, .empty-cabinet {
+  border: 1px dashed var(--edge-bright); border-radius: var(--r-md);
+  background: var(--bg-2); box-shadow: none;
+}
+.callout { border: 1px solid var(--edge-bright); border-radius: var(--r-md); box-shadow: none; }
+code { background: rgba(255,255,255,0.06); border-color: var(--edge); }
 
-/* Cabinet (below the fold on the homepage) keeps its theatre —
-   only its glow is turned down to a finish, not a glare. */
-.cabinet { box-shadow: 0 18px 50px rgba(0,0,0,0.55); }
+/* ---- Guides: a chapter, not a marquee ---- */
+.guide-page h1 {
+  background: none; border: 0; border-bottom: 0; border-radius: 0;
+  box-shadow: none; padding: 0.4rem 0 0;
+  font-family: var(--font-body); font-weight: 700; letter-spacing: -0.015em;
+}
+.guide-page h1::before { display: none; }
+.guide-section { border-block-start: 0; border-image: none; }
+.guide-section h2 { font-size: 1.3rem; font-family: var(--font-body); font-weight: 700; }
+.guide-section h2 .sec-num { color: var(--ink-faint); font-family: var(--font-body); }
+.key-point { border: 1px solid var(--edge); border-inline-start: 1px solid var(--edge); box-shadow: none; }
+.guide-list li, .pack-list li { border: 1px solid var(--edge); box-shadow: none; }
+.guide-list li:hover { box-shadow: none; }
+.reading-progress { background: var(--accent); box-shadow: none; }
+.legal-note { box-shadow: none; }
+.chips li { box-shadow: none; }
+.guide-toc { border-top: 0; border-image: none; }
+.cn-marquee { background: var(--panel); border: 1px solid var(--edge); box-shadow: none; }
+.cn-seed strong { color: var(--ink); }
+.cn-summary .mono { color: var(--ink); }
 
-/* ---- Directory hero: compact, so game cards own the screen ---- */
-.dir-hero { padding: 2.2rem 0 1.4rem; }
-.dir-hero h1 { font-size: clamp(1.9rem, 4vw, 2.9rem); }
-.dir-hero .lede { font-size: 1.05rem; }
+/* ---- Ticker + footer furniture: retired / quieted ---- */
+.marquee { display: none; }                  /* scrolling INSERT COIN ticker: removed */
+.coin-plate { display: none; }               /* footer coin-return plate: removed */
+.site-footer { border-top: 1px solid var(--edge); background: var(--bg); }
+.site-footer::before { display: none; }      /* footer chase strip: removed */
+.footer-grid h3 {
+  font-family: var(--font-body); font-size: 0.8rem; font-weight: 700;
+  letter-spacing: 0.12em; color: var(--ink-mute);
+}
+.footer-note { font-family: var(--font-body); font-size: 0.9rem; letter-spacing: 0; }
+.crumbs { font-family: var(--font-body); font-size: 0.92rem; letter-spacing: 0; }
 
-/* ---- Mobile: headline in the first breath ---- */
+/* ---- The cabinet: ONE authored moment, below the fold ----
+   Form kept (marquee, bezel, deck); texture and glow removed:
+   no scanlines (above), no side-art stripes, no dual-colour
+   halo, no phosphor wash. Its marquee keeps the pixel face —
+   the second and last licensed job. */
+.cabinet {
+  border: 1px solid var(--edge-bright); border-radius: var(--r-lg);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  background: var(--panel);
+}
+.cabinet-marquee { background: var(--bg-2); border-bottom: 1px solid var(--edge); }
+.marquee-sub {
+  font-family: var(--font-body); font-size: 0.85rem; font-weight: 600;
+  letter-spacing: 0.18em; color: var(--ink-mute);
+}
+.cabinet-side {
+  background: var(--bg-2);
+  border-right: 1px solid var(--edge);
+}
+.cabinet-side.right { border-right: 0; border-left: 1px solid var(--edge); }
+.cabinet-screen-bezel {
+  background: var(--bg-2); border: 1px solid var(--edge);
+  box-shadow: none; border-radius: 14px;
+}
+.cabinet-kick { color: var(--ink-faint); font-family: var(--font-body); letter-spacing: 0.1em; }
+.demo-kicker { color: var(--ink-mute); font-family: var(--font-body); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.16em; }
+.demo-title { font-family: var(--font-body); font-weight: 700; letter-spacing: -0.01em; }
+.demo-play {
+  font-family: var(--font-body); font-size: 0.92rem; font-weight: 700; letter-spacing: 0;
+  color: var(--ink); border: 1px solid var(--edge-bright); background: none;
+}
+.demo-play:hover, .demo-play:focus-visible { background: rgba(255,255,255,0.06); box-shadow: none; color: var(--ink); }
+.insert-coin-line { font-family: var(--font-body); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.14em; color: var(--ink-mute); }
+.insert-coin-plate {
+  font-family: var(--font-body); font-weight: 700; letter-spacing: 0.02em;
+  color: var(--ink); border: 1px solid var(--edge-bright); background: none; box-shadow: none;
+}
+.deck-btn {
+  font-family: var(--font-body); font-weight: 600;
+  border: 1px solid var(--edge); background: none; color: var(--ink-dim); box-shadow: none;
+}
+.deck-btn:hover { color: var(--ink); border-color: var(--edge-bright); }
+
+/* Headline type everywhere else follows the two-family rule. */
+h1, h2, h4 { font-family: var(--font-body); font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; }
+h1 .pink, h2 .pink, h1 .cyan, h2 .cyan { color: var(--accent); }
+
+/* ---- Mobile: nav wraps, never scrolls sideways ----
+   v1 bug fixed properly: the primary row used overflow-x:auto
+   inside a flex row shared with More + Play, so the row was
+   squeezed and clipped. v2 lets the whole nav wrap — every
+   primary stays visible, nothing scrolls, nothing is cut. */
 @media (max-width: 46rem) {
-  .header-inner { flex-wrap: wrap; gap: 0.35rem 0.9rem; padding: 0.55rem 0 0.65rem; }
-  .brand { font-size: 0.74rem; }
-  .site-nav { order: 3; flex: 1 1 100%; margin-left: 0; min-width: 0; }
-  .site-nav ul.nav-primary {
-    overflow-x: auto;
-    scrollbar-width: none;
-    flex: 1 1 auto;
-    min-width: 0;
+  .header-inner { flex-wrap: wrap; gap: 0.4rem 0.9rem; padding: 0.6rem 0 0.7rem; }
+  .brand { font-size: 0.72rem; }
+  .site-nav {
+    order: 3; flex: 1 1 100%; margin-left: 0; min-width: 0;
+    flex-wrap: wrap; row-gap: 0.3rem;
   }
-  .site-nav ul.nav-primary::-webkit-scrollbar { display: none; }
-  .site-nav a { padding: 0.4rem 0.55rem; font-size: 0.88rem; }
-  a.nav-cta, .site-nav a.nav-cta { margin-left: 0.35rem; padding: 0.45rem 0.85rem; }
-  .nav-more > summary { padding: 0.4rem 0.55rem; font-size: 0.88rem; }
+  .site-nav ul.nav-primary {
+    overflow: visible; flex-wrap: wrap; flex: 1 1 auto; min-width: 0;
+  }
+  .site-nav a { padding: 0.42rem 0.6rem; font-size: 0.9rem; }
+  a.nav-cta, .site-nav a.nav-cta { margin-left: 0.3rem; padding: 0.48rem 0.9rem; }
+  .nav-more > summary { padding: 0.42rem 0.6rem; font-size: 0.9rem; }
   .site-nav ul.nav-rest { position: fixed; left: 1rem; right: 1rem; top: auto; }
-  .hero { padding-top: 2rem; }
-  .hero h1.hero-title { font-size: clamp(2.1rem, 11vw, 2.9rem); }
-  .hero-stats { grid-template-columns: repeat(4, auto); gap: 1.1rem; }
-  .hero-stats dd { font-size: 1.35rem; }
-  .hero-shelf { margin-top: 1.8rem; }
-  .section { padding: 2.2rem 0; }
+  .hero { padding-top: 2.75rem; }
+  .hero h1, .hero h1.hero-title { font-size: clamp(2.2rem, 10.5vw, 2.9rem); }
+  .section { padding: 2.75rem 0; }
 }

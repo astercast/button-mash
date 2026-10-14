@@ -512,6 +512,46 @@ def _r21_nav(nav_match):
     return "\n".join(lines)
 
 
+def _r22_relocate_shelf(text):
+    # Rotation 21 v2 (restraint pass): the homepage hero is ONE
+    # headline, ONE subline, ONE action — the games shelf that v1
+    # carried inside the hero moves out to become the first
+    # content section below it. Div-depth parsed (the shelf nests
+    # divs), idempotent: once the shelf sits in its own section
+    # after the hero, this is a no-op. Content is moved verbatim;
+    # #genre-sampler and its data wiring are untouched.
+    marker = '<div class="hero-shelf">'
+    start = text.find(marker)
+    if start == -1:
+        return text
+    hero_end = text.find("</section>", start)
+    if 'class="section shelf-section"' in text[:start]:
+        return text
+    depth, i = 0, start
+    end = None
+    for m in re.finditer(r"<div\b|</div>", text[start:]):
+        if m.group(0) == "<div":
+            depth += 1
+        else:
+            depth -= 1
+            if depth == 0:
+                end = start + m.end()
+                break
+    if end is None or hero_end == -1 or end > hero_end:
+        return text
+    shelf = text[start:end]
+    rest = text[:start] + text[end:]
+    hero_close = rest.find("</section>", start)
+    if hero_close == -1:
+        return text
+    insert_at = hero_close + len("</section>")
+    section = ('\n\n  <section class="section shelf-section" '
+               'aria-label="Fresh from the shelf">\n'
+               '    <div class="wrap">\n      ' + shelf +
+               '\n    </div>\n  </section>')
+    return rest[:insert_at] + section + rest[insert_at:]
+
+
 def wire_redesign():
     pages = sorted(
         p for p in ROOT.rglob("*.html")
@@ -521,6 +561,9 @@ def wire_redesign():
     for page in pages:
         rel = page.relative_to(ROOT).as_posix()
         text = page.read_text()
+        orig = text
+        if rel == "index.html":
+            text = _r22_relocate_shelf(text)
         prefix = "../" * rel.count("/")
         new = _R21_RE.sub("", text)
         head, sep, rest_text = new.partition("</head>")
@@ -535,7 +578,7 @@ def wire_redesign():
         if n and new2 != new:
             navs += 1
             new = new2
-        if new != text:
+        if new != orig:
             page.write_text(new)
             stamped += 1
     print(f"redesign wiring: {len(pages)} pages stamped "
