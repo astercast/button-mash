@@ -429,10 +429,10 @@ div:has(> table.remap-table) { overflow-x: auto; }
    headlines computed Space Grotesk on the render. Matched /
    raised specificity here, same remedy as the home H1 fix.
    Body and data text on the hub stays Space Grotesk.
-   (2) The frost survivor: layout.css carried
-   backdrop-filter: blur(10px) on .site-header and this sheet's
-   header rule never struck it; the blur is removed at the
-   source in layout.css and struck here as well.
+   (2) The frost survivor: layout.css carried a 10px backdrop
+   blur on .site-header and this sheet's header rule never
+   struck it; the blur is removed at the source in layout.css
+   and struck here as well.
    ============================================================ */
 .guide-page h1 {
   font-family: var(--font-pixel);
