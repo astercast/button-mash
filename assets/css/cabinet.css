@@ -56,6 +56,8 @@ main::before { content: none; }
   background: var(--bg-2);
   border-bottom: 2px solid var(--edge);
   border-image: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 .brand { text-shadow: none; }
 .brand em { color: var(--accent); text-shadow: none; }
@@ -416,4 +418,34 @@ div:has(> table.remap-table) { overflow-x: auto; }
      kid cards at 304px inside a 280px content box at 320px */
   .grid.cols-2, .grid.cols-3, .grid.cols-4 { grid-template-columns: 1fr; }
   .kids-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   R23 FIX (QA round 79): two survivors of the cabinet pass.
+   (1) Guide headlines: redesign.css set .guide-page h1 and
+   .guide-section h2 in the body face at specificity 0,1,1, and
+   components.css did the same to .toc h2 — each outranking this
+   sheet's plain h1/h2 pixel rule (0,0,1), so the guide hub's
+   headlines computed Space Grotesk on the render. Matched /
+   raised specificity here, same remedy as the home H1 fix.
+   Body and data text on the hub stays Space Grotesk.
+   (2) The frost survivor: layout.css carried
+   backdrop-filter: blur(10px) on .site-header and this sheet's
+   header rule never struck it; the blur is removed at the
+   source in layout.css and struck here as well.
+   ============================================================ */
+.guide-page h1 {
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  letter-spacing: .01em;
+  line-height: 1.5;
+  text-shadow: none;
+}
+.guide-page .guide-section h2,
+.guide-page .toc h2 {
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  letter-spacing: .01em;
+  line-height: 1.5;
+  text-shadow: none;
 }

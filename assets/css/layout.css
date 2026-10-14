@@ -15,7 +15,6 @@
   top: 0;
   z-index: 100;
   background: rgba(7, 7, 15, 0.94);
-  backdrop-filter: blur(10px);
   border-bottom: 3px solid var(--edge-bright);
 }
 /* Chase-light bulb strip along the header's bottom edge */
