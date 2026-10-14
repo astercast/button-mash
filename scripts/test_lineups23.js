@@ -161,9 +161,10 @@ function fakeBackend() {
 
   /* ---------------- the card ---------------- */
   const card = BL.lineupAsText(rec);
-  check("card: names the night, lists every slot with its URL",
+  check("card: names the night, lists every slot with its on-site reference (R23 sweep)",
     card.includes('"Rematch Source"') &&
-    rec.slots.every((s) => card.includes(s.title) && card.includes(s.url)) &&
+    rec.slots.every((s) => card.includes(s.title) && card.includes("game.html?id=" + s.game_id)) &&
+    rec.slots.every((s) => !card.includes(s.url)) &&
     card.includes("GAME NIGHT"),
     card.split("\n")[0]);
   check("card: carries the estimates disclaimer",

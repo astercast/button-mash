@@ -43,6 +43,13 @@
   var currentBlobUrl = null;
   var booted = false;
 
+  /* Converter 4.0 (rotation 23): content-hash identity + detection.
+     pendingContentId is set by the intake path before boot(); the
+     last file context powers the library manager (library.js). */
+  var C4 = window.Converter4Core || null;
+  var pendingContentId = null;
+  var lastFileCtx = null;
+
   function $(id) { return document.getElementById(id); }
 
   /* The drop veil (and its #veil-error paragraph) lives inside #ejs-stage, so
@@ -101,7 +108,11 @@
     window.EJS_core = core;
     window.EJS_gameUrl = gameBlobUrl;
     window.EJS_gameName = fileName.replace(/\.[^.]+$/, '');
-    window.EJS_gameID = 'bm-' + fileName.length + '-' + (fileName + core).split('').reduce(function (a, c) { return (a * 31 + c.charCodeAt(0)) >>> 0; }, 7);
+    /* Converter 4.0: the game ID is a CONTENT hash (converter4-core),
+       so a renamed dump keeps its identity, its slot metadata and its
+       library entry. The legacy name-hash survives only as the
+       fallback when the core module failed to load. */
+    window.EJS_gameID = pendingContentId || ('bm-' + fileName.length + '-' + (fileName + core).split('').reduce(function (a, c) { return (a * 31 + c.charCodeAt(0)) >>> 0; }, 7));
     curCore = core;
     curGameName = window.EJS_gameName;
     curGameID = window.EJS_gameID;
@@ -163,31 +174,223 @@
   function updateBiosNote(core) {
     var note = $('bios-note');
     if (!note) return;
-    if (BIOS_CORES.indexOf(core) !== -1) {
+    if (core === 'psx') {
       note.hidden = false;
-      note.innerHTML = '<strong>BIOS required:</strong> the ' + (SYSTEM_LABELS[core] || core) +
-        ' core needs a BIOS file dumped from hardware you own (e.g. scph5501.bin for PlayStation). ' +
-        'Attach it below, or the game will not boot. Button Mash does not provide BIOS files.';
+      note.innerHTML = '<strong>PlayStation BIOS, your own dump:</strong> full compatibility wants a BIOS ' +
+        'from a PlayStation you own (scph5500, 5501 or 5502 by region). Dump it from your own console, ' +
+        'the <a href="guides/re-dump-your-games.html">dumping guide</a> walks the pattern, then attach it ' +
+        'with the BIOS picker above. Button Mash cannot give you one, and no download for one exists here. ' +
+        'Without a BIOS the core falls back to a built-in replacement that boots many games; if yours ' +
+        'refuses or glitches, the BIOS is the fix. CHD discs are welcome here, one file, no cue sheet needed.';
+    } else if (core === 'segaCD') {
+      note.hidden = false;
+      note.innerHTML = '<strong>Sega CD BIOS, your own dump:</strong> the Sega CD core cannot boot without ' +
+        'its BIOS (bios_CD_U.bin, bios_CD_J.bin or bios_CD_E.bin by region), dumped from your own Sega CD. ' +
+        'Attach it with the BIOS picker above before the disc. The <a href="guides/re-dump-your-games.html">dumping guide</a> ' +
+        'covers the pattern. Button Mash does not provide BIOS files.';
     } else if (core === 'nds') {
       note.hidden = false;
-      note.innerHTML = '<strong>BIOS optional:</strong> Nintendo DS usually boots without one; dumped BIOS files improve compatibility. Attach your own if a game misbehaves.';
+      note.innerHTML = '<strong>Nintendo DS notes:</strong> both screens render stacked here, and your mouse ' +
+        'is the stylus on the lower screen (touch works natively on touch devices). Most games boot with no ' +
+        'extra files. If a game refuses to boot, sits on a Nintendo logo, or asks for system files, it wants ' +
+        'the firmware and BIOS dumped from your own DS; attach them with the BIOS picker and try again. ' +
+        'Games that truly need the microphone or the camera cannot use them in a browser tab.';
     } else {
       note.hidden = true;
     }
   }
 
-  function handleFile(file) {
-    if (!file) return;
+  /* ---------- Converter 4.0 intake ----------
+     Every dropped file is identified by CONTENT first (magic bytes,
+     disc headers, SYSTEM.CNF), extension second (converter4-core).
+     Three designed outcomes beyond "boot it": a decline card for the
+     systems no browser can run, a DOS-corner handoff, and multi-file
+     set handling (BIN+CUE pairs, M3U sets, generated M3U). */
+  function hideDecline() {
+    var host = $('decline-host');
+    if (host) { host.hidden = true; host.innerHTML = ''; }
+  }
+  function showPlayerDecline(det, fileName) {
+    var host = $('decline-host');
+    if (host && window.BMConv4) {
+      window.BMConv4.showDecline(host, det, fileName);
+      host.scrollIntoView({ block: 'nearest' });
+    } else {
+      veilError(det.headline + ' ' + det.body);
+    }
+  }
+  function readSliceOf(file) {
+    return function (offset, length) {
+      return file.slice(offset, offset + length).arrayBuffer().then(function (b) { return new Uint8Array(b); });
+    };
+  }
+  async function detectFile(file) {
+    if (!C4) return { kind: 'unknown' };
+    var headLen = Math.min(file.size, 2 * 1024 * 1024);
+    var head = await readSliceOf(file)(0, headLen);
+    return C4.detect({ name: file.name, size: file.size, head: head });
+  }
+
+  async function bootFile(file, core, opts) {
+    opts = opts || {};
+    veilError('');
+    hideDecline();
+    if (sysSelect.value === 'auto') sysSelect.value = core;
+    setStatus('IDENTIFYING ' + file.name.toUpperCase() + '…', true);
+    var contentId = opts.knownId || null;
+    if (!contentId && C4) {
+      try { contentId = await C4.contentIdFor(core, file.size, readSliceOf(file)); } catch (e) { contentId = null; }
+    }
+    pendingContentId = contentId;
+    lastFileCtx = { file: file, core: core, contentId: contentId };
+    var keepBtn = $('library-keep');
+    if (keepBtn) keepBtn.disabled = !contentId;
+    currentBlobUrl = URL.createObjectURL(file);
+    boot(currentBlobUrl, file.name, core);
+  }
+
+  async function intakeZip(file) {
+    var buf = new Uint8Array(await file.arrayBuffer());
+    var entries = C4 ? C4.zipList(buf) : null;
+    if (!entries || !entries.length) {
+      veilError('That ZIP could not be read as an archive. If it holds a game, unzip it and drop the files themselves.');
+      return;
+    }
+    var names = entries.map(function (e) { return e.name; });
+    var folderDet = C4.detectFolder(names);
+    if (folderDet.kind === 'decline') { showPlayerDecline(folderDet, file.name); return; }
+    if (folderDet.kind === 'dos') {
+      veilError('');
+      showDosOffer([file], file.name);
+      return;
+    }
+    var romEntries = entries.filter(function (e) { return C4 && detectEntryExt(e.name); });
+    if (romEntries.length === 1 && entries.length <= 3) {
+      var entry = romEntries[0];
+      var inflate = window.pako ? window.pako.inflateRaw : null;
+      var data = C4.zipExtract(buf, entry, inflate);
+      if (data) {
+        var inner = new File([data], entry.name.split('/').pop(), { type: 'application/octet-stream' });
+        await intakeFiles([inner]);
+        return;
+      }
+    }
+    if (entries.some(function (e) { return /\.(cue|m3u|chd)$/i.test(e.name); })) {
+      /* a zipped disc set: hand the archive itself to the engine,
+         which extracts zips natively, with the disc core selected */
+      var core = sysSelect.value !== 'auto' ? sysSelect.value : 'psx';
+      await bootFile(file, core, {});
+      return;
+    }
+    veilError('That ZIP holds ' + entries.length + ' files but none the Player recognises. DOS games belong in the DOS corner (dos.html); discs and cartridges can be dropped directly.');
+  }
+  function detectEntryExt(name) {
+    var ext = extOf(name);
+    return !!(CORE_MAP[ext] || ext === 'cue' || ext === 'm3u' || ext === 'chd');
+  }
+
+  function showDosOffer(files, label) {
+    var host = $('decline-host');
+    if (!host || !window.BMConv4) { window.location.href = 'dos.html'; return; }
+    host.innerHTML = '';
+    var card = window.BMConv4.el('article', 'decline-card');
+    card.appendChild(window.BMConv4.el('p', 'decline-kicker', 'Converter 4.0 · DOS corner'));
+    card.appendChild(window.BMConv4.el('h3', 'decline-head', 'That is a DOS game, and it has its own room here.'));
+    card.appendChild(window.BMConv4.el('p', 'decline-body',
+      'The Player runs console and handheld files. DOS games run in the DOS corner, where your files are wrapped into a .jsdos bundle in this browser and booted under DOSBox. Nothing uploads; the bundle is built here and kept here.'));
+    var row = window.BMConv4.el('p', 'decline-links');
+    var go = window.BMConv4.el('button', 'btn btn-primary btn-sm', 'Take it to the DOS corner');
+    go.type = 'button';
+    go.addEventListener('click', function () { window.BMConv4.stageDosAndGo(files, null); });
+    row.appendChild(go);
+    card.appendChild(row);
+    host.appendChild(card);
+    host.hidden = false;
+    setStatus('DOS GAME: SEE THE DOS CORNER', false);
+  }
+
+  async function intakeSet(files) {
+    /* Multi-file set: BIN+CUE pairs, CHD sets, dropped M3U sets. */
+    var names = files.map(function (f) { return f.name; });
+    var m3uFile = files.filter(function (f) { return /\.m3u$/i.test(f.name); })[0] || null;
+    var discs = files.filter(function (f) { return /\.(cue|bin|chd|iso|img)$/i.test(f.name); });
+    var cueFile = files.filter(function (f) { return /\.cue$/i.test(f.name); })[0] || null;
+    if (!discs.length && !m3uFile) {
+      veilError('That is ' + files.length + ' files but no disc set the Player can assemble. Drop a disc image (or its .cue/.bin pair), a cartridge file, or a ZIP.');
+      return;
+    }
+    var core = 'psx';
+    /* Sega CD sets announce themselves in the .bin header */
+    var binFile = files.filter(function (f) { return /\.bin$/i.test(f.name); })[0];
+    if (binFile && C4) {
+      var bhead = await readSliceOf(binFile)(0, 64);
+      if (C4.strAt(bhead, 0, 14) === 'SEGADISCSYSTEM') core = 'segaCD';
+    }
+    if (sysSelect.value !== 'auto') core = sysSelect.value;
+    var base = (cueFile || discs[0] || m3uFile).name.replace(/\.[^.]+$/, '');
+    var setFiles = files.slice();
+    var bootName = m3uFile ? m3uFile.name : null;
+    if (!m3uFile && discs.length > 1 && C4) {
+      var discImages = discs.filter(function (f) { return /\.(chd|iso|img|cue)$/i.test(f.name); });
+      discImages.sort(function (a, b) { return C4.discSortKey(a.name) - C4.discSortKey(b.name); });
+      var m3uText = C4.buildM3U(discImages.map(function (f) { return f.name; }));
+      var m3uName = base + '.m3u';
+      setFiles.push(new File([m3uText], m3uName, { type: 'audio/x-mpegurl' }));
+      bootName = m3uName;
+      setStatus('MULTI-DISC SET: BUILT ' + m3uName.toUpperCase() + ' FOR ' + discImages.length + ' DISCS', true);
+    }
+    if (!C4) { veilError('The set assembler did not load. Reload the page.'); return; }
+    var parts = [];
+    for (var i = 0; i < setFiles.length; i++) {
+      parts.push({ name: setFiles[i].name, data: new Uint8Array(await setFiles[i].arrayBuffer()) });
+    }
+    var zip = C4.zipStore(parts);
+    var zipFile = new File([zip], (bootName || base + '.zip'), { type: 'application/zip' });
+    await bootFile(zipFile, core, {});
+    var note = $('bios-note');
+    if (note && core === 'psx') {
+      /* disc-swap guidance rides the note area for multi-disc boots */
+      setTimeout(function () {
+        if (discs.length > 1) {
+          note.hidden = false;
+          note.innerHTML = '<strong>Multi-disc set loaded.</strong> When the game asks for the next disc, open the in-game menu (top-left once booted) and use its disc-swap / change-disc option, then pick the next disc from the set. The set was assembled in your browser from the files you dropped; nothing uploaded.';
+        }
+      }, 50);
+    }
+  }
+
+  async function intakeFiles(fileList, opts) {
+    var files = Array.prototype.slice.call(fileList || []);
+    if (!files.length) return;
+    hideDecline();
+    if (files.length > 1) { await intakeSet(files); return; }
+    var file = files[0];
+    if (sysSelect.value === 'auto' && C4) {
+      var det = await detectFile(file);
+      if (det.kind === 'decline') {
+        setStatus('NOT PLAYABLE IN A BROWSER', false);
+        showPlayerDecline(det, file.name);
+        return;
+      }
+      if (det.kind === 'dos') { showDosOffer([file], file.name); return; }
+      if (det.kind === 'zip') { await intakeZip(file); return; }
+      if (det.kind === 'play' || det.kind === 'disc-picker') {
+        await bootFile(file, det.core || 'psx', opts);
+        return;
+      }
+    }
     var ext = extOf(file.name);
     var core = sysSelect.value === 'auto' ? (CORE_MAP[ext] || null) : sysSelect.value;
     if (!core) {
       veilError('Could not detect the system for ".' + ext + '". Pick the system manually from the dropdown, then drop the file again.');
       return;
     }
-    veilError('');
-    if (sysSelect.value === 'auto') sysSelect.value = core;
-    currentBlobUrl = URL.createObjectURL(file);
-    boot(currentBlobUrl, file.name, core);
+    await bootFile(file, core, opts);
+  }
+
+  function handleFile(file) {
+    if (!file) return;
+    intakeFiles([file]);
   }
 
   async function handleUrl() {
@@ -215,8 +418,8 @@
       zone.addEventListener(ev, function (e) { e.preventDefault(); veil.classList.remove('dragging'); });
     });
     zone.addEventListener('drop', function (e) {
-      var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-      if (f) handleFile(f);
+      var fs = e.dataTransfer && e.dataTransfer.files;
+      if (fs && fs.length) intakeFiles(fs);
     });
   }
 
@@ -225,9 +428,13 @@
      EmulatorJS 4.2.3 stable engine (cdn.emulatorjs.org/stable):
      - save slots: IndexedDB "EmulatorJS-states" / store "states", the same
        store the engine uses. Engine slot key = "<baseFileName>.state"
-       (base = game name with the engine's invalid-char strip). Named slots
-       are "<baseFileName>.bm-slot-<n>.state"; the auto-save slot is
-       "<baseFileName>.bm-autosave.state". Restoring = copying bytes over
+       (base = game name with the engine's invalid-char strip). Since
+       Converter 4.0 (Phase 0), gameID is a content hash (Converter4Core
+       .contentIdFor: "bm4-<system>-<sha256 prefix>"), and NEW named slots
+       are "<gameID>.bm-slot-<n>.state"; the auto-save slot is
+       "<gameID>.bm-autosave.state". Legacy name-based keys
+       ("<baseFileName>.bm-slot-<n>.state" etc.) are still READ and offered
+       for restore, never deleted. Restoring = copying bytes over
        the engine's key, so the engine's own Load State picks it up.
        Slot labels live in localStorage "bm-slots-<gameID>".
      - settings: localStorage "ejs-<gameId>-<core>-<gameName>-settings",
@@ -633,20 +840,31 @@
     slotsSetStatus('Reading save slots…');
     var engKey = engineSlotKey(base);
     var autoKey = autosaveSlotKey(base);
-    var re = new RegExp('^' + escRe(base) + '\\.bm-slot-(\\d+)\\.state$');
+    var autoKey4 = ctx.gameID + AUTOSAVE_SUFFIX;
+    /* Converter 4.0: named slots are addressed by the game's CONTENT
+       id ("<gameID>.bm-slot-<n>.state"), so renaming the file keeps
+       its saves. Slots written by earlier versions under the file
+       name stay listed and restorable (legacy pattern, second row). */
+    var re = new RegExp('^' + escRe(ctx.gameID) + '\\.bm-slot-(\\d+)\\.state$');
+    var reLegacy = new RegExp('^' + escRe(base) + '\\.bm-slot-(\\d+)\\.state$');
     idbAllKeys().then(function (keys) {
       var list2 = $('slots-list');
       if (!list2) return;
       list2.innerHTML = '';
       var meta = readSlotMeta(ctx);
-      var slots = [];
+      var byN = {};
       keys.forEach(function (k) {
-        var m = re.exec(String(k));
-        if (m) slots.push({ key: String(k), n: parseInt(m[1], 10) });
+        var m = re.exec(String(k)) || reLegacy.exec(String(k));
+        if (m) {
+          var n = parseInt(m[1], 10);
+          if (!byN[n] || re.test(String(k))) byN[n] = { key: String(k), n: n };
+        }
       });
+      var slots = Object.keys(byN).map(function (n) { return byN[n]; });
       slots.sort(function (a, b) { return a.n - b.n; });
       var hasEngine = keys.indexOf(engKey) !== -1;
-      var hasAuto = keys.indexOf(autoKey) !== -1;
+      var hasAuto = keys.indexOf(autoKey) !== -1 || keys.indexOf(autoKey4) !== -1;
+      if (keys.indexOf(autoKey4) !== -1) autoKey = autoKey4;
       var total = slots.length + (hasEngine ? 1 : 0) + (hasAuto ? 1 : 0);
       if (!total) {
         slotsSetStatus('No save slots yet for "' + ctx.gameName + '". Save in-game with the engine set to "Keep in Browser" (in-game menu → Settings → Save States) and the engine slot will appear here. Everything is stored only in this browser.');
@@ -765,16 +983,18 @@
     var base = stripInvalid(ctx.gameName);
     if (!base) return;
     var engKey = engineSlotKey(base);
-    var re = new RegExp('^' + escRe(base) + '\\.bm-slot-(\\d+)\\.state$');
+    var re = new RegExp('^' + escRe(ctx.gameID) + '\\.bm-slot-(\\d+)\\.state$');
+    var reLegacy = new RegExp('^' + escRe(base) + '\\.bm-slot-(\\d+)\\.state$');
     slotsSetStatus('Creating a new slot…');
     idbAllKeys().then(function (keys) {
       var max = 0;
       keys.forEach(function (k) {
-        var m = re.exec(String(k));
+        var m = re.exec(String(k)) || reLegacy.exec(String(k));
         if (m) max = Math.max(max, parseInt(m[1], 10));
       });
       var n = max + 1;
-      var key = namedSlotKey(base, n);
+      /* new slots are content-addressed (Converter 4.0) */
+      var key = ctx.gameID + '.bm-slot-' + n + '.state';
       return idbGet(engKey).then(function (eng) {
         var bytes = asBytes(eng);
         if (!bytes || !bytes.byteLength) throw new Error('the engine slot is empty, save in-game first (needs "Keep in Browser" mode)');
@@ -847,7 +1067,7 @@
     if (!ctx) return Promise.resolve(false);
     var base = stripInvalid(ctx.gameName);
     if (!base) return Promise.resolve(false);
-    var engKey = engineSlotKey(base), autoKey = autosaveSlotKey(base);
+    var engKey = engineSlotKey(base), autoKey = ctx.gameID + AUTOSAVE_SUFFIX;
     return idbGet(engKey).then(function (eng) {
       var bytes = asBytes(eng);
       if (!bytes || !bytes.byteLength) return false;
@@ -1265,7 +1485,37 @@
     } catch (e) { /* ignore malformed query strings */ }
 
     $('browse-btn').addEventListener('click', function () { fileInput.click(); });
-    fileInput.addEventListener('change', function () { handleFile(fileInput.files[0]); fileInput.value = ''; });
+    fileInput.addEventListener('change', function () { intakeFiles(fileInput.files); fileInput.value = ''; });
+
+    /* Converter 4.0: library manager hooks (library.js renders the UI) */
+    document.addEventListener('bm:library-keep-current', function () {
+      var st = $('library-status');
+      if (!lastFileCtx || !lastFileCtx.contentId || !window.BMLibrary) {
+        if (st) st.textContent = 'Boot a game first, then keep it in the library.';
+        return;
+      }
+      window.BMLibrary.stageGame({
+        id: lastFileCtx.contentId, name: lastFileCtx.file.name,
+        core: lastFileCtx.core, systemLabel: SYSTEM_LABELS[lastFileCtx.core] || lastFileCtx.core,
+        size: lastFileCtx.file.size, blob: lastFileCtx.file, addedAt: Date.now()
+      }).then(function () {
+        if (st) st.textContent = 'Kept "' + lastFileCtx.file.name + '" in the library on this device.';
+        document.dispatchEvent(new CustomEvent('bm:library-changed'));
+      }).catch(function (e) {
+        if (st) st.textContent = 'Could not stage that game (' + (e && e.message ? e.message : e) + '). The browser storage budget may be full.';
+      });
+    });
+    document.addEventListener('bm:library-play', function (ev) {
+      var id = ev && ev.detail && ev.detail.id;
+      if (!id || !window.BMLibrary) return;
+      window.BMLibrary.getGame(id).then(function (rec) {
+        if (!rec || !rec.blob) return;
+        var f = new File([rec.blob], rec.name, { type: 'application/octet-stream' });
+        bootFile(f, rec.core, { knownId: rec.id });
+        var shell = $('console-shell');
+        if (shell) shell.scrollIntoView({ block: 'start' });
+      });
+    });
     $('load-url-btn').addEventListener('click', handleUrl);
     urlInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') handleUrl(); });
 
@@ -1298,6 +1548,17 @@
 
     bindDrop(veil);
     setStatus('IDLE: DROP A FILE TO BEGIN', false);
+
+    /* Converter 4.0: a disc set staged by the M3U builder arrives
+       through the library staging store and boots as one set. */
+    if (window.BMLibrary) {
+      window.BMLibrary.takeHandoff('player-set').then(function (rec) {
+        if (rec && rec.files && rec.files.length) {
+          var fs = rec.files.map(function (r) { return new File([r.blob], r.name, { type: 'application/octet-stream' }); });
+          intakeFiles(fs);
+        }
+      }).catch(function () {});
+    }
 
     /* ---------- Player 2.1 wiring ---------- */
     ensureCrtOverlay();

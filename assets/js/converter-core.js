@@ -1,4 +1,6 @@
-/* Button Mash Converter 3.0, core logic (UMD: browser + node).
+/* Button Mash Converter 4.0, single-file core logic (UMD: browser + node).
+   The 5 proven profiles live here unchanged; Converter 4.0 routing,
+   detection and declines live in converter4-core.js.
    Pure, DOM-free functions: system profiles, ROM validation, output naming,
    template token assembly, and the sequential batch runner. The DOM layer
    (assets/js/converter.js) and the test suite (scripts/test_converter12.js)
@@ -304,7 +306,7 @@
   }
 
   return {
-    VERSION: '3.0',
+    VERSION: '4.0',
     PROFILES: PROFILES,
     COMPRESSION: COMPRESSION,
     TOKENS: TOKENS,

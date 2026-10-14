@@ -264,7 +264,7 @@
     if (seed) {
       lines.push('', 'Seeded pairing, seed: "' + seed + '". Same seed + same catalog deals this same pairing; re-deal it on the Versus page and check.');
     }
-    lines.push('', 'Play ' + a.title + ': ' + a.url, 'Play ' + b.title + ': ' + b.url);
+    lines.push('', a.title + ' on Button Mash: game.html?id=' + a.id, b.title + ' on Button Mash: game.html?id=' + b.id);
     if (pairUrl) lines.push('This pairing: ' + pairUrl);
     return lines.join('\n');
   }

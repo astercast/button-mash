@@ -298,7 +298,7 @@
     record.slots.forEach(function (s, i) {
       lines.push((i + 1) + '. ' + s.role_label + ', ' + s.title + ' (~' + s.session_est + ' min, ' +
         s.floor_label + ', ' + s.energy_label + (s.capacity > 1 ? ', seats ~' + s.capacity : '') + ')');
-      lines.push('   ' + s.url);
+      lines.push('   On Button Mash: game.html?id=' + s.game_id);
     });
     lines.push('');
     lines.push('~' + record.total_est_minutes + ' min of play estimated; the rest is snacks and rematches.');

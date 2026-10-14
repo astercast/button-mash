@@ -389,7 +389,7 @@ check("WF11 AGENT.md + llms.txt mention Party Planner 2.0",
   fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("Party planner 2.0"),
   "agentic surface current");
 
-// Workflow 12 (AGENT.md): Converter 3.0 — batch conversion, compression, validation
+// Workflow 12 (AGENT.md): Converter 4.0 — batch conversion, compression, validation
 const convCore = require("../assets/js/converter-core.js");
 const convHtml = fs.readFileSync(path.join(ROOT, "converter.html"), "utf8");
 const convUiJs = fs.readFileSync(path.join(ROOT, "assets/js/converter.js"), "utf8");
@@ -433,9 +433,9 @@ check("WF12 converter skill documents 3.0",
     const s = fs.readFileSync(path.join(ROOT, "skills/converter-multi-system.md"), "utf8");
     return s.includes("3.0") && s.includes("batch") && s.includes("compression") && s.includes("11 tokens");
   })(), "skill current");
-check("WF12 AGENT.md + llms.txt mention Converter 3.0",
-  fs.readFileSync(path.join(ROOT, "AGENT.md"), "utf8").includes("Converter 3.0") &&
-  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("Converter 3.0"),
+check("WF12 AGENT.md + llms.txt mention Converter 4.0",
+  fs.readFileSync(path.join(ROOT, "AGENT.md"), "utf8").includes("Converter 4.0") &&
+  fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8").includes("Converter 4.0"),
   "agentic surface current");
 
 // Wave 13: deep-dive guides knowledge hub

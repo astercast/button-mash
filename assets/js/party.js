@@ -291,7 +291,7 @@
       li.appendChild(BM.el('p', 'plan-time', 'Slot ' + (i + 1) + ' · ' + slotWhen(slot)));
       var title = BM.el('h3', '', '');
       var a = document.createElement('a');
-      a.href = slot.url; a.target = '_blank'; a.rel = 'noopener';
+      a.href = 'game.html?id=' + encodeURIComponent(slot.gameId);
       a.textContent = slot.title;
       title.appendChild(a);
       li.appendChild(title);

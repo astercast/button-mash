@@ -49,7 +49,7 @@
         var card = el('article', 'feature-card');
         var h = el('h3');
         var a = el('a', null, g.title);
-        a.href = g.url; a.target = '_blank'; a.rel = 'noopener';
+        a.href = 'game.html?id=' + encodeURIComponent(g.id);
         h.appendChild(a);
         card.appendChild(h);
         var logs = store.getLogs(id);

@@ -1,10 +1,10 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-14T09:50:38Z",
+  "generated_at": "2026-10-14T12:08:20Z",
   "endpoint": "guides",
   "description": "Emulation guides and explainers (summaries; full text in data/guides.json).",
-  "count": 24,
+  "count": 29,
   "guides": [
     {
       "id": "emulatorjs-selfhost",
@@ -221,6 +221,51 @@
       "time_minutes": 12,
       "summary": "Every cheat code is an address plus a value. Covers the two families (RAM codes vs ROM patches), the Konami Code's origin (Hashimoto, the 1986 NES Gradius port, Contra's 30 lives in 1988), the Game Genie (Codemasters/Galoob, 1990; six-letter codes patch unconditionally, eight-letter codes add a compare byte), the 1992 Ninth Circuit ruling in Lewis Galoob Toys v. Nintendo that made home cheat use fair use, GameShark/Action Replay (Datel hardware, InterAct's US brand from 1996), cheats in this site's Player (per-game codes via the Cheats tool, EJS_cheats, toggled in the in-game menu), finding your own codes with a RetroArch memory search, and where cheats don't belong (multiplayer, hardcore achievements). Legal lane: codes are numbers, never downloads.",
       "section_count": 8
+    },
+    {
+      "id": "reverse-engineering",
+      "slug": "reverse-engineering",
+      "title": "Reverse engineering guide: the games a browser cannot convert",
+      "difficulty": "Beginner",
+      "time_minutes": 12,
+      "summary": "Some games cannot be turned into browser games today, and Button Mash will not pretend otherwise. This guide is the other half of the converter: for every system the Player has to decline, here is the working path, native emulation, decompilation, recompilation, or a source port, using your own copy throughout.",
+      "section_count": 7
+    },
+    {
+      "id": "re-dump-your-games",
+      "slug": "re-dump-your-games",
+      "title": "Dump your own games: discs, cartridges, BIOS and firmware",
+      "difficulty": "Intermediate",
+      "time_minutes": 18,
+      "summary": "Every honest path to playing an old game somewhere new starts the same way: the game leaves its cartridge or disc and becomes a file on your computer, copied from media you own, by you. This page walks the pattern system by system, at the level a careful first evening needs.",
+      "section_count": 9
+    },
+    {
+      "id": "re-ghidra-first-session",
+      "slug": "re-ghidra-first-session",
+      "title": "Ghidra: your first session with a game binary",
+      "difficulty": "Intermediate",
+      "time_minutes": 15,
+      "summary": "Ghidra is the free, open-source reverse-engineering suite the NSA released in 2019, and it is where most people first read the inside of a game: a real disassembler beside a real decompiler that reconstructs C-like code. This page gets you from install to a first honest hour with a binary you dumped yourself.",
+      "section_count": 6
+    },
+    {
+      "id": "re-matching-decomp",
+      "slug": "re-matching-decomp",
+      "title": "Matching decompilation: rebuilding a game's source, byte for byte",
+      "difficulty": "Intermediate",
+      "time_minutes": 14,
+      "summary": "A matching decompilation project rewrites a game's compiled code as human-readable C, checking every rewrite by compiling it and proving the output is identical to the original bytes. When one reaches 100 percent, the game exists as source code. This page explains how the trick works and how ordinary people contribute to it.",
+      "section_count": 5
+    },
+    {
+      "id": "re-recompilation",
+      "slug": "re-recompilation",
+      "title": "Static recompilation: the machine-code shortcut to native ports",
+      "difficulty": "Intermediate",
+      "time_minutes": 13,
+      "summary": "Static recompilation translates a game's machine code into C automatically, ahead of time, and lets a small runtime stand in for the console. It is the technique behind Zelda 64: Recompiled and Unleashed Recompiled, the two ports that changed what players expect from old games. Here is how it works and how to find out whether your game has one.",
+      "section_count": 6
     }
   ]
 }

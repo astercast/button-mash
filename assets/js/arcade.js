@@ -241,7 +241,7 @@
     if (dom) {
       var dl = document.createElement("p");
       dl.className = "tip-line tip-domain";
-      dl.textContent = "\u25B8 play at " + dom + " \u00B7 opens in a new tab";
+      dl.textContent = "\u25B8 maker's page of record: " + dom + " \u00B7 its file lives here";
       tip.appendChild(dl);
     }
     if (game.id) {

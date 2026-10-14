@@ -143,7 +143,7 @@ async function waitScrollY(page, min, timeout) {
     });
     check("16.12 tooltip opens on focus", t.open && t.expanded === "true",
       "open=" + t.open + " aria-expanded=" + t.expanded);
-    check("16.13 tooltip content", t.title.length > 0 && /play at .*opens in a new tab/.test(t.domain),
+    check("16.13 tooltip content", t.title.length > 0 && /maker's page of record: .*its file lives here/.test(t.domain),
       t.title + " / " + t.domain);
     check("16.14 tooltip closes on blur", t.closed, "closed=" + t.closed);
     check("16.15 zero pageerrors (tooltip)", errors.length === 0, errors.join(" | ") || "clean");

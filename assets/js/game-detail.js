@@ -177,8 +177,9 @@
 
     // THE CABINET. Where the machine lives, and who built it.
     var cabinetProse = game.title + " is a " + genreLabel(game.genre).toLowerCase() +
-      " game by " + game.maker + ". It lives at " + dom + ", the official page, and runs " +
-      "in the browser with nothing to install and no account to make. The controls are " +
+      " game by " + game.maker + ". The Curator's record names " + dom + " as the maker's " +
+      "own page; on Button Mash the game is shelved, journaled and tracked from this file, " +
+      "and games here are played here. The controls are " +
       lcFirst(game.controls || "whatever the page asks of you") + ".";
     box.appendChild(claimSection("The Cabinet.", game.title + " runs in a tab.", [cabinetProse]));
 

@@ -1,4 +1,4 @@
-/* Wave 12 pinned fixtures: Converter 3.0 core logic.
+/* Wave 12 pinned fixtures: Converter single-file core logic (4.0 keeps the 3.0 core).
    Run: node scripts/test_converter12.js   (exit 0 = all pass)
 
    Negative fixtures: wave 8's rejected boot-test candidates (mystic_q.gba,

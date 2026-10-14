@@ -15,7 +15,8 @@ PAGES = [
     ("games.html", "Game directory: curated free browser games, search + genre/tag filters, shareable filtered views"),
     ("game.html", "Game file: per-game metadata page (game.html?id=<id>), description, controls, kid-safe + multiplayer + vibe marks, curated-shelf cross-links, play-tracking"),
     ("player.html", "The Player: bring-your-own-file EmulatorJS console (20+ systems)"),
-    ("converter.html", "Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 4 compression levels + presets, honest ROM validation, custom titles + cover art, Player-mode deep links"),
+    ("converter.html", "Converter 4.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 4 compression levels + presets, honest ROM validation, custom titles + cover art, Player-mode deep links; content-first detection routes everything else: Player for discs and big cartridges, DOS corner for DOS games, decline cards with guide paths for PS2/GameCube/Wii/PS3/Xbox/360/Switch; M3U multi-disc playlist builder"),
+    ("dos.html", "The DOS corner: drop a ZIP or folder of your own DOS game, a .jsdos bundle is built in the browser (stored ZIP + generated dosbox.conf) and boots under DOSBox via js-dos; bundle export is the take-away file; bundles kept on-device in the content-addressed library"),
     ("party-planner.html", "Party planner 2.0: guest list + game voting + rotation scheduler + snack-break timer + party timeline (setup->games->tournament->free play), kids-party mode from the 75 kid-safe games, tournament handoff with real names (?names=), shareable party links"),
     ("game-night.html", "Game Night: the Curator deals your night, headcount, hours, mood in; a marquee lineup out (warm-up, main events, showdown/deep-dive, cool-down) with per-game session + skill-floor curator estimates, genre variety, timebox fit, ceremony reveal; client-side from the 213-game catalog"),
     ("tournament.html", "Tournament brackets 2.0: seeded 2-16 player single or double elimination, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, print + copy"),
@@ -24,7 +25,7 @@ PAGES = [
     ("kids.html", "Kids corner: kid-safe browser games, no chat, age bands 5-7 / 8-10 / 11-12, parent notes on every game, reduced-motion default"),
     ("parents.html", "Parent guide: how Kids corner curation works, the honesty policy, common-sense screen-time tips, the 'one more level' save-state trick, and the Exclusion Ledger, every game kept out of Kids corner with the audit's recorded reason, word for word"),
     ("collections.html", "Hand-built game collections"),
-    ("emulation.html", "Emulation hub: guides, explainers, legal sources, and Emulator Side-by-Side, any two of the 10 emulator picks record against record (systems, platforms, license, BIOS) with a record-backed verdict strip and a seeded surprise pairing (recorded seed + sorted ids, FNV-1a/mulberry32, same seed, same pairing)"),
+    ("emulation.html", "Emulation hub: guides, explainers, legal sources, and Emulator Side-by-Side, any two of the 11 emulator picks record against record (systems, platforms, license, BIOS) with a record-backed verdict strip and a seeded surprise pairing (recorded seed + sorted ids, FNV-1a/mulberry32, same seed, same pairing)"),
     ("monster-taming.html", "Monster-taming corner: original-IP creature games + GBA tech"),
     ("trophy-room.html", "The Trophy Room: persistent play-tracking, games played/beaten, per-genre completion dials, 16-prize achievement case, collection progress, JSON export/import"),
     ("passport.html", "Arcade Passport: a stamp booklet for the 24 collections, a stamp lands when a shelf actually scrolls into view on the Collections page, guide marks derive from the guides' own checklist store; browser-local only, no play telemetry"),
@@ -69,6 +70,11 @@ GUIDES = [
     ("guides/gamepad-setup.html", "Controllers in the browser: the gamepad setup guide"),
     ("guides/pico8-spotlight.html", "PICO-8 spotlight: the fantasy console's best corners"),
     ("guides/cheat-codes.html", "Cheat codes, decoded: Game Genie, GameShark & the Konami Code"),
+    ("guides/reverse-engineering.html", "Reverse engineering guide hub: the four paths for games a browser cannot convert (native emulation, matching decompilation, static recompilation, source ports)"),
+    ("guides/re-dump-your-games.html", "Dump your own games: discs, cartridges, BIOS and firmware, system by system"),
+    ("guides/re-ghidra-first-session.html", "Ghidra: your first session with a game binary"),
+    ("guides/re-matching-decomp.html", "Matching decompilation: rebuilding a game's source, byte for byte"),
+    ("guides/re-recompilation.html", "Static recompilation: N64Recomp, XenonRecomp, and the ports they made"),
 ]
 
 
@@ -88,7 +94,7 @@ def build_llms():
     lines.append(
         "The universal in-browser game console. Three centerpieces: (1) the Player: "
         "a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; "
-        "the user's file never leaves their machine); (2) the Converter 3.0, batch-convert GBA, GB/GBC, NES, SNES or Genesis files you own "
+        "the user's file never leaves their machine); (2) Converter 4.0, batch-convert GBA, GB/GBC, NES, SNES or Genesis files you own "
         "into self-contained playable .html browser games (client-side only, all five cores BIOS-free, honest validation, compression levels); "
         "(3) the Party Planner, headcount + time + vibe in, timed game-night rotation plan out. "
         f"Plus a curated directory of {ngames} free, legal browser games (every link verified live 2026-10-11), "
@@ -98,7 +104,7 @@ def build_llms():
     lines.append("")
     lines.append("## Play")
     lines.append("- player.html, the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.1: named save slots + auto-save, per-system keyboard+gamepad remap, cheat-code entry, display options (CRT/integer-scale/aspect, per-system quick settings), honest netplay notes)")
-    lines.append("- converter.html: Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 5 BIOS-free cores (mGBA/Gambatte/FCEUmm/Snes9x/Genesis Plus GX), 4 compression levels + presets, honest ROM validation (refuses empty/all-zero/bad-NES, warns on blank headers / missing SEGA string, keeps SNES copier headers), custom titles + cover art, ▶ Player mode deep links")
+    lines.append("- converter.html: Converter 4.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 5 BIOS-free cores (mGBA/Gambatte/FCEUmm/Snes9x/Genesis Plus GX), 4 compression levels + presets, honest ROM validation (refuses empty/all-zero/bad-NES, warns on blank headers / missing SEGA string, keeps SNES copier headers), custom titles + cover art, ▶ Player mode deep links")
     lines.append("- party-planner.html: Party planner 2.0: guest list (2-16 names), per-guest game voting (ties go to the earliest-picked game), fair rotation scheduler (hot-seat groups of 4), party timeline with snack break + tournament slot, snack-break timer, kids-party mode from the 75 kid-safe games, tournament handoff 2.0 (?players=N&names=A,B&games=ids&format=), shareable #p= party links, print party pack + copy-as-text")
     lines.append("- game-night.html: Game Night: the Curator deals your night, headcount (1-12) + time (15-240 min) + vibe + skill mix + kids flag in, marquee lineup out (warm-up, main events, showdown/deep-dive, cool-down) with per-game session + skill-floor curator estimates, genre variety, timebox fit, and a staggered marquee ceremony reveal; client-side from the 213-game verified catalog, nothing sent; dealt nights can be saved in the browser (bm.lineups.v1) and rematched with fresh picks on the same setup")
     lines.append("- tournament.html: Tournament 2.0: single- or double-elimination brackets for game night (2-16 players, manual seeding UI + randomize, honest byes, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids))")

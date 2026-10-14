@@ -5,6 +5,7 @@
   <url><loc>game.html</loc></url>
   <url><loc>player.html</loc></url>
   <url><loc>converter.html</loc></url>
+  <url><loc>dos.html</loc></url>
   <url><loc>party-planner.html</loc></url>
   <url><loc>game-night.html</loc></url>
   <url><loc>tournament.html</loc></url>
@@ -55,4 +56,9 @@
   <url><loc>guides/gamepad-setup.html</loc></url>
   <url><loc>guides/pico8-spotlight.html</loc></url>
   <url><loc>guides/cheat-codes.html</loc></url>
+  <url><loc>guides/reverse-engineering.html</loc></url>
+  <url><loc>guides/re-dump-your-games.html</loc></url>
+  <url><loc>guides/re-ghidra-first-session.html</loc></url>
+  <url><loc>guides/re-matching-decomp.html</loc></url>
+  <url><loc>guides/re-recompilation.html</loc></url>
 </urlset>

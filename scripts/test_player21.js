@@ -228,7 +228,9 @@ function idbGetBytes(page, key) {
   const passResult = await page.evaluate(() => window.BM21.autosavePass());
   check("autosave pass copies engine slot", passResult === true, String(passResult));
   await sleep(1500);
-  const autoBytes = await idbGetBytes(page, "testgame.bm-autosave.state");
+  /* Converter 4.0 (Phase 0): new autosaves are content-addressed,
+     "<gameID>.bm-autosave.state"; the legacy name-based key stays readable. */
+  const autoBytes = await idbGetBytes(page, "bm-9-test.bm-autosave.state");
   const autoLabel = await page.evaluate(() =>
     Array.from(document.querySelectorAll("#slots-list .slot-label")).map((e) => e.textContent));
   check("auto-save slot written + listed",

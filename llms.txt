@@ -1,10 +1,10 @@
 # Button Mash
 
-The universal in-browser game console. Three centerpieces: (1) the Player: a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) the Converter 3.0, batch-convert GBA, GB/GBC, NES, SNES or Genesis files you own into self-contained playable .html browser games (client-side only, all five cores BIOS-free, honest validation, compression levels); (3) the Party Planner, headcount + time + vibe in, timed game-night rotation plan out. Plus a curated directory of 213 free, legal browser games (every link verified live 2026-10-11), hand-built collections, genre deep dives, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads, ever.
+The universal in-browser game console. Three centerpieces: (1) the Player: a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) Converter 4.0, batch-convert GBA, GB/GBC, NES, SNES or Genesis files you own into self-contained playable .html browser games (client-side only, all five cores BIOS-free, honest validation, compression levels); (3) the Party Planner, headcount + time + vibe in, timed game-night rotation plan out. Plus a curated directory of 213 free, legal browser games (every link verified live 2026-10-11), hand-built collections, genre deep dives, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads, ever.
 
 ## Play
 - player.html, the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.1: named save slots + auto-save, per-system keyboard+gamepad remap, cheat-code entry, display options (CRT/integer-scale/aspect, per-system quick settings), honest netplay notes)
-- converter.html: Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 5 BIOS-free cores (mGBA/Gambatte/FCEUmm/Snes9x/Genesis Plus GX), 4 compression levels + presets, honest ROM validation (refuses empty/all-zero/bad-NES, warns on blank headers / missing SEGA string, keeps SNES copier headers), custom titles + cover art, ▶ Player mode deep links
+- converter.html: Converter 4.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 5 BIOS-free cores (mGBA/Gambatte/FCEUmm/Snes9x/Genesis Plus GX), 4 compression levels + presets, honest ROM validation (refuses empty/all-zero/bad-NES, warns on blank headers / missing SEGA string, keeps SNES copier headers), custom titles + cover art, ▶ Player mode deep links
 - party-planner.html: Party planner 2.0: guest list (2-16 names), per-guest game voting (ties go to the earliest-picked game), fair rotation scheduler (hot-seat groups of 4), party timeline with snack break + tournament slot, snack-break timer, kids-party mode from the 75 kid-safe games, tournament handoff 2.0 (?players=N&names=A,B&games=ids&format=), shareable #p= party links, print party pack + copy-as-text
 - game-night.html: Game Night: the Curator deals your night, headcount (1-12) + time (15-240 min) + vibe + skill mix + kids flag in, marquee lineup out (warm-up, main events, showdown/deep-dive, cool-down) with per-game session + skill-floor curator estimates, genre variety, timebox fit, and a staggered marquee ceremony reveal; client-side from the 213-game verified catalog, nothing sent; dealt nights can be saved in the browser (bm.lineups.v1) and rematched with fresh picks on the same setup
 - tournament.html: Tournament 2.0: single- or double-elimination brackets for game night (2-16 players, manual seeding UI + randomize, honest byes, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids))
@@ -47,6 +47,11 @@ The universal in-browser game console. Three centerpieces: (1) the Player: a bri
 - guides/gamepad-setup.html, Controllers in the browser: the gamepad setup guide
 - guides/pico8-spotlight.html, PICO-8 spotlight: the fantasy console's best corners
 - guides/cheat-codes.html, Cheat codes, decoded: Game Genie, GameShark & the Konami Code
+- guides/reverse-engineering.html, Reverse engineering guide hub: the four paths for games a browser cannot convert (native emulation, matching decompilation, static recompilation, source ports)
+- guides/re-dump-your-games.html, Dump your own games: discs, cartridges, BIOS and firmware, system by system
+- guides/re-ghidra-first-session.html, Ghidra: your first session with a game binary
+- guides/re-matching-decomp.html, Matching decompilation: rebuilding a game's source, byte for byte
+- guides/re-recompilation.html, Static recompilation: N64Recomp, XenonRecomp, and the ports they made
 
 ## Games (213 total)
 
@@ -291,7 +296,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player: a bri
 - The Curator's shelf: Eight games I'd recommend to a friend: TETR.IO; 2048; skribbl.io; Cookie Clicker; Sort the Court; Canabalt; Run 3; shapez.io
 - New here? Start here: Seven games that explain this site: Wordle; 2048; skribbl.io; TETR.IO; Cookie Clicker; Krunker; AdVenture Capitalist
 
-## Emulators (10 picks, software only)
+## Emulators (11 picks, software only)
 
 - EmulatorJS [NES, SNES, GB, GBC, GBA, Genesis, Master System, Game Gear, N64, NDS, PlayStation, Atari, and more], The engine behind this site's Player. 20+ systems in a web page; embed on any site. https://emulatorjs.org/
 - RetroArch [Dozens via cores], All-in-one frontend: install once, add one core per system. Shaders, netplay, run-ahead latency reduction, RetroAchievements. https://www.retroarch.com/
@@ -303,6 +308,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player: a bri
 - PPSSPP [PSP], Plays the PSP library at HD resolutions on almost anything. https://www.ppsspp.org/
 - Dolphin [GameCube, Wii], GameCube and Wii emulation at HD resolutions. One of the most polished emulators ever made. https://dolphin-emu.org/
 - webretro [Many via libretro cores], RetroArch cores in the browser via a clean web frontend. Good alternative embedding option. https://github.com/BinBashBanana/webretro
+- js-dos (DOSBox) [DOS], The engine behind the DOS corner: DOSBox compiled to WebAssembly. Drop a ZIP or folder of your own DOS game; the corner builds a .jsdos bundle in your browser and boots it. DOSBox-X exists for Windows 3.x guests and is reserved, not default. https://js-dos.com/
 
 ## API
 - data/v1/index.json, endpoint catalog

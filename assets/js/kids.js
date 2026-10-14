@@ -48,11 +48,9 @@
       note.appendChild(BM.el('p', null, g.parent_note));
       el.appendChild(note);
 
-      var play = BM.el('a', 'kid-play', '▶ Play ' + g.title);
-      play.href = g.url;
-      play.target = '_blank';
-      play.rel = 'noopener noreferrer';
-      play.setAttribute('aria-label', 'Play ' + g.title + ' in a new tab');
+      var play = BM.el('a', 'kid-play', '▶ Open ' + g.title);
+      play.href = 'game.html?id=' + encodeURIComponent(g.id);
+      play.setAttribute('aria-label', 'Open the Button Mash page for ' + g.title);
       el.appendChild(play);
       return el;
     }

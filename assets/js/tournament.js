@@ -413,9 +413,8 @@
     if (gid && catalogById[gid]) {
       var link = document.createElement('a');
       link.className = 't-game-link';
-      link.href = catalogById[gid].url;
-      link.target = '_blank'; link.rel = 'noopener';
-      link.textContent = 'Open ' + gameLabel(gid) + ' ↗';
+      link.href = 'game.html?id=' + encodeURIComponent(gid);
+      link.textContent = 'Open ' + gameLabel(gid) + ' »';
       wrap.appendChild(link);
     }
     wrap.appendChild(buildVotePanel(state, cfg, round));

@@ -170,10 +170,8 @@
       champEl.appendChild(el('p', 'tn-champion-desc', champ.description));
       var ru = TN.runnerUp(night);
       if (ru) champEl.appendChild(el('p', 'tn-champion-sub', 'Beat ' + ru.title + ' in the final.'));
-      var play = el('a', 'btn btn-primary', '▶ Play ' + champ.title);
-      play.href = champ.url;
-      play.target = '_blank';
-      play.rel = 'noopener noreferrer';
+      var play = el('a', 'btn btn-primary', '▶ Its file on Button Mash');
+      play.href = 'game.html?id=' + encodeURIComponent(champ.id);
       champEl.appendChild(play);
     } else {
       champEl.hidden = true;

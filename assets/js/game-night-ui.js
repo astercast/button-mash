@@ -142,8 +142,8 @@
     } else {
       html += '<ol class="ql-lineup">';
       r.lineup.forEach(function (pick, i) {
-        html += '<li class="ql-pick"><h3>' + (i + 1) + '. <a href="' + esc(pick.url) +
-          '" target="_blank" rel="noopener noreferrer">' + esc(pick.title) + '</a></h3>' +
+        html += '<li class="ql-pick"><h3>' + (i + 1) + '. <a href="' + esc('game.html?id=' + encodeURIComponent(pick.game_id || pick.id || '')) +
+          '">' + esc(pick.title) + '</a></h3>' +
           '<p class="ql-meta">' + esc(pick.genre) + ' · slot ' + pick.slot_minutes + ' min · score ' +
           pick.score + '/100' + (pick.kid_safe ? ' · kid-safe' : '') + '</p>' +
           '<div class="ql-scorebar" role="img" aria-label="Fit score ' + pick.score + ' of 100">' +

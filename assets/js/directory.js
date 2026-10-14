@@ -293,7 +293,7 @@
     if (randomBtn) {
       randomBtn.addEventListener('click', function () {
         var g = BM.randomGame(filtered().length ? filtered() : games);
-        if (g) window.open(g.url, '_blank', 'noopener,noreferrer');
+        if (g) window.location.href = 'game.html?id=' + encodeURIComponent(g.id);
       });
     }
     document.addEventListener('bm:favs-changed', function () {
@@ -331,13 +331,13 @@
     gotdBox.appendChild(BM.el('span', 'gotd-label', 'Game of the day'));
     var h = BM.el('h3');
     var a = BM.el('a', null, pick.title);
-    a.href = pick.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    a.href = 'game.html?id=' + encodeURIComponent(pick.id);
     h.appendChild(a);
     gotdBox.appendChild(h);
     gotdBox.appendChild(BM.el('p', null, pick.description));
     var row = BM.el('div', 'hero-actions');
-    var play = BM.el('a', 'btn btn-primary btn-sm', '» Play now');
-    play.href = pick.url; play.target = '_blank'; play.rel = 'noopener noreferrer';
+    var play = BM.el('a', 'btn btn-primary btn-sm', '» Open its file');
+    play.href = 'game.html?id=' + encodeURIComponent(pick.id);
     var browse = BM.el('a', 'btn btn-ghost btn-sm', 'Browse all games');
     browse.href = 'games.html';
     row.appendChild(play); row.appendChild(browse);

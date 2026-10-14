@@ -26,7 +26,7 @@
  "@context": "https://schema.org",
  "@type": "ItemList",
  "name": "Button Mash emulator picks",
- "numberOfItems": 10,
+ "numberOfItems": 11,
  "itemListElement": [
   {
    "@type": "ListItem",
@@ -87,6 +87,12 @@
    "position": 10,
    "name": "webretro",
    "url": "https://github.com/BinBashBanana/webretro"
+  },
+  {
+   "@type": "ListItem",
+   "position": 11,
+   "name": "js-dos (DOSBox)",
+   "url": "https://js-dos.com/"
   }
  ]
 }
@@ -111,6 +117,7 @@
 <link rel="stylesheet" href="assets/css/emulator-versus.css">
 <!-- bm-r21:start -->
 <link rel="stylesheet" href="assets/css/redesign.css">
+<link rel="stylesheet" href="assets/css/cabinet.css">
 <!-- bm-r21:end -->
 </head>
 <body>
@@ -202,7 +209,7 @@
   <section class="section" id="side-by-side">
     <div class="wrap">
       <div class="section-head"><h2><span class="tick">»</span> Emulators, side by side</h2><span class="results-count">the 10 picks, record against record</span></div>
-      <p class="vs-note">The guides above argue in prose; this is the fight card. Pick any two of the cabinet's <strong>10 emulator picks</strong> and their real records sit side by side, systems, platforms, license, the BIOS story, each project's own notes. The verdict strip reports only what the records support: a bigger listed footprint, a BIOS one side needs and the other doesn't, a license difference. No scores, no rankings, no winner. Where a record describes its reach in words ("Dozens via cores"), the words are shown verbatim and left uncounted, a shrug is never compared against a number. Games get the same treatment at <a href="versus.html">Versus</a>.</p>
+      <p class="vs-note">The guides above argue in prose; this is the fight card. Pick any two of the cabinet's <strong>11 emulator picks</strong> and their real records sit side by side, systems, platforms, license, the BIOS story, each project's own notes. The verdict strip reports only what the records support: a bigger listed footprint, a BIOS one side needs and the other doesn't, a license difference. No scores, no rankings, no winner. Where a record describes its reach in words ("Dozens via cores"), the words are shown verbatim and left uncounted, a shrug is never compared against a number. Games get the same treatment at <a href="versus.html">Versus</a>.</p>
       <div class="vs-pickers">
         <div class="vs-pick">
           <label for="ev-a"><strong>Corner A</strong></label>
@@ -322,8 +329,14 @@
 
   <section class="section" id="deep-dives">
     <div class="wrap">
-      <div class="section-head"><h2><span class="tick">»</span> Deep-dive guides</h2><span class="results-count">the knowledge hub · 9 guides</span></div>
+      <div class="section-head"><h2><span class="tick">»</span> Deep-dive guides</h2><span class="results-count">the knowledge hub · 14 guides</span></div>
       <div class="grid cols-3">
+        <article class="feature-card">
+          <div class="icon" aria-hidden="true">🧬</div>
+          <h3>When a browser cannot convert it</h3>
+          <p>The reverse-engineering guide: for PS2, GameCube, Wii, PS3, Xbox, 360 and the rest, the four working paths (native emulation, matching decompilation, static recompilation, source ports), starting from your own dumped copy.</p>
+          <a class="card-link" href="guides/reverse-engineering.html">Read the guide ›</a>
+        </article>
         <article class="feature-card">
           <div class="icon" aria-hidden="true">🛠️</div>
           <h3>Make games for dead consoles</h3>

@@ -270,7 +270,7 @@
       var ru = runnerUp(night);
       lines.push('🏆 CHAMPION: ' + champ.title + (ru ? ' (def. ' + ru.title + ' in the final)' : ''));
       lines.push(champ.description);
-      lines.push('Play it: ' + champ.url);
+      lines.push('On Button Mash: game.html?id=' + champ.id);
     } else {
       var p = progress(night);
       lines.push('No champion yet, ' + p.decided + ' of ' + p.total + ' matches decided. The night is still on.');

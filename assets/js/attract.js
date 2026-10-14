@@ -117,12 +117,9 @@
       game.tags.slice(0, 5).forEach(function (t) { tags.appendChild(el("span", "tag-mini", t)); });
       s.appendChild(tags);
     }
-    var dom = domainOf(game.url);
-    var play = el("a", "demo-play", "\u00BB PLAY AT " + (dom || "THE ARCADE").toUpperCase());
-    play.href = game.url;
-    play.target = "_blank";
-    play.rel = "noopener noreferrer";
-    play.setAttribute("aria-label", "Play " + game.title + " at " + (dom || "its site") + " (opens in a new tab)");
+    var play = el("a", "demo-play", "\u00BB OPEN ITS FILE ON BUTTON MASH");
+    play.href = "game.html?id=" + encodeURIComponent(game.id);
+    play.setAttribute("aria-label", "Open the Button Mash file for " + game.title);
     s.appendChild(play);
     return s;
   }
@@ -185,7 +182,7 @@
     sorted.forEach(function (g) {
       var li = document.createElement("li");
       var a = el("a", null, g.title);
-      a.href = g.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+      a.href = "game.html?id=" + encodeURIComponent(g.id);
       li.appendChild(a);
       li.appendChild(el("span", "genre-tag genre-" + g.genre, g.genre));
       if (kidSafe.has(g.id)) li.appendChild(el("span", "kid-badge", "\u2022 Kid safe"));

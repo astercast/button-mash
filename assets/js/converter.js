@@ -71,7 +71,9 @@
       queued: ['Queued', 'q-queued'], reading: ['Reading…', 'q-active'],
       validating: ['Checking…', 'q-active'], encoding: ['Encoding…', 'q-active'],
       assembling: ['Assembling…', 'q-active'], done: ['Done ✓', 'q-done'],
-      error: ['Failed', 'q-error'], cancelled: ['Cancelled', 'q-cancelled']
+      error: ['Failed', 'q-error'], cancelled: ['Cancelled', 'q-cancelled'],
+      declined: ['Guide path', 'q-info'], dos: ['DOS corner', 'q-info'],
+      player: ['Player', 'q-info']
     };
     var m = map[status] || [status, ''];
     return '<span class="q-chip ' + m[1] + '">' + m[0] + '</span>';
@@ -102,7 +104,7 @@
         (it.status === 'done'
           ? ' <button type="button" class="btn btn-small q-dl" data-qdl="' + it.id + '">⬇ Download (' + C.fmtBytes(it.outSize) + ')</button>'
           : '') +
-        ((!running && (it.status === 'queued' || it.status === 'error' || it.status === 'cancelled'))
+        ((!running && (it.status === 'queued' || it.status === 'error' || it.status === 'cancelled' || it.status === 'declined' || it.status === 'dos' || it.status === 'player'))
           ? ' <button type="button" class="btn btn-small q-rm" data-qrm="' + it.id + '">Remove</button>'
           : '') +
         '</div>' + titleInput;
@@ -146,6 +148,12 @@
 
     list.querySelectorAll('[data-qrm]').forEach(function (b) {
       b.addEventListener('click', function () { removeItem(b.getAttribute('data-qrm')); });
+    });
+    list.querySelectorAll('[data-qdos]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var it = findItem(b.getAttribute('data-qdos'));
+        if (it && window.BMConv4) window.BMConv4.stageDosAndGo(it.dosFiles || [it.file], null);
+      });
     });
     list.querySelectorAll('[data-qdl]').forEach(function (b) {
       b.addEventListener('click', function () { downloadItem(findItem(b.getAttribute('data-qdl'))); });
@@ -230,6 +238,52 @@
     render();
   }
 
+  /* Converter 4.0: files outside the five single-file profiles are
+     identified by content (converter4-core) and routed honestly:
+     a decline card for the systems no browser can run, the DOS
+     corner for DOS games, the Player for everything playable. */
+  var C4 = window.Converter4Core || null;
+  async function routeForeignFile(it) {
+    if (!C4 || !window.BMConv4) { it.status = 'error'; render(); return; }
+    try {
+      var head = new Uint8Array(await it.file.slice(0, 2 * 1024 * 1024).arrayBuffer());
+      var det = C4.detect({ name: it.file.name, size: it.file.size, head: head });
+      if (det.kind === 'zip') {
+        var buf = new Uint8Array(await it.file.arrayBuffer());
+        var entries = C4.zipList(buf);
+        var names = entries ? entries.map(function (e) { return e.name; }) : [];
+        var fdet = C4.detectFolder(names);
+        if (fdet.kind === 'decline') det = fdet;
+        else if (fdet.kind === 'dos') det = { kind: 'dos', via: fdet.via };
+        else det = { kind: 'zip-rom', via: 'ZIP archive' };
+      }
+      if (det.kind === 'decline') {
+        it.status = 'declined';
+        it.message = { kind: 'info', text: '<strong>' + C.escHtml(det.system) + '.</strong> ' + C.escHtml(det.headline) + ' The full answer is in the card below the queue.' };
+        var host = $('conv-decline');
+        if (host) window.BMConv4.showDecline(host, det, it.file.name);
+      } else if (det.kind === 'dos') {
+        it.status = 'dos';
+        it.dosFiles = [it.file];
+        it.message = { kind: 'info', text: '<strong>A DOS game.</strong> The single-file converter is for cartridges; DOS games get wrapped into a playable <code>.jsdos</code> bundle in the DOS corner instead. <button type="button" class="btn btn-small q-dos-go" data-qdos="' + it.id + '">Take it to the DOS corner</button>' };
+      } else if (det.kind === 'play' || det.kind === 'disc-picker') {
+        it.status = 'player';
+        var core = det.core || 'psx';
+        it.message = { kind: 'info', text: '<strong>Playable here, just not as a single file.</strong> Disc images and big cartridges are not embedded into an <code>.html</code> (a PlayStation disc would make a ~900MB web page). The <a href="player.html?core=' + C.escHtml(core) + '">Player</a> runs this straight from your disk, same legal lane, nothing uploads.' };
+      } else if (det.kind === 'zip-rom') {
+        it.status = 'player';
+        it.message = { kind: 'info', text: '<strong>A ZIP archive.</strong> Unzip it and drop the game file itself here, or take the whole ZIP to the <a href="player.html">Player</a>, which reads inside archives. DOS game ZIPs belong in the <a href="dos.html">DOS corner</a>.' };
+      } else {
+        it.status = 'error';
+        it.message = { kind: 'error', text: '<strong>Not a supported ROM, and not one we recognise.</strong> This converter handles <code>.gba</code>, <code>.gb</code>/<code>.gbc</code>, <code>.nes</code>, <code>.sfc</code>/<code>.smc</code> and <code>.md</code>/<code>.gen</code> files. Consoles and discs belong in the <a href="player.html">Player</a>, DOS games in the <a href="dos.html">DOS corner</a>, and the systems no browser can run get their honest answer in the <a href="guides/reverse-engineering.html">guide</a>.' };
+      }
+    } catch (e) {
+      it.status = 'error';
+      it.message = { kind: 'error', text: '<strong>Could not identify this file.</strong> Try the <a href="player.html">Player</a>, which accepts 20+ systems by extension.' };
+    }
+    render();
+  }
+
   function addFiles(fileList) {
     var files = Array.prototype.slice.call(fileList || []);
     var added = 0;
@@ -244,8 +298,9 @@
         onUpdate: function () { render(); }
       };
       if (!profile) {
-        it.status = 'error';
-        it.message = { kind: 'error', text: '<strong>Not a supported ROM.</strong> This converter handles <code>.gba</code> (Game Boy Advance), <code>.gb</code>/<code>.gbc</code> (Game Boy / Color), <code>.nes</code> (NES), <code>.sfc</code>/<code>.smc</code> (Super Nintendo) and <code>.md</code>/<code>.gen</code> (Sega Genesis) files. For anything else, zipped files, other systems, use the <a href="player.html">Player</a> instead (20+ systems, straight from your own files).' };
+        it.status = 'validating';
+        it.message = { kind: 'info', text: 'Identifying this file by its contents…' };
+        pendingChecks.push(routeForeignFile(it));
       } else if (file.size > profile.max) {
         it.status = 'error';
         it.message = { kind: 'error', text: '<strong>Too large:</strong> ' + C.escHtml(file.name) + ' is ' + C.fmtBytes(file.size) + ', bigger than any real ' + C.escHtml(profile.system) + ' cartridge (' + C.fmtBytes(profile.max) + '). Play it in <a href="player.html">Player mode</a> instead, no embedding needed.' };
@@ -467,6 +522,74 @@
     });
   }
 
+  /* ---- M3U multi-disc builder (Converter 4.0, dossier 3.5) ----
+     Drop the discs of one PlayStation game; get back a tidy .m3u
+     playlist the Player boots with disc-swap, or send the whole set
+     to the Player in one go. The playlist is plain text, built here. */
+  var m3uFiles = [];
+  function renderM3u() {
+    var list = $('m3u-list'), dl = $('m3u-download'), play = $('m3u-play'), note = $('m3u-note');
+    if (!list) return;
+    if (C4) m3uFiles.sort(function (a, b) { return C4.discSortKey(a.name) - C4.discSortKey(b.name); });
+    list.innerHTML = '';
+    m3uFiles.forEach(function (f, i) {
+      var li = document.createElement('li');
+      li.textContent = 'Disc ' + (i + 1) + ': ' + f.name + ' (' + C.fmtBytes(f.size) + ') ';
+      var rm = document.createElement('button');
+      rm.type = 'button'; rm.className = 'btn btn-small'; rm.textContent = 'Remove';
+      rm.addEventListener('click', function () { m3uFiles.splice(i, 1); renderM3u(); });
+      li.appendChild(rm);
+      list.appendChild(li);
+    });
+    var ready = m3uFiles.length >= 2;
+    if (dl) dl.disabled = !ready;
+    if (play) play.disabled = !ready;
+    if (note) note.textContent = ready
+      ? m3uFiles.length + ' discs, in order. The playlist names the files, so keep the discs and the .m3u together in one folder.'
+      : 'Drop at least two disc files (.cue, .chd, .iso, .img, or .bin with its .cue) of the same game.';
+  }
+  function bindM3u() {
+    var drop = $('m3u-drop'), input = $('m3u-file');
+    if (!drop || !input) return;
+    ['dragenter', 'dragover'].forEach(function (ev) {
+      drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('dragging'); });
+    });
+    ['dragleave', 'drop'].forEach(function (ev) {
+      drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('dragging'); });
+    });
+    drop.addEventListener('drop', function (e) {
+      var fs = e.dataTransfer && e.dataTransfer.files;
+      if (fs) addM3uFiles(fs);
+    });
+    drop.addEventListener('click', function (e) { if (e.target !== input) input.click(); });
+    input.addEventListener('change', function () { addM3uFiles(input.files); input.value = ''; });
+    $('m3u-download').addEventListener('click', function () {
+      if (!C4 || m3uFiles.length < 2) return;
+      var base = m3uFiles[0].name.replace(/\.[^.]+$/, '').replace(/\s*\(?disc\s*\d+\)?/i, '').trim() || 'game';
+      var text = C4.buildM3U(m3uFiles.map(function (f) { return f.name; }));
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([text], { type: 'audio/x-mpegurl' }));
+      a.download = base + '.m3u';
+      document.body.appendChild(a); a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+      announce('Playlist downloaded: ' + a.download);
+    });
+    $('m3u-play').addEventListener('click', function () {
+      if (!window.BMLibrary || m3uFiles.length < 2) return;
+      var recs = m3uFiles.map(function (f) { return { name: f.name, blob: f }; });
+      window.BMLibrary.stageHandoff('player-set', { files: recs, at: Date.now() })
+        .then(function () { window.location.href = 'player.html'; })
+        .catch(function () { announce('Could not stage the set. Drop the discs on the Player page instead; it accepts the whole set at once.'); });
+    });
+    renderM3u();
+  }
+  function addM3uFiles(fileList) {
+    Array.prototype.slice.call(fileList || []).forEach(function (f) {
+      if (f && /\.(cue|bin|chd|iso|img)$/i.test(f.name)) m3uFiles.push(f);
+    });
+    renderM3u();
+  }
+
   /* ---- inputs ---- */
 
   function bindDrop(zone, input) {
@@ -540,6 +663,7 @@
       if (note) note.textContent = 'Compression is unavailable (engine failed to load), builds will use plain base64.';
     }
     bindDrop($('conv-drop'), $('conv-file'));
+    bindM3u();
     bindCover();
     $('convert-btn').addEventListener('click', runBatch);
     var cancelBtn = $('conv-cancel');

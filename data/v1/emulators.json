@@ -1,10 +1,10 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-14T09:50:38Z",
+  "generated_at": "2026-10-14T12:08:20Z",
   "endpoint": "emulators",
   "description": "Emulator software picks (no ROMs, software only).",
-  "count": 10,
+  "count": 11,
   "emulators": [
     {
       "bios_required": false,
@@ -30,7 +30,20 @@
         "Atari",
         "and more"
       ],
-      "url": "https://emulatorjs.org/"
+      "url": "https://emulatorjs.org/",
+      "distribution": "Loaded at runtime from the EmulatorJS CDN (cdn.emulatorjs.org, stable channel); cores are not redistributed or self-hosted by Button Mash. The GPL allows self-hosting; the site stays on the CDN deliberately (research dossier section 3.4), and every core's own licence stands.",
+      "core_licenses": {
+        "engine (loader + frontend)": "GPL-3.0",
+        "mGBA (GBA)": "MPL-2.0",
+        "Gambatte (GB/GBC)": "GPL-2.0",
+        "FCEUmm (NES)": "GPL-2.0",
+        "Snes9x (SNES)": "Snes9x licence: free for non-commercial use; commercial use needs the authors' written permission",
+        "Genesis Plus GX (Genesis / Sega CD)": "Modified BSD-style licence, non-commercial use (libretro port)",
+        "PCSX-ReARMed (PlayStation)": "GPL-2.0",
+        "melonDS (Nintendo DS)": "GPL-3.0",
+        "Mupen64Plus-Next (N64)": "GPL-3.0",
+        "DOSBox (DOS, also in the DOS corner via js-dos)": "GPL-2.0"
+      }
     },
     {
       "bios_required": false,
@@ -49,7 +62,8 @@
       "systems": [
         "Dozens via cores"
       ],
-      "url": "https://www.retroarch.com/"
+      "url": "https://www.retroarch.com/",
+      "distribution": "Reference only: Button Mash links the project's own page and distributes nothing."
     },
     {
       "bios_required": false,
@@ -67,7 +81,8 @@
         "GB",
         "GBC"
       ],
-      "url": "https://mgba.io/"
+      "url": "https://mgba.io/",
+      "distribution": "Reference only: Button Mash links the project's own page and distributes nothing."
     },
     {
       "bios_required": false,
@@ -84,7 +99,8 @@
         "GB",
         "GBC"
       ],
-      "url": "https://sameboy.github.io/"
+      "url": "https://sameboy.github.io/",
+      "distribution": "Reference only: Button Mash links the project's own page and distributes nothing."
     },
     {
       "bios_required": false,
@@ -102,7 +118,8 @@
         "GB",
         "GBC"
       ],
-      "url": "https://mesen.ca/"
+      "url": "https://mesen.ca/",
+      "distribution": "Reference only: Button Mash links the project's own page and distributes nothing."
     },
     {
       "bios_note": "Dump from your own PlayStation hardware. Never download one.",
@@ -120,7 +137,8 @@
       "systems": [
         "PlayStation"
       ],
-      "url": "https://www.duckstation.org/"
+      "url": "https://www.duckstation.org/",
+      "distribution": "Reference only: Button Mash links the project's own page and distributes nothing. Its CC BY-NC-ND licence is exactly why the web PS1 core here is PCSX-ReARMed instead."
     },
     {
       "bios_note": "Dump from your own PS2 hardware. Never download one.",
@@ -137,7 +155,8 @@
       "systems": [
         "PlayStation 2"
       ],
-      "url": "https://pcsx2.net/"
+      "url": "https://pcsx2.net/",
+      "distribution": "Reference only: Button Mash links the project's own page and distributes nothing."
     },
     {
       "bios_required": false,
@@ -155,7 +174,8 @@
       "systems": [
         "PSP"
       ],
-      "url": "https://www.ppsspp.org/"
+      "url": "https://www.ppsspp.org/",
+      "distribution": "Reference only: Button Mash links the project's own page and distributes nothing."
     },
     {
       "bios_required": false,
@@ -173,7 +193,8 @@
         "GameCube",
         "Wii"
       ],
-      "url": "https://dolphin-emu.org/"
+      "url": "https://dolphin-emu.org/",
+      "distribution": "Reference only: Button Mash links the project's own page and distributes nothing."
     },
     {
       "bios_required": false,
@@ -187,7 +208,23 @@
       "systems": [
         "Many via libretro cores"
       ],
-      "url": "https://github.com/BinBashBanana/webretro"
+      "url": "https://github.com/BinBashBanana/webretro",
+      "distribution": "Reference only: Button Mash links the project's own page and distributes nothing."
+    },
+    {
+      "bios_required": false,
+      "id": "js-dos",
+      "license": "GPL-2.0",
+      "name": "js-dos (DOSBox)",
+      "notes": "The engine behind the DOS corner: DOSBox compiled to WebAssembly. Drop a ZIP or folder of your own DOS game; the corner builds a .jsdos bundle in your browser and boots it. DOSBox-X exists for Windows 3.x guests and is reserved, not default.",
+      "platforms": [
+        "Web"
+      ],
+      "systems": [
+        "DOS"
+      ],
+      "url": "https://js-dos.com/",
+      "distribution": "Loaded at runtime from the js-dos CDN (v8.js-dos.com); not redistributed by Button Mash. Bundles built from the visitor's own files are the visitor's."
     }
   ]
 }

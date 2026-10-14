@@ -113,8 +113,9 @@ function fakeStorage() {
     champ.url === byIdMap[champ.id].url && champ.description === byIdMap[champ.id].description,
     "champion: " + (champ && champ.title) + ", its card data is the catalog's, verbatim");
   const card = TN.resultsCard(night);
-  check("the results card lists every decided match and the champion's play URL",
-    card.includes("CHAMPION: " + champ.title) && card.includes("Play it: " + champ.url) &&
+  check("the results card lists every decided match and the champion's on-site reference (R23 sweep)",
+    card.includes("CHAMPION: " + champ.title) && card.includes("On Button Mash: game.html?id=" + champ.id) &&
+    !card.includes(champ.url) &&
     card.includes("def. ") && card.includes(smallest.title),
     "source, results, champion, nothing on the card the bracket did not produce");
 
@@ -194,8 +195,9 @@ function fakeStorage() {
     !!storedRaw && JSON.parse(storedRaw).entrants.length === smallest.game_ids.length,
     "bm.tournament-night.v1 holds the night");
   const cardText = await page.$eval("#tn-card-text", (el) => el.textContent);
-  check("page: the results card names the champion and its real play URL",
-    cardText.includes("CHAMPION: " + champTitle) && cardText.includes(byIdMap[smallest.game_ids[0]].url),
+  check("page: the results card names the champion and its on-site reference (R23 sweep)",
+    cardText.includes("CHAMPION: " + champTitle) && cardText.includes("game.html?id=" + smallest.game_ids[0]) &&
+    !cardText.includes(byIdMap[smallest.game_ids[0]].url),
     cardText.split("\n").slice(-3).join(" | "));
 
   // Reload: the night resumes exactly where it was left.

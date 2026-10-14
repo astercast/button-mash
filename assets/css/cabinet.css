@@ -1,0 +1,419 @@
+/* ============================================================
+   CABINET (Rotation 23, FINDINGS §5.6 "the cabinet, unboxed")
+   Loaded LAST on every page. This layer retires the glass era:
+   flat twilight-indigo ground, ONE accent (marquee amber, whose
+   job is "playable here"), pixel display face for headlines,
+   Space Grotesk demoted to data/body, cabinet bezels + hard
+   shadows instead of frosted glass and gradient-lit borders.
+   The attract loop is the signature motion; nothing else glows.
+   ============================================================ */
+
+:root {
+  --font-pixel: "Press Start 2P", "Arial Black", system-ui, sans-serif;
+  --bg: #17182b;
+  --bg-2: #101120;
+  --abyss: #0b0b16;
+  --panel: #1e1f36;
+  --panel-2: #23243c;
+  --panel-3: #2a2b47;
+  --edge: #3a3b5e;
+  --edge-bright: #55567f;
+  --ink: #f5f2e7;
+  --ink-dim: #cfccdd;
+  --ink-mute: #a09cb8;
+  --accent: #ffb02e;
+  --accent-deep: #d98e12;
+  --accent-ink: #2a1c02;
+  --neon-pink: #ffb02e;      /* legacy names now resolve to the one accent */
+  --neon-cyan: #ffb02e;
+  --neon-lime: #ffb02e;
+  --neon-amber: #ffb02e;
+  --neon-purple: #ffb02e;
+  --neon-red: #ffb02e;
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 12px;
+  --r-pill: 10px;
+  --shadow-card: 6px 6px 0 rgba(7, 7, 16, .55);
+  --shadow-pop: 10px 10px 0 rgba(7, 7, 16, .5);
+  --shadow-marquee: 8px 8px 0 rgba(7, 7, 16, .55);
+  --glow-pink: none;
+  --glow-cyan: none;
+  --glow-lime: none;
+  --glow-amber: none;
+  --ring: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent);
+}
+
+/* ---------- ground: flat, coloured, no wash ---------- */
+body {
+  background: var(--bg);
+  background-image: none;
+}
+main::before { content: none; }
+
+/* ---------- header: flat bar, one amber rule ---------- */
+.site-header {
+  background: var(--bg-2);
+  border-bottom: 2px solid var(--edge);
+  border-image: none;
+}
+.brand { text-shadow: none; }
+.brand em { color: var(--accent); text-shadow: none; }
+.site-nav > ul a { color: var(--ink-dim); }
+.site-nav > ul a:hover { color: var(--accent); text-shadow: none; }
+.nav-cta,
+a.nav-cta {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 2px solid var(--abyss);
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 var(--abyss);
+  text-shadow: none;
+}
+.nav-cta:hover { background: var(--accent-deep); color: var(--accent-ink); }
+.fx-toggle { border-color: var(--edge); border-radius: 8px; }
+.fx-led { background: var(--accent); box-shadow: none; }
+.fx-toggle[aria-pressed="false"] .fx-led { background: var(--ink-mute); box-shadow: none; }
+
+/* ---------- footer: flat, quiet ---------- */
+.site-footer { background: var(--bg-2); border-top: 2px solid var(--edge); }
+.coin-plate span { text-shadow: none; color: var(--ink-mute); }
+
+/* ---------- type: pixel for headlines, Grotesk for data ---------- */
+h1, h2, .section-head h2, .page-head h1, .hero-title {
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  letter-spacing: .01em;
+  line-height: 1.35;
+  text-shadow: none;
+}
+.section-head h2 { font-size: clamp(.95rem, 2.2vw, 1.3rem); }
+.section-head .tick { color: var(--accent); text-shadow: none; }
+.results-count { color: var(--ink-mute); font-family: var(--font-body); letter-spacing: .02em; }
+.kicker, .hero-eyebrow, .guide-page .kicker {
+  color: var(--accent);
+  font-family: var(--font-pixel);
+  font-size: .68rem;
+  text-shadow: none;
+  letter-spacing: .04em;
+}
+
+/* ---------- hero: masthead, then the cabinet, unboxed ---------- */
+.hero {
+  padding: 1.6rem 0 0;
+  background: var(--bg);
+  border-bottom: none;
+}
+.hero-masthead { text-align: left; }
+.hero-eyebrow { margin: 0 0 .9rem; }
+.hero-title {
+  font-size: clamp(1.7rem, 5.2vw, 3.1rem);
+  margin: 0 0 1.1rem;
+  color: var(--ink);
+}
+.hero-title em { font-style: normal; color: var(--accent); }
+.hero-cta { display: flex; flex-wrap: wrap; gap: .6rem 1.2rem; align-items: center; }
+.hero-cta-quiet {
+  font-family: var(--font-pixel); font-size: .68rem; color: var(--ink-dim);
+  text-decoration: none; border-bottom: 2px solid var(--edge);
+  padding-bottom: .2rem;
+}
+.hero-cta-quiet:hover { color: var(--accent); border-color: var(--accent); }
+.stats-line {
+  margin: 1.15rem 0 0;
+  color: var(--ink-dim);
+  font-size: .98rem;
+  max-width: 46rem;
+}
+.hero-after { padding-bottom: .4rem; }
+.hero-sub { color: var(--ink-dim); max-width: 44rem; margin: 0; }
+
+/* the cabinet sits on the ground, not in a card */
+.cabinet-section { padding: 1.4rem 0 .6rem; background: var(--bg); }
+.cabinet-section .wrap { max-width: 76rem; }
+.cabinet {
+  background: var(--abyss);
+  border: 3px solid var(--edge);
+  border-radius: 14px;
+  box-shadow: var(--shadow-marquee);
+}
+.cabinet-marquee {
+  background: var(--panel-2);
+  border-bottom: 3px solid var(--edge);
+  box-shadow: none;
+}
+.marquee-title { color: var(--accent); text-shadow: none; }
+.marquee-sub { color: var(--ink-dim); }
+.cabinet-side {
+  background: repeating-linear-gradient(180deg, #23243c 0 26px, #1b1c31 26px 52px);
+}
+.cabinet-side.right {
+  background: repeating-linear-gradient(180deg, #2a2416 0 26px, #23243c 26px 52px);
+}
+.demo-kick { color: var(--ink-dim); }
+.demo-title { text-shadow: none; }
+.demo-play {
+  background: var(--accent); color: var(--accent-ink);
+  border: 2px solid var(--abyss); border-radius: 8px;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, .6); text-shadow: none;
+}
+.demo-dot { background: var(--panel-3); }
+.demo-dot.on { background: var(--accent); box-shadow: none; }
+
+/* ---------- buttons: flat amber = go; outline = look ---------- */
+.btn, .btn-primary, .btn-cyan, .btn-ghost, .btn-outline,
+.hero-cta-main, .demo-play {
+  border-radius: 8px;
+  text-shadow: none;
+}
+.btn-primary, .hero-cta-main {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 2px solid var(--abyss);
+  box-shadow: 4px 4px 0 var(--abyss);
+  font-family: var(--font-pixel);
+}
+.btn-primary:hover, .hero-cta-main:hover { background: var(--accent-deep); color: var(--accent-ink); }
+.btn-cyan, .btn-ghost, .btn-outline {
+  background: transparent;
+  color: var(--ink);
+  border: 2px solid var(--edge-bright);
+  box-shadow: none;
+}
+.btn-cyan:hover, .btn-ghost:hover, .btn-outline:hover {
+  border-color: var(--accent); color: var(--accent); background: transparent;
+}
+
+/* ---------- cards & panels: bezels + hard shadows, no frost ---------- */
+.feature-card, .game-card, .tool-card, .kid-card, .callout, .callout.good,
+.conv-step, .conv-card, .bios-card, .legal-banner, .em-card, .guide-card,
+.checklist-card, .ql-pick, .cn-slot, .profile-card, .tt-card {
+  background: var(--panel);
+  border: 2px solid var(--edge);
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.feature-card:hover, .game-card:hover { border-color: var(--edge-bright); }
+.card-link { color: var(--accent); }
+.card-link:hover { color: var(--accent-deep); }
+.game-card .gc-play, .gc-badge { text-shadow: none; }
+
+/* tags and chips: one quiet style, no rainbow */
+.genre-tag, .tag-token, .chip, .badge, .gc-badge, .ql-tag {
+  border-radius: 6px;
+  background: var(--panel-2);
+  color: var(--ink-dim);
+  border: 1px solid var(--edge);
+  box-shadow: none;
+  text-shadow: none;
+}
+.genre-tag:hover, .tag-token:hover { border-color: var(--accent); color: var(--accent); }
+
+/* console bezels on the machines */
+.console-shell, .player-shell {
+  background: var(--abyss);
+  border: 3px solid var(--edge);
+  border-radius: 14px;
+  box-shadow: var(--shadow-marquee);
+  backdrop-filter: none;
+}
+.drop-veil { backdrop-filter: none; background: rgba(11, 11, 22, .88); }
+
+/* links inside prose keep the single accent */
+main a:not(.btn):not(.btn-primary):not(.card-link):not(.demo-play):not(.nav-cta) { text-decoration-color: var(--edge-bright); }
+main a:not(.btn):hover { color: var(--accent); }
+
+/* score/progress bars read flat amber */
+.ql-scorebar i, .cn-meter i, .tt-meter i { background: var(--accent); }
+
+/* dialogs: bezel, not glass */
+dialog .dialog-card, .dialog-card {
+  background: var(--panel);
+  border: 2px solid var(--edge-bright);
+  border-radius: 12px;
+  box-shadow: var(--shadow-pop);
+  backdrop-filter: none;
+}
+
+/* kids corner keeps its light world off; chrome still matches */
+.kid-card { box-shadow: var(--shadow-card); }
+
+/* ---------- phone: one row of nav, cabinet first ---------- */
+@media (max-width: 700px) {
+  .cabinet-side { display: none; }
+}
+@media (max-width: 560px) {
+  .header-inner { flex-wrap: nowrap; gap: .5rem; }
+  .brand { font-size: .62rem; white-space: nowrap; }
+  .site-nav { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .site-nav::-webkit-scrollbar { display: none; }
+  .site-nav > ul, .nav-primary { flex-wrap: nowrap; white-space: nowrap; }
+  .site-nav > ul a { font-size: .56rem; padding: .3rem .35rem; }
+  .nav-cta { white-space: nowrap; }
+  .hero { padding-top: 1.1rem; }
+  .hero-title { font-size: clamp(1.35rem, 8.4vw, 1.9rem); }
+  .stats-line { font-size: .92rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
+/* ============================================================
+   R23 SELF-CRITIQUE FIXES (same pass, from the first renders):
+   the glass panel survived as .hero-inner on 19 pages, the
+   marquee's second word kept a cyan shadow, converter steps
+   kept a purple gradient border + glowing number badge, and
+   the phone header collapsed. All struck here.
+   ============================================================ */
+
+/* the mega-card, deleted on every page that still wore it */
+.hero-inner {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: 0;
+  max-width: none;
+}
+.hero { padding-top: 1.6rem; }
+
+/* headlines speak the pixel face on tool pages too */
+.hero-inner h1, .hero h1 {
+  font-family: var(--font-pixel);
+  font-size: clamp(1.2rem, 3.1vw, 1.95rem);
+  line-height: 1.5;
+  text-shadow: none;
+}
+.hero-title { font-family: var(--font-pixel); }
+.hero h1.hero-title {
+  font-family: var(--font-pixel);
+  font-size: clamp(1.45rem, 4.3vw, 2.55rem);
+  line-height: 1.45;
+}
+.hero h1.hero-title em { font-size: .92em; }
+
+/* the old neon text classes now say one thing: amber, flat */
+.pink, .cyan, .lime { color: var(--accent); text-shadow: none; }
+.hero-inner h1 .pink, .hero h1 .pink,
+.hero-inner h1 .cyan, .hero h1 .cyan,
+.hero-inner h1 .lime, .hero h1 .lime { text-shadow: none; }
+.marquee-title em { color: var(--accent); text-shadow: none; }
+.hero h1.hero-title em { text-shadow: none; }
+.kid-badge {
+  color: var(--ink-dim);
+  border: 1px solid var(--edge);
+  background: var(--panel-2);
+  box-shadow: none;
+  text-shadow: none;
+}
+
+/* converter steps: no gradient border, no purple glow badge */
+.conv-step {
+  border-image: none;
+  border-top: 2px solid var(--edge);
+  border-radius: 10px;
+  background: var(--panel);
+}
+.conv-step::before {
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 3px 3px 0 var(--abyss);
+  border-radius: 6px;
+}
+
+/* icon glows off */
+.feature-card .icon, .drop-veil .big-icon { filter: none; }
+
+/* the More menu: closed means hidden (a redesign display:flex
+   was leaking the closed dropdown into layout and scroll width) */
+.nav-more:not([open]) > ul.nav-rest { display: none; }
+.nav-more > summary { background: transparent; }
+.site-nav ul.nav-rest {
+  background: var(--panel);
+  border: 2px solid var(--edge);
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+}
+
+/* last gradient holdouts struck on the full-page render:
+   section-head rules, per-genre card art, the GOTD glow,
+   the guide reading-progress bar */
+.section-head { border-image: none; border-bottom: 2px solid var(--edge); }
+.game-card { --card-art: var(--accent); }
+.gotd .gotd-label { text-shadow: none; }
+.reading-progress { background: var(--accent); }
+.curator-kicker { color: var(--accent); }
+
+/* the decline card wears the cabinet's bezel: a graceful no is a
+   designed surface, not loose text on the ground */
+.decline-card {
+  background: var(--panel);
+  border: 2px solid var(--edge);
+  border-left: 6px solid var(--accent);
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+  padding: 1.1rem 1.25rem;
+  margin: 1rem 0;
+}
+.decline-kicker {
+  font-family: var(--font-pixel); font-size: .62rem; color: var(--accent);
+  margin: 0 0 .5rem; letter-spacing: .03em;
+}
+.decline-file { font-family: var(--font-mono); color: var(--ink-mute); margin: 0 0 .4rem; }
+.decline-head { margin: 0 0 .6rem; }
+.decline-steps { margin: .6rem 0; padding-left: 1.4rem; color: var(--ink-dim); }
+.decline-via { color: var(--ink-mute); font-size: .9rem; margin-bottom: 0; }
+
+/* grid items may shrink below min-content on a phone
+   (converter steps measured 328px wide in a 320px viewport) */
+.conv-step, .kid-card, .feature-card, .game-card, .tool-card,
+.grid > *, .converter-steps > * { min-width: 0; }
+.converter-steps { max-width: 100%; }
+.kid-card h3, .conv-step h3 { overflow-wrap: break-word; }
+
+/* long button labels wrap instead of stretching the page
+   (a 382px single-line .btn was the player page's last overflow) */
+.btn { white-space: normal; text-align: center; max-width: 100%; }
+
+/* player tool rows must fit a phone: the remap table scrolls
+   inside its card, the URL row wraps, selects stay narrow */
+.url-row { flex-wrap: wrap; }
+.url-row input { min-width: 0; flex: 1 1 9rem; }
+div:has(> table.remap-table) { overflow-x: auto; }
+.remap-table { max-width: 100%; }
+.remap-table th, .remap-table td { white-space: normal; }
+.remap-table select { max-width: 10rem; }
+
+/* phone header: two composed rows, never three, never clipped.
+   Row 1: brand + FX + Play. Row 2: one scrollable nav line. */
+@media (max-width: 560px) {
+  .header-inner { flex-wrap: wrap; row-gap: .35rem; }
+  .brand { flex: 0 0 auto; }
+  .site-header .site-nav {
+    order: 3;
+    flex: 1 1 100%;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .site-nav ul.nav-primary {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    white-space: nowrap;
+  }
+  .site-nav ul.nav-primary::-webkit-scrollbar { display: none; }
+  .site-nav ul.nav-rest {
+    position: fixed;
+    left: auto;
+    right: .6rem;
+    width: min(16rem, 86vw);
+  }
+  /* card grids go single-column; a minmax floor was holding
+     kid cards at 304px inside a 280px content box at 320px */
+  .grid.cols-2, .grid.cols-3, .grid.cols-4 { grid-template-columns: 1fr; }
+  .kids-grid { grid-template-columns: 1fr; }
+}

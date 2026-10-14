@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Static recompilation: the machine-code shortcut to native ports: Button Mash</title>
+<meta name="description" content="Static recompilation translates a game's machine code into C automatically, ahead of time, and lets a small runtime stand in for the console. It is the technique behind Zelda 64: Recompiled and Unleashed Recompiled, the two ports that changed what players expect from old games. Here is how it works and how to find out whether your game has one.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Static recompilation: the machine-code shortcut to native ports: Button Mash">
+<meta property="og:description" content="Static recompilation translates a game's machine code into C automatically, ahead of time, and lets a small runtime stand in for the console. It is the technique behind Zelda 64: Recompiled and Unleashed Recompiled, the two ports that changed what players expect from old games. Here is how it works and how to find out whether your game has one.">
+<meta property="og:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Static recompilation: the machine-code shortcut to native ports: Button Mash">
+<meta name="twitter:description" content="Static recompilation translates a game's machine code into C automatically, ahead of time, and lets a small runtime stand in for the console. It is the technique behind Zelda 64: Recompiled and Unleashed Recompiled, the two ports that changed what players expect from old games. Here is how it works and how to find out whether your game has one.">
+<meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
+<link rel="canonical" href="https://button-mash-live.vercel.app/guides/re-recompilation.html">
+<meta name="theme-color" content="#07070f">
+<link rel="icon" href="../favicon.ico" sizes="48x48">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<!-- bm-vt:start -->
+<style data-bm-vt>
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.fx-off) {
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .18s; }
+  }
+}
+</style>
+<!-- bm-vt:end -->
+<link rel="preload" href="../assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/wave16.css">
+<link rel="stylesheet" href="../assets/css/guides.css">
+<!-- bm-r21:start -->
+<link rel="stylesheet" href="../assets/css/redesign.css">
+<link rel="stylesheet" href="../assets/css/cabinet.css">
+<!-- bm-r21:end -->
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary" data-r21-nav>
+      <ul class="nav-primary">
+        <li><a href="../games.html">Games</a></li>
+        <li><a href="../collections.html">Collections</a></li>
+      </ul>
+      <details class="nav-more">
+        <summary>More</summary>
+        <ul class="nav-rest">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../emulation.html">Emulation</a></li>
+          <li><a href="../monster-taming.html">Monster Taming</a></li>
+          <li><a href="../play-legal.html">Play Legal</a></li>
+          <li><a href="../trophy-room.html">Trophy room</a></li>
+          <li><a href="../passport.html">Arcade passport</a></li>
+          <li><a href="../tournament-night.html">Tournament night</a></li>
+          <li><a href="../versus.html">Versus</a></li>
+        </ul>
+      </details>
+      <a class="nav-cta" href="../player.html">» Play</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="main">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="reverse-engineering.html">← Reverse-engineering guide</a></nav>
+<article class="guide-page">
+  <p class="kicker">Reverse engineering guide · Path C</p>
+  <h1>Static recompilation: the machine-code shortcut to native ports</h1>
+  <p class="lede">Static recompilation translates a game&#x27;s machine code into C automatically, ahead of time, and lets a small runtime stand in for the console. It is the technique behind Zelda 64: Recompiled and Unleashed Recompiled, the two ports that changed what players expect from old games. Here is how it works and how to find out whether your game has one.</p>
+  <ul class="chips" aria-label="Guide facts"><li>Not a converter; a per-game machine</li><li>⏱ ~13 min</li><li>Intermediate</li></ul>
+  <aside class="legal-note"><strong>Legal lane:</strong> own your copy. Dump your own media, from hardware you own, with your own tools. Never download ROMs, ISOs, BIOS or firmware. Every project named here ships without the game; you feed it yours.</aside>
+  <div class="toc">
+    <h2>On this page</h2>
+    <ol>
+      <li><a href="#s1">The difference, in one breath</a></li>
+      <li><a href="#s2">How N64Recomp works</a></li>
+      <li><a href="#s3">Zelda 64: Recompiled, the proof</a></li>
+      <li><a href="#s4">XenonRecomp and the Xbox 360</a></li>
+      <li><a href="#s5">And on PlayStation 2</a></li>
+      <li><a href="#s6">Why this matters for the browser</a></li>
+    </ol>
+  </div>
+
+  <section class="guide-section" id="s1">
+    <h2>1. The difference, in one breath</h2>
+    <p>Disassembly shows you the machine code. Decompilation rebuilds readable source by hand until it matches. Recompilation skips the readable part: a tool translates the machine code into C mechanically, and the output is a middle step toward a native program, not something meant to be read. A source port, the fourth path, is different again: the engine itself was published or rebuilt, and it reads your original data. Four tools, four jobs; the hub page lines them up.</p>
+  </section>
+
+  <section class="guide-section" id="s2">
+    <h2>2. How N64Recomp works</h2>
+    <p>N64Recomp reads a Nintendo 64 ROM, lifts its MIPS instructions into equivalent C, and hands that C to a runtime that replaces the console's graphics, audio and input with modern equivalents. Because the translation happens ahead of time, the result runs like a native program: high frame rates, widescreen, modern controllers, none of an emulator's per-frame translation cost. The tool ships without any game; you feed it a ROM dumped from your own cartridge, and the port verifies it.</p>
+  </section>
+
+  <section class="guide-section" id="s3">
+    <h2>3. Zelda 64: Recompiled, the proof</h2>
+    <p>In May 2024, Zelda 64: Recompiled turned Majora's Mask into a native PC port using N64Recomp: the same game, running at high frame rates in proper widescreen, built by each player from their own ROM. Its sibling project for Ocarina of Time followed the decompilation route instead (Ship of Harkinian), which is why the two Zeldas are the perfect teaching pair: same destination, two different machines for getting there.</p>
+  </section>
+
+  <section class="guide-section" id="s4">
+    <h2>4. XenonRecomp and the Xbox 360</h2>
+    <p>XenonRecomp applies the same idea to the Xbox 360's PowerPC code, with a companion translating the Xenos GPU's work to modern graphics APIs. Its proof is Unleashed Recompiled (2025), a native PC port of Sonic Unleashed that many players consider the best form that game has ever taken, built and run with your own 360 game files. For 360 games without a Recompiled release, Xenia emulation remains the path; where a release exists, it wins outright.</p>
+  </section>
+
+  <section class="guide-section" id="s5">
+    <h2>5. And on PlayStation 2</h2>
+    <p>Per-game static recompilation of PS2 titles exists as research, including an experiment that compiles recompiled games to WebAssembly and WebGPU and runs individual titles at full speed on ordinary integrated graphics. Striking, and still per-game porting work by specialists, not an emulator you can feed an arbitrary disc. The general PS2 answer stays PCSX2; the recompilation story is the horizon, watched with interest.</p>
+  </section>
+
+  <section class="guide-section" id="s6">
+    <h2>6. Why this matters for the browser</h2>
+    <p>A recompiled game is ordinary C and C++, and ordinary C compiles to WebAssembly. That is the credible route by which specific famous games could one day play in a tab at full quality, one title at a time, brought by their port projects. It is not a route by which a website converts arbitrary discs, and Button Mash will not dress it up as one. To find your game: search the engine recreation census on the Emulation Wiki and the recompilation projects' own release pages for its title, and if it has a port, that port is the best version of it anywhere.</p>
+  </section>
+
+  <section aria-labelledby="more-guides"><h2 id="more-guides">More of this guide</h2>
+  <ul class="guide-list">
+    <li><a href="reverse-engineering.html">Guide hub</a>, the four paths</li>
+    <li><a href="re-matching-decomp.html">Matching decompilation</a>, the hand-built route</li>
+    <li><a href="re-ghidra-first-session.html">Ghidra: your first session</a>, read the code yourself</li>
+    <li><a href="re-dump-your-games.html">Dump your own games</a>, ports still start with your copy</li>
+  </ul></section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-note">
+      <span>Button Mash, your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links.</span>
+    </div>
+    <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>
+  </div>
+</footer>
+<script src="../assets/js/arcade.js"></script>
+</body>
+</html>

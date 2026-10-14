@@ -29,6 +29,7 @@
 <link rel="stylesheet" href="assets/css/wave16.css">
 <!-- bm-r21:start -->
 <link rel="stylesheet" href="assets/css/redesign.css">
+<link rel="stylesheet" href="assets/css/cabinet.css">
 <!-- bm-r21:end -->
 </head>
 <body>
@@ -67,9 +68,9 @@
 <main id="main">
   <section class="hero">
     <div class="wrap hero-inner">
-      <span class="kicker">Centerpiece 02 · v3</span>
+      <span class="kicker">Centerpiece 02 · Converter 4.0</span>
       <h1>Your ROMs in. <span class="pink">Browser games out.</span></h1>
-      <p class="lede">Drop in Game Boy Advance, Game Boy / Game Boy Color, NES, Super Nintendo, or Sega Genesis files <strong>you own</strong>, one or a whole batch, → get back self-contained <code>.html</code> games: each ROM embedded inside, booting straight into play, hostable on any static host. Everything happens in your browser, <strong>your files never upload anywhere.</strong></p>
+      <p class="lede">Drop in Game Boy Advance, Game Boy / Game Boy Color, NES, Super Nintendo, or Sega Genesis files <strong>you own</strong>, one or a whole batch, → get back self-contained <code>.html</code> games: each ROM embedded inside, booting straight into play, hostable on any static host. Everything happens in your browser, <strong>your files never upload anywhere.</strong> Drop something else and Converter 4.0 will identify it by its contents and give you its honest path: the <a href="player.html">Player</a> for discs and big cartridges, the <a href="dos.html">DOS corner</a> for DOS games, and the <a href="guides/reverse-engineering.html">guide</a> for the systems no browser can run.</p>
     </div>
   </section>
 
@@ -78,15 +79,16 @@
       <div class="converter-steps">
         <div class="conv-step">
           <h3>Drop your ROM files</h3>
-          <p style="color:var(--ink-dim)">Dumps of cartridges you own, homebrew files, or any ROMs you have the rights to, <code>.gba</code> (Game Boy Advance), <code>.gb</code>/<code>.gbc</code> (Game Boy / Color), <code>.nes</code> (NES), <code>.sfc</code>/<code>.smc</code> (Super Nintendo) or <code>.md</code>/<code>.gen</code> (Sega Genesis). Drop one file or a whole folder's worth: each becomes its own game, converted one at a time. Max size follows the real hardware: 32MB for GBA, 8MB for GB/GBC, 4MB for NES, 6MB for SNES, 4MB for Genesis.</p>
+          <p style="color:var(--ink-dim)">Dumps of cartridges you own, homebrew files, or any ROMs you have the rights to, <code>.gba</code> (Game Boy Advance), <code>.gb</code>/<code>.gbc</code> (Game Boy / Color), <code>.nes</code> (NES), <code>.sfc</code>/<code>.smc</code> (Super Nintendo) or <code>.md</code>/<code>.gen</code> (Sega Genesis). Drop one file or a whole folder's worth: each becomes its own game, converted one at a time. Max size follows the real hardware: 32MB for GBA, 8MB for GB/GBC, 4MB for NES, 6MB for SNES, 4MB for Genesis. Any other file gets identified by its contents, never guessed at silently, and routed to the Player, the DOS corner, or the guide.</p>
           <div class="drop-veil" id="conv-drop" style="position:static;min-height:10rem;border:2px dashed var(--edge-bright);border-radius:var(--r-md);cursor:pointer" role="button" tabindex="0" aria-label="Drop ROM files, or click to choose files">
             <div class="big-icon" aria-hidden="true">💾</div>
             <p><strong>Drop your ROM files here</strong>, or click to browse (multiple OK)</p>
-            <input type="file" id="conv-file" accept=".gba.gb.gbc.nes.sfc.smc.md.gen" multiple class="sr-only" tabindex="-1" aria-label="Choose ROM files">
+            <input type="file" id="conv-file" accept=".gba,.gb,.gbc,.nes,.sfc,.smc,.md,.gen,.n64,.z64,.v64,.nds,.cue,.bin,.chd,.iso,.img,.m3u,.zip,.nsp,.xci,.wbfs,.rvz,.gcm,.xiso,.pbp,.cso,.exe,.com,.bat,.jsdos" multiple class="sr-only" tabindex="-1" aria-label="Choose ROM files">
           </div>
           <ul class="conv-queue" id="conv-queue" aria-label="Conversion batch"></ul>
           <div class="rom-info" id="rom-info" hidden></div>
           <div class="size-warn" id="size-warn" hidden></div>
+          <div id="conv-decline" hidden style="margin-top:1rem"></div>
         </div>
 
         <div class="conv-step">
@@ -138,6 +140,21 @@
       <div class="legal-banner">
         <strong>🛡️ Legal lane:</strong> only convert files you own, dumps of cartridges you physically own, homebrew, or public-domain releases. Don't convert (or share) ROMs of games you don't own. <a href="play-legal.html">Read the rules</a> · <a href="guides/rip-your-own-cartridges.html">How to dump your own cartridges</a>
       </div>
+
+      <div class="conv-step" style="margin-top:2rem">
+        <h3>Multi-disc PlayStation sets, made tidy</h3>
+        <p style="color:var(--ink-dim)">Some PlayStation games sprawl across two, three, four discs. Drop the whole set here, the discs of one game you own, and Converter 4.0 orders them and writes the <code>.m3u</code> playlist the Player uses to swap discs mid-game. Download the playlist to keep with your discs, or send the set straight to the Player.</p>
+        <div class="drop-veil" id="m3u-drop" style="position:static;min-height:7rem;border:2px dashed var(--edge-bright);border-radius:var(--r-md);cursor:pointer" role="button" tabindex="0" aria-label="Drop disc files for a multi-disc set">
+          <p><strong>Drop the discs here</strong> (.cue, .chd, .iso, .img, or .bin with its .cue)</p>
+          <input type="file" id="m3u-file" accept=".cue,.bin,.chd,.iso,.img" multiple class="sr-only" tabindex="-1" aria-label="Choose disc files">
+        </div>
+        <ul class="conv-queue" id="m3u-list" aria-label="Discs in this set"></ul>
+        <p class="conv-note" id="m3u-note">Drop at least two disc files of the same game.</p>
+        <div class="conv-actions">
+          <button class="btn btn-primary" id="m3u-download" type="button" disabled>⬇ Download the .m3u playlist</button>
+          <button class="btn" id="m3u-play" type="button" disabled>▶ Play this set in the Player</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -166,6 +183,16 @@
           <h3>Just want to play, not convert?</h3>
           <p>The Player runs your file directly, no conversion step, no giant download. Twenty-plus systems, same legal lane.</p>
           <a class="card-link" href="player.html">Open the Player ›</a>
+        </article>
+        <article class="feature-card">
+          <h3>A DOS game in your hands?</h3>
+          <p>The DOS corner wraps a folder or ZIP of your own DOS game into a <code>.jsdos</code> bundle, right here in the browser, and boots it under DOSBox. The bundle is yours to keep and re-play.</p>
+          <a class="card-link" href="dos.html">Enter the DOS corner ›</a>
+        </article>
+        <article class="feature-card">
+          <h3>The systems we will not convert, on purpose</h3>
+          <p>PlayStation 2, GameCube, Wii, PlayStation 3, Xbox, Xbox 360 and Switch cannot be converted in a browser today, and a tool that pretends otherwise is lying to you. What exists instead: native emulators that play them well, community decompilations rebuilding them as source code, and recompilations turning them into native ports. The guide teaches all of it.</p>
+          <a class="card-link" href="guides/reverse-engineering.html">Read the reverse-engineering guide ›</a>
         </article>
       </div>
     </div>
@@ -218,6 +245,9 @@
 
 <script src="assets/vendor/pako.min.js"></script>
 <script src="assets/js/converter-core.js"></script>
+<script src="assets/js/converter4-core.js"></script>
+<script src="assets/js/converter4-ui.js"></script>
+<script src="assets/js/library.js"></script>
 <script src="assets/js/converter.js"></script>
 <script src="assets/js/arcade.js"></script>
 </body>

@@ -30,6 +30,7 @@
 <link rel="stylesheet" href="assets/css/attract.css">
 <!-- bm-r21:start -->
 <link rel="stylesheet" href="assets/css/redesign.css">
+<link rel="stylesheet" href="assets/css/cabinet.css">
 <!-- bm-r21:end -->
 </head>
 <body>
@@ -70,7 +71,7 @@
     <div class="wrap hero-inner">
       <span class="kicker">Centerpiece 01</span>
       <h1>The Player. <span class="pink">Bring your own file.</span></h1>
-      <p class="lede">Twenty-plus classic systems, one browser tab. Drop in a game file <strong>you own</strong>, it never leaves your machine, and play with keyboard, gamepad, touch controls, save states and fullscreen. Powered by the open-source <a href="https://emulatorjs.org" target="_blank" rel="noopener">EmulatorJS</a> engine.</p>
+      <p class="lede">Twenty-plus classic systems, one browser tab. Drop in a game file <strong>you own</strong>, it never leaves your machine, and play with keyboard, gamepad, touch controls, save states and fullscreen. Powered by the open-source <a href="https://emulatorjs.org" target="_blank" rel="noopener">EmulatorJS</a> engine. DOS games have their own room, the <a href="dos.html">DOS corner</a>, and if a file belongs to a system no browser can run, the Player will tell you so plainly and point you at <a href="guides/reverse-engineering.html">the guide</a> instead of guessing.</p>
     </div>
   </section>
 
@@ -90,8 +91,8 @@
             <h2>Drop your game file here</h2>
             <p>…or use the buttons below. Your file is read locally in your browser, <strong>it is never uploaded anywhere.</strong> Button Mash hosts zero ROMs and provides zero game files.</p>
             <div class="file-input-row">
-              <button class="btn btn-primary" id="browse-btn" type="button">📁 Choose file</button>
-              <input type="file" id="rom-file" class="sr-only" tabindex="-1" aria-label="Choose a game file">
+              <button class="btn btn-primary" id="browse-btn" type="button">📁 Choose file(s)</button>
+              <input type="file" id="rom-file" class="sr-only" tabindex="-1" multiple aria-label="Choose a game file, or several files for a disc set">
               <label for="system-select" class="sr-only">System (auto-detect by default)</label>
               <select id="system-select" aria-label="System override">
                 <option value="auto">Auto-detect system</option>
@@ -120,6 +121,8 @@
       </div>
 
       <div class="bios-note" id="bios-note" hidden style="margin-top:1rem"></div>
+
+      <div id="decline-host" hidden style="margin-top:1rem"></div>
 
       <div class="legal-banner">
         <strong>🛡️ Legal lane:</strong> the Player is a <em>bring-your-own-file</em> tool. Only load game files you own (dumps of cartridges/discs you physically own, homebrew, or public-domain releases). <a href="play-legal.html">Read the rules</a> · <a href="guides/rip-your-own-cartridges.html">How to rip your own cartridges</a>
@@ -267,6 +270,23 @@
     </div>
   </dialog>
 
+  <section class="section" id="library" aria-labelledby="library-heading">
+    <div class="wrap">
+      <div class="section-head"><h2 id="library-heading"><span class="tick">»</span> Your library, on this device</h2></div>
+      <p class="section-sub">Games you keep are staged in this browser only, addressed by a hash of their contents, so renaming a file never orphans it or its saves. Nothing here uploads, and there is no account. Browser storage can be evicted by the browser, so export your saves; that button is the seatbelt.</p>
+      <div class="tool-status" id="library-status" role="status">Reading the library…</div>
+      <ul class="plain slots-list" id="library-list" aria-label="Staged games"></ul>
+      <div class="tool-actions">
+        <button class="btn btn-ghost btn-sm" id="library-keep" type="button" disabled>＋ Keep the current game in the library</button>
+        <button class="btn btn-ghost btn-sm" id="library-persist" type="button">Ask the browser to keep this storage</button>
+        <button class="btn btn-ghost btn-sm" id="saves-export" type="button">⬇ Download my saves (zip)</button>
+        <label class="btn btn-ghost btn-sm" for="saves-import" style="cursor:pointer">⬆ Import saves</label>
+        <input type="file" id="saves-import" class="sr-only" tabindex="-1" accept=".zip,.state" aria-label="Import a saves zip or a single state file">
+      </div>
+      <p class="hint" id="library-estimate">Checking storage…</p>
+    </div>
+  </section>
+
   <section class="section" id="netplay-notes" aria-labelledby="netplay-heading">
     <div class="wrap">
       <div class="section-head"><h2 id="netplay-heading"><span class="tick">»</span> Netplay, the honest state</h2></div>
@@ -325,8 +345,12 @@
           <tr><td>Virtual Boy</td><td>Beetle VB</td><td>.vb</td><td>No</td></tr>
           <tr><td>Atari 2600 / 7800 / Lynx</td><td>Stella / ProSystem / Handy</td><td>.a26.a78.lnx</td><td>No</td></tr>
           <tr><td>Neo Geo Pocket, WonderSwan, ColecoVision</td><td>Mednafen / GearColeco</td><td>.ngp.ws.col</td><td>No</td></tr>
+          <tr><td>DOS (PC)</td><td>DOSBox via js-dos</td><td colspan="2">Has its own room: <a href="dos.html">the DOS corner</a></td></tr>
         </tbody>
       </table>
+      </div>
+      <div class="callout" style="margin-top:1.2rem">
+        <p><strong>And the honest boundary:</strong> PlayStation 2, GameCube, Wii, PlayStation 3, Xbox, Xbox 360 and Switch files cannot play in any browser today. Drop one here anyway and the Player will name the system and hand you the working path for it, or read it now in <a href="guides/reverse-engineering.html">the reverse-engineering guide</a>. Saturn and PSP are recognised too; they join as labelled experiments in a later rotation, not under a promise today.</p>
       </div>
       <div class="callout warn" style="margin-top:1.2rem">
         <p><strong>BIOS honesty:</strong> PlayStation and Sega CD cores need BIOS files dumped from hardware you own: Button Mash will never provide them, and no download link for them exists on this site. Attach your own via the BIOS picker above. Everything else boots with no BIOS.</p>
@@ -387,6 +411,10 @@
   </div>
 </footer>
 
+<script src="assets/vendor/pako.min.js"></script>
+<script src="assets/js/converter4-core.js"></script>
+<script src="assets/js/converter4-ui.js"></script>
+<script src="assets/js/library.js"></script>
 <script src="assets/js/player.js"></script>
 <script src="assets/js/arcade.js"></script>
 </body>

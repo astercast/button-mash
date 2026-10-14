@@ -148,11 +148,9 @@
     role.textContent = slot.role_label;
     var h3 = document.createElement('h3');
     var a = document.createElement('a');
-    a.href = slot.url;
-    a.target = '_blank';
-    a.rel = 'noopener';
+    a.href = 'game.html?id=' + encodeURIComponent(slot.game_id);
     a.textContent = slot.title;
-    a.setAttribute('aria-label', slot.title + ', play at ' + slot.url.replace(/^https?:\/\//, '').split('/')[0] + ' (opens in a new tab)');
+    a.setAttribute('aria-label', slot.title + ', its file on Button Mash');
     h3.appendChild(a);
     head.appendChild(role);
     head.appendChild(h3);
@@ -398,7 +396,7 @@
     ];
     result.lineup.forEach(function (s, i) {
       lines.push((i + 1) + '. ' + s.role_label + ', ' + s.title + ' (~' + s.session_est + ' min, ' + s.floor_label + ', ' + s.energy_label + (s.capacity > 1 ? ', seats ~' + s.capacity : '') + ')');
-      lines.push('   ' + s.url);
+      lines.push('   On Button Mash: game.html?id=' + s.game_id);
     });
     lines.push('');
     lines.push('~' + result.total_est_minutes + ' min of play estimated; the rest is snacks and rematches.');

@@ -485,6 +485,10 @@ def wire_exclusions(games, kids_doc):
 #   1. assets/css/redesign.css is linked last in every page's <head>
 #      (between bm-r21 markers), so the polish sheet has the final
 #      word on shared chrome after the neon-era sheets.
+#      Rotation 23 adds assets/css/cabinet.css inside the same block,
+#      after redesign.css: the "cabinet, unboxed" composition layer
+#      (flat twilight indigo, one amber accent, bezels + hard shadows)
+#      has the true final word.
 #   2. The primary nav is restructured from a flat 11-15 item list
 #      into a primary few + a grouped "More" disclosure + the Play
 #      CTA. EVERY original link survives with its href, label, and
@@ -595,6 +599,7 @@ def wire_redesign():
             continue
         block = ("<!-- bm-r21:start -->\n"
                  f'<link rel="stylesheet" href="{prefix}assets/css/redesign.css">\n'
+                 f'<link rel="stylesheet" href="{prefix}assets/css/cabinet.css">\n'
                  "<!-- bm-r21:end -->\n")
         new = head + block + sep + rest_text
         new2, n = _R21_NAV_RE.subn(_r21_nav, new, count=1)

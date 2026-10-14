@@ -2,11 +2,11 @@
 
 # Button Mash
 
-The universal in-browser game console. Three centerpieces: (1) the Player: a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) the Converter 3.0, batch-convert GBA, GB/GBC, NES, SNES or Genesis files you own into self-contained playable .html browser games (client-side only, all five cores BIOS-free, honest validation, compression levels); (3) the Party Planner, headcount + time + vibe in, timed game-night rotation plan out. Plus a curated directory of 213 free, legal browser games (every link verified live 2026-10-11), hand-built collections, genre deep dives, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads, ever.
+The universal in-browser game console. Three centerpieces: (1) the Player: a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) Converter 4.0, batch-convert GBA, GB/GBC, NES, SNES or Genesis files you own into self-contained playable .html browser games (client-side only, all five cores BIOS-free, honest validation, compression levels); (3) the Party Planner, headcount + time + vibe in, timed game-night rotation plan out. Plus a curated directory of 213 free, legal browser games (every link verified live 2026-10-11), hand-built collections, genre deep dives, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads, ever.
 
 ## Play
 - player.html, the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.1: named save slots + auto-save, per-system keyboard+gamepad remap, cheat-code entry, display options (CRT/integer-scale/aspect, per-system quick settings), honest netplay notes)
-- converter.html: Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 5 BIOS-free cores (mGBA/Gambatte/FCEUmm/Snes9x/Genesis Plus GX), 4 compression levels + presets, honest ROM validation (refuses empty/all-zero/bad-NES, warns on blank headers / missing SEGA string, keeps SNES copier headers), custom titles + cover art, ▶ Player mode deep links
+- converter.html: Converter 4.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 5 BIOS-free cores (mGBA/Gambatte/FCEUmm/Snes9x/Genesis Plus GX), 4 compression levels + presets, honest ROM validation (refuses empty/all-zero/bad-NES, warns on blank headers / missing SEGA string, keeps SNES copier headers), custom titles + cover art, ▶ Player mode deep links
 - party-planner.html: Party planner 2.0: guest list (2-16 names), per-guest game voting (ties go to the earliest-picked game), fair rotation scheduler (hot-seat groups of 4), party timeline with snack break + tournament slot, snack-break timer, kids-party mode from the 75 kid-safe games, tournament handoff 2.0 (?players=N&names=A,B&games=ids&format=), shareable #p= party links, print party pack + copy-as-text
 - game-night.html: Game Night: the Curator deals your night, headcount (1-12) + time (15-240 min) + vibe + skill mix + kids flag in, marquee lineup out (warm-up, main events, showdown/deep-dive, cool-down) with per-game session + skill-floor curator estimates, genre variety, timebox fit, and a staggered marquee ceremony reveal; client-side from the 213-game verified catalog, nothing sent; dealt nights can be saved in the browser (bm.lineups.v1) and rematched with fresh picks on the same setup
 - tournament.html: Tournament 2.0: single- or double-elimination brackets for game night (2-16 players, manual seeding UI + randomize, honest byes, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids))
@@ -49,6 +49,11 @@ The universal in-browser game console. Three centerpieces: (1) the Player: a bri
 - guides/gamepad-setup.html, Controllers in the browser: the gamepad setup guide
 - guides/pico8-spotlight.html, PICO-8 spotlight: the fantasy console's best corners
 - guides/cheat-codes.html, Cheat codes, decoded: Game Genie, GameShark & the Konami Code
+- guides/reverse-engineering.html, Reverse engineering guide hub: the four paths for games a browser cannot convert (native emulation, matching decompilation, static recompilation, source ports)
+- guides/re-dump-your-games.html, Dump your own games: discs, cartridges, BIOS and firmware, system by system
+- guides/re-ghidra-first-session.html, Ghidra: your first session with a game binary
+- guides/re-matching-decomp.html, Matching decompilation: rebuilding a game's source, byte for byte
+- guides/re-recompilation.html, Static recompilation: N64Recomp, XenonRecomp, and the ports they made
 
 ## Games (213 total)
 
@@ -293,7 +298,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player: a bri
 - The Curator's shelf: Eight games I'd recommend to a friend: TETR.IO; 2048; skribbl.io; Cookie Clicker; Sort the Court; Canabalt; Run 3; shapez.io
 - New here? Start here: Seven games that explain this site: Wordle; 2048; skribbl.io; TETR.IO; Cookie Clicker; Krunker; AdVenture Capitalist
 
-## Emulators (10 picks, software only)
+## Emulators (11 picks, software only)
 
 - EmulatorJS [NES, SNES, GB, GBC, GBA, Genesis, Master System, Game Gear, N64, NDS, PlayStation, Atari, and more], The engine behind this site's Player. 20+ systems in a web page; embed on any site. https://emulatorjs.org/
 - RetroArch [Dozens via cores], All-in-one frontend: install once, add one core per system. Shaders, netplay, run-ahead latency reduction, RetroAchievements. https://www.retroarch.com/
@@ -305,6 +310,7 @@ The universal in-browser game console. Three centerpieces: (1) the Player: a bri
 - PPSSPP [PSP], Plays the PSP library at HD resolutions on almost anything. https://www.ppsspp.org/
 - Dolphin [GameCube, Wii], GameCube and Wii emulation at HD resolutions. One of the most polished emulators ever made. https://dolphin-emu.org/
 - webretro [Many via libretro cores], RetroArch cores in the browser via a clean web frontend. Good alternative embedding option. https://github.com/BinBashBanana/webretro
+- js-dos (DOSBox) [DOS], The engine behind the DOS corner: DOSBox compiled to WebAssembly. Drop a ZIP or folder of your own DOS game; the corner builds a .jsdos bundle in your browser and boots it. DOSBox-X exists for Windows 3.x guests and is reserved, not default. https://js-dos.com/
 
 ## API
 - data/v1/index.json, endpoint catalog
@@ -350,14 +356,14 @@ Name files clearly. EmulatorJS doesn't care about fancy naming schemes; it cares
 
 Drop this into an HTML page where you want the game to appear:
 
-<div id="game"></div>
-<script>
+
+
   EJS_player = '#game';
   EJS_core = 'gba';                 // the core for your system
   EJS_gameUrl = 'roms/gba/mygame.gba'; // a ROM you dumped yourself
   EJS_pathtodata = 'data/';          // EmulatorJS data directory
-</script>
-<script src="data/loader.js"></script>
+
+
 
 Swap `EJS_core` for the system you're playing (`snes`, `nes`, `gb`, `gba`, `n64`, `nds`, and more are supported). The full core list is in the project's documentation.
 
@@ -1152,4 +1158,161 @@ Any number a game displays lives at an address. RetroArch's built-in cheat searc
 ### Cheat manners: where codes don't belong
 
 Single-player: your game, your difficulty dial. Multiplayer/netplay: off-limits, tampering with a shared session, and one side's altered memory desyncs the rest. Hardcore achievement modes lock cheats out by design. Practice: keep one clean save no cheat session touches, and stack codes one at a time so the last added is the first suspect when something freezes.
+
+## Reverse engineering guide: the games a browser cannot convert
+Difficulty: Beginner · ~12 min · slug: reverse-engineering
+
+Some games cannot be turned into browser games today, and Button Mash will not pretend otherwise. This guide is the other half of the converter: for every system the Player has to decline, here is the working path, native emulation, decompilation, recompilation, or a source port, using your own copy throughout.
+
+### Why this guide exists
+
+The Converter and the Player run a wide shelf of systems in your browser. They also meet files they cannot run, and when they do, they name the system and send you here. That is by design. A graceful, specific no, with a working path attached, is worth more than a vague maybe. Every path below starts from the same place: a game you own, dumped by you. Emulators, decompilers and recompilers are legal tools. The game files, and the BIOS and firmware inside your consoles, are yours to extract and nobody else's to give you.
+
+### Path A: native emulation
+
+The game runs inside an emulator program on your computer. Not browser play, but it is playing your own copy today, and for the big systems it is excellent: PCSX2 for PlayStation 2, Dolphin for GameCube and Wii, RPCS3 for PlayStation 3, xemu for the original Xbox, Xenia for Xbox 360. Each has a compatibility list; check your game before you invest an evening, because per-game support varies more than the marketing of any one project admits.
+
+### Path B: matching decompilation
+
+A community rebuilds the game's source code by hand, function by function, until compiling their code produces bytes identical to the original game's. A finished decompilation is source code that can then be ported almost anywhere. Two honest facts: the repos contain no game assets, so building one requires your original disc or cartridge, which the build verifies; and a finished decomp is not a finished port, somebody still has to write the renderer, the inputs and the platform code. The matching decompilation page teaches the working loop.
+
+### Path C: static recompilation
+
+A tool translates the game's machine code into C automatically, ahead of time, and a small runtime stands in for the console. It is newer and far faster than hand decompilation, and it produced the most impressive ports of the last few years: Zelda 64: Recompiled for Majora's Mask in May 2024, and Unleashed Recompiled, a native PC port of the Xbox 360 Sonic Unleashed, in 2025. A recompiled game is ordinary C, so it can in principle be compiled to WebAssembly; today the ports target native first. The recompilation page has the detail.
+
+### Path D: source ports and engine recreations
+
+The oldest path. Some engines were open-sourced by their makers, id Software's Doom and Quake are the famous ones, and communities have rebuilt hundreds of others. The engine is new; the levels, art and music still come from your copy. ScummVM is the friendliest example: it takes a folder of your adventure game's files, identifies the game, and just runs it, and it is the model for how a folder-based corner should feel. Many of these ports have web builds, one title at a time, which is where most real PC-games-in-a-browser actually come from.
+
+### Find your system
+
+PlayStation 2: PCSX2 natively, with a BIOS dumped from your own console. GameCube and Wii: Dolphin natively; Wii games that need real motion are the hard half. PlayStation 3: RPCS3 natively, on a strong desktop; a mid laptop will frustrate. Xbox: xemu natively, with two small files dumped from your own Xbox and your discs converted to XISO. Xbox 360: Xenia natively; a Recompiled release, where one exists, beats it. PC games from Windows XP onward: look for a source port first; your licence often also just runs on a modern PC with community patches. Nintendo Switch gets a deliberate exception, and it is a policy, not an oversight: this guide carries no Switch emulator walkthrough. The lead Switch emulators were shut down under legal action in 2024, and sending you into what replaced them would put you at risk. What we will happily help with is preservation: backing up your own saves from your own console, and keeping the collection safe. Your Switch games play on your Switch.
+
+### Start at the beginning: your own files
+
+Whichever path your game takes, step one is the same: get your game off its disc or cartridge and onto your computer, legally. The dumping page walks each system's pattern, and Button Mash's older preservation guides, Rip your own cartridges and Keep your games forever, cover the cartridge side in depth. A note on freshness: decompilation percentages and emulator statuses drift monthly. Figures in this guide carry their date (October 2026) and the live trackers, decomp.dev for decompilation progress and each emulator's own compatibility list, are the authority. These pages get a quarterly pass; a stale percentage is a bug, not a cosmetic issue.
+
+## Dump your own games: discs, cartridges, BIOS and firmware
+Difficulty: Intermediate · ~18 min · slug: re-dump-your-games
+
+Every honest path to playing an old game somewhere new starts the same way: the game leaves its cartridge or disc and becomes a file on your computer, copied from media you own, by you. This page walks the pattern system by system, at the level a careful first evening needs.
+
+### The pattern underneath every system
+
+Three things repeat everywhere. First, a way to read the media: a cartridge dumper, a console with homebrew, or an ordinary computer disc drive. Second, a verification habit: good dumps are checked against published checksums (the Redump project for discs, No-Intro for cartridges), so you know your copy is clean rather than hoping. Third, patience with versions: US version 1.0 and EU version 1.1 are different binaries, and decompilation projects in particular want the exact one they name.
+
+### Cartridges: GB, GBA, N64, SNES and friends
+
+USB cartridge dumpers read a cartridge over a cable and hand you the ROM file; the same hardware often dumps save files, which is half the point. Button Mash's Rip your own cartridges guide is the full walkthrough and this page will not duplicate it. The one addition for reverse engineering: keep the dump's checksum next to the file. Decomp projects ask for it by name.
+
+### PlayStation and PlayStation 2 discs
+
+PS1 and PS2 discs are CDs and DVDs, and many computer drives read them directly into .iso or .bin/.cue images with ordinary ripping tools. Two habits matter: rip CDs as BIN/CUE if the game uses CD audio (a plain .iso quietly loses the music tracks), and consider converting finished rips to CHD on your computer with MAME's chdman tool, one smaller file, same game. The PS2 BIOS is a separate job: the community pattern is a memory card running the Free McBoot exploit on your own console, which can then write the BIOS to USB. Your console, your BIOS; there is no other honest source.
+
+### Sega CD and Saturn: the BIOS is the game file's partner
+
+Both systems' emulators want a BIOS dumped from your own hardware before their discs mean anything. The dumping pattern is the same story as the PS2: homebrew or a transfer tool on the real console copies the firmware out. The browser Player's BIOS picker exists for exactly these files, and the rule never changes: dumped from a machine on your shelf, or not at all.
+
+### Nintendo DS firmware
+
+Most DS games boot in emulators without extra files, but some want the ARM BIOS files and the firmware from a real DS. The established pattern dumps them from your own handheld using a flashcart and a small homebrew dumper. If a game refuses to boot in the Player, this is the fix, and the Player's DS note says so at the moment it matters.
+
+### GameCube and Wii discs
+
+These discs do not read in ordinary PC drives. The community pattern is a Wii or GameCube running homebrew (CleanRip is the name you will meet) writing the disc to SD or USB as .iso, which Dolphin also accepts in its own compressed .rvz form. GameCube games need no BIOS for Dolphin; Wii system behaviour for some titles comes from a NAND backup of your own Wii.
+
+### Xbox and Xbox 360
+
+Original Xbox discs need the console itself or a compatible drive, and the result still is not bootable as-is: full disc images are converted to XISO format with the extract-xiso tool. xemu additionally wants two small files from your own Xbox, the MCPX boot ROM (mcpx_1.0.bin) and the BIOS flash ROM. Xbox 360 discs dump through the console or a suitable drive into ISO or installed-content folders for Xenia.
+
+### PlayStation 3
+
+RPCS3 asks for two things before games: Sony's system software, installed from the PS3UPDAT.PUP update file you obtain for your own console, and your games, dumped from your own Blu-rays with a compatible drive or your own PS3. PSN purchases carry per-game licences tied to your account; the emulator's own documentation is the authority on handling yours. Check the RPCS3 compatibility list per game; Playable and Ingame are very different evenings.
+
+### Verify, label, back up
+
+Finish the way archivists do. Verify each dump's checksum against the Redump or No-Intro databases where your system has one. Name files with the game, region and version. Keep two copies in two places. A verified, labelled dump is the foundation every other page of this guide stands on, and it is the whole difference between a collection and a pile of files.
+
+## Ghidra: your first session with a game binary
+Difficulty: Intermediate · ~15 min · slug: re-ghidra-first-session
+
+Ghidra is the free, open-source reverse-engineering suite the NSA released in 2019, and it is where most people first read the inside of a game: a real disassembler beside a real decompiler that reconstructs C-like code. This page gets you from install to a first honest hour with a binary you dumped yourself.
+
+### What Ghidra is
+
+Ghidra (on GitHub at github.com/NationalSecurityAgency/ghidra, Apache-2.0) loads a compiled program, works out where its code and data live, and shows you both the machine instructions (the Listing) and a reconstruction of what those instructions mean in C-like pseudocode (the Decompiler). It handles the processors classic games were built on, MIPS for the N64 and PS2 era, PowerPC for GameCube, Wii and Xbox 360, ARM for handhelds, and plain x86 for PC games. Alternatives worth knowing by name: IDA Free (freeware, x86 and ARM), Binary Ninja (commercial, a modern API), and radare2 with its Cutter front end (open source, command-line first).
+
+### Install and make a project
+
+Install a current Java runtime, download the Ghidra release, unzip it, and run ghidraRun. Create a new non-shared project and give it the game's name. Then import your file (File, Import File): your dumped executable or ROM image. Ghidra will guess the language and processor from the file; for game binaries the community around your specific system usually publishes the right loader settings, and one search with the console's name plus Ghidra loader is an evening well spent.
+
+### Let auto-analysis finish
+
+On import, accept the auto-analysis offer and let it run to completion; on a game-sized binary this takes minutes, not seconds. Analysis finds functions, sorts code from data, and names what it recognises. Skipping it to peek early is the classic beginner mistake: everything downstream, including the decompiler's quality, stands on this pass.
+
+### Read the two windows
+
+Work with the Listing and the Decompiler side by side. The Listing is the truth, instruction by instruction. The Decompiler is a reading of that truth in C-like code, variables named FUN_ and param_1 until you teach it better. Clicking a function in one window highlights it in the other. When the two disagree, the Listing wins. Start from strings: the Symbol Tree and the Defined Strings window list every scrap of text in the binary, menus, error messages, file names, and text is the friendliest map a beginner gets.
+
+### Rename as you learn
+
+Reverse engineering in Ghidra is mostly naming. When you work out that a function draws the score, rename it (right-click, Rename) and its callers become clearer at once. Rename variables in the Decompiler the same way, add comments at the confusing parts, and bookmark the landmarks. An hour of honest renaming turns a wall of addresses into a program you can hold in your head, and it is exactly the daily work decompilation projects are made of.
+
+### Know what an evening can and cannot do
+
+Extracting a texture or a sound to look at is an evening project. Understanding one subsystem, the save format, the level loader, is a satisfying month of evenings. Rebuilding a whole playable game is a community project measured in years, which is why the decompilation page exists and why using a finished port beats re-deriving one. Ghidra rewards the learner either way: you are reading the actual machine your childhood ran on.
+
+## Matching decompilation: rebuilding a game's source, byte for byte
+Difficulty: Intermediate · ~14 min · slug: re-matching-decomp
+
+A matching decompilation project rewrites a game's compiled code as human-readable C, checking every rewrite by compiling it and proving the output is identical to the original bytes. When one reaches 100 percent, the game exists as source code. This page explains how the trick works and how ordinary people contribute to it.
+
+### What matching means
+
+Take the game from a disc or cartridge a contributor owns. Disassemble it. Rewrite one function in C. Compile the rewrite with the project's pinned compiler. Then diff the compiled bytes against the original function's bytes. Identical means the rewrite is a true piece of the game's source; different means keep thinking. Multiply by every function in the game, across a community, over years. The repositories contain no game assets and cannot run without your original ROM or disc, which the build verifies by checksum.
+
+### The working loop, step by step
+
+Clone the project for your game. Supply the exact original binary it names, version and region included, because US 1.0 and EU 1.1 are different programs. Build the toolchain the project pins. Pick a small unmatched function from the project's tracker. Rewrite it in C, guided by Ghidra. Compile, run the project's differ, and iterate until the bytes match exactly. Submit the function. That loop, repeated thousands of times by hundreds of people, is the entire method; the tooling around it, differ scripts, permuter tools that shuffle code arrangements hunting for a match, objdump for sanity checks, exists to make the loop faster.
+
+### Complete is not the same as playable
+
+A project at 100 percent has the game's code as source. It does not automatically have a game you can play somewhere new: a port still needs a renderer, input handling and platform code written by someone. Some famous decompilations sat complete before their ports existed, and a few still wait. The reverse surprises people too: a partial decompilation, around 7 percent of Halo: Combat Evolved's code, already powered a playable derived port, because the missing 93 percent was not all load bearing. Percentage complete and playability are cousins, not twins.
+
+### Famous projects, as of October 2026
+
+The Legend of Zelda: Ocarina of Time decompilation (the ZRET project) completed in November 2021 after about 21 months; its port, Ship of Harkinian, launched in March 2022 with widescreen and modern controllers, built and run with your own ROM. Majora's Mask has both a decompilation lineage and a recompiled port (see the recompilation page). Mario Kart 64's project carries a 100 percent badge, and Banjo-Kazooie's decompilation completed in 2024. On GameCube, Pikmin sits around 94 percent and Animal Crossing around 99 to 100 percent, with Metroid Prime early, around 17 percent. These figures drift monthly; the live census at decomp.dev is the authority, and this page is rechecked quarterly.
+
+### Picking your first function
+
+Start where the community points newcomers: the project's issue tracker or Discord will name beginner-sized functions, often in menus or save handling rather than the rendering core. Match one small function exactly and you will understand the whole discipline better than a week of reading about it. And the honest alternative stands: if a finished port of your game exists, play it, and save your evenings. Reverse engineering your own copy for the learning is the hobby; re-deriving a solved game from zero is optional.
+
+## Static recompilation: the machine-code shortcut to native ports
+Difficulty: Intermediate · ~13 min · slug: re-recompilation
+
+Static recompilation translates a game's machine code into C automatically, ahead of time, and lets a small runtime stand in for the console. It is the technique behind Zelda 64: Recompiled and Unleashed Recompiled, the two ports that changed what players expect from old games. Here is how it works and how to find out whether your game has one.
+
+### The difference, in one breath
+
+Disassembly shows you the machine code. Decompilation rebuilds readable source by hand until it matches. Recompilation skips the readable part: a tool translates the machine code into C mechanically, and the output is a middle step toward a native program, not something meant to be read. A source port, the fourth path, is different again: the engine itself was published or rebuilt, and it reads your original data. Four tools, four jobs; the hub page lines them up.
+
+### How N64Recomp works
+
+N64Recomp reads a Nintendo 64 ROM, lifts its MIPS instructions into equivalent C, and hands that C to a runtime that replaces the console's graphics, audio and input with modern equivalents. Because the translation happens ahead of time, the result runs like a native program: high frame rates, widescreen, modern controllers, none of an emulator's per-frame translation cost. The tool ships without any game; you feed it a ROM dumped from your own cartridge, and the port verifies it.
+
+### Zelda 64: Recompiled, the proof
+
+In May 2024, Zelda 64: Recompiled turned Majora's Mask into a native PC port using N64Recomp: the same game, running at high frame rates in proper widescreen, built by each player from their own ROM. Its sibling project for Ocarina of Time followed the decompilation route instead (Ship of Harkinian), which is why the two Zeldas are the perfect teaching pair: same destination, two different machines for getting there.
+
+### XenonRecomp and the Xbox 360
+
+XenonRecomp applies the same idea to the Xbox 360's PowerPC code, with a companion translating the Xenos GPU's work to modern graphics APIs. Its proof is Unleashed Recompiled (2025), a native PC port of Sonic Unleashed that many players consider the best form that game has ever taken, built and run with your own 360 game files. For 360 games without a Recompiled release, Xenia emulation remains the path; where a release exists, it wins outright.
+
+### And on PlayStation 2
+
+Per-game static recompilation of PS2 titles exists as research, including an experiment that compiles recompiled games to WebAssembly and WebGPU and runs individual titles at full speed on ordinary integrated graphics. Striking, and still per-game porting work by specialists, not an emulator you can feed an arbitrary disc. The general PS2 answer stays PCSX2; the recompilation story is the horizon, watched with interest.
+
+### Why this matters for the browser
+
+A recompiled game is ordinary C and C++, and ordinary C compiles to WebAssembly. That is the credible route by which specific famous games could one day play in a tab at full quality, one title at a time, brought by their port projects. It is not a route by which a website converts arbitrary discs, and Button Mash will not dress it up as one. To find your game: search the engine recreation census on the Emulation Wiki and the recompilation projects' own release pages for its title, and if it has a port, that port is the best version of it anywhere.
 

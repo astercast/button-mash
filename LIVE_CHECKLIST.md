@@ -287,3 +287,23 @@ build stamps 0 pages) and pinned by WF39/WF40 (suite 320/320):
   (8 of 8) — the wave-33 dive debt is fully paid. T-MASH-1/5
   (time-to-beat data) remain deferred by name — they need a
   sourced data pass; no playtimes were fabricated.
+
+## Rotation 23 — The Cabinet, Unboxed + Converter 4.0 (2026-10-14, working repo)
+
+- **No deploy-shape change**: still 5 functions of the 12 cap, each
+  `{"maxDuration": 10}`, no runtime pin, no cron change. New static
+  pages: `dos.html` (DOS corner) + 5 reverse-engineering guides
+  (`guides/reverse-engineering.html`, `re-dump-your-games.html`,
+  `re-ghidra-first-session.html`, `re-matching-decomp.html`,
+  `re-recompilation.html`); the site grows 53 → 59 stamped pages.
+- **Data**: guides 24 → 29; emulators 10 → 11 (js-dos added; every
+  emulator record now carries a `distribution` field, and the
+  EmulatorJS record carries per-core `core_licenses`). Static data
+  still lives in `data/v1/`; nothing new under `api/`.
+- **CDN-loaded engines**: EmulatorJS (unchanged) and js-dos (v8
+  "latest" channel) load at runtime from their projects' CDNs; the
+  DOS corner builds `.jsdos` bundles client-side from the visitor's
+  own files. Neither engine is self-hosted (dossier §3.4 decision).
+- **Outbound rule, completed**: every presented game-play link now
+  resolves on-site (`game.html?id=`); catalog `url` fields remain as
+  provenance data only. Genre deep-dive title links (98) included.

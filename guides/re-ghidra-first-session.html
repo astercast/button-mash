@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ghidra: your first session with a game binary: Button Mash</title>
+<meta name="description" content="Ghidra is the free, open-source reverse-engineering suite the NSA released in 2019, and it is where most people first read the inside of a game: a real disassembler beside a real decompiler that reconstructs C-like code. This page gets you from install to a first honest hour with a binary you dumped yourself.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ghidra: your first session with a game binary: Button Mash">
+<meta property="og:description" content="Ghidra is the free, open-source reverse-engineering suite the NSA released in 2019, and it is where most people first read the inside of a game: a real disassembler beside a real decompiler that reconstructs C-like code. This page gets you from install to a first honest hour with a binary you dumped yourself.">
+<meta property="og:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ghidra: your first session with a game binary: Button Mash">
+<meta name="twitter:description" content="Ghidra is the free, open-source reverse-engineering suite the NSA released in 2019, and it is where most people first read the inside of a game: a real disassembler beside a real decompiler that reconstructs C-like code. This page gets you from install to a first honest hour with a binary you dumped yourself.">
+<meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
+<link rel="canonical" href="https://button-mash-live.vercel.app/guides/re-ghidra-first-session.html">
+<meta name="theme-color" content="#07070f">
+<link rel="icon" href="../favicon.ico" sizes="48x48">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<!-- bm-vt:start -->
+<style data-bm-vt>
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.fx-off) {
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .18s; }
+  }
+}
+</style>
+<!-- bm-vt:end -->
+<link rel="preload" href="../assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/wave16.css">
+<link rel="stylesheet" href="../assets/css/guides.css">
+<!-- bm-r21:start -->
+<link rel="stylesheet" href="../assets/css/redesign.css">
+<link rel="stylesheet" href="../assets/css/cabinet.css">
+<!-- bm-r21:end -->
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary" data-r21-nav>
+      <ul class="nav-primary">
+        <li><a href="../games.html">Games</a></li>
+        <li><a href="../collections.html">Collections</a></li>
+      </ul>
+      <details class="nav-more">
+        <summary>More</summary>
+        <ul class="nav-rest">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../emulation.html">Emulation</a></li>
+          <li><a href="../monster-taming.html">Monster Taming</a></li>
+          <li><a href="../play-legal.html">Play Legal</a></li>
+          <li><a href="../trophy-room.html">Trophy room</a></li>
+          <li><a href="../passport.html">Arcade passport</a></li>
+          <li><a href="../tournament-night.html">Tournament night</a></li>
+          <li><a href="../versus.html">Versus</a></li>
+        </ul>
+      </details>
+      <a class="nav-cta" href="../player.html">» Play</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="main">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="reverse-engineering.html">← Reverse-engineering guide</a></nav>
+<article class="guide-page">
+  <p class="kicker">Reverse engineering guide · Tooling</p>
+  <h1>Ghidra: your first session with a game binary</h1>
+  <p class="lede">Ghidra is the free, open-source reverse-engineering suite the NSA released in 2019, and it is where most people first read the inside of a game: a real disassembler beside a real decompiler that reconstructs C-like code. This page gets you from install to a first honest hour with a binary you dumped yourself.</p>
+  <ul class="chips" aria-label="Guide facts"><li>Free, scriptable, and genuinely good</li><li>⏱ ~15 min</li><li>Intermediate</li></ul>
+  <aside class="legal-note"><strong>Legal lane:</strong> own your copy. Dump your own media, from hardware you own, with your own tools. Never download ROMs, ISOs, BIOS or firmware. Every project named here ships without the game; you feed it yours.</aside>
+  <div class="toc">
+    <h2>On this page</h2>
+    <ol>
+      <li><a href="#s1">What Ghidra is</a></li>
+      <li><a href="#s2">Install and make a project</a></li>
+      <li><a href="#s3">Let auto-analysis finish</a></li>
+      <li><a href="#s4">Read the two windows</a></li>
+      <li><a href="#s5">Rename as you learn</a></li>
+      <li><a href="#s6">Know what an evening can and cannot do</a></li>
+    </ol>
+  </div>
+
+  <section class="guide-section" id="s1">
+    <h2>1. What Ghidra is</h2>
+    <p>Ghidra (on GitHub at github.com/NationalSecurityAgency/ghidra, Apache-2.0) loads a compiled program, works out where its code and data live, and shows you both the machine instructions (the Listing) and a reconstruction of what those instructions mean in C-like pseudocode (the Decompiler). It handles the processors classic games were built on, MIPS for the N64 and PS2 era, PowerPC for GameCube, Wii and Xbox 360, ARM for handhelds, and plain x86 for PC games. Alternatives worth knowing by name: IDA Free (freeware, x86 and ARM), Binary Ninja (commercial, a modern API), and radare2 with its Cutter front end (open source, command-line first).</p>
+  </section>
+
+  <section class="guide-section" id="s2">
+    <h2>2. Install and make a project</h2>
+    <p>Install a current Java runtime, download the Ghidra release, unzip it, and run ghidraRun. Create a new non-shared project and give it the game's name. Then import your file (File, Import File): your dumped executable or ROM image. Ghidra will guess the language and processor from the file; for game binaries the community around your specific system usually publishes the right loader settings, and one search with the console's name plus Ghidra loader is an evening well spent.</p>
+  </section>
+
+  <section class="guide-section" id="s3">
+    <h2>3. Let auto-analysis finish</h2>
+    <p>On import, accept the auto-analysis offer and let it run to completion; on a game-sized binary this takes minutes, not seconds. Analysis finds functions, sorts code from data, and names what it recognises. Skipping it to peek early is the classic beginner mistake: everything downstream, including the decompiler's quality, stands on this pass.</p>
+  </section>
+
+  <section class="guide-section" id="s4">
+    <h2>4. Read the two windows</h2>
+    <p>Work with the Listing and the Decompiler side by side. The Listing is the truth, instruction by instruction. The Decompiler is a reading of that truth in C-like code, variables named FUN_ and param_1 until you teach it better. Clicking a function in one window highlights it in the other. When the two disagree, the Listing wins. Start from strings: the Symbol Tree and the Defined Strings window list every scrap of text in the binary, menus, error messages, file names, and text is the friendliest map a beginner gets.</p>
+  </section>
+
+  <section class="guide-section" id="s5">
+    <h2>5. Rename as you learn</h2>
+    <p>Reverse engineering in Ghidra is mostly naming. When you work out that a function draws the score, rename it (right-click, Rename) and its callers become clearer at once. Rename variables in the Decompiler the same way, add comments at the confusing parts, and bookmark the landmarks. An hour of honest renaming turns a wall of addresses into a program you can hold in your head, and it is exactly the daily work decompilation projects are made of.</p>
+  </section>
+
+  <section class="guide-section" id="s6">
+    <h2>6. Know what an evening can and cannot do</h2>
+    <p>Extracting a texture or a sound to look at is an evening project. Understanding one subsystem, the save format, the level loader, is a satisfying month of evenings. Rebuilding a whole playable game is a community project measured in years, which is why the <a href="re-matching-decomp.html">decompilation page</a> exists and why using a finished port beats re-deriving one. Ghidra rewards the learner either way: you are reading the actual machine your childhood ran on.</p>
+  </section>
+
+  <section aria-labelledby="more-guides"><h2 id="more-guides">More of this guide</h2>
+  <ul class="guide-list">
+    <li><a href="reverse-engineering.html">Guide hub</a>, the four paths</li>
+    <li><a href="re-matching-decomp.html">Matching decompilation</a>, from reading code to rebuilding it</li>
+    <li><a href="re-dump-your-games.html">Dump your own games</a>, where the binary comes from</li>
+  </ul></section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-note">
+      <span>Button Mash, your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links.</span>
+    </div>
+    <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>
+  </div>
+</footer>
+<script src="../assets/js/arcade.js"></script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The DOS Corner: Button Mash</title>
+<meta name="description" content="Button Mash DOS corner: drop a ZIP or folder of your own DOS game, get a .jsdos bundle built in your browser, and play it under DOSBox. Nothing uploads.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The DOS Corner: Button Mash">
+<meta property="og:description" content="Drop a ZIP or folder of your own DOS game, get a .jsdos bundle built in your browser, and play it under DOSBox. Nothing uploads.">
+<meta property="og:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The DOS Corner: Button Mash">
+<meta name="twitter:description" content="Drop a ZIP or folder of your own DOS game, get a .jsdos bundle built in your browser, and play it under DOSBox. Nothing uploads.">
+<meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
+<link rel="canonical" href="https://button-mash-live.vercel.app/dos.html">
+<meta name="theme-color" content="#07070f">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<!-- bm-vt:start -->
+<style data-bm-vt>
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.fx-off) {
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .18s; }
+  }
+}
+</style>
+<!-- bm-vt:end -->
+<link rel="preload" href="assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/wave16.css">
+<link rel="stylesheet" href="assets/css/attract.css">
+<!-- bm-r21:start -->
+<link rel="stylesheet" href="assets/css/redesign.css">
+<link rel="stylesheet" href="assets/css/cabinet.css">
+<!-- bm-r21:end -->
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
+    <nav class="site-nav" aria-label="Primary" data-r21-nav>
+      <ul class="nav-primary">
+        <li><a href="games.html">Games</a></li>
+        <li><a href="kids.html">Kids corner</a></li>
+        <li><a href="collections.html">Collections</a></li>
+        <li><a href="party-planner.html">Party planner</a></li>
+        <li><a href="game-night.html">Game night</a></li>
+      </ul>
+      <details class="nav-more">
+        <summary>More</summary>
+        <ul class="nav-rest">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="tournament.html">Tournament</a></li>
+          <li><a href="emulation.html">Emulation</a></li>
+          <li><a href="monster-taming.html">Monster Taming</a></li>
+          <li><a href="play-legal.html">Play Legal</a></li>
+          <li><a href="trophy-room.html">Trophy room</a></li>
+          <li><a href="passport.html">Arcade passport</a></li>
+          <li><a href="tournament-night.html">Tournament night</a></li>
+          <li><a href="versus.html">Versus</a></li>
+        </ul>
+      </details>
+      <a class="nav-cta" href="player.html">» Play</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <span class="kicker">Converter 4.0 · The PC room</span>
+      <h1>The DOS corner. <span class="pink">Your disks, in a tab.</span></h1>
+      <p class="lede">DOS games never needed a console ROM; they need their files and a DOS to stand on. Drop a ZIP or a folder of a DOS game <strong>you own</strong>, and this page wraps it into a <code>.jsdos</code> bundle right here, DOSBox config included, then boots it. The bundle is yours: download it, keep it, re-play it here any time. <strong>Nothing uploads, ever.</strong></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="drop-veil" id="dos-drop" style="position:static;min-height:11rem;border:2px dashed var(--edge-bright);border-radius:var(--r-md)">
+        <div class="big-icon" aria-hidden="true">💾</div>
+        <h2>Drop your DOS game here</h2>
+        <p>A ZIP of the game's files, the game's folder, or a ready-made <code>.jsdos</code> bundle. The start program is picked automatically (a <code>start.bat</code> wins; you can overrule it below).</p>
+        <div class="file-input-row">
+          <button class="btn btn-primary" id="dos-browse-files" type="button">📁 Choose a ZIP or .jsdos</button>
+          <input type="file" id="dos-file" class="sr-only" tabindex="-1" accept=".zip,.jsdos" aria-label="Choose a ZIP or jsdos bundle">
+          <button class="btn" id="dos-browse-folder" type="button">🗂 Choose the game's folder</button>
+          <input type="file" id="dos-folder" class="sr-only" tabindex="-1" webkitdirectory aria-label="Choose the game folder">
+        </div>
+      </div>
+
+      <div id="dos-decline" hidden style="margin-top:1rem"></div>
+
+      <div class="form-row" id="dos-exec-row" hidden style="margin-top:1rem">
+        <label for="dos-exec"><strong>Start program</strong></label>
+        <select id="dos-exec" aria-label="Program DOS runs first"></select>
+      </div>
+      <div class="tool-status" id="dos-status" role="status" style="margin-top:1rem">Waiting for a game. DOSBox is the engine, provided by the open-source js-dos project; the engine loads from its CDN on first play, your game files never do.</div>
+      <div class="tool-actions" style="margin-top:.75rem">
+        <button class="btn btn-primary" id="dos-run" type="button" disabled>▶ Play</button>
+        <button class="btn" id="dos-export" type="button" disabled>⬇ Download the .jsdos bundle</button>
+        <button class="btn btn-ghost" id="dos-persist-saves" type="button" disabled>💾 Download session files (saves DOS wrote)</button>
+      </div>
+
+      <div class="console-shell" style="margin-top:1.5rem">
+        <div class="console-bar">
+          <span class="led idle" aria-hidden="true"></span>
+          <span class="console-title">DOSBOX, VIA JS-DOS</span>
+        </div>
+        <div id="dos-stage" style="min-height:20rem">
+          <p style="padding:1.25rem;color:var(--ink-dim)">The screen lights up here when a bundle plays. Keyboard and mouse are the controls, exactly as the games expect; click the screen to give it focus.</p>
+        </div>
+      </div>
+
+      <div class="legal-banner">
+        <strong>🛡️ Legal lane:</strong> bring games you own: your old floppies and CDs, installed folders from your own machine, or the many DOS games their makers now give away. This corner wraps and plays your files; it provides none. <a href="play-legal.html">Read the rules</a> · <a href="guides/re-dump-your-games.html">How to get your disks onto this computer</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2><span class="tick">»</span> Bundles kept on this device</h2></div>
+      <ul class="plain slots-list" id="dos-bundles" aria-label="DOS bundles kept on this device"></ul>
+      <p class="hint">Kept in this browser's storage, addressed by content, deleted whenever you say. Export the bundle file itself for a copy that outlives any browser.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2><span class="tick">»</span> How this corner works, honestly</h2></div>
+      <div class="grid cols-3">
+        <article class="feature-card">
+          <h3>The bundle is the converter output</h3>
+          <p>For consoles, the Converter makes a web page. For DOS, the honest portable form is the <code>.jsdos</code> bundle: your game's files plus a small <code>dosbox.conf</code> that mounts the folder and runs the start program. It plays here and in any js-dos player, and it is built entirely on your machine.</p>
+        </article>
+        <article class="feature-card">
+          <h3>DOSBox now, DOSBox-X later</h3>
+          <p>The default backend is DOSBox, the fast, compatible choice for DOS games. The heavier DOSBox-X build is reserved for the Windows 3.x-on-DOS cases and is not the default, because most DOS games do not need it and all of them pay for it in speed.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Windows games are a different door</h3>
+          <p>A game that needs real Windows (95, 98, XP and later) is not a DOS game, and this corner will not pretend a DOSBox wrap makes it one. Some have excellent source ports that read your original files; the guide shows how to find yours.</p>
+          <a class="card-link" href="guides/reverse-engineering.html">Read the guide ›</a>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>Play</h3>
+        <ul>
+          <li><a href="player.html">The Player</a></li>
+          <li><a href="converter.html">ROM → Browser Game</a></li>
+          <li><a href="dos.html">DOS corner</a></li>
+          <li><a href="games.html">Game directory</a></li>
+          <li><a href="collections.html">Collections</a></li>
+        <li><a href="party-planner.html">Party planner</a></li>
+          <li><a href="game-night.html">Game night</a></li>
+        <li><a href="tournament.html">Tournament</a></li>
+        <li><a href="kids.html">Kids corner</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Learn</h3>
+        <ul>
+          <li><a href="emulation.html">Emulation hub</a></li>
+          <li><a href="guides/reverse-engineering.html">Reverse-engineering guide</a></li>
+          <li><a href="guides/gba-wasm.html">GBA → WASM explainer</a></li>
+          <li><a href="monster-taming.html">Monster-taming corner</a></li>
+        <li><a href="parents.html">Parent guide</a></li>
+          <li><a href="play-legal.html">Play it legal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>For machines</h3>
+        <ul>
+          <li><a href="data/v1/">API v1</a></li>
+          <li><a href="API.md">API.md</a></li>
+          <li><a href="llms.txt">llms.txt</a></li>
+          <li><a href="skills/">skills/</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-note">
+      <span>Button Mash, your browser is the console. Built 2026.</span>
+      <span>Zero ROMs hosted. Zero piracy links. Engine: js-dos / DOSBox (GPL-2.0).</span>
+    </div>
+    <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>
+  </div>
+</footer>
+
+<script src="assets/vendor/pako.min.js"></script>
+<script src="assets/js/converter4-core.js"></script>
+<script src="assets/js/converter4-ui.js"></script>
+<script src="assets/js/library.js"></script>
+<script src="assets/js/dos.js"></script>
+<script src="assets/js/arcade.js"></script>
+</body>
+</html>

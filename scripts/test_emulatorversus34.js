@@ -41,8 +41,8 @@ const byId = {}; emus.forEach((e) => { byId[e.id] = e; });
   check("core surface: UMD with profile/compare/seededPair/shareCard",
     typeof E.profile === "function" && typeof E.compare === "function" &&
     typeof E.seededPair === "function" && typeof E.shareCard === "function" &&
-    emus.length === 10,
-    "10 emulator records; the whole surface is DOM-free");
+    emus.length === 11,
+    "11 emulator records (js-dos joined in R23); the whole surface is DOM-free");
 
   check("profile: fields are the record's own, notes/license/systems verbatim",
     (() => { const p = E.profile(byId["mgba"]); return p.notes === byId["mgba"].notes &&

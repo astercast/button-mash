@@ -119,10 +119,11 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
     "URL state is validated against the catalog on load");
 
   const card = V.shareCard(cmp, "versus.html?a=zork1&b=2048");
-  check("share card: rows + verdict lines + real play URLs only, no score or winner language",
-    card.includes("VERSUS: Zork I vs 2048") && card.includes(byId["zork1"].url) && card.includes(byId["2048"].url) &&
+  check("share card: rows + verdict lines + on-site references only (R23 sweep), no score or winner language",
+    card.includes("VERSUS: Zork I vs 2048") && card.includes("game.html?id=zork1") && card.includes("game.html?id=2048") &&
+    !card.includes(byId["zork1"].url) && !card.includes(byId["2048"].url) &&
     card.includes(cmp.verdicts[0].text) && !/score|rating|winner/i.test(card),
-    "the card is the comparison, in plain text");
+    "the card is the comparison, in plain text, and every reference stays on Button Mash");
 
   check("coverage: a cozy game with a Kids pass carries both coverage entries; since wave 38 every action game carries the action dive, since wave 39 every multiplayer game carries the multiplayer dive, since wave 40 every idle game carries the idle dive, and since wave 41 every horror game carries the horror dive, no genre is dive-less anymore",
     (() => { const cozyKid = games.find((g) => { const p = V.profile(g, CTX); return p.genre === "cozy" && p.kidSafe; }); return cozyKid && V.profile(cozyKid, CTX).coverageCount === 2; })() &&

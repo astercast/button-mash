@@ -52,20 +52,15 @@
     card.appendChild(el('p', 'vs-side', sideLabel));
     var h = el('h3', 'vs-title', p.title);
     card.appendChild(h);
-    var play = el('a', 'btn btn-primary vs-play', '▶ Play ' + p.title);
-    play.href = p.url;
-    play.target = '_blank';
-    play.rel = 'noopener noreferrer';
+    var play = el('a', 'btn btn-primary vs-play', '▶ Its file on Button Mash');
+    play.href = 'game.html?id=' + encodeURIComponent(p.id);
     card.appendChild(play);
-    var file = el('a', 'vs-file', 'Full game file »');
-    file.href = 'game.html?id=' + encodeURIComponent(p.id);
-    card.appendChild(file);
     card.appendChild(el('p', 'vs-desc', p.description));
     var rows = [
       ['Year named in its description', p.year !== null ? String(p.year) : 'No year named'],
       ['Genre', p.genre || '-'],
       ['Controls', p.controls || '-'],
-      ['Plays on', p.host || '-'],
+      ['Home on the web (record)', p.host || '-'],
       ['Collections', p.collections.length
         ? p.collections.map(function (c) { return c.title; }).join('; ')
         : 'Not on a collection shelf yet'],
