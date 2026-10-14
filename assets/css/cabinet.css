@@ -520,3 +520,105 @@ div:has(> table.remap-table) { overflow-x: auto; }
   .nav-cta { min-height: 44px; display: flex; align-items: center; }
   .brand { min-height: 44px; }
 }
+
+/* ============================================================
+   R29 SUB-44 TAP-TARGET PASS (mobile-jumble audit follow-on,
+   measured firsthand at base a52e749 before building):
+   the audit counts any visible a, button, input, select,
+   textarea, summary, [role=button] or [onclick] element with
+   height OR width under 44px: 1,250 at 320 and 1,320 at 390
+   on the audit's 38-page set (the audit's own 1,350 at 390
+   predates the VP-0033 landing; the 30 gap is games.html
+   rendering timing, leaf count 129 vs 201, named in the
+   landing record). The worst classes were shared furniture,
+   not pages: the footer map (474), the journal pick list
+   (213), card title and CTA links, list-row anchors, chips
+   and small form controls. At phone widths each meets the
+   44px floor; row padding is given back where the R25 pass
+   set that precedent, so lists keep their rhythm.
+   Geometry only: no token, colour, typeface or copy change,
+   nothing at desktop widths, and the player console keeps
+   its landed geometry exactly (the generic floors below
+   carry explicit console reversions). Named and left, in
+   the landing record: the header FX switch (cabinet
+   furniture), the player console cluster, radio and
+   checkbox inputs (their label rows are the targets),
+   sr-only file inputs, prose-inline links, keymap table
+   links, breadcrumbs, the game cards' 27px tip glyph, and
+   the stretched card title links (whole-card hit area).
+   ============================================================ */
+@media (max-width: 700px) {
+  /* the skip link measured 43.7px: the floor, not a redesign */
+  .skip-link { min-height: 44px; display: inline-flex; align-items: center; }
+
+  /* the footer map: every link a full row target */
+  .footer-grid a {
+    display: inline-flex; align-items: center;
+    min-height: 44px; min-width: 44px;
+  }
+
+  /* card titles and card CTAs */
+  .feature-card h3 a, .card-link {
+    display: inline-flex; align-items: center; min-height: 44px;
+  }
+
+  /* list-row anchors: collections progress, guide index, guide TOC */
+  .collection-row a, .guide-list a, .toc a {
+    display: inline-flex; align-items: center;
+    min-height: 44px; max-width: 100%;
+  }
+
+  /* the passport stamp cells' visit links */
+  .pp-visit { display: inline-flex; align-items: center; min-height: 44px; }
+
+  /* the journal pick list: 213 game buttons, the page's one job */
+  #journal-all .journal-all-item {
+    display: flex; align-items: center;
+    min-height: 44px; padding: .45rem .6rem;
+  }
+
+  /* chips and tokens, anchor or button alike */
+  .chip, .tag-token {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 44px;
+  }
+
+  /* small buttons outside the player console */
+  .btn-small, .btn-sm, .deck-btn { min-height: 44px; }
+
+  /* game-card controls: the trophy pair are text buttons and take
+     the floor as a row; the favourite is a corner icon button and
+     takes it as a square, with the title's right guard widened to
+     keep its clearance. The 27px tip glyph and the stretched title
+     links are named and left in the landing record (the title
+     link's hit area is the whole card via its ::after plate). */
+  .trophy-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 44px;
+  }
+  .fav-btn { min-width: 44px; min-height: 44px; }
+  .game-card h3 { padding-right: 3.4rem; }
+
+  /* the directory's all-games link */
+  #all-games-link { display: inline-flex; align-items: center; min-height: 44px; }
+
+  /* text-class form controls: fields, selects, ranges, file rows.
+     Radio and checkbox inputs are excluded by the selector itself;
+     their label rows carry the target. */
+  input:not([type="radio"]):not([type="checkbox"]):not(.sr-only),
+  select, textarea { min-height: 44px; }
+
+  /* short credit titles (2048, ev.io) already had the height
+     from R25; they get the width too */
+  .credit-title { min-width: 44px; }
+
+  /* CONSOLE REVERSIONS: the player cabinet (stage veil, console
+     shell toolbar, tool cards, library actions) keeps its landed
+     geometry exactly. These selectors outrank the floors above
+     and restore the auto minimum there. */
+  #ejs-stage input, #ejs-stage select, #ejs-stage .btn-sm,
+  #console-shell input, #console-shell select, #console-shell .btn-sm,
+  .tools-grid input, .tools-grid select, .tools-grid .btn-sm,
+  .tool-card input, .tool-card select, .tool-card .btn-sm,
+  .tool-actions input, .tool-actions .btn-sm { min-height: 0; }
+}
