@@ -18,7 +18,14 @@
 .crumbs [aria-current="page"] { color: var(--ink-dim); }
 
 /* --- Page frame --- */
-.guide-page { max-width: 65ch; line-height: 1.75; padding-bottom: 3rem; }
+/* R28 VP-0033: overflow-wrap is inherited, so this one declaration
+   covers every guide page's prose, lists and inline code: an
+   unbroken token (a bare github.com/... path printed in prose)
+   now wraps instead of spilling ink and expanding the phone
+   viewport (measured +71px ink / +51px viewport at 320 on
+   re-ghidra-first-session). break-word only breaks a word that
+   would otherwise overflow, so desktop measure is unchanged. */
+.guide-page { max-width: 65ch; line-height: 1.75; padding-bottom: 3rem; overflow-wrap: break-word; }
 .guide-page p { text-wrap: pretty; margin-block: 0 1.15em; }
 .guide-page h1.guide-page h2.guide-page h3 { text-wrap: balance; }
 .guide-page .kicker { margin-top: 1rem; }

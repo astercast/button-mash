@@ -478,6 +478,25 @@ select.chip-select {
   outline-offset: -12px;
   background: rgba(5, 5, 13, 0.85);
 }
+/* R28 VP-0033: at phone widths the veil's stacked content (measured
+   426px at 390) is taller than the 3:2 stage (229px at 390, 183px at
+   320). As a centred flex column with visible overflow it spilled
+   above the stage and painted the drop-zone heading across the
+   console bar's status line (painted overlap 209x18 at 390). The
+   veil now starts at the stage's top edge and scrolls inside its
+   own box, so the status line keeps the bar band and the heading
+   keeps the stage band at both phone widths. Scoped to the stage's
+   veil only: the converter and DOS drop zones are static in-flow
+   panels and are untouched, as is every desktop width. */
+@media (max-width: 700px) {
+  .ejs-stage .drop-veil {
+    justify-content: flex-start;
+    overflow-y: auto;
+    padding: 1.1rem 1rem;
+    gap: 0.75rem;
+  }
+  .ejs-stage .drop-veil .big-icon { font-size: 2.4rem; }
+}
 .file-input-row { display: flex; gap: 0.7rem; flex-wrap: wrap; justify-content: center; align-items: center; }
 .url-row { display: flex; gap: 0.6rem; width: min(30rem, 100%); }
 .url-row input {
