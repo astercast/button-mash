@@ -1,11 +1,11 @@
-/* Button Mash — Arcade Passport core: collection-stamp state.
+/* Button Mash: Arcade Passport core: collection-stamp state.
  *
  * UMD module, DOM-free: the same code runs in the browser and under
  * node (scripts/test_passport31.js exercises it with fixtures).
  *
  * State model (localStorage key "bm.passport.v1", in-memory fallback
  * when localStorage is unavailable):
- *   { v: 1, stamps: { collectionId: timestampMs, ... } }
+ *   { v: 1, stamps: { collectionId: timestampMs... } }
  *
  * HONESTY RULES, load-bearing:
  * - A stamp exists only because the Collections page actually showed
@@ -17,7 +17,7 @@
  *   (bm_checks_v1, read through BM.getChecks) over the checklist
  *   registry below, so the passport can never disagree with the
  *   guides themselves. A mark is earned when every step of a
- *   guide's checklist is ticked — the only guide completion the
+ *   guide's checklist is ticked, the only guide completion the
  *   site tracks anywhere.
  * - The registry's step counts are pinned against the real guide
  *   pages by test_passport31; if a guide's checklist changes, the
@@ -39,7 +39,7 @@
   var PROBE_KEY = 'bm.passport.probe';
 
   /* Guides that carry an interactive checklist (ul.checklist[data-page])
-     — the only guides whose completion the site can observe. */
+    , the only guides whose completion the site can observe. */
   var GUIDE_CHECKLISTS = [
     { page: 'retroarch-setup', steps: 5, title: 'RetroArch setup',
       url: 'guides/retroarch-setup.html' },

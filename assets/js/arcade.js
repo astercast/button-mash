@@ -1,4 +1,4 @@
-/* Button Mash — "The Arcade" chrome (wave 15).
+/* Button Mash: "The Arcade" chrome (wave 15).
    Progressive enhancement, zero required: FX toggle (scanlines/chase/
    flicker/marquee kill-switch, persisted), idle attract mode, the
    attract ticker (data-driven from the catalog), kid-safe badges.
@@ -228,7 +228,7 @@
     if (kidSafeSet.has(game.id)) {
       var kid = document.createElement("p");
       kid.className = "tip-line tip-kid";
-      kid.textContent = "\u2022 KID SAFE \u2014 curated for young players";
+      kid.textContent = "\u2022 KID SAFE: curated for young players";
       tip.appendChild(kid);
     }
     if (game.controls) {
@@ -246,7 +246,7 @@
     }
     if (game.id) {
       // Wave 19: every card's tooltip leads to the game's full metadata file
-      // (game.html?id=) — the Curator's per-game surface.
+      // (game.html?id=), the Curator's per-game surface.
       var fl = document.createElement("p");
       fl.className = "tip-line tip-file";
       var fa = document.createElement("a");
@@ -356,7 +356,7 @@
   /* ---------- Trophy Room: persistent play-tracking on every card ----------
      The trophy store (assets/js/trophy-core.js) must load before arcade.js.
      Cards get two prize-token toggles: played + beaten. Favorites stay the
-     wave-16 ♥ button (bm_favs_v1) — the store reads them, never duplicates. */
+     wave-16 ♥ button (bm_favs_v1), the store reads them, never duplicates. */
   var trophyReady = null;
   function initTrophy() {
     if (trophyReady) return trophyReady;

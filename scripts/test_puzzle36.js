@@ -19,8 +19,8 @@ const ROOT = "/home/hatch/workspace/button-mash";
 const BASE = "file://" + ROOT;
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 
 const games = JSON.parse(fs.readFileSync(path.join(ROOT, "data/games.json"), "utf8")).games;
@@ -84,7 +84,7 @@ const featured = [...page36.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
   }));
   check("headless: page renders all cards under exactly one h1",
     rendered.h1 === 1 && rendered.cards === 15,
-    "h1=" + rendered.h1 + " cards=" + rendered.cards + " — " + rendered.title);
+    "h1=" + rendered.h1 + " cards=" + rendered.cards + ": " + rendered.title);
   await page.setViewport({ width: 390, height: 844 });
   await new Promise((r) => setTimeout(r, 400));
   const overflow = await page.evaluate(() =>

@@ -18,8 +18,8 @@ const ROOT = "/home/hatch/workspace/button-mash";
 const BASE = "file://" + ROOT;
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 

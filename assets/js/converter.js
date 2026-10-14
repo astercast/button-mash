@@ -1,4 +1,4 @@
-/* Button Mash Converter v3 — batch conversion UI.
+/* Button Mash Converter v3, batch conversion UI.
    Multiple files in, multiple playable .html out. Pure logic lives in
    assets/js/converter-core.js (UMD, shared with the test suite); this file
    is the DOM layer: queue rendering, streaming deflate via vendored pako,
@@ -52,7 +52,7 @@
 
   function phaseLabel(item, phase, doneBytes, totalBytes, startedAt) {
     var pct = totalBytes ? Math.round(doneBytes / totalBytes * 100) : 0;
-    var s = phase + ' ' + item.shortName + ' — ' + C.fmtBytes(doneBytes) + ' / ' + C.fmtBytes(totalBytes) + ' (' + pct + '%)';
+    var s = phase + ' ' + item.shortName + ', ' + C.fmtBytes(doneBytes) + ' / ' + C.fmtBytes(totalBytes) + ' (' + pct + '%)';
     if (startedAt && doneBytes > 0) {
       var el = ((typeof performance !== 'undefined' ? performance.now() : Date.now()) - startedAt) / 1000;
       if (el > 1) {
@@ -171,16 +171,16 @@
       if (st.failed) bits += ' · ' + st.failed + ' failed';
       if (st.cancelled) bits += ' · ' + st.cancelled + ' cancelled';
       var totalBytes = queue.reduce(function (a, it) { return a + (it.file ? it.file.size : 0); }, 0);
-      info.innerHTML = '<strong>Batch:</strong> ' + C.escHtml(bits) + ' — ' + C.fmtBytes(totalBytes) +
+      info.innerHTML = '<strong>Batch:</strong> ' + C.escHtml(bits) + ', ' + C.fmtBytes(totalBytes) +
         ' total input. Nothing has left your machine.';
       var big = totalBytes > 100 * MB;
       if (big || queue.some(function (it) { return it.profile && it.file.size > it.profile.warn; })) {
         warn.hidden = false;
         var wt = queue.filter(function (it) { return it.profile && it.file.size > it.profile.warn; })
           .map(function (it) { return C.escHtml(it.file.name) + ' (' + C.fmtBytes(it.file.size) + ' → ~' + C.fmtBytes(Math.ceil(it.file.size * 4 / 3)) + ' download)'; });
-        warn.innerHTML = '<strong>Heads up:</strong> ' + (big ? 'this batch is over 100MB of input — your browser will hold it all in memory, so smaller batches are kinder. ' : '') +
+        warn.innerHTML = '<strong>Heads up:</strong> ' + (big ? 'this batch is over 100MB of input, your browser will hold it all in memory, so smaller batches are kinder. ' : '') +
           (wt.length ? 'Large file(s): ' + wt.join(', ') + '. Base64 adds ~33% overhead' +
-            (selectedLevel().level > 0 ? ' (compression will shrink that)' : ' — pick a compression level below to shrink the download') +
+            (selectedLevel().level > 0 ? ' (compression will shrink that)' : ', pick a compression level below to shrink the download') +
             '; for the biggest files <a href="player.html">Player mode</a> is the better experience.' : '');
       } else warn.hidden = true;
     }
@@ -245,10 +245,10 @@
       };
       if (!profile) {
         it.status = 'error';
-        it.message = { kind: 'error', text: '<strong>Not a supported ROM.</strong> This converter handles <code>.gba</code> (Game Boy Advance), <code>.gb</code>/<code>.gbc</code> (Game Boy / Color), <code>.nes</code> (NES), <code>.sfc</code>/<code>.smc</code> (Super Nintendo) and <code>.md</code>/<code>.gen</code> (Sega Genesis) files. For anything else — zipped files, other systems — use the <a href="player.html">Player</a> instead (20+ systems, straight from your own files).' };
+        it.message = { kind: 'error', text: '<strong>Not a supported ROM.</strong> This converter handles <code>.gba</code> (Game Boy Advance), <code>.gb</code>/<code>.gbc</code> (Game Boy / Color), <code>.nes</code> (NES), <code>.sfc</code>/<code>.smc</code> (Super Nintendo) and <code>.md</code>/<code>.gen</code> (Sega Genesis) files. For anything else, zipped files, other systems, use the <a href="player.html">Player</a> instead (20+ systems, straight from your own files).' };
       } else if (file.size > profile.max) {
         it.status = 'error';
-        it.message = { kind: 'error', text: '<strong>Too large:</strong> ' + C.escHtml(file.name) + ' is ' + C.fmtBytes(file.size) + ', bigger than any real ' + C.escHtml(profile.system) + ' cartridge (' + C.fmtBytes(profile.max) + '). Play it in <a href="player.html">Player mode</a> instead — no embedding needed.' };
+        it.message = { kind: 'error', text: '<strong>Too large:</strong> ' + C.escHtml(file.name) + ' is ' + C.fmtBytes(file.size) + ', bigger than any real ' + C.escHtml(profile.system) + ' cartridge (' + C.fmtBytes(profile.max) + '). Play it in <a href="player.html">Player mode</a> instead, no embedding needed.' };
       } else {
         it.title = C.baseName(file.name, profile);
         pendingChecks.push(readAndValidate(it));
@@ -256,7 +256,7 @@
       queue.push(it);
       added++;
     });
-    if (added) announce(added + (added === 1 ? ' file' : ' files') + ' added — checking contents…');
+    if (added) announce(added + (added === 1 ? ' file' : ' files') + ' added, checking contents…');
     render();
   }
 
@@ -265,7 +265,7 @@
   async function loadTemplate() {
     if (loadTemplate.cache) return loadTemplate.cache;
     var res = await fetch('assets/vendor/template-game.html', { cache: 'no-store' });
-    if (!res.ok) throw new Error('Game template failed to load (HTTP ' + res.status + ') — the converter files may be incomplete.');
+    if (!res.ok) throw new Error('Game template failed to load (HTTP ' + res.status + '), the converter files may be incomplete.');
     loadTemplate.cache = await res.text();
     return loadTemplate.cache;
   }
@@ -298,7 +298,7 @@
      show real progress, report honest throughput, and stay cancellable. */
   async function deflateBytes(bytes, level, it, startedAt) {
     if (!window.pako || !window.pako.Deflate) {
-      throw new Error('The compression engine (pako) failed to load — rebuild with compression set to "None", or reload the page.');
+      throw new Error('The compression engine (pako) failed to load, rebuild with compression set to "None", or reload the page.');
     }
     var def = new window.pako.Deflate({ level: level });
     var CHUNK = 1 * MB, offset = 0;
@@ -395,7 +395,7 @@
       kind: 'ok',
       text: '<strong>Ready.</strong> ' + C.escHtml(it.downloadName) + ' (' + C.fmtBytes(it.outSize) + ')' + C.escHtml(savedNote) +
         '. Boots into the ' + C.escHtml(it.profile.engine) + ' core.' +
-        (it.warnings.length ? ' Built despite the header note above — if the game misbehaves, re-dump the cartridge.' : '')
+        (it.warnings.length ? ' Built despite the header note above, if the game misbehaves, re-dump the cartridge.' : '')
     };
     render();
     announce(it.file.name + ' converted.');
@@ -403,7 +403,7 @@
     showOverall(it, 'Done.');
     /* v2 parity: each finished game downloads itself, like the single-file
        flow always did. Batches may trigger the browser's multiple-download
-       permission prompt — that is normal browser behavior, noted below. */
+       permission prompt, that is normal browser behavior, noted below. */
     downloadItem(it);
   }
 
@@ -429,15 +429,15 @@
     var res = $('conv-result');
     res.hidden = false;
     if (cancelFlag && st.done === 0 && st.failed === 0) {
-      res.innerHTML = '<strong>Cancelled.</strong> Nothing was converted — your files never left this machine.';
+      res.innerHTML = '<strong>Cancelled.</strong> Nothing was converted, your files never left this machine.';
     } else {
       var totalOut = queue.reduce(function (a, it) { return a + (it.outSize || 0); }, 0);
       res.innerHTML = '<strong>Batch finished:</strong> ' + st.done + ' converted' +
         (st.failed ? ', ' + st.failed + ' failed' : '') +
         (st.cancelled ? ', ' + st.cancelled + ' cancelled' : '') +
-        ' — ' + C.fmtBytes(totalOut) + ' of games ready below. ' +
+        ', ' + C.fmtBytes(totalOut) + ' of games ready below. ' +
         'Each download is a self-contained page: double-click to play, host anywhere static. ' +
-        (st.done > 1 ? 'If your browser asked permission for multiple downloads, that was these files — allow it to get the rest. ' : '') +
+        (st.done > 1 ? 'If your browser asked permission for multiple downloads, that was these files, allow it to get the rest. ' : '') +
         'The emulator engine loads from the public EmulatorJS CDN on first run (then it\'s cached).';
     }
     announce('Batch finished: ' + st.done + ' converted, ' + st.failed + ' failed.');
@@ -461,7 +461,7 @@
   function downloadAll() {
     var done = queue.filter(function (it) { return it.status === 'done'; });
     if (!done.length) return;
-    announce('Downloading ' + done.length + ' games. Your browser may ask permission for multiple downloads — that\'s normal.');
+    announce('Downloading ' + done.length + ' games. Your browser may ask permission for multiple downloads, that\'s normal.');
     done.forEach(function (it, i) {
       setTimeout(function () { downloadItem(it); }, i * 600);
     });
@@ -501,12 +501,12 @@
       var f = input.files && input.files[0];
       if (!f) return;
       if (!/^image\//.test(f.type)) {
-        if (msg) { msg.hidden = false; msg.textContent = 'That is not an image file — cover art skipped.'; }
+        if (msg) { msg.hidden = false; msg.textContent = 'That is not an image file, cover art skipped.'; }
         input.value = '';
         return;
       }
       if (f.size > 2 * MB) {
-        if (msg) { msg.hidden = false; msg.textContent = 'Cover art is embedded in every game file — "' + f.name + '" is ' + C.fmtBytes(f.size) + ', over the 2MB cap. Shrink it and try again.'; }
+        if (msg) { msg.hidden = false; msg.textContent = 'Cover art is embedded in every game file: "' + f.name + '" is ' + C.fmtBytes(f.size) + ', over the 2MB cap. Shrink it and try again.'; }
         input.value = '';
         return;
       }
@@ -514,10 +514,10 @@
       r.onload = function () {
         coverDataUrl = String(r.result || '');
         if (prev && coverDataUrl) { prev.src = coverDataUrl; prev.hidden = false; }
-        announce('Cover art set — it will appear on every game in this batch.');
+        announce('Cover art set, it will appear on every game in this batch.');
       };
       r.onerror = function () {
-        if (msg) { msg.hidden = false; msg.textContent = 'Could not read that image — cover art skipped.'; }
+        if (msg) { msg.hidden = false; msg.textContent = 'Could not read that image, cover art skipped.'; }
       };
       r.readAsDataURL(f);
     });
@@ -537,7 +537,7 @@
       var none = document.querySelector('input[name="conv-comp"][value="none"]');
       if (none) none.checked = true;
       var note = $('conv-comp-note');
-      if (note) note.textContent = 'Compression is unavailable (engine failed to load) — builds will use plain base64.';
+      if (note) note.textContent = 'Compression is unavailable (engine failed to load), builds will use plain base64.';
     }
     bindDrop($('conv-drop'), $('conv-file'));
     bindCover();

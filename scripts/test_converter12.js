@@ -2,11 +2,11 @@
    Run: node scripts/test_converter12.js   (exit 0 = all pass)
 
    Negative fixtures: wave 8's rejected boot-test candidates (mystic_q.gba,
-   Ducker's PD arkanoid — zeroed cartridge-header regions, likely multiboot
+   Ducker's PD arkanoid, zeroed cartridge-header regions, likely multiboot
    images) were not retained on disk, so this suite synthesizes files with the
    same failure modes, plus the real tests/homebrew-test-roms/rkanoid-latest-
    demo.gba as the positive control: it REALLY has a zeroed header (per the
-   wave-8 README) and mGBA boots such ROMs — so validation must warn, never
+   wave-8 README) and mGBA boots such ROMs, so validation must warn, never
    error, on it. That distinction is the honesty contract under test. */
 "use strict";
 const fs = require("fs");
@@ -20,8 +20,8 @@ const pako = require(path.join(ROOT, "assets/vendor/pako.min.js"));
 
 let pass = 0, fail = 0;
 function check(name, cond, detail) {
-  if (cond) { pass++; console.log("PASS", name, "—", detail || ""); }
-  else { fail++; console.error("FAIL", name, "—", detail || ""); }
+  if (cond) { pass++; console.log("PASS", name, ", ", detail || ""); }
+  else { fail++; console.error("FAIL", name, ", ", detail || ""); }
 }
 function rnd(n, seed) { /* deterministic PRNG for fixtures */
   const b = Buffer.alloc(n); let s = seed >>> 0;

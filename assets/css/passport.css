@@ -1,4 +1,4 @@
-/* Arcade Passport — a stamped booklet inside the cabinet.
+/* Arcade Passport, a stamped booklet inside the cabinet.
    The booklet is paper inside a neon cabinet: cream pages, ink
    stamps, perforated edges, set against the site's dark bezel.
    Stamps land rotated (deterministic per shelf, set inline by
@@ -11,7 +11,7 @@
   color: #23202a;
   border-radius: 10px;
   border: 1px solid #d8cbae;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, .45), inset 0 0 0 6px #f3ead8, inset 0 0 0 7px #d8cbae;
+  box-shadow: 0 24px 60px rgba(0, 0, 0.45), inset 0 0 0 6px #f3ead8, inset 0 0 0 7px #d8cbae;
   padding: clamp(20px, 4vw, 44px);
   position: relative;
 }
@@ -83,7 +83,7 @@
 .stamp-cell.s-ink-3 { color: #7c3aed; } .stamp-cell.s-ink-3 .ink-stamp { color: #7c3aed; }
 .stamp-cell.is-stamped { border-style: solid; border-color: #c9b98f; background: #efe5cd; }
 
-/* guide marks — the visa pages */
+/* guide marks, the visa pages */
 .visa-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
 .visa-row {
   display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center;
@@ -111,7 +111,7 @@
   font-family: var(--font-mono); font-size: var(--fs-readout);
   border: 1px solid var(--edge-bright); border-radius: 999px;
   padding: 6px 14px; margin-top: 14px; color: var(--ink);
-  text-decoration: none; background: rgba(0, 0, 0, .25);
+  text-decoration: none; background: rgba(0, 0, 0.25);
 }
 .passport-chip strong { color: var(--bulb); }
 .stamp-ribbon {

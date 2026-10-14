@@ -1,6 +1,6 @@
 /* Wave 26 "accuracy sweep" checks: the blanket-claim audit.
 
-   Wave 25 corrected DuckStation's catalog record to CC BY-NC-ND 4.0 —
+   Wave 25 corrected DuckStation's catalog record to CC BY-NC-ND 4.0,
    source-available since Sept 2024, not open source. That one fact made
    every blanket "emulators are open-source" line on the site strictly
    false. This wave:
@@ -12,8 +12,8 @@
        the data and sources outside the repo (see WAVELOG wave 26 for
        the full checked/fixed/left list). The true ones are pinned here
        exactly as written so a future "accuracy" pass cannot soften
-       claims that were never wrong. One claim could not be verified —
-       Mindustry's "the web build is the full game" — so the superlative
+       claims that were never wrong. One claim could not be verified,
+       Mindustry's "the web build is the full game", so the superlative
        no longer ships; its verified part (GPL-3.0, open source) stays.
    (3) Pins the catalog census: the cozy/horror taxonomy call is still
        a human's to make, so horror 6 / cozy 16 must not move here.
@@ -27,8 +27,8 @@ const path = require("path");
 const ROOT = "/home/hatch/workspace/button-mash";
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 
 const gamesDoc = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/games.json"), "utf8"));
@@ -57,7 +57,7 @@ const howEmu = fs.readFileSync(path.join(ROOT, "guides/how-emulation-works.html"
   check("site-wide: no page still calls emulators open-source as a blanket",
     htmlFiles.every((h) => !/legal, open-source|legal and open-source/i.test(h)),
     htmlFiles.length + " html pages scanned");
-  check("catalog: 'mostly' is arithmetic, not a hedge — 9 of 10 licenses are open",
+  check("catalog: 'mostly' is arithmetic, not a hedge: 9 of 10 licenses are open",
     emuDoc.emulators.length === 10 &&
     emuDoc.emulators.filter((e) => e.id !== "duckstation").every((e) => /GPL|MPL|MIT/.test(e.license)) &&
     emuDoc.emulators.find((e) => e.id === "duckstation").license === "CC BY-NC-ND 4.0",
@@ -68,7 +68,7 @@ const howEmu = fs.readFileSync(path.join(ROOT, "guides/how-emulation-works.html"
 {
   check("left true: play-legal names three emulators, and all three are open source",
     fs.readFileSync(path.join(ROOT, "play-legal.html"), "utf8")
-      .includes("EmulatorJS, RetroArch, mGBA — all legal, all open-source"),
+      .includes("EmulatorJS, RetroArch, mGBA, all legal, all open-source"),
     "specific list, verified against data/v1/emulators.json (GPL-3.0, GPL-3.0, MPL-2.0)");
   check("left true: the Player is powered by the open-source EmulatorJS engine",
     fs.readFileSync(path.join(ROOT, "player.html"), "utf8").includes("Powered by the open-source"),
@@ -76,7 +76,7 @@ const howEmu = fs.readFileSync(path.join(ROOT, "guides/how-emulation-works.html"
   check("left true: SameBoy and RetroArch keep their open-source descriptions",
     fs.readFileSync(path.join(ROOT, "guides/gameboy.html"), "utf8").includes("beautifully maintained and open source") &&
     fs.readFileSync(path.join(ROOT, "guides/retroarch-setup.html"), "utf8").includes("free, open-source frontend"),
-    "SameBoy MIT, RetroArch GPL-3.0 — both in the catalog's license data");
+    "SameBoy MIT, RetroArch GPL-3.0, both in the catalog's license data");
   const osGames = ["clumsy-bird", "astray", "hexgl", "swarm-sim", "bitburner", "dcss-webtiles",
     "floodlines", "hydro-operator", "skystack", "classicube", "synergism", "arras-io"];
   check("left true: every game described as open source in its own description still is",
@@ -86,7 +86,7 @@ const howEmu = fs.readFileSync(path.join(ROOT, "guides/how-emulation-works.html"
   check("left true: the open-source-web shelf holds exactly its six verified games",
     !!osShelf && JSON.stringify(osShelf.game_ids) ===
       JSON.stringify(["bitburner", "mindustry", "shapez", "dcss-webtiles", "angband-live", "nethack-web"]),
-    "bitburner, mindustry (GPL-3.0), shapez (GPL-3.0), dcss, angband, nethack — all public codebases");
+    "bitburner, mindustry (GPL-3.0), shapez (GPL-3.0), dcss, angband, nethack, all public codebases");
   check("left true: the spot-checked free claims stand",
     /Completely free chess/.test(byId["lichess"].description) &&
     /no signup/.test(byId["playok"].description) &&

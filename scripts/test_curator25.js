@@ -3,18 +3,18 @@
    third without acting on it.
 
    (1) The cheat-code guide (wave 20's last flagged gap): record, page,
-       hub card, sitemap, llms, homepage stat — and the facts on the page
+       hub card, sitemap, llms, homepage stat, and the facts on the page
        are the verified ones (each checked against a source outside the
        repo during the wave; see WAVELOG wave 25 for the source list).
    (2) The DuckStation license re-check: wave 24's verification search
        failed (a tool error, not a finding), so the catalog still said
-       GPL-3.0. This wave's clean sources — the upstream repo's own
+       GPL-3.0. This wave's clean sources, the upstream repo's own
        license-change commit 9ca6b54 (Sept 2024, GPLv3 -> PolyForm Strict)
-       and the project's current CC BY-NC-ND 4.0 license — say the record
+       and the project's current CC BY-NC-ND 4.0 license, say the record
        was stale. It is corrected, with the history kept in the notes.
    (3) The cozy/horror taxonomy call: evidence gathered (the games' own
        store pages + comparable in-catalog shelving), a recommendation
-       recorded in WAVELOG — and deliberately NO reshelve. These checks
+       recorded in WAVELOG, and deliberately NO reshelve. These checks
        pin the games where they were: a future human call moves them,
        not this suite going green by accident.
 
@@ -27,8 +27,8 @@ const path = require("path");
 const ROOT = "/home/hatch/workspace/button-mash";
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 
 const gamesDoc = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/games.json"), "utf8"));
@@ -55,11 +55,11 @@ const page = fs.readFileSync(path.join(ROOT, "guides/cheat-codes.html"), "utf8")
     page.includes("coin-plate") && page.includes('aria-current="page"') &&
     (page.match(/<section class="guide-section"/g) || []).length === 8,
     "guide-page + spy TOC + toc.js + arcade.js + coin plate + 8 sections");
-  check("fact: the Konami Code — Hashimoto, the 1986 NES Gradius port, Contra's 30 lives (1988)",
+  check("fact: the Konami Code: Hashimoto, the 1986 NES Gradius port, Contra's 30 lives (1988)",
     page.includes("Kazuhisa Hashimoto") && page.includes("Gradius") && page.includes("1986") &&
     page.includes("Contra") && page.includes("30 lives"),
     "a testing aid that shipped; muscle memory ever since");
-  check("fact: the Game Genie — Codemasters built it, Galoob sold it in the US, NES 1990",
+  check("fact: the Game Genie: Codemasters built it, Galoob sold it in the US, NES 1990",
     page.includes("Codemasters") && page.includes("Galoob") && page.includes("Camerica") &&
     page.includes("1990"),
     "pass-through cartridge; the game is never modified");
@@ -67,7 +67,7 @@ const page = fs.readFileSync(path.join(ROOT, "guides/cheat-codes.html"), "utf8")
     page.includes("Six-letter codes") && page.includes("Eight-letter codes") &&
     page.includes("compare") && page.includes("bank"),
     "the compare byte pins a patch to the right ROM bank");
-  check("fact: Lewis Galoob Toys v. Nintendo — district court 1991, Ninth Circuit affirmed 1992",
+  check("fact: Lewis Galoob Toys v. Nintendo, district court 1991, Ninth Circuit affirmed 1992",
     page.includes("Lewis Galoob Toys, Inc. v. Nintendo of America, Inc.") &&
     page.includes("1991") && page.includes("1992") && page.includes("fair use"),
     "no permanent derivative work; home cheat use is fair use");
@@ -90,7 +90,7 @@ const page = fs.readFileSync(path.join(ROOT, "guides/cheat-codes.html"), "utf8")
   check("guide: no AI-slop phrasing in the new prose",
     !/delve|unlock the power|game-changer|elevate your|fast-paced world|whether you.re a beginner or a pro/i.test(page),
     "denylist clean");
-  check("guide: legal lane — no ROM/BIOS download phrasing",
+  check("guide: legal lane, no ROM/BIOS download phrasing",
     !/\b(roms?|bios)\b.{0,40}\bdownload\b|\bdownload\b.{0,40}\b(roms?|bios)\b/i.test(page),
     "codes are numbers, not downloads");
 }
@@ -104,7 +104,7 @@ const page = fs.readFileSync(path.join(ROOT, "guides/cheat-codes.html"), "utf8")
     !!d && /Sept 2024/.test(d.notes) && /GPL-3\.0 until then/.test(d.notes) &&
     /not open source/.test(d.notes),
     d ? d.notes : "missing");
-  check("duckstation: the correction is surgical — the other nine licenses are untouched",
+  check("duckstation: the correction is surgical, the other nine licenses are untouched",
     emuById["retroarch"].license === "GPL-3.0" && emuById["mgba"].license === "MPL-2.0" &&
     emuById["ppsspp"].license === "GPL-2.0+" && emuById["emulatorjs"].license === "GPL-3.0" &&
     (emuDoc.emulators || []).length === 10,

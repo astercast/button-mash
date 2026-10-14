@@ -1,4 +1,4 @@
-/* Button Mash — wow wave 1 "Attract Mode": the homepage cabinet.
+/* Button Mash, wow wave 1 "Attract Mode": the homepage cabinet.
    The demo screen cycles real game spotlights from the live catalog
    (deterministic daily rotation, never canned slides) with high-score-style
    stat callouts drawn from the real catalog + the player's actual Trophy
@@ -92,11 +92,11 @@
         if (hasProgress) {
           out.push("YOU: " + c.played + " PLAYED \u00B7 " + c.beaten + " BEATEN");
           if (ach.length) out.push("\u00BB " + ach.length + " PRIZES ON YOUR WALL");
-          if (st && st.current >= 2) out.push(st.current + "-DAY STREAK \u2014 KEEP IT LIT");
+          if (st && st.current >= 2) out.push(st.current + "-DAY STREAK: KEEP IT LIT");
         }
       } catch (e) { /* stats are decoration; the demo must not die on them */ }
     }
-    if (!hasProgress) out.push("PRESS START \u2014 YOUR SHELF AWAITS");
+    if (!hasProgress) out.push("PRESS START: YOUR SHELF AWAITS");
     return out;
   }
 
@@ -171,11 +171,11 @@
     }, CALLOUT_MS);
   }
 
-  /* Reduced motion: no demo, no transport — the full catalog, static. */
+  /* Reduced motion: no demo, no transport, the full catalog, static. */
   function renderStaticList(games, kidSafe) {
     stage.style.display = "none";
     [prevBtn, nextBtn, pauseBtn].forEach(function (b) { if (b) b.hidden = true; });
-    var head = el("p", "demo-all-head", "\u00BB THE FULL SHELF \u2014 " + games.length + " GAMES");
+    var head = el("p", "demo-all-head", "\u00BB THE FULL SHELF: " + games.length + " GAMES");
     screen.insertBefore(head, stage);
     var list = el("ul", "demo-all-list");
     list.setAttribute("aria-label", "All " + games.length + " games");
@@ -202,7 +202,7 @@
     stage.innerHTML = "";
     var d = el("div", "demo-offline");
     d.innerHTML = "";
-    d.appendChild(el("p", null, "\u00BB CABINET OFFLINE \u2014 the demo feed hiccuped."));
+    d.appendChild(el("p", null, "\u00BB CABINET OFFLINE: the demo feed hiccuped."));
     var a = el("a", null, "Browse the games directory \u203A");
     a.href = "games.html";
     d.appendChild(a);
@@ -314,7 +314,7 @@
       i = (k === SEQ[i]) ? i + 1 : (k === SEQ[0] ? 1 : 0);
       if (i !== SEQ.length || !screen) return;
       i = 0;
-      if (announcer) announcer.textContent = "KONAMI ACCEPTED — 30 lives, same as ever.";
+      if (announcer) announcer.textContent = "KONAMI ACCEPTED: 30 lives, same as ever.";
       screen.classList.add("screen-off");
       setTimeout(function () { screen.classList.remove("screen-off"); }, 900);
     });

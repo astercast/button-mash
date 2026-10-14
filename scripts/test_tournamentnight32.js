@@ -2,7 +2,7 @@
 
    (1) unit checks against the UMD core
    (assets/js/tournament-night-core.js) with injected storage and
-   real catalog fixtures — entrants resolve from collections and
+   real catalog fixtures, entrants resolve from collections and
    lineup snapshots in source order, seeding is the existing
    bracket engine's, byes are honest, picks advance and persist,
    corrupt nights drop whole, the results card names only real
@@ -29,8 +29,8 @@ const ROOT = "/home/hatch/workspace/button-mash";
 const BASE = "file://" + ROOT;
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -57,13 +57,13 @@ function fakeStorage() {
   check("core surface: key, schema, caps follow the bracket engine",
     TN.STORE_KEY === "bm.tournament-night.v1" && TN.SCHEMA_VERSION === 1 &&
     TN.MIN_ENTRANTS === 2 && TN.MAX_ENTRANTS === 16,
-    TN.STORE_KEY + " / 2–16 entrants");
+    TN.STORE_KEY + " / 2-16 entrants");
 
   const built = TN.entrantsFromCollection(smallest, byIdMap);
   check("entrants: the smallest collection resolves whole, in source order",
     built.skipped.length === 0 && built.entrants.length === smallest.game_ids.length &&
     built.entrants.every((e, i) => e.id === smallest.game_ids[i] && e.title === byIdMap[e.id].title && e.url === byIdMap[e.id].url),
-    smallest.id + " (" + smallest.game_ids.length + " games) — ids, titles and URLs are the catalog's");
+    smallest.id + " (" + smallest.game_ids.length + " games), ids, titles and URLs are the catalog's");
 
   const ghost = TN.entrantsFromCollection({ id: "x", game_ids: ["2048", "no-such-game"] }, byIdMap);
   check("entrants: a game that left the catalog is skipped and reported, never invented",
@@ -87,7 +87,7 @@ function fakeStorage() {
     TN.createNight({ source: { type: "collection", id: "t", name: "T" }, entrants: [byIdMap["2048"]] }).ok === false,
     "MIN_ENTRANTS enforced before any bracket exists");
 
-  // Byes: 5 entrants in an 8-slot bracket — the top three seeds sit out round 1.
+  // Byes: 5 entrants in an 8-slot bracket, the top three seeds sit out round 1.
   const five = ["2048", "wordle", "tetrio", "connections", "jstris"].map((id) => byIdMap[id]);
   const n5 = TN.createNight({ source: { type: "collection", id: "t", name: "T" }, entrants: five, now: 7 }).night;
   const r0 = TN.rounds(n5)[0];
@@ -111,12 +111,12 @@ function fakeStorage() {
   check("picks advance round by round and crown the top seed's game",
     !!champ && champ.id === built.entrants[0].id && TN.progress(night).complete &&
     champ.url === byIdMap[champ.id].url && champ.description === byIdMap[champ.id].description,
-    "champion: " + (champ && champ.title) + " — its card data is the catalog's, verbatim");
+    "champion: " + (champ && champ.title) + ", its card data is the catalog's, verbatim");
   const card = TN.resultsCard(night);
   check("the results card lists every decided match and the champion's play URL",
     card.includes("CHAMPION: " + champ.title) && card.includes("Play it: " + champ.url) &&
     card.includes("def. ") && card.includes(smallest.title),
-    "source, results, champion — nothing on the card the bracket did not produce");
+    "source, results, champion, nothing on the card the bracket did not produce");
 
   const st = fakeStorage();
   check("the night persists through the storage round-trip",

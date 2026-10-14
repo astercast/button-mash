@@ -1,4 +1,4 @@
-/* Button Mash — Trophy Room page: stats band, genre shelves with CRT
+/* Button Mash: Trophy Room page: stats band, genre shelves with CRT
    completion dials, the 16-prize achievement case, collection progress,
    and JSON export/import/reset. All numbers come from the real catalog
    via BM.Trophy; nothing here is a placeholder. */
@@ -189,7 +189,7 @@
     if (importBtn) {
       importBtn.addEventListener('click', function () {
         var text = importText.value.trim();
-        if (!text) { say(false, '\u00BB Nothing to import — paste an export or choose a file first.'); return; }
+        if (!text) { say(false, '\u00BB Nothing to import, paste an export or choose a file first.'); return; }
         var res = store.importJSON(text);
         if (res.ok) {
           var d = res.dropped;

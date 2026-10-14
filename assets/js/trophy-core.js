@@ -1,4 +1,4 @@
-/* Button Mash — Trophy Room core: persistent play-tracking state.
+/* Button Mash: Trophy Room core: persistent play-tracking state.
  *
  * UMD module, DOM-free: the same code runs in the browser and under node
  * (scripts/test_trophy18.js exercises it with fixtures).
@@ -6,10 +6,10 @@
  * State model (localStorage key "bm.trophy.v1", in-memory fallback when
  * localStorage is unavailable):
  *   { v: 1,
- *     played:  { gameId: timestampMs, ... },
- *     beaten:  { gameId: timestampMs, ... },   // beaten implies played
- *     days:    { dayKey: markCount, ... },     // dayKey = floor(Date.now()/86400000) UTC
- *     achievements: { achId: timestampMs, ... } }
+ *     played:  { gameId: timestampMs... },
+ *     beaten:  { gameId: timestampMs... },   // beaten implies played
+ *     days:    { dayKey: markCount... },     // dayKey = floor(Date.now()/86400000) UTC
+ *     achievements: { achId: timestampMs... } }
  *
  * Favorites are NOT duplicated here: they stay in wave-16's "bm_favs_v1"
  * (BM.getFavs / BM.setFavs) and are read through an injected provider, so

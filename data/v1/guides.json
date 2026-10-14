@@ -1,7 +1,7 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-14T01:25:27Z",
+  "generated_at": "2026-10-14T04:11:04Z",
   "endpoint": "guides",
   "description": "Emulation guides and explainers (summaries; full text in data/guides.json).",
   "count": 24,
@@ -12,7 +12,7 @@
       "title": "EmulatorJS self-hosting guide",
       "difficulty": "Intermediate",
       "time_minutes": 30,
-      "summary": "Host the open-source EmulatorJS player on your own site and play ROMs you dumped yourself — setup, cores, BIOS, and the legal line.",
+      "summary": "Host the open-source EmulatorJS player on your own site and play ROMs you dumped yourself, setup, cores, BIOS, and the legal line.",
       "section_count": 8
     },
     {
@@ -21,7 +21,7 @@
       "title": "RetroArch setup guide",
       "difficulty": "Beginner",
       "time_minutes": 20,
-      "summary": "Install RetroArch, add cores for hardware you own, and load your own dumped games — controllers, save states, shaders, and netplay included.",
+      "summary": "Install RetroArch, add cores for hardware you own, and load your own dumped games, controllers, save states, shaders, and netplay included.",
       "section_count": 7
     },
     {
@@ -30,7 +30,7 @@
       "title": "GBA-to-WASM recompiler guide",
       "difficulty": "Advanced",
       "time_minutes": 90,
-      "summary": "Turn a GBA cartridge you own into a self-contained browser page via static recompilation — the user-supplied-ROMs-only pattern, end to end.",
+      "summary": "Turn a GBA cartridge you own into a self-contained browser page via static recompilation, the user-supplied-ROMs-only pattern, end to end.",
       "section_count": 7
     },
     {
@@ -39,7 +39,7 @@
       "title": "Rip-your-own-cartridges guide",
       "difficulty": "Beginner",
       "time_minutes": 45,
-      "summary": "Turn cartridges you own into verified ROM backups with a USB dumper — hardware picks, the dumping ritual, and the no-distribution rule.",
+      "summary": "Turn cartridges you own into verified ROM backups with a USB dumper, hardware picks, the dumping ritual, and the no-distribution rule.",
       "section_count": 6
     },
     {
@@ -57,7 +57,7 @@
       "title": "How GBA becomes WebAssembly",
       "difficulty": "Intermediate",
       "time_minutes": 12,
-      "summary": "The reverse-engineering pattern behind browser GBA: ARM/THUMB basic blocks lifted into real WASM, frame timing, memory mapping — original explainer.",
+      "summary": "The reverse-engineering pattern behind browser GBA: ARM/THUMB basic blocks lifted into real WASM, frame timing, memory mapping, original explainer.",
       "section_count": 5
     },
     {
@@ -75,7 +75,7 @@
       "title": "Best emulator per system",
       "difficulty": "Reference",
       "time_minutes": 6,
-      "summary": "One honest emulator pick per classic system: accuracy, ease of use, platform notes. Software only — no ROM links.",
+      "summary": "One honest emulator pick per classic system: accuracy, ease of use, platform notes. Software only, no ROM links.",
       "section_count": 2
     },
     {
@@ -102,7 +102,7 @@
       "title": "NES emulation guide",
       "difficulty": "Beginner",
       "time_minutes": 10,
-      "summary": "The Player's nes core is FCEUmm (default NES backend in the EmulatorJS core list; Nestopia UE is the alternate for accuracy purists). BIOS-free for cartridges — the one exception is Famicom Disk System disks, which need a BIOS dumped from your own hardware. Covers mapper support, the sprite-flicker switch, save states and Game Genie cheats via Player 2.0, deep link (player.html?core=nes), and a verified homebrew starter pack.",
+      "summary": "The Player's nes core is FCEUmm (default NES backend in the EmulatorJS core list; Nestopia UE is the alternate for accuracy purists). BIOS-free for cartridges, the one exception is Famicom Disk System disks, which need a BIOS dumped from your own hardware. Covers mapper support, the sprite-flicker switch, save states and Game Genie cheats via Player 2.0, deep link (player.html?core=nes), and a verified homebrew starter pack.",
       "section_count": 7
     },
     {
@@ -138,7 +138,7 @@
       "title": "Game Boy / Color emulation guide",
       "difficulty": "Beginner",
       "time_minutes": 10,
-      "summary": "The Player's gb core is Gambatte (default GB backend in the EmulatorJS core list; alternate mGBA) — cycle-accurate, BIOS-free, and full speed on any device. Covers colorization palettes, saves and Game Genie/GameShark cheats via Player 2.0, deep link (player.html?core=gb), and a verified homebrew starter pack (GBDev community included).",
+      "summary": "The Player's gb core is Gambatte (default GB backend in the EmulatorJS core list; alternate mGBA), cycle-accurate, BIOS-free, and full speed on any device. Covers colorization palettes, saves and Game Genie/GameShark cheats via Player 2.0, deep link (player.html?core=gb), and a verified homebrew starter pack (GBDev community included).",
       "section_count": 7
     },
     {
@@ -183,7 +183,7 @@
       "title": "Retro games for every player: an accessibility guide",
       "difficulty": "Beginner",
       "time_minutes": 8,
-      "summary": "Old games shipped zero accessibility features — the emulator layer adds what they lack: remapping, turbo/autofire, rewind, save states, color correction, and honest difficulty options. No medical claims, just the toolbox.",
+      "summary": "Old games shipped zero accessibility features, the emulator layer adds what they lack: remapping, turbo/autofire, rewind, save states, color correction, and honest difficulty options. No medical claims, just the toolbox.",
       "section_count": 8
     },
     {
@@ -201,7 +201,7 @@
       "title": "Controllers in the browser: the gamepad setup guide",
       "difficulty": "Beginner",
       "time_minutes": 20,
-      "summary": "Get any USB or Bluetooth controller working with browser games and this site's Player — the Gamepad API, testing, per-system remapping, and honest troubleshooting.",
+      "summary": "Get any USB or Bluetooth controller working with browser games and this site's Player, the Gamepad API, testing, per-system remapping, and honest troubleshooting.",
       "section_count": 8
     },
     {

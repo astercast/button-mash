@@ -34,7 +34,7 @@
       "type": "string"
     },
     "url": {
-      "description": "Play URL. Must be verified live (HTTP 200) — no invented links.",
+      "description": "Play URL. Must be verified live (HTTP 200), no invented links.",
       "format": "uri",
       "type": "string"
     },

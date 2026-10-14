@@ -1,31 +1,31 @@
-/* Button Mash — Game Night saved lineups: the cabinet's coat-check (wave 23).
+/* Button Mash: Game Night saved lineups: the cabinet's coat-check (wave 23).
  *
  * UMD module, DOM-free: the same code runs in the browser and under node
  * (scripts/test_lineups23.js exercises it with a fake backend).
  *
  * Wave 22 calibrated the Curator's buckets and left every dealt night
- * ephemeral — close the tab, lose the night. This module is the shelf the
+ * ephemeral, close the tab, lose the night. This module is the shelf the
  * nights live on:
  *
  *   SAVE    a dealt night, under a name you pick, in this browser only
  *           (localStorage key "bm.lineups.v1", in-memory fallback with an
- *           honest notice when storage is blocked — same discipline as
+ *           honest notice when storage is blocked, same discipline as
  *           the Trophy Room's bm.trophy.v1). Nothing is sent anywhere;
  *           there is no account and no server copy.
- *   LOAD    the saved night back exactly as dealt — same picks, same
+ *   LOAD    the saved night back exactly as dealt, same picks, same
  *           order, same curator estimates. A saved night is a snapshot,
  *           not a re-score: later calibration waves never rewrite it.
  *   REMATCH the same setup (headcount, minutes, vibes, skill, kids)
  *           re-dealt with the saved picks held out of the deck, so every
  *           slot comes back fresh on the same role curve the inputs
- *           produce — warm-up, mains, intermission, peak, cool-down.
+ *           produce, warm-up, mains, intermission, peak, cool-down.
  *           The main-event count follows the timebox, exactly as on a
  *           fresh deal: longer fresh picks can fill the night in one
  *           fewer slot, and the rematch never overruns to force a fit.
  *   CARD    the night as plain text, ready to paste into a group chat.
  *
  * The shelf holds MAX_LINEUPS nights. Saving past the cap is refused
- * with a plain reason — the cabinet never silently throws a night away.
+ * with a plain reason, the cabinet never silently throws a night away.
  * Records validate one by one on load: a corrupt entry is dropped, the
  * rest of the shelf survives untouched.
  */
@@ -127,7 +127,7 @@
   }
 
   /* Snapshot a slot from a dealt lineup: only the fields the card and
-     the renderer use, copied — later engine changes never reach in. */
+     the renderer use, copied, later engine changes never reach in. */
   function snapshotSlot(s) {
     return {
       game_id: s.game_id, title: s.title, url: s.url, genre: s.genre,
@@ -147,7 +147,7 @@
   }
 
   /* A name that says what the night is, for when the name field is left
-     blank: "Fri 16 Oct — 4 players · party + chaotic". */
+     blank: "Fri 16 Oct: 4 players · party + chaotic". */
   function suggestName(inputs, when) {
     var d = when ? new Date(when) : new Date();
     var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -155,7 +155,7 @@
     var head = days[d.getDay()] + ' ' + d.getDate() + ' ' + months[d.getMonth()];
     var who = inputs.group_size + (inputs.group_size === 1 ? ' player' : ' players');
     var vibes = (inputs.vibes || []).join(' + ');
-    return head + ' — ' + who + (vibes ? ' · ' + vibes : '') + (inputs.kids ? ' · kids table' : '');
+    return head + ', ' + who + (vibes ? ' · ' + vibes : '') + (inputs.kids ? ' · kids table' : '');
   }
 
   /* ---------------- the store ---------------- */
@@ -192,18 +192,18 @@
       },
 
       /* Save a dealNight() result under a name. Returns
-         { ok:true, record } or { ok:false, error } — cap refusals and
+         { ok:true, record } or { ok:false, error }, cap refusals and
          empty lineups are plain answers, never exceptions. */
       save: function (result, name) {
         if (!result || !Array.isArray(result.lineup) || result.lineup.length === 0) {
-          return { ok: false, error: 'That night has no picks to save — deal one first.' };
+          return { ok: false, error: 'That night has no picks to save, deal one first.' };
         }
         if (!validInputs(result.inputs_echo)) {
-          return { ok: false, error: 'That night is missing its setup (headcount, time, vibes) — deal a fresh one.' };
+          return { ok: false, error: 'That night is missing its setup (headcount, time, vibes), deal a fresh one.' };
         }
         var all = readAll();
         if (all.length >= MAX_LINEUPS) {
-          return { ok: false, error: 'The shelf is full — ' + MAX_LINEUPS + ' saved nights is the cabinet limit. Retire one to make room.' };
+          return { ok: false, error: 'The shelf is full, ' + MAX_LINEUPS + ' saved nights is the cabinet limit. Retire one to make room.' };
         }
         var now = Date.now();
         var record = {
@@ -224,7 +224,7 @@
           slots: result.lineup.map(snapshotSlot)
         };
         if (!validRecord(record)) {
-          return { ok: false, error: 'That night did not pass the shelf check — deal a fresh one and try again.' };
+          return { ok: false, error: 'That night did not pass the shelf check, deal a fresh one and try again.' };
         }
         all.unshift(record);
         writeAll(all);
@@ -246,12 +246,12 @@
   /* ---------------- rematch ----------------
      Same setup, fresh picks: re-deal the saved inputs with every saved
      game held out of the deck. The engine is deterministic, so the
-     smaller deck is what makes the night new — same role curve, same
+     smaller deck is what makes the night new, same role curve, same
      timebox, zero repeated picks while the catalog can fill the slots.
      `engine` is curator-night.js (dealNight); `catalog` is the live one. */
   function rematch(record, catalog, engine) {
     if (!validRecord(record)) {
-      return { ok: false, error: 'That saved night is not readable — it may predate the shelf format.' };
+      return { ok: false, error: 'That saved night is not readable, it may predate the shelf format.' };
     }
     var heldOut = {};
     record.slots.forEach(function (s) { heldOut[s.game_id] = 1; });
@@ -286,7 +286,7 @@
     var i0 = record.inputs;
     var when = new Date(record.saved_at);
     var lines = [
-      'GAME NIGHT — "' + record.name + '" (saved on Button Mash)',
+      'GAME NIGHT: "' + record.name + '" (saved on Button Mash)',
       i0.group_size + (i0.group_size === 1 ? ' player' : ' players') + ' · ' +
         i0.minutes + ' min · ' + i0.vibes.join('/') + ' · ' + i0.skill +
         (i0.kids ? ' · kids table' : '') +
@@ -296,7 +296,7 @@
       ''
     ];
     record.slots.forEach(function (s, i) {
-      lines.push((i + 1) + '. ' + s.role_label + ' — ' + s.title + ' (~' + s.session_est + ' min, ' +
+      lines.push((i + 1) + '. ' + s.role_label + ', ' + s.title + ' (~' + s.session_est + ' min, ' +
         s.floor_label + ', ' + s.energy_label + (s.capacity > 1 ? ', seats ~' + s.capacity : '') + ')');
       lines.push('   ' + s.url);
     });

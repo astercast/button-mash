@@ -1,4 +1,4 @@
-/* game-detail.js — the Curator's per-game metadata surface (game.html?id=).
+/* game-detail.js, the Curator's per-game metadata surface (game.html?id=).
    Static-first: renders from data/v1/games.json immediately, then probes
    GET /api/games?id=<id> for live enrichment through
    ApiClient.fetchWithFallback (badge: live / cached · updated HH:MM /
@@ -104,7 +104,7 @@
     journalLink.href = "journal.html?game=" + game.id;
     playRow.appendChild(journalLink);
     var note = el("p", "play-note",
-      "Opens in a new tab. Button Mash never hosts the game itself — this link is the official page, verified live.");
+      "Opens in a new tab. Button Mash never hosts the game itself, this link is the official page, verified live.");
     playRow.appendChild(note);
     hero.appendChild(playRow);
   }
@@ -161,16 +161,16 @@
     box.innerHTML = "";
     box.appendChild(el("h2", null, "On these shelves"));
     if (!collections) {
-      // Honest offline state: the shelf list failed to load — that is not
+      // Honest offline state: the shelf list failed to load, that is not
       // the same as "this game is on no shelves".
-      box.appendChild(el("p", "muted", "» SHELVES OFFLINE — the shelf list could not be loaded. The directory still has every game."));
+      box.appendChild(el("p", "muted", "» SHELVES OFFLINE, the shelf list could not be loaded. The directory still has every game."));
       return;
     }
     var mine = collections.filter(function (c) {
       return (c.game_ids || []).indexOf(game.id) !== -1;
     });
     if (!mine.length) {
-      box.appendChild(el("p", "muted", "Not on any curated shelf yet — it is still listed in the full directory."));
+      box.appendChild(el("p", "muted", "Not on any curated shelf yet, it is still listed in the full directory."));
       return;
     }
     var ul = el("ul", "shelf-links");
@@ -179,7 +179,7 @@
       var a = el("a", null, c.title);
       a.href = "collections.html#shelf-" + c.id;
       li.appendChild(a);
-      if (c.tagline) li.appendChild(document.createTextNode(" — " + c.tagline));
+      if (c.tagline) li.appendChild(document.createTextNode(": " + c.tagline));
       ul.appendChild(li);
     });
     box.appendChild(ul);
@@ -241,7 +241,7 @@
     if (!main) return;
     var id = readId();
     if (id === null) {
-      offlineState(main, "NO GAME ON THIS CHANNEL", "This page needs a game id — pick one from the directory.");
+      offlineState(main, "NO GAME ON THIS CHANNEL", "This page needs a game id, pick one from the directory.");
       return;
     }
     if (id === "!") {
@@ -261,10 +261,10 @@
       var game = games.find(function (g) { return g.id === id; });
       if (!game) {
         offlineState(main, "NO GAME ON THIS CHANNEL",
-          "No game with id \"" + id + "\" on the shelf. It may have been renamed — try the directory search.");
+          "No game with id \"" + id + "\" on the shelf. It may have been renamed, try the directory search.");
         return;
       }
-      document.title = game.title + " — Button Mash";
+      document.title = game.title + ": Button Mash";
 
       // Static render first: the page is complete even with the functions down.
       renderHero(game, null);
@@ -296,7 +296,7 @@
             if (cols.length) {
               // Two shapes reach here: the live function resolves game_ids
               // into games[]; the static fallback carries raw game_ids.
-              // Accept both — mapping only games[] turned every fallback
+              // Accept both, mapping only games[] turned every fallback
               // shelf into an empty game list and wiped the static render.
               var shaped = cols.map(function (c) {
                 return {

@@ -1,13 +1,13 @@
 /* Wave 40 (T-MASH-2) checks: the Play Journal (journal.html).
 
-   (1) core: BMJournal over the trophy-pattern store — statuses
+   (1) core: BMJournal over the trophy-pattern store, statuses
    shelve, multiple dated logs per playthrough coexist in order,
    invalid writes refuse, reads never create entries, a fresh
    store reads persisted state back;
    (2) addressability: every one of the 213 catalog games is a
    valid journal target (picker + all-games list in the page);
    (3) headless: shelve Cookie Clicker as playing, write two log
-   entries, reload — the shelf and both logs persist from
+   entries, reload, the shelf and both logs persist from
    localStorage; the ?game= deep link opens a game in the editor;
    zero pageerrors, no 390px overflow.
 
@@ -22,8 +22,8 @@ const ROOT = "/home/hatch/workspace/button-mash";
 const BASE = "file://" + ROOT;
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -40,7 +40,7 @@ const J = require(path.join(ROOT, "assets/js/journal-core.js"));
     "want/playing/finished each hold exactly the game shelved there");
   s.addLog("a-dark-room", "2026-10-01", "Lit the fire.");
   s.addLog("a-dark-room", "2026-10-05", "The village grows. Same playthrough, second entry.");
-  s.addLog("a-dark-room", "2026-10-09", "Third entry — multiple logs per playthrough.");
+  s.addLog("a-dark-room", "2026-10-09", "Third entry, multiple logs per playthrough.");
   const logs = s.getLogs("a-dark-room");
   check("core: multiple dated logs per playthrough coexist, in the order written",
     logs.length === 3 && logs[0].date === "2026-10-01" && logs[2].date === "2026-10-09" &&
@@ -97,7 +97,7 @@ const J = require(path.join(ROOT, "assets/js/journal-core.js"));
   check("headless: shelving + two log entries land in localStorage and on the Playing shelf",
     before.logs === 2 && before.shelf.includes("Cookie Clicker") &&
     before.raw.includes("cookie-clicker") && before.raw.includes("First bake"),
-    "logs=" + before.logs + " — persisted under bm.journal.v1");
+    "logs=" + before.logs + ", persisted under bm.journal.v1");
 
   await page.reload({ waitUntil: "load", timeout: 60000 });
   await page.waitForFunction(() => document.querySelectorAll("#journal-all [data-journal-game]").length === 213, { timeout: 30000 }).catch(() => {});

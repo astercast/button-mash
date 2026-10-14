@@ -1,4 +1,4 @@
-/* Button Mash Player — EmulatorJS "bring your own file" console.
+/* Button Mash Player: EmulatorJS "bring your own file" console.
    The site hosts zero ROMs. The user supplies their own file (or URL),
    which is read locally and handed to EmulatorJS as a blob URL. */
 (function () {
@@ -46,7 +46,7 @@
   function $(id) { return document.getElementById(id); }
 
   /* The drop veil (and its #veil-error paragraph) lives inside #ejs-stage, so
-     never blank the whole stage — remove only the emulator screen div. */
+     never blank the whole stage, remove only the emulator screen div. */
   function clearScreen() {
     var scr = $('ejs-screen');
     if (scr) scr.remove();
@@ -136,7 +136,7 @@
       veilError('Could not load the emulator engine from the EmulatorJS CDN. Check your connection and try again.');
     };
     window.EJS_onGameStart = function () {
-      setStatus('NOW PLAYING — ' + window.EJS_gameName.toUpperCase(), true);
+      setStatus('NOW PLAYING, ' + window.EJS_gameName.toUpperCase(), true);
       applyIntScale();
     };
     document.head.appendChild(script);
@@ -223,7 +223,7 @@
   /* ================= Player 2.1 =================
      All Player 2.1 features are client-side and verified against the
      EmulatorJS 4.2.3 stable engine (cdn.emulatorjs.org/stable):
-     - save slots: IndexedDB "EmulatorJS-states" / store "states" — the same
+     - save slots: IndexedDB "EmulatorJS-states" / store "states", the same
        store the engine uses. Engine slot key = "<baseFileName>.state"
        (base = game name with the engine's invalid-char strip). Named slots
        are "<baseFileName>.bm-slot-<n>.state"; the auto-save slot is
@@ -240,7 +240,7 @@
        panels keep working for the most recent game even before a boot
      Every DOM write below is null-guarded (wave 3.1 discipline). */
 
-  var CRT_KEY = 'bm-crt'; /* legacy global toggle — read once as a fallback when adopting per-system prefs */
+  var CRT_KEY = 'bm-crt'; /* legacy global toggle, read once as a fallback when adopting per-system prefs */
   var IDB_DB = 'EmulatorJS-states';
   var IDB_STORE = 'states';
   var LAST_GAME_KEY = 'bm-last-game';
@@ -460,7 +460,7 @@
   }
 
   /* ---------- Wow wave 1: CRT screen power on/off ----------
-     Pure overlay classes on #ejs-screen — the EmulatorJS engine underneath
+     Pure overlay classes on #ejs-screen, the EmulatorJS engine underneath
      is never touched. The FX toggle and prefers-reduced-motion both make
      these a no-op (CSS gates the keyframes; this helper skips the delay). */
   function crtMotionOK() {
@@ -530,7 +530,7 @@
     try { localStorage.setItem(k, JSON.stringify(m)); } catch (e) {}
   }
   function fmtBytes(n) {
-    if (n === undefined || n === null) return '—';
+    if (n === undefined || n === null) return ', ';
     if (n < 1024) return n + ' B';
     if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
     return (n / 1048576).toFixed(1) + ' MB';
@@ -607,9 +607,8 @@
     var acts = document.createElement('span'); acts.className = 'slot-actions';
     if (!isEngine) {
       acts.appendChild(mkBtn('💾 Save', 'Copy the engine slot into "' + label + '"',
-        function () { copyIntoSlot(ctx, key, label); },
-        !hasEngine, 'Save in-game first (needs "Keep in Browser" mode)'));
-      acts.appendChild(mkBtn('⏪ Restore', 'Copy "' + label + '" over the engine slot — the engine\'s Load State will read it',
+        function () { copyIntoSlot(ctx, key, label); }, !hasEngine, 'Save in-game first (needs "Keep in Browser" mode)'));
+      acts.appendChild(mkBtn('⏪ Restore', 'Copy "' + label + '" over the engine slot, the engine\'s Load State will read it',
         function () { restoreSlot(ctx, key, label); }));
       acts.appendChild(mkBtn('✏️ Rename', 'Rename the slot "' + label + '"',
         function () { renameSlot(ctx, key, label, nm); }));
@@ -652,12 +651,12 @@
       if (!total) {
         slotsSetStatus('No save slots yet for "' + ctx.gameName + '". Save in-game with the engine set to "Keep in Browser" (in-game menu → Settings → Save States) and the engine slot will appear here. Everything is stored only in this browser.');
       } else {
-        slotsSetStatus(total + ' slot(s) for "' + ctx.gameName + '" — all stored only in this browser.');
+        slotsSetStatus(total + ' slot(s) for "' + ctx.gameName + '", all stored only in this browser.');
       }
       var frag = document.createDocumentFragment();
       if (hasEngine) {
         frag.appendChild(slotRow(ctx, engKey, 'Engine slot',
-          'The slot the in-game menu reads and writes — exists only in "Keep in Browser" mode', true, true));
+          'The slot the in-game menu reads and writes, exists only in "Keep in Browser" mode', true, true));
       }
       slots.forEach(function (s) {
         var mm = meta[s.key] || {};
@@ -675,7 +674,7 @@
         idbGet(k).then(function (b) {
           var bytes = asBytes(b);
           sp.textContent = bytes ? fmtBytes(bytes.byteLength) : 'empty';
-        }).catch(function () { sp.textContent = '—'; });
+        }).catch(function () { sp.textContent = '-'; });
       });
       var nb2 = $('slot-new');
       if (nb2) nb2.disabled = false;
@@ -690,7 +689,7 @@
     slotsSetStatus('Saving into "' + label + '"…');
     idbGet(engKey).then(function (eng) {
       var bytes = asBytes(eng);
-      if (!bytes || !bytes.byteLength) throw new Error('the engine slot is empty — save in-game first');
+      if (!bytes || !bytes.byteLength) throw new Error('the engine slot is empty, save in-game first');
       return idbPut(key, bytes).then(function () {
         var meta = readSlotMeta(ctx);
         meta[key] = meta[key] || {};
@@ -714,7 +713,7 @@
       if (!bytes || !bytes.byteLength) throw new Error('slot is empty');
       return idbPut(engKey, bytes);
     }).then(function () {
-      slotsSetStatus('Restored "' + label + '" — use the engine\'s Load State to resume from it.');
+      slotsSetStatus('Restored "' + label + '", use the engine\'s Load State to resume from it.');
       renderSlots();
     }).catch(function (e) {
       slotsSetStatus('Restore failed (' + (e && e.message ? e.message : e) + ').');
@@ -778,7 +777,7 @@
       var key = namedSlotKey(base, n);
       return idbGet(engKey).then(function (eng) {
         var bytes = asBytes(eng);
-        if (!bytes || !bytes.byteLength) throw new Error('the engine slot is empty — save in-game first (needs "Keep in Browser" mode)');
+        if (!bytes || !bytes.byteLength) throw new Error('the engine slot is empty, save in-game first (needs "Keep in Browser" mode)');
         return idbPut(key, bytes).then(function () {
           var meta = readSlotMeta(ctx);
           meta[key] = { label: 'Slot ' + n, updated: Date.now() };
@@ -820,7 +819,7 @@
       else el.value = String(pref.minutes);
     });
     var msg = !ctx ? 'Boot a game to set up auto-save.' :
-      pref.enabled ? 'On — copies the engine slot every ' + pref.minutes + ' min while this tab stays open.' :
+      pref.enabled ? 'On, copies the engine slot every ' + pref.minutes + ' min while this tab stays open.' :
       'Off. Copies the engine slot on a timer; needs "Keep in Browser" mode and this tab open.';
     ['autosave-status', 'dlg-autosave-status'].forEach(function (id) {
       var el = $(id); if (el) el.textContent = msg;
@@ -889,7 +888,7 @@
       document.body.appendChild(a);
       a.click();
       setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
-      slotsSetStatus('Exported "' + key + '" — share the file; a friend can import it with their own copy of the same game.');
+      slotsSetStatus('Exported "' + key + '", share the file; a friend can import it with their own copy of the same game.');
     }).catch(function (e) {
       slotsSetStatus('Export failed (' + (e && e.message ? e.message : e) + ').');
     });
@@ -1016,12 +1015,12 @@
     if (migrated) remapSetStatus('Your older per-game mappings were moved into the per-system map for ' + (SYSTEM_LABELS[core] || core) + '.');
   }
   function keyName(v) {
-    if (v === undefined || v === null || v === '') return '—';
+    if (v === undefined || v === null || v === '') return ', ';
     if (typeof v === 'number') return KEYMAP[v] || ('key ' + v);
     return String(v);
   }
   function padName(v) {
-    if (v === undefined || v === null || v === '') return '—';
+    if (v === undefined || v === null || v === '') return ', ';
     var s = String(v);
     if (/^\d+$/.test(s)) {
       var n = parseInt(s, 10);
@@ -1052,7 +1051,7 @@
     var map = systemPlayerMap(core);
     var stored = readSystemRemap(core);
     remapSetStatus('Player 1 · ' + (SYSTEM_LABELS[core] || core) + ' · ' +
-      (stored ? 'custom per-system map stored on this device' : 'engine defaults — no custom map stored yet') +
+      (stored ? 'custom per-system map stored on this device' : 'engine defaults, no custom map stored yet') +
       '. Saved maps apply the next time a ' + (SYSTEM_LABELS[core] || core) +
       ' game boots, and override Player 1 changes made in the engine\'s own menu.');
     if (!tbody) return;
@@ -1088,7 +1087,7 @@
   }
   function writeSystemControl(core, id, field, val) {
     if (saveSystemControl(core, id, field, val)) {
-      remapSetStatus('Saved — applies the next time a ' + (SYSTEM_LABELS[core] || core) + ' game boots.');
+      remapSetStatus('Saved, applies the next time a ' + (SYSTEM_LABELS[core] || core) + ' game boots.');
     } else {
       remapSetStatus('Could not save the mapping.');
     }
@@ -1174,7 +1173,7 @@
     var k = remapKey(core);
     if (k) { try { localStorage.removeItem(k); } catch (e) {} }
     renderRemap();
-    remapSetStatus('Per-system map cleared for ' + (SYSTEM_LABELS[core] || core) + ' — engine defaults apply on next boot.');
+    remapSetStatus('Per-system map cleared for ' + (SYSTEM_LABELS[core] || core) + ', engine defaults apply on next boot.');
   }
 
   /* ---------- Cheats ---------- */
@@ -1205,7 +1204,7 @@
     }
     var cheats = getCheats();
     cheatsSetStatus(cheats.length
-      ? cheats.length + ' cheat(s) for this game — loaded into the engine’s cheat manager when the game boots; toggle them with the cheat icon in the in-game menu.'
+      ? cheats.length + ' cheat(s) for this game, loaded into the engine’s cheat manager when the game boots; toggle them with the cheat icon in the in-game menu.'
       : 'No cheats yet for this game. Add your own below.');
     if (!list) return;
     cheats.forEach(function (c, i) {
@@ -1213,7 +1212,7 @@
       var nm = document.createElement('span'); nm.className = 'grow';
       var b = document.createElement('strong'); b.textContent = c.name || 'Cheat';
       nm.appendChild(b);
-      nm.appendChild(document.createTextNode(' — '));
+      nm.appendChild(document.createTextNode(', '));
       var code = document.createElement('code'); code.className = 'mono'; code.textContent = c.code || '';
       nm.appendChild(code);
       var rm = document.createElement('button');
@@ -1256,7 +1255,7 @@
     });
     sysSelect.addEventListener('change', function () { updateBiosNote(sysSelect.value); });
 
-    /* deep link: ?core=gba (etc.) preselects the system — used by the guides */
+    /* deep link: ?core=gba (etc.) preselects the system, used by the guides */
     try {
       var qcore = new URLSearchParams(window.location.search).get('core');
       if (qcore && SYSTEM_LABELS[qcore]) {
@@ -1298,7 +1297,7 @@
     });
 
     bindDrop(veil);
-    setStatus('IDLE — DROP A FILE TO BEGIN', false);
+    setStatus('IDLE: DROP A FILE TO BEGIN', false);
 
     /* ---------- Player 2.1 wiring ---------- */
     ensureCrtOverlay();
@@ -1377,7 +1376,7 @@
       if (el) el.addEventListener('keydown', function (e) { if (e.key === 'Enter') addCheat(); });
     });
 
-    /* initial (no-game) panel state — panels fall back to the last-booted game */
+    /* initial (no-game) panel state, panels fall back to the last-booted game */
     renderCheats();
     renderRemap();
     renderSlots();

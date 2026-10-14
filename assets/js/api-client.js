@@ -1,4 +1,4 @@
-/* api-client.js — shared fallback contract client. Copy verbatim per repo. */
+/* api-client.js, shared fallback contract client. Copy verbatim per repo. */
 (function (global) {
   "use strict";
 
@@ -14,7 +14,7 @@
   // opts: { timeoutMs, staticPath, badgeEl }
   // livePath like "/api/trends"; staticPath like "/data/v1/trends.flat.json"
   // resolves { data, source: "live"|"static", generatedAt, degraded, note }
-  // never rejects — worst case returns { data: null, source: "none" }
+  // never rejects, worst case returns { data: null, source: "none" }
   function fetchWithFallback(livePath, staticPath, opts) {
     opts = opts || {};
     var timeoutMs = opts.timeoutMs || LIVE_TIMEOUT_MS;
@@ -28,7 +28,7 @@
         badgeEl.title = "Fresh from the server · " + fmtTime(generatedAt);
       } else if (state === "cached") {
         badgeEl.textContent = "cached · updated " + fmtTime(generatedAt);
-        badgeEl.title = (note || "Server unreachable — showing last published data.") +
+        badgeEl.title = (note || "Server unreachable, showing last published data.") +
           " · " + fmtTime(generatedAt);
       } else if (state === "waking") {
         badgeEl.textContent = "waking server…";

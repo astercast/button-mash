@@ -3,25 +3,25 @@
    (1) The HUMAN DECISION BRIEF (TAXONOMY_BRIEF.md, repo root): wave 25
        recorded a cozy/horror recommendation and pinned both games in
        horror pending a human call; wave 26 left the shelf untouched.
-       This wave writes the one-page brief a human can rule from —
+       This wave writes the one-page brief a human can rule from,
        each game's own store-page framing (itch pages re-fetched
        2026-10-12), the comparable shelving, the exact census effect,
        the related Spooky Town case, the honest case for leaving them,
-       and a clear recommendation — and decides NOTHING. The pins
+       and a clear recommendation, and decides NOTHING. The pins
        below keep purrgatory, Lookouts and Spooky Town in horror and
        the census at horror 6 / cozy 16 until a human rules.
 
-   (2) Curator pass 3 — the retro shelf's year/maker/superlative
-       claims, a tranche waves 24–26 never externally verified (only
+   (2) Curator pass 3, the retro shelf's year/maker/superlative
+       claims, a tranche waves 24-26 never externally verified (only
        Robotron's 1982 had been). Sixteen descriptions checked against
        sources outside the repo (Wikipedia, arcade-museum, the Strong
        Museum of Play, Bandai Namco's own Arcade Archives release
        notes, the games' own archive.org items). Fourteen stand as
        written and are pinned verbatim below. Two earned fixes:
-       - 1942 called itself "the granddaddy of the shmup" — the genre
+       - 1942 called itself "the granddaddy of the shmup", the genre
          runs through Space Invaders (1978) and Xevious (1982); what
          1942 actually was is the first of Capcom's 19XX series.
-       - Transport Tycoon said "1995" with no edition named — the
+       - Transport Tycoon said "1995" with no edition named, the
          original game is 1994 (Nov 1994, MicroProse); 1995 is the
          Deluxe edition, which is the build the entry links. The
          entry now names the edition it links.
@@ -35,8 +35,8 @@ const path = require("path");
 const ROOT = "/home/hatch/workspace/button-mash";
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 
 const gamesDoc = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/games.json"), "utf8"));
@@ -69,7 +69,7 @@ const brief = fs.existsSync(briefPath) ? fs.readFileSync(briefPath, "utf8") : ""
   check("brief: the Spooky Town case is in the brief with fresh evidence",
     brief.includes("Little Troubles in Spooky Town") && brief.includes("Cozy, Cute, Ghosts") &&
     brief.includes("Girly Game Jam"),
-    "its own itch page tags it Cozy/Cute/Wholesome — same ruling should settle it");
+    "its own itch page tags it Cozy/Cute/Wholesome, same ruling should settle it");
   check("brief: the case for leaving them is stated, not strawmanned",
     brief.includes("The case for leaving them") && brief.includes("thin shelf"),
     "browsing-aid and dark-material arguments on the record");
@@ -85,7 +85,7 @@ const brief = fs.existsSync(briefPath) ? fs.readFileSync(briefPath, "utf8") : ""
 {
   const horror = gamesDoc.games.filter((g) => g.genre === "horror");
   const cozy = gamesDoc.games.filter((g) => g.genre === "cozy");
-  check("taxonomy: nothing reshelved this wave — all three still in horror",
+  check("taxonomy: nothing reshelved this wave, all three still in horror",
     byId["purrgatory"].genre === "horror" && byId["lookouts"].genre === "horror" &&
     byId["spooky-town"].genre === "horror",
     "pinned pending the human ruling the brief asks for");
@@ -116,14 +116,14 @@ const VERIFIED = {
   "dig-dug": "Namco's 1982 digger: tunnel through the dirt, pump up Pookas, and drop rocks on Fygars.",
   "joust": "Williams' 1982 ostrich jousting: flap higher than the rival knights and lance them out of the sky.",
   "centipede": "Atari's 1981 shooter: blast the descending centipede through a mushroom field before it reaches you.",
-  "defender": "Williams' 1981 rescue shooter: the hardest game of the golden age — save the humanoids, mind the hyperspace.",
+  "defender": "Williams' 1981 rescue shooter: the hardest game of the golden age, save the humanoids, mind the hyperspace.",
   "qbert": "Gottlieb's 1982 cube-hopper: change every tile's color, dodge Coily, and mind the @!#?@! swearing.",
   "congo-bongo": "Sega's 1983 isometric platformer: climb, dodge, and outwit the ape in the isometric rival to Donkey Kong.",
   "galaga88": "Namco's 1987 sequel: the dive-bombing classic with triple-ship power-ups and branching warp zones.",
   "bubble-bobble-2": "Taito's 1994 co-op bubble-blower: trap monsters in bubbles with a friend, in the sequel to the arcade sweetheart.",
   "pac-gal-20th": "The 2000 arcade reunion cabinet: Ms. Pac-Man and Galaga, class of 1981, together in one anniversary machine.",
   "master-of-orion": "The 1993 4X that named the genre: colonize stars, design ships, and out-diplomacize the galaxy.",
-  "sfa2": "Capcom's 1996 fighter: the Alpha series at its peak — air-blocking, custom combos, and anime-styled sprites.",
+  "sfa2": "Capcom's 1996 fighter: the Alpha series at its peak, air-blocking, custom combos, and anime-styled sprites.",
 };
 Object.keys(VERIFIED).forEach((id) => {
   check("verified as written: " + id,

@@ -1,4 +1,4 @@
-/* collections.js — curated shelves, wired to the Curator (wave 19).
+/* collections.js, curated shelves, wired to the Curator (wave 19).
    Static-first: renders all 24 shelves from data/v1/collections.json
    immediately, then probes GET /api/collections through
    ApiClient.fetchWithFallback. Live → the Curator's resolved titles/URLs are
@@ -73,7 +73,7 @@
         det.setAttribute('aria-label', 'Full game file for ' + g.title);
         row.appendChild(det);
         li.appendChild(row);
-        li.appendChild(document.createTextNode(' \u2014 ' + (g.description || '')));
+        li.appendChild(document.createTextNode(': ' + (g.description || '')));
         ol.appendChild(li);
       });
       card.appendChild(ol);
@@ -84,7 +84,7 @@
   }
 
   /* Arcade Passport (wave 31): a shelf earns its stamp when it is
-     actually seen — an IntersectionObserver fires as each card
+     actually seen, an IntersectionObserver fires as each card
      enters the viewport, and the first sighting is the one that
      counts (BM.Passport.stamp never re-dates). Stamped cards wear
      an ink ribbon; the hero chip carries the running count. No

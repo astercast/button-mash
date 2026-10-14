@@ -1,4 +1,4 @@
-/* GET /api/health — service health (spec §1.4).
+/* GET /api/health, service health (spec §1.4).
    No auth. Edge-cacheable (s-maxage=60).
    Never returns 5xx: a failing health check reports status "degraded" in a
    200 envelope (a 5xx health endpoint tells you nothing on serverless). */

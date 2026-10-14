@@ -1,4 +1,4 @@
-/* Button Mash — guide TOC scroll-spy (wave 13).
+/* Button Mash, guide TOC scroll-spy (wave 13).
    Progressive enhancement: highlights the TOC link for the section
    currently in view. No animation, no smooth scrolling, works fine
    under prefers-reduced-motion; harmless no-op without JS. */

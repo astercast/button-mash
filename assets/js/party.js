@@ -1,4 +1,4 @@
-/* Button Mash Party Planner 2.0 — guest list, game voting, rotation
+/* Button Mash Party Planner 2.0, guest list, game voting, rotation
    scheduler, snack-break timer, party timeline, tournament handoff 2.0,
    share links, print party pack, copy-as-text, kids-party mode.
    Pure logic lives in party2.js (Party2); this file is the DOM layer and
@@ -57,7 +57,7 @@
     var tags = game.tags || [];
     if (game.id === 'airconsole') return 'Open airconsole.com on the big screen, everyone joins on their phone.';
     if (tags.indexOf('drawing') !== -1) return 'Private room: create a room and share the link in the group chat.';
-    if (game.id === 'skribbl' || game.id === 'bonk' || game.id === 'gartic-phone') return 'Private room: create a room and share the link — 5 minutes of setup.';
+    if (game.id === 'skribbl' || game.id === 'bonk' || game.id === 'gartic-phone') return 'Private room: create a room and share the link: 5 minutes of setup.';
     if (tags.indexOf('shooter') !== -1 || tags.indexOf('arena') !== -1) return 'Drop-in: everyone opens the link, no lobby needed.';
     if (tags.indexOf('board') !== -1) return 'Create a table/room and share the invite link.';
     return 'Open the link together and follow the on-screen setup.';
@@ -221,9 +221,9 @@
     if (party.opts.startClock) {
       var parts = party.opts.startClock.split(':');
       var base = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
-      return fmtClock(base + slot.start) + '–' + fmtClock(base + slot.end);
+      return fmtClock(base + slot.start) + '-' + fmtClock(base + slot.end);
     }
-    return 'Slot time ' + fmtTime(slot.start) + '–' + fmtTime(slot.end);
+    return 'Slot time ' + fmtTime(slot.start) + '-' + fmtTime(slot.end);
   }
 
   function fmtClock(totalMin) {
@@ -244,7 +244,7 @@
       return;
     }
     var totalMin = slots[slots.length - 1].end;
-    var kidNote = party.opts.kids ? ' (kids party — kid-safe picks)' : '';
+    var kidNote = party.opts.kids ? ' (kids party, kid-safe picks)' : '';
     summary.textContent = 'Party plan ready: ' + slots.length + ' games over about ' + fmtTime(totalMin) +
       ' for ' + party.guests.length + ' guests' + kidNote + '.';
 
@@ -264,7 +264,7 @@
       li.className = 'tl-phase';
       li.setAttribute('data-phase', ph.phase);
       var when = BM.el('p', 'tl-when',
-        ph.clockStart ? (ph.clockStart + ' – ' + ph.clockEnd) : ('+' + fmtTime(Math.max(0, ph.start)) + ' – +' + fmtTime(ph.end)));
+        ph.clockStart ? (ph.clockStart + ' - ' + ph.clockEnd) : ('+' + fmtTime(Math.max(0, ph.start)) + ' - +' + fmtTime(ph.end)));
       li.appendChild(when);
       var p = BM.el('p', '', ph.label);
       if (ph.phase === 'tournament') {
@@ -340,7 +340,7 @@
     panel.setAttribute('aria-label', 'Vote on the games');
     panel.appendChild(BM.el('h2', '', '🗳️ Vote on the games'));
     panel.appendChild(BM.el('p', 'pp-note',
-      'One vote per guest — voting again moves your vote. Ties go to the game picked earliest. ' +
+      'One vote per guest, voting again moves your vote. Ties go to the game picked earliest. ' +
       'Voted games lead the plan, and the tournament handoff takes the top picks.'));
 
     var row = BM.el('div', 'vote-row', '');
@@ -399,7 +399,7 @@
     var tally = Party2.tally(party);
     var voted = tally.filter(function (t) { return t.count > 0; });
     if (!voted.length) {
-      ul.appendChild(BM.el('li', '', 'No votes yet — be the first.'));
+      ul.appendChild(BM.el('li', '', 'No votes yet, be the first.'));
       return;
     }
     voted.forEach(function (t) {
@@ -409,7 +409,7 @@
       name.textContent = g ? g.title : t.gameId;
       li.appendChild(name);
       var voters = Object.keys(party.votes).filter(function (v) { return party.votes[v] === t.gameId; });
-      li.appendChild(document.createTextNode(t.count + ' vote' + (t.count === 1 ? '' : 's') + ' — ' + voters.join(', ')));
+      li.appendChild(document.createTextNode(t.count + ' vote' + (t.count === 1 ? '' : 's') + ', ' + voters.join(', ')));
       ul.appendChild(li);
     });
   }
@@ -422,7 +422,7 @@
     box.setAttribute('aria-label', 'Snack-break timer');
     box.appendChild(BM.el('h2', '', '⏲️ Snack-break timer'));
     box.appendChild(BM.el('p', 'pp-note',
-      'When the timeline hits the snack break, start the timer — it counts down the ' +
+      'When the timeline hits the snack break, start the timer, it counts down the ' +
       party.opts.snackMin + '-minute break.'));
     var face = BM.el('p', 'timer-face', fmtTimer(party.opts.snackMin * 60));
     face.id = 'pp-timer-face';
@@ -472,13 +472,13 @@
     if (snackTimer.handle) return;
     if (snackTimer.remaining <= 0) resetTimer();
     snackTimer.paused = false;
-    announce('Snack timer started — ' + fmtTimer(snackTimer.remaining) + ' remaining.');
+    announce('Snack timer started, ' + fmtTimer(snackTimer.remaining) + ' remaining.');
     snackTimer.handle = setInterval(function () {
       snackTimer.remaining--;
       face.textContent = fmtTimer(Math.max(0, snackTimer.remaining));
       if (snackTimer.remaining <= 0) {
         clearInterval(snackTimer.handle); snackTimer.handle = null;
-        announce('Snack break over — back to the games!');
+        announce('Snack break over, back to the games!');
       }
     }, 1000);
   }
@@ -500,14 +500,14 @@
   function planText() {
     var L = [];
     var totalMin = slots.length ? slots[slots.length - 1].end : 0;
-    L.push('GAME NIGHT — ' + party.guests.length + ' guests, about ' + fmtTime(totalMin) +
+    L.push('GAME NIGHT, ' + party.guests.length + ' guests, about ' + fmtTime(totalMin) +
       (party.opts.kids ? ' (kids party)' : ''));
     L.push('Guests: ' + party.guests.join(', '));
     L.push('');
     L.push('TIMELINE');
     timeline.phases.forEach(function (ph) {
-      var when = ph.clockStart ? (ph.clockStart + '–' + ph.clockEnd)
-        : ('+' + fmtTime(Math.max(0, ph.start)) + '–+' + fmtTime(ph.end));
+      var when = ph.clockStart ? (ph.clockStart + '-' + ph.clockEnd)
+        : ('+' + fmtTime(Math.max(0, ph.start)) + '-+' + fmtTime(ph.end));
       L.push('  [' + when + '] ' + ph.label);
     });
     L.push('');
@@ -528,7 +528,7 @@
       voted.forEach(function (t) {
         var g = byId[t.gameId];
         var voters = Object.keys(party.votes).filter(function (v) { return party.votes[v] === t.gameId; });
-        L.push('  ' + (g ? g.title : t.gameId) + ' — ' + t.count + ' (' + voters.join(', ') + ')');
+        L.push('  ' + (g ? g.title : t.gameId) + ', ' + t.count + ' (' + voters.join(', ') + ')');
       });
     }
     L.push('');
@@ -569,10 +569,10 @@
       return b;
     }
     btn('pp-share', '🔗 Copy party link', 'btn btn-cyan').addEventListener('click', function () {
-      copyText(partyUrl(), 'Party link copied — anyone opening it gets this exact party plan.');
+      copyText(partyUrl(), 'Party link copied, anyone opening it gets this exact party plan.');
     });
     btn('pp-copytext', '📋 Copy plan as text').addEventListener('click', function () {
-      copyText(planText(), 'Party plan copied as text — paste it in the group chat.');
+      copyText(planText(), 'Party plan copied as text, paste it in the group chat.');
     });
     btn('pp-print', '🖨️ Print party pack').addEventListener('click', function () { window.print(); });
     if (party.guests.length >= 2) {
@@ -583,7 +583,7 @@
       wrap.appendChild(a);
     }
     out.appendChild(wrap);
-    var note = BM.el('p', 'pp-share-note no-print', 'Party links stay in the URL — no account, no server. Anyone with the link sees the plan.');
+    var note = BM.el('p', 'pp-share-note no-print', 'Party links stay in the URL, no account, no server. Anyone with the link sees the plan.');
     out.appendChild(note);
   }
 

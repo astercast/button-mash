@@ -1,313 +1,313 @@
-# Button Mash — full context
+# Button Mash, full context
 
 # Button Mash
 
-The universal in-browser game console. Three centerpieces: (1) the Player — a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) the Converter 3.0 — batch-convert GBA, GB/GBC, NES, SNES or Genesis files you own into self-contained playable .html browser games (client-side only, all five cores BIOS-free, honest validation, compression levels); (3) the Party Planner — headcount + time + vibe in, timed game-night rotation plan out. Plus a curated directory of 213 free, legal browser games (every link verified live 2026-10-11), hand-built collections, genre deep dives, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads — ever.
+The universal in-browser game console. Three centerpieces: (1) the Player: a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; the user's file never leaves their machine); (2) the Converter 3.0, batch-convert GBA, GB/GBC, NES, SNES or Genesis files you own into self-contained playable .html browser games (client-side only, all five cores BIOS-free, honest validation, compression levels); (3) the Party Planner, headcount + time + vibe in, timed game-night rotation plan out. Plus a curated directory of 213 free, legal browser games (every link verified live 2026-10-11), hand-built collections, genre deep dives, and legal-lane emulation guides. No ROM piracy links, no cracked-game sites, no commercial ROM downloads, ever.
 
 ## Play
-- player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.1: named save slots + auto-save, per-system keyboard+gamepad remap, cheat-code entry, display options (CRT/integer-scale/aspect, per-system quick settings), honest netplay notes)
-- converter.html — Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 5 BIOS-free cores (mGBA/Gambatte/FCEUmm/Snes9x/Genesis Plus GX), 4 compression levels + presets, honest ROM validation (refuses empty/all-zero/bad-NES, warns on blank headers / missing SEGA string, keeps SNES copier headers), custom titles + cover art, ▶ Player mode deep links
-- party-planner.html — Party planner 2.0: guest list (2-16 names), per-guest game voting (ties go to the earliest-picked game), fair rotation scheduler (hot-seat groups of 4), party timeline with snack break + tournament slot, snack-break timer, kids-party mode from the 75 kid-safe games, tournament handoff 2.0 (?players=N&names=A,B&games=ids&format=), shareable #p= party links, print party pack + copy-as-text
-- game-night.html — Game Night: the Curator deals your night — headcount (1-12) + time (15-240 min) + vibe + skill mix + kids flag in, marquee lineup out (warm-up, main events, showdown/deep-dive, cool-down) with per-game session + skill-floor curator estimates, genre variety, timebox fit, and a staggered marquee ceremony reveal; client-side from the 213-game verified catalog, nothing sent; dealt nights can be saved in the browser (bm.lineups.v1) and rematched with fresh picks on the same setup
-- tournament.html — Tournament 2.0: single- or double-elimination brackets for game night (2-16 players, manual seeding UI + randomize, honest byes, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids))
-- tournament-night.html — Tournament Night: a bracket night for the games themselves — pick a saved Game Night lineup or a collection, seed its real games in source order on the bracket engine, pick winners round by round (picks persist in bm.tournament-night.v1), crown a champion, copy the plain-text results card
-- versus.html?a=<id>&b=<id> — Versus: any two catalog games side by side from their real records (year named in the description, collections, genre, controls, tags, Kids corner pass, written coverage); the verdict strip reports only what the data supports (older/newer, shelf footprint, coverage, Kids pass) — no scores, no winner; thin record pairs get an honest no-basis state; share card + pairing link
-- games.html — the 213-game directory (search incl. tags, genre + tag filters, shareable URL views, favorites, random game, game of the day)
-- game.html?id=<game-id> — per-game metadata file: description, controls, kid-safe + multiplayer + vibe marks (live Curator enrichment with honest live/cached badge), curated-shelf cross-links, played/beaten tracking, shareable game-file links, prev/next through the catalog
-- trophy-room.html — The Trophy Room: persistent play-tracking (mark games played/beaten on any game card; per-genre completion dials, 16-prize achievement case, per-collection progress; JSON export/import with schema validation; all browser-local)
-- kids.html — Kids corner: 113 kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default
-- parents.html — parent guide: curation method, honesty policy (assessments not guarantees — play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick
-- collections.html — 24 hand-built collections
-- genres/roguelike.html, genres/cozy.html, genres/puzzle.html, genres/retro.html, genres/action.html, genres/multiplayer.html, genres/idle.html, genres/horror.html — genre deep dives with start-here picks (all eight genres — the set is complete)
-- journal.html — Play journal & backlog (T-MASH-2): per-game status shelves (want to play / playing / finished) and dated log entries, multiple per playthrough, for all 213 catalog games; persisted in this browser only (localStorage bm.journal.v1), no account, no server
+- player.html, the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.1: named save slots + auto-save, per-system keyboard+gamepad remap, cheat-code entry, display options (CRT/integer-scale/aspect, per-system quick settings), honest netplay notes)
+- converter.html: Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 5 BIOS-free cores (mGBA/Gambatte/FCEUmm/Snes9x/Genesis Plus GX), 4 compression levels + presets, honest ROM validation (refuses empty/all-zero/bad-NES, warns on blank headers / missing SEGA string, keeps SNES copier headers), custom titles + cover art, ▶ Player mode deep links
+- party-planner.html: Party planner 2.0: guest list (2-16 names), per-guest game voting (ties go to the earliest-picked game), fair rotation scheduler (hot-seat groups of 4), party timeline with snack break + tournament slot, snack-break timer, kids-party mode from the 75 kid-safe games, tournament handoff 2.0 (?players=N&names=A,B&games=ids&format=), shareable #p= party links, print party pack + copy-as-text
+- game-night.html: Game Night: the Curator deals your night, headcount (1-12) + time (15-240 min) + vibe + skill mix + kids flag in, marquee lineup out (warm-up, main events, showdown/deep-dive, cool-down) with per-game session + skill-floor curator estimates, genre variety, timebox fit, and a staggered marquee ceremony reveal; client-side from the 213-game verified catalog, nothing sent; dealt nights can be saved in the browser (bm.lineups.v1) and rematched with fresh picks on the same setup
+- tournament.html: Tournament 2.0: single- or double-elimination brackets for game night (2-16 players, manual seeding UI + randomize, honest byes, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids))
+- tournament-night.html: Tournament Night: a bracket night for the games themselves, pick a saved Game Night lineup or a collection, seed its real games in source order on the bracket engine, pick winners round by round (picks persist in bm.tournament-night.v1), crown a champion, copy the plain-text results card
+- versus.html?a=<id>&b=<id>: Versus: any two catalog games side by side from their real records (year named in the description, collections, genre, controls, tags, Kids corner pass, written coverage); the verdict strip reports only what the data supports (older/newer, shelf footprint, coverage, Kids pass), no scores, no winner; thin record pairs get an honest no-basis state; share card + pairing link
+- games.html, the 213-game directory (search incl. tags, genre + tag filters, shareable URL views, favorites, random game, game of the day)
+- game.html?id=<game-id>, per-game metadata file: description, controls, kid-safe + multiplayer + vibe marks (live Curator enrichment with honest live/cached badge), curated-shelf cross-links, played/beaten tracking, shareable game-file links, prev/next through the catalog
+- trophy-room.html: The Trophy Room: persistent play-tracking (mark games played/beaten on any game card; per-genre completion dials, 16-prize achievement case, per-collection progress; JSON export/import with schema validation; all browser-local)
+- kids.html: Kids corner: 113 kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5-7 / 8-10 / 11-12, parent notes, reduced-motion default
+- parents.html, parent guide: curation method, honesty policy (assessments not guarantees, play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick
+- collections.html, 24 hand-built collections
+- genres/roguelike.html, genres/cozy.html, genres/puzzle.html, genres/retro.html, genres/action.html, genres/multiplayer.html, genres/idle.html, genres/horror.html, genre deep dives with start-here picks (all eight genres, the set is complete)
+- journal.html: Play journal & backlog (T-MASH-2): per-game status shelves (want to play / playing / finished) and dated log entries, multiple per playthrough, for all 213 catalog games; persisted in this browser only (localStorage bm.journal.v1), no account, no server
 
 ## Learn
-- emulation.html — emulation hub, incl. Emulator Side-by-Side (any two of the 10 picks, record against record; seeded surprise pairing)
-- monster-taming.html — original-IP monster-taming games + GBA-to-WASM tech
-- play-legal.html — the one clear legal page
-- guides/emulatorjs-self-hosting.html — EmulatorJS self-hosting guide
-- guides/retroarch-setup.html — RetroArch setup guide
-- guides/gba-to-wasm-recompiler.html — GBA-to-WASM recompiler guide (hands-on)
-- guides/gba-wasm.html — How GBA becomes WebAssembly (tech explainer)
-- guides/how-emulation-works.html — How emulation works (explainer)
-- guides/best-emulator-per-system.html — Best emulator per system (reference)
-- guides/rip-your-own-cartridges.html — Rip your own cartridges guide
-- guides/homebrew-and-public-domain.html — Homebrew & public-domain sources
-- guides/gba.html — Game Boy Advance emulation guide (mGBA, BIOS-free)
-- guides/snes.html — SNES emulation guide (Snes9x, BIOS-free)
-- guides/nes.html — NES emulation guide (FCEUmm, BIOS-free for cartridges)
-- guides/n64.html — Nintendo 64 emulation guide (Mupen64Plus-Next, BIOS-free)
-- guides/ps1.html — PlayStation emulation guide (PCSX-ReARMed, BIOS honesty)
-- guides/genesis.html — Genesis emulation guide (Genesis Plus GX, BIOS-free)
-- guides/gameboy.html — Game Boy / Color emulation guide (Gambatte, BIOS-free)
-- guides/homebrew-development.html — Make games for dead consoles: the homebrew development primer
-- guides/netplay.html — Play together online: the netplay guide (rollback, hosting, honest limits)
-- guides/save-workflows.html — Saves that survive: states, SRAM & backup workflows
-- guides/crt-shaders-display.html — Make pixels look right: CRT shaders & display science
-- guides/accessibility-in-retro-gaming.html — Retro games for every player: an accessibility guide
-- guides/preserving-your-games.html — Keep your games forever: the preservation guide
-- guides/gamepad-setup.html — Controllers in the browser: the gamepad setup guide
-- guides/pico8-spotlight.html — PICO-8 spotlight: the fantasy console's best corners
-- guides/cheat-codes.html — Cheat codes, decoded: Game Genie, GameShark & the Konami Code
+- emulation.html, emulation hub, incl. Emulator Side-by-Side (any two of the 10 picks, record against record; seeded surprise pairing)
+- monster-taming.html, original-IP monster-taming games + GBA-to-WASM tech
+- play-legal.html, the one clear legal page
+- guides/emulatorjs-self-hosting.html, EmulatorJS self-hosting guide
+- guides/retroarch-setup.html, RetroArch setup guide
+- guides/gba-to-wasm-recompiler.html, GBA-to-WASM recompiler guide (hands-on)
+- guides/gba-wasm.html, How GBA becomes WebAssembly (tech explainer)
+- guides/how-emulation-works.html, How emulation works (explainer)
+- guides/best-emulator-per-system.html, Best emulator per system (reference)
+- guides/rip-your-own-cartridges.html, Rip your own cartridges guide
+- guides/homebrew-and-public-domain.html, Homebrew & public-domain sources
+- guides/gba.html, Game Boy Advance emulation guide (mGBA, BIOS-free)
+- guides/snes.html, SNES emulation guide (Snes9x, BIOS-free)
+- guides/nes.html, NES emulation guide (FCEUmm, BIOS-free for cartridges)
+- guides/n64.html, Nintendo 64 emulation guide (Mupen64Plus-Next, BIOS-free)
+- guides/ps1.html, PlayStation emulation guide (PCSX-ReARMed, BIOS honesty)
+- guides/genesis.html, Genesis emulation guide (Genesis Plus GX, BIOS-free)
+- guides/gameboy.html, Game Boy / Color emulation guide (Gambatte, BIOS-free)
+- guides/homebrew-development.html, Make games for dead consoles: the homebrew development primer
+- guides/netplay.html, Play together online: the netplay guide (rollback, hosting, honest limits)
+- guides/save-workflows.html, Saves that survive: states, SRAM & backup workflows
+- guides/crt-shaders-display.html, Make pixels look right: CRT shaders & display science
+- guides/accessibility-in-retro-gaming.html, Retro games for every player: an accessibility guide
+- guides/preserving-your-games.html, Keep your games forever: the preservation guide
+- guides/gamepad-setup.html, Controllers in the browser: the gamepad setup guide
+- guides/pico8-spotlight.html, PICO-8 spotlight: the fantasy console's best corners
+- guides/cheat-codes.html, Cheat codes, decoded: Game Genie, GameShark & the Konami Code
 
 ## Games (213 total)
 
-- 2048 [puzzle · Arrow keys / swipe] — Slide numbered tiles and merge them to reach 2048. Deceptively simple, endlessly restartable. Play: https://play2048.co/
-- Wordle [puzzle · Keyboard] — One five-letter word a day, six guesses. The whole internet solves the same puzzle. Play: https://www.nytimes.com/games/wordle/index.html
-- Connections [puzzle · Mouse / touch] — Sort sixteen words into four secret groups. Much harder than it looks. Play: https://www.nytimes.com/games/connections
-- TETR.IO [puzzle · Keyboard (customizable)] — Blisteringly fast modern Tetris with ranked matchmaking. The esport of falling blocks. Play: https://tetr.io/
-- Jstris [puzzle · Keyboard (customizable)] — No-frills multiplayer Tetris in the browser. Pure block-stacking competition. Play: https://jstris.jezevec10.com/
-- Little Alchemy 2 [puzzle · Mouse / touch] — Combine earth, fire, air and water to discover 700+ items. Digital tinkering at its finest. Play: https://littlealchemy2.com/
-- Infinite Craft [puzzle · Mouse] — Infinite combinations from four starting elements. Craft 'philosophy' before lunch. Play: https://neal.fun/infinite-craft/
-- The Password Game [puzzle · Keyboard] — A password field with increasingly unhinged rules. You will lose. You will laugh. Play: https://neal.fun/password-game/
-- Draw Logos From Memory [puzzle · Mouse / touch] — Redraw famous logos from memory and get mercilessly judged. Deeply humbling. Play: https://neal.fun/logos-from-memory/
-- Globle [puzzle · Mouse] — Guess the mystery country from hot/cold distance hints. Geography Wordle. Play: https://globle-game.com/
-- Worldle [puzzle · Mouse] — Name the country from its silhouette alone. One a day. Play: https://worldle.teuteuf.fr/
-- Framed [puzzle · Mouse] — Guess the movie from a single frame. Six frames, one answer. Play: https://framed.wtf/
-- GeoGuessr [puzzle · Mouse] — Dropped somewhere on Earth via Street View. Figure out where you are. Free tier included. Play: https://www.geoguessr.com/
-- Sudoku [puzzle · Mouse / keyboard] — Fast, clean browser Sudoku with note mode. Zero friction, all logic. Play: https://sergesgames.itch.io/sudoku
-- Type Help [puzzle · Mouse / keyboard] — A long-form computer-file mystery in the spirit of Her Story and Obra Dinn. Play: https://william-rous.itch.io/type-help
-- Asteroid Launcher [puzzle · Mouse] — Drop asteroids on any city and watch the physics play out. Science, but fun. Play: https://neal.fun/asteroid-launcher/
-- Krunker [action · WASD + mouse] — Low-poly browser FPS with classes, maps and surprisingly crisp gunplay. Play: https://krunker.io/
-- Shell Shockers [action · WASD + mouse] — Multiplayer FPS where everyone is an egg with a gun. Absurd and excellent. Play: https://shellshock.io/
-- SmashKarts [action · WASD / arrows + space] — Kart racing meets battle arena. Pickups, explosions, glorious chaos. Play: https://smashkarts.io/
-- Venge.io [action · WASD + mouse] — Hero-based objective FPS in the browser. Pick a hero, hold the point. Play: https://live.venge.io/
-- REPULS.io [action · WASD + mouse] — Sleek sci-fi arena shooter with jetpacks, slide-hopping and style. Play: https://repuls.io/
-- ev.io [action · WASD + mouse] — Fast halo-style arena shooter that runs on almost anything. Play: https://ev.io/
-- Kirka.io [action · WASD + mouse] — Another crisp browser arena FPS with ranked play and tight movement. Play: https://kirka.io/
-- Gats.io [action · WASD + mouse] — Top-down 2D shooter with a deep loadout progression system. Play: https://gats.io/
-- Friday Night Funkin' [action · Arrow keys] — The browser rhythm battler that launched a thousand mods. Bopeebo. Play: https://ninja-muffin24.itch.io/funkin
-- Bonk.io [action · Arrows / WASD] — Physics-based multiplayer brawls. Shove your friends off the map. Play: https://bonk.io/
-- Diep.io [action · WASD + mouse] — Tank survival with deep upgrade trees. Deceptively strategic. Play: https://diep.io/
-- Starblast.io [action · WASD / arrows + mouse] — Mine asteroids, upgrade your spaceship, dominate the sector. Play: https://starblast.io/
-- Powerline.io [action · Mouse] — Snake meets Tron: eat to grow, cut rivals off at lightspeed. Play: https://powerline.io/
-- Splix.io [action · Arrows / WASD] — Territory-capture snake. Greedy expansion gets you killed. Play: https://splix.io/
-- QWOP [action · Q W O P keys] — Run 100 meters with four keys controlling individual leg muscles. A masterpiece of suffering. Play: https://www.foddy.net/legacy/Athletics.html
-- Canabalt [action · One button (space / click)] — The one-button endless runner that popularized the endless runner. Jump or die. Play: https://adamatomic.com/canabalt/
-- Happy Wheels [action · Arrows + space] — Physics ragdoll chaos on a segway. A browser legend, still going. Play: https://totaljerkface.com/happy_wheels.tjf
-- Line Rider [action · Mouse (draw)] — Draw the track, then sled it. Part game, part physics toy, part art form. Play: https://www.linerider.com/
-- Breach Command [roguelike · Mouse / keyboard] — Tactical roguelike: breach rooms, outthink the enemy, die, learn, repeat. Play: https://parris-tech-services.github.io/breach-command/
-- Dragonsweeper [roguelike · Mouse] — Minesweeper reborn as a monster-slaying roguelike. Every number is a tactical puzzle. Play: https://danielben.itch.io/dragonsweeper
-- Hordes.io [roguelike · WASD + mouse] — 3D browser MMORPG with roguelike permadeath dungeons and party play. Play: https://hordes.io/
-- Poom [action · Arrows / WASD + Z X] — A Doom demake squeezed into PICO-8's tiny 128x128 pixels. Impossibly impressive. Play: https://freds72.itch.io/poom
-- Celeste Classic [action · Arrows + Z X] — The original PICO-8 Celeste: brutally precise mountain climbing across 30 levels. Play: https://maddymakesgamesinc.itch.io/celesteclassic
-- Kaaarot [multiplayer · Keyboard (multi)] — 2-4 player party brawler about bouncing carrots. Chaotic couch-style fun. Play: https://lambdahumans.itch.io/kaaarot
-- Cookie Clicker [idle · Mouse (click)] — The idle game that popularized idle games. Bake cookies. Achieve absurdity. Play: https://www.cookieclicker.com/
-- A Dark Room [idle · Mouse] — Starts as a text game about keeping a fire lit. Becomes something much stranger. Play: https://adarkroom.doublespeakgames.com/
-- Universal Paperclips [idle · Mouse] — An AI that makes paperclips. That's it. That's the game. (It's incredible.) Play: https://www.decisionproblem.com/paperclips/
-- Candy Box 2 [idle · Mouse] — Eat candy. Get a sword. Save the world. The ASCII adventure that keeps surprising you. Play: https://candybox2.github.io/
-- Kittens Game [idle · Mouse] — Manage a kitten civilization from mud huts to interstellar travel. Absurdly deep. Play: https://kittensgame.com/web/
-- Trimps [idle · Mouse] — Lead tiny creatures through zones of escalating danger. Idle with teeth. Play: https://trimps.github.io/
-- Antimatter Dimensions [idle · Mouse] — Prestige-layered incremental about reaching infinity. Then going past it. Play: https://ivark.github.io/AntimatterDimensions/
-- Agar.io [multiplayer · Mouse] — Eat or be eaten in the cell arena that defined .io games. Play: https://agar.io/
-- Slither.io [multiplayer · Mouse] — The multiplayer snake. Coil around rivals and feast on their remains. Play: https://slither.io/
-- skribbl.io [multiplayer · Mouse (draw)] — Online Pictionary with strangers, or a private room for just your friends. Hilarious either way. Play: https://skribbl.io/
-- Gartic Phone [multiplayer · Mouse (draw)] — Telephone meets drawing. The results are always unhinged. Play: https://garticphone.com/
-- HaxBall [multiplayer · Arrows + X] — Top-down physics soccer with friends. Simple, perfect, timeless. Play: https://www.haxball.com/
-- Pokémon Showdown [multiplayer · Mouse] — Fan-made monster battle simulator. Team-build and battle in seconds, no downloads. Play: https://pokemonshowdown.com/
-- Town of Salem [multiplayer · Mouse] — Social deduction: find the mafia before they find you. Trust no one. Play: https://townofsalem.com/
-- Board Game Arena [multiplayer · Mouse] — Hundreds of real board games, playable live with friends around the world. Play: https://en.boardgamearena.com/
-- Colonist.io [multiplayer · Mouse] — Settlers-style strategy in the browser. Trade, build, win. Play: https://colonist.io/
-- Codenames [multiplayer · Mouse] — The official online version of the word-association party classic. Play: https://codenames.game/
-- Secret Hitler [multiplayer · Mouse] — Social deduction in 1930s Germany. Lie convincingly or sniff out the fascists. Play: https://secrethitler.io/
-- JKLM.fun [multiplayer · Keyboard] — Fast party word games: BombParty and PopSauce right in your browser. Play: https://jklm.fun/
-- Drawasaurus [multiplayer · Mouse (draw)] — Draw and guess with rooms for friends. Pictionary night, online. Play: https://www.drawasaurus.org/
-- PlayingCards.io [multiplayer · Mouse] — A virtual tabletop: play any card game with friends, your rules. Play: https://playingcards.io/
-- Make It Meme [multiplayer · Keyboard / mouse] — Caption memes against your friends. Democracy decides the winner. Play: https://makeitmeme.com/
-- Lichess [multiplayer · Mouse] — Completely free chess: matchmaking, puzzles, tournaments. No account needed to play. Play: https://lichess.org/
-- Bloxd.io [multiplayer · WASD + mouse] — Minecraft-style voxel sandbox with game modes, all in the browser. Play: https://bloxd.io/
-- Moomoo.io [multiplayer · Mouse / WASD] — Gather resources, build a base, and survive with your tribe. Play: https://moomoo.io/
-- Zombs.io [multiplayer · Mouse / WASD] — Build defenses by day, survive the zombie horde by night. Play: https://zombs.io/
-- ZombsRoyale.io [multiplayer · WASD + mouse] — 2D battle royale: loot, dodge the shrinking circle, be the last one standing. Play: https://zombsroyale.io/
-- Deeeep.io [multiplayer · Mouse] — Evolve from a tiny fish to the ocean's apex predator. Play: https://deeeep.io/
-- Wormate.io [multiplayer · Mouse] — Candy-fueled worm arena with power-ups, skins and dirty tricks. Play: https://wormate.io/
-- Internet Archive: Console Living Room [retro · Keyboard (on-screen pad)] — Hundreds of vintage console games, legally emulated right in your browser. Play: https://archive.org/details/consolelivingroom
-- Internet Archive: Internet Arcade [retro · Keyboard (on-screen pad)] — Hundreds of arcade classics, preserved and playable. Insert coin. Play: https://archive.org/details/internetarcade
-- Internet Archive: MS-DOS Library [retro · Keyboard] — Thousands of DOS games: Oregon Trail, DOOM, Prince of Persia and more. Play: https://archive.org/details/softwarelibrary_msdos
-- Moss Moss [retro · Arrows + Z X] — A tiny PICO-8 exploration game about covering the world in moss. Play: https://noelcody.itch.io/moss-moss
-- Top PICO-8 Games (collection) [retro · Arrows + Z X] — A curated shelf of the fantasy console's greatest hits, all free in-browser. Play: https://itch.io/c/4233781/top-pico-8-games
-- Kingdom of Loathing [retro · Mouse] — The legendary stick-figure browser RPG. Still running, still funny. Play: https://www.kingdomofloathing.com/
-- Urban Dead [retro · Mouse] — Browser zombie-survival MMO in a quarantined city. A 2005 classic. Play: https://www.urbandead.com/
-- We Become What We Behold [horror · Mouse] — A five-minute game about cameras, crowds and hate. It will sit with you. Play: https://ncase.itch.io/wbwwb
-- Adventures With Anxiety [horror · Mouse] — You play AS the anxiety. Funny, honest, quietly devastating. Play: https://ncase.itch.io/anxiety
-- purrgatory [horror · Mouse] — A hand-drawn point-and-click set in cat-filled purgatory. Melancholy and sweet. Play: https://nivrad00.itch.io/purrgatory
-- Lookouts [horror · Mouse] — A story-rich western visual novel about two outlaws in the desert. (Spooky-tinged.) Play: https://paranoidhawk.itch.io/lookouts
-- Little Troubles in Spooky Town [horror · Mouse] — A little ghost solving townsfolk problems. Spooky-cozy, not spooky-scary. Play: https://kenney.itch.io/little-troubles-in-spooky-town
-- Dating Killmulator 2 [horror · Mouse] — A dark-comedy dating sim where everyone might be a killer. Swipe at your own risk. Play: https://coolom-games.itch.io/dating-killmulator-2
-- Serenitrove [cozy · Mouse] — Dig, discover, upgrade. The coziest hole you'll ever dig. Play: https://alfredncy.itch.io/serenitrove
-- Townscaper [cozy · Mouse] — Click to build a gorgeous seaside town. No goals, no fail states, just vibes. Play: https://oskarstalberg.com/Townscaper/
-- Six Cats Under [cozy · Mouse] — A ghost rescuing cats in a point-and-click afterlife. Play: https://teambeanloop.itch.io/six-cats-under
-- goodbye, doggy [cozy · Mouse] — Help a family as their ghostly dog. Short, tender, and free. Play: https://picogram.itch.io/goodbye-doggy
-- A Tale of Crowns [cozy · Mouse / keyboard] — A sprawling fantasy interactive-fiction romance. A cozy epic. Play: https://qeresi.itch.io/a-tale-of-crowns
-- Slow Roads [cozy · Arrows / WASD] — Endless procedural driving through generated landscapes. Pure zen. Play: https://slowroads.io/
-- Fallen London [cozy · Mouse] — A gothic narrative RPG beneath a stolen London. Years of stories, free. Play: https://www.fallenlondon.com/
-- Paper.io [action · Mouse / touch] — Claim territory by drawing loops in this slick .io arena. Cut rivals' trails to steal their land — get cut and you're done. Play: https://paper-io.com/
-- Slope [action · Arrow keys / A-D] — Steer a ball down an endless neon slope at breakneck speed. One wrong twitch and the run is over. Play: https://www.crazygames.com/game/slope
-- Moto X3M [action · Arrow keys] — Flip a dirt bike over 22 stunt tracks packed with explosives. Land the backflip or eat the ramp. Play: https://www.crazygames.com/game/moto-x3m
-- Tetris (Official) [puzzle · Keyboard (customizable)] — The official free Tetris in your browser. Marathon, sprint and daily challenges on the real deal. Play: https://www.tetris.com/play-tetris
-- Seterra [puzzle · Mouse / touch] — Geography quizzes with 400+ map challenges. You'll learn every capital by accident. Play: https://www.seterra.com/
-- 0hh1 [puzzle · Mouse / touch] — A tiny perfect logic puzzle: fill the grid red or blue, no three in a row. Fresh puzzles every day. Play: https://0hh1.com/
-- Clumsy Bird [action · Click / tap / spacebar] — The open-source Flappy Bird. Tap through the pipes, rage, repeat — and the code is right there to read. Play: https://ellisonleao.github.io/clumsy-bird/
-- Astray [action · WASD + mouse] — A procedurally generated 3D maze walked in first person. Open source, quietly unsettling, different every run. Play: https://wwwtyro.github.io/Astray/
-- HexGL [action · Arrow keys / gamepad] — A futuristic anti-gravity racer in WebGL. Open source and still slick more than a decade later. Play: https://hexgl.bkcore.com/
-- Minecraft Classic [action · WASD + mouse] — The 2009 creative-mode classic, free in the browser. Build with the original 32 blocks, invite friends to your world. Play: https://classic.minecraft.net/
-- Lexulous [multiplayer · Mouse] — Scrabble-style word battles against friends or strangers. The dictionary is the battlefield. Play: https://www.lexulous.com/
-- AirConsole [multiplayer · Phones as controllers] — Turn every phone into a controller: 100+ party games on one big screen. Couch co-op with zero installs. Play: https://www.airconsole.com/
-- PlayOK [multiplayer · Mouse] — Free board and card classics — chess, checkers, hearts, reversi — against real people, no signup. Play: https://www.playok.com/
-- Swarm Sim [idle · Mouse] — Grow a meat-eating bug swarm from a few larvae to a galaxy-devouring horde. Absurdly deep, fully open source. Play: https://swarmsim.com/
-- Melvor Idle [idle · Mouse] — RuneScape-style skilling as a pure idle game. Chop, fish and fight while you do literally anything else. Play: https://www.melvoridle.com/
-- Quick, Draw! [puzzle · Mouse / touch] — Doodle against a neural net that guesses your drawing in 20 seconds. Humbling for actual artists. Play: https://quickdraw.withgoogle.com/
-- Sandspiel [cozy · Mouse / touch] — A falling-sand toy with fire, water, plants and acid. No goals, no score — just beautiful chaos. Play: https://sandspiel.club/
-- Chrome Music Lab: Song Maker [cozy · Mouse / touch] — Google's dead-simple music maker. Paint notes on a grid, press play, share the tune. Play: https://musiclab.chromeexperiments.com/Song-Maker/
-- The Deep Sea [cozy · Scroll] — Scroll from sunlit waves to the abyss, meeting real deep-sea creatures on the way down. Meditative and factual. Play: https://neal.fun/deep-sea/
-- Nested [cozy · Mouse] — A universe inside a universe inside a universe, from the Cookie Clicker creator. Zoom in forever. Play: https://orteil.dashnet.org/nested
-- Koalas to the Max [puzzle · Mouse] — Split a photo into smaller and smaller circles to reveal what's underneath. Weirdly, deeply addictive. Play: https://koalastothemax.com/
-- Space Elevator [puzzle · Scroll] — Ride a space elevator from Earth to orbit, learning real orbital physics as you climb. Play: https://neal.fun/space-elevator/
-- ClassicReload [retro · Keyboard / mouse] — Hundreds of DOS-era classics playable in the browser. The 90s shareware shelf, preserved and playable. Play: https://classicreload.com/
-- PICO-8 BBS [retro · Keyboard] — The PICO-8 community board: thousands of tiny games and demos that run right in your browser. Play: https://www.lexaloffle.com/bbs/?cat=7
-- JetPunk [puzzle · Keyboard / mouse] — Timed trivia quizzes on everything from flags to periodic tables. Built for speedruns against the clock. Play: https://www.jetpunk.com/
-- Tristram [roguelike · WASD / arrow keys + mouse] — Diablo-homage auto-battler: recruit heroes, send them into the cathedral catacombs, and spend their loot rebuilding Tristram. Made in 72 hours for Ludum Dare 55. Play: https://bippinbits.itch.io/tristram
-- Die in the Dungeon CLASSIC [roguelike · Mouse] — A turn-based, dice-building roguelite — no cards, just dice. Guide a frog warrior through 20 floors of monsters; 4.7 stars from thousands of itch.io ratings. Play: https://alarts.itch.io/die-in-the-dungeon
-- The Archives of Trevosa [puzzle · Mouse / keyboard] — A language-and-family-tree deduction mystery: search the archives, translate invented Trevosan words, and untangle seven generations of a royal dynasty. Play: https://jamwitch.itch.io/trevosa
-- Prerolled [idle · Mouse] — A cozy dice-shop roguelite: craft silly dice boxes, match customer stipulations, upgrade your shop — and make rent, or the run ends. Play: https://red-sauce.itch.io/prerolled
-- Zombie Nest GBA [roguelike · Keyboard] — A new GBA homebrew top-down zombie roguelike (53 KB, 4 modes, 10 weapons). The itch page ships a free browser demo of the warehouse biome — and the full ROM feeds the Player/Converter. Play: https://enarkz.itch.io/zombie-nest-gba
-- Dare To Doku [puzzle · Mouse] — A GBA Jam 2026 homebrew: a 'star battle' logic puzzle — deduce where every player hides in grids of 4–10 across 10,000 unique levels. Playable in the browser. Play: https://daretosquare.itch.io/dare-to-doku
-- English Brick Breaker [puzzle · Mouse / keyboard] — A brick breaker that teaches 222 English words across 8 topics. Pure vanilla JS, no accounts, no downloads — Chromebook-friendly. Play: https://wqnlll.github.io/english-brick-breaker.html
-- Math Challenge [puzzle · Keyboard] — Timed arithmetic across 7 levels, from single-digit addition to word problems. Vanilla JS, no accounts. Play: https://wqnlll.github.io/math-challenge.html
-- Tank Battle [action · Keyboard] — Top-down tank combat in a single vanilla-JS page — no download, no account. Play: https://wqnlll.github.io/tank-battle.html
-- Red Alert-style RTS [action · Mouse / keyboard] — A Red Alert-style RTS built lockstep in vanilla JS, with fog of war and an AI that respects it. No accounts, no installs. Play: https://wqnlll.github.io/rts.html
-- 3D Plane Battle [action · Keyboard] — Three.js arcade plane combat in one static page. No accounts, no installs. Play: https://wqnlll.github.io/3d-plane.html
-- The Evolution of Trust [puzzle · Mouse — click through the interactive story] — An interactive essay on game theory: play trust games against copycats, cheaters, and grudgers to see what cooperation is really worth. Play: https://ncase.me/trust/
-- To Build a Better Ballot [puzzle · Mouse — run elections] — An interactive explainer of voting systems — run the same election under different rules and watch different winners emerge. Play: https://ncase.me/ballot/
-- Parable of the Polygons [puzzle · Mouse — drag shapes] — A playable parable about tiny biases and big patterns: shuffle shapes around and watch neighborhoods segregate themselves. Play: https://ncase.me/polygons/
-- The Wisdom and/or Madness of Crowds [puzzle · Mouse — place bets] — An interactive essay on when crowds are wise and when they are a mob — bet on guesses and watch the network think. Play: https://ncase.me/crowds/
-- Sight & Light [puzzle · Mouse — flip panels] — A short interactive comic about how eyes and light actually work, with little optics toys tucked into the panels. Play: https://ncase.me/sight-and-light/
-- Bitburner [idle · Keyboard — type commands; mouse for menus] — A hacking incremental: write real JavaScript to automate servers and climb a fictional cyber-underworld. Free and open source. Play: https://danielyxie.github.io/bitburner/
-- Mindustry [action · Mouse + WASD — build, pan, command] — Open-source factory defense: design conveyor-fed production lines, then hold them against waves. The web build runs right in your browser. Play: https://mindustrygame.github.io/
-- shapez.io [puzzle · Mouse — place belts and machines] — Design ever-more-elegant factories that cut, paint, and stack shapes into ordered chaos. Meditative automation puzzling. Play: https://shapez.io/
-- Dungeon Crawl Stone Soup [roguelike · Keyboard — full keybinds; mouse for menus] — The legendary open-source roguelike in the browser: turn-based, brutally fair, and deep enough to lose a year to. Play: https://crawl.akrasiac.org/
-- Angband [roguelike · Keyboard — roguelike keybinds] — One of the great traditional roguelikes, live in your browser: descend a 100-level Tolkien-inspired dungeon one careful turn at a time. Play: https://angband.live/
-- NetHack [roguelike · Keyboard — classic keybinds] — NetHack in a terminal, in your browser. The 1987 classic that helped define the genre Rogue named — still undefeated, still hilarious. Play: https://www.alt.org/nethack/
-- Spelunky Classic [roguelike · Arrow keys to move, Z / X to act] — The original free Spelunky as an HTML5 port: procedural caves, shopkeepers with long memories, and glorious deaths. Play: https://spelunkyworld.com/original.html
-- Powder Game [cozy · Mouse — pick elements, paint] — A falling-sand toy: pour powder, water, fire, and acid into a sandbox and watch the physics play out. Play: https://dan-ball.jp/en/javagame/dust2/
-- Stick Ranger [idle · Mouse — mostly runs itself] — A tiny idle RPG: four stick figures march right, fighting monsters automatically while you nudge their stats. Weirdly absorbing. Play: https://dan-ball.jp/en/javagame/ranger/
-- Flexbox Froggy [puzzle · Keyboard — write flexbox CSS] — Rescue frogs with flexbox: 24 gentle levels that teach CSS layout better than any tutorial. Play: https://flexboxfroggy.com/
-- Grid Garden [puzzle · Keyboard — write grid CSS] — Grow a garden with CSS grid: 28 levels of planting carrots that turn the grid spec into something you can see. Play: https://cssgridgarden.com/
-- CodinGame [puzzle · Keyboard — write code] — Coding puzzles and bot-arena battles in 25+ languages — solve solo challenges or clash your AI against other programmers'. Play: https://www.codingame.com/start/
-- CodeCombat [puzzle · Keyboard — write code] — Learn to code by commanding heroes: type real Python or JavaScript to move, fight, and quest through a fantasy campaign. Play: https://codecombat.com/
-- Vampire Survivors [roguelike · WASD / arrows — move; attacks are automatic] — The official web demo of the bullet-heaven phenomenon: pick a build, survive the swarm, become the storm. Play: https://poncle.itch.io/vampire-survivors
-- It is as if you were doing work [cozy · Mouse + keyboard — do the work] — Pippin Barr's office parody: do fake data entry, dodge your fake boss, and feel weirdly seen. An art game about the 9-to-5. Play: https://pippinbarr.com/itisasifyouweredoingwork/
-- Chogue [roguelike · Mouse — move like chess] — Chess meets roguelike: every piece you capture joins your party for a dungeon crawl. Pippin Barr and Jonathan Lessard's strangest hybrid. Play: https://pippinbarr.com/chogue/
-- Absurdle [puzzle · Keyboard — type guesses] — Wordle's adversarial twin: the game changes its answer to dodge your guesses as long as possible. Bring your best opener. Play: https://qntm.org/files/absurdle/absurdle.html
-- Semantle [puzzle · Keyboard — type guesses] — Guess the secret word by meaning: every guess is scored on semantic similarity, not spelling. Strangely philosophical. Play: https://semantle.com/
-- Waffle [puzzle · Mouse / keyboard — swap letters] — A waffle-ironed word puzzle: swap letters in a grid to bake six words at once. Fifteen swaps, no more, new puzzle daily. Play: https://wafflegame.net/
-- Contexto [puzzle · Keyboard — type guesses] — Guess the secret word while an AI ranks every try by closeness. Unlimited guesses, infinite rabbit holes, daily word. Play: https://contexto.me/
-- Bandle [puzzle · Mouse / keyboard — guess the song] — Name that tune from an increasingly long clip — six tries, new song every day, for people who hear in genres. Play: https://bandle.app/
-- Pointer Pointer [cozy · Mouse — move the pointer] — Move your cursor and the internet points at it — a photo always finds your pointer. Oddly delightful, every time. Play: https://pointerpointer.com/
-- Hacker Typer [cozy · Keyboard — mash keys] — Smash the keyboard and look like a movie hacker: every keystroke writes flawless exploit code. Zero skill required. Play: https://hackertyper.net/
-- DOOM (1993) [retro · Arrow keys — move; Ctrl — fire] — The 1993 shareware episode in the Internet Archive's DOSBox: the game that made the FPS a phenomenon, exactly as it was. Play: https://archive.org/details/msdos_DOOM_1993
-- The Oregon Trail [retro · Keyboard — menus and hunting] — The 1990 DOS classic in the Archive: ford rivers, hunt buffalo, and try not to die of dysentery on the trail west. Play: https://archive.org/details/msdos_Oregon_Trail_The_1990
-- Prince of Persia [retro · Arrow keys — run, jump, fight] — Jordan Mechner's rotoscoped classic in its 1990 DOS port (the Apple II original is 1989): sixty minutes to save the princess, one leap of faith at a time. Play: https://archive.org/details/msdos_Prince_of_Persia_1990
-- Wolfenstein 3D [retro · Arrow keys — move; Ctrl — fire] — The 1992 shareware episode in the Archive: id Software's maze-blaster that started it all. Achtung! Play: https://archive.org/details/msdos_Wolfenstein_3D_1992
-- Recoil Foundry [action · Mouse — aim and fire; recoil moves you] — Build one gun whose recoil throws you across a factory. Movement IS the weapon — master the kick. Play: https://caleb-guyer.itch.io/recoil-foundry
-- Hatchstead [cozy · Mouse — breed and manage] — A free browser creature-breeding sim: hatch snakes, breed new bloodlines, and grow your reptile collection. A demo of the upcoming Kickstarter game. Play: https://hatchstead.onyxrefinery.co.uk/
-- Floodlines [puzzle · Mouse — place defenses] — An open-source tower defense about real floods: place levees and pumps using real rainfall data to save the town. Play: https://hydroengineer.itch.io/floodlines
-- Hydro Operator [puzzle · Mouse — manage flows] — Balance a dam in this open-source sim: juggle water levels, power demand, and flood risk like a real river operator. Play: https://hydroengineer.itch.io/hydro-operator
-- SkyStack [puzzle · Mouse — build floors] — An open-source SimTower homage: stack apartments, offices, and lobbies into a skyscraper that actually works. Play: https://hydroengineer.itch.io/skystack
-- SimCity (1989) [retro · Mouse] — Zone land, lay roads, and keep the Sims happy in the city-builder that started it all — Will Wright's 1989 original, playable in the Archive's DOSBox. Play: https://archive.org/details/msdos_SimCity_1989
-- Lemmings [retro · Mouse] — Guide the green-haired marchers home: assign blockers, bashers, and builders before they stroll off the cliff. DMA Design's 1991 puzzler. Play: https://archive.org/details/msdos_Lemmings_1991
-- The Secret of Monkey Island [retro · Mouse] — Guybrush Threepwood wants to be a pirate. Insult-sword-fight your way through Lucasfilm Games' 1990 point-and-click classic. Play: https://archive.org/details/msdos_Secret_of_Monkey_Island_The_1990
-- Duke Nukem 3D (Shareware) [retro · WASD + mouse] — Hail to the king, baby: the shareware episode of 3D Realms' 1996 FPS — Hollywood Holocaust, free and legal, in the browser. Play: https://archive.org/details/3dduke13SW
-- Zork I [retro · Keyboard (type commands)] — West of house. It is pitch black. The 1980 text adventure that defined a genre — no graphics, all imagination, right in your browser. Play: https://archive.org/details/msdos_Zork_I_-_The_Great_Underground_Empire_1980
-- Sid Meier's Civilization [retro · Mouse + keyboard] — 4000 BC to the space race: found cities, research pottery, and outlast history itself in the 1991 original 4X. Play: https://archive.org/details/CIVILIZATION_201902
-- Alone in the Dark [retro · Keyboard] — The 1992 survival-horror pioneer: explore a haunted Louisiana mansion as Carnby or Emily Hartwood, tank controls and all. Play: https://archive.org/details/msdos_Alone_in_the_Dark_1992
-- Transport Tycoon Deluxe [retro · Mouse] — Chris Sawyer's transport empire sim in its 1995 Deluxe edition (the original is 1994): lay rail, run buses, and out-profit the competition across a century. Play: https://archive.org/details/msdos_Transport_Tycoon_Deluxe_1995
-- Theme Park [retro · Mouse] — Bullfrog's 1994 theme-park tycoon: set ride prices, salt the fries, and keep the queues moving. Play: https://archive.org/details/msdos_Theme_Park_1994
-- Master of Orion [retro · Mouse + keyboard] — The 1993 4X that named the genre: colonize stars, design ships, and out-diplomacize the galaxy. Play: https://archive.org/details/msdos_Master_of_Orion_1993
-- Railroad Tycoon [retro · Mouse] — Sid Meier's 1990 railroad empire: lay track, haul freight, and bankrupt the robber barons. Play: https://archive.org/details/railroad_tycoon_1990
-- Quake (Shareware) [retro · WASD + mouse] — id Software's 1996 true-3D shooter: the shareware episode with the nailgun, free and legal in your browser. Play: https://archive.org/details/msdos_Quake106_shareware
-- SimCity 2000 [retro · Mouse] — The 1993 sequel with arcologies, newspapers, and underground plumbing — the definitive 90s city builder, in DOSBox. Play: https://archive.org/details/SimCity2000
-- The Oregon Trail Deluxe [retro · Keyboard + mouse] — The 1992 deluxe edition of the classroom classic: hunt, ford rivers, and mind the dysentery on the trail west. Play: https://archive.org/details/msdos_Oregon_Trail_Deluxe_The_1992
-- Commander Keen 3: Keen Must Die! [retro · Arrow keys + Ctrl/Space] — Billy Blaze's 1990 pogo-stick platforming finale to the Invasion of the Vorticons trilogy — id's shareware-era charmer. Play: https://archive.org/details/msdos_Commander_Keen_3_-_Keen_Must_Die_1990
-- Commander Keen: Keen Dreams [retro · Arrow keys + Ctrl/Space] — The lost Keen episode: battle vegetable tyrants with flower-power pellets in id's 1991 fever dream. Play: https://archive.org/details/msdos_Commander_Keen_-_Keen_Dreams_1993
-- Space Invaders [retro · Arrow keys / buttons] — Taito's 1978 quarter-muncher: four notes of bass, one descending armada, and the birth of the high score. Play: https://archive.org/details/arcade_invaders
-- Dig Dug [retro · Arrow keys / buttons] — Namco's 1982 digger: tunnel through the dirt, pump up Pookas, and drop rocks on Fygars. Play: https://archive.org/details/arcade_digdug
-- Joust [retro · Buttons (flap)] — Williams' 1982 ostrich jousting: flap higher than the rival knights and lance them out of the sky. Play: https://archive.org/details/arcade_joust
-- Centipede [retro · Mouse (trackball)] — Atari's 1981 shooter: blast the descending centipede through a mushroom field before it reaches you. Play: https://archive.org/details/arcade_centiped
-- Missile Command [retro · Mouse (trackball)] — Atari's 1980 Cold War nightmare: defend six cities with three batteries. The end is not a matter of if. Play: https://archive.org/details/arcade_missile
-- Defender [retro · Keyboard / buttons] — Williams' 1981 rescue shooter: the hardest game of the golden age — save the humanoids, mind the hyperspace. Play: https://archive.org/details/arcade_defender
-- Q*bert [retro · Arrow keys (diagonal)] — Gottlieb's 1982 cube-hopper: change every tile's color, dodge Coily, and mind the @!#?@! swearing. Play: https://archive.org/details/arcade_qbert
-- Tempest [retro · Arrow keys] — Atari's 1981 vector shooter: Dave Theurer's neon tube-blaster, the first game with a selectable starting level. Play: https://archive.org/details/arcade_tempest
-- Robotron: 2084 [retro · WASD + arrows (twin-stick)] — Williams' 1982 twin-stick masterpiece: the game that popularized the twin-stick shooter, rescuing the last human family. Play: https://archive.org/details/arcade_robotron
-- 1942 [retro · Arrow keys / buttons] — Capcom's 1984 vertical shooter: loop-de-loop over the Pacific in the first of the 19XX series. Play: https://archive.org/details/arcade_1942
-- Galaga '88 [retro · Arrow keys / buttons] — Namco's 1987 sequel: the dive-bombing classic with triple-ship power-ups and branching warp zones. Play: https://archive.org/details/arcade_galaga88
-- Ms. Pac-Man / Galaga: 20th Anniversary [retro · Arrow keys / buttons] — The 2000 arcade reunion cabinet: Ms. Pac-Man and Galaga, class of 1981, together in one anniversary machine. Play: https://archive.org/details/arcade_20pacgal
-- Bubble Bobble II [retro · Arrow keys + buttons] — Taito's 1994 co-op bubble-blower: trap monsters in bubbles with a friend, in the sequel to the arcade sweetheart. Play: https://archive.org/details/arcade_bublbob2
-- Street Fighter Alpha 2 [retro · Arrows + buttons] — Capcom's 1996 fighter: the Alpha series at its peak — air-blocking, custom combos, and anime-styled sprites. Play: https://archive.org/details/arcade_sfa2
-- Congo Bongo [retro · Arrow keys] — Sega's 1983 isometric platformer: climb, dodge, and outwit the ape in the isometric rival to Donkey Kong. Play: https://archive.org/details/arcade_congo
-- Fancy Pants Adventure: World 1 [action · Arrow keys] — Brad Borne's 2006 stick-figure platformer: the smoothest Flash run-and-slide ever, preserved on the Archive via Ruffle. Play: https://archive.org/details/fpaworld-1-07a_202204
-- Alien Hominid (Flash) [action · Arrow keys + Z/X] — Tom Fulp and Dan Paladin's 2002 run-and-gun: the little yellow alien's Newgrounds debut, preserved via Ruffle. Play: https://archive.org/details/flash_alien_hominid
-- Dad 'n Me [action · Arrow keys + A/S] — Tom Fulp and Dan Paladin's 2005 beat-em-up: a dad, his kid, and a city full of punks — Flash brawling at its finest, via Ruffle. Play: https://archive.org/details/dadnme
-- Achievement Unlocked [action · Arrow keys] — John Cooney's 2008 metagame: a tiny platformer about unlocking 100 achievements for doing literally everything. Play: https://archive.org/details/achievementflash
-- Time Fcuk [puzzle · Arrow keys + Z] — Edmund McMillen's 2009 puzzle-platformer: a box, a time mechanic, and an ending you'll argue about — preserved via Ruffle. Play: https://archive.org/details/time-fcuk
-- Run 3 [action · Arrow keys / WASD] — Player03's endless tunnel-runner: sprint through collapsing space tunnels in the series' official web version. Play: https://www.player03.com/run/3/
-- Subway Surfers [action · Arrow keys / swipe] — SYBO's endless runner, officially on Poki: dodge trains, grab coins, and outrun the inspector. Play: https://poki.com/en/g/subway-surfers
-- Stickman Hook [action · Click / tap] — Madbox's one-button grappler: swing the stickman through 100+ bouncy levels, officially on Poki. Play: https://poki.com/en/g/stickman-hook
-- arras.io [action · WASD + mouse] — The open-source diep.io successor: build your tank, pick your upgrades, and dominate the arena. Play: https://arras.io/
-- Hole.io [action · Mouse / drag] — Voodoo's city-swallowing arcade: grow your black hole from manhole to metropolis in two minutes. Play: https://hole-io.com/
-- Tanki Online [multiplayer · WASD + mouse] — The official browser tank MMO: customize your hull and turret, then battle in team arenas — no download. Play: https://tankionline.com/en/
-- mope.io [multiplayer · Mouse + W] — Eat, evolve, survive: climb the food chain from mouse to dragon in this multiplayer survival arena. Play: https://mope.io/
-- YoHoHo.io [multiplayer · Mouse / WASD] — Pirate battle royale: grab doubloons, grow your crew, and be the last pirate standing. Play: https://www.yohoho.io/
-- Stumble Guys [multiplayer · WASD + Space] — Scopely's official web version: 32-player obstacle-course chaos, right in the browser. Play: https://www.stumbleguys.com/play
-- ClassiCube [multiplayer · WASD + mouse] — The open-source Minecraft Classic revival: build together on multiplayer servers with the free web client. Play: https://www.classicube.net/
-- Synergism [idle · Mouse] — Pseudo-Corp's open-source incremental: prestige through dimensions of numbers in the genre's deepest rabbit hole. Play: https://pseudo-corp.github.io/SynergismOfficial/
-- Realm Grinder [idle · Mouse] — Divine Games' fantasy idle RPG: align with factions, cast spells, and abdicate your way to exponential gold — officially on Kongregate. Play: https://www.kongregate.com/games/divinegames/realm-grinder
-- AdVenture Capitalist [idle · Mouse] — Hyper Hippo's capitalist clicker: lemonade stands to moon shoes, the idle game that ate 2014 — officially on Kongregate. Play: https://www.kongregate.com/games/HyperHippoGames/adventure-capitalist
-- Simon Tatham's Puzzles [puzzle · Mouse] — 40+ hand-crafted logic puzzles (Loopy, Mines, Net, Map...) as official JavaScript builds — the puzzle collection other collections wish they were. Play: https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/
-- Sort the Court [puzzle · Mouse] — Graebor's royal decision game: answer yes or no to your subjects and keep the kingdom (and treasury) alive. Play: https://graebor.itch.io/sort-the-court
+- 2048 [puzzle · Arrow keys / swipe], Slide numbered tiles and merge them to reach 2048. Deceptively simple, endlessly restartable. Play: https://play2048.co/
+- Wordle [puzzle · Keyboard], One five-letter word a day, six guesses. The whole internet solves the same puzzle. Play: https://www.nytimes.com/games/wordle/index.html
+- Connections [puzzle · Mouse / touch], Sort sixteen words into four secret groups. Much harder than it looks. Play: https://www.nytimes.com/games/connections
+- TETR.IO [puzzle · Keyboard (customizable)], Blisteringly fast modern Tetris with ranked matchmaking. The esport of falling blocks. Play: https://tetr.io/
+- Jstris [puzzle · Keyboard (customizable)], No-frills multiplayer Tetris in the browser. Pure block-stacking competition. Play: https://jstris.jezevec10.com/
+- Little Alchemy 2 [puzzle · Mouse / touch], Combine earth, fire, air and water to discover 700+ items. Digital tinkering at its finest. Play: https://littlealchemy2.com/
+- Infinite Craft [puzzle · Mouse], Infinite combinations from four starting elements. Craft 'philosophy' before lunch. Play: https://neal.fun/infinite-craft/
+- The Password Game [puzzle · Keyboard], A password field with increasingly unhinged rules. You will lose. You will laugh. Play: https://neal.fun/password-game/
+- Draw Logos From Memory [puzzle · Mouse / touch], Redraw famous logos from memory and get mercilessly judged. Deeply humbling. Play: https://neal.fun/logos-from-memory/
+- Globle [puzzle · Mouse], Guess the mystery country from hot/cold distance hints. Geography Wordle. Play: https://globle-game.com/
+- Worldle [puzzle · Mouse], Name the country from its silhouette alone. One a day. Play: https://worldle.teuteuf.fr/
+- Framed [puzzle · Mouse], Guess the movie from a single frame. Six frames, one answer. Play: https://framed.wtf/
+- GeoGuessr [puzzle · Mouse], Dropped somewhere on Earth via Street View. Figure out where you are. Free tier included. Play: https://www.geoguessr.com/
+- Sudoku [puzzle · Mouse / keyboard], Fast, clean browser Sudoku with note mode. Zero friction, all logic. Play: https://sergesgames.itch.io/sudoku
+- Type Help [puzzle · Mouse / keyboard], A long-form computer-file mystery in the spirit of Her Story and Obra Dinn. Play: https://william-rous.itch.io/type-help
+- Asteroid Launcher [puzzle · Mouse], Drop asteroids on any city and watch the physics play out. Science, but fun. Play: https://neal.fun/asteroid-launcher/
+- Krunker [action · WASD + mouse], Low-poly browser FPS with classes, maps and surprisingly crisp gunplay. Play: https://krunker.io/
+- Shell Shockers [action · WASD + mouse], Multiplayer FPS where everyone is an egg with a gun. Absurd and excellent. Play: https://shellshock.io/
+- SmashKarts [action · WASD / arrows + space], Kart racing meets battle arena. Pickups, explosions, glorious chaos. Play: https://smashkarts.io/
+- Venge.io [action · WASD + mouse], Hero-based objective FPS in the browser. Pick a hero, hold the point. Play: https://live.venge.io/
+- REPULS.io [action · WASD + mouse], Sleek sci-fi arena shooter with jetpacks, slide-hopping and style. Play: https://repuls.io/
+- ev.io [action · WASD + mouse], Fast halo-style arena shooter that runs on almost anything. Play: https://ev.io/
+- Kirka.io [action · WASD + mouse], Another crisp browser arena FPS with ranked play and tight movement. Play: https://kirka.io/
+- Gats.io [action · WASD + mouse], Top-down 2D shooter with a deep loadout progression system. Play: https://gats.io/
+- Friday Night Funkin' [action · Arrow keys], The browser rhythm battler that launched a thousand mods. Bopeebo. Play: https://ninja-muffin24.itch.io/funkin
+- Bonk.io [action · Arrows / WASD], Physics-based multiplayer brawls. Shove your friends off the map. Play: https://bonk.io/
+- Diep.io [action · WASD + mouse], Tank survival with deep upgrade trees. Deceptively strategic. Play: https://diep.io/
+- Starblast.io [action · WASD / arrows + mouse], Mine asteroids, upgrade your spaceship, dominate the sector. Play: https://starblast.io/
+- Powerline.io [action · Mouse], Snake meets Tron: eat to grow, cut rivals off at lightspeed. Play: https://powerline.io/
+- Splix.io [action · Arrows / WASD], Territory-capture snake. Greedy expansion gets you killed. Play: https://splix.io/
+- QWOP [action · Q W O P keys], Run 100 meters with four keys controlling individual leg muscles. A masterpiece of suffering. Play: https://www.foddy.net/legacy/Athletics.html
+- Canabalt [action · One button (space / click)], The one-button endless runner that popularized the endless runner. Jump or die. Play: https://adamatomic.com/canabalt/
+- Happy Wheels [action · Arrows + space], Physics ragdoll chaos on a segway. A browser legend, still going. Play: https://totaljerkface.com/happy_wheels.tjf
+- Line Rider [action · Mouse (draw)], Draw the track, then sled it. Part game, part physics toy, part art form. Play: https://www.linerider.com/
+- Breach Command [roguelike · Mouse / keyboard], Tactical roguelike: breach rooms, outthink the enemy, die, learn, repeat. Play: https://parris-tech-services.github.io/breach-command/
+- Dragonsweeper [roguelike · Mouse], Minesweeper reborn as a monster-slaying roguelike. Every number is a tactical puzzle. Play: https://danielben.itch.io/dragonsweeper
+- Hordes.io [roguelike · WASD + mouse], 3D browser MMORPG with roguelike permadeath dungeons and party play. Play: https://hordes.io/
+- Poom [action · Arrows / WASD + Z X], A Doom demake squeezed into PICO-8's tiny 128x128 pixels. Impossibly impressive. Play: https://freds72.itch.io/poom
+- Celeste Classic [action · Arrows + Z X], The original PICO-8 Celeste: brutally precise mountain climbing across 30 levels. Play: https://maddymakesgamesinc.itch.io/celesteclassic
+- Kaaarot [multiplayer · Keyboard (multi)], 2-4 player party brawler about bouncing carrots. Chaotic couch-style fun. Play: https://lambdahumans.itch.io/kaaarot
+- Cookie Clicker [idle · Mouse (click)], The idle game that popularized idle games. Bake cookies. Achieve absurdity. Play: https://www.cookieclicker.com/
+- A Dark Room [idle · Mouse], Starts as a text game about keeping a fire lit. Becomes something much stranger. Play: https://adarkroom.doublespeakgames.com/
+- Universal Paperclips [idle · Mouse], An AI that makes paperclips. That's it. That's the game. (It's incredible.) Play: https://www.decisionproblem.com/paperclips/
+- Candy Box 2 [idle · Mouse], Eat candy. Get a sword. Save the world. The ASCII adventure that keeps surprising you. Play: https://candybox2.github.io/
+- Kittens Game [idle · Mouse], Manage a kitten civilization from mud huts to interstellar travel. Absurdly deep. Play: https://kittensgame.com/web/
+- Trimps [idle · Mouse], Lead tiny creatures through zones of escalating danger. Idle with teeth. Play: https://trimps.github.io/
+- Antimatter Dimensions [idle · Mouse], Prestige-layered incremental about reaching infinity. Then going past it. Play: https://ivark.github.io/AntimatterDimensions/
+- Agar.io [multiplayer · Mouse], Eat or be eaten in the cell arena that defined .io games. Play: https://agar.io/
+- Slither.io [multiplayer · Mouse], The multiplayer snake. Coil around rivals and feast on their remains. Play: https://slither.io/
+- skribbl.io [multiplayer · Mouse (draw)], Online Pictionary with strangers, or a private room for just your friends. Hilarious either way. Play: https://skribbl.io/
+- Gartic Phone [multiplayer · Mouse (draw)], Telephone meets drawing. The results are always unhinged. Play: https://garticphone.com/
+- HaxBall [multiplayer · Arrows + X], Top-down physics soccer with friends. Simple, perfect, timeless. Play: https://www.haxball.com/
+- Pokémon Showdown [multiplayer · Mouse], Fan-made monster battle simulator. Team-build and battle in seconds, no downloads. Play: https://pokemonshowdown.com/
+- Town of Salem [multiplayer · Mouse], Social deduction: find the mafia before they find you. Trust no one. Play: https://townofsalem.com/
+- Board Game Arena [multiplayer · Mouse], Hundreds of real board games, playable live with friends around the world. Play: https://en.boardgamearena.com/
+- Colonist.io [multiplayer · Mouse], Settlers-style strategy in the browser. Trade, build, win. Play: https://colonist.io/
+- Codenames [multiplayer · Mouse], The official online version of the word-association party classic. Play: https://codenames.game/
+- Secret Hitler [multiplayer · Mouse], Social deduction in 1930s Germany. Lie convincingly or sniff out the fascists. Play: https://secrethitler.io/
+- JKLM.fun [multiplayer · Keyboard], Fast party word games: BombParty and PopSauce right in your browser. Play: https://jklm.fun/
+- Drawasaurus [multiplayer · Mouse (draw)], Draw and guess with rooms for friends. Pictionary night, online. Play: https://www.drawasaurus.org/
+- PlayingCards.io [multiplayer · Mouse], A virtual tabletop: play any card game with friends, your rules. Play: https://playingcards.io/
+- Make It Meme [multiplayer · Keyboard / mouse], Caption memes against your friends. Democracy decides the winner. Play: https://makeitmeme.com/
+- Lichess [multiplayer · Mouse], Completely free chess: matchmaking, puzzles, tournaments. No account needed to play. Play: https://lichess.org/
+- Bloxd.io [multiplayer · WASD + mouse], Minecraft-style voxel sandbox with game modes, all in the browser. Play: https://bloxd.io/
+- Moomoo.io [multiplayer · Mouse / WASD], Gather resources, build a base, and survive with your tribe. Play: https://moomoo.io/
+- Zombs.io [multiplayer · Mouse / WASD], Build defenses by day, survive the zombie horde by night. Play: https://zombs.io/
+- ZombsRoyale.io [multiplayer · WASD + mouse], 2D battle royale: loot, dodge the shrinking circle, be the last one standing. Play: https://zombsroyale.io/
+- Deeeep.io [multiplayer · Mouse], Evolve from a tiny fish to the ocean's apex predator. Play: https://deeeep.io/
+- Wormate.io [multiplayer · Mouse], Candy-fueled worm arena with power-ups, skins and dirty tricks. Play: https://wormate.io/
+- Internet Archive: Console Living Room [retro · Keyboard (on-screen pad)], Hundreds of vintage console games, legally emulated right in your browser. Play: https://archive.org/details/consolelivingroom
+- Internet Archive: Internet Arcade [retro · Keyboard (on-screen pad)], Hundreds of arcade classics, preserved and playable. Insert coin. Play: https://archive.org/details/internetarcade
+- Internet Archive: MS-DOS Library [retro · Keyboard], Thousands of DOS games: Oregon Trail, DOOM, Prince of Persia and more. Play: https://archive.org/details/softwarelibrary_msdos
+- Moss Moss [retro · Arrows + Z X], A tiny PICO-8 exploration game about covering the world in moss. Play: https://noelcody.itch.io/moss-moss
+- Top PICO-8 Games (collection) [retro · Arrows + Z X], A curated shelf of the fantasy console's greatest hits, all free in-browser. Play: https://itch.io/c/4233781/top-pico-8-games
+- Kingdom of Loathing [retro · Mouse], The legendary stick-figure browser RPG. Still running, still funny. Play: https://www.kingdomofloathing.com/
+- Urban Dead [retro · Mouse], Browser zombie-survival MMO in a quarantined city. A 2005 classic. Play: https://www.urbandead.com/
+- We Become What We Behold [horror · Mouse], A five-minute game about cameras, crowds and hate. It will sit with you. Play: https://ncase.itch.io/wbwwb
+- Adventures With Anxiety [horror · Mouse], You play AS the anxiety. Funny, honest, quietly devastating. Play: https://ncase.itch.io/anxiety
+- purrgatory [horror · Mouse], A hand-drawn point-and-click set in cat-filled purgatory. Melancholy and sweet. Play: https://nivrad00.itch.io/purrgatory
+- Lookouts [horror · Mouse], A story-rich western visual novel about two outlaws in the desert. (Spooky-tinged.) Play: https://paranoidhawk.itch.io/lookouts
+- Little Troubles in Spooky Town [horror · Mouse], A little ghost solving townsfolk problems. Spooky-cozy, not spooky-scary. Play: https://kenney.itch.io/little-troubles-in-spooky-town
+- Dating Killmulator 2 [horror · Mouse], A dark-comedy dating sim where everyone might be a killer. Swipe at your own risk. Play: https://coolom-games.itch.io/dating-killmulator-2
+- Serenitrove [cozy · Mouse], Dig, discover, upgrade. The coziest hole you'll ever dig. Play: https://alfredncy.itch.io/serenitrove
+- Townscaper [cozy · Mouse], Click to build a gorgeous seaside town. No goals, no fail states, just vibes. Play: https://oskarstalberg.com/Townscaper/
+- Six Cats Under [cozy · Mouse], A ghost rescuing cats in a point-and-click afterlife. Play: https://teambeanloop.itch.io/six-cats-under
+- goodbye, doggy [cozy · Mouse], Help a family as their ghostly dog. Short, tender, and free. Play: https://picogram.itch.io/goodbye-doggy
+- A Tale of Crowns [cozy · Mouse / keyboard], A sprawling fantasy interactive-fiction romance. A cozy epic. Play: https://qeresi.itch.io/a-tale-of-crowns
+- Slow Roads [cozy · Arrows / WASD], Endless procedural driving through generated landscapes. Pure zen. Play: https://slowroads.io/
+- Fallen London [cozy · Mouse], A gothic narrative RPG beneath a stolen London. Years of stories, free. Play: https://www.fallenlondon.com/
+- Paper.io [action · Mouse / touch], Claim territory by drawing loops in this slick .io arena. Cut rivals' trails to steal their land, get cut and you're done. Play: https://paper-io.com/
+- Slope [action · Arrow keys / A-D], Steer a ball down an endless neon slope at breakneck speed. One wrong twitch and the run is over. Play: https://www.crazygames.com/game/slope
+- Moto X3M [action · Arrow keys], Flip a dirt bike over 22 stunt tracks packed with explosives. Land the backflip or eat the ramp. Play: https://www.crazygames.com/game/moto-x3m
+- Tetris (Official) [puzzle · Keyboard (customizable)], The official free Tetris in your browser. Marathon, sprint and daily challenges on the real deal. Play: https://www.tetris.com/play-tetris
+- Seterra [puzzle · Mouse / touch], Geography quizzes with 400+ map challenges. You'll learn every capital by accident. Play: https://www.seterra.com/
+- 0hh1 [puzzle · Mouse / touch], A tiny perfect logic puzzle: fill the grid red or blue, no three in a row. Fresh puzzles every day. Play: https://0hh1.com/
+- Clumsy Bird [action · Click / tap / spacebar], The open-source Flappy Bird. Tap through the pipes, rage, repeat, and the code is right there to read. Play: https://ellisonleao.github.io/clumsy-bird/
+- Astray [action · WASD + mouse], A procedurally generated 3D maze walked in first person. Open source, quietly unsettling, different every run. Play: https://wwwtyro.github.io/Astray/
+- HexGL [action · Arrow keys / gamepad], A futuristic anti-gravity racer in WebGL. Open source and still slick more than a decade later. Play: https://hexgl.bkcore.com/
+- Minecraft Classic [action · WASD + mouse], The 2009 creative-mode classic, free in the browser. Build with the original 32 blocks, invite friends to your world. Play: https://classic.minecraft.net/
+- Lexulous [multiplayer · Mouse], Scrabble-style word battles against friends or strangers. The dictionary is the battlefield. Play: https://www.lexulous.com/
+- AirConsole [multiplayer · Phones as controllers], Turn every phone into a controller: 100+ party games on one big screen. Couch co-op with zero installs. Play: https://www.airconsole.com/
+- PlayOK [multiplayer · Mouse], Free board and card classics, chess, checkers, hearts, reversi, against real people, no signup. Play: https://www.playok.com/
+- Swarm Sim [idle · Mouse], Grow a meat-eating bug swarm from a few larvae to a galaxy-devouring horde. Absurdly deep, fully open source. Play: https://swarmsim.com/
+- Melvor Idle [idle · Mouse], RuneScape-style skilling as a pure idle game. Chop, fish and fight while you do literally anything else. Play: https://www.melvoridle.com/
+- Quick, Draw! [puzzle · Mouse / touch], Doodle against a neural net that guesses your drawing in 20 seconds. Humbling for actual artists. Play: https://quickdraw.withgoogle.com/
+- Sandspiel [cozy · Mouse / touch], A falling-sand toy with fire, water, plants and acid. No goals, no score, just beautiful chaos. Play: https://sandspiel.club/
+- Chrome Music Lab: Song Maker [cozy · Mouse / touch], Google's dead-simple music maker. Paint notes on a grid, press play, share the tune. Play: https://musiclab.chromeexperiments.com/Song-Maker/
+- The Deep Sea [cozy · Scroll], Scroll from sunlit waves to the abyss, meeting real deep-sea creatures on the way down. Meditative and factual. Play: https://neal.fun/deep-sea/
+- Nested [cozy · Mouse], A universe inside a universe inside a universe, from the Cookie Clicker creator. Zoom in forever. Play: https://orteil.dashnet.org/nested
+- Koalas to the Max [puzzle · Mouse], Split a photo into smaller and smaller circles to reveal what's underneath. Weirdly, deeply addictive. Play: https://koalastothemax.com/
+- Space Elevator [puzzle · Scroll], Ride a space elevator from Earth to orbit, learning real orbital physics as you climb. Play: https://neal.fun/space-elevator/
+- ClassicReload [retro · Keyboard / mouse], Hundreds of DOS-era classics playable in the browser. The 90s shareware shelf, preserved and playable. Play: https://classicreload.com/
+- PICO-8 BBS [retro · Keyboard], The PICO-8 community board: thousands of tiny games and demos that run right in your browser. Play: https://www.lexaloffle.com/bbs/?cat=7
+- JetPunk [puzzle · Keyboard / mouse], Timed trivia quizzes on everything from flags to periodic tables. Built for speedruns against the clock. Play: https://www.jetpunk.com/
+- Tristram [roguelike · WASD / arrow keys + mouse], Diablo-homage auto-battler: recruit heroes, send them into the cathedral catacombs, and spend their loot rebuilding Tristram. Made in 72 hours for Ludum Dare 55. Play: https://bippinbits.itch.io/tristram
+- Die in the Dungeon CLASSIC [roguelike · Mouse], A turn-based, dice-building roguelite, no cards, just dice. Guide a frog warrior through 20 floors of monsters; 4.7 stars from thousands of itch.io ratings. Play: https://alarts.itch.io/die-in-the-dungeon
+- The Archives of Trevosa [puzzle · Mouse / keyboard], A language-and-family-tree deduction mystery: search the archives, translate invented Trevosan words, and untangle seven generations of a royal dynasty. Play: https://jamwitch.itch.io/trevosa
+- Prerolled [idle · Mouse], A cozy dice-shop roguelite: craft silly dice boxes, match customer stipulations, upgrade your shop, and make rent, or the run ends. Play: https://red-sauce.itch.io/prerolled
+- Zombie Nest GBA [roguelike · Keyboard], A new GBA homebrew top-down zombie roguelike (53 KB, 4 modes, 10 weapons). The itch page ships a free browser demo of the warehouse biome, and the full ROM feeds the Player/Converter. Play: https://enarkz.itch.io/zombie-nest-gba
+- Dare To Doku [puzzle · Mouse], A GBA Jam 2026 homebrew: a 'star battle' logic puzzle, deduce where every player hides in grids of 4-10 across 10,000 unique levels. Playable in the browser. Play: https://daretosquare.itch.io/dare-to-doku
+- English Brick Breaker [puzzle · Mouse / keyboard], A brick breaker that teaches 222 English words across 8 topics. Pure vanilla JS, no accounts, no downloads: Chromebook-friendly. Play: https://wqnlll.github.io/english-brick-breaker.html
+- Math Challenge [puzzle · Keyboard], Timed arithmetic across 7 levels, from single-digit addition to word problems. Vanilla JS, no accounts. Play: https://wqnlll.github.io/math-challenge.html
+- Tank Battle [action · Keyboard], Top-down tank combat in a single vanilla-JS page, no download, no account. Play: https://wqnlll.github.io/tank-battle.html
+- Red Alert-style RTS [action · Mouse / keyboard], A Red Alert-style RTS built lockstep in vanilla JS, with fog of war and an AI that respects it. No accounts, no installs. Play: https://wqnlll.github.io/rts.html
+- 3D Plane Battle [action · Keyboard], Three.js arcade plane combat in one static page. No accounts, no installs. Play: https://wqnlll.github.io/3d-plane.html
+- The Evolution of Trust [puzzle · Mouse, click through the interactive story], An interactive essay on game theory: play trust games against copycats, cheaters, and grudgers to see what cooperation is really worth. Play: https://ncase.me/trust/
+- To Build a Better Ballot [puzzle · Mouse, run elections], An interactive explainer of voting systems, run the same election under different rules and watch different winners emerge. Play: https://ncase.me/ballot/
+- Parable of the Polygons [puzzle · Mouse, drag shapes], A playable parable about tiny biases and big patterns: shuffle shapes around and watch neighborhoods segregate themselves. Play: https://ncase.me/polygons/
+- The Wisdom and/or Madness of Crowds [puzzle · Mouse, place bets], An interactive essay on when crowds are wise and when they are a mob, bet on guesses and watch the network think. Play: https://ncase.me/crowds/
+- Sight & Light [puzzle · Mouse, flip panels], A short interactive comic about how eyes and light actually work, with little optics toys tucked into the panels. Play: https://ncase.me/sight-and-light/
+- Bitburner [idle · Keyboard, type commands; mouse for menus], A hacking incremental: write real JavaScript to automate servers and climb a fictional cyber-underworld. Free and open source. Play: https://danielyxie.github.io/bitburner/
+- Mindustry [action · Mouse + WASD, build, pan, command], Open-source factory defense: design conveyor-fed production lines, then hold them against waves. The web build runs right in your browser. Play: https://mindustrygame.github.io/
+- shapez.io [puzzle · Mouse, place belts and machines], Design ever-more-elegant factories that cut, paint, and stack shapes into ordered chaos. Meditative automation puzzling. Play: https://shapez.io/
+- Dungeon Crawl Stone Soup [roguelike · Keyboard, full keybinds; mouse for menus], The legendary open-source roguelike in the browser: turn-based, brutally fair, and deep enough to lose a year to. Play: https://crawl.akrasiac.org/
+- Angband [roguelike · Keyboard, roguelike keybinds], One of the great traditional roguelikes, live in your browser: descend a 100-level Tolkien-inspired dungeon one careful turn at a time. Play: https://angband.live/
+- NetHack [roguelike · Keyboard, classic keybinds], NetHack in a terminal, in your browser. The 1987 classic that helped define the genre Rogue named, still undefeated, still hilarious. Play: https://www.alt.org/nethack/
+- Spelunky Classic [roguelike · Arrow keys to move, Z / X to act], The original free Spelunky as an HTML5 port: procedural caves, shopkeepers with long memories, and glorious deaths. Play: https://spelunkyworld.com/original.html
+- Powder Game [cozy · Mouse, pick elements, paint], A falling-sand toy: pour powder, water, fire, and acid into a sandbox and watch the physics play out. Play: https://dan-ball.jp/en/javagame/dust2/
+- Stick Ranger [idle · Mouse, mostly runs itself], A tiny idle RPG: four stick figures march right, fighting monsters automatically while you nudge their stats. Weirdly absorbing. Play: https://dan-ball.jp/en/javagame/ranger/
+- Flexbox Froggy [puzzle · Keyboard, write flexbox CSS], Rescue frogs with flexbox: 24 gentle levels that teach CSS layout better than any tutorial. Play: https://flexboxfroggy.com/
+- Grid Garden [puzzle · Keyboard, write grid CSS], Grow a garden with CSS grid: 28 levels of planting carrots that turn the grid spec into something you can see. Play: https://cssgridgarden.com/
+- CodinGame [puzzle · Keyboard, write code], Coding puzzles and bot-arena battles in 25+ languages, solve solo challenges or clash your AI against other programmers'. Play: https://www.codingame.com/start/
+- CodeCombat [puzzle · Keyboard, write code], Learn to code by commanding heroes: type real Python or JavaScript to move, fight, and quest through a fantasy campaign. Play: https://codecombat.com/
+- Vampire Survivors [roguelike · WASD / arrows, move; attacks are automatic], The official web demo of the bullet-heaven phenomenon: pick a build, survive the swarm, become the storm. Play: https://poncle.itch.io/vampire-survivors
+- It is as if you were doing work [cozy · Mouse + keyboard, do the work], Pippin Barr's office parody: do fake data entry, dodge your fake boss, and feel weirdly seen. An art game about the 9-to-5. Play: https://pippinbarr.com/itisasifyouweredoingwork/
+- Chogue [roguelike · Mouse, move like chess], Chess meets roguelike: every piece you capture joins your party for a dungeon crawl. Pippin Barr and Jonathan Lessard's strangest hybrid. Play: https://pippinbarr.com/chogue/
+- Absurdle [puzzle · Keyboard, type guesses], Wordle's adversarial twin: the game changes its answer to dodge your guesses as long as possible. Bring your best opener. Play: https://qntm.org/files/absurdle/absurdle.html
+- Semantle [puzzle · Keyboard, type guesses], Guess the secret word by meaning: every guess is scored on semantic similarity, not spelling. Strangely philosophical. Play: https://semantle.com/
+- Waffle [puzzle · Mouse / keyboard, swap letters], A waffle-ironed word puzzle: swap letters in a grid to bake six words at once. Fifteen swaps, no more, new puzzle daily. Play: https://wafflegame.net/
+- Contexto [puzzle · Keyboard, type guesses], Guess the secret word while an AI ranks every try by closeness. Unlimited guesses, infinite rabbit holes, daily word. Play: https://contexto.me/
+- Bandle [puzzle · Mouse / keyboard, guess the song], Name that tune from an increasingly long clip, six tries, new song every day, for people who hear in genres. Play: https://bandle.app/
+- Pointer Pointer [cozy · Mouse, move the pointer], Move your cursor and the internet points at it, a photo always finds your pointer. Oddly delightful, every time. Play: https://pointerpointer.com/
+- Hacker Typer [cozy · Keyboard, mash keys], Smash the keyboard and look like a movie hacker: every keystroke writes flawless exploit code. Zero skill required. Play: https://hackertyper.net/
+- DOOM (1993) [retro · Arrow keys, move; Ctrl, fire], The 1993 shareware episode in the Internet Archive's DOSBox: the game that made the FPS a phenomenon, exactly as it was. Play: https://archive.org/details/msdos_DOOM_1993
+- The Oregon Trail [retro · Keyboard, menus and hunting], The 1990 DOS classic in the Archive: ford rivers, hunt buffalo, and try not to die of dysentery on the trail west. Play: https://archive.org/details/msdos_Oregon_Trail_The_1990
+- Prince of Persia [retro · Arrow keys, run, jump, fight], Jordan Mechner's rotoscoped classic in its 1990 DOS port (the Apple II original is 1989): sixty minutes to save the princess, one leap of faith at a time. Play: https://archive.org/details/msdos_Prince_of_Persia_1990
+- Wolfenstein 3D [retro · Arrow keys, move; Ctrl, fire], The 1992 shareware episode in the Archive: id Software's maze-blaster that started it all. Achtung! Play: https://archive.org/details/msdos_Wolfenstein_3D_1992
+- Recoil Foundry [action · Mouse, aim and fire; recoil moves you], Build one gun whose recoil throws you across a factory. Movement IS the weapon, master the kick. Play: https://caleb-guyer.itch.io/recoil-foundry
+- Hatchstead [cozy · Mouse, breed and manage], A free browser creature-breeding sim: hatch snakes, breed new bloodlines, and grow your reptile collection. A demo of the upcoming Kickstarter game. Play: https://hatchstead.onyxrefinery.co.uk/
+- Floodlines [puzzle · Mouse, place defenses], An open-source tower defense about real floods: place levees and pumps using real rainfall data to save the town. Play: https://hydroengineer.itch.io/floodlines
+- Hydro Operator [puzzle · Mouse, manage flows], Balance a dam in this open-source sim: juggle water levels, power demand, and flood risk like a real river operator. Play: https://hydroengineer.itch.io/hydro-operator
+- SkyStack [puzzle · Mouse, build floors], An open-source SimTower homage: stack apartments, offices, and lobbies into a skyscraper that actually works. Play: https://hydroengineer.itch.io/skystack
+- SimCity (1989) [retro · Mouse], Zone land, lay roads, and keep the Sims happy in the city-builder that started it all: Will Wright's 1989 original, playable in the Archive's DOSBox. Play: https://archive.org/details/msdos_SimCity_1989
+- Lemmings [retro · Mouse], Guide the green-haired marchers home: assign blockers, bashers, and builders before they stroll off the cliff. DMA Design's 1991 puzzler. Play: https://archive.org/details/msdos_Lemmings_1991
+- The Secret of Monkey Island [retro · Mouse], Guybrush Threepwood wants to be a pirate. Insult-sword-fight your way through Lucasfilm Games' 1990 point-and-click classic. Play: https://archive.org/details/msdos_Secret_of_Monkey_Island_The_1990
+- Duke Nukem 3D (Shareware) [retro · WASD + mouse], Hail to the king, baby: the shareware episode of 3D Realms' 1996 FPS: Hollywood Holocaust, free and legal, in the browser. Play: https://archive.org/details/3dduke13SW
+- Zork I [retro · Keyboard (type commands)], West of house. It is pitch black. The 1980 text adventure that defined a genre, no graphics, all imagination, right in your browser. Play: https://archive.org/details/msdos_Zork_I_-_The_Great_Underground_Empire_1980
+- Sid Meier's Civilization [retro · Mouse + keyboard], 4000 BC to the space race: found cities, research pottery, and outlast history itself in the 1991 original 4X. Play: https://archive.org/details/CIVILIZATION_201902
+- Alone in the Dark [retro · Keyboard], The 1992 survival-horror pioneer: explore a haunted Louisiana mansion as Carnby or Emily Hartwood, tank controls and all. Play: https://archive.org/details/msdos_Alone_in_the_Dark_1992
+- Transport Tycoon Deluxe [retro · Mouse], Chris Sawyer's transport empire sim in its 1995 Deluxe edition (the original is 1994): lay rail, run buses, and out-profit the competition across a century. Play: https://archive.org/details/msdos_Transport_Tycoon_Deluxe_1995
+- Theme Park [retro · Mouse], Bullfrog's 1994 theme-park tycoon: set ride prices, salt the fries, and keep the queues moving. Play: https://archive.org/details/msdos_Theme_Park_1994
+- Master of Orion [retro · Mouse + keyboard], The 1993 4X that named the genre: colonize stars, design ships, and out-diplomacize the galaxy. Play: https://archive.org/details/msdos_Master_of_Orion_1993
+- Railroad Tycoon [retro · Mouse], Sid Meier's 1990 railroad empire: lay track, haul freight, and bankrupt the robber barons. Play: https://archive.org/details/railroad_tycoon_1990
+- Quake (Shareware) [retro · WASD + mouse], id Software's 1996 true-3D shooter: the shareware episode with the nailgun, free and legal in your browser. Play: https://archive.org/details/msdos_Quake106_shareware
+- SimCity 2000 [retro · Mouse], The 1993 sequel with arcologies, newspapers, and underground plumbing, the definitive 90s city builder, in DOSBox. Play: https://archive.org/details/SimCity2000
+- The Oregon Trail Deluxe [retro · Keyboard + mouse], The 1992 deluxe edition of the classroom classic: hunt, ford rivers, and mind the dysentery on the trail west. Play: https://archive.org/details/msdos_Oregon_Trail_Deluxe_The_1992
+- Commander Keen 3: Keen Must Die! [retro · Arrow keys + Ctrl/Space], Billy Blaze's 1990 pogo-stick platforming finale to the Invasion of the Vorticons trilogy, id's shareware-era charmer. Play: https://archive.org/details/msdos_Commander_Keen_3_-_Keen_Must_Die_1990
+- Commander Keen: Keen Dreams [retro · Arrow keys + Ctrl/Space], The lost Keen episode: battle vegetable tyrants with flower-power pellets in id's 1991 fever dream. Play: https://archive.org/details/msdos_Commander_Keen_-_Keen_Dreams_1993
+- Space Invaders [retro · Arrow keys / buttons], Taito's 1978 quarter-muncher: four notes of bass, one descending armada, and the birth of the high score. Play: https://archive.org/details/arcade_invaders
+- Dig Dug [retro · Arrow keys / buttons], Namco's 1982 digger: tunnel through the dirt, pump up Pookas, and drop rocks on Fygars. Play: https://archive.org/details/arcade_digdug
+- Joust [retro · Buttons (flap)], Williams' 1982 ostrich jousting: flap higher than the rival knights and lance them out of the sky. Play: https://archive.org/details/arcade_joust
+- Centipede [retro · Mouse (trackball)], Atari's 1981 shooter: blast the descending centipede through a mushroom field before it reaches you. Play: https://archive.org/details/arcade_centiped
+- Missile Command [retro · Mouse (trackball)], Atari's 1980 Cold War nightmare: defend six cities with three batteries. The end is not a matter of if. Play: https://archive.org/details/arcade_missile
+- Defender [retro · Keyboard / buttons], Williams' 1981 rescue shooter: the hardest game of the golden age, save the humanoids, mind the hyperspace. Play: https://archive.org/details/arcade_defender
+- Q*bert [retro · Arrow keys (diagonal)], Gottlieb's 1982 cube-hopper: change every tile's color, dodge Coily, and mind the @!#?@! swearing. Play: https://archive.org/details/arcade_qbert
+- Tempest [retro · Arrow keys], Atari's 1981 vector shooter: Dave Theurer's neon tube-blaster, the first game with a selectable starting level. Play: https://archive.org/details/arcade_tempest
+- Robotron: 2084 [retro · WASD + arrows (twin-stick)], Williams' 1982 twin-stick masterpiece: the game that popularized the twin-stick shooter, rescuing the last human family. Play: https://archive.org/details/arcade_robotron
+- 1942 [retro · Arrow keys / buttons], Capcom's 1984 vertical shooter: loop-de-loop over the Pacific in the first of the 19XX series. Play: https://archive.org/details/arcade_1942
+- Galaga '88 [retro · Arrow keys / buttons], Namco's 1987 sequel: the dive-bombing classic with triple-ship power-ups and branching warp zones. Play: https://archive.org/details/arcade_galaga88
+- Ms. Pac-Man / Galaga: 20th Anniversary [retro · Arrow keys / buttons], The 2000 arcade reunion cabinet: Ms. Pac-Man and Galaga, class of 1981, together in one anniversary machine. Play: https://archive.org/details/arcade_20pacgal
+- Bubble Bobble II [retro · Arrow keys + buttons], Taito's 1994 co-op bubble-blower: trap monsters in bubbles with a friend, in the sequel to the arcade sweetheart. Play: https://archive.org/details/arcade_bublbob2
+- Street Fighter Alpha 2 [retro · Arrows + buttons], Capcom's 1996 fighter: the Alpha series at its peak, air-blocking, custom combos, and anime-styled sprites. Play: https://archive.org/details/arcade_sfa2
+- Congo Bongo [retro · Arrow keys], Sega's 1983 isometric platformer: climb, dodge, and outwit the ape in the isometric rival to Donkey Kong. Play: https://archive.org/details/arcade_congo
+- Fancy Pants Adventure: World 1 [action · Arrow keys], Brad Borne's 2006 stick-figure platformer: the smoothest Flash run-and-slide ever, preserved on the Archive via Ruffle. Play: https://archive.org/details/fpaworld-1-07a_202204
+- Alien Hominid (Flash) [action · Arrow keys + Z/X], Tom Fulp and Dan Paladin's 2002 run-and-gun: the little yellow alien's Newgrounds debut, preserved via Ruffle. Play: https://archive.org/details/flash_alien_hominid
+- Dad 'n Me [action · Arrow keys + A/S], Tom Fulp and Dan Paladin's 2005 beat-em-up: a dad, his kid, and a city full of punks: Flash brawling at its finest, via Ruffle. Play: https://archive.org/details/dadnme
+- Achievement Unlocked [action · Arrow keys], John Cooney's 2008 metagame: a tiny platformer about unlocking 100 achievements for doing literally everything. Play: https://archive.org/details/achievementflash
+- Time Fcuk [puzzle · Arrow keys + Z], Edmund McMillen's 2009 puzzle-platformer: a box, a time mechanic, and an ending you'll argue about, preserved via Ruffle. Play: https://archive.org/details/time-fcuk
+- Run 3 [action · Arrow keys / WASD], Player03's endless tunnel-runner: sprint through collapsing space tunnels in the series' official web version. Play: https://www.player03.com/run/3/
+- Subway Surfers [action · Arrow keys / swipe], SYBO's endless runner, officially on Poki: dodge trains, grab coins, and outrun the inspector. Play: https://poki.com/en/g/subway-surfers
+- Stickman Hook [action · Click / tap], Madbox's one-button grappler: swing the stickman through 100+ bouncy levels, officially on Poki. Play: https://poki.com/en/g/stickman-hook
+- arras.io [action · WASD + mouse], The open-source diep.io successor: build your tank, pick your upgrades, and dominate the arena. Play: https://arras.io/
+- Hole.io [action · Mouse / drag], Voodoo's city-swallowing arcade: grow your black hole from manhole to metropolis in two minutes. Play: https://hole-io.com/
+- Tanki Online [multiplayer · WASD + mouse], The official browser tank MMO: customize your hull and turret, then battle in team arenas, no download. Play: https://tankionline.com/en/
+- mope.io [multiplayer · Mouse + W], Eat, evolve, survive: climb the food chain from mouse to dragon in this multiplayer survival arena. Play: https://mope.io/
+- YoHoHo.io [multiplayer · Mouse / WASD], Pirate battle royale: grab doubloons, grow your crew, and be the last pirate standing. Play: https://www.yohoho.io/
+- Stumble Guys [multiplayer · WASD + Space], Scopely's official web version: 32-player obstacle-course chaos, right in the browser. Play: https://www.stumbleguys.com/play
+- ClassiCube [multiplayer · WASD + mouse], The open-source Minecraft Classic revival: build together on multiplayer servers with the free web client. Play: https://www.classicube.net/
+- Synergism [idle · Mouse], Pseudo-Corp's open-source incremental: prestige through dimensions of numbers in the genre's deepest rabbit hole. Play: https://pseudo-corp.github.io/SynergismOfficial/
+- Realm Grinder [idle · Mouse], Divine Games' fantasy idle RPG: align with factions, cast spells, and abdicate your way to exponential gold, officially on Kongregate. Play: https://www.kongregate.com/games/divinegames/realm-grinder
+- AdVenture Capitalist [idle · Mouse], Hyper Hippo's capitalist clicker: lemonade stands to moon shoes, the idle game that ate 2014, officially on Kongregate. Play: https://www.kongregate.com/games/HyperHippoGames/adventure-capitalist
+- Simon Tatham's Puzzles [puzzle · Mouse], 40+ hand-crafted logic puzzles (Loopy, Mines, Net, Map...) as official JavaScript builds, the puzzle collection other collections wish they were. Play: https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/
+- Sort the Court [puzzle · Mouse], Graebor's royal decision game: answer yes or no to your subjects and keep the kingdom (and treasury) alive. Play: https://graebor.itch.io/sort-the-court
 
 ## Collections (24 total)
 
-- Cozy games for a rainy day: Gentle games for grey weather — Serenitrove; Townscaper; Six Cats Under; goodbye, doggy; A Tale of Crowns; Slow Roads; Fallen London; purrgatory; Little Troubles in Spooky Town; Little Alchemy 2; The Deep Sea; Sandspiel
-- One-more-turn idle games: Numbers go up while you do nothing — Cookie Clicker; A Dark Room; Universal Paperclips; Candy Box 2; Kittens Game; Trimps; Antimatter Dimensions; Prerolled; Stick Ranger; Bitburner
-- .io arena essentials: The arenas that defined a genre — Agar.io; Slither.io; Diep.io; Bonk.io; Powerline.io; Splix.io; Starblast.io; ZombsRoyale.io; Deeeep.io; Wormate.io; Paper.io
-- Party night with friends: Multiplayer chaos for friend groups — skribbl.io; Gartic Phone; JKLM.fun; Codenames; Secret Hitler; Make It Meme; Drawasaurus; PlayingCards.io; HaxBall; AirConsole; Lexulous; Paper.io
-- PICO-8 pocket gems: 128x128 pixels of joy — Poom; Celeste Classic; Moss Moss; Top PICO-8 Games (collection)
-- Five-minute wonders: One strong idea, zero filler — We Become What We Behold; Adventures With Anxiety; The Password Game; Infinite Craft; Draw Logos From Memory; Framed; Globle
-- Strategy & deduction deep cuts: Outthink everyone, including yourself — Colonist.io; Board Game Arena; Town of Salem; Lichess; GeoGuessr; Worldle; Type Help; Floodlines; Hydro Operator; SkyStack; shapez.io
-- Retro time machine: Gaming history, playable — Internet Archive: Console Living Room; Internet Archive: Internet Arcade; Internet Archive: MS-DOS Library; Kingdom of Loathing; Urban Dead; DOOM (1993); The Oregon Trail; Prince of Persia; Wolfenstein 3D
-- Adrenaline: action & shooters: Reflexes required — Krunker; Shell Shockers; SmashKarts; Venge.io; REPULS.io; ev.io; Kirka.io; Gats.io; Friday Night Funkin'; QWOP; Canabalt; Happy Wheels
-- Brain food: puzzlers: Daily rituals and deep thinkers — 2048; Wordle; Connections; TETR.IO; Jstris; Sudoku; Asteroid Launcher; Tetris (Official); Seterra; 0hh1; Quick, Draw!; Koalas to the Max
-- Daily puzzle rituals: One puzzle a day keeps the boredom away — Wordle; Connections; Framed; Worldle; Globle; 0hh1; The Password Game; Draw Logos From Memory
-- Homebrew radar: Fresh from the scene — Tristram; Die in the Dungeon CLASSIC; The Archives of Trevosa; Prerolled; Zombie Nest GBA; Dare To Doku
-- Vanilla JS, zero dependencies: No frameworks, no accounts — English Brick Breaker; Math Challenge; Tank Battle; Red Alert-style RTS; 3D Plane Battle
-- Playable essays: Games with something to say — The Evolution of Trust; To Build a Better Ballot; Parable of the Polygons; The Wisdom and/or Madness of Crowds; Sight & Light; It is as if you were doing work; Chogue
-- Open source, zero install: Free software, full games — Bitburner; Mindustry; shapez.io; Dungeon Crawl Stone Soup; Angband; NetHack
-- Learn to code by playing: Playgrounds that teach — Flexbox Froggy; Grid Garden; CodinGame; CodeCombat; Hacker Typer
-- Daily word games: Fresh puzzles every day — Absurdle; Semantle; Waffle; Contexto; Bandle
-- Cozy toys: No fail states, only vibes — Hatchstead; Powder Game; Pointer Pointer; It is as if you were doing work
-- Roguelikes, forever: Die, learn, die better — Dungeon Crawl Stone Soup; Angband; NetHack; Spelunky Classic; Vampire Survivors; Chogue
-- Flash-back machine: The 2005–2012 browser golden age, preserved — Fancy Pants Adventure: World 1; Alien Hominid (Flash); Dad 'n Me; Time Fcuk; Achievement Unlocked; Canabalt; Line Rider; Happy Wheels; QWOP
-- Score attack: No endings, only high scores — Space Invaders; Galaga '88; Dig Dug; Centipede; Missile Command; Defender; Q*bert; Tempest; Robotron: 2084; 1942; TETR.IO; Jstris
-- Tycoon corner: Build it, run it, optimize it — SimCity (1989); SimCity 2000; Transport Tycoon Deluxe; Theme Park; Railroad Tycoon; Master of Orion; Sid Meier's Civilization; shapez.io
-- The Curator's shelf: Eight games I'd recommend to a friend — TETR.IO; 2048; skribbl.io; Cookie Clicker; Sort the Court; Canabalt; Run 3; shapez.io
-- New here? Start here: Seven games that explain this site — Wordle; 2048; skribbl.io; TETR.IO; Cookie Clicker; Krunker; AdVenture Capitalist
+- Cozy games for a rainy day: Gentle games for grey weather: Serenitrove; Townscaper; Six Cats Under; goodbye, doggy; A Tale of Crowns; Slow Roads; Fallen London; purrgatory; Little Troubles in Spooky Town; Little Alchemy 2; The Deep Sea; Sandspiel
+- One-more-turn idle games: Numbers go up while you do nothing: Cookie Clicker; A Dark Room; Universal Paperclips; Candy Box 2; Kittens Game; Trimps; Antimatter Dimensions; Prerolled; Stick Ranger; Bitburner
+- .io arena essentials: The arenas that defined a genre: Agar.io; Slither.io; Diep.io; Bonk.io; Powerline.io; Splix.io; Starblast.io; ZombsRoyale.io; Deeeep.io; Wormate.io; Paper.io
+- Party night with friends: Multiplayer chaos for friend groups: skribbl.io; Gartic Phone; JKLM.fun; Codenames; Secret Hitler; Make It Meme; Drawasaurus; PlayingCards.io; HaxBall; AirConsole; Lexulous; Paper.io
+- PICO-8 pocket gems: 128x128 pixels of joy: Poom; Celeste Classic; Moss Moss; Top PICO-8 Games (collection)
+- Five-minute wonders: One strong idea, zero filler: We Become What We Behold; Adventures With Anxiety; The Password Game; Infinite Craft; Draw Logos From Memory; Framed; Globle
+- Strategy & deduction deep cuts: Outthink everyone, including yourself: Colonist.io; Board Game Arena; Town of Salem; Lichess; GeoGuessr; Worldle; Type Help; Floodlines; Hydro Operator; SkyStack; shapez.io
+- Retro time machine: Gaming history, playable: Internet Archive: Console Living Room; Internet Archive: Internet Arcade; Internet Archive: MS-DOS Library; Kingdom of Loathing; Urban Dead; DOOM (1993); The Oregon Trail; Prince of Persia; Wolfenstein 3D
+- Adrenaline: action & shooters: Reflexes required: Krunker; Shell Shockers; SmashKarts; Venge.io; REPULS.io; ev.io; Kirka.io; Gats.io; Friday Night Funkin'; QWOP; Canabalt; Happy Wheels
+- Brain food: puzzlers: Daily rituals and deep thinkers: 2048; Wordle; Connections; TETR.IO; Jstris; Sudoku; Asteroid Launcher; Tetris (Official); Seterra; 0hh1; Quick, Draw!; Koalas to the Max
+- Daily puzzle rituals: One puzzle a day keeps the boredom away: Wordle; Connections; Framed; Worldle; Globle; 0hh1; The Password Game; Draw Logos From Memory
+- Homebrew radar: Fresh from the scene: Tristram; Die in the Dungeon CLASSIC; The Archives of Trevosa; Prerolled; Zombie Nest GBA; Dare To Doku
+- Vanilla JS, zero dependencies: No frameworks, no accounts: English Brick Breaker; Math Challenge; Tank Battle; Red Alert-style RTS; 3D Plane Battle
+- Playable essays: Games with something to say: The Evolution of Trust; To Build a Better Ballot; Parable of the Polygons; The Wisdom and/or Madness of Crowds; Sight & Light; It is as if you were doing work; Chogue
+- Open source, zero install: Free software, full games: Bitburner; Mindustry; shapez.io; Dungeon Crawl Stone Soup; Angband; NetHack
+- Learn to code by playing: Playgrounds that teach: Flexbox Froggy; Grid Garden; CodinGame; CodeCombat; Hacker Typer
+- Daily word games: Fresh puzzles every day: Absurdle; Semantle; Waffle; Contexto; Bandle
+- Cozy toys: No fail states, only vibes: Hatchstead; Powder Game; Pointer Pointer; It is as if you were doing work
+- Roguelikes, forever: Die, learn, die better: Dungeon Crawl Stone Soup; Angband; NetHack; Spelunky Classic; Vampire Survivors; Chogue
+- Flash-back machine: The 2005-2012 browser golden age, preserved: Fancy Pants Adventure: World 1; Alien Hominid (Flash); Dad 'n Me; Time Fcuk; Achievement Unlocked; Canabalt; Line Rider; Happy Wheels; QWOP
+- Score attack: No endings, only high scores: Space Invaders; Galaga '88; Dig Dug; Centipede; Missile Command; Defender; Q*bert; Tempest; Robotron: 2084; 1942; TETR.IO; Jstris
+- Tycoon corner: Build it, run it, optimize it: SimCity (1989); SimCity 2000; Transport Tycoon Deluxe; Theme Park; Railroad Tycoon; Master of Orion; Sid Meier's Civilization; shapez.io
+- The Curator's shelf: Eight games I'd recommend to a friend: TETR.IO; 2048; skribbl.io; Cookie Clicker; Sort the Court; Canabalt; Run 3; shapez.io
+- New here? Start here: Seven games that explain this site: Wordle; 2048; skribbl.io; TETR.IO; Cookie Clicker; Krunker; AdVenture Capitalist
 
 ## Emulators (10 picks, software only)
 
-- EmulatorJS [NES, SNES, GB, GBC, GBA, Genesis, Master System, Game Gear, N64, NDS, PlayStation, Atari, and more] — The engine behind this site's Player. 20+ systems in a web page; embed on any site. https://emulatorjs.org/
-- RetroArch [Dozens via cores] — All-in-one frontend: install once, add one core per system. Shaders, netplay, run-ahead latency reduction, RetroAchievements. https://www.retroarch.com/
-- mGBA [GBA, GB, GBC] — The accuracy king for GBA; also the core in this site's Player and Converter. No BIOS needed. https://mgba.io/
-- SameBoy [GB, GBC] — Cycle-accurate Game Boy / Color emulation, beautifully maintained. https://sameboy.github.io/
-- Mesen [NES, SNES, GB, GBC] — The most accurate NES emulator ever made, with a legendary debugger. Also covers SNES/GB. https://mesen.ca/
-- DuckStation [PlayStation] (needs your own dumped BIOS) — Modern, fast PlayStation emulator with gorgeous upscaling. Relicensed Sept 2024: GPL-3.0 until then, now source-available under CC BY-NC-ND 4.0 (not open source). https://www.duckstation.org/
-- PCSX2 [PlayStation 2] (needs your own dumped BIOS) — The long-reigning PS2 emulator, still actively improved. https://pcsx2.net/
-- PPSSPP [PSP] — Plays the PSP library at HD resolutions on almost anything. https://www.ppsspp.org/
-- Dolphin [GameCube, Wii] — GameCube and Wii emulation at HD resolutions. One of the most polished emulators ever made. https://dolphin-emu.org/
-- webretro [Many via libretro cores] — RetroArch cores in the browser via a clean web frontend. Good alternative embedding option. https://github.com/BinBashBanana/webretro
+- EmulatorJS [NES, SNES, GB, GBC, GBA, Genesis, Master System, Game Gear, N64, NDS, PlayStation, Atari, and more], The engine behind this site's Player. 20+ systems in a web page; embed on any site. https://emulatorjs.org/
+- RetroArch [Dozens via cores], All-in-one frontend: install once, add one core per system. Shaders, netplay, run-ahead latency reduction, RetroAchievements. https://www.retroarch.com/
+- mGBA [GBA, GB, GBC], The accuracy king for GBA; also the core in this site's Player and Converter. No BIOS needed. https://mgba.io/
+- SameBoy [GB, GBC], Cycle-accurate Game Boy / Color emulation, beautifully maintained. https://sameboy.github.io/
+- Mesen [NES, SNES, GB, GBC], The most accurate NES emulator ever made, with a legendary debugger. Also covers SNES/GB. https://mesen.ca/
+- DuckStation [PlayStation] (needs your own dumped BIOS), Modern, fast PlayStation emulator with gorgeous upscaling. Relicensed Sept 2024: GPL-3.0 until then, now source-available under CC BY-NC-ND 4.0 (not open source). https://www.duckstation.org/
+- PCSX2 [PlayStation 2] (needs your own dumped BIOS), The long-reigning PS2 emulator, still actively improved. https://pcsx2.net/
+- PPSSPP [PSP], Plays the PSP library at HD resolutions on almost anything. https://www.ppsspp.org/
+- Dolphin [GameCube, Wii], GameCube and Wii emulation at HD resolutions. One of the most polished emulators ever made. https://dolphin-emu.org/
+- webretro [Many via libretro cores], RetroArch cores in the browser via a clean web frontend. Good alternative embedding option. https://github.com/BinBashBanana/webretro
 
 ## API
-- data/v1/index.json — endpoint catalog
+- data/v1/index.json, endpoint catalog
 - data/v1/games.json, collections.json, emulators.json, guides.json, homebrew-packs.json, kid-safe.json (kid-safe: kid_safe, no_chat, age_band, parent_note, verify_live, audit_basis per record)
 - skills/: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker, tournament-runner, kids-corner-guide
 
@@ -319,30 +319,30 @@ Zero ROMs hosted. Zero piracy links. All game descriptions original (CC0).
 ## EmulatorJS self-hosting guide
 Difficulty: Intermediate · ~30 min · slug: emulatorjs-self-hosting
 
-Host the open-source EmulatorJS player on your own site and play ROMs you dumped yourself — setup, cores, BIOS, and the legal line.
+Host the open-source EmulatorJS player on your own site and play ROMs you dumped yourself, setup, cores, BIOS, and the legal line.
 
 ### What it is (and the legal line)
 
 EmulatorJS is a free, open-source project that puts classic console emulation in a web page. It bundles libretro cores compiled to WebAssembly, so systems from the NES to the GBA run right in the browser with no plugins.
 
-The software itself is completely legal — and it ships with zero games. You supply the game files, and this is the part that matters: only load ROMs you dumped from cartridges or discs you own, plus homebrew and public-domain titles. Downloading commercial ROMs you don't own is piracy, no matter how nicely the player is skinned.
+The software itself is completely legal, and it ships with zero games. You supply the game files, and this is the part that matters: only load ROMs you dumped from cartridges or discs you own, plus homebrew and public-domain titles. Downloading commercial ROMs you don't own is piracy, no matter how nicely the player is skinned.
 
 ### What you need
 
 - A web host that serves static files (any static host works), or just your own computer for local play
-- ROM files you dumped yourself — see the rip-your-own-cartridges guide
+- ROM files you dumped yourself, see the rip-your-own-cartridges guide
 - For some systems, a BIOS file dumped from hardware you own (GBA and PlayStation cores need one)
 - About 30 minutes
 
 ### 1. Get the release
 
-Grab the latest release ZIP from the project's GitHub releases page (github.com/EmulatorJS/EmulatorJS) and unzip it into your site folder. The ZIP contains the loader, the cores, and a data directory — no installer, no build step.
+Grab the latest release ZIP from the project's GitHub releases page (github.com/EmulatorJS/EmulatorJS) and unzip it into your site folder. The ZIP contains the loader, the cores, and a data directory, no installer, no build step.
 
 If you'd rather not self-host, the project's own demo page shows the same setup; the steps below work identically on any static host.
 
 ### 2. Add your own games
 
-Create a folder (call it `roms`) and copy in only ROMs you dumped from games you own, plus homebrew or public-domain ROMs. One subfolder per system keeps cores straight — `roms/gba/`, `roms/snes/`, and so on.
+Create a folder (call it `roms`) and copy in only ROMs you dumped from games you own, plus homebrew or public-domain ROMs. One subfolder per system keeps cores straight, `roms/gba/`, `roms/snes/`, and so on.
 
 Name files clearly. EmulatorJS doesn't care about fancy naming schemes; it cares that the file is a valid dump.
 
@@ -363,7 +363,7 @@ Swap `EJS_core` for the system you're playing (`snes`, `nes`, `gb`, `gba`, `n64`
 
 ### 4. BIOS files (dump your own)
 
-Some cores refuse to boot without a system BIOS. Dump the BIOS from hardware you own — the same dumpers in the rip-your-own guide usually handle this — and place it where the core's documentation says to look. Never download a BIOS file; like ROMs, they're copyrighted software.
+Some cores refuse to boot without a system BIOS. Dump the BIOS from hardware you own, the same dumpers in the rip-your-own guide usually handle this, and place it where the core's documentation says to look. Never download a BIOS file; like ROMs, they're copyrighted software.
 
 ### 5. Extras worth knowing
 
@@ -374,36 +374,36 @@ Some cores refuse to boot without a system BIOS. Dump the BIOS from hardware you
 
 ### The rule, one more time
 
-EmulatorJS gives you the player, not the games. If a setup tutorial tells you to download a ROM pack, close the tab — that tutorial is pointing you at piracy. Your library should be: dumps of games you physically own, homebrew from its authors, and public-domain releases. That's the whole legal lane, and it's plenty.
+EmulatorJS gives you the player, not the games. If a setup tutorial tells you to download a ROM pack, close the tab, that tutorial is pointing you at piracy. Your library should be: dumps of games you physically own, homebrew from its authors, and public-domain releases. That's the whole legal lane, and it's plenty.
 
 ## RetroArch setup guide
 Difficulty: Beginner · ~20 min · slug: retroarch-setup
 
-Install RetroArch, add cores for hardware you own, and load your own dumped games — controllers, save states, shaders, and netplay included.
+Install RetroArch, add cores for hardware you own, and load your own dumped games, controllers, save states, shaders, and netplay included.
 
 ### What it is (and the legal line)
 
-RetroArch is a free, open-source frontend for emulators. Instead of one emulator per system, you install RetroArch once and add small emulator modules called cores — one for each console you want to play. It runs on Windows, macOS, Linux, Android, iOS, and even in a browser.
+RetroArch is a free, open-source frontend for emulators. Instead of one emulator per system, you install RetroArch once and add small emulator modules called cores, one for each console you want to play. It runs on Windows, macOS, Linux, Android, iOS, and even in a browser.
 
 RetroArch contains no games and no BIOS files. You bring those: dumps of games you own (see the rip-your-own guide) and homebrew or public-domain titles.
 
 ### 1. Install RetroArch
 
-Download RetroArch from retroarch.com — pick your platform. It's also on Steam and most package managers, which handle updates for you. Install it like any normal app; the first launch walks you through the basics.
+Download RetroArch from retroarch.com, pick your platform. It's also on Steam and most package managers, which handle updates for you. Install it like any normal app; the first launch walks you through the basics.
 
 ### 2. Download cores (the emulators)
 
-Go to Main Menu → Online Updater → Core Downloader. You'll see a list of cores, each named for the hardware it emulates. Install the core matching hardware you own — for example, a Game Boy Advance core if you have GBA cartridges to dump.
+Go to Main Menu → Online Updater → Core Downloader. You'll see a list of cores, each named for the hardware it emulates. Install the core matching hardware you own, for example, a Game Boy Advance core if you have GBA cartridges to dump.
 
 Cores are emulator software, and they're legal. Installing ten cores you never use harms nothing; loading a game you don't own into one is the part that's piracy.
 
 ### 3. Load your own games
 
-Main Menu → Load Content → browse to your dumped ROM file. RetroArch will ask which core to use; pick the one you installed. To build a pretty library view, use Import Content → Scan Directory on a folder of your dumps — RetroArch matches them against its database and builds per-system playlists with box art.
+Main Menu → Load Content → browse to your dumped ROM file. RetroArch will ask which core to use; pick the one you installed. To build a pretty library view, use Import Content → Scan Directory on a folder of your dumps: RetroArch matches them against its database and builds per-system playlists with box art.
 
 ### 4. Controllers
 
-Settings → Input. Most USB and Bluetooth gamepads are recognized automatically with sane default mappings — plug in and play. If a button feels wrong, remap it per-core under Quick Menu → Controls while a game is running; RetroArch saves the remap for that core.
+Settings → Input. Most USB and Bluetooth gamepads are recognized automatically with sane default mappings, plug in and play. If a button feels wrong, remap it per-core under Quick Menu → Controls while a game is running; RetroArch saves the remap for that core.
 
 ### 5. The good stuff: saves, shaders, netplay
 
@@ -415,22 +415,22 @@ Settings → Input. Most USB and Bluetooth gamepads are recognized automatically
 
 ### The rule, one more time
 
-Keep your library to three sources: dumps of games you own, homebrew from its authors, and public-domain releases. RetroArch never asks where your files came from — that's your responsibility, and it's the whole difference between a legal retro setup and a piracy box.
+Keep your library to three sources: dumps of games you own, homebrew from its authors, and public-domain releases. RetroArch never asks where your files came from, that's your responsibility, and it's the whole difference between a legal retro setup and a piracy box.
 
 ## GBA-to-WASM recompiler guide
 Difficulty: Advanced · ~90 min · slug: gba-to-wasm-recompiler
 
-Turn a GBA cartridge you own into a self-contained browser page via static recompilation — the user-supplied-ROMs-only pattern, end to end.
+Turn a GBA cartridge you own into a self-contained browser page via static recompilation, the user-supplied-ROMs-only pattern, end to end.
 
 ### The pattern
 
-Most browser emulation interprets a console's CPU in real time. A static recompiler takes a different path: it translates the game's ARM/Thumb machine code into WebAssembly ahead of time, once. The result is a self-contained web page — WASM plus a small runtime shim — that plays the game with no emulator needed at runtime.
+Most browser emulation interprets a console's CPU in real time. A static recompiler takes a different path: it translates the game's ARM/Thumb machine code into WebAssembly ahead of time, once. The result is a self-contained web page: WASM plus a small runtime shim, that plays the game with no emulator needed at runtime.
 
 The open-source demo at agnt-gg/gba-pokemon-rom-to-wasm walks the whole pattern end to end and is the best reference for how the pieces fit.
 
 ### The non-negotiable input rule
 
-The input ROM must be a dump of a cartridge you physically own — see the rip-your-own-cartridges guide. Two hard rules:
+The input ROM must be a dump of a cartridge you physically own, see the rip-your-own-cartridges guide. Two hard rules:
 
 1. Never feed a downloaded ROM into the toolchain. The recompiler doesn't care where the file came from; the law does.
 2. Don't redistribute the built page. The output still contains the original game's copyrighted code, so sharing the build is sharing the game.
@@ -439,7 +439,7 @@ Build for yourself, play it yourself. That's the legal lane.
 
 ### 1. Dump your own cartridge
 
-Use a cartridge dumper — a GB Operator, Joey Jr., Sanni Cart Reader, or similar — to read your own GBA cartridge into a ROM file on your computer. Verify the dump (most dumper software shows a checksum) before you build.
+Use a cartridge dumper, a GB Operator, Joey Jr., Sanni Cart Reader, or similar, to read your own GBA cartridge into a ROM file on your computer. Verify the dump (most dumper software shows a checksum) before you build.
 
 ### 2. Run the recompiler on your dump
 
@@ -447,27 +447,27 @@ Clone the recompiler repository and follow its README for the toolchain install.
 
 ### 3. Host the build yourself
 
-The output is static files, so any static web host works — or just open the HTML file locally. Saves typically persist via localStorage or IndexedDB in the browser. Keep the page private, or share it only with people who own the same cartridge.
+The output is static files, so any static web host works, or just open the HTML file locally. Saves typically persist via localStorage or IndexedDB in the browser. Keep the page private, or share it only with people who own the same cartridge.
 
 ### How it works, briefly
 
-At build time, each ARM instruction in the game maps to equivalent WebAssembly operations. Anything the game expects from real GBA hardware — the picture processing unit, the sound channels, the timers, the memory-mapped I/O — is implemented in the runtime shim the recompiler ships with. It's emulation, just done ahead of time instead of on the fly.
+At build time, each ARM instruction in the game maps to equivalent WebAssembly operations. Anything the game expects from real GBA hardware, the picture processing unit, the sound channels, the timers, the memory-mapped I/O, is implemented in the runtime shim the recompiler ships with. It's emulation, just done ahead of time instead of on the fly.
 
 ### Limits and gotchas
 
 - Not every game recompiles cleanly; anti-piracy checks and unusual hardware tricks can break the build
 - Performance varies by browser and device; desktop Chrome/Firefox are the smoothest targets
-- Debugging a broken build means reading the recompiler's logs, not the game's code — start with a simple, well-documented game
+- Debugging a broken build means reading the recompiler's logs, not the game's code, start with a simple, well-documented game
 - This pattern generalizes: the same idea applies to other consoles, with different recompiler projects
 
 ## Rip-your-own-cartridges guide
 Difficulty: Beginner · ~45 min · slug: rip-your-own-cartridges
 
-Turn cartridges you own into verified ROM backups with a USB dumper — hardware picks, the dumping ritual, and the no-distribution rule.
+Turn cartridges you own into verified ROM backups with a USB dumper, hardware picks, the dumping ritual, and the no-distribution rule.
 
 ### The idea
 
-Dumping is reading the data off a cartridge or disc you own into a file on your computer. That file — the ROM or disc image — is a backup of your property, and it's the only legal way to get game files for the emulators and recompilers in the other guides.
+Dumping is reading the data off a cartridge or disc you own into a file on your computer. That file, the ROM or disc image, is a backup of your property, and it's the only legal way to get game files for the emulators and recompilers in the other guides.
 
 This guide is practical how-to, not legal advice. The general principle is simple: back up what you own, and never distribute the copies.
 
@@ -475,32 +475,32 @@ This guide is practical how-to, not legal advice. The general principle is simpl
 
 Making a personal backup of software you own is treated very differently from downloading or sharing copies you have no rights to. The bright line is distribution: uploading your dumps, sharing them with friends, or downloading someone else's is piracy regardless of whether you own the game.
 
-Laws vary by country and change over time. When in doubt, the conservative read — your dumps, your devices, no sharing — keeps you safe everywhere.
+Laws vary by country and change over time. When in doubt, the conservative read, your dumps, your devices, no sharing, keeps you safe everywhere.
 
 ### Pick a dumper for your system
 
-- Game Boy / Game Boy Color / Game Boy Advance: GB Operator (Epilogue) or Joey Jr. — dead simple USB dumpers
-- SNES + Genesis: Retrode 2 — plug the cart into a USB adapter that mounts like a drive
-- Multi-system DIY: INLretro Dumper or the open-source Sanni Cart Reader — more systems, more tinkering
+- Game Boy / Game Boy Color / Game Boy Advance: GB Operator (Epilogue) or Joey Jr., dead simple USB dumpers
+- SNES + Genesis: Retrode 2, plug the cart into a USB adapter that mounts like a drive
+- Multi-system DIY: INLretro Dumper or the open-source Sanni Cart Reader, more systems, more tinkering
 - Save files: most of these dumpers also back up the save RAM, so your 100-hour file survives
 
 ### The dumping ritual
 
-1. Clean the cartridge's edge connector with isopropyl alcohol and a cotton swab — dirty contacts cause bad dumps
+1. Clean the cartridge's edge connector with isopropyl alcohol and a cotton swab, dirty contacts cause bad dumps
 2. Seat the cart firmly in the dumper
 3. Run the dumper software and save the ROM file
-4. Verify it: good dumper software shows a checksum. Compare it against a known-good database entry for your exact cartridge — a match means a perfect read
+4. Verify it: good dumper software shows a checksum. Compare it against a known-good database entry for your exact cartridge, a match means a perfect read
 5. Keep the physical cartridge. It's your proof of ownership and the reason the backup is yours to make
 
 ### Disc-based games
 
-Optical media needs a compatible disc drive plus dumping software; the per-system guides in preservation communities document exact drive models and settings. The same rule applies: your disc, your dump, no sharing. Disc dumps are big — budget storage accordingly.
+Optical media needs a compatible disc drive plus dumping software; the per-system guides in preservation communities document exact drive models and settings. The same rule applies: your disc, your dump, no sharing. Disc dumps are big, budget storage accordingly.
 
 ### Store it right
 
 - Keep each ROM next to a small text file with its checksum and the cartridge it came from
 - Back up save files separately; they're tiny and irreplaceable
-- Store everything twice (local drive + a backup) — dumped once, kept forever
+- Store everything twice (local drive + a backup), dumped once, kept forever
 - Label homebrew and public-domain ROMs as such so your future self knows what's shareable
 
 ## Homebrew & public-domain sources
@@ -510,21 +510,21 @@ Where to find legal homebrew ROMs and public-domain games: archives, dev communi
 
 ### What counts as legal
 
-Homebrew means new games made by hobbyists for old (and new) hardware, released free by their authors. Public domain means the copyright expired or was explicitly waived. Both are fully legal to download, play, and share — they're the guilt-free way to fill an emulator library or a recompiler project.
+Homebrew means new games made by hobbyists for old (and new) hardware, released free by their authors. Public domain means the copyright expired or was explicitly waived. Both are fully legal to download, play, and share, they're the guilt-free way to fill an emulator library or a recompiler project.
 
 ### Where to find them
 
-- pdroms.de — a long-running archive of homebrew ROMs across dozens of systems. Everything there is distributed by its authors.
-- nesdev.com — the NES homebrew development community: forums, tutorials, and released homebrew games.
-- gbdev.io — the Game Boy homebrew hub: dev resources plus finished, free games.
-- itch.io (itch.io/games, search 'homebrew') — many homebrew devs release ROMs free on their itch pages; filter by 'play in browser' for instant play.
-- Internet Archive collections — the MS-DOS Games, Internet Arcade, and Console Living Room collections (all in our game directory) include homebrew and public-domain titles; check each item's rights statement.
+- pdroms.de, a long-running archive of homebrew ROMs across dozens of systems. Everything there is distributed by its authors.
+- nesdev.com, the NES homebrew development community: forums, tutorials, and released homebrew games.
+- gbdev.io, the Game Boy homebrew hub: dev resources plus finished, free games.
+- itch.io (itch.io/games, search 'homebrew'), many homebrew devs release ROMs free on their itch pages; filter by 'play in browser' for instant play.
+- Internet Archive collections, the MS-DOS Games, Internet Arcade, and Console Living Room collections (all in our game directory) include homebrew and public-domain titles; check each item's rights statement.
 
 ### Open-source originals (not ROMs at all)
 
-- OpenTTD (openttd.org) — a complete, open-source transport sim and a genuinely great game
-- The open-source web games in our directory — 2048, Hextris, A Dark Room, and friends are free software you can also self-host
-- Engine recreations exist for some classics, but they typically need original game data from a copy you own — the engine is free, the assets aren't
+- OpenTTD (openttd.org), a complete, open-source transport sim and a genuinely great game
+- The open-source web games in our directory: 2048, Hextris, A Dark Room, and friends are free software you can also self-host
+- Engine recreations exist for some classics, but they typically need original game data from a copy you own, the engine is free, the assets aren't
 
 ### The smell test
 
@@ -533,7 +533,7 @@ If a 'homebrew' site also offers commercial ROM downloads, leave. The test is si
 ## How GBA becomes WebAssembly
 Difficulty: Intermediate · ~12 min · slug: gba-wasm
 
-The reverse-engineering pattern behind browser GBA: ARM/THUMB basic blocks lifted into real WASM, frame timing, memory mapping — original explainer.
+The reverse-engineering pattern behind browser GBA: ARM/THUMB basic blocks lifted into real WASM, frame timing, memory mapping, original explainer.
 
 ### The CPU problem: ARM in a browser
 
@@ -553,7 +553,7 @@ The GBA runs at exactly 59.73 fps; the runtime paces translated code against the
 
 ### Differential verification
 
-Serious projects run the WASM translation and a trusted interpreter side by side and compare CPU state after every block — any divergence is a translation bug.
+Serious projects run the WASM translation and a trusted interpreter side by side and compare CPU state after every block, any divergence is a translation bug.
 
 ## How emulation works
 Difficulty: Beginner · ~8 min · slug: how-emulation-works
@@ -562,7 +562,7 @@ Plain-English explainer: interpreters vs. recompilers, cycle accuracy, what a BI
 
 ### The core idea
 
-An emulator pretends to be the original chips — CPU, graphics, sound, timers — well enough that the game can't tell the difference.
+An emulator pretends to be the original chips: CPU, graphics, sound, timers, well enough that the game can't tell the difference.
 
 ### Interpreters vs. recompilers
 
@@ -578,12 +578,12 @@ Some consoles need firmware dumped from your own hardware; others (GBA via mGBA)
 
 ### Save states
 
-Complete snapshots of the emulated machine — save mid-jump. In browsers they persist via local storage / IndexedDB.
+Complete snapshots of the emulated machine, save mid-jump. In browsers they persist via local storage / IndexedDB.
 
 ## Best emulator per system
 Difficulty: Reference · ~6 min · slug: best-emulator-per-system
 
-One honest emulator pick per classic system: accuracy, ease of use, platform notes. Software only — no ROM links.
+One honest emulator pick per classic system: accuracy, ease of use, platform notes. Software only, no ROM links.
 
 ### The picks
 
@@ -600,7 +600,7 @@ The Player's gba core is mGBA (verified backend, the single GBA backend in the E
 
 ### The core: mGBA, the accuracy king
 
-The Player's gba core is mGBA — the single GBA backend in the official EmulatorJS core list, and one of the most accurate GBA emulators ever written. Auto-detected from .gba files; the manual dropdown exists only if detection fails.
+The Player's gba core is mGBA, the single GBA backend in the official EmulatorJS core list, and one of the most accurate GBA emulators ever written. Auto-detected from .gba files; the manual dropdown exists only if detection fails.
 
 ### BIOS notes
 
@@ -608,7 +608,7 @@ None needed. mGBA reimplements the GBA BIOS calls from scratch (clean-room HLE),
 
 ### Settings that matter
 
-Color correction (GBA games were drawn for the dim unlit screen — correction restores the intended look); fast-forward for slow stretches; Keep in Browser under Settings -> Save States so the Player 2.0 Save tool can export/import states as files.
+Color correction (GBA games were drawn for the dim unlit screen, correction restores the intended look); fast-forward for slow stretches; Keep in Browser under Settings -> Save States so the Player 2.0 Save tool can export/import states as files.
 
 ### Performance
 
@@ -629,11 +629,11 @@ The Player's snes core is Snes9x (default SNES backend in the EmulatorJS core li
 
 ### The core: Snes9x, the workhorse
 
-The Player's snes core is Snes9x — the default SNES backend in the official EmulatorJS core list (alternate: bsnes). In development since 1997; handles Super FX, SA-1, and DSP chips well. Auto-detected from .sfc/.smc files.
+The Player's snes core is Snes9x, the default SNES backend in the official EmulatorJS core list (alternate: bsnes). In development since 1997; handles Super FX, SA-1, and DSP chips well. Auto-detected from .sfc/.smc files.
 
 ### BIOS notes
 
-None needed — the SNES has no separate system BIOS; every cartridge is self-contained.
+None needed, the SNES has no separate system BIOS; every cartridge is self-contained.
 
 ### Settings that matter
 
@@ -641,7 +641,7 @@ Hi-res blending for Mode 7/transparency effects; sound buffer/latency tuning for
 
 ### Performance
 
-Trivial on anything — 1990 hardware on a 1997-hardened core. Slowdown is browser throttling, never the core.
+Trivial on anything: 1990 hardware on a 1997-hardened core. Slowdown is browser throttling, never the core.
 
 ### Saves & cheats
 
@@ -658,15 +658,15 @@ bsnes favors cycle-level accuracy over speed for the handful of games that need 
 ## NES emulation guide
 Difficulty: Beginner · ~10 min · slug: nes
 
-The Player's nes core is FCEUmm (default NES backend in the EmulatorJS core list; Nestopia UE is the alternate for accuracy purists). BIOS-free for cartridges — the one exception is Famicom Disk System disks, which need a BIOS dumped from your own hardware. Covers mapper support, the sprite-flicker switch, save states and Game Genie cheats via Player 2.0, deep link (player.html?core=nes), and a verified homebrew starter pack.
+The Player's nes core is FCEUmm (default NES backend in the EmulatorJS core list; Nestopia UE is the alternate for accuracy purists). BIOS-free for cartridges, the one exception is Famicom Disk System disks, which need a BIOS dumped from your own hardware. Covers mapper support, the sprite-flicker switch, save states and Game Genie cheats via Player 2.0, deep link (player.html?core=nes), and a verified homebrew starter pack.
 
 ### The core: FCEUmm, the mapper sponge
 
-The Player's nes core is FCEUmm — the default NES backend in the official EmulatorJS core list (alternate: Nestopia UE). The NES put half its hardware in the cartridge (the mapper chips), and FCEUmm's whole reputation is supporting hundreds of them. Auto-detected from .nes files.
+The Player's nes core is FCEUmm, the default NES backend in the official EmulatorJS core list (alternate: Nestopia UE). The NES put half its hardware in the cartridge (the mapper chips), and FCEUmm's whole reputation is supporting hundreds of them. Auto-detected from .nes files.
 
 ### BIOS notes
 
-None needed for cartridges — the NES has no system BIOS. The single exception: Famicom Disk System .fds disks need the FDS BIOS, dumped from your own Famicom hardware. Never download one.
+None needed for cartridges, the NES has no system BIOS. The single exception: Famicom Disk System .fds disks need the FDS BIOS, dumped from your own Famicom hardware. Never download one.
 
 ### Settings that matter
 
@@ -674,11 +674,11 @@ The no-sprite-limit option trades the NES's famous 8-sprites-per-line flicker fo
 
 ### Performance
 
-Effortless — 1983 hardware. If an NES game stutters in the browser, the browser is throttling the tab, not the core struggling.
+Effortless: 1983 hardware. If an NES game stutters in the browser, the browser is throttling the tab, not the core struggling.
 
 ### Saves & cheats
 
-Save states via the in-game menu (export/import/delete with the Player 2.0 Save tool); battery saves persist. Cheats tool takes Game Genie codes — the NES is the system the Game Genie was invented for — stored per game, injected before boot.
+Save states via the in-game menu (export/import/delete with the Player 2.0 Save tool); battery saves persist. Cheats tool takes Game Genie codes, the NES is the system the Game Genie was invented for, stored per game, injected before boot.
 
 ### Homebrew starter pack
 
@@ -686,7 +686,7 @@ Zophar's Domain NES public-domain shelf (https://zophar.net/pdroms/nes.html); it
 
 ### Accuracy purists: Nestopia UE
 
-Nestopia UE favors cycle-level accuracy — the pick for finicky mappers and timing-sensitive homebrew. It's the EmulatorJS alternate NES backend for self-hosted setups. FCEUmm covers essentially everything in browser play.
+Nestopia UE favors cycle-level accuracy, the pick for finicky mappers and timing-sensitive homebrew. It's the EmulatorJS alternate NES backend for self-hosted setups. FCEUmm covers essentially everything in browser play.
 
 ## Nintendo 64 emulation guide
 Difficulty: Intermediate · ~15 min · slug: n64
@@ -695,11 +695,11 @@ The Player's n64 core is Mupen64Plus-Next (default N64 backend in the EmulatorJS
 
 ### The core: Mupen64Plus-Next
 
-The Player's n64 core is Mupen64Plus-Next — the default N64 backend in the official EmulatorJS core list. The N64's graphics quirks make it the least predictable system here: most games run great, a few famous ones have graphical oddities. Auto-detected from .n64/.z64/.v64.
+The Player's n64 core is Mupen64Plus-Next, the default N64 backend in the official EmulatorJS core list. The N64's graphics quirks make it the least predictable system here: most games run great, a few famous ones have graphical oddities. Auto-detected from .n64/.z64/.v64.
 
 ### BIOS notes
 
-None needed for the browser core — it boots games with no BIOS file.
+None needed for the browser core, it boots games with no BIOS file.
 
 ### Settings that matter
 
@@ -711,7 +711,7 @@ Honest requirements: a recent laptop/desktop for full speed in a browser; older 
 
 ### Saves & cheats
 
-Save states from the in-game menu (export/import with the Player 2.0 Save tool); the engine emulates the memory pak so in-game saves work. Cheats tool takes GameShark codes — treat as experimental on N64. Analog-stick axes need the engine's own Control Settings, not the Player remap tool.
+Save states from the in-game menu (export/import with the Player 2.0 Save tool); the engine emulates the memory pak so in-game saves work. Cheats tool takes GameShark codes, treat as experimental on N64. Analog-stick axes need the engine's own Control Settings, not the Player remap tool.
 
 ### Homebrew starter pack
 
@@ -724,19 +724,19 @@ The Player's psx core is PCSX-ReARMed (default PSX backend in the EmulatorJS cor
 
 ### The core: PCSX-ReARMed
 
-The Player's psx core is PCSX-ReARMed — the default PlayStation backend in the official EmulatorJS core list. Fast enough for browsers, accurate enough for most of the library. Detects .cue/.bin/.iso/.img/.chd/.m3u; use .m3u playlists for multi-disc games.
+The Player's psx core is PCSX-ReARMed, the default PlayStation backend in the official EmulatorJS core list. Fast enough for browsers, accurate enough for most of the library. Detects .cue/.bin/.iso/.img/.chd/.m3u; use .m3u playlists for multi-disc games.
 
 ### BIOS notes: honest, not scary
 
-Boots most games with no BIOS via built-in HLE (high-level firmware reimplementation). A handful of games glitch without genuine firmware — the proper fix is dumping the BIOS from your own PlayStation and attaching it with the Player's BIOS picker. Never download a BIOS file.
+Boots most games with no BIOS via built-in HLE (high-level firmware reimplementation). A handful of games glitch without genuine firmware, the proper fix is dumping the BIOS from your own PlayStation and attaching it with the Player's BIOS picker. Never download a BIOS file.
 
 ### Settings that matter
 
-Enhanced resolution (2x is the sweet spot); CD fast-load/fast boot; dithering (taste — purists leave it on); analog toggle for DualShock-supported games.
+Enhanced resolution (2x is the sweet spot); CD fast-load/fast boot; dithering (taste, purists leave it on); analog toggle for DualShock-supported games.
 
 ### Performance
 
-Lighter than its reputation: recent laptops/desktops and recent phones run full speed. Stutter fixes: drop enhanced resolution to 1x, close tabs, exit low-power mode. Keep own rips as .chd — much smaller.
+Lighter than its reputation: recent laptops/desktops and recent phones run full speed. Stutter fixes: drop enhanced resolution to 1x, close tabs, exit low-power mode. Keep own rips as .chd, much smaller.
 
 ### Saves & cheats
 
@@ -757,11 +757,11 @@ The Player's segaMD core is Genesis Plus GX (default Genesis/Game Gear/Sega CD b
 
 ### The core: Genesis Plus GX
 
-The Player's segaMD core is Genesis Plus GX — the default backend for Genesis/Mega Drive, Game Gear, and Sega CD in the official EmulatorJS core list, widely considered the accuracy standard for Sega's 16-bit hardware. Auto-detected from .md/.gen/.smd.
+The Player's segaMD core is Genesis Plus GX, the default backend for Genesis/Mega Drive, Game Gear, and Sega CD in the official EmulatorJS core list, widely considered the accuracy standard for Sega's 16-bit hardware. Auto-detected from .md/.gen/.smd.
 
 ### BIOS notes
 
-None needed for Genesis cartridges. (Only the Sega CD add-on — a separate segaCD core — needs a user-dumped BIOS; the Player flags that system.)
+None needed for Genesis cartridges. (Only the Sega CD add-on, a separate segaCD core, needs a user-dumped BIOS; the Player flags that system.)
 
 ### Settings that matter
 
@@ -769,7 +769,7 @@ Region auto-detect/override (force matching region if a game feels off-speed); 6
 
 ### Performance
 
-The lightest console core in the Player — 1988 hardware. Anything with a modern browser runs full speed.
+The lightest console core in the Player: 1988 hardware. Anything with a modern browser runs full speed.
 
 ### Saves & cheats
 
@@ -782,15 +782,15 @@ pdroms.de Genesis section (https://pdroms.de/sega-genesis-megadrive); itch.io ta
 ## Game Boy / Color emulation guide
 Difficulty: Beginner · ~10 min · slug: gameboy
 
-The Player's gb core is Gambatte (default GB backend in the EmulatorJS core list; alternate mGBA) — cycle-accurate, BIOS-free, and full speed on any device. Covers colorization palettes, saves and Game Genie/GameShark cheats via Player 2.0, deep link (player.html?core=gb), and a verified homebrew starter pack (GBDev community included).
+The Player's gb core is Gambatte (default GB backend in the EmulatorJS core list; alternate mGBA), cycle-accurate, BIOS-free, and full speed on any device. Covers colorization palettes, saves and Game Genie/GameShark cheats via Player 2.0, deep link (player.html?core=gb), and a verified homebrew starter pack (GBDev community included).
 
 ### The core: Gambatte, cycle-accurate
 
-The Player's gb core is Gambatte — the default Game Boy backend in the official EmulatorJS core list (alternate: mGBA). Cycle-accurate with essentially perfect compatibility; one core covers .gb and .gbc.
+The Player's gb core is Gambatte, the default Game Boy backend in the official EmulatorJS core list (alternate: mGBA). Cycle-accurate with essentially perfect compatibility; one core covers .gb and .gbc.
 
 ### BIOS notes
 
-None needed — Gambatte boots games directly with a reimplemented boot process; no boot-ROM dump required.
+None needed: Gambatte boots games directly with a reimplemented boot process; no boot-ROM dump required.
 
 ### Settings that matter
 
@@ -798,7 +798,7 @@ Colorization palettes for monochrome GB games (including the Super Game Boy look
 
 ### Performance
 
-The cheapest compute in the Player — full speed on any device that loads the page. The honest pick for the weakest hardware.
+The cheapest compute in the Player, full speed on any device that loads the page. The honest pick for the weakest hardware.
 
 ### Saves & cheats
 
@@ -810,7 +810,7 @@ pdroms.de Game Boy section (https://pdroms.de/nintendo-game-boy-gb-gbc); itch.io
 
 ### Prefer a desktop app? SameBoy
 
-SameBoy (sameboy.github.io) is the desktop accuracy champion for GB/GBC — same legality, same BIOS-free story; the browser Player wins on convenience and phone play.
+SameBoy (sameboy.github.io) is the desktop accuracy champion for GB/GBC, same legality, same BIOS-free story; the browser Player wins on convenience and phone play.
 
 ## Make games for dead consoles: the homebrew development primer
 Difficulty: Intermediate · ~25 min · slug: homebrew-development
@@ -819,7 +819,7 @@ Write your own games for the GBA, Game Boy, and NES: the honest toolchain (devki
 
 ### Why dead consoles are the friendliest dev targets
 
-Fixed hardware means zero surprises: one CPU, one screen, identical for every player. Constraints force design over decoration, and the feedback loop is minutes. The scene ships real games yearly — from jam entries to releases like 2026's Zombie Nest GBA and the MAGFest Indie Retro Homebrew Showcase finalists.
+Fixed hardware means zero surprises: one CPU, one screen, identical for every player. Constraints force design over decoration, and the feedback loop is minutes. The scene ships real games yearly, from jam entries to releases like 2026's Zombie Nest GBA and the MAGFest Indie Retro Homebrew Showcase finalists.
 
 ### Pick your first system (the honest ladder)
 
@@ -827,11 +827,11 @@ GBA first (C, real compiler, the Tonc tutorial, forgiving CPU), then Game Boy/Co
 
 ### The GBA toolchain, end to end
 
-devkitPro + devkitARM: install the package manager, run `sudo dkp-pacman -S gba-dev gba-examples`, set DEVKITPRO/DEVKITARM/PATH, copy /opt/devkitpro/examples/gba/template, run make. A .gba with no errors means the toolchain works — one evening, start to finish.
+devkitPro + devkitARM: install the package manager, run `sudo dkp-pacman -S gba-dev gba-examples`, set DEVKITPRO/DEVKITARM/PATH, copy /opt/devkitpro/examples/gba/template, run make. A .gba with no errors means the toolchain works, one evening, start to finish.
 
 ### Learn the hardware: Tonc and the 240x160 canvas
 
-Tonc (coranac.com/tonc/text/) is the canonical GBA course: video modes, tiles and sprites, 15-bit palettes, the vblank heartbeat. libgba vs libtonc vs the Butano engine — pick libtonc as a beginner.
+Tonc (coranac.com/tonc/text/) is the canonical GBA course: video modes, tiles and sprites, 15-bit palettes, the vblank heartbeat. libgba vs libtonc vs the Butano engine, pick libtonc as a beginner.
 
 ### The 8-bit path: Game Boy and NES
 
@@ -847,7 +847,7 @@ Game jams (GBA Jam entries), itch.io with correct system tags and free/pay-what-
 
 ### The legal lane for developers
 
-Your code, your art, your music — never lift commercial assets. Open-source the engine if you like; clones of mechanics are legal, copies of assets aren't; fan games with others' characters live in a takedown gray zone. Every byte yours = sell, share, jam, press.
+Your code, your art, your music, never lift commercial assets. Open-source the engine if you like; clones of mechanics are legal, copies of assets aren't; fan games with others' characters live in a takedown gray zone. Every byte yours = sell, share, jam, press.
 
 ## Play together online: the netplay guide
 Difficulty: Intermediate · ~20 min · slug: netplay
@@ -856,7 +856,7 @@ Retro multiplayer over the internet: how RetroArch's rewind-based rollback netpl
 
 ### What netplay actually sends
 
-Not video — controller inputs, a few bytes per frame. Both players run the same emulator, core, and game locally; identical inputs keep both screens in agreement. Everyone still needs their own legal copy.
+Not video, controller inputs, a few bytes per frame. Both players run the same emulator, core, and game locally; identical inputs keep both screens in agreement. Everyone still needs their own legal copy.
 
 ### How RetroArch's rollback works
 
@@ -864,7 +864,7 @@ Replay-based: your game runs ahead with zero added input delay; when the other p
 
 ### The matching rule: same, same, same
 
-Same RetroArch version (1.22.2 current), same core version, byte-identical game content on every machine. No save states mid-session — the top two desync causes are content mismatch and mid-game states.
+Same RetroArch version (1.22.2 current), same core version, byte-identical game content on every machine. No save states mid-session, the top two desync causes are content mismatch and mid-game states.
 
 ### Hosting: lobby, relay, or port forward
 
@@ -872,15 +872,15 @@ Host loads the game, Start Netplay Host; clients Connect to Netplay Host or use 
 
 ### What plays well (and what doesn't)
 
-Excellent: NES/SNES/Genesis/GBA/FBNeo arcade. Impractical: PS1/N64 (serialization too slow). Not emulated: link cables — no Pokemon trading over netplay; exceptions are the TGB-Dual and SameBoy cores for same-game GB/GBC multiplayer.
+Excellent: NES/SNES/Genesis/GBA/FBNeo arcade. Impractical: PS1/N64 (serialization too slow). Not emulated: link cables, no Pokemon trading over netplay; exceptions are the TGB-Dual and SameBoy cores for same-game GB/GBC multiplayer.
 
 ### New in 2026: Dolphin on your phone
 
-Dolphin 2609 (Sept 2026) added Android NetPlay with lockstep networking against desktop clients — cross-platform GameCube/Wii multiplayer, phone to PC. Dolphin is now on the Google Play Store too.
+Dolphin 2609 (Sept 2026) added Android NetPlay with lockstep networking against desktop clients, cross-platform GameCube/Wii multiplayer, phone to PC. Dolphin is now on the Google Play Store too.
 
 ### Netplay on this site: the honest state
 
-EmulatorJS advertises experimental WebRTC room-code netplay but it is unverified on the stable build — not enabled here, not promised. What works today: hot-seat multi-gamepad play, the Party Planner for couch rotations, and tournament brackets.
+EmulatorJS advertises experimental WebRTC room-code netplay but it is unverified on the stable build, not enabled here, not promised. What works today: hot-seat multi-gamepad play, the Party Planner for couch rotations, and tournament brackets.
 
 ### Troubleshooting checklist
 
@@ -901,27 +901,27 @@ Most powerful, most fragile: version-tied (won't cross emulator versions/cores) 
 
 ### Battery saves: the game's own memory
 
-SRAM emulated as a file (often .srm). Portable between emulators and flash carts — the closest thing to a universal save format. Close games cleanly so SRAM flushes; dump SRAM with your cartridges since the 100-hour file is irreplaceable.
+SRAM emulated as a file (often .srm). Portable between emulators and flash carts, the closest thing to a universal save format. Close games cleanly so SRAM flushes; dump SRAM with your cartridges since the 100-hour file is irreplaceable.
 
 ### Memory cards & controller paks
 
-Card images (.mcr for PS1, .mpk-ish for N64 paks) behave like the plastic. Per-game cards avoid the 'card full' tragedy; back up the card file like any save. Original hardware paks had batteries that die too.
+Card images (.mcr for PS1.mpk-ish for N64 paks) behave like the plastic. Per-game cards avoid the 'card full' tragedy; back up the card file like any save. Original hardware paks had batteries that die too.
 
 ### Where RetroArch keeps it all
 
-Savefiles dir (SRAM + card images — the folder to back up), Savestates dir (numbered slots), SaveRAM autosave interval (flush every N seconds — turn it on), state slot hotkeys.
+Savefiles dir (SRAM + card images, the folder to back up), Savestates dir (numbered slots), SaveRAM autosave interval (flush every N seconds, turn it on), state slot hotkeys.
 
 ### Where this site's Player keeps it all
 
-Default: the engine downloads states as .state files. Keep in Browser mode: states in IndexedDB (EmulatorJS-states store), unlocking named slots (save/restore/rename/export/delete) and 1/5/15-min auto-save. Browser storage is mortal — export what you care about.
+Default: the engine downloads states as .state files. Keep in Browser mode: states in IndexedDB (EmulatorJS-states store), unlocking named slots (save/restore/rename/export/delete) and 1/5/15-min auto-save. Browser storage is mortal, export what you care about.
 
 ### Moving saves between emulators
 
-SRAM (.srm): usually portable — rename to match and it works. States: never portable across cores/versions/emulators — convert via in-game save first. Memory cards: portable within shared formats. Region must match.
+SRAM (.srm): usually portable, rename to match and it works. States: never portable across cores/versions/emulators, convert via in-game save first. Memory cards: portable within shared formats. Region must match.
 
 ### The backup routine (3-2-1)
 
-Three copies, two media, one off-site: working copy, a dated saves-backup folder, cloud/external drive. Include SRAM, card images, exported states, and a note of the emulator version. Saves are kilobytes — no excuses.
+Three copies, two media, one off-site: working copy, a dated saves-backup folder, cloud/external drive. Include SRAM, card images, exported states, and a note of the emulator version. Saves are kilobytes, no excuses.
 
 ## Make pixels look right: CRT shaders & display science
 Difficulty: Intermediate · ~10 min · slug: crt-shaders-display
@@ -930,7 +930,7 @@ Why retro games look wrong on modern screens, the anatomy of the CRT look (scanl
 
 ### The problem: drawn for a screen you don't own
 
-Pixel artists painted for CRT blur: composite smear, phosphor bleed, scanlines. Dithering was drawn to melt into new colors on a CRT — raw LCD pixels expose the trick. Shaders put the display back.
+Pixel artists painted for CRT blur: composite smear, phosphor bleed, scanlines. Dithering was drawn to melt into new colors on a CRT, raw LCD pixels expose the trick. Shaders put the display back.
 
 ### Anatomy of the CRT look
 
@@ -950,7 +950,7 @@ One frame = 16.7ms at 60Hz. Chain: emulator ~1 frame, TV processing 1-3+ frames 
 
 ### Run-ahead & black frame insertion
 
-Run-ahead: emulator simulates 1-2 frames ahead and rolls back — deletes emulator latency, needs a deterministic core, can't fix TV lag. BFI: strobes black frames for CRT-like motion clarity; halves brightness, needs 120Hz+.
+Run-ahead: emulator simulates 1-2 frames ahead and rolls back, deletes emulator latency, needs a deterministic core, can't fix TV lag. BFI: strobes black frames for CRT-like motion clarity; halves brightness, needs 120Hz+.
 
 ### Refresh rates: 59.73 vs. 60
 
@@ -963,11 +963,11 @@ Game Mode on, integer scaling or a light CRT preset, wired controller, 1 frame o
 ## Retro games for every player: an accessibility guide
 Difficulty: Beginner · ~8 min · slug: accessibility-in-retro-gaming
 
-Old games shipped zero accessibility features — the emulator layer adds what they lack: remapping, turbo/autofire, rewind, save states, color correction, and honest difficulty options. No medical claims, just the toolbox.
+Old games shipped zero accessibility features, the emulator layer adds what they lack: remapping, turbo/autofire, rewind, save states, color correction, and honest difficulty options. No medical claims, just the toolbox.
 
 ### The honest baseline
 
-1991 games: no remapping, no colorblind mode, no subtitles, no difficulty slider. The good news: emulator-added tools work on the whole library at once. No medical claims here — a toolbox, not a diagnosis.
+1991 games: no remapping, no colorblind mode, no subtitles, no difficulty slider. The good news: emulator-added tools work on the whole library at once. No medical claims here, a toolbox, not a diagnosis.
 
 ### Hands: remapping, turbo, one-handed play
 
@@ -975,15 +975,15 @@ Remap everything (the Player's per-system Controls tool; RetroArch per core). Tu
 
 ### Eyes: color, contrast, and size
 
-GBA color correction restores intended contrast; OS color filters apply to emulator windows; integer scaling + fullscreen for size; drop shaders before anything else if text is hard to read; retro games flash a lot — preview first, keep sessions short.
+GBA color correction restores intended contrast; OS color filters apply to emulator windows; integer scaling + fullscreen for size; drop shaders before anything else if text is hard to read; retro games flash a lot, preview first, keep sessions short.
 
 ### Ears: what sound actually carries
 
-Retro games carry almost nothing critical in audio — no voice acting, no audio-only objectives. One of the most naturally accessible catalogs for deaf/hard-of-hearing players; rhythm games are the exception.
+Retro games carry almost nothing critical in audio, no voice acting, no audio-only objectives. One of the most naturally accessible catalogs for deaf/hard-of-hearing players; rhythm games are the exception.
 
 ### Mind: difficulty is a dial now
 
-Save states, rewind (RetroArch), slow motion, cheat codes as accessibility tools, guides/walkthroughs for cryptic 90s design. Old difficulty was often artificial — the dial is legitimate.
+Save states, rewind (RetroArch), slow motion, cheat codes as accessibility tools, guides/walkthroughs for cryptic 90s design. Old difficulty was often artificial, the dial is legitimate.
 
 ### On 'cheating' (it's not)
 
@@ -1008,7 +1008,7 @@ Media dies: save batteries (15-20 years), disc rot, extinct dumping drives. ~87%
 
 ### The legal frame (brief, honest)
 
-Not legal advice: personal backups of what you own vs. distribution — the bright line. Context: the 2024 DMCA rulemaking rejected remote sharing of out-of-print games by archives; next cycle 2027. Your personal archiving doesn't depend on it.
+Not legal advice: personal backups of what you own vs. distribution, the bright line. Context: the 2024 DMCA rulemaking rejected remote sharing of out-of-print games by archives; next cycle 2027. Your personal archiving doesn't depend on it.
 
 ### Checksums: the fingerprint
 
@@ -1037,11 +1037,11 @@ Three copies, two media, one off-site: working library, external drive with chec
 ## Controllers in the browser: the gamepad setup guide
 Difficulty: Beginner · ~20 min · slug: gamepad-setup
 
-Get any USB or Bluetooth controller working with browser games and this site's Player — the Gamepad API, testing, per-system remapping, and honest troubleshooting.
+Get any USB or Bluetooth controller working with browser games and this site's Player, the Gamepad API, testing, per-system remapping, and honest troubleshooting.
 
 ### Why a controller changes browser games
 
-Some games were designed around a pad, and it shows. Platformers, racers, twin-stick shooters, and fighting games all play better with analog sticks and real buttons than with arrow keys — and anything you play in this site's Player (the EmulatorJS console) was literally built for a controller. The good news: modern browsers speak gamepad natively. No drivers, no mapping software, no downloads — plug in and play.
+Some games were designed around a pad, and it shows. Platformers, racers, twin-stick shooters, and fighting games all play better with analog sticks and real buttons than with arrow keys, and anything you play in this site's Player (the EmulatorJS console) was literally built for a controller. The good news: modern browsers speak gamepad natively. No drivers, no mapping software, no downloads, plug in and play.
 
 ### How browser gamepads work (the 60-second version)
 
@@ -1049,33 +1049,33 @@ Browsers expose controllers through the Gamepad API: a page asks for the list of
 
 ### Pick your controller
 
-- Xbox (One / Series) — the safe default. Wired over USB or Bluetooth; the standard mapping just works everywhere.
-- PlayStation (DualShock 4 / DualSense) — excellent pads, work wired or over Bluetooth; some browsers show PlayStation button labels, some show Xbox-style numbers. The positions are identical.
-- Switch Pro Controller — works over Bluetooth and USB; check the button mapping in a tester first, since its face layout is swapped vs. Xbox.
-- 8BitDo and other Bluetooth pads — usually fine; their 'X-input mode' (the Xbox-compatible mode) is the one browsers understand best.
-- Cheap no-name USB pads — often fine for 2D games; test every button before a tournament.
+- Xbox (One / Series), the safe default. Wired over USB or Bluetooth; the standard mapping just works everywhere.
+- PlayStation (DualShock 4 / DualSense), excellent pads, work wired or over Bluetooth; some browsers show PlayStation button labels, some show Xbox-style numbers. The positions are identical.
+- Switch Pro Controller, works over Bluetooth and USB; check the button mapping in a tester first, since its face layout is swapped vs. Xbox.
+- 8BitDo and other Bluetooth pads, usually fine; their 'X-input mode' (the Xbox-compatible mode) is the one browsers understand best.
+- Cheap no-name USB pads, often fine for 2D games; test every button before a tournament.
 
 ### Connect it: USB vs. Bluetooth
 
-USB is the zero-fuss path: plug the cable in and the browser sees the pad within a second. For Bluetooth, put the controller in pairing mode (Xbox: hold the pair button; DualSense: hold PS + Create; 8BitDo: hold the mode-specific combo from its manual), then pair it in your OS Bluetooth settings like any device. One honest caveat: some Bluetooth stacks add a few milliseconds of input lag — imperceptible in RPGs and platformers, worth knowing about for rhythm games and fighters. If a pad refuses to appear, try the cable before anything else.
+USB is the zero-fuss path: plug the cable in and the browser sees the pad within a second. For Bluetooth, put the controller in pairing mode (Xbox: hold the pair button; DualSense: hold PS + Create; 8BitDo: hold the mode-specific combo from its manual), then pair it in your OS Bluetooth settings like any device. One honest caveat: some Bluetooth stacks add a few milliseconds of input lag, imperceptible in RPGs and platformers, worth knowing about for rhythm games and fighters. If a pad refuses to appear, try the cable before anything else.
 
 ### Test it before you play
 
-Open html5gamepad.com with the controller connected and press buttons: you should see each input light up with its standard-mapping number. This one page answers every 'is it the game or the pad?' question in ten seconds. If the tester sees the pad but a game doesn't, the game probably only polls for pads on a timer or needs a button press to 'wake' the listing — click into the game and press any button. If the tester doesn't see it either, it's a connection problem, not a game problem.
+Open html5gamepad.com with the controller connected and press buttons: you should see each input light up with its standard-mapping number. This one page answers every 'is it the game or the pad?' question in ten seconds. If the tester sees the pad but a game doesn't, the game probably only polls for pads on a timer or needs a button press to 'wake' the listing, click into the game and press any button. If the tester doesn't see it either, it's a connection problem, not a game problem.
 
 ### Gamepads in this site's Player
 
-The Player (this site's EmulatorJS console) has gamepad support built in — Player 1's pad just works, no setup. For finer control, the per-system remapper (Player 2.1) lets you capture gamepad buttons per system: open the remap panel, pick a button, and press the pad button you want. Your mapping is stored per system in the browser and applied at boot. Note it overrides any mapping you set inside the engine's own menu, and Esc cancels a capture. If your pad has a non-standard layout, capture each button once and you're done forever.
+The Player (this site's EmulatorJS console) has gamepad support built in: Player 1's pad just works, no setup. For finer control, the per-system remapper (Player 2.1) lets you capture gamepad buttons per system: open the remap panel, pick a button, and press the pad button you want. Your mapping is stored per system in the browser and applied at boot. Note it overrides any mapping you set inside the engine's own menu, and Esc cancels a capture. If your pad has a non-standard layout, capture each button once and you're done forever.
 
 ### Which catalog games love a pad
 
-Reach for the controller for: the arcade shelf (Robotron: 2084 is the twin-stick original; Defender and Joust were built for arcade sticks), the Flash-back machine (Fancy Pants Adventure, Alien Hominid), racers and runners (HexGL supports gamepad natively — check its controls line), and anything in the Player. Stick to keyboard and mouse for: idle games, puzzle games, text adventures like Zork, and the strategy shelf — a pad adds nothing there. When in doubt, the game's controls line tells you what's intended.
+Reach for the controller for: the arcade shelf (Robotron: 2084 is the twin-stick original; Defender and Joust were built for arcade sticks), the Flash-back machine (Fancy Pants Adventure, Alien Hominid), racers and runners (HexGL supports gamepad natively, check its controls line), and anything in the Player. Stick to keyboard and mouse for: idle games, puzzle games, text adventures like Zork, and the strategy shelf, a pad adds nothing there. When in doubt, the game's controls line tells you what's intended.
 
 ### Troubleshooting: the honest list
 
 - Pad not detected: press any button after the page loads (browsers only list pads after first input), then check html5gamepad.com. Still nothing? Try USB.
 - Wrong button does the thing: the game assumed the standard mapping and your pad is exotic. Remap it in the Player's per-system remapper, or check the tester's mapping.
-- Two pads, wrong one is Player 1: browsers order pads by connection order — unplug and reconnect in the order you want them.
+- Two pads, wrong one is Player 1: browsers order pads by connection order, unplug and reconnect in the order you want them.
 - Steam is running: Steam's controller layer can swallow inputs before the browser sees them. Quit Steam or disable its controller support for desktop.
 - It works everywhere except one game: that game polls getGamepads() once at load instead of every frame. Reload the page with the pad already connected and press a button on the title screen.
 
@@ -1086,7 +1086,7 @@ Meet the fantasy console with thousands of tiny games: Splore, the Lexaloffle BB
 
 ### What PICO-8 is
 
-PICO-8 is a 'fantasy console' by Lexaloffle: a fake 1980s machine with deliberately tiny limits (128x128 pixels, 16 colors, 32KB cartridges) that runs on your real computer. The limits are the point — they force small, finished, weird games, and the community has made thousands of them. The software itself costs $15 and is worth it if you want to make games; playing other people's games in the browser is completely free.
+PICO-8 is a 'fantasy console' by Lexaloffle: a fake 1980s machine with deliberately tiny limits (128x128 pixels, 16 colors, 32KB cartridges) that runs on your real computer. The limits are the point, they force small, finished, weird games, and the community has made thousands of them. The software itself costs $15 and is worth it if you want to make games; playing other people's games in the browser is completely free.
 
 ### Splore: the built-in game browser
 
@@ -1094,27 +1094,27 @@ Inside PICO-8, type splore at the command prompt and hit enter. Splore is a grap
 
 ### The BBS: where the carts live
 
-The Lexaloffle BBS (lexaloffle.com/bbs) is the official community hub: every published cartridge gets a page where anyone can play it in the browser — no PICO-8 purchase needed — star it, favorite it, and download the .p8.png cartridge file. The BBS sorts by featured, new, and top-rated, and the comments are where developers explain their tricks. If Splore is the storefront, the BBS is the town square.
+The Lexaloffle BBS (lexaloffle.com/bbs) is the official community hub: every published cartridge gets a page where anyone can play it in the browser, no PICO-8 purchase needed, star it, favorite it, and download the .p8.png cartridge file. The BBS sorts by featured, new, and top-rated, and the comments are where developers explain their tricks. If Splore is the storefront, the BBS is the town square.
 
 ### Where the gems hide
 
-Start with the BBS 'featured' and top-rated sorts — curation by thousands of players beats any algorithm. Then follow developers: PICO-8's best creators publish repeatedly, and their BBS profiles are discographies. Check the carts linked from this site's pico8-gems collection for a hand-picked starting shelf. And don't sleep on tweetcarts: 140-character games that fit in a post, some of them genuinely brilliant.
+Start with the BBS 'featured' and top-rated sorts, curation by thousands of players beats any algorithm. Then follow developers: PICO-8's best creators publish repeatedly, and their BBS profiles are discographies. Check the carts linked from this site's pico8-gems collection for a hand-picked starting shelf. And don't sleep on tweetcarts: 140-character games that fit in a post, some of them genuinely brilliant.
 
 ### Playing in your browser (free)
 
-Every BBS cartridge page has a built-in web player — click and play, no install, no account. Developers can also export any cart as a standalone HTML5 page, which is why PICO-8 games show up embedded across the web. Keyboard controls are the default (arrows + Z/X); many web exports also accept gamepads. Your progress saves in the browser like any web game.
+Every BBS cartridge page has a built-in web player, click and play, no install, no account. Developers can also export any cart as a standalone HTML5 page, which is why PICO-8 games show up embedded across the web. Keyboard controls are the default (arrows + Z/X); many web exports also accept gamepads. Your progress saves in the browser like any web game.
 
 ### The pico8-gems shelf
 
-This site's pico8-gems collection is the curated on-ramp: a Doom demake, the original Celeste, and other standout carts, each linking to its official BBS page. Play the shelf first, then use the BBS sorts above to go deeper. If a shelf game hooks you, its BBS page links the developer's other carts — that's the rabbit hole, and it's a good one.
+This site's pico8-gems collection is the curated on-ramp: a Doom demake, the original Celeste, and other standout carts, each linking to its official BBS page. Play the shelf first, then use the BBS sorts above to go deeper. If a shelf game hooks you, its BBS page links the developer's other carts, that's the rabbit hole, and it's a good one.
 
 ### Make your first cart (the 10-minute version)
 
-If the $15 calls to you: PICO-8's editor is code, sprites, map, sound, and music in one window, all in Lua. The built-in help and the official manual walk you from a blank cart to a moving sprite in minutes. Publish to the BBS when it does something fun — the community plays and comments on everything, including gloriously broken first attempts. The legal lane is clean by design: every cart is its author's original work.
+If the $15 calls to you: PICO-8's editor is code, sprites, map, sound, and music in one window, all in Lua. The built-in help and the official manual walk you from a blank cart to a moving sprite in minutes. Publish to the BBS when it does something fun, the community plays and comments on everything, including gloriously broken first attempts. The legal lane is clean by design: every cart is its author's original work.
 
 ### Why it matters
 
-PICO-8 proved that constraints make better games and friendlier developers. Thousands of people finished and shipped something — most for the first time in their lives — because the canvas was small enough to fill. Whether you play the shelf, browse the BBS, or buy the console and make your own, you're participating in the healthiest corner of game development. Start with someone else's cart. End with your own.
+PICO-8 proved that constraints make better games and friendlier developers. Thousands of people finished and shipped something, most for the first time in their lives, because the canvas was small enough to fill. Whether you play the shelf, browse the BBS, or buy the console and make your own, you're participating in the healthiest corner of game development. Start with someone else's cart. End with your own.
 
 ## Cheat codes, decoded: Game Genie, GameShark & the Konami Code
 Difficulty: Beginner · ~12 min · slug: cheat-codes
@@ -1123,7 +1123,7 @@ Every cheat code is an address plus a value. Covers the two families (RAM codes 
 
 ### What a cheat code actually is
 
-An address plus a value: somewhere in memory the game keeps a number (lives, health, ammo), and a code changes it or holds it. Two families: RAM codes (watch/poke working memory; GameShark, Action Replay, most emulator engines) and ROM patches (change what the program says as it is read; the Game Genie). Codes are written for one version of one game — region and revision are part of the code.
+An address plus a value: somewhere in memory the game keeps a number (lives, health, ammo), and a code changes it or holds it. Two families: RAM codes (watch/poke working memory; GameShark, Action Replay, most emulator engines) and ROM patches (change what the program says as it is read; the Game Genie). Codes are written for one version of one game, region and revision are part of the code.
 
 ### Built-in codes: the Konami Code
 
@@ -1131,7 +1131,7 @@ Up Up Down Down Left Right Left Right B A. Written by Konami programmer Kazuhisa
 
 ### The Game Genie: a cartridge that lies
 
-Codemasters developed it; Galoob sold it in the US (Camerica in Canada); NES debut 1990. A pass-through cartridge between game and console that serves a different byte when a targeted ROM address is read — the cartridge itself is never modified. Six-letter codes decode to address + replacement, applied unconditionally; eight-letter codes add a compare byte so bank-switched games are only patched when the right bank is showing.
+Codemasters developed it; Galoob sold it in the US (Camerica in Canada); NES debut 1990. A pass-through cartridge between game and console that serves a different byte when a targeted ROM address is read, the cartridge itself is never modified. Six-letter codes decode to address + replacement, applied unconditionally; eight-letter codes add a compare byte so bank-switched games are only patched when the right bank is showing.
 
 ### The court case that made it legal
 
@@ -1139,11 +1139,11 @@ Nintendo sued Galoob, arguing derivative works; US sales were halted mid-case. T
 
 ### GameShark & Action Replay: the RAM years
 
-Datel's Action Replay went after RAM, where disc-era games keep health, money, and items. InterAct sold Datel's devices in the US from 1996 under the GameShark name — same hardware family, different badge, interchangeable codes. Codes are barely-encoded hex: address, value. Pro models added code searching, the skill section 7 teaches.
+Datel's Action Replay went after RAM, where disc-era games keep health, money, and items. InterAct sold Datel's devices in the US from 1996 under the GameShark name, same hardware family, different badge, interchangeable codes. Codes are barely-encoded hex: address, value. Pro models added code searching, the skill section 7 teaches.
 
 ### Cheats in emulators & this site's Player
 
-Emulator cores decode Genie/GameShark/Action Replay formats to address-and-value pairs, applied per core — support varies and nothing is guaranteed. In this site's Player: boot your game, add named codes under the Cheats card; they are stored per game in your browser, handed to the engine's cheat manager (EJS_cheats) before boot, and toggled from the cheat icon in the in-game menu.
+Emulator cores decode Genie/GameShark/Action Replay formats to address-and-value pairs, applied per core, support varies and nothing is guaranteed. In this site's Player: boot your game, add named codes under the Cheats card; they are stored per game in your browser, handed to the engine's cheat manager (EJS_cheats) before boot, and toggled from the cheat icon in the in-game menu.
 
 ### Find your own codes: the memory search
 
@@ -1151,5 +1151,5 @@ Any number a game displays lives at an address. RetroArch's built-in cheat searc
 
 ### Cheat manners: where codes don't belong
 
-Single-player: your game, your difficulty dial. Multiplayer/netplay: off-limits — tampering with a shared session, and one side's altered memory desyncs the rest. Hardcore achievement modes lock cheats out by design. Practice: keep one clean save no cheat session touches, and stack codes one at a time so the last added is the first suspect when something freezes.
+Single-player: your game, your difficulty dial. Multiplayer/netplay: off-limits, tampering with a shared session, and one side's altered memory desyncs the rest. Hardcore achievement modes lock cheats out by design. Practice: keep one clean save no cheat session touches, and stack codes one at a time so the last added is the first suspect when something freezes.
 

@@ -1,7 +1,7 @@
-/* Button Mash — Exclusion Ledger lookup (wave 35).
+/* Button Mash: Exclusion Ledger lookup (wave 35).
    Filters the generator-stamped ledger on parents.html by game
    title. The ledger itself is static HTML stamped by
-   scripts/build.py (wire_exclusions) from data/kids.json — this
+   scripts/build.py (wire_exclusions) from data/kids.json, this
    script only shows and hides rows that are already on the page,
    so the full record reads fine with JavaScript off. No data is
    fetched, nothing is scored, and no pick is ever dealt: the
@@ -28,7 +28,7 @@
     if (!q) status.textContent = "";
     else if (shown === 0)
       status.textContent = "No kept-out game matches “" + input.value.trim() +
-        "”. If it is in the catalog and not listed here, it passed the audit — check Kids corner.";
+        "”. If it is in the catalog and not listed here, it passed the audit, check Kids corner.";
     else
       status.textContent = shown + " of " + total + " kept-out games match.";
   }

@@ -2,7 +2,7 @@
    session / seats / energy buckets, calibrated against the real catalog.
 
    (1) Every hand-pinned override names a real catalog game and actually
-       changes the value its genre/tag bucket would have produced — a dead
+       changes the value its genre/tag bucket would have produced, a dead
        or stale override fails here, not in production.
    (2) Named spot checks: the games the old buckets plainly misread.
    (3) Graded fits behave like the room does: pass-and-play decays as the
@@ -22,8 +22,8 @@ const path = require("path");
 const ROOT = "/home/hatch/workspace/button-mash";
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 
 const CN = require(path.join(ROOT, "assets/js/curator-night.js"));
@@ -162,7 +162,7 @@ function bucketCapacity(game) {
     JSON.stringify(a.lineup.map((s) => s.game_id)) === JSON.stringify(b.lineup.map((s) => s.game_id)),
     a.lineup.length + " slots, ~" + a.total_est_minutes + " min");
 
-  /* Sample nights, printed for the wavelog — a human reads these. */
+  /* Sample nights, printed for the wavelog, a human reads these. */
   const samples = [
     { group_size: 6, minutes: 120, vibes: ["chaotic", "party"], skill: "mixed", kids: false },
     { group_size: 2, minutes: 60, vibes: ["cozy", "chill"], skill: "casual", kids: false },

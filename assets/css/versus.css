@@ -1,7 +1,7 @@
-/* Versus — two marquee cards under one lit sign.
+/* Versus, two marquee cards under one lit sign.
    The cabinet's head-to-head: pickers up top like a fight card,
    two record cards with a VS medallion between them, and a
-   verdict strip that reads like a results ticker — except it
+   verdict strip that reads like a results ticker, except it
    only ever reports counts and dates the catalog supports. */
 
 .vs-hero .lede { max-width: 62ch; }
@@ -9,7 +9,7 @@
   border: 3px solid var(--neon-pink);
   border-radius: var(--r-md);
   background: var(--panel);
-  box-shadow: 0 0 0 6px rgba(0, 0, 0, .25), 0 18px 44px rgba(0, 0, 0, .4);
+  box-shadow: 0 0 0 6px rgba(0, 0, 0.25), 0 18px 44px rgba(0, 0, 0.4);
   padding: clamp(18px, 3.4vw, 34px);
   margin-top: 22px;
 }

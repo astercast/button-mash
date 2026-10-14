@@ -22,8 +22,8 @@ const ROOT = "/home/hatch/workspace/button-mash";
 const BASE = "file://" + ROOT;
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -50,7 +50,7 @@ const filterSrc = fs.readFileSync(path.join(ROOT, "assets/js/ledger-filter.js"),
   check("filter script is a filter and nothing more",
     !/Math\.random\s*\(/.test(filterSrc) && !/fetch\s*\(/.test(filterSrc) &&
     filterSrc.includes("data-ledger-item"),
-    "no fetch, no chance — rows are already on the page");
+    "no fetch, no chance, rows are already on the page");
 }
 
 /* ---------------- (2)+(3) headless ---------------- */
@@ -63,7 +63,7 @@ async function newPage(browser) {
     const t = m.text();
     if (t.indexOf("Failed to load resource: net::ERR_FILE_NOT_FOUND") === 0) return;
     // file:// browsing blocks cross-origin font/data fetches by design
-    // (origin "null") — environment noise on data-driven pages, the
+    // (origin "null"), environment noise on data-driven pages, the
     // same class the older suites filter; pageerrors stay strict.
     if (t.includes("blocked by CORS policy")) return;
     errors.push("[console.error] " + t.slice(0, 200));
@@ -117,7 +117,7 @@ async function newPage(browser) {
     check("lookup narrows the ledger and says by how much",
       narrowed.visible > 0 && narrowed.visible < kids.excluded.length &&
       narrowed.status.includes("kept-out games match"),
-      narrowed.visible + " visible — " + narrowed.status);
+      narrowed.visible + " visible: " + narrowed.status);
 
     await page.evaluate(() => {
       const i = document.getElementById("ledger-search");
@@ -141,7 +141,7 @@ async function newPage(browser) {
     check("a browsing page carries the stamped view-transition block",
       vtGames === true, "games.html opt-in present (both gates in the stamped CSS)");
     // games.html over file:// cannot fetch its data files (CORS,
-    // origin "null") — that console noise is environmental; the
+    // origin "null"), that console noise is environmental; the
     // strict signal on a page this wave did not build is that no
     // uncaught exception fires. parents.html below is held to the
     // full zero-error bar and passes it.

@@ -1,4 +1,4 @@
-/* Button Mash tournament bracket logic — pure functions, no DOM.
+/* Button Mash tournament bracket logic, pure functions, no DOM.
    UMD: works in the browser (window.Bracket) and under node (module.exports)
    so scripts/test_bracket.js can verify seeding, byes, and advancement.
 
@@ -70,7 +70,7 @@
       return 'Add at least ' + MIN_PLAYERS + ' players (one per line).';
     }
     if (names.length > MAX_PLAYERS) {
-      return 'Tournaments cap at ' + MAX_PLAYERS + ' players — trim the list.';
+      return 'Tournaments cap at ' + MAX_PLAYERS + ' players, trim the list.';
     }
     return null;
   }
@@ -181,8 +181,8 @@
     if (!round) { return { ok: false, error: 'No such round.' }; }
     var mt = round.matches[matchIdx];
     if (!mt) { return { ok: false, error: 'No such match.' }; }
-    if (!mt.a || !mt.b) { return { ok: false, error: 'Match is not set yet — finish the earlier round first.' }; }
-    if (mt.byeAdvance) { return { ok: false, error: 'That match is a bye — the player advances automatically.' }; }
+    if (!mt.a || !mt.b) { return { ok: false, error: 'Match is not set yet, finish the earlier round first.' }; }
+    if (mt.byeAdvance) { return { ok: false, error: 'That match is a bye, the player advances automatically.' }; }
     if (mt.decided) { return { ok: false, error: 'That match already has a winner. Clear it first to change the result.' }; }
     if (side !== 'a' && side !== 'b') { return { ok: false, error: 'Side must be "a" or "b".' }; }
     var k = key(roundIdx, matchIdx);
@@ -204,7 +204,7 @@
     var k = key(roundIdx, matchIdx);
     var res = state.results[k];
     if (!res || res.winner != null) {
-      return { ok: false, error: 'Nothing to correct — use "clear winner" on a decided match.' };
+      return { ok: false, error: 'Nothing to correct, use "clear winner" on a decided match.' };
     }
     if (side !== 'a' && side !== 'b') { return { ok: false, error: 'Side must be "a" or "b".' }; }
     res[side + 'Wins'] = Math.max(0, res[side + 'Wins'] - 1);

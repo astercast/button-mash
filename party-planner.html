@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Party Planner — timed game-night rotations — Button Mash</title>
-<meta name="description" content="Tell us the headcount, the time you have, and the vibe — get a timed rotation plan across Button Mash's party games, with hand-the-controller order. Print-friendly.">
+<title>Party Planner, timed game-night rotations: Button Mash</title>
+<meta name="description" content="Tell us the headcount, the time you have, and the vibe, get a timed rotation plan across Button Mash's party games, with hand-the-controller order. Print-friendly.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Party Planner — timed game-night rotations — Button Mash">
-<meta property="og:description" content="Tell us the headcount, the time you have, and the vibe — get a timed rotation plan across Button Mash's party games, with hand-the-controller order. Print-friendly.">
+<meta property="og:title" content="Party Planner, timed game-night rotations: Button Mash">
+<meta property="og:description" content="Tell us the headcount, the time you have, and the vibe, get a timed rotation plan across Button Mash's party games, with hand-the-controller order. Print-friendly.">
 <meta property="og:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Party Planner — timed game-night rotations — Button Mash">
-<meta name="twitter:description" content="Tell us the headcount, the time you have, and the vibe — get a timed rotation plan across Button Mash's party games, with hand-the-controller order. Print-friendly.">
+<meta name="twitter:title" content="Party Planner, timed game-night rotations: Button Mash">
+<meta name="twitter:description" content="Tell us the headcount, the time you have, and the vibe, get a timed rotation plan across Button Mash's party games, with hand-the-controller order. Print-friendly.">
 <meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <link rel="canonical" href="https://button-mash-live.vercel.app/party-planner.html">
 <meta name="theme-color" content="#07070f">
@@ -49,7 +49,7 @@
   .plan-time { font-family:ui-monospace,monospace; color:var(--cyan); margin:0 0 .4rem; font-size:.85rem; }
   .plan-slot h3 { margin:.2rem 0 .4rem; }
   .plan-why { color:var(--ink-dim); margin:.3rem 0; }
-  .plan-setup, .plan-rotation { margin:.3rem 0; font-size:.92rem; }
+  .plan-setup.plan-rotation { margin:.3rem 0; font-size:.92rem; }
   .plan-tip { margin-top:1.25rem; color:var(--ink-dim); font-size:.92rem; }
   .pp-guests textarea { width:100%; max-width:22rem; min-height:7.5rem; font-size:1rem; padding:.5rem .7rem; border-radius:8px; border:2px solid var(--edge-bright); background:var(--panel); color:var(--ink); }
   .pp-count { font-weight:700; color:var(--cyan); margin:.4rem 0 0; }
@@ -78,11 +78,10 @@
   .pp-kidsnote { border:2px dashed var(--edge-bright); border-radius:var(--r-md); padding:.8rem 1rem; margin-top:.8rem; }
   .pp-fieldset-disabled { opacity:.55; }
   @media print {
-    .site-header, .site-footer, .pp-form, .plan-tip, .hero .lede, .skip-link,
-    .no-print, .vote-panel .vote-row, .pp-timer .timer-controls, .pp-actions { display:none !important; }
+    .site-header.site-footer.pp-form.plan-tip.hero .lede.skip-link.no-print.vote-panel .vote-row.pp-timer .timer-controls.pp-actions { display:none !important; }
     body { background:#fff; color:#000; }
-    .plan-slot, .vote-panel, .pp-timer, .tl-phase { break-inside:avoid; border:1px solid #000; background:#fff; }
-    .plan-time, .tl-when, .pp-count { color:#000; }
+    .plan-slot.vote-panel.pp-timer.tl-phase { break-inside:avoid; border:1px solid #000; background:#fff; }
+    .plan-time.tl-when.pp-count { color:#000; }
     a { color:#000; text-decoration:underline; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -131,7 +130,7 @@
     <div class="wrap hero-inner">
       <span class="kicker">Interactive tool</span>
       <h1>Game night, <span class="pink">planned.</span></h1>
-      <p class="lede">Headcount, time, vibe — get a timed rotation plan across the catalog's party games, with a <strong>hand-the-controller order</strong> so nobody hogs the first turn. Everything below runs in your browser; print the plan and take it to the couch.</p>
+      <p class="lede">Headcount, time, vibe, get a timed rotation plan across the catalog's party games, with a <strong>hand-the-controller order</strong> so nobody hogs the first turn. Everything below runs in your browser; print the plan and take it to the couch.</p>
     </div>
   </section>
 
@@ -141,11 +140,11 @@
         <h2 id="quick-lineup-h"><span class="tick">»</span> Quick game-night lineup</h2>
         <span class="api-badge" id="lineup-badge" data-api-state="waking" role="status" tabindex="0"></span>
       </div>
-      <p class="lede">Headcount, time, vibe — the Curator scores all 213 games and deals a timed lineup. Served live by the server when it's awake, computed in your browser from the last published catalog when it isn't. Want the full marquee ceremony — warm-up to cool-down, with a real difficulty curve? <a href="game-night.html">» Game night</a>.</p>
+      <p class="lede">Headcount, time, vibe, the Curator scores all 213 games and deals a timed lineup. Served live by the server when it's awake, computed in your browser from the last published catalog when it isn't. Want the full marquee ceremony, warm-up to cool-down, with a real difficulty curve? <a href="game-night.html">» Game night</a>.</p>
       <form class="pp-form" id="quick-lineup-form" onsubmit="return false;" aria-describedby="ql-desc">
         <p id="ql-desc" class="pp-hint">Vibes: cozy = gentle, no fail states · chaotic = loud and silly · competitive = score-chasers · party = made for groups · chill = low-skill-floor hangouts.</p>
         <div class="pp-num">
-          <label for="ql-group">Players (1–12)</label>
+          <label for="ql-group">Players (1-12)</label>
           <input type="number" id="ql-group" name="ql-group" min="1" max="12" value="4" inputmode="numeric">
           <label for="ql-minutes">Time available</label>
           <select id="ql-minutes" name="ql-minutes">
@@ -160,7 +159,7 @@
           </select>
         </div>
         <fieldset>
-          <legend>Vibe — pick any</legend>
+          <legend>Vibe, pick any</legend>
           <div class="pp-row" id="ql-vibes">
             <label><input type="checkbox" value="cozy"> Cozy</label>
             <label><input type="checkbox" value="chaotic" checked> Chaotic</label>
@@ -170,7 +169,7 @@
           </div>
         </fieldset>
         <div class="pp-row">
-          <label><input type="checkbox" id="ql-kids" name="ql-kids"> Kids at the table — kid-safe games only</label>
+          <label><input type="checkbox" id="ql-kids" name="ql-kids"> Kids at the table, kid-safe games only</label>
         </div>
         <div>
           <button class="btn btn-primary" id="ql-go" type="button">🎲 Deal my lineup</button>
@@ -184,12 +183,12 @@
   <section class="section">
     <div class="wrap">
       <form class="pp-form" id="pp-form" onsubmit="return false;" aria-describedby="pp-intro">
-        <p id="pp-intro" style="color:var(--ink-dim)">Plans draw from party-tagged games in the <a href="games.html">game directory</a> — every link verified, zero installs. Add your guests, let everyone vote on the games, then share or print the pack.</p>
+        <p id="pp-intro" style="color:var(--ink-dim)">Plans draw from party-tagged games in the <a href="games.html">game directory</a>, every link verified, zero installs. Add your guests, let everyone vote on the games, then share or print the pack.</p>
 
         <fieldset>
           <legend>Guest list</legend>
           <div class="pp-guests">
-            <label for="pp-guests-list">Names — one per line (2–16)</label>
+            <label for="pp-guests-list">Names, one per line (2-16)</label>
             <textarea id="pp-guests-list" name="pp-guests-list" spellcheck="false">Alex
 Sam
 Riley
@@ -210,7 +209,7 @@ Jordan</textarea>
               <option value="120">2 hours</option>
               <option value="180">3 hours</option>
             </select>
-            <label for="pp-start">Party starts at <span class="pp-hint">(optional — gives the timeline real clock times)</span></label>
+            <label for="pp-start">Party starts at <span class="pp-hint">(optional, gives the timeline real clock times)</span></label>
             <input type="time" id="pp-start" name="pp-start">
           </div>
         </fieldset>
@@ -248,18 +247,18 @@ Jordan</textarea>
         <fieldset>
           <legend>🎈 Kids party</legend>
           <div class="pp-row">
-            <label><input type="checkbox" id="pp-kids" name="pp-kids"> Kids party — pick only from the <a href="kids.html">50 kid-safe games</a>, hot-seat style</label>
+            <label><input type="checkbox" id="pp-kids" name="pp-kids"> Kids party, pick only from the <a href="kids.html">50 kid-safe games</a>, hot-seat style</label>
           </div>
           <div id="pp-kids-opts" hidden style="margin-top:.6rem">
             <div class="pp-num">
               <label for="pp-kidband">Youngest kids there</label>
               <select id="pp-kidband" name="pp-kidband">
-                <option value="5-7">5–7</option>
-                <option value="8-10" selected>8–10</option>
-                <option value="11-12">11–12</option>
+                <option value="5-7">5-7</option>
+                <option value="8-10" selected>8-10</option>
+                <option value="11-12">11-12</option>
               </select>
             </div>
-            <p class="pp-note">Kids parties draw from the <a href="kids.html">kid-safe catalog</a> only — no open chat, no gambling, no graphic content. Vibe and skill-mix picks don't apply here; every game is hot-seat, hand-the-controller.</p>
+            <p class="pp-note">Kids parties draw from the <a href="kids.html">kid-safe catalog</a> only, no open chat, no gambling, no graphic content. Vibe and skill-mix picks don't apply here; every game is hot-seat, hand-the-controller.</p>
           </div>
         </fieldset>
 
@@ -280,7 +279,7 @@ Jordan</textarea>
               <option value="double">Double elimination</option>
             </select>
           </div>
-          <p class="pp-note">After the games, the timeline suggests a tournament slot — the handoff below pre-fills <a href="tournament.html">the bracket</a> with this party's guests and voted games.</p>
+          <p class="pp-note">After the games, the timeline suggests a tournament slot, the handoff below pre-fills <a href="tournament.html">the bracket</a> with this party's guests and voted games.</p>
         </fieldset>
 
         <div>
@@ -331,7 +330,7 @@ Jordan</textarea>
       </div>
     </div>
     <div class="footer-note">
-      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Button Mash, your browser is the console. Built 2026.</span>
       <span>Zero ROMs hosted. Zero piracy links. Your files never leave your machine.</span>
     </div>
     <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>

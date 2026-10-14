@@ -1,7 +1,7 @@
 {
   "name": "Button Mash",
   "version": "1.0.0",
-  "generated_at": "2026-10-14T01:25:27Z",
+  "generated_at": "2026-10-14T04:11:04Z",
   "endpoint": "collections",
   "description": "Hand-built game collections.",
   "count": 24,
@@ -84,7 +84,7 @@
       "title": "Party night with friends"
     },
     {
-      "description": "Tiny games from the fantasy console: a Doom demake, the original Celeste, and a moss-covered world — all in 128x128 pixels.",
+      "description": "Tiny games from the fantasy console: a Doom demake, the original Celeste, and a moss-covered world, all in 128x128 pixels.",
       "game_ids": [
         "poom",
         "celeste-classic",
@@ -220,7 +220,7 @@
       "id": "vanilla-js",
       "title": "Vanilla JS, zero dependencies",
       "tagline": "No frameworks, no accounts",
-      "description": "Five games by one indie dev in plain JavaScript — vocabulary brick-breaker, timed math drills, tank combat, a fog-of-war RTS, and Three.js dogfights. Static pages that load on anything, even a school Chromebook.",
+      "description": "Five games by one indie dev in plain JavaScript: vocabulary brick-breaker, timed math drills, tank combat, a fog-of-war RTS, and Three.js dogfights. Static pages that load on anything, even a school Chromebook.",
       "game_ids": [
         "english-brick-breaker",
         "math-challenge",
@@ -233,7 +233,7 @@
       "id": "playable-essays",
       "title": "Playable essays",
       "tagline": "Games with something to say",
-      "description": "Interactive essays and art games — play with ideas about trust, voting, work, and the lost art of waiting in line.",
+      "description": "Interactive essays and art games: play with ideas about trust, voting, work, and the lost art of waiting in line.",
       "game_ids": [
         "evolution-of-trust",
         "better-ballot",
@@ -248,7 +248,7 @@
       "id": "open-source-web",
       "title": "Open source, zero install",
       "tagline": "Free software, full games",
-      "description": "Serious games with open codebases, all running right in the browser — from deep roguelikes to a whole civilization.",
+      "description": "Serious games with open codebases, all running right in the browser, from deep roguelikes to a whole civilization.",
       "game_ids": [
         "bitburner",
         "mindustry",
@@ -313,8 +313,8 @@
     {
       "id": "flash-back-machine",
       "title": "Flash-back machine",
-      "tagline": "The 2005–2012 browser golden age, preserved",
-      "description": "Before HTML5, there was Flash — and these are the games that defined browser gaming's first golden age. The originals are preserved on the Internet Archive and run via Ruffle; where the developers rebuilt them in HTML5, we link the official versions.",
+      "tagline": "The 2005-2012 browser golden age, preserved",
+      "description": "Before HTML5, there was Flash, and these are the games that defined browser gaming's first golden age. The originals are preserved on the Internet Archive and run via Ruffle; where the developers rebuilt them in HTML5, we link the official versions.",
       "game_ids": [
         "fancy-pants-1",
         "alien-hominid-flash",

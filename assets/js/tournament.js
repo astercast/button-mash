@@ -1,8 +1,8 @@
-/* Button Mash Tournament 2.0 — bracket builder UI.
+/* Button Mash Tournament 2.0, bracket builder UI.
    Pure bracket math lives in bracket.js (single elim, window.Bracket) and
    bracket-double.js (double elim, window.BracketDouble).
    Game options come from the full catalog (data/v1/games.json data, loaded
-   here via BM.loadGames which reads data/games.json) — party-tagged games
+   here via BM.loadGames which reads data/games.json), party-tagged games
    first, then everything else.
    State persists in localStorage: bm_tournament_v1 (single) and
    bm_tournament_v2 (double); bm_tournament_active remembers the format.
@@ -103,8 +103,8 @@
     if (!el) { return; }
     var n = readNames().length;
     el.textContent = n + (n === 1 ? ' player' : ' players') +
-      (n < B.MIN_PLAYERS ? ' — need at least ' + B.MIN_PLAYERS :
-       n > B.MAX_PLAYERS ? ' — max ' + B.MAX_PLAYERS : '');
+      (n < B.MIN_PLAYERS ? ', need at least ' + B.MIN_PLAYERS :
+       n > B.MAX_PLAYERS ? ', max ' + B.MAX_PLAYERS : '');
   }
 
   function currentFormatChoice() {
@@ -270,8 +270,8 @@
         if (res.ok) {
           var mt = B.rounds(state)[r].matches[m];
           hist(state, B.roundName(r, state.totalRounds) + ' M' + (m + 1) + ': ' +
-            mt.a.name + ' ' + mt.aWins + '–' + mt.bWins + ' ' + mt.b.name +
-            (res.winner ? ' — ' + res.winner.name + ' advances' : ''));
+            mt.a.name + ' ' + mt.aWins + '-' + mt.bWins + ' ' + mt.b.name +
+            (res.winner ? ', ' + res.winner.name + ' advances' : ''));
         }
         return res;
       },
@@ -450,10 +450,10 @@
     var cands = B2.voteCandidates(state, gameKey);
     if (!cands.length) {
       panel.appendChild(BM.el('p', 't-note',
-        'No game picks yet — add a game pick per player in the seeding list above, or pick a game for this round and it becomes a candidate.'));
+        'No game picks yet, add a game pick per player in the seeding list above, or pick a game for this round and it becomes a candidate.'));
     } else {
       panel.appendChild(BM.el('p', 't-note',
-        'One vote per player — voting again moves your vote. Ties go to the earliest-picked game.'));
+        'One vote per player, voting again moves your vote. Ties go to the earliest-picked game.'));
       var asLabel = BM.el('label', 't-setting', 'Voting as ');
       var asSel = document.createElement('select');
       asSel.setAttribute('aria-label', 'Who is voting');
@@ -496,7 +496,7 @@
           pushUndo(state);
           state.games[gameKey] = result.winner;
           hist(state, 'Game vote locked (' + gameKey + '): ' + gameLabel(result.winner) +
-            ' — ' + result.votes + ' votes.');
+            ', ' + result.votes + ' votes.');
           saveState(state);
           renderAll(state);
           announce('Game locked in: ' + gameLabel(result.winner) + '.');
@@ -515,7 +515,7 @@
       return li;
     }
     if (slot.bye) {
-      li.appendChild(BM.el('span', 't-bye', 'BYE — ' +
+      li.appendChild(BM.el('span', 't-bye', 'BYE, ' +
         (side === 'a' ? mt.b.name : mt.a.name) + ' advances automatically'));
       li.classList.add('is-bye');
       return li;
@@ -692,7 +692,7 @@
       (info.reset && (info.reset.decided || info.reset.aWins > 0 || info.reset.bWins > 0));
     if (showReset) {
       var rc = BM.el('div', 't-reset', '');
-      var rh = BM.el('h4', '', 'Bracket reset — winner takes the tournament');
+      var rh = BM.el('h4', '', 'Bracket reset, winner takes the tournament');
       rc.appendChild(rh);
       rc.appendChild(BM.el('p', 't-note',
         'The losers-bracket champion beat the winners-bracket champion, so the bracket resets: one more final, winner takes it all.'));
@@ -701,7 +701,7 @@
       card.appendChild(rc);
     } else if (info.final && info.final.decided) {
       card.appendChild(BM.el('p', 't-note',
-        'Winners-bracket champion took the final outright — no reset needed.'));
+        'Winners-bracket champion took the final outright, no reset needed.'));
     }
     return card;
   }
@@ -732,7 +732,7 @@
       out.appendChild(lcols);
     } else {
       out.appendChild(BM.el('p', 't-note',
-        'Two players, no losers bracket — the grand final is a straight rematch.'));
+        'Two players, no losers bracket, the grand final is a straight rematch.'));
     }
 
     out.appendChild(BM.el('h3', 't-bracket-sub', 'Grand final'));
@@ -806,7 +806,7 @@
     var isDouble = state.version === 2;
     var lines = [];
     lines.push('🏆 Button Mash tournament (' + (isDouble ? 'double' : 'single') +
-      ' elimination) — ' + state.players.length + ' players');
+      ' elimination), ' + state.players.length + ' players');
     var champ = isDouble ? B2.champion(state) : B.champion(state);
     lines.push('Champion: ' + (champ ? champ.name : '(undecided)') + '');
     lines.push('');
@@ -815,22 +815,22 @@
 
     function roundLines(round, gameKey) {
       var gid = state.games[gameKey] || '';
-      var head = round.name + ' — best of ' + (round.bestOf || 1);
-      head += gid ? ' — ' + gameLabel(gid) : ' — (no game picked)';
+      var head = round.name + ', best of ' + (round.bestOf || 1);
+      head += gid ? ', ' + gameLabel(gid) : ', (no game picked)';
       lines.push(head);
       round.matches.forEach(function (mt, i) {
         var label = '  M' + (i + 1) + ': ';
         if (!mt.a || !mt.b) {
           label += '(waiting on earlier results)';
         } else if (mt.byeAdvance) {
-          label += mt.winner.name + ' — bye (advances automatically)';
+          label += mt.winner.name + ', bye (advances automatically)';
         } else if (mt.winner) {
           var loser = mt.winner.seed === mt.a.seed ? mt.b : mt.a;
-          var score = (round.bestOf || 1) > 1 ? ' (' + mt.aWins + '–' + mt.bWins + ')' : '';
+          var score = (round.bestOf || 1) > 1 ? ' (' + mt.aWins + '-' + mt.bWins + ')' : '';
           label += mt.winner.name + ' def. ' + loser.name + score;
         } else {
-          var s = (round.bestOf || 1) > 1 ? ' (' + mt.aWins + '–' + mt.bWins + ')' : '';
-          label += mt.a.name + ' vs ' + mt.b.name + ' — not played' + s;
+          var s = (round.bestOf || 1) > 1 ? ' (' + mt.aWins + '-' + mt.bWins + ')' : '';
+          label += mt.a.name + ' vs ' + mt.b.name + ', not played' + s;
         }
         lines.push(label);
       });
@@ -845,23 +845,23 @@
       if (lrs.length) {
         lrs.forEach(function (round) { roundLines(round, 'L' + round.index); });
       } else {
-        lines.push('(no losers bracket — 2 players)');
+        lines.push('(no losers bracket: 2 players)');
         lines.push('');
       }
       var info = B2.grandFinalInfo(state);
       var gid = state.games.GF || '';
-      lines.push('GRAND FINAL — best of ' + info.bestOf + (gid ? ' — ' + gameLabel(gid) : ' — (no game picked)'));
+      lines.push('GRAND FINAL, best of ' + info.bestOf + (gid ? ', ' + gameLabel(gid) : ', (no game picked)'));
       if (!info.ready) {
         lines.push('  (waiting on both brackets)');
       } else {
         var f = info.final;
         lines.push('  ' + info.a.name + ' (winners) vs ' + info.b.name + ' (losers)' +
-          (f ? ' — ' + f.aWins + '–' + f.bWins + (f.winner ? ', ' + f.winner.name + ' wins' : ' — not played') : ' — not played'));
+          (f ? ', ' + f.aWins + '-' + f.bWins + (f.winner ? ', ' + f.winner.name + ' wins' : ', not played') : ', not played'));
         if (info.needsReset || (info.reset && (info.reset.decided || info.reset.aWins > 0 || info.reset.bWins > 0))) {
           var rs = info.reset;
-          lines.push('  BRACKET RESET — ' + (rs
-            ? info.a.name + ' ' + rs.aWins + '–' + rs.bWins + ' ' + info.b.name +
-              (rs.winner ? ', ' + rs.winner.name + ' wins the tournament' : ' — not played')
+          lines.push('  BRACKET RESET, ' + (rs
+            ? info.a.name + ' ' + rs.aWins + '-' + rs.bWins + ' ' + info.b.name +
+              (rs.winner ? ', ' + rs.winner.name + ' wins the tournament' : ', not played')
             : 'not played'));
         }
       }
@@ -876,13 +876,13 @@
       histArr.slice(-10).forEach(function (e) { lines.push('  ' + e.text); });
       lines.push('');
     }
-    lines.push('Made with Button Mash — your browser is the console.');
+    lines.push('Made with Button Mash, your browser is the console.');
     return lines.join('\n');
   }
 
   function copyText(text, okMsg) {
     function done(ok) {
-      announce(ok ? okMsg : 'Copy failed — your browser blocked it.');
+      announce(ok ? okMsg : 'Copy failed, your browser blocked it.');
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
@@ -925,7 +925,7 @@
     catch (e) { return; }
     var n = parseInt(q.get('players'), 10);
     var ta = $('t-players');
-    /* ?names=Ana,Ben,... (party planner 2.0 handoff): real guest names,
+    /* ?names=Ana,Ben... (party planner 2.0 handoff): real guest names,
        one per line. Validated: 2-16 names, safe characters, <= 32 chars. */
     var names = (q.get('names') || '').split(',').map(function (s) { return s.trim().replace(/\s+/g, ' '); })
       .filter(function (s) { return s.length >= 1 && s.length <= 32 && /^[A-Za-z0-9 .'\-+_]+$/.test(s); })
@@ -993,7 +993,7 @@
         ta2.value = arr.join('\n');
         updateCount();
         renderSeedList();
-        announce('Seeds randomized — entry order is the new seed order.');
+        announce('Seeds randomized, entry order is the new seed order.');
       });
     }
     var startover = $('t-startover');
@@ -1013,14 +1013,14 @@
     if (copyBtn) {
       copyBtn.addEventListener('click', function () {
         var s = loadState();
-        if (s) { copyText(bracketText(s), 'Bracket copied — paste it anywhere.'); }
+        if (s) { copyText(bracketText(s), 'Bracket copied, paste it anywhere.'); }
       });
     }
     var shareBtn = $('t-sharelink');
     if (shareBtn) {
       shareBtn.addEventListener('click', function () {
         var s = loadState();
-        if (s) { copyText(shareUrl(s), 'Share link copied — anyone opening it gets this exact bracket.'); }
+        if (s) { copyText(shareUrl(s), 'Share link copied, anyone opening it gets this exact bracket.'); }
       });
     }
     var undoBtn = $('t-undo');
@@ -1031,7 +1031,7 @@
         activeFormat = prev.version === 2 ? 'double' : 'single';
         saveState(prev);
         renderAll(prev);
-        announce('Undone — bracket restored to the previous step.');
+        announce('Undone, bracket restored to the previous step.');
       });
     }
 
@@ -1053,7 +1053,7 @@
       try { savedActive = localStorage.getItem(ACTIVE_KEY); } catch (e) {}
       if (handoffParams) {
         /* Fresh handoff (?players=/&games=/&format=): the user is starting a
-           new tournament — don't restore the old saved bracket under it.
+           new tournament, don't restore the old saved bracket under it.
            The pre-filled names + pending games wait for Generate. */
         renderAll(null);
         updateCount();

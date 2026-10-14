@@ -7,7 +7,7 @@
    (2) versus: BMVersus profiles an idle game with the dive as
    coverage, and the pinned Cookie Clicker vs kaaarot pairing now
    fires footprint + coverage + Kids (coverage 2-1 since the
-   dive; wave 39 tied it 1-1 — Cookie's Kids listing against
+   dive; wave 39 tied it 1-1: Cookie's Kids listing against
    kaaarot's multiplayer dive);
    (3) headless: the page renders all 15 cards with exactly one
    h1, zero pageerrors, and no 390px overflow.
@@ -23,8 +23,8 @@ const ROOT = "/home/hatch/workspace/button-mash";
 const BASE = "file://" + ROOT;
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 
 const games = JSON.parse(fs.readFileSync(path.join(ROOT, "data/games.json"), "utf8")).games;
@@ -41,7 +41,7 @@ const featured = [...page40.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
   check("every featured game is a real idle record",
     featured.every((id) => byId[id] && byId[id].genre === "idle"),
     "ids resolve against data/games.json with genre idle");
-  check("the dive curates the whole shelf — every idle record is featured",
+  check("the dive curates the whole shelf, every idle record is featured",
     games.filter((g) => g.genre === "idle").every((g) => featured.includes(g.id)),
     "15 idle records in the catalog, 15 on the page, none left over");
   check("every card carries its record's URL and controls verbatim",
@@ -59,7 +59,7 @@ const featured = [...page40.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
     page40.includes("All " + idleTotal + " idle games") &&
     page40.includes("Genre deep dive · " + featured.length + " games") &&
     page40.includes("every idle game in the catalog is on this page"),
-    idleTotal + " idle games in the catalog, " + featured.length + " curated — the whole shelf");
+    idleTotal + " idle games in the catalog, " + featured.length + " curated, the whole shelf");
   check("exactly one h1; the dive is a browsing page (view transitions stamped)",
     (page40.match(/<h1[\s>]/g) || []).length === 1 && page40.includes("data-bm-vt"),
     "h1Count = 1 in source; bm-vt block present");
@@ -81,16 +81,16 @@ const featured = [...page40.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
   const CTX = { collections: colsDoc.collections || [],
     kidIds: new Set((kidsDoc["kid-safe"] || []).filter((k) => k.kid_safe).map((k) => k.id)) };
   const cmp = V.compare(byId["cookie-clicker"], byId["kaaarot"], CTX);
-  check("versus: the changed pairing — Cookie Clicker vs kaaarot fires footprint + coverage + Kids since the dive",
+  check("versus: the changed pairing: Cookie Clicker vs kaaarot fires footprint + coverage + Kids since the dive",
     cmp.ok && !cmp.thin && cmp.verdicts.length === 3 &&
     cmp.verdicts.map((v) => v.kind).join(",") === "footprint,coverage,kids" &&
     V.profile(byId["cookie-clicker"], CTX).coverageCount === 2 &&
     V.profile(byId["kaaarot"], CTX).coverageCount === 1,
-    "cookie carries the idle dive + Kids listing (2), kaaarot the multiplayer dive (1) — before wave 40 coverage tied 1-1 and footprint + Kids alone fired");
+    "cookie carries the idle dive + Kids listing (2), kaaarot the multiplayer dive (1), before wave 40 coverage tied 1-1 and footprint + Kids alone fired");
   const thin = V.compare(byId["lookouts"], byId["dating-killmulator-2"], CTX);
-  check("versus: the thin state at wave 40 — the bare tail was still the two horror records (wave 41 closes it; test_horror41 pins the new truth)",
+  check("versus: the thin state at wave 40, the bare tail was still the two horror records (wave 41 closes it; test_horror41 pins the new truth)",
     thin.ok && thin.thin && thin.verdicts.length === 0,
-    "every idle game was already Kids-listed; at wave 40 lookouts vs dating-killmulator-2 was no-basis because both records were bare — since wave 41 both carry the horror dive and the pairing stays thin on a 1-1 coverage tie");
+    "every idle game was already Kids-listed; at wave 40 lookouts vs dating-killmulator-2 was no-basis because both records were bare, since wave 41 both carry the horror dive and the pairing stays thin on a 1-1 coverage tie");
 }
 
 /* ---------------- (3) headless ---------------- */
@@ -110,7 +110,7 @@ const featured = [...page40.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
   }));
   check("headless: page renders all cards under exactly one h1",
     rendered.h1 === 1 && rendered.cards === 15,
-    "h1=" + rendered.h1 + " cards=" + rendered.cards + " — " + rendered.title);
+    "h1=" + rendered.h1 + " cards=" + rendered.cards + ": " + rendered.title);
   await page.setViewport({ width: 390, height: 844 });
   await new Promise((r) => setTimeout(r, 400));
   const overflow = await page.evaluate(() =>

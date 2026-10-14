@@ -1416,7 +1416,7 @@ check("WF28 guide legal note: the same blanket is gone from how-emulation-works"
   !howEmu26.includes("legal and open-source"),
   "the legal note now matches the catalog's own license data");
 check("WF28 audit — specific claims that checked out stay exactly as written",
-  playLegal26.includes("EmulatorJS, RetroArch, mGBA — all legal, all open-source") &&
+  playLegal26.includes("EmulatorJS, RetroArch, mGBA, all legal, all open-source") &&
   fs.readFileSync(path.join(ROOT, "player.html"), "utf8").includes("Powered by the open-source") &&
   fs.readFileSync(path.join(ROOT, "guides/best-emulator-per-system.html"), "utf8")
     .includes("emulators are legal software. They ship with zero games"),
@@ -1623,13 +1623,13 @@ check("WF33 curator pass 6 — the two closures by removal",
   byId24["powder-game"].description ===
     "A falling-sand toy: pour powder, water, fire, and acid into a sandbox and watch the physics play out." &&
   byId24["recoil-foundry"].description ===
-    "Build one gun whose recoil throws you across a factory. Movement IS the weapon — master the kick.",
+    "Build one gun whose recoil throws you across a factory. Movement IS the weapon, master the kick.",
   "Powder Game (2007) is not the falling-sand original (2005 Dofi-Blog applet); Recoil Foundry's own page names no jam and no year");
 check("WF33 curator pass 6 — the verified years stand, the one edition fix holds",
   byId24["urban-dead"].description.includes("A 2005 classic") &&
   byId24["dare-to-doku"].description.includes("GBA Jam 2026") &&
   byId24["adventure-capitalist"].description ===
-    "Hyper Hippo's capitalist clicker: lemonade stands to moon shoes, the idle game that ate 2014 — officially on Kongregate.",
+    "Hyper Hippo's capitalist clicker: lemonade stands to moon shoes, the idle game that ate 2014, officially on Kongregate.",
   "Urban Dead launched July 3, 2005; Dare to Doku's own page names GBA Jam 2026; AdVenture Capitalist launched on Kongregate May 30, 2014 and was its most played game of 2014");
 check("WF33 taxonomy: STILL not reshelved — the brief's call stays with the human",
   byId24["purrgatory"].genre === "horror" && byId24["lookouts"].genre === "horror" &&
@@ -2089,7 +2089,7 @@ const kidsPage41 = fs.readFileSync(path.join(ROOT, "kids.html"), "utf8");
 const unesc41 = (s) => s.replace(/&quot;/g, '"').replace(/&#39;|&#x27;/g, "'")
   .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 const ledgerItems41 = [...parents41.matchAll(
-  /<li data-ledger-item data-ledger-id="([^"]+)"><a href="game\.html\?id=[^"]+">([^<]+)<\/a> — ([^<]+)<\/li>/g)]
+  /<li data-ledger-item data-ledger-id="([^"]+)"><a href="game\.html\?id=[^"]+">([^<]+)<\/a>: ([^<]+)<\/li>/g)]
   .map((m) => ({ id: m[1], title: unesc41(m[2]), reason: unesc41(m[3]) }));
 check("WF41 ledger completeness: every excluded game listed exactly once, no curated game listed",
   ledgerItems41.length === kids41.excluded.length &&

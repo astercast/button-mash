@@ -1,8 +1,8 @@
 /* Wave 30 checks: the full-catalog claim census.
 
-   Wave 29 closed the Curator's named list — every tranche waves
-   24–28 queued (retro arcade shelf, Ruffle shelf, DOS shelf, the
-   waves 24–26 sweeps) has been worked. What no pass ever scoped
+   Wave 29 closed the Curator's named list, every tranche waves
+   24-28 queued (retro arcade shelf, Ruffle shelf, DOS shelf, the
+   waves 24-26 sweeps) has been worked. What no pass ever scoped
    was the scattered remainder: year/maker/superlative claims in
    descriptions outside those shelves. This wave does not verify
    or fix any of them; it COUNTS them, claim by claim, so the
@@ -19,7 +19,7 @@
      build, or claims a lineage/provenance (a successor, a jam
      origin). Host credits ("the Internet Archive's DOSBox") and
      character possessives ("Billy Blaze's") are not maker claims.
-   - SUPERLATIVE claim: a checkable precedence assertion —
+   - SUPERLATIVE claim: a checkable precedence assertion,
      first / original / pioneer / defined / started / named the
      genre / popularized. Subjective puffery ("legendary",
      "definitive", "greatest hits") and numeric/content counts
@@ -27,27 +27,27 @@
      scope by rule; open-source and free claims are out of scope
      here because wave 26 closed that audit.
    - VERIFIED means the specific claim was checked against a
-     source outside the repo in waves 24–29 and is pinned by
-     test_curator24–29 or the wave-26 audit. A claim is counted
+     source outside the repo in waves 24-29 and is pinned by
+     test_curator24-29 or the wave-26 audit. A claim is counted
      per entry per type: an entry with two unverified claim types
      counts twice in the instance total, once in the entry total.
 
    THE CENSUS (as updated by wave 32): of 213 entries, 70 carry
    at least one claim of these types (117 claim instances). All
    117 instances across 70 entries stand verified by waves
-   24–32 — the census is CLOSED: no year, maker/attribution, or
+   24-32, the census is CLOSED: no year, maker/attribution, or
    superlative claim in the catalog remains unverified. 143
    entries carry no claim of these types at all. (Wave 30's
    original count was 119 instances / 88 verified / 31 unverified
    across 29 entries; wave 31 verified 9 instances, fixed-and-
    verified 3 more, settled 1 maker claim in passing, and closed
-   2 instances by removal — Powder Game's false "original" and
-   Recoil Foundry's unsettled "2026 jam gem" — so the instance
+   2 instances by removal: Powder Game's false "original" and
+   Recoil Foundry's unsettled "2026 jam gem", so the instance
    total itself fell to 117. Wave 32 then worked the last
    tranche, the 18 maker/attribution claims: 17 stand as written
    and are pinned verbatim in test_curator32, and Chogue's
    singular possessive was fixed to co-credit its second maker,
-   Jonathan Lessard — pinned fixed-and-verified in the same
+   Jonathan Lessard, pinned fixed-and-verified in the same
    suite.) Synergism's and Arras.io's open-source claims were
    checked in wave 26; wave 32 checked their maker claims too.
    Angband sits in the verified-superlative list as a closed
@@ -74,15 +74,15 @@ const path = require("path");
 const ROOT = "/home/hatch/workspace/button-mash";
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 
 const gamesDoc = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/games.json"), "utf8"));
 const byId = {};
 gamesDoc.games.forEach((g) => { byId[g.id] = g; });
 
-/* ---------------- the verified sets (waves 24–31) ---------------- */
+/* ---------------- the verified sets (waves 24-31) ---------------- */
 const VERIFIED_YEAR = [
   "zork1", "simcity-1989", "monkey-island", "lemmings-1991", "theme-park",
   "wolfenstein-3d", "doom-1993", "quake-shareware", "duke3d-shareware",
@@ -123,14 +123,14 @@ const VERIFIED_SUPERLATIVE = [
    wave 32 worked the maker list to zero the same way: every
    claim verified, fixed-and-verified (Chogue's co-credit), or
    closed by removal (CLOSED_BY_REMOVAL below). The remainder
-   lists stand empty — the census is closed, and the gate below
+   lists stand empty, the census is closed, and the gate below
    is what keeps it closed. */
 const UNVERIFIED_YEAR = [];
 const UNVERIFIED_MAKER = [];
 const UNVERIFIED_SUPERLATIVE = [];
-/* Claims closed by removal in wave 31 — the claim no longer
+/* Claims closed by removal in wave 31, the claim no longer
    exists, so these entries carry nothing for the gate to find:
-   powder-game's "original falling-sand toy" (false — the 2005
+   powder-game's "original falling-sand toy" (false, the 2005
    Dofi-Blog applet is the genre's original) and recoil-foundry's
    "2026 jam gem" (no source settles a jam or a year). */
 const CLOSED_BY_REMOVAL = ["powder-game", "recoil-foundry"];
@@ -153,10 +153,10 @@ const UNVERIFIED = union([UNVERIFIED_YEAR, UNVERIFIED_MAKER, UNVERIFIED_SUPERLAT
   check("census: verified claim instances total 117 (45 year + 50 maker + 22 superlative)",
     VERIFIED_YEAR.length === 45 && VERIFIED_MAKER.length === 50 && VERIFIED_SUPERLATIVE.length === 22 &&
     VERIFIED_YEAR.length + VERIFIED_MAKER.length + VERIFIED_SUPERLATIVE.length === 117,
-    "waves 24–32, pinned by test_curator24–32 and the wave-26 audit");
+    "waves 24-32, pinned by test_curator24-32 and the wave-26 audit");
   check("census: 70 entries carry verified claims of these types",
     VERIFIED.size === 70, VERIFIED.size + " entries");
-  check("census: the unverified remainder is closed — 0 instances of any type",
+  check("census: the unverified remainder is closed: 0 instances of any type",
     UNVERIFIED_YEAR.length === 0 && UNVERIFIED_MAKER.length === 0 && UNVERIFIED_SUPERLATIVE.length === 0 &&
     UNVERIFIED_YEAR.length + UNVERIFIED_MAKER.length + UNVERIFIED_SUPERLATIVE.length === 0,
     "wave 31 closed the year and superlative lists; wave 32 closed the maker list");
@@ -228,7 +228,7 @@ const UNVERIFIED = union([UNVERIFIED_YEAR, UNVERIFIED_MAKER, UNVERIFIED_SUPERLAT
 {
   const horror = gamesDoc.games.filter((g) => g.genre === "horror");
   const cozy = gamesDoc.games.filter((g) => g.genre === "cozy");
-  check("taxonomy: the brief's call is still UNDECIDED — nothing reshelved",
+  check("taxonomy: the brief's call is still UNDECIDED, nothing reshelved",
     byId["purrgatory"].genre === "horror" && byId["lookouts"].genre === "horror" &&
     byId["spooky-town"].genre === "horror",
     "all three stay in horror until a human rules on TAXONOMY_BRIEF.md");

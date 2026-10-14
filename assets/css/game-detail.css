@@ -1,6 +1,6 @@
-/* game-detail.css — Wave 19 "Spotlight": the per-game metadata file.
+/* game-detail.css: Wave 19 "Spotlight": the per-game metadata file.
    Arcade identity reuse only: no new keyframes, no ambient motion.
-   Reduced-motion and FX-off need nothing extra — there is nothing to kill. */
+   Reduced-motion and FX-off need nothing extra, there is nothing to kill. */
 
 .game-hero-section .kicker {
   display: inline-block;

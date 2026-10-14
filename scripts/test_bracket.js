@@ -9,8 +9,8 @@ let failures = 0;
 let count = 0;
 function check(name, cond, detail) {
   count++;
-  if (cond) { console.log('PASS', name, '—', detail); }
-  else { failures++; console.error('FAIL', name, '—', detail); }
+  if (cond) { console.log('PASS', name, ', ', detail); }
+  else { failures++; console.error('FAIL', name, ', ', detail); }
 }
 function names(n) {
   const out = [];

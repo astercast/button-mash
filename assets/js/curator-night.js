@@ -1,38 +1,38 @@
-/* Button Mash — the Curator's game-night engine (wave 21).
+/* Button Mash, the Curator's game-night engine (wave 21).
  *
  * UMD module, DOM-free: the same code runs in the browser and under node
  * (scripts/test_curatornight21.js exercises it with fixtures).
  *
  * This is the flagship "game night" engine: group size, time available, and
  * vibe go in; a ceremony-ready lineup comes out. It is distinct from the
- * wave-A/B quick-lineup engine (lib/game-night.js, scoring v1.0.0) — that
+ * wave-A/B quick-lineup engine (lib/game-night.js, scoring v1.0.0), that
  * one stays untouched with its parity gate. This one is scoring v2.2.0 and
  * adds the three things v1 honestly could not do:
  *
- *   1. SESSION ESTIMATES — per-game "~N min" from genre shape + social tags,
+ *   1. SESSION ESTIMATES, per-game "~N min" from genre shape + social tags,
  *      CALIBRATED against the real catalog (wave 22): genre buckets alone
  *      put Civilization and Space Invaders in the same 10-minute retro
  *      bucket, which deals nonsense nights. SESSION_OVERRIDES below pins
- *      the games whose shape the bucket plainly gets wrong — long-form
+ *      the games whose shape the bucket plainly gets wrong, long-form
  *      sims and adventures, deep traditional roguelikes, narrative idles,
  *      five-minute daily puzzles, browse-a-shelf library pages. The
  *      catalog carries no measured playtimes, so these stay CURATOR
  *      ESTIMATES (coarse buckets, always shown with "~", declared in every
- *      response's plan_notes) — never presented as per-game fact.
- *   2. SEATS + ENERGY ESTIMATES — how many players a game comfortably
+ *      response's plan_notes), never presented as per-game fact.
+ *   2. SEATS + ENERGY ESTIMATES, how many players a game comfortably
  *      seats (a chess duel is not a drawing room; a solo game pass-and-
  *      played by twelve is one driver and eleven back-seat navigators)
  *      and how loud a sitting gets (1 low-key / 2 steady / 3 high-octane).
  *      Player fit is graded against YOUR group size, and the curve spends
  *      energy on purpose: quiet edges, loud middle.
- *   3. SKILL-FLOOR ESTIMATES — 1 "anyone can play" / 2 "some thumb skill" /
+ *   3. SKILL-FLOOR ESTIMATES: 1 "anyone can play" / 2 "some thumb skill" /
  *      3 "spicy", from genre + tags. Also curator estimates, also declared.
- *   4. THE CURVE — the night is ordered like a good set: WARM-UP, MAIN
+ *   4. THE CURVE, the night is ordered like a good set: WARM-UP, MAIN
  *      EVENT(s), SHOWDOWN (groups) or DEEP DIVE (solo), COOL-DOWN, with an
  *      IDLE "INTERMISSION" slot when the night is long enough.
  *
  * Plus the house rules: genre variety (no two adjacent slots share a genre,
- * max 2 of any genre), and the timebox is real — estimated slot minutes must
+ * max 2 of any genre), and the timebox is real, estimated slot minutes must
  * fit inside the night, so long nights get more slots and short nights fewer.
  *
  * Scoring (v2.2.0, auditable, weights in every response):
@@ -41,11 +41,11 @@
  *   vibe overlap      20
  *   skill-mix fit     10
  *   kid-safe bonus    10   (only when kids=true; the pool is restricted anyway)
- * Ties broken by title sort — deterministic, same inputs, same night.
+ * Ties broken by title sort, deterministic, same inputs, same night.
  *
  * LEGAL LANE: the corpus is the repo's curl-verified browser games
  * (data/v1/games.json) + the kid-safe list (data/v1/kid-safe.json). The
- * engine cannot recommend anything outside the corpus — that is the safety
+ * engine cannot recommend anything outside the corpus, that is the safety
  * property. Zero ROMs hosted. Zero piracy links. User-supplied files only.
  */
 (function (root, factory) {
@@ -63,7 +63,7 @@
   var KNOWN_VIBES = ['cozy', 'chaotic', 'competitive', 'party', 'chill'];
   var SKILL_MIXES = ['mixed', 'gamers', 'casual'];
 
-  /* Vibe maps — same philosophy as the v1 engine (tags are real catalog
+  /* Vibe maps, same philosophy as the v1 engine (tags are real catalog
      data; the genre->vibe map is curated and declared, not hidden). */
   var GENRE_VIBES = {
     puzzle: ['chill', 'cozy'],
@@ -118,7 +118,7 @@
      Genre buckets are the fallback, not the verdict. Every id below is a
      real catalog game whose actual shape the bucket gets wrong; the test
      suite (scripts/test_gamenight22.js) proves each override exists in
-     the catalog and actually changes the bucket value — a stale or dead
+     the catalog and actually changes the bucket value, a stale or dead
      override fails the build. */
   var SESSION_OVERRIDES = {
     /* Long-form retro: empire sims and adventures are sittings, not rounds. */
@@ -147,7 +147,7 @@
     'wordle': 5, 'connections': 5, 'globle': 5, 'worldle': 5,
     'framed': 5, 'waffle': 5, 'bandle': 5,
     /* Wave-24 follow-up: long-form puzzles the 10-minute bucket still
-       misread — a full mystery, a deduction archive, a half-hour essay,
+       misread, a full mystery, a deduction archive, a half-hour essay,
        a coding campaign, a shelf of 40+ logic puzzles, and the two
        PICO-8 games re-shelved out of roguelike this wave (a platformer
        clear and a demake run are sittings, not rounds). */
@@ -170,7 +170,7 @@
     'board-game-arena': 6, 'playok': 6, 'classicube': 8, 'bonk': 8,
     'jetpunk': 4, 'kaaarot': 4, 'hordes': 6,
     /* Wave-24 follow-up: a shooter tag is not an 8-seat lobby. The
-       golden-age cabinets are 1–2 players alternating at one machine;
+       golden-age cabinets are 1-2 players alternating at one machine;
        a versus fighter seats two; a co-op bubble cart seats two; and
        Jstris is a real multiplayer lobby despite its puzzle shelf. */
     '1942': 2, 'centipede': 2, 'defender': 2, 'galaga88': 2,
@@ -186,7 +186,7 @@
   var HIGH_ENERGY_TAGS = { shooter: 1, arena: 1, racing: 1 };
   var LOW_ENERGY_TAGS = { word: 1, board: 1, trivia: 1 };
 
-  /* Slot roles — the shape of the night. */
+  /* Slot roles, the shape of the night. */
   var ROLE_LABELS = {
     warmup: 'THE WARM-UP',
     main: 'THE MAIN EVENT',
@@ -247,8 +247,8 @@
   }
 
   /* Curator estimate: how loud one sitting gets. 1 low-key, 2 steady,
-     3 high-octane. The curve spends it on purpose — quiet edges, loud
-     middle — so a night that starts at full volume has nowhere to go. */
+     3 high-octane. The curve spends it on purpose, quiet edges, loud
+     middle, so a night that starts at full volume has nowhere to go. */
   function estimateEnergy(game) {
     var tags = game.tags || [];
     for (var i = 0; i < tags.length; i++) {
@@ -283,7 +283,7 @@
 
   /* Player fit, graded against the game's seats (wave-22 calibration).
      v2.0 scored every social game 40 and every solo game 10 for any group
-     over one — so a chess duel and a drawing room tied, and pass-and-play
+     over one, so a chess duel and a drawing room tied, and pass-and-play
      looked just as good for twelve as for two. It is neither. */
   function playerFit(game, groupSize) {
     var cap = estimateCapacity(game);
@@ -294,25 +294,25 @@
       return {
         score: 40, capacity: cap,
         note: cap >= 8
-          ? 'room-scale — seats a group of ' + groupSize + ' with space to spare'
+          ? 'room-scale, seats a group of ' + groupSize + ' with space to spare'
           : 'seats a group of ' + groupSize + ' comfortably'
       };
     }
     if (cap === 1) {
       if (groupSize === 2) {
-        return { score: 26, capacity: cap, note: 'solo game — pass-and-play for 2 works a treat: trade the controls, loser hands over' };
+        return { score: 26, capacity: cap, note: 'solo game, pass-and-play for 2 works a treat: trade the controls, loser hands over' };
       }
       if (groupSize <= 4) {
-        return { score: 18, capacity: cap, note: 'solo game — pass-and-play for ' + groupSize + '; the rest of the couch heckles and navigates' };
+        return { score: 18, capacity: cap, note: 'solo game, pass-and-play for ' + groupSize + '; the rest of the couch heckles and navigates' };
       }
       if (groupSize <= 8) {
-        return { score: 10, capacity: cap, note: 'solo game — at ' + groupSize + ' players it is one driver and a back seat of navigators' };
+        return { score: 10, capacity: cap, note: 'solo game, at ' + groupSize + ' players it is one driver and a back seat of navigators' };
       }
-      return { score: 6, capacity: cap, note: 'solo game — at ' + groupSize + ' players most of the room is watching one person play' };
+      return { score: 6, capacity: cap, note: 'solo game, at ' + groupSize + ' players most of the room is watching one person play' };
     }
     return {
       score: Math.max(14, 40 - 6 * (groupSize - cap)), capacity: cap,
-      note: 'seats ~' + cap + ' at once — a group of ' + groupSize + ' rotates in or splits into tables'
+      note: 'seats ~' + cap + ' at once, a group of ' + groupSize + ' rotates in or splits into tables'
     };
   }
 
@@ -323,36 +323,36 @@
   function sessionFit(est, minutes) {
     var ideal = Math.max(5, Math.round(minutes / targetSlots(minutes)));
     if (est > minutes) {
-      return { score: 2, note: 'one sitting runs ~' + est + ' min — longer than the whole ' + minutes + '-min night' };
+      return { score: 2, note: 'one sitting runs ~' + est + ' min, longer than the whole ' + minutes + '-min night' };
     }
     var r = est / ideal;
     if (r >= 0.5 && r <= 1.6) {
-      return { score: 20, note: 'one sitting runs ~' + est + ' min — right size for a ~' + ideal + '-min slot' };
+      return { score: 20, note: 'one sitting runs ~' + est + ' min, right size for a ~' + ideal + '-min slot' };
     }
     if (r < 0.5 && r >= 0.3) {
-      return { score: 13, note: 'one sitting runs ~' + est + ' min — short for a ~' + ideal + '-min slot; expect instant rematches' };
+      return { score: 13, note: 'one sitting runs ~' + est + ' min, short for a ~' + ideal + '-min slot; expect instant rematches' };
     }
     if (r < 0.3) {
-      return { score: 8, note: 'one sitting runs ~' + est + ' min — a blink next to a ~' + ideal + '-min slot; seasoning, not a course' };
+      return { score: 8, note: 'one sitting runs ~' + est + ' min, a blink next to a ~' + ideal + '-min slot; seasoning, not a course' };
     }
     if (r <= 2.2) {
-      return { score: 13, note: 'one sitting runs ~' + est + ' min — long for a ~' + ideal + '-min slot; it will set the pace of the night' };
+      return { score: 13, note: 'one sitting runs ~' + est + ' min, long for a ~' + ideal + '-min slot; it will set the pace of the night' };
     }
-    return { score: 6, note: 'one sitting runs ~' + est + ' min — eats about ' + Math.round(r) + ' slots; deal it only if the table wants to live there' };
+    return { score: 6, note: 'one sitting runs ~' + est + ' min, eats about ' + Math.round(r) + ' slots; deal it only if the table wants to live there' };
   }
 
   function skillFit(floor, skill) {
     if (skill === 'casual') {
-      if (floor === 1) return { score: 10, note: 'no skill gate — everyone plays from minute one' };
+      if (floor === 1) return { score: 10, note: 'no skill gate, everyone plays from minute one' };
       if (floor === 2) return { score: 5, note: 'a little thumb skill helps' };
-      return { score: 0, note: 'spicy for a casual table — the gamers will carry, the rest will laugh' };
+      return { score: 0, note: 'spicy for a casual table, the gamers will carry, the rest will laugh' };
     }
     if (skill === 'gamers') {
       if (floor === 3) return { score: 10, note: 'spicy enough for a gamer table' };
       if (floor === 2) return { score: 6, note: 'enough depth to keep gamers honest' };
       return { score: 2, note: 'simple, but a gamer table will find the tech' };
     }
-    return { score: 7, note: 'mixed table — plays across skill levels' };
+    return { score: 7, note: 'mixed table, plays across skill levels' };
   }
 
   function scoreGame(game, inputs, kidSafeSet) {
@@ -368,7 +368,7 @@
     var matched = inputs.vibes.filter(function (v) { return gv[v]; });
     var vibe = inputs.vibes.length ? Math.round((matched.length / inputs.vibes.length) * 20) : 10;
     if (matched.length > 0) why.push('vibe match: ' + matched.join(', '));
-    else why.push('carried by fit — no direct overlap with ' + inputs.vibes.join('/'));
+    else why.push('carried by fit, no direct overlap with ' + inputs.vibes.join('/'));
 
     var floor = estimateFloor(game);
     var sf = skillFit(floor, inputs.skill);
@@ -451,7 +451,7 @@
     }
 
     /* Intermission: a SHORT idle pick when the night is long. Not a role
-       search — it is a breather, placed before the peak. The ~15-min cap
+       search, it is a breather, placed before the peak. The ~15-min cap
        matters: a 30-minute narrative idle is a course, not a breather. */
     var intermission = null;
     if (inputs.minutes >= 90 && roles.length >= 5) {
@@ -634,7 +634,7 @@
 
     plan_notes.push(
       'Session lengths (~min), seats and energy are curator estimates, calibrated game by game ' +
-      'against the catalog\'s real shapes — a Civilization sitting is not a Space Invaders sitting, ' +
+      'against the catalog\'s real shapes, a Civilization sitting is not a Space Invaders sitting, ' +
       'and a chess duel does not seat a room. Coarse buckets, never measured playtimes. ' +
       'Scoring v' + SCORING_VERSION + ': players 40 (graded by seats vs your group) + session 20 ' +
       '(graded against this night\'s slot size) + vibe 20 + skill 10 + kids 10; ' +
@@ -645,7 +645,7 @@
       'middle, a ' + (inputs.group_size >= 2 ? 'showdown' : 'deep dive') + ' before the ' +
       'end, and a gentle cool-down. No two neighboring slots share a genre; at most ' +
       'two slots per genre. Estimated total ~' + built.total_est + ' min of your ' +
-      inputs.minutes + '-min night — the rest is snacks, arguing about the rules, and rematches.'
+      inputs.minutes + '-min night, the rest is snacks, arguing about the rules, and rematches.'
     );
     if (inputs.kids) {
       plan_notes.push('Kids at the table: every pick comes from the 113 kid-safe games (no chat, parent notes on file).');

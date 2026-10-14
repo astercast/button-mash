@@ -20,8 +20,8 @@ const P2 = require(path.join(ROOT, "assets/js/party2.js"));
 let failures = 0, total = 0;
 function check(name, cond, detail) {
   total++;
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 
 const GAMES = ["g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8"];

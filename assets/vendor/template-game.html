@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>__BM_GAME_NAME__ (__BM_SYSTEM__) — playable in your browser</title>
+<title>__BM_GAME_NAME__ (__BM_SYSTEM__), playable in your browser</title>
 <meta name="description" content="__BM_GAME_NAME__ (__BM_SYSTEM__) as a self-contained browser game. Built from a user-supplied ROM with Button Mash.">
 <style>
   :root { --pink:#ff2d78; --cyan:#00e5ff; --bg:#07070f; --panel:#101018; }
@@ -44,15 +44,15 @@
 <div id="stage">
   <div id="loading" role="status">
     <div class="spin" aria-hidden="true">💾</div>
-    <p>Unpacking your game…<br><small>(large ROMs take a moment — everything happens on your device)</small></p>
+    <p>Unpacking your game…<br><small>(large ROMs take a moment, everything happens on your device)</small></p>
     <p id="load-error" role="alert"></p>
   </div>
   <div id="game"></div>
 </div>
 
 <div class="hint">
-  <strong>Controls:</strong> __BM_HINT__ — open the in-game menu (gear icon) → <em>Controls</em> to see the exact mapping and remap. Gamepads supported. Touch devices get on-screen buttons. Save states live under the menu's <em>Save State</em> options and persist in this browser.
-  <br><strong>Player mode</strong> re-opens this game in the Button Mash Player with the right system pre-selected — handy on slow connections, since it streams your original ROM file straight from your disk instead of this download. (You'll pick the file again there; keep it handy.)
+  <strong>Controls:</strong> __BM_HINT__, open the in-game menu (gear icon) → <em>Controls</em> to see the exact mapping and remap. Gamepads supported. Touch devices get on-screen buttons. Save states live under the menu's <em>Save State</em> options and persist in this browser.
+  <br><strong>Player mode</strong> re-opens this game in the Button Mash Player with the right system pre-selected, handy on slow connections, since it streams your original ROM file straight from your disk instead of this download. (You'll pick the file again there; keep it handy.)
 </div>
 
 <footer>
@@ -62,7 +62,7 @@
 
 <script>
 /* ============================================================
-   Embedded ROM — base64 of the file YOU supplied at build time.
+   Embedded ROM, base64 of the file YOU supplied at build time.
    BM_COMPRESSED "1" means the bytes below are zlib/deflate data
    (smaller download); they are inflated on-device before boot.
    ============================================================ */

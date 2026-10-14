@@ -1,10 +1,10 @@
-/* GET /api/cron/curator — weekly Curator watch (spec §7.7).
+/* GET /api/cron/curator, weekly Curator watch (spec §7.7).
    Schedule: Mondays 0 10 * * 1 UTC (Vercel Cron, production only).
    Bounded incremental refresh: fetch emulator release Atom feeds + itch
    homebrew feeds in parallel (4s each), diff against the stored watch state
    (data/v1/curator-watch.json), commit on change via the GitHub Contents API.
    Fits the 10s function budget: feeds race in parallel; the commit is skipped
-   if the remaining budget is too small (next run retries — idempotent).
+   if the remaining budget is too small (next run retries, idempotent).
 
    COMMIT-BACK NOTE (open decision, pending user): the fine-grained PAT
    (GITHUB_REPO_TOKEN, contents:write on this repo) is not set up yet. Until
@@ -14,7 +14,7 @@
 
    New releases are TRACKED, never auto-published: the repo's convention is
    human review (pipeline/review_queue.json) before anything enters the
-   catalog — a cron never invents catalog entries (§6). itch.io bot-gates its
+   catalog, a cron never invents catalog entries (§6). itch.io bot-gates its
    feeds (HTTP 403, verified 2026-10-11); a gated feed is recorded as a
    failed source, not as "no new games".
 
@@ -148,7 +148,7 @@ module.exports = async (req, res) => {
     };
     if (f.ok) anyOk = true;
     // A release counts as an "update" only when it differs from the last
-    // stored one (never on the first baseline run — that's not "new").
+    // stored one (never on the first baseline run, that's not "new").
     if (!firstRun && f.ok && latest && latest.url && latest.url !== prev.latest_url) {
       const item = { feed: f.name, title: latest.title, url: latest.url, published: latest.published || null };
       if (emulatorNames.has(f.name)) emulator_updates.push(item);
@@ -164,7 +164,7 @@ module.exports = async (req, res) => {
     feeds: newFeeds,
   };
 
-  // 4. Commit on change — or degrade to read-only when the PAT is pending.
+  // 4. Commit on change, or degrade to read-only when the PAT is pending.
   let changed = firstRun;
   if (!firstRun) {
     const prevCanon = JSON.stringify(Object.keys(newFeeds).sort().map((k) => [k, prevFeeds[k].latest_url]));

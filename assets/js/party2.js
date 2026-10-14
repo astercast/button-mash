@@ -1,10 +1,10 @@
-/* Button Mash Party Planner 2.0 — pure logic, no DOM.
+/* Button Mash Party Planner 2.0, pure logic, no DOM.
    UMD: browser (window.Party2) and node (module.exports) so
    scripts/test_party11.js can verify voting ties, rotation math,
    share-link encode/decode/validation, kids-party filtering, and the
    party timeline with pinned fixtures.
 
-   State (version 1) — only INPUTS are encoded into share links; slots
+   State (version 1), only INPUTS are encoded into share links; slots
    and the timeline are derived from them on import (never trusted):
    - guests: [names...]            (2..16, each 1..32 chars)
    - opts: { vibe, skill, inputs[], minutes, kids, kidBand, startClock,
@@ -189,29 +189,29 @@
 
     var t = -SETUP_MIN;
     tl.push({ phase: 'setup', start: t, end: 0, clockStart: label(t), clockEnd: label(0),
-              label: 'Setup — open the game links, share rooms, set out snacks' });
+              label: 'Setup, open the game links, share rooms, set out snacks' });
 
     var idx = Math.max(0, Math.min(slots.length - 1, snackSlotIdx == null ? Math.floor((slots.length - 1) / 2) : snackSlotIdx));
     var at = 0, ti = 0;
     slots.forEach(function (slot, s) {
       var dur = slot.end - slot.start;
       tl.push({ phase: 'game', start: at, end: at + dur, clockStart: label(at), clockEnd: label(at + dur),
-                label: 'Game ' + (s + 1) + ' — ' + (slot.title || slot.gameId), gameId: slot.gameId });
+                label: 'Game ' + (s + 1) + ', ' + (slot.title || slot.gameId), gameId: slot.gameId });
       at += dur; ti++;
       if (s === idx && opts.snackMin > 0) {
         tl.push({ phase: 'snack', start: at, end: at + opts.snackMin,
                   clockStart: label(at), clockEnd: label(at + opts.snackMin),
-                  label: 'Snack break — ' + opts.snackMin + ' min' });
+                  label: 'Snack break, ' + opts.snackMin + ' min' });
         at += opts.snackMin;
       }
     });
     tl.push({ phase: 'tournament', start: at, end: at + TOURNEY_MIN,
               clockStart: label(at), clockEnd: label(at + TOURNEY_MIN),
-              label: 'Tournament — run a bracket with this party\'s guests + voted games' });
+              label: 'Tournament, run a bracket with this party\'s guests + voted games' });
     at += TOURNEY_MIN;
     tl.push({ phase: 'freeplay', start: at, end: at + FREEPLAY_MIN,
               clockStart: label(at), clockEnd: label(at + FREEPLAY_MIN),
-              label: 'Free play — replay favorites or open requests' });
+              label: 'Free play, replay favorites or open requests' });
     return { phases: tl, totalMin: at + FREEPLAY_MIN - (-SETUP_MIN), snackAfterSlot: idx };
   }
 
@@ -264,7 +264,7 @@
 
   /* ---------- kids-party pool ---------- */
   /* Kids party: pool is restricted to kid-safe ids (no vibe-subtag
-     filtering — the kid-safe catalog has no party tags by design).
+     filtering, the kid-safe catalog has no party tags by design).
      Age bands: 5-7 < 8-10 < 11-12; selecting a youngest band includes
      that band and everything below it. */
 

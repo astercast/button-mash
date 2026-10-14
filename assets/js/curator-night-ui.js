@@ -1,8 +1,8 @@
-/* curator-night-ui.js — Game Night: the Curator deals your night (wave 21).
+/* curator-night-ui.js: Game Night: the Curator deals your night (wave 21).
    Client-side only, by design: the v2 engine (assets/js/curator-night.js)
    scores the static data/v1 catalog right here in the browser. No server,
    nothing sent anywhere. Dealt nights live and die with the tab unless
-   you save one — saves go to the lineup shelf (curator-night-lineups.js,
+   you save one, saves go to the lineup shelf (curator-night-lineups.js,
    localStorage key bm.lineups.v1, this browser only).
 
    The ceremony: DEAL THE NIGHT -> "SHUFFLING THE DECK…" beat -> slots
@@ -29,7 +29,7 @@
 
   /* The lineup shelf (wave 23): saved nights, browser-local. */
   var LINEUPS = window.BMCuratorLineups.createStore();
-  var CURRENT = null; /* { result, savedId|null, rematchOf|null } — what's on stage */
+  var CURRENT = null; /* { result, savedId|null, rematchOf|null }, what's on stage */
 
   function loadCatalog() {
     return Promise.all([
@@ -152,7 +152,7 @@
     a.target = '_blank';
     a.rel = 'noopener';
     a.textContent = slot.title;
-    a.setAttribute('aria-label', slot.title + ' — play at ' + slot.url.replace(/^https?:\/\//, '').split('/')[0] + ' (opens in a new tab)');
+    a.setAttribute('aria-label', slot.title + ', play at ' + slot.url.replace(/^https?:\/\//, '').split('/')[0] + ' (opens in a new tab)');
     h3.appendChild(a);
     head.appendChild(role);
     head.appendChild(h3);
@@ -198,7 +198,7 @@
 
   function copyText(txt, noteEl, okMsg) {
     var done = function (ok) {
-      noteEl.textContent = ok ? okMsg : 'Copy failed — select and copy manually.';
+      noteEl.textContent = ok ? okMsg : 'Copy failed, select and copy manually.';
     };
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); });
@@ -226,12 +226,12 @@
     if (mode.saved) {
       var sb = document.createElement('p');
       sb.className = 'cn-saved-banner';
-      sb.textContent = '» SAVED NIGHT — “' + mode.saved.name + '” · shelved ' + fmtDate(mode.saved.saved_at);
+      sb.textContent = '» SAVED NIGHT: “' + mode.saved.name + '” · shelved ' + fmtDate(mode.saved.saved_at);
       stage.appendChild(sb);
     } else if (mode.rematchOf) {
       var rb = document.createElement('p');
       rb.className = 'cn-saved-banner';
-      rb.textContent = '» THE REMATCH — same setup as “' + mode.rematchOf + '”, fresh picks throughout.';
+      rb.textContent = '» THE REMATCH, same setup as “' + mode.rematchOf + '”, fresh picks throughout.';
       stage.appendChild(rb);
     }
 
@@ -273,7 +273,7 @@
     copyBtn.textContent = mode.saved ? '» Copy the card as text' : '» Copy the night as text';
     copyBtn.addEventListener('click', function () {
       var txt = mode.saved ? window.BMCuratorLineups.lineupAsText(mode.saved) : nightAsText(result);
-      copyText(txt, statusNote, 'Copied — paste it in the group chat.');
+      copyText(txt, statusNote, 'Copied, paste it in the group chat.');
     });
     actions.appendChild(copyBtn);
 
@@ -318,7 +318,7 @@
       nameInput.type = 'text';
       nameInput.maxLength = window.BMCuratorLineups.MAX_NAME;
       nameInput.className = 'cn-save-name';
-      nameInput.value = mode.rematchOf ? mode.rematchOf + ' — the rematch' : '';
+      nameInput.value = mode.rematchOf ? mode.rematchOf + ', the rematch' : '';
       nameInput.placeholder = window.BMCuratorLineups.suggestName(result.inputs_echo, Date.now());
       nameInput.setAttribute('aria-label', 'Name for this saved night');
       saveLabel.appendChild(nameInput);
@@ -351,7 +351,7 @@
         CURRENT.savedId = res.record.id;
         saveForm.hidden = true;
         saveBtn.hidden = true;
-        statusNote.textContent = 'Shelved as “' + res.record.name + '” — it lives in this browser, under Your saved nights.';
+        statusNote.textContent = 'Shelved as “' + res.record.name + '”, it lives in this browser, under Your saved nights.';
         live.textContent = 'Saved night: ' + res.record.name + '.';
         renderShelf();
       });
@@ -371,7 +371,7 @@
     if (!motionOK()) {
       slots.forEach(function (el) { ol.appendChild(el); });
       live.textContent = 'Your lineup is dealt: ' + result.lineup.length + ' picks, about ' +
-        result.total_est_minutes + ' minutes. First up: ' + result.lineup[0].role_label + ' — ' +
+        result.total_est_minutes + ' minutes. First up: ' + result.lineup[0].role_label + ', ' +
         result.lineup[0].title + '.';
       return;
     }
@@ -380,7 +380,7 @@
       if (i >= slots.length) return;
       var s = result.lineup[i];
       ol.appendChild(slots[i]);
-      live.textContent = 'Slot ' + (i + 1) + ' of ' + slots.length + ' — ' + s.role_label + ': ' + s.title + '.';
+      live.textContent = 'Slot ' + (i + 1) + ' of ' + slots.length + ', ' + s.role_label + ': ' + s.title + '.';
       i++;
       if (i < slots.length) setTimeout(revealNext, 520);
     }
@@ -390,14 +390,14 @@
   function nightAsText(result) {
     var in0 = result.inputs_echo;
     var lines = [
-      'GAME NIGHT — dealt by the Curator (Button Mash)',
+      'GAME NIGHT, dealt by the Curator (Button Mash)',
       in0.group_size + (in0.group_size === 1 ? ' player' : ' players') + ' · ' +
         in0.minutes + ' min · ' + in0.vibes.join('/') + ' · ' + in0.skill +
         (in0.kids ? ' · kids table' : ''),
       ''
     ];
     result.lineup.forEach(function (s, i) {
-      lines.push((i + 1) + '. ' + s.role_label + ' — ' + s.title + ' (~' + s.session_est + ' min, ' + s.floor_label + ', ' + s.energy_label + (s.capacity > 1 ? ', seats ~' + s.capacity : '') + ')');
+      lines.push((i + 1) + '. ' + s.role_label + ', ' + s.title + ' (~' + s.session_est + ' min, ' + s.floor_label + ', ' + s.energy_label + (s.capacity > 1 ? ', seats ~' + s.capacity : '') + ')');
       lines.push('   ' + s.url);
     });
     lines.push('');
@@ -423,7 +423,7 @@
   function deal() {
     clearError();
     if (!CATALOG) {
-      showError(['The catalog is still loading — one more second.']);
+      showError(['The catalog is still loading, one more second.']);
       return;
     }
     var raw = readForm();
@@ -438,9 +438,9 @@
     return {
       lineup: record.slots,
       plan_notes: [
-        'This is the night exactly as dealt — a snapshot, not a re-score. Later calibration ' +
+        'This is the night exactly as dealt, a snapshot, not a re-score. Later calibration ' +
         'never rewrites a shelved night; deal a rematch if you want the Curator\'s current read.',
-        'Session lengths (~min), seats, energy and skill floors are curator estimates — ' +
+        'Session lengths (~min), seats, energy and skill floors are curator estimates, ' +
         'coarse buckets, never measured playtimes.'
       ],
       scored_from: null,
@@ -453,12 +453,12 @@
   function doRematch(record) {
     clearError();
     if (!CATALOG) {
-      showError(['The catalog is still loading — one more second.']);
+      showError(['The catalog is still loading, one more second.']);
       return;
     }
     var rm = window.BMCuratorLineups.rematch(record, CATALOG, window.BMCuratorNight);
     if (!rm.ok) {
-      showError([rm.error || 'The rematch could not be dealt — the deck ran out of fresh picks.']);
+      showError([rm.error || 'The rematch could not be dealt, the deck ran out of fresh picks.']);
       return;
     }
     showResult(rm.result, { rematchOf: record.name });
@@ -514,7 +514,7 @@
     }));
     row.appendChild(shelfBtn('» Rematch', function () { doRematch(record); }));
     row.appendChild(shelfBtn('» Copy card', function () {
-      copyText(window.BMCuratorLineups.lineupAsText(record), note, 'Card copied — paste it anywhere.');
+      copyText(window.BMCuratorLineups.lineupAsText(record), note, 'Card copied, paste it anywhere.');
     }));
     row.appendChild(shelfBtn('» Retire', function () {
       LINEUPS.remove(record.id);
@@ -541,7 +541,7 @@
       section.hidden = false;
     } else {
       note.textContent = records.length
-        ? 'Shelved in this browser only — no account, no server copy. Clear the site data and the shelf goes with it.'
+        ? 'Shelved in this browser only, no account, no server copy. Clear the site data and the shelf goes with it.'
         : '';
       section.hidden = records.length === 0;
     }
@@ -572,7 +572,7 @@
       stage.innerHTML = '';
       var off = document.createElement('div');
       off.className = 'cn-shuffle';
-      off.textContent = '» CABINET OFFLINE — the game catalog could not be loaded. Check your connection and reload.';
+      off.textContent = '» CABINET OFFLINE, the game catalog could not be loaded. Check your connection and reload.';
       stage.appendChild(off);
       $('cn-deal').disabled = true;
     });

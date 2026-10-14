@@ -1,4 +1,4 @@
-/* Tournament Night — the page (tournament-night.html).
+/* Tournament Night, the page (tournament-night.html).
  *
  * One night, one bracket, games as entrants. The page owns only
  * rendering and clicks: sources come from the live catalog
@@ -29,7 +29,7 @@
     collections.forEach(function (c) {
       var o = document.createElement('option');
       o.value = c.id;
-      o.textContent = c.title + ' — ' + c.game_ids.length + ' games';
+      o.textContent = c.title + ', ' + c.game_ids.length + ' games';
       colSel.appendChild(o);
     });
     var linSel = $('tn-lineup');
@@ -38,7 +38,7 @@
     recs.forEach(function (r) {
       var o = document.createElement('option');
       o.value = r.id;
-      o.textContent = r.name + ' — ' + r.slots.length + ' games';
+      o.textContent = r.name + ', ' + r.slots.length + ' games';
       linSel.appendChild(o);
     });
     var none = $('tn-lineup-none');
@@ -121,7 +121,7 @@
 
     var prog = TN.progress(night);
     $('tn-progress').textContent = prog.complete
-      ? 'The night is decided — all ' + prog.total + ' matches in.'
+      ? 'The night is decided, all ' + prog.total + ' matches in.'
       : prog.decided + ' of ' + prog.total + ' matches decided. Click a game to pick its match.';
 
     var bracketEl = $('tn-bracket');
@@ -192,7 +192,7 @@
     var built, source;
     if (type === 'lineup') {
       var rec = lineupRecords().filter(function (r) { return r.id === $('tn-lineup').value; })[0];
-      if (!rec) { err.textContent = 'Pick a saved lineup first — or deal one on the Game Night page.'; return; }
+      if (!rec) { err.textContent = 'Pick a saved lineup first, or deal one on the Game Night page.'; return; }
       built = TN.entrantsFromLineup(rec, gamesById);
       source = { type: 'lineup', id: rec.id, name: rec.name };
     } else {

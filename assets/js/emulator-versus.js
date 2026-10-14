@@ -1,4 +1,4 @@
-/* Button Mash — Emulator Side-by-Side UI (wave 34).
+/* Button Mash: Emulator Side-by-Side UI (wave 34).
  *
  * Thin DOM shell over assets/js/emulator-versus-core.js
  * (BM.EmulatorVersus): all comparison logic, verdict wording,
@@ -58,9 +58,9 @@
     card.appendChild(link);
     card.appendChild(el('p', 'vs-desc', p.notes));
     var rows = [
-      ['Systems', p.systems.join(', ') + (p.systemCount === null ? ' (described in words — not a countable list)' : '')],
+      ['Systems', p.systems.join(', ') + (p.systemCount === null ? ' (described in words, not a countable list)' : '')],
       ['Platforms', p.platforms.join(', ')],
-      ['License', p.license || '—'],
+      ['License', p.license || '-'],
       ['BIOS', p.biosRequired ? 'Needs a BIOS you dump from your own hardware' : 'None needed'],
     ];
     if (p.biosNote) rows.push(['BIOS note', p.biosNote]);
@@ -90,12 +90,12 @@
     try {
       var qs = (aId || bId) ? '?' + E.encodePair(aId || '', bId || '', state.lastSeed) : '';
       history.replaceState(null, '', 'emulation.html' + qs);
-    } catch (e) { /* file:// in some browsers — the page still works */ }
+    } catch (e) { /* file:// in some browsers, the page still works */ }
 
     if (!aId || !bId) {
       stage.appendChild(el('p', 'vs-empty', !aId && !bId
         ? 'No pairing yet. Pick two emulators above and the cabinet puts their records side by side.'
-        : 'One side is still empty — pick the second emulator and the side-by-side lights up.'));
+        : 'One side is still empty, pick the second emulator and the side-by-side lights up.'));
       $('ev-live').textContent = 'Emulator side-by-side is waiting for two emulators.';
       return;
     }
@@ -116,14 +116,14 @@
     if (cmp.thin) {
       strip.appendChild(el('p', 'vs-strip-head', 'No basis to compare'));
       strip.appendChild(el('p', 'vs-strip-line',
-        'The two records agree on every countable row — same listed counts, same BIOS story, same license — so the strip reports nothing. ' +
+        'The two records agree on every countable row, same listed counts, same BIOS story, same license, so the strip reports nothing. ' +
         'What separates these two is in the rows above, in the records\u2019 own words. The strip does not invent a winner from that.'));
     } else {
       strip.appendChild(el('p', 'vs-strip-head', 'What the records support'));
       cmp.verdicts.forEach(function (v) {
         strip.appendChild(el('p', 'vs-strip-line', '• ' + v.text));
       });
-      strip.appendChild(el('p', 'vs-strip-note', 'Counts and license/BIOS facts only — no scores, no rankings, and no winner. Which one you install is still your call.'));
+      strip.appendChild(el('p', 'vs-strip-note', 'Counts and license/BIOS facts only, no scores, no rankings, and no winner. Which one you install is still your call.'));
     }
     verdictBox.appendChild(strip);
 
@@ -175,16 +175,16 @@
       $('ev-starter').hidden = false;
     }
     render();
-    /* The dropped-id notice posts AFTER render() — render clears
+    /* The dropped-id notice posts AFTER render(), render clears
        the alert line on every pairing change. */
     if (pair.dropped.length) {
       $('ev-error').textContent = 'Dropped from the link: ' + pair.dropped.join(', ') +
-        ' — not an emulator id this cabinet can vouch for. The rest of the pairing stands.';
+        ', not an emulator id this cabinet can vouch for. The rest of the pairing stands.';
     }
   }
 
   function init() {
-    if (!E) { $('ev-error').textContent = 'The side-by-side engine did not load — reload the page.'; return; }
+    if (!E) { $('ev-error').textContent = 'The side-by-side engine did not load, reload the page.'; return; }
     $('ev-a').addEventListener('change', function () { state.lastSeed = null; render(); });
     $('ev-b').addEventListener('change', function () { state.lastSeed = null; render(); });
     $('ev-swap').addEventListener('click', function () {
@@ -196,7 +196,7 @@
     $('ev-deal').addEventListener('click', function () {
       var dealt = E.seededPair($('ev-seed').value, state.emulators);
       if (!dealt) {
-        $('ev-error').textContent = 'Type a seed first — any word or phrase. The same seed always deals the same pairing.';
+        $('ev-error').textContent = 'Type a seed first, any word or phrase. The same seed always deals the same pairing.';
         return;
       }
       state.lastSeed = dealt.seed;
@@ -204,7 +204,7 @@
       $('ev-b').value = dealt.bId;
       $('ev-starter').hidden = true;
       render();
-      $('ev-seed-note').textContent = 'Dealt by seed "' + dealt.seed + '" — re-deal it any time; the same seed against the same catalog lands on this exact pairing.';
+      $('ev-seed-note').textContent = 'Dealt by seed "' + dealt.seed + '", re-deal it any time; the same seed against the same catalog lands on this exact pairing.';
     });
     $('ev-copy').addEventListener('click', function () {
       copyText($('ev-card-text').textContent, $('ev-copy'), '✓ Card copied');

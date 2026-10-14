@@ -1,8 +1,8 @@
-/* Wow wave 1 — player tail checks, minimal CDP footprint for loaded machines.
+/* Wow wave 1, player tail checks, minimal CDP footprint for loaded machines.
    Covers what test_wow1.js player validated before the wedge lottery:
    eject immediate path, power-off keyframe mapping, fx-off kill,
    reduced-motion static CRT. Run: NODE_PATH=~/workspace/smoke/node_modules
-   node scripts/test_wow1_playertail.js — exit 0 = pass, zero pageerrors. */
+   node scripts/test_wow1_playertail.js, exit 0 = pass, zero pageerrors. */
 "use strict";
 const puppeteer = require("puppeteer-core");
 const BASE = "file:///home/hatch/workspace/button-mash";

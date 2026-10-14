@@ -3,7 +3,7 @@
 
    (1) The metadata fixes are facts, checked against the shipped catalog:
        release years, character names, who named what, which site belongs
-       to which game — each one verified against a source outside the
+       to which game, each one verified against a source outside the
        repo during the wave (see WAVELOG wave 24 for the source list).
    (2) Genre shelves match the games' own descriptions: a precision
        platformer, an FPS demake, and a party brawler are not roguelikes.
@@ -23,8 +23,8 @@ const path = require("path");
 const ROOT = "/home/hatch/workspace/button-mash";
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 
 const CN = require(path.join(ROOT, "assets/js/curator-night.js"));
@@ -45,7 +45,7 @@ const g = (id) => byId[id];
     g("robotron").description.includes("1982") && g("robotron").description.includes("popularized") &&
     !g("robotron").description.includes("1984") && !g("robotron").description.includes("invented"),
     g("robotron").description);
-  check("fact: Alone in the Dark (1992) stars Carnby or Emily Hartwood — Aline is the 2001 sequel",
+  check("fact: Alone in the Dark (1992) stars Carnby or Emily Hartwood: Aline is the 2001 sequel",
     g("alone-dark").description.includes("Emily Hartwood") && !/\bAline\b/.test(g("alone-dark").description),
     g("alone-dark").description);
   check("fact: the roguelike genre is named after Rogue (1980), not NetHack (1987)",

@@ -16,12 +16,12 @@ const ROOT = "/home/hatch/workspace/button-mash";
 const BASE = "file://" + ROOT;
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-/* puppeteer-core 24 dropped page.$x — click the first visible button
+/* puppeteer-core 24 dropped page.$x, click the first visible button
    whose label contains `text`, optionally scoped to a container. */
 async function clickText(page, text, scopeSel) {
   return page.evaluate((t, scope) => {
@@ -142,7 +142,7 @@ function fakeBackend() {
     JSON.stringify(rm.result.inputs_echo));
   /* The role curve is the structure: edges, intermission, peak position.
      The main-event count follows the timebox (fresh picks run longer or
-     shorter), so count may differ by one — the total never overruns. */
+     shorter), so count may differ by one, the total never overruns. */
   const curve = (slots) => slots.map((s) => s.role).filter((r) => r !== "main");
   check("rematch: same role curve (edges + intermission + peak), timebox intact",
     JSON.stringify(curve(rm.result.lineup)) === JSON.stringify(curve(rec.slots)) &&
@@ -173,7 +173,7 @@ function fakeBackend() {
   check("card: invalid record yields empty string, not a half-card",
     BL.lineupAsText({ name: "ghost" }) === "", "refused");
   check("suggestName: weekday + headcount + vibes",
-    /— 4 players · party \+ chaotic/.test(BL.suggestName(inputs, Date.UTC(2026, 9, 16, 12))),
+    /, 4 players · party \+ chaotic/.test(BL.suggestName(inputs, Date.UTC(2026, 9, 16, 12))),
     BL.suggestName(inputs, Date.UTC(2026, 9, 16, 12)));
 }
 

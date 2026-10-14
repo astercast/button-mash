@@ -16,7 +16,7 @@ const gamesData = JSON.parse(fs.readFileSync(path.join(ROOT, "data/games.json"),
 /* Expected callout stats derive from the real catalog files, the
    same numbers attract.js renders (wave 33 fix: this suite's
    hardcoded "22 CURATED SHELVES" went stale when the catalog
-   grew to 24 collections — the check then passed or failed on
+   grew to 24 collections, the check then passed or failed on
    which callout the rotation happened to be showing). */
 const colsData33 = JSON.parse(fs.readFileSync(path.join(ROOT, "data/collections.json"), "utf8")).collections;
 const kidCount33 = JSON.parse(fs.readFileSync(path.join(ROOT, "data/kids.json"), "utf8")).curated.length;
@@ -59,7 +59,7 @@ const errors = [];
       /* Transient under load: the renderer occasionally fails a file://
          subresource fetch; the functional checks catch real breakage. */
       if (/^Failed to load resource: net::ERR_FAILED$/.test(t.trim())) return;
-      /* Deterministic over file://: the Curator live probe (/api/*) 404s —
+      /* Deterministic over file://: the Curator live probe (/api/*) 404s,
          the designed fallback contract, not an app error. Same filter as
          test_wave19/test_wave17 (wave-22; this suite predates the probes). */
       if (t.indexOf("Failed to load resource: net::ERR_FILE_NOT_FOUND") === 0) return;
@@ -345,7 +345,7 @@ const errors = [];
   check("screen-power-on maps to crt-power-on keyframes", powerAnim === "crt-power-on", powerAnim);
   /* eject path: no engine boot is possible headless (CDN blocked), so curCore
      is null and powerOffThen takes its honest immediate path through the real
-     handler — assert it still returns the veil with zero errors. */
+     handler, assert it still returns the veil with zero errors. */
   await retryNav(pl, "player-eject", async () => {
     await pl.click("#eject-btn");
     await sleep(300);

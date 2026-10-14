@@ -1,7 +1,7 @@
-/* GET /api/collections — hand-built game collections (spec §7.7).
-   Query: ?id= (optional) — single collection, else all 22.
+/* GET /api/collections, hand-built game collections (spec §7.7).
+   Query: ?id= (optional), single collection, else all 22.
    Reads the repo's data/v1/collections.json, resolving each game_id to its
-   real catalog entry (title/url/genre from games.json — never invented).
+   real catalog entry (title/url/genre from games.json, never invented).
    Fallback: /data/v1/collections.json (static).
    Rate limit: public bucket (60/min per IP). */
 "use strict";
@@ -46,7 +46,7 @@ module.exports = (req, res) => {
     console.log("[ratelimit] ip=" + ipHash(lim.ip) + " bucket=public path=/api/collections");
     res.setHeader("Retry-After", String(lim.retryAfter));
     return err(res, SERVICE, VERSION, 429, "RATE_LIMITED",
-      "Too many requests — slow down and try again in " + lim.retryAfter + "s.", null);
+      "Too many requests, slow down and try again in " + lim.retryAfter + "s.", null);
   }
 
   const url = new URL(req.url, "http://localhost");

@@ -1,7 +1,7 @@
 /* Wave 33 flagship checks: Versus.
 
    (1) unit checks against the UMD core (assets/js/versus-core.js)
-   with the real catalog — profiles copy/count only real record
+   with the real catalog, profiles copy/count only real record
    fields, the year rule matches the Curator census (45 games name
    a verified year; 2048's name number is not one), verdicts fire
    only where the records support them, the thin state fires on
@@ -13,7 +13,7 @@
    (3) mobile 390px: zero overflow. Zero pageerrors throughout.
 
    Honesty contract under test: no score, ranking, or winner is
-   ever produced — the strip's lines are counts, dates, and audit
+   ever produced, the strip's lines are counts, dates, and audit
    facts copied or counted from the catalog records themselves.
 
    Run: NODE_PATH=~/workspace/smoke/node_modules node scripts/test_versus33.js
@@ -27,8 +27,8 @@ const ROOT = "/home/hatch/workspace/button-mash";
 const BASE = "file://" + ROOT;
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -51,7 +51,7 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
     fs.existsSync(path.join(ROOT, "genres/puzzle.html")) && fs.existsSync(path.join(ROOT, "genres/retro.html")) &&
     fs.existsSync(path.join(ROOT, "genres/action.html")) && fs.existsSync(path.join(ROOT, "genres/multiplayer.html")) &&
     fs.existsSync(path.join(ROOT, "genres/idle.html")) && fs.existsSync(path.join(ROOT, "genres/horror.html")),
-    "roguelike + cozy + puzzle (wave 36) + retro (wave 37) + action (wave 38) + multiplayer (wave 39) + idle (wave 40) + horror (wave 41) dives exist on disk — all eight genres; no other genre is claimed");
+    "roguelike + cozy + puzzle (wave 36) + retro (wave 37) + action (wave 38) + multiplayer (wave 39) + idle (wave 40) + horror (wave 41) dives exist on disk, all eight genres; no other genre is claimed");
 
   check("year rule: 2048's name number is not a year (the census exclusion)",
     V.yearNamed(byId["2048"].description, "2048") === null &&
@@ -66,7 +66,7 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
 
   const zork = V.profile(byId["zork1"], CTX);
   const g2048 = V.profile(byId["2048"], CTX);
-  check("profile: fields are the catalog's own — host, genre, controls, description verbatim",
+  check("profile: fields are the catalog's own, host, genre, controls, description verbatim",
     zork.host === "archive.org" && zork.genre === byId["zork1"].genre &&
     zork.controls === byId["zork1"].controls && zork.description === byId["zork1"].description &&
     zork.url === byId["zork1"].url,
@@ -78,10 +78,10 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
       return p.collectionCount === p.collections.length &&
         p.collections.every((c) => (colsDoc.collections.find((x) => x.id === c.id) || { game_ids: [] }).game_ids.includes(g.id));
     }) && g2048.collectionCount === 3 && zork.collectionCount === 0,
-    "2048 sits on 3 shelves; Zork I on none — the orphan fact renders as a fact");
+    "2048 sits on 3 shelves; Zork I on none, the orphan fact renders as a fact");
 
   const cmp = V.compare(byId["zork1"], byId["2048"], CTX);
-  check("verdicts: only record-backed lines — footprint fires; coverage tied since wave 37 (Zork has the retro dive, 2048 the puzzle dive, both Kids-listed at 2 each), era stays silent (one year missing)",
+  check("verdicts: only record-backed lines, footprint fires; coverage tied since wave 37 (Zork has the retro dive, 2048 the puzzle dive, both Kids-listed at 2 each), era stays silent (one year missing)",
     cmp.ok && !cmp.thin && cmp.verdicts.length === 1 &&
     cmp.verdicts[0].kind === "footprint" &&
     zork.coverageCount === 2 && g2048.coverageCount === 2 &&
@@ -104,12 +104,12 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
   const bare = games
     .filter((g) => { const p = V.profile(g, CTX); return p.year === null && p.collectionCount === 0 && !p.tags.length && !p.kidSafe && p.coverageCount === 0; });
   const thinCmp = V.compare(byId["lookouts"], byId["dating-killmulator-2"], CTX);
-  check("thin state: no record is bare since wave 41 (the horror dive closed the bare tail), and the former bare pair still gets no verdict — coverage now ties 1-1",
+  check("thin state: no record is bare since wave 41 (the horror dive closed the bare tail), and the former bare pair still gets no verdict, coverage now ties 1-1",
     bare.length === 0 && thinCmp.ok && thinCmp.thin === true && thinCmp.verdicts.length === 0 &&
     V.profile(byId["lookouts"], CTX).coverageCount === 1 &&
     V.profile(byId["dating-killmulator-2"], CTX).coverageCount === 1 &&
     V.shareCard(thinCmp, "").includes("No basis to compare"),
-    "the strip refuses rather than dressing up genre and controls — before wave 41 because both records were bare, now because nothing separates them");
+    "the strip refuses rather than dressing up genre and controls, before wave 41 because both records were bare, now because nothing separates them");
 
   check("pairing: encode/parse round-trips; unknown and repeated ids drop, never guess",
     V.encodePair("zork1", "2048") === "a=zork1&b=2048" &&
@@ -120,11 +120,11 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
 
   const card = V.shareCard(cmp, "versus.html?a=zork1&b=2048");
   check("share card: rows + verdict lines + real play URLs only, no score or winner language",
-    card.includes("VERSUS — Zork I vs 2048") && card.includes(byId["zork1"].url) && card.includes(byId["2048"].url) &&
+    card.includes("VERSUS: Zork I vs 2048") && card.includes(byId["zork1"].url) && card.includes(byId["2048"].url) &&
     card.includes(cmp.verdicts[0].text) && !/score|rating|winner/i.test(card),
     "the card is the comparison, in plain text");
 
-  check("coverage: a cozy game with a Kids pass carries both coverage entries; since wave 38 every action game carries the action dive, since wave 39 every multiplayer game carries the multiplayer dive, since wave 40 every idle game carries the idle dive, and since wave 41 every horror game carries the horror dive — no genre is dive-less anymore",
+  check("coverage: a cozy game with a Kids pass carries both coverage entries; since wave 38 every action game carries the action dive, since wave 39 every multiplayer game carries the multiplayer dive, since wave 40 every idle game carries the idle dive, and since wave 41 every horror game carries the horror dive, no genre is dive-less anymore",
     (() => { const cozyKid = games.find((g) => { const p = V.profile(g, CTX); return p.genre === "cozy" && p.kidSafe; }); return cozyKid && V.profile(cozyKid, CTX).coverageCount === 2; })() &&
     V.profile(byId["krunker"], CTX).coverageCount === 1 &&
     V.profile(byId["krunker"], CTX).coverage.some((c) => c.label === "Genre deep dive: action" && c.href === "genres/action.html") &&
@@ -134,7 +134,7 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
     V.profile(byId["cookie-clicker"], CTX).coverage.some((c) => c.label === "Genre deep dive: idle" && c.href === "genres/idle.html") &&
     V.profile(byId["lookouts"], CTX).coverageCount === 1 &&
     V.profile(byId["lookouts"], CTX).coverage.some((c) => c.label === "Genre deep dive: horror" && c.href === "genres/horror.html"),
-    "coverage counts pages that exist, per game — krunker (action, no Kids pass) carries exactly its dive; kaaarot (multiplayer) carries the multiplayer dive since wave 39; cookie-clicker (idle, Kids-listed) carries its Kids listing plus the idle dive since wave 40 at 2; lookouts (horror) carried none until wave 41 and now carries the horror dive at 1");
+    "coverage counts pages that exist, per game, krunker (action, no Kids pass) carries exactly its dive; kaaarot (multiplayer) carries the multiplayer dive since wave 39; cookie-clicker (idle, Kids-listed) carries its Kids listing plus the idle dive since wave 40 at 2; lookouts (horror) carried none until wave 41 and now carries the horror dive at 1");
 }
 
 /* ---------------- (2)+(3) headless ---------------- */
@@ -161,7 +161,7 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
     strip.slice(0, 140) + "…");
   const cardText = await page.$eval("#vs-card-text", (n) => n.textContent);
   check("headless: share card is populated with the pairing link",
-    cardText.includes("VERSUS — Zork I vs 2048") && cardText.includes("versus.html?a=zork1&b=2048"),
+    cardText.includes("VERSUS: Zork I vs 2048") && cardText.includes("versus.html?a=zork1&b=2048"),
     "card + link, ready to copy");
 
   await page.goto(BASE + "/versus.html?a=lookouts&b=dating-killmulator-2", { waitUntil: "networkidle0", timeout: 60000 });
@@ -174,7 +174,7 @@ const CTX = { collections: colsDoc.collections || [], kidIds: kidIds };
 
   await page.goto(BASE + "/versus.html?a=wordle&b=no-such-game", { waitUntil: "networkidle0", timeout: 60000 });
   /* Wait for the boot to actually land the note (a fixed sleep raced
-     the catalog fetch under load and flaked once — wait on the
+     the catalog fetch under load and flaked once, wait on the
      condition, not the clock). */
   await page.waitForFunction(
     () => document.querySelector("#vs-error") && document.querySelector("#vs-error").textContent.includes("no-such-game"),

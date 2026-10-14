@@ -1,8 +1,8 @@
-/* Wave 29 checks: Curator pass 5 — the DOS / shareware and
+/* Wave 29 checks: Curator pass 5, the DOS / shareware and
    early-PC shelf.
 
    The tranche wave 28 named next: the DOS-linked entries' year and
-   maker claims — Zork, SimCity, Prince of Persia, Monkey Island,
+   maker claims: Zork, SimCity, Prince of Persia, Monkey Island,
    Lemmings, Theme Park, the four shareware episodes, and the
    similar claims on the same shelf (the two Oregon Trails,
    Civilization, SimCity 2000, Railroad Tycoon, the two Keens).
@@ -10,7 +10,7 @@
    sources outside the repo (Wikipedia, MobyGames, the Apogee FAQ,
    Mechner's own site, the linked archive.org items). Sixteen stand
    as written and are pinned verbatim below. One fix, an edition
-   error of the exact family wave 27's Transport Tycoon named — the
+   error of the exact family wave 27's Transport Tycoon named, the
    entry must date the edition it actually links to:
 
    - Prince of Persia called itself "Jordan Mechner's 1990
@@ -46,8 +46,8 @@ const path = require("path");
 const ROOT = "/home/hatch/workspace/button-mash";
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 
 const gamesDoc = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/games.json"), "utf8"));
@@ -93,21 +93,21 @@ const TRANCHE = [
 
 /* ------- Curator pass 5: verified as written, pinned verbatim ------- */
 const VERIFIED = {
-  "zork1": "West of house. It is pitch black. The 1980 text adventure that defined a genre — no graphics, all imagination, right in your browser.",
-  "simcity-1989": "Zone land, lay roads, and keep the Sims happy in the city-builder that started it all — Will Wright's 1989 original, playable in the Archive's DOSBox.",
+  "zork1": "West of house. It is pitch black. The 1980 text adventure that defined a genre, no graphics, all imagination, right in your browser.",
+  "simcity-1989": "Zone land, lay roads, and keep the Sims happy in the city-builder that started it all: Will Wright's 1989 original, playable in the Archive's DOSBox.",
   "monkey-island": "Guybrush Threepwood wants to be a pirate. Insult-sword-fight your way through Lucasfilm Games' 1990 point-and-click classic.",
   "lemmings-1991": "Guide the green-haired marchers home: assign blockers, bashers, and builders before they stroll off the cliff. DMA Design's 1991 puzzler.",
   "theme-park": "Bullfrog's 1994 theme-park tycoon: set ride prices, salt the fries, and keep the queues moving.",
   "wolfenstein-3d": "The 1992 shareware episode in the Archive: id Software's maze-blaster that started it all. Achtung!",
   "doom-1993": "The 1993 shareware episode in the Internet Archive's DOSBox: the game that made the FPS a phenomenon, exactly as it was.",
   "quake-shareware": "id Software's 1996 true-3D shooter: the shareware episode with the nailgun, free and legal in your browser.",
-  "duke3d-shareware": "Hail to the king, baby: the shareware episode of 3D Realms' 1996 FPS — Hollywood Holocaust, free and legal, in the browser.",
+  "duke3d-shareware": "Hail to the king, baby: the shareware episode of 3D Realms' 1996 FPS: Hollywood Holocaust, free and legal, in the browser.",
   "oregon-trail": "The 1990 DOS classic in the Archive: ford rivers, hunt buffalo, and try not to die of dysentery on the trail west.",
   "oregon-trail-deluxe": "The 1992 deluxe edition of the classroom classic: hunt, ford rivers, and mind the dysentery on the trail west.",
   "civ1": "4000 BC to the space race: found cities, research pottery, and outlast history itself in the 1991 original 4X.",
-  "simcity-2000": "The 1993 sequel with arcologies, newspapers, and underground plumbing — the definitive 90s city builder, in DOSBox.",
+  "simcity-2000": "The 1993 sequel with arcologies, newspapers, and underground plumbing, the definitive 90s city builder, in DOSBox.",
   "railroad-tycoon": "Sid Meier's 1990 railroad empire: lay track, haul freight, and bankrupt the robber barons.",
-  "commander-keen3": "Billy Blaze's 1990 pogo-stick platforming finale to the Invasion of the Vorticons trilogy — id's shareware-era charmer.",
+  "commander-keen3": "Billy Blaze's 1990 pogo-stick platforming finale to the Invasion of the Vorticons trilogy, id's shareware-era charmer.",
   "keen-dreams": "The lost Keen episode: battle vegetable tyrants with flower-power pellets in id's 1991 fever dream.",
 };
 Object.keys(VERIFIED).forEach((id) => {
@@ -139,14 +139,14 @@ Object.keys(VERIFIED).forEach((id) => {
   check("verified detail: the Oregon Trail years belong to the DOS editions named",
     byId["oregon-trail"].description.startsWith("The 1990 DOS classic") &&
     byId["oregon-trail-deluxe"].description.startsWith("The 1992 deluxe edition"),
-    "MECC's DOS remake of the 1985 Apple II game is 1990; the Deluxe DOS edition is 1992 — both entries name their edition");
+    "MECC's DOS remake of the 1985 Apple II game is 1990; the Deluxe DOS edition is 1992, both entries name their edition");
 }
 
 /* ---------------- taxonomy: still pinned, census unchanged ---------------- */
 {
   const horror = gamesDoc.games.filter((g) => g.genre === "horror");
   const cozy = gamesDoc.games.filter((g) => g.genre === "cozy");
-  check("taxonomy: the brief's call is still UNDECIDED — nothing reshelved",
+  check("taxonomy: the brief's call is still UNDECIDED, nothing reshelved",
     byId["purrgatory"].genre === "horror" && byId["lookouts"].genre === "horror" &&
     byId["spooky-town"].genre === "horror",
     "all three stay in horror until a human rules on TAXONOMY_BRIEF.md");

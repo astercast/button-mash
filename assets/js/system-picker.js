@@ -9,8 +9,8 @@
     gba:     { name: 'Game Boy Advance', core: 'gba',    guide: 'guides/gba.html',       blurb: 'The mGBA accuracy king with zero BIOS and full speed on any device. The easiest first emulation project on this site.' },
     snes:    { name: 'Super Nintendo',  core: 'snes',   guide: 'guides/snes.html',      blurb: 'Snes9x, zero BIOS, the 16-bit sweet spot. The library that invented half of modern game design.' },
     genesis: { name: 'Genesis / Mega Drive', core: 'segaMD', guide: 'guides/genesis.html', blurb: 'Genesis Plus GX, zero BIOS, the lightest console core here. Fast, punchy 16-bit action.' },
-    n64:     { name: 'Nintendo 64',     core: 'n64',    guide: 'guides/n64.html',       blurb: 'Mupen64Plus-Next — magical when it works, but this is the quirkiest system on the page and it needs real hardware power.', warn: 'N64 emulation has per-game graphical quirks and needs a recent machine. Keep expectations flexible.' },
-    psx:     { name: 'PlayStation',     core: 'psx',    guide: 'guides/ps1.html',       blurb: 'PCSX-ReARMed — lighter than its reputation, with the disc era\'s best RPGs and platformers.', warn: 'Boots via HLE with no BIOS, but a user-dumped BIOS gives the best accuracy. Never download one.' }
+    n64:     { name: 'Nintendo 64',     core: 'n64',    guide: 'guides/n64.html',       blurb: 'Mupen64Plus-Next, magical when it works, but this is the quirkiest system on the page and it needs real hardware power.', warn: 'N64 emulation has per-game graphical quirks and needs a recent machine. Keep expectations flexible.' },
+    psx:     { name: 'PlayStation',     core: 'psx',    guide: 'guides/ps1.html',       blurb: 'PCSX-ReARMed, lighter than its reputation, with the disc era\'s best RPGs and platformers.', warn: 'Boots via HLE with no BIOS, but a user-dumped BIOS gives the best accuracy. Never download one.' }
   };
 
   /* answer value -> per-system score deltas */
@@ -84,7 +84,7 @@
       if (!r) {
         result.hidden = false;
         document.getElementById('pq-title').textContent = 'Answer all four questions first';
-        document.getElementById('pq-why').textContent = 'Every question feeds the recommendation — fill in the missing one and try again.';
+        document.getElementById('pq-why').textContent = 'Every question feeds the recommendation, fill in the missing one and try again.';
         document.getElementById('pq-warn').hidden = true;
         document.getElementById('pq-runner').textContent = '';
         document.getElementById('pq-guide').href = '#';
@@ -100,8 +100,8 @@
       document.getElementById('pq-guide').href = s.guide;
       document.getElementById('pq-player').href = 'player.html?core=' + s.core;
       var runnerTxt = '';
-      if (r.runner) runnerTxt = 'Runner-up: ' + SYSTEMS[r.runner].name + ' — also worth your time.';
-      if (r.weak) runnerTxt += (runnerTxt ? ' ' : '') + 'N64 and PlayStation were excluded because your device can\'t run them well — that\'s the honest answer.';
+      if (r.runner) runnerTxt = 'Runner-up: ' + SYSTEMS[r.runner].name + ', also worth your time.';
+      if (r.weak) runnerTxt += (runnerTxt ? ' ' : '') + 'N64 and PlayStation were excluded because your device can\'t run them well, that\'s the honest answer.';
       document.getElementById('pq-runner').textContent = runnerTxt;
       result.hidden = false;
       resetBtn.hidden = false;

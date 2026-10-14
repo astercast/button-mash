@@ -1,4 +1,4 @@
-/* Button Mash double-elimination bracket logic — pure functions, no DOM.
+/* Button Mash double-elimination bracket logic, pure functions, no DOM.
    UMD: browser (window.BracketDouble; needs window.Bracket loaded first)
    and node (module.exports) so scripts/test_bracket_double.js can verify
    losers-bracket construction, the grand final, bracket reset, reseeding,
@@ -18,7 +18,7 @@
                       trailing lone entrant gets an honest BYE.
      Round count = 2k-2 for k winners rounds (k >= 2). With 2 players
      (k = 1) there are zero losers rounds and the losers' "champion" is
-     simply the loser of the winners final — a straight rematch.
+     simply the loser of the winners final, a straight rematch.
    - Grand final: winners champion vs losers champion. Winners champ wins
      -> champion. Losers champ wins -> bracket reset: one more final,
      winner takes the tournament.
@@ -323,7 +323,7 @@
   }
 
   function scoreText(mt) {
-    return ' ' + mt.aWins + '–' + mt.bWins;
+    return ' ' + mt.aWins + '-' + mt.bWins;
   }
 
   /* ---------- winners-bracket mutations (delegated, then synced) ---------- */
@@ -337,7 +337,7 @@
     var mt = rs[r].matches[m];
     logHistory(state, 'Winners · ' + rs[r].name + ' M' + (m + 1) + ': ' +
       mt.a.name + scoreText(mt) + ' ' + mt.b.name +
-      (res.winner ? ' — ' + res.winner.name + ' advances' : ''));
+      (res.winner ? ', ' + res.winner.name + ' advances' : ''));
     return res;
   }
 
@@ -357,7 +357,7 @@
     if (!res.ok) { return res; }
     syncLosers(state);
     logHistory(state, 'Winners · ' + B.roundName(r, state.totalWinnersRounds) + ' M' + (m + 1) +
-      ' cleared' + (was ? ' (was: ' + was + ' advancing)' : '') + ' — dependent losers results wiped.');
+      ' cleared' + (was ? ' (was: ' + was + ' advancing)' : '') + ', dependent losers results wiped.');
     return res;
   }
 
@@ -369,8 +369,8 @@
     if (!round) { return { ok: false, error: 'No such losers round.' }; }
     var mt = round.matches[m];
     if (!mt) { return { ok: false, error: 'No such match.' }; }
-    if (!mt.a || !mt.b) { return { ok: false, error: 'Match is not set yet — finish the earlier round first.' }; }
-    if (mt.byeAdvance) { return { ok: false, error: 'That match is a bye — the player advances automatically.' }; }
+    if (!mt.a || !mt.b) { return { ok: false, error: 'Match is not set yet, finish the earlier round first.' }; }
+    if (mt.byeAdvance) { return { ok: false, error: 'That match is a bye, the player advances automatically.' }; }
     if (mt.decided) { return { ok: false, error: 'That match already has a winner. Clear it first to change the result.' }; }
     if (side !== 'a' && side !== 'b') { return { ok: false, error: 'Side must be "a" or "b".' }; }
     var kk = key(j, m);
@@ -387,7 +387,7 @@
     syncLosers(state);
     logHistory(state, 'Losers · ' + round.name + ' M' + (m + 1) + ': ' +
       mt.a.name + scoreText({ aWins: res.aWins, bWins: res.bWins }) + ' ' + mt.b.name +
-      (winner ? ' — ' + winner.name + ' advances' : ''));
+      (winner ? ', ' + winner.name + ' advances' : ''));
     return { ok: true, winner: winner };
   }
 
@@ -395,7 +395,7 @@
     var kk = key(j, m);
     var res = state.results.losers[kk];
     if (!res || res.winner != null) {
-      return { ok: false, error: 'Nothing to correct — use "clear winner" on a decided match.' };
+      return { ok: false, error: 'Nothing to correct, use "clear winner" on a decided match.' };
     }
     if (side !== 'a' && side !== 'b') { return { ok: false, error: 'Side must be "a" or "b".' }; }
     res[side + 'Wins'] = Math.max(0, res[side + 'Wins'] - 1);
@@ -413,7 +413,7 @@
     delete state.results.losers[kk];
     syncLosers(state);
     logHistory(state, 'Losers · ' + (lrs[j] ? lrs[j].name : 'Round ' + (j + 1)) + ' M' + (m + 1) +
-      ' cleared' + (was ? ' (was: ' + was + ' advancing)' : '') + ' — later losers results wiped.');
+      ' cleared' + (was ? ' (was: ' + was + ' advancing)' : '') + ', later losers results wiped.');
     return { ok: true };
   }
 
@@ -422,12 +422,12 @@
   function recordGrandWin(state, which, side) {
     var info = grandFinalInfo(state);
     if (!info.ready) {
-      return { ok: false, error: 'The grand final is not set yet — finish both brackets first.' };
+      return { ok: false, error: 'The grand final is not set yet, finish both brackets first.' };
     }
     if (side !== 'a' && side !== 'b') { return { ok: false, error: 'Side must be "a" or "b".' }; }
     var isReset = which === 1;
     if (isReset && !info.needsReset && !(info.reset && info.reset.decided)) {
-      return { ok: false, error: 'No bracket reset — the winners-bracket champion took the final outright.' };
+      return { ok: false, error: 'No bracket reset, the winners-bracket champion took the final outright.' };
     }
     var prop = isReset ? 'grandFinalReset' : 'grandFinal';
     var cur = state[prop];
@@ -445,8 +445,8 @@
     if (winner) { res.winner = winner.seed; }
     state[prop] = res;
     var label = isReset ? 'Grand Final (bracket reset)' : 'Grand Final';
-    logHistory(state, label + ': ' + info.a.name + ' ' + res.aWins + '–' + res.bWins + ' ' + info.b.name +
-      (winner ? ' — ' + winner.name + ' wins' : ''));
+    logHistory(state, label + ': ' + info.a.name + ' ' + res.aWins + '-' + res.bWins + ' ' + info.b.name +
+      (winner ? ', ' + winner.name + ' wins' : ''));
     return { ok: true, winner: winner };
   }
 
@@ -464,7 +464,7 @@
   /* ---------- reseeding ---------- */
 
   /* newOrder: array of names (same set, new seed order). Results are wiped
-     — seeds changed, so every matchup is new. Picks/votes survive (keyed by
+    , seeds changed, so every matchup is new. Picks/votes survive (keyed by
      name); the wipe is logged in the history. */
   function reseedPlayers(state, newOrder) {
     var players = B.normalizeNames(newOrder || []);
@@ -479,7 +479,7 @@
     state.results = { winners: {}, losers: {} };
     state.grandFinal = null;
     state.grandFinalReset = null;
-    logHistory(state, 'Seeds reordered — all bracket results cleared.');
+    logHistory(state, 'Seeds reordered, all bracket results cleared.');
     return { ok: true };
   }
 
@@ -630,7 +630,7 @@
   }
 
   /* Rebuild a full, live state from a validated payload. Never trusts the
-     payload's derived fields (size/order/rounds) — recomputes them. */
+     payload's derived fields (size/order/rounds), recomputes them. */
   function decodeShare(str) {
     if (typeof str !== 'string' || !str.length || str.length > SHARE_MAX_LEN) {
       return { ok: false, error: 'That share link is empty or too long.' };

@@ -1,9 +1,9 @@
 {
-  "policy": "Kids mode lists only games that pass all four bars: no open chat with strangers, no unmoderated multiplayer chat or user-generated content, no gambling mechanics, no graphic or horror content. Assessments are honest snapshots — not guarantees. When an assessment could not be fully verified the entry is flagged verify_live ('play the first 10 minutes together'). When in doubt, the game was excluded, never softened.",
+  "policy": "Kids mode lists only games that pass all four bars: no open chat with strangers, no unmoderated multiplayer chat or user-generated content, no gambling mechanics, no graphic or horror content. Assessments are honest snapshots, not guarantees. When an assessment could not be fully verified the entry is flagged verify_live ('play the first 10 minutes together'). When in doubt, the game was excluded, never softened.",
   "age_bands": {
-    "5-7": "Young kids — one-button toys and sandboxes.",
-    "8-10": "Older kids — puzzles and gentle games with reading.",
-    "11-12": "Pre-teens — harder puzzles and slower strategy."
+    "5-7": "Young kids, one-button toys and sandboxes.",
+    "8-10": "Older kids, puzzles and gentle games with reading.",
+    "11-12": "Pre-teens, harder puzzles and slower strategy."
   },
   "curated": [
     {
@@ -11,7 +11,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "Just numbers and merging — no chat, no accounts, no ads on the site. A great warm-up brain game.",
+      "parent_note": "Just numbers and merging, no chat, no accounts, no ads on the site. A great warm-up brain game.",
       "verify_live": false,
       "audit_basis": "Single-player page; play2048.co has no accounts, chat, or user-generated content."
     },
@@ -20,7 +20,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "One word a day, no chat or accounts. Good for spelling — younger kids may need a grown-up for tricky words.",
+      "parent_note": "One word a day, no chat or accounts. Good for spelling, younger kids may need a grown-up for tricky words.",
       "verify_live": false,
       "audit_basis": "NYT daily word puzzle; single-player, no chat, no user content; vocabulary can challenge under-8s."
     },
@@ -29,7 +29,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "11-12",
-      "parent_note": "Word-grouping puzzle, no chat. The words are clean but the puzzles are genuinely hard — the watch is frustration, not content.",
+      "parent_note": "Word-grouping puzzle, no chat. The words are clean but the puzzles are genuinely hard, the watch is frustration, not content.",
       "verify_live": false,
       "audit_basis": "NYT daily puzzle; single-player, no chat, no user content."
     },
@@ -47,7 +47,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "11-12",
-      "parent_note": "A silly rules-based puzzle on neal.fun. No chat. Reading-heavy and genuinely hard — best for older kids.",
+      "parent_note": "A silly rules-based puzzle on neal.fun. No chat. Reading-heavy and genuinely hard, best for older kids.",
       "verify_live": false,
       "audit_basis": "Single-player; no accounts, chat, or user content."
     },
@@ -56,7 +56,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "Draw brand logos from memory. No chat. Watch: it is brand-heavy by design — fine as a drawing warm-up.",
+      "parent_note": "Draw brand logos from memory. No chat. Watch: it is brand-heavy by design, fine as a drawing warm-up.",
       "verify_live": false,
       "audit_basis": "Single-player drawing game; no chat, no accounts, no user content."
     },
@@ -83,7 +83,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "11-12",
-      "parent_note": "Guess the movie from stills. No chat. Some stills are from teen or adult films — the game itself is tame, but watch for movie picks you have not heard of.",
+      "parent_note": "Guess the movie from stills. No chat. Some stills are from teen or adult films, the game itself is tame, but watch for movie picks you have not heard of.",
       "verify_live": false,
       "audit_basis": "Single-player daily game; no chat, no user content; movie stills can come from any film."
     },
@@ -103,14 +103,14 @@
       "age_band": "8-10",
       "parent_note": "Typing helper game. No chat was found on the page. If it ever asks for anything odd, close it.",
       "verify_live": true,
-      "audit_basis": "Assessment from page inspection only — not played end-to-end; flagged verify_live."
+      "audit_basis": "Assessment from page inspection only, not played end-to-end; flagged verify_live."
     },
     {
       "id": "asteroid-launcher",
       "kid_safe": true,
       "no_chat": true,
       "age_band": "5-7",
-      "parent_note": "Launch asteroids at a city on neal.fun — a cartoon sandbox toy. No chat, no accounts.",
+      "parent_note": "Launch asteroids at a city on neal.fun, a cartoon sandbox toy. No chat, no accounts.",
       "verify_live": false,
       "audit_basis": "Single-player toy on neal.fun; no chat, accounts, or user content."
     },
@@ -137,7 +137,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "5-7",
-      "parent_note": "Click to split circles into koalas — a pure toy with no chat and no content at all.",
+      "parent_note": "Click to split circles into koalas, a pure toy with no chat and no content at all.",
       "verify_live": false,
       "audit_basis": "Single-player visual toy; no interaction surface of any kind."
     },
@@ -155,7 +155,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "5-7",
-      "parent_note": "Google draws with you: sketch, and it guesses what it is. No chat with people — but drawings are sent to Google's public dataset, so never draw names or personal info.",
+      "parent_note": "Google draws with you: sketch, and it guesses what it is. No chat with people, but drawings are sent to Google's public dataset, so never draw names or personal info.",
       "verify_live": false,
       "audit_basis": "Solo drawing game; no chat. Google's own page notes drawings may be used for research/dataset."
     },
@@ -164,7 +164,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "11-12",
-      "parent_note": "Floppy athlete ragdoll running. No chat. Comedy, not violence — but it is hard and funny-frustrating.",
+      "parent_note": "Floppy athlete ragdoll running. No chat. Comedy, not violence, but it is hard and funny-frustrating.",
       "verify_live": false,
       "audit_basis": "Single-player; no chat, no accounts, no user content."
     },
@@ -175,23 +175,23 @@
       "age_band": "11-12",
       "parent_note": "One-button parkour runner. No chat. Fast and intense, with a giant robot in the background chase.",
       "verify_live": true,
-      "audit_basis": "Single-player runner; assessment from game knowledge — not re-verified on the current page."
+      "audit_basis": "Single-player runner; assessment from game knowledge, not re-verified on the current page."
     },
     {
       "id": "line-rider",
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "Draw tracks, watch the sledder ride them. No chat. Pure creativity — every drawing on screen is yours.",
+      "parent_note": "Draw tracks, watch the sledder ride them. No chat. Pure creativity, every drawing on screen is yours.",
       "verify_live": true,
-      "audit_basis": "Single-player sandbox; assessment from game knowledge — not re-verified on the current page."
+      "audit_basis": "Single-player sandbox; assessment from game knowledge, not re-verified on the current page."
     },
     {
       "id": "slope",
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "Rolling-ball arcade run. No chat in the game. The host site (crazygames) shows heavy ads — use an ad blocker or watch the first session together.",
+      "parent_note": "Rolling-ball arcade run. No chat in the game. The host site (crazygames) shows heavy ads, use an ad blocker or watch the first session together.",
       "verify_live": false,
       "audit_basis": "Single-player game; no in-game chat. crazygames.com is ad-heavy by design."
     },
@@ -218,7 +218,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "A 3D maze explorer. No chat. Calm — no enemies, no timer pressure.",
+      "parent_note": "A 3D maze explorer. No chat. Calm, no enemies, no timer pressure.",
       "verify_live": false,
       "audit_basis": "Single-player maze; no chat, no accounts, no user content."
     },
@@ -236,7 +236,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "The official free browser classic — creative mode, no chat in the browser build, no accounts. Building blocks only.",
+      "parent_note": "The official free browser classic, creative mode, no chat in the browser build, no accounts. Building blocks only.",
       "verify_live": false,
       "audit_basis": "Official classic.minecraft.net build is single-player creative with no chat or accounts."
     },
@@ -254,7 +254,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "A tough-but-fair platformer about climbing a mountain. No chat. Kind story, no content issues — the difficulty is the watch.",
+      "parent_note": "A tough-but-fair platformer about climbing a mountain. No chat. Kind story, no content issues, the difficulty is the watch.",
       "verify_live": false,
       "audit_basis": "Single-player platformer (PICO-8 original); no chat, no accounts; wholesome theme."
     },
@@ -263,7 +263,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "Click and bake cookies, hire grandmas. No chat. Silly and harmless — the grandmas are the joke.",
+      "parent_note": "Click and bake cookies, hire grandmas. No chat. Silly and harmless, the grandmas are the joke.",
       "verify_live": false,
       "audit_basis": "Single-player idle game; no chat, accounts, or user content."
     },
@@ -272,7 +272,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "11-12",
-      "parent_note": "A text adventure that starts with a fire. No chat. Slow-burn story with mildly spooky themes — better for older kids.",
+      "parent_note": "A text adventure that starts with a fire. No chat. Slow-burn story with mildly spooky themes, better for older kids.",
       "verify_live": false,
       "audit_basis": "Single-player text game; no chat; themes are mild survival/spooky, text only."
     },
@@ -299,7 +299,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "11-12",
-      "parent_note": "Run a kitten village. No chat. Deep and slow — a project game, not a quick one.",
+      "parent_note": "Run a kitten village. No chat. Deep and slow, a project game, not a quick one.",
       "verify_live": false,
       "audit_basis": "Single-player idle; no chat, no user content."
     },
@@ -317,7 +317,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "11-12",
-      "parent_note": "Numbers-go-up incremental. No chat. Mathy — satisfying for the right kid.",
+      "parent_note": "Numbers-go-up incremental. No chat. Mathy, satisfying for the right kid.",
       "verify_live": false,
       "audit_basis": "Single-player incremental; no chat, no user content."
     },
@@ -335,9 +335,9 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "11-12",
-      "parent_note": "An idle RPG skill trainer. No chat in solo play. The free tier may prompt for an account — sign up together if it does.",
+      "parent_note": "An idle RPG skill trainer. No chat in solo play. The free tier may prompt for an account, sign up together if it does.",
       "verify_live": true,
-      "audit_basis": "Single-player idle RPG; assessment from game knowledge — free-tier account flow not re-verified."
+      "audit_basis": "Single-player idle RPG; assessment from game knowledge, free-tier account flow not re-verified."
     },
     {
       "id": "townscaper",
@@ -389,7 +389,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "Zoom forever into a tiny universe. No chat. Trippy visuals — skip if your kid is sensitive to motion.",
+      "parent_note": "Zoom forever into a tiny universe. No chat. Trippy visuals, skip if your kid is sensitive to motion.",
       "verify_live": false,
       "audit_basis": "Single-player universe-zoom toy; no chat; motion may bother motion-sensitive kids."
     },
@@ -398,9 +398,9 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "A short wholesome story game about a dog. No chat was found on the page. Sweet — the dog theme lands in a good way.",
+      "parent_note": "A short wholesome story game about a dog. No chat was found on the page. Sweet, the dog theme lands in a good way.",
       "verify_live": true,
-      "audit_basis": "Assessment from page inspection only — not played end-to-end; flagged verify_live."
+      "audit_basis": "Assessment from page inspection only, not played end-to-end; flagged verify_live."
     },
     {
       "id": "english-brick-breaker",
@@ -425,7 +425,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "A pure logic puzzle (find hidden players in a grid) with a tutorial — no chat, no violence. Flagged verify: it's a new GBA homebrew port, so play the first 10 minutes together.",
+      "parent_note": "A pure logic puzzle (find hidden players in a grid) with a tutorial, no chat, no violence. Flagged verify: it's a new GBA homebrew port, so play the first 10 minutes together.",
       "verify_live": true,
       "audit_basis": "itch.io browser build of a GBA Jam 2026 homebrew; single-player deduction puzzle, no accounts/chat visible; flagged for co-play since the port is new to this audit."
     },
@@ -434,16 +434,16 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "11-12",
-      "parent_note": "Cute dice-battling roguelite — roll dice to fight cartoon dungeon monsters as a frog warrior. No chat. Flagged verify: play the first 10 minutes together.",
+      "parent_note": "Cute dice-battling roguelite, roll dice to fight cartoon dungeon monsters as a frog warrior. No chat. Flagged verify: play the first 10 minutes together.",
       "verify_live": true,
-      "audit_basis": "Unity HTML5 browser build by Alarts; single-player, no accounts/chat; combat is the whole game but stylized and cute — sits at the older band with the verify flag (per dragonsweeper precedent)."
+      "audit_basis": "Unity HTML5 browser build by Alarts; single-player, no accounts/chat; combat is the whole game but stylized and cute, sits at the older band with the verify flag (per dragonsweeper precedent)."
     },
     {
       "id": "tristram",
       "kid_safe": true,
       "no_chat": true,
       "age_band": "11-12",
-      "parent_note": "Diablo-flavored auto-battler: your recruited heroes fight pixel monsters while you rebuild the town. No chat. Darker fantasy tone than most curated games — flagged verify.",
+      "parent_note": "Diablo-flavored auto-battler: your recruited heroes fight pixel monsters while you rebuild the town. No chat. Darker fantasy tone than most curated games, flagged verify.",
       "verify_live": true,
       "audit_basis": "Ludum Dare 55 HTML5 auto-battler by bippinbits; single-player; heroes auto-fight dungeon monsters in a Diablo-homage aesthetic; no accounts/chat; verify flag for the darker tone."
     },
@@ -452,7 +452,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "Cozy dice-shop sim — sell silly dice boxes, upgrade your shop, pay rent. No chat. The rent timer can feel pressuring; co-play the first run.",
+      "parent_note": "Cozy dice-shop sim, sell silly dice boxes, upgrade your shop, pay rent. No chat. The rent timer can feel pressuring; co-play the first run.",
       "verify_live": true,
       "audit_basis": "itch.io HTML5 shop sim by Red Sauce Games; single-player strategy, no accounts/chat in the game; economy/rent theme flagged for parents, hence the verify flag."
     },
@@ -461,7 +461,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "An interactive story about cooperation with cartoon characters. No chat, no accounts — just clicking through a clever essay.",
+      "parent_note": "An interactive story about cooperation with cartoon characters. No chat, no accounts, just clicking through a clever essay.",
       "verify_live": false,
       "audit_basis": "Single-player page on ncase.me; no accounts, chat, or user-generated content."
     },
@@ -470,7 +470,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "An interactive lesson on voting systems. No chat, no accounts — pure clicking and thinking.",
+      "parent_note": "An interactive lesson on voting systems. No chat, no accounts, pure clicking and thinking.",
       "verify_live": false,
       "audit_basis": "Single-player page on ncase.me; no accounts, chat, or user-generated content."
     },
@@ -506,7 +506,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "11-12",
-      "parent_note": "A text-based hacking game — the 'hacking' is fictional and it teaches real JavaScript. No chat, single-player.",
+      "parent_note": "A text-based hacking game, the 'hacking' is fictional and it teaches real JavaScript. No chat, single-player.",
       "verify_live": false,
       "audit_basis": "Single-player page; danielyxie.github.io hosts the open-source game with no accounts or chat."
     },
@@ -542,7 +542,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "5-7",
-      "parent_note": "Help frogs with CSS — 24 gentle puzzles. No chat, no accounts.",
+      "parent_note": "Help frogs with CSS: 24 gentle puzzles. No chat, no accounts.",
       "verify_live": false,
       "audit_basis": "Single-player static page; no accounts, chat, or user-generated content."
     },
@@ -641,7 +641,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "The educational frontier classic. Hunting and 'died of dysentery' — plain 90s text, no gore.",
+      "parent_note": "The educational frontier classic. Hunting and 'died of dysentery', plain 90s text, no gore.",
       "verify_live": false,
       "audit_basis": "Archive.org DOSBox emulation of the 1990 educational game; single-player, no chat."
     },
@@ -695,7 +695,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "Cartoon puzzle peril — lemmings can splat; it's slapstick, not gore. Play the first levels together.",
+      "parent_note": "Cartoon puzzle peril, lemmings can splat; it's slapstick, not gore. Play the first levels together.",
       "verify_live": true,
       "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
     },
@@ -713,7 +713,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "11-12",
-      "parent_note": "Pure text adventure — great for strong readers; some fantasy peril in prose.",
+      "parent_note": "Pure text adventure, great for strong readers; some fantasy peril in prose.",
       "verify_live": false,
       "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
     },
@@ -812,7 +812,7 @@
       "kid_safe": true,
       "no_chat": true,
       "age_band": "8-10",
-      "parent_note": "Cartoon maze chase; pump up the Pookas — it's slapstick.",
+      "parent_note": "Cartoon maze chase; pump up the Pookas, it's slapstick.",
       "verify_live": false,
       "audit_basis": "Curated 2026-10-11: official/archive page reviewed; no chat, no accounts, content assessed from the preserved build."
     },
@@ -1035,7 +1035,7 @@
     },
     {
       "id": "infinite-craft",
-      "reason": "Free-form AI text generation — combos can produce crude or inappropriate content; unmoderated."
+      "reason": "Free-form AI text generation, combos can produce crude or inappropriate content; unmoderated."
     },
     {
       "id": "geoguessr",
@@ -1079,7 +1079,7 @@
     },
     {
       "id": "funkin",
-      "reason": "Cartoon rhythm game, but dialogue and lyrics include mild suggestive content — does not meet the bar."
+      "reason": "Cartoon rhythm game, but dialogue and lyrics include mild suggestive content, does not meet the bar."
     },
     {
       "id": "bonk",
@@ -1143,7 +1143,7 @@
     },
     {
       "id": "kaaarot",
-      "reason": "Content could not be verified — excluded rather than guessed."
+      "reason": "Content could not be verified, excluded rather than guessed."
     },
     {
       "id": "hordes",
@@ -1223,19 +1223,19 @@
     },
     {
       "id": "console-living-room",
-      "reason": "Unfiltered archive library — individual titles not curated; would need per-game review."
+      "reason": "Unfiltered archive library, individual titles not curated; would need per-game review."
     },
     {
       "id": "internet-arcade",
-      "reason": "Unfiltered archive library — individual titles not curated; would need per-game review."
+      "reason": "Unfiltered archive library, individual titles not curated; would need per-game review."
     },
     {
       "id": "msdos-library",
-      "reason": "Unfiltered archive library — individual titles not curated; would need per-game review."
+      "reason": "Unfiltered archive library, individual titles not curated; would need per-game review."
     },
     {
       "id": "classicreload",
-      "reason": "Unfiltered retro library — individual titles not curated."
+      "reason": "Unfiltered retro library, individual titles not curated."
     },
     {
       "id": "lexaloffle-bbs",
@@ -1243,23 +1243,23 @@
     },
     {
       "id": "pico8-tops",
-      "reason": "A collection, not a game — mixed content, not per-game curated."
+      "reason": "A collection, not a game, mixed content, not per-game curated."
     },
     {
       "id": "moss-moss",
-      "reason": "Content could not be verified — excluded rather than guessed."
+      "reason": "Content could not be verified, excluded rather than guessed."
     },
     {
       "id": "serenitrove",
-      "reason": "Content could not be verified — excluded rather than guessed."
+      "reason": "Content could not be verified, excluded rather than guessed."
     },
     {
       "id": "six-cats-under",
-      "reason": "Content could not be verified — excluded rather than guessed."
+      "reason": "Content could not be verified, excluded rather than guessed."
     },
     {
       "id": "tale-of-crowns",
-      "reason": "Content could not be verified — excluded rather than guessed."
+      "reason": "Content could not be verified, excluded rather than guessed."
     },
     {
       "id": "kingdom-of-loathing",
@@ -1275,27 +1275,27 @@
     },
     {
       "id": "wbwwb",
-      "reason": "Horror-genre content — intensity not right for a 5–12 corner."
+      "reason": "Horror-genre content, intensity not right for a 5-12 corner."
     },
     {
       "id": "anxiety",
-      "reason": "Horror-genre content — intensity not right for a 5–12 corner."
+      "reason": "Horror-genre content, intensity not right for a 5-12 corner."
     },
     {
       "id": "purrgatory",
-      "reason": "Horror-genre content — intensity not right for a 5–12 corner."
+      "reason": "Horror-genre content, intensity not right for a 5-12 corner."
     },
     {
       "id": "lookouts",
-      "reason": "Horror-genre content — intensity not right for a 5–12 corner."
+      "reason": "Horror-genre content, intensity not right for a 5-12 corner."
     },
     {
       "id": "spooky-town",
-      "reason": "Horror-genre content — intensity not right for a 5–12 corner."
+      "reason": "Horror-genre content, intensity not right for a 5-12 corner."
     },
     {
       "id": "dating-killmulator-2",
-      "reason": "Horror-genre content — intensity not right for a 5–12 corner."
+      "reason": "Horror-genre content, intensity not right for a 5-12 corner."
     },
     {
       "id": "jetpunk",
@@ -1307,11 +1307,11 @@
     },
     {
       "id": "zombie-nest-gba",
-      "reason": "Top-down shooter about killing zombie hordes with 10 unlockable weapons — pixel violence throughout. Does not clear the bar."
+      "reason": "Top-down shooter about killing zombie hordes with 10 unlockable weapons, pixel violence throughout. Does not clear the bar."
     },
     {
       "id": "tank-battle",
-      "reason": "Top-down tank combat — shooting is the core loop. Does not clear the bar."
+      "reason": "Top-down tank combat, shooting is the core loop. Does not clear the bar."
     },
     {
       "id": "red-alert-rts",
@@ -1319,11 +1319,11 @@
     },
     {
       "id": "3d-plane-battle",
-      "reason": "Arcade plane combat — shooting down other planes is the whole game. Does not clear the bar."
+      "reason": "Arcade plane combat, shooting down other planes is the whole game. Does not clear the bar."
     },
     {
       "id": "trevosa",
-      "reason": "Dense reading game: translate an invented language and untangle a 30-person royal family tree with succession/exile themes. Text-heavy and not pitched at kids — when in doubt, excluded."
+      "reason": "Dense reading game: translate an invented language and untangle a 30-person royal family tree with succession/exile themes. Text-heavy and not pitched at kids, when in doubt, excluded."
     },
     {
       "id": "mindustry",
@@ -1343,7 +1343,7 @@
     },
     {
       "id": "spelunky-classic",
-      "reason": "Cartoon combat — whips, traps, and enemies."
+      "reason": "Cartoon combat, whips, traps, and enemies."
     },
     {
       "id": "codingame",
@@ -1375,15 +1375,15 @@
     },
     {
       "id": "duke3d-shareware",
-      "reason": "FPS combat — shooting humanoid enemies."
+      "reason": "FPS combat, shooting humanoid enemies."
     },
     {
       "id": "quake-shareware",
-      "reason": "FPS combat — gothic shooter violence."
+      "reason": "FPS combat, gothic shooter violence."
     },
     {
       "id": "alone-dark",
-      "reason": "Survival horror — haunted mansion, horror themes."
+      "reason": "Survival horror, haunted mansion, horror themes."
     },
     {
       "id": "alien-hominid-flash",
@@ -1399,7 +1399,7 @@
     },
     {
       "id": "sfa2",
-      "reason": "One-on-one fighting — combat."
+      "reason": "One-on-one fighting, combat."
     },
     {
       "id": "arras-io",

@@ -1,20 +1,20 @@
-/* Button Mash — Play Journal core (T-MASH-2, wave 40): a personal
+/* Button Mash: Play Journal core (T-MASH-2, wave 40): a personal
  * play journal & backlog over the real catalog.
  *
  * UMD module, DOM-free: the same code runs in the browser and under
  * node (scripts/test_journal40.js exercises it with the real catalog).
  *
  * State model (localStorage key "bm.journal.v1", in-memory fallback
- * when localStorage is unavailable — the Trophy Room's pattern):
+ * when localStorage is unavailable, the Trophy Room's pattern):
  *   { v: 1,
  *     entries: { gameId: { status: "want"|"playing"|"finished"|null,
  *                          logs: [{ date: "YYYY-MM-DD", text }] } } }
  *
- * HONESTY: the journal stores only what the visitor typed — a shelf
+ * HONESTY: the journal stores only what the visitor typed, a shelf
  * status they chose and log entries they wrote, dated with the date
  * they picked. Nothing is inferred, imported, or invented: a game
  * with no entry has no status and no logs, and the core never creates
- * an entry on read. Unknown game ids are the caller's problem — the
+ * an entry on read. Unknown game ids are the caller's problem, the
  * UI validates against the catalog; the core validates shape only
  * (status vocabulary, real calendar dates, non-empty log text).
  * Multiple logs per game are the point: a playthrough is a list,

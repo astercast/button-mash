@@ -1,6 +1,6 @@
-/* Button Mash — quick game-night lineup widget (party-planner.html).
+/* Button Mash, quick game-night lineup widget (party-planner.html).
    Wave B (server-program spec §3 + §7.7): POSTs the request to the live
-   /api/game-night function first (7s timeout — the same contract as
+   /api/game-night function first (7s timeout, the same contract as
    ApiClient.LIVE_TIMEOUT_MS), and falls back to the client-side engine
    (assets/js/game-night.js, the browser twin of lib/game-night.js) over the
    static data/v1/games.json + data/v1/kid-safe.json files. The badge next to
@@ -20,7 +20,7 @@
     catch (e) { return 'unknown time'; }
   }
 
-  /* Badge semantics mirror api-client.js (kept in sync by hand — api-client.js
+  /* Badge semantics mirror api-client.js (kept in sync by hand, api-client.js
      stays verbatim per the spec, so the POST path carries its own copy). */
   function setBadge(badgeEl, state, generatedAt, note) {
     if (!badgeEl) return;
@@ -30,7 +30,7 @@
       badgeEl.title = 'Fresh from the server · ' + fmtTime(generatedAt);
     } else if (state === 'cached') {
       badgeEl.textContent = 'cached · updated ' + fmtTime(generatedAt);
-      badgeEl.title = (note || 'Server unreachable — showing last published data.') +
+      badgeEl.title = (note || 'Server unreachable, showing last published data.') +
         ' · ' + fmtTime(generatedAt);
     } else if (state === 'waking') {
       badgeEl.textContent = 'waking server…';
@@ -92,7 +92,7 @@
   }
 
   function clientLineup(payload) {
-    // Client fallback: the browser twin scores the static catalog — the same
+    // Client fallback: the browser twin scores the static catalog, the same
     // engine, same weights, same determinism as the server (parity-gated by
     // scripts/test_gamenight_parity.js).
     if (!window.BMGameNight) return Promise.reject(new Error('no client engine'));
@@ -116,7 +116,7 @@
         generatedAt: cat.generated_at,
         source: 'static',
         degraded: true,
-        note: 'Server unreachable — lineup computed in your browser from the last published catalog.',
+        note: 'Server unreachable, lineup computed in your browser from the last published catalog.',
         staleSince: null
       };
     });
@@ -174,7 +174,7 @@
     for (var i = 0; i < boxes.length; i++) vibes.push(boxes[i].value);
     var kids = !!($('ql-kids') && $('ql-kids').checked);
     var problems = [];
-    if (!Number.isInteger(group) || group < 1 || group > 12) problems.push('players must be 1–12');
+    if (!Number.isInteger(group) || group < 1 || group > 12) problems.push('players must be 1-12');
     if (!Number.isInteger(minutes) || minutes < 15 || minutes > 240) problems.push('pick a time between 15 and 240 minutes');
     if (!vibes.length) problems.push('pick at least one vibe');
     return { group_size: group, minutes: minutes, vibe: vibes, kids: kids, problems: problems };
@@ -205,7 +205,7 @@
       }
       renderLineup(box, out);
     }).catch(function () {
-      // Live missed — client fallback over the static catalog.
+      // Live missed, client fallback over the static catalog.
       clientLineup(payload).then(function (out) {
         setBadge(badge, 'cached', out.generatedAt, out.note);
         renderLineup(box, out);

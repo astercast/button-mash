@@ -1,5 +1,5 @@
 /* ============================================================
-   Button Mash — layout: marquee header, cabinet hero, section
+   Button Mash, layout: marquee header, cabinet hero, section
    dividers as cabinet side-art, kick-plate footer, grids.
    Chase-light bulb strips: two bulb layers (dim static + lit
    animated, half-period offset, stepped) = the chase. All gated.
@@ -127,7 +127,7 @@
 }
 
 /* Marquee layout at every width: brand + FX switch on the marquee row,
-   nav on its own full-width strip below — like a real cabinet. */
+   nav on its own full-width strip below, like a real cabinet. */
 .site-nav { order: 3; flex: 1 1 100%; }
 .site-nav ul { flex-wrap: wrap; }
 
@@ -155,7 +155,7 @@
   overflow: visible;
 }
 /* Bulb strips: top + bottom chase */
-.hero-inner::before, .hero-inner::after {
+.hero-inner::before.hero-inner::after {
   content: "";
   position: absolute;
   left: 18px; right: 18px;
@@ -177,7 +177,7 @@
   }
   html:not(.fx-off) .hero-inner::after { animation-delay: calc(var(--chase-dur) / -2); }
 }
-/* Subtle tube flicker on the marquee — gated, barely-there */
+/* Subtle tube flicker on the marquee, gated, barely-there */
 @media (prefers-reduced-motion: no-preference) {
   html:not(.fx-off) .hero-inner {
     animation: marquee-flicker 6s infinite steps(60);
@@ -452,7 +452,7 @@ body.attract .attract-ribbon { display: inline-block; }
    The primary nav wraps to many rows under ~40rem (427px tall at
    390px wide with 15 links, measured wave 33). As a sticky header
    that block covers half the viewport and sits over the content
-   it should frame — and over the controls a tap is aiming at.
+   it should frame, and over the controls a tap is aiming at.
    Below 40rem the header keeps its marquee and chase strip but
    scrolls away like the rest of the cabinet top. (Wave 33.) */
 @media (max-width: 40rem) {

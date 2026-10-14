@@ -1,5 +1,5 @@
 /* ============================================================
-   Button Mash — guide pages ("The Arcade" identity, wave 15).
+   Button Mash, guide pages ("The Arcade" identity, wave 15).
    Long-form reading craft (65ch measure, 1.75 rhythm, spy TOC,
    scroll progress, print) dressed as cabinet documentation:
    marquee section headers, side-art dividers, notice plates.
@@ -20,7 +20,7 @@
 /* --- Page frame --- */
 .guide-page { max-width: 65ch; line-height: 1.75; padding-bottom: 3rem; }
 .guide-page p { text-wrap: pretty; margin-block: 0 1.15em; }
-.guide-page h1, .guide-page h2, .guide-page h3 { text-wrap: balance; }
+.guide-page h1.guide-page h2.guide-page h3 { text-wrap: balance; }
 .guide-page .kicker { margin-top: 1rem; }
 .guide-page h1 {
   font-size: clamp(1.15rem, 3.2vw + 0.3rem, 1.9rem);
@@ -105,8 +105,8 @@
   color: var(--neon-pink); text-shadow: 0 0 10px rgba(255, 46, 136, 0.7);
   margin-inline-end: 0.6rem;
 }
-.guide-section p, .guide-section li { color: var(--ink-dim); }
-.guide-section ul, .guide-section ol { padding-left: 1.4rem; }
+.guide-section p.guide-section li { color: var(--ink-dim); }
+.guide-section ul.guide-section ol { padding-left: 1.4rem; }
 .guide-section li { margin-bottom: 0.5rem; }
 .guide-section code {
   font-family: var(--font-code); font-size: 0.88em;
@@ -191,7 +191,7 @@
 
 /* --- Print: kill the cabinet, keep the words --- */
 @media print {
-  .site-header, .site-footer, .guide-toc, .reading-progress, .fx-toggle, .toc { display: none !important; }
+  .site-header.site-footer.guide-toc.reading-progress.fx-toggle.toc { display: none !important; }
   body::after { display: none !important; }
   body { background: #fff; color: #000; }
   .guide-page h1 { border: none; box-shadow: none; background: none; color: #000; text-shadow: none; }

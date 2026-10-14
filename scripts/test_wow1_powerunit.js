@@ -1,8 +1,8 @@
 /* Wow wave 1: unit test for the player.js CRT power helpers.
    Exercises powerOnScreen / powerOffThen / crtMotionOK logic with stubbed
-   DOM + timers — the browser-level wiring is covered by test_wow1.js and
+   DOM + timers, the browser-level wiring is covered by test_wow1.js and
    WF20; this pins the branching logic (immediate vs animated path).
-   Run: node scripts/test_wow1_powerunit.js — exit 0 = pass. */
+   Run: node scripts/test_wow1_powerunit.js, exit 0 = pass. */
 "use strict";
 const fs = require("fs");
 const path = require("path");

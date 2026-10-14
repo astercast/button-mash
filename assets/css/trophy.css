@@ -1,5 +1,5 @@
 /* ============================================================
-   Button Mash — Trophy Room styles (wave 18)
+   Button Mash: Trophy Room styles (wave 18)
    Motifs: arcade prize tokens (ridged coin edge, amber press-in),
    CRT-style completion dials (static SVG, phosphor glow), stacked
    played/beaten progress bars. Reduced-motion safe by construction:
@@ -196,8 +196,7 @@
   border: 1px solid var(--edge-bright);
   overflow: hidden;
 }
-.stacked-bar .bar-played,
-.stacked-bar .bar-beaten {
+.stacked-bar .bar-played.stacked-bar .bar-beaten {
   position: absolute;
   left: 0; top: 0; bottom: 0;
   width: 0;

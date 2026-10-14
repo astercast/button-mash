@@ -1,12 +1,12 @@
-/* makeover.css — Extreme Makeover wave (2026-10-12): first-visit hierarchy.
-   The arcade identity is untouched; this sheet is presentation and pacing —
+/* makeover.css: Extreme Makeover wave (2026-10-12): first-visit hierarchy.
+   The arcade identity is untouched; this sheet is presentation and pacing,
    a hero that says what the site is in 3 seconds, one primary action,
    whitespace as a feature. No new keyframes, no ambient motion: nothing here
    needs a reduced-motion kill switch. */
 
 /* Neutralize the shared marquee-panel hero (layout.css): the homepage hero
    is typography on open space, not another cabinet panel. The cabinet
-   itself arrives one scroll later — contrast, not repetition. */
+   itself arrives one scroll later, contrast, not repetition. */
 .hero-inner {
   border: 0;
   border-radius: 0;
@@ -16,8 +16,7 @@
   max-width: 60rem;
 }
 
-.hero-inner::before,
-.hero-inner::after {
+.hero-inner::before.hero-inner::after {
   display: none;
 }
 

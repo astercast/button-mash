@@ -1,5 +1,5 @@
 /* Wave 18 headless + unit checks: the Trophy Room.
-   Part A (node): trophy-core.js UMD logic against fixtures — state
+   Part A (node): trophy-core.js UMD logic against fixtures, state
    transitions, cascades, completion math, all 16 achievement rules,
    streaks, export/import validation + corruption recovery, migrations.
    Part B (headless Chromium): card token buttons, completion %, prize
@@ -18,8 +18,8 @@ const BASE = "file:///home/hatch/workspace/button-mash";
 
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 
 /* ---------------- fixtures ---------------- */
@@ -241,7 +241,7 @@ async function newPage(browser) {
     args: ["--no-sandbox", "--disable-dev-shm-usage", "--allow-file-access-from-files"],
   });
   // Settled in-page click: instant scroll (the site's smooth scroll-behavior
-  // makes Puppeteer's computed click coordinates go stale mid-scroll —
+  // makes Puppeteer's computed click coordinates go stale mid-scroll,
   // wave-16-documented harness flake), then a real .click() dispatch.
   async function settledClick(page, selector) {
     await page.evaluate((sel) => {
@@ -311,7 +311,7 @@ async function newPage(browser) {
       check("♥ still writes bm_favs_v1", favCount === 1, favCount + " fav");
       await page.screenshot({ path: "/tmp/trophy-cards.png" });
       // Wave B: games.html probes /api/games (live-first, 7s timeout). Over file://
-      // there is no function, so the probe's network failure is EXPECTED — the
+      // there is no function, so the probe's network failure is EXPECTED, the
       // fallback contract handles it (static render + honest cached badge). Only
       // real JS/page errors and non-/api resource failures fail this check.
       const apiProbeFailed = errors.some((e) => /^\[requestfailed\] file:\/\/\/api\//.test(e));
@@ -416,7 +416,7 @@ async function newPage(browser) {
       await page.screenshot({ path: "/tmp/trophy-collections.png", fullPage: false });
       /* Wave 19: collections.html probes /api/collections (live-first). Over
          file:// that probe's network failure is the designed fallback contract
-         (same filter as the games.html section above) — only real errors fail. */
+         (same filter as the games.html section above), only real errors fail. */
       const collApiFailed = errors.some((e) => /^\[requestfailed\] file:\/\/\/api\//.test(e));
       const collReal = errors.filter((e) => {
         if (/^\[requestfailed\] file:\/\/\/api\//.test(e)) return false;

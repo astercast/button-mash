@@ -1,5 +1,5 @@
 /* Wave 10 validation: double-elimination bracket logic (assets/js/bracket-double.js).
-   Pinned fixtures — fixed player lists and fixed winners, so any logic drift
+   Pinned fixtures, fixed player lists and fixed winners, so any logic drift
    fails loudly:
    - 4-player full run through grand final + bracket reset
    - 4-player run where the winners champ takes the final outright (no reset)
@@ -23,8 +23,8 @@ let failures = 0;
 let count = 0;
 function check(name, cond, detail) {
   count++;
-  if (cond) { console.log('PASS', name, '—', detail); }
-  else { failures++; console.error('FAIL', name, '—', detail); }
+  if (cond) { console.log('PASS', name, ', ', detail); }
+  else { failures++; console.error('FAIL', name, ', ', detail); }
 }
 function names(n) {
   const out = [];

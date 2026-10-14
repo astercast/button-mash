@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Trophy Room — Button Mash</title>
+<title>The Trophy Room: Button Mash</title>
 <meta name="description" content="Your Button Mash trophy wall: games played and beaten, per-genre completion dials, the 16-prize achievement case, collection progress, and JSON backup. Everything lives in your browser.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="The Trophy Room — Button Mash">
+<meta property="og:title" content="The Trophy Room: Button Mash">
 <meta property="og:description" content="Your Button Mash trophy wall: games played and beaten, per-genre completion dials, the 16-prize achievement case, collection progress, and JSON backup. Everything lives in your browser.">
 <meta property="og:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Trophy Room — Button Mash">
+<meta name="twitter:title" content="The Trophy Room: Button Mash">
 <meta name="twitter:description" content="Your Button Mash trophy wall: games played and beaten, per-genre completion dials, the 16-prize achievement case, collection progress, and JSON backup. Everything lives in your browser.">
 <meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <link rel="canonical" href="https://button-mash-live.vercel.app/trophy-room.html">
@@ -81,7 +81,7 @@
     <div class="wrap hero-inner">
       <span class="kicker">Your wall</span>
       <h1>The Trophy <span class="cyan">Room.</span></h1>
-      <p class="lede">Every game you mark played or beaten lands here — per-genre completion dials, a 16-prize achievement case, and collection progress. It all lives in your browser, never on a server. Mark games with the <strong>Played</strong> / <strong>Beaten</strong> tokens on any game card.</p>
+      <p class="lede">Every game you mark played or beaten lands here, per-genre completion dials, a 16-prize achievement case, and collection progress. It all lives in your browser, never on a server. Mark games with the <strong>Played</strong> / <strong>Beaten</strong> tokens on any game card.</p>
       <div class="storage-notice" id="storage-notice" hidden></div>
       <div class="stat-band" id="stat-band" aria-live="polite"></div>
     </div>
@@ -101,7 +101,7 @@
   <section class="section">
     <div class="wrap">
       <div class="section-head"><h2><span class="tick">»</span> Prize case</h2></div>
-      <p class="lede" id="prize-sub">Sixteen arcade prizes, earned by actually playing. Unearned prizes show their rule — no mysteries.</p>
+      <p class="lede" id="prize-sub">Sixteen arcade prizes, earned by actually playing. Unearned prizes show their rule, no mysteries.</p>
       <div class="prize-case" id="prize-case"></div>
     </div>
   </section>
@@ -119,26 +119,26 @@
       <div class="backup-panel">
         <div>
           <h3>Export</h3>
-          <p>Download your whole trophy wall as one JSON file — played, beaten, favorites, streaks, prizes. Keep it somewhere safe; it is the only copy outside this browser.</p>
+          <p>Download your whole trophy wall as one JSON file, played, beaten, favorites, streaks, prizes. Keep it somewhere safe; it is the only copy outside this browser.</p>
           <div class="backup-actions" style="margin-top:0.6rem">
             <button class="btn btn-primary btn-sm" id="export-btn" type="button">» Download trophy data</button>
           </div>
         </div>
         <div>
           <h3>Import</h3>
-          <p>Paste a trophy export below (or pick the file) to restore it. The import is validated first and applied all at once — if anything is wrong, your current wall is left untouched.</p>
+          <p>Paste a trophy export below (or pick the file) to restore it. The import is validated first and applied all at once, if anything is wrong, your current wall is left untouched.</p>
           <div class="backup-actions" style="margin-top:0.6rem">
             <label class="btn btn-ghost btn-sm" for="import-file" style="cursor:pointer">» Choose export file</label>
-            <input type="file" id="import-file" accept="application/json,.json" hidden>
+            <input type="file" id="import-file" accept="application/json.json" hidden>
             <button class="btn btn-primary btn-sm" id="import-btn" type="button">» Import</button>
           </div>
-          <div style="margin-top:0.6rem"><textarea id="import-text" aria-label="Paste trophy export JSON here" placeholder='Paste your trophy export JSON here — it starts with { "schema": "bm.trophy.export", … }'></textarea></div>
+          <div style="margin-top:0.6rem"><textarea id="import-text" aria-label="Paste trophy export JSON here" placeholder='Paste your trophy export JSON here, it starts with { "schema": "bm.trophy.export", … }'></textarea></div>
           <p id="import-result" role="status" aria-live="polite"></p>
           <p class="schema-line">Schema: bm.trophy.export · version <span id="schema-version"></span></p>
         </div>
         <div>
           <h3>Reset</h3>
-          <p>Wipe the whole wall — played, beaten, streaks, prizes — and start over. Your ♥ favorites are kept (they belong to the directory too). This cannot be undone (unless you exported first).</p>
+          <p>Wipe the whole wall, played, beaten, streaks, prizes, and start over. Your ♥ favorites are kept (they belong to the directory too). This cannot be undone (unless you exported first).</p>
           <div class="backup-actions" style="margin-top:0.6rem">
             <button class="btn btn-ghost btn-sm" id="reset-btn" type="button">» Reset trophy room</button>
           </div>
@@ -150,7 +150,7 @@
   <section class="section">
     <div class="wrap">
       <div class="legal-banner">
-        <strong>🛡️ Your data stays yours:</strong> trophies live in this browser's local storage under keys starting with <code>bm.trophy.</code> — favorites stay in <code>bm_favs_v1</code> next to them. Nothing is uploaded anywhere, ever. Clearing site data wipes the wall, so export if you care.
+        <strong>🛡️ Your data stays yours:</strong> trophies live in this browser's local storage under keys starting with <code>bm.trophy.</code>, favorites stay in <code>bm_favs_v1</code> next to them. Nothing is uploaded anywhere, ever. Clearing site data wipes the wall, so export if you care.
       </div>
     </div>
   </section>
@@ -197,7 +197,7 @@
       </div>
     </div>
     <div class="footer-note">
-      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Button Mash, your browser is the console. Built 2026.</span>
       <span>Zero ROMs hosted. Zero piracy links. All game descriptions original.</span>
     </div>
     <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>

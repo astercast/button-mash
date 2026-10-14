@@ -1,4 +1,4 @@
-/* Button Mash Converter 3.0 — core logic (UMD: browser + node).
+/* Button Mash Converter 3.0, core logic (UMD: browser + node).
    Pure, DOM-free functions: system profiles, ROM validation, output naming,
    template token assembly, and the sequential batch runner. The DOM layer
    (assets/js/converter.js) and the test suite (scripts/test_converter12.js)
@@ -9,11 +9,11 @@
      WARNING, not an error: many homebrew ROMs ship zeroed headers and mGBA
      boots them fine (verified: tests/homebrew-test-roms/rkanoid-latest-demo.gba).
      Wave 8 rejected zeroed-header files only as *boot-test candidates*, never
-     as "corrupt" — this module keeps that distinction.
+     as "corrupt", this module keeps that distinction.
    - NES validity is structural: every .nes ROM carries the 16-byte iNES header
      starting with the magic "NES\x1A". Missing magic = not a NES ROM, error.
    - GB/GBC header checksum (bytes 0x134-0x14C vs byte 0x14D) needs no
-     copyrighted logo bytes to verify — pure arithmetic per the GB spec. */
+     copyrighted logo bytes to verify, pure arithmetic per the GB spec. */
 (function (root, factory) {
   'use strict';
   if (typeof module === 'object' && module.exports) module.exports = factory();
@@ -32,7 +32,7 @@
       system: 'Game Boy Advance',
       max: 32 * MB, warn: 16 * MB,
       hint: 'keyboard works out of the box (arrow keys + Z/X cover most GBA games)',
-      biosNote: 'The mGBA core ships its own built-in BIOS replacement — no extra files, boots instantly.'
+      biosNote: 'The mGBA core ships its own built-in BIOS replacement, no extra files, boots instantly.'
     },
     gb: {
       key: 'gb',
@@ -40,7 +40,7 @@
       system: 'Game Boy / Game Boy Color',
       max: 8 * MB, warn: 2 * MB,
       hint: 'keyboard works out of the box (arrow keys + Z/X = A/B)',
-      biosNote: 'Gambatte needs no BIOS at all — GB and GBC games boot with zero extra files.'
+      biosNote: 'Gambatte needs no BIOS at all: GB and GBC games boot with zero extra files.'
     },
     nes: {
       key: 'nes',
@@ -48,7 +48,7 @@
       system: 'NES',
       max: 4 * MB, warn: 1 * MB,
       hint: 'keyboard works out of the box (arrow keys + Z/X = B/A, Enter = Start)',
-      biosNote: 'FCEUmm needs no BIOS at all — NES games boot with zero extra files.'
+      biosNote: 'FCEUmm needs no BIOS at all: NES games boot with zero extra files.'
     },
     snes: {
       key: 'snes',
@@ -56,7 +56,7 @@
       system: 'Super Nintendo',
       max: 6 * MB, warn: 3 * MB,
       hint: 'keyboard works out of the box (arrow keys + Z/X cover the main buttons)',
-      biosNote: 'Snes9x needs no BIOS at all — SNES games boot with zero extra files.'
+      biosNote: 'Snes9x needs no BIOS at all: SNES games boot with zero extra files.'
     },
     segamd: {
       key: 'segamd',
@@ -64,7 +64,7 @@
       system: 'Sega Genesis',
       max: 4 * MB, warn: 2 * MB,
       hint: 'keyboard works out of the box (arrow keys + Z/X cover the main buttons)',
-      biosNote: 'Genesis Plus GX needs no BIOS for cartridge games — boots with zero extra files.'
+      biosNote: 'Genesis Plus GX needs no BIOS for cartridge games, boots with zero extra files.'
     }
   };
 
@@ -72,14 +72,14 @@
      Higher levels = smaller output, slower encode; decode speed is roughly
      flat across levels (inflate doesn't care how hard deflate worked). */
   var COMPRESSION = [
-    { id: 'none',     level: 0, label: 'None — fastest build',  note: 'Plain base64. Fastest to build; biggest file (~33% over the ROM).' },
+    { id: 'none',     level: 0, label: 'None, fastest build',  note: 'Plain base64. Fastest to build; biggest file (~33% over the ROM).' },
     { id: 'fast',     level: 1, label: 'Fast',                  note: 'Quick deflate pass. Noticeably smaller, barely slower.' },
     { id: 'balanced', level: 6, label: 'Balanced (recommended)', note: 'The sweet spot: much smaller file, a few extra seconds to build.' },
-    { id: 'best',     level: 9, label: 'Best — smallest file',  note: 'Squeezes hardest. Slowest build (big ROMs take a while); decode is just as fast.' }
+    { id: 'best',     level: 9, label: 'Best, smallest file',  note: 'Squeezes hardest. Slowest build (big ROMs take a while); decode is just as fast.' }
   ];
 
   /* Full template token contract. buildHtml() replaces every one and throws
-     if any token survives — a leftover token would ship a broken game. */
+     if any token survives, a leftover token would ship a broken game. */
   var TOKENS = [
     '__BM_GAME_NAME__', '__BM_GAME_ID__', '__BM_BUILD_DATE__', '__BM_ROM_SIZE__',
     '__BM_ROM_B64__', '__BM_CORE__', '__BM_CORE_LABEL__', '__BM_SYSTEM__',
@@ -147,7 +147,7 @@
   }
 
   /* GB/GBC header checksum: x = x - b[i] - 1 over 0x134..0x14C, compare low
-     byte against 0x14D. Pure spec arithmetic — no logo bytes involved. */
+     byte against 0x14D. Pure spec arithmetic, no logo bytes involved. */
   function gbHeaderChecksumOk(bytes) {
     if (bytes.length < 0x150) return null; /* too short to say */
     var x = 0;
@@ -156,7 +156,7 @@
   }
 
   /* Validate ROM bytes against what the format can actually prove.
-     Returns { errors: [...], warnings: [...], notes: [...] } — errors block
+     Returns { errors: [...], warnings: [...], notes: [...] }, errors block
      conversion, warnings are shown but the user may proceed, notes are
      neutral facts (e.g. a copier header we keep as-is). */
   function validateRom(bytes, profileKey) {
@@ -166,11 +166,11 @@
     var b = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes || []);
 
     if (b.length === 0) {
-      errors.push('This file is empty (0 bytes) — there is nothing to convert.');
+      errors.push('This file is empty (0 bytes), there is nothing to convert.');
       return { errors: errors, warnings: warnings, notes: notes };
     }
     if (allZero(b)) {
-      errors.push('Every byte in this file is zero — that is what a failed or blank dump looks like, not a game. Re-dump or re-download the file.');
+      errors.push('Every byte in this file is zero, that is what a failed or blank dump looks like, not a game. Re-dump or re-download the file.');
       return { errors: errors, warnings: warnings, notes: notes };
     }
 
@@ -179,31 +179,31 @@
       if (!magic) {
         errors.push('Not a valid NES ROM: the file is missing the "NES" signature every .nes file starts with. It may be corrupt, truncated, or simply not a NES file.');
       } else if (b.length >= 16 && b[4] === 0) {
-        errors.push('This .nes header declares zero program banks — the file cannot hold a game. The download is corrupt.');
+        errors.push('This .nes header declares zero program banks, the file cannot hold a game. The download is corrupt.');
       }
     }
 
     if (profileKey === 'gba' && regionZero(b.subarray(4), 0xBD - 4)) {
-      warnings.push('Blank cartridge header — the header region (logo, title, checksums) is all zero. Many homebrew ROMs look exactly like this and the mGBA core boots them fine, so this is not a blocker; commercial cartridge dumps always carry a header here.');
+      warnings.push('Blank cartridge header, the header region (logo, title, checksums) is all zero. Many homebrew ROMs look exactly like this and the mGBA core boots them fine, so this is not a blocker; commercial cartridge dumps always carry a header here.');
     }
 
     if (profileKey === 'gb') {
       if (b.length >= 0x150 && regionZero(b, 0x150)) {
-        warnings.push('Blank cartridge header region. Many homebrew ROMs ship this way and Gambatte boots them fine — not a blocker.');
+        warnings.push('Blank cartridge header region. Many homebrew ROMs ship this way and Gambatte boots them fine, not a blocker.');
       } else {
         var chk = gbHeaderChecksumOk(b);
         if (chk === false) {
-          warnings.push('Header checksum mismatch — the bytes in the title area do not add up. The file may be corrupt or truncated; the game might still boot, but treat it as suspect.');
+          warnings.push('Header checksum mismatch, the bytes in the title area do not add up. The file may be corrupt or truncated; the game might still boot, but treat it as suspect.');
         }
       }
     }
 
     if (profileKey === 'snes' && snesCopierHeader(b)) {
-      notes.push('512-byte copier header detected — kept as-is; the Snes9x core skips it automatically.');
+      notes.push('512-byte copier header detected, kept as-is; the Snes9x core skips it automatically.');
     }
 
     if (profileKey === 'segamd' && genesisHasSegaString(b) === false) {
-      warnings.push('No "SEGA" header string at 0x100 — most Genesis ROMs, including homebrew, carry it. The emulator does not check it, so the game will likely still boot, but treat the dump as suspect.');
+      warnings.push('No "SEGA" header string at 0x100, most Genesis ROMs, including homebrew, carry it. The emulator does not check it, so the game will likely still boot, but treat the dump as suspect.');
     }
 
     return { errors: errors, warnings: warnings, notes: notes };
@@ -217,7 +217,7 @@
   }
 
   /* Genesis TMSS string: "SEGA" at 0x100. Real hardware checks it; emulators
-     don't — so a missing string warns, never errors. */
+     don't, so a missing string warns, never errors. */
   function genesisHasSegaString(bytes) {
     var b = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes || []);
     if (b.length < 0x104) return null;

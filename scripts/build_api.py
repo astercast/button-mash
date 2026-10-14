@@ -14,7 +14,7 @@ API = ROOT / "data" / "v1"
 VERSION = "1.0.0"
 
 ENDPOINTS = {
-    "games": "Curated browser games directory (every URL verified live — never invented).",
+    "games": "Curated browser games directory (every URL verified live, never invented).",
     "collections": "Hand-built game collections.",
     "emulators": "Emulator software picks (no ROMs, software only).",
     "guides": "Emulation guides and explainers (summaries; full text in data/guides.json).",
@@ -107,7 +107,7 @@ def main():
         "generated_at": generated_at,
         "description": "Universal in-browser game console: curated browser games, bring-your-own-file EmulatorJS player, GBA-to-browser-game converter, legal-lane emulation guides.",
         "legal": "Zero ROMs hosted. Zero piracy links. All game descriptions original (CC0).",
-        "endpoints": {k: f"data/v1/{k}.json — {v}" for k, v in ENDPOINTS.items()},
+        "endpoints": {k: f"data/v1/{k}.json, {v}" for k, v in ENDPOINTS.items()},
         "usage": USAGE,
     }
     write("index.json", index)

@@ -1,5 +1,5 @@
 /* ============================================================
-   Button Mash — wave 16 ("The Arcade" identity wave 2).
+   Button Mash, wave 16 ("The Arcade" identity wave 2).
    Kept as a separate sheet so the wave-15 system stays readable:
    tag tokens, anchored card tooltips, entrance choreography,
    custom empty states, collection shelf-jump.
@@ -110,7 +110,7 @@
               color var(--dur-fast) var(--ease-standard),
               box-shadow var(--dur-fast) var(--ease-standard);
 }
-.tip-trigger:hover, .tip-trigger:focus-visible {
+.tip-trigger:hover.tip-trigger:focus-visible {
   border-color: var(--neon-cyan);
   color: var(--neon-cyan);
   box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);

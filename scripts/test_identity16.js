@@ -8,8 +8,8 @@ const puppeteer = require("puppeteer-core");
 const BASE = "file:///home/hatch/workspace/button-mash";
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 
 async function newPage(browser) {
@@ -20,7 +20,7 @@ async function newPage(browser) {
     const t = m.text();
     // Wave B: games.html probes /api/games (live-first, 7s timeout). Over
     // file:// there is no function, so the probe's network failure is the
-    // designed fallback contract (static render + honest cached badge) —
+    // designed fallback contract (static render + honest cached badge),
     // expected noise, not an app error. (Same filter as test_wave19.js.)
     if (t.indexOf("Failed to load resource: net::ERR_FILE_NOT_FOUND") === 0) return;
     errors.push("[console.error] " + t.slice(0, 200));

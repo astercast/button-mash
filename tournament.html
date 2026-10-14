@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tournament brackets — Button Mash</title>
-<meta name="description" content="Run a single- or double-elimination tournament for game night: 2–16 players, manual seeding, best-of-N per round, game voting, match history with undo, shareable bracket links. Saves in your browser, prints clean.">
+<title>Tournament brackets: Button Mash</title>
+<meta name="description" content="Run a single- or double-elimination tournament for game night: 2-16 players, manual seeding, best-of-N per round, game voting, match history with undo, shareable bracket links. Saves in your browser, prints clean.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Tournament brackets — Button Mash">
-<meta property="og:description" content="Run a single- or double-elimination tournament for game night: 2–16 players, manual seeding, best-of-N per round, game voting, match history with undo, shareable bracket links. Saves in your browser, prints clean.">
+<meta property="og:title" content="Tournament brackets: Button Mash">
+<meta property="og:description" content="Run a single- or double-elimination tournament for game night: 2-16 players, manual seeding, best-of-N per round, game voting, match history with undo, shareable bracket links. Saves in your browser, prints clean.">
 <meta property="og:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Tournament brackets — Button Mash">
-<meta name="twitter:description" content="Run a single- or double-elimination tournament for game night: 2–16 players, manual seeding, best-of-N per round, game voting, match history with undo, shareable bracket links. Saves in your browser, prints clean.">
+<meta name="twitter:title" content="Tournament brackets: Button Mash">
+<meta name="twitter:description" content="Run a single- or double-elimination tournament for game night: 2-16 players, manual seeding, best-of-N per round, game voting, match history with undo, shareable bracket links. Saves in your browser, prints clean.">
 <meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <link rel="canonical" href="https://button-mash-live.vercel.app/tournament.html">
 <meta name="theme-color" content="#07070f">
@@ -99,15 +99,13 @@
   .t-note { color:var(--ink-dim); font-size:.92rem; max-width:44rem; }
   .t-print-only { display:none; }
   @media print {
-    .site-header, .site-footer, .t-setup, .t-actions, .t-note, .skip-link, #t-live,
-    .t-setting select, .t-setting, .t-player button, .t-clear, .t-game-link,
-    .t-vote, .t-vote-panel, #t-history-wrap .t-setup-row { display:none !important; }
+    .site-header.site-footer.t-setup.t-actions.t-note.skip-link, #t-live.t-setting select.t-setting.t-player button.t-clear.t-game-link.t-vote.t-vote-panel, #t-history-wrap .t-setup-row { display:none !important; }
     .t-print-only { display:block !important; color:#000; font-size:.9rem; margin:.3rem 0; }
     body { background:#fff; color:#000; }
-    .t-round, .t-match, .t-player { border:1px solid #000; background:#fff; break-inside:avoid; }
+    .t-round.t-match.t-player { border:1px solid #000; background:#fff; break-inside:avoid; }
     .t-player.is-loser { opacity:1; }
     .t-player.is-winner { outline:2px solid #000; }
-    #t-champion, .t-grandfinal { border:3px solid #000; background:#fff; }
+    #t-champion.t-grandfinal { border:3px solid #000; background:#fff; }
     #t-champion h2 { color:#000; }
     #t-history-list li { border-bottom:1px solid #999; }
     a { color:#000; text-decoration:none; }
@@ -158,17 +156,17 @@
     <div class="wrap hero-inner">
       <span class="kicker">Interactive tool</span>
       <h1>Game night, <span class="pink">settled.</span></h1>
-      <p class="lede">Single- or double-elimination brackets for 2–16 players. Seed manually, pick a game per round (or let players vote), set best-of-N, tap to advance winners. Saves in your browser — print it, copy it, or share a link to the live bracket.</p>
+      <p class="lede">Single- or double-elimination brackets for 2-16 players. Seed manually, pick a game per round (or let players vote), set best-of-N, tap to advance winners. Saves in your browser, print it, copy it, or share a link to the live bracket.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="wrap">
-      <p class="t-note">Everything runs in your browser — no accounts, no uploads. Game options come from the <a href="games.html">full verified catalog</a> (party games listed first); every link is a real, verified game.</p>
+      <p class="t-note">Everything runs in your browser, no accounts, no uploads. Game options come from the <a href="games.html">full verified catalog</a> (party games listed first); every link is a real, verified game.</p>
 
       <h2>1. Players &amp; format</h2>
       <div class="t-setup">
-        <label for="t-players"><strong>Player names</strong> — one per line. Entry order is the seed order (first name = top seed); reorder in step 2.</label>
+        <label for="t-players"><strong>Player names</strong>, one per line. Entry order is the seed order (first name = top seed); reorder in step 2.</label>
         <textarea id="t-players" placeholder="Ana&#10;Ben&#10;Cara&#10;Dev&#10;…"></textarea>
         <p id="t-count" aria-live="polite"></p>
         <fieldset class="t-format">
@@ -184,7 +182,7 @@
 
       <h2>2. Seeding</h2>
       <div class="t-setup">
-        <p class="t-note">Use ↑ ↓ to reorder seeds (keyboard-operable). Give each player an optional game pick — those become the candidates when a round votes on its game. No skill ratings live on this site, so seeds are manual or random — never pretend otherwise.</p>
+        <p class="t-note">Use ↑ ↓ to reorder seeds (keyboard-operable). Give each player an optional game pick, those become the candidates when a round votes on its game. No skill ratings live on this site, so seeds are manual or random, never pretend otherwise.</p>
         <ol id="t-seed-list"></ol>
         <div class="t-setup-row">
           <button class="btn btn-ghost" id="t-seed-random" type="button">🔀 Randomize seeds</button>
@@ -209,7 +207,7 @@
           <ol id="t-history-list"></ol>
           <p class="t-note">Newest first. Undo works for this browser session only.</p>
         </section>
-        <p class="t-note">Tip: the party planner hands off here — build a <a href="party-planner.html">game-night plan</a> and hit “Turn this plan into a tournament” to pre-fill players and games.</p>
+        <p class="t-note">Tip: the party planner hands off here, build a <a href="party-planner.html">game-night plan</a> and hit “Turn this plan into a tournament” to pre-fill players and games.</p>
       </div>
 
       <p id="t-live" class="sr-only" aria-live="polite"></p>
@@ -254,7 +252,7 @@
       </div>
     </div>
     <div class="footer-note">
-      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Button Mash, your browser is the console. Built 2026.</span>
       <span>Zero ROMs hosted. Zero piracy links. Your files never leave your machine.</span>
     </div>
     <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>

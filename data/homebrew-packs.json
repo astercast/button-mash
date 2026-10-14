@@ -4,23 +4,23 @@
     {
       "entries": [
         {
-          "name": "pdroms.de — Game Boy Advance section",
+          "name": "pdroms.de: Game Boy Advance section",
           "note": "The classic public-domain ROM archive; dozens of free GBA titles, download-ready.",
           "url": "https://pdroms.de/nintendo-game-boy-advance-gba"
         },
         {
-          "name": "itch.io — games tagged Game Boy Advance",
+          "name": "itch.io, games tagged Game Boy Advance",
           "note": "Indie devs shipping real GBA ROMs; many free.",
           "url": "https://itch.io/games/tag-game-boy-advance"
         },
         {
-          "name": "GameBrew — list of all GBA homebrew",
+          "name": "GameBrew, list of all GBA homebrew",
           "note": "Community wiki catalog of the GBA homebrew scene, newest first.",
           "url": "https://gamebrew.org/wiki/List_of_all_GBA_homebrew"
         },
         {
-          "name": "itch.io — GBA Jam 2026 entries",
-          "note": "The freshest GBA homebrew: every entry from the 2026 jam (the console's 25th anniversary) — free to download and feed to the Converter/Player.",
+          "name": "itch.io: GBA Jam 2026 entries",
+          "note": "The freshest GBA homebrew: every entry from the 2026 jam (the console's 25th anniversary), free to download and feed to the Converter/Player.",
           "url": "https://itch.io/jam/gbajam26/entries"
         }
       ],
@@ -31,17 +31,17 @@
     {
       "entries": [
         {
-          "name": "pdroms.de — Super Nintendo section",
+          "name": "pdroms.de: Super Nintendo section",
           "note": "The classic public-domain ROM archive's SNES shelf.",
           "url": "https://pdroms.de/super-nintendo-snes-super-famicom"
         },
         {
-          "name": "itch.io — games tagged Super Nintendo",
+          "name": "itch.io, games tagged Super Nintendo",
           "note": "Indie devs shipping playable SNES ROMs; many free.",
           "url": "https://itch.io/games/tag-super-nintendo"
         },
         {
-          "name": "itch.io — games tagged SNES",
+          "name": "itch.io, games tagged SNES",
           "note": "The shorter tag; different devs, overlapping treasures.",
           "url": "https://itch.io/games/tag-snes"
         }
@@ -53,17 +53,17 @@
     {
       "entries": [
         {
-          "name": "Zophar's Domain — NES public-domain shelf",
+          "name": "Zophar's Domain: NES public-domain shelf",
           "note": "The long-running public-domain archive's NES shelf: homebrew games and demos, free and legal.",
           "url": "https://zophar.net/pdroms/nes.html"
         },
         {
-          "name": "itch.io — games tagged NES + NESmaker",
+          "name": "itch.io, games tagged NES + NESmaker",
           "note": "Modern NES homebrew built with NESmaker and friends; many ship the ROM free.",
           "url": "https://itch.io/games/tag-nes/tag-nesmaker"
         },
         {
-          "name": "itch.io — newest neshomebrew",
+          "name": "itch.io, newest neshomebrew",
           "note": "The fresh end of the NES homebrew scene, newest first.",
           "url": "https://itch.io/games/newest/tag-neshomebrew"
         }
@@ -75,18 +75,18 @@
     {
       "entries": [
         {
-          "name": "pdroms.de — Nintendo 64 section",
+          "name": "pdroms.de: Nintendo 64 section",
           "note": "Public-domain N64 ROMs from the classic archive.",
           "url": "https://pdroms.de/nintendo-64-n64"
         },
         {
-          "name": "itch.io — games tagged Nintendo 64",
+          "name": "itch.io, games tagged Nintendo 64",
           "note": "Indie devs shipping N64 homebrew; many free.",
           "url": "https://itch.io/games/tag-nintendo-64"
         },
         {
           "name": "n64.dev",
-          "note": "The modern N64 homebrew community — tools, tutorials, and releases.",
+          "note": "The modern N64 homebrew community, tools, tutorials, and releases.",
           "url": "https://n64.dev/"
         }
       ],
@@ -97,18 +97,18 @@
     {
       "entries": [
         {
-          "name": "pdroms.de — PlayStation section",
+          "name": "pdroms.de: PlayStation section",
           "note": "Public-domain PS1 titles from the classic archive.",
           "url": "https://pdroms.de/sony-playstation-ps1"
         },
         {
-          "name": "itch.io — games tagged PlayStation",
+          "name": "itch.io, games tagged PlayStation",
           "note": "Indie devs shipping playable PS1 homebrew; many free.",
           "url": "https://itch.io/games/tag-playstation"
         },
         {
           "name": "PSXDEV",
-          "note": "The PS1 homebrew development community — tools and releases.",
+          "note": "The PS1 homebrew development community, tools and releases.",
           "url": "https://psxdev.net/"
         },
         {
@@ -124,18 +124,18 @@
     {
       "entries": [
         {
-          "name": "pdroms.de — Genesis / Mega Drive section",
+          "name": "pdroms.de: Genesis / Mega Drive section",
           "note": "Public-domain Genesis ROMs from the classic archive.",
           "url": "https://pdroms.de/sega-genesis-megadrive"
         },
         {
-          "name": "itch.io — games tagged Sega Genesis",
+          "name": "itch.io, games tagged Sega Genesis",
           "note": "Indie devs shipping playable Genesis ROMs; many free.",
           "url": "https://itch.io/games/tag-sega-genesis"
         },
         {
-          "name": "itch.io — games tagged Mega Drive",
-          "note": "The European/Japanese name — different devs, same hardware.",
+          "name": "itch.io, games tagged Mega Drive",
+          "note": "The European/Japanese name, different devs, same hardware.",
           "url": "https://itch.io/games/tag-mega-drive"
         }
       ],
@@ -146,22 +146,22 @@
     {
       "entries": [
         {
-          "name": "pdroms.de — Game Boy section",
+          "name": "pdroms.de: Game Boy section",
           "note": "Public-domain GB/GBC ROMs from the classic archive.",
           "url": "https://pdroms.de/nintendo-game-boy-gb-gbc"
         },
         {
-          "name": "itch.io — games tagged Game Boy",
+          "name": "itch.io, games tagged Game Boy",
           "note": "Indie devs shipping playable GB ROMs; many free.",
           "url": "https://itch.io/games/tag-game-boy"
         },
         {
           "name": "GBDev",
-          "note": "The Game Boy development community — resources, jams, and releases.",
+          "note": "The Game Boy development community, resources, jams, and releases.",
           "url": "https://gbdev.io/"
         },
         {
-          "name": "GameBrew — list of all GB homebrew",
+          "name": "GameBrew, list of all GB homebrew",
           "note": "Community wiki catalog of GB homebrew, newest first.",
           "url": "https://gamebrew.org/wiki/List_of_all_GB_homebrew"
         }

@@ -1,8 +1,8 @@
 /* Wave 19 "Spotlight" headless functional checks: the Curator's metadata
-   surfaces in the browser — game.html detail pages (static-first + live
+   surfaces in the browser, game.html detail pages (static-first + live
    enrichment overlay + honest states), collections.html Curator wiring,
    card-tooltip deep links, and the ?id= live probe (section F: in-page
-   fetch stub since wave 22 — Chromium 152 Local Network Access checks
+   fetch stub since wave 22: Chromium 152 Local Network Access checks
    block loopback navigation in this sandbox; see the section comment).
    Run: NODE_PATH=~/workspace/smoke/node_modules node scripts/test_wave19.js
    Exit 0 = all pass, zero pageerrors. */
@@ -15,8 +15,8 @@ const ROOT = "/home/hatch/workspace/button-mash";
 const BASE = "file://" + ROOT;
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -26,7 +26,7 @@ async function newPage(browser, viewport) {
   page.on("console", (m) => {
     if (m.type() !== "error") return;
     const t = m.text();
-    // Over file:// the Curator live probe (/api/*) deterministically 404s —
+    // Over file:// the Curator live probe (/api/*) deterministically 404s,
     // that miss is the designed fallback contract (static renders, badge
     // reads "cached"), so its console noise is expected, not an app error.
     // Every static asset is link-checked, so ERR_FILE_NOT_FOUND can only be
@@ -37,7 +37,7 @@ async function newPage(browser, viewport) {
   page.on("pageerror", (e) => errors.push("[pageerror] " + String(e).slice(0, 200)));
   page.on("requestfailed", (r) => {
     // The /api/* live probe failing is the designed fallback contract
-    // (static renders, badge reads "cached") — not an app error. Everything
+    // (static renders, badge reads "cached"), not an app error. Everything
     // else failing to load is real noise.
     if (!r.url().includes("/api/")) errors.push("[requestfailed] " + r.url().slice(0, 120));
   });
@@ -95,7 +95,7 @@ function stubEnvelopes() {
         badgeState: document.querySelector("#detail-badge").dataset.apiState,
         badgeRole: document.querySelector("#detail-badge").getAttribute("role"),
       }));
-      check("detail: title + document title", facts.title === "TETR.IO — Button Mash", facts.title);
+      check("detail: title + document title", facts.title === "TETR.IO: Button Mash", facts.title);
       check("detail: kicker carries the game id", facts.kicker === "GAME FILE // TETRIO", facts.kicker);
       check("detail: real description + controls",
         facts.desc.includes("Blisteringly fast") && facts.controls.includes("Keyboard (customizable)"), "static catalog data");
@@ -221,7 +221,7 @@ function stubEnvelopes() {
         return a ? a.getAttribute("href") : null;
       });
       // arcade.js builds the link with its BASE prefix (cards also render on
-      // subpages), so over file:// the attribute is an absolute file URL —
+      // subpages), so over file:// the attribute is an absolute file URL,
       // what matters is that it lands on this game's file.
       check("tooltip: full game file deep link", href && href.indexOf("game.html?id=") !== -1, href);
       check("tooltip: zero pageerrors", errors.length === 0, errors.join(" | ").slice(0, 300));
@@ -259,7 +259,7 @@ function stubEnvelopes() {
     // --- F. live probe: the Curator answers, the badge flips to live ---
     // Chromium 152's Local Network Access checks block every loopback
     // navigation in this sandbox (verified wave 22: fresh page, headful,
-    // browser-initiated, CDP permission grants, feature flags — all
+    // browser-initiated, CDP permission grants, feature flags, all
     // ERR_BLOCKED_BY_LOCAL_NETWORK_ACCESS_CHECKS), so the stub Curator can
     // no longer be a real HTTP server the browser visits. Instead the same
     // canned envelopes are served by an in-page fetch stub installed before

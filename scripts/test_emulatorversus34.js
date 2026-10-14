@@ -2,7 +2,7 @@
 
    (1) unit checks against the UMD core
    (assets/js/emulator-versus-core.js) with the real emulator
-   records — profiles copy only real fields, word-described
+   records, profiles copy only real fields, word-described
    system lists stay uncounted, verdicts fire only where the
    records support them, seeded pairings reproduce exactly
    (FNV-1a over seed + sorted ids, mulberry32), pairings
@@ -25,8 +25,8 @@ const ROOT = "/home/hatch/workspace/button-mash";
 const BASE = "file://" + ROOT;
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -44,7 +44,7 @@ const byId = {}; emus.forEach((e) => { byId[e.id] = e; });
     emus.length === 10,
     "10 emulator records; the whole surface is DOM-free");
 
-  check("profile: fields are the record's own — notes/license/systems verbatim",
+  check("profile: fields are the record's own, notes/license/systems verbatim",
     (() => { const p = E.profile(byId["mgba"]); return p.notes === byId["mgba"].notes &&
       p.license === "MPL-2.0" && p.systems.join(",") === "GBA,GB,GBC" && p.url === byId["mgba"].url; })(),
     "nothing paraphrased, nothing added");
@@ -101,7 +101,7 @@ const byId = {}; emus.forEach((e) => { byId[e.id] = e; });
   const cmp = E.compare(byId["mgba"], byId["sameboy"]);
   const card = E.shareCard(cmp, "emulation.html?ea=mgba&eb=sameboy&seed=cabinet-34", "cabinet-34");
   check("share card: rows + verdicts + the seed + real project URLs, no winner language",
-    card.includes("EMULATOR SIDE BY SIDE — mGBA vs SameBoy") && card.includes('seed: "cabinet-34"') &&
+    card.includes("EMULATOR SIDE BY SIDE, mGBA vs SameBoy") && card.includes('seed: "cabinet-34"') &&
     card.includes(byId["mgba"].url) && card.includes(byId["sameboy"].url) &&
     !/score|rating|winner/i.test(card),
     "the card is the comparison and its seed, in plain text");
@@ -149,7 +149,7 @@ const byId = {}; emus.forEach((e) => { byId[e.id] = e; });
     dealt.join(" vs ") + " @ " + dealtLoc);
   const cardText = await page.$eval("#ev-card-text", (n) => n.textContent);
   check("headless: the share card carries the seed line",
-    cardText.includes('Seeded pairing — seed: "cabinet-34"'),
+    cardText.includes('Seeded pairing, seed: "cabinet-34"'),
     "re-deal it and check");
 
   await page.goto(BASE + "/emulation.html?ea=mgba&eb=no-such-emu", { waitUntil: "networkidle0", timeout: 60000 });

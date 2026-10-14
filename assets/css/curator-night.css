@@ -1,4 +1,4 @@
-/* curator-night.css — Game Night: the Curator deals your night (wave 21).
+/* curator-night.css: Game Night: the Curator deals your night (wave 21).
    Marquee ceremony styling over the shared Arcade identity. All keyframe
    motion is transform/opacity only; everything dies under
    prefers-reduced-motion and the FX-off toggle. */
@@ -147,7 +147,7 @@
   font: inherit;
   transition: border-color 0.12s ease, box-shadow 0.12s ease;
 }
-.cn-seed:hover, .cn-seed:focus-visible { border-color: var(--neon-amber); box-shadow: 0 0 12px rgba(255, 176, 46, 0.3); }
+.cn-seed:hover.cn-seed:focus-visible { border-color: var(--neon-amber); box-shadow: 0 0 12px rgba(255, 176, 46, 0.3); }
 .cn-seed strong { display: block; font-family: "VT323", ui-monospace, monospace; font-size: 1.15rem; letter-spacing: 0.06em; color: var(--neon-amber); }
 .cn-seed small { color: var(--ink-dim); }
 
@@ -250,7 +250,7 @@
   border-radius: var(--r-md);
   padding: 0.7rem 0.9rem;
 }
-.cn-save-form[hidden], .cn-actions [hidden] { display: none !important; }
+.cn-save-form[hidden].cn-actions [hidden] { display: none !important; }
 .cn-save-form label { font-weight: 600; display: flex; align-items: center; gap: 0.6rem; flex: 1 1 16rem; }
 .cn-save-name {
   flex: 1 1 12rem;
@@ -293,11 +293,10 @@
 
 /* ============ Print: the night on paper ============ */
 @media print {
-  .site-header, .site-footer, .cn-panel, .cn-seeds, .cn-actions, .skip-link,
-  .cn-shuffle, .cn-deal-row, .cn-shelf, .cn-save-form { display: none !important; }
+  .site-header.site-footer.cn-panel.cn-seeds.cn-actions.skip-link.cn-shuffle.cn-deal-row.cn-shelf.cn-save-form { display: none !important; }
   body { background: #fff; color: #000; }
-  .cn-marquee, .cn-slot, .cn-summary { break-inside: avoid; border: 1px solid #000; background: #fff; box-shadow: none; }
-  .cn-marquee h1, .cn-role, .cn-meta, .cn-why li, .cn-notes { color: #000; text-shadow: none; }
+  .cn-marquee.cn-slot.cn-summary { break-inside: avoid; border: 1px solid #000; background: #fff; box-shadow: none; }
+  .cn-marquee h1.cn-role.cn-meta.cn-why li.cn-notes { color: #000; text-shadow: none; }
   .cn-slot::before { display: none; }
   a { color: #000; text-decoration: underline; }
 }

@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Emulation Hub — Button Mash</title>
+<title>Emulation Hub: Button Mash</title>
 <meta name="description" content="Emulation guides that stay in the legal lane: EmulatorJS setup, RetroArch, mGBA, per-system best emulators, how emulation works, ripping your own games, and legal ROM sources.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Emulation Hub — Button Mash">
+<meta property="og:title" content="Emulation Hub: Button Mash">
 <meta property="og:description" content="Emulation guides that stay in the legal lane: EmulatorJS setup, RetroArch, mGBA, per-system best emulators, how emulation works, ripping your own games, and legal ROM sources.">
 <meta property="og:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Emulation Hub — Button Mash">
+<meta name="twitter:title" content="Emulation Hub: Button Mash">
 <meta name="twitter:description" content="Emulation guides that stay in the legal lane: EmulatorJS setup, RetroArch, mGBA, per-system best emulators, how emulation works, ripping your own games, and legal ROM sources.">
 <meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <link rel="canonical" href="https://button-mash-live.vercel.app/emulation.html">
@@ -151,7 +151,7 @@
     <div class="wrap hero-inner">
       <span class="kicker">Learn the craft</span>
       <h1>Emulation, <span class="cyan">the legal way.</span></h1>
-      <p class="lede">Emulators are software — legal, fascinating, and mostly open-source. ROMs are copies of games — and this site will never hand you one. These guides teach the tools, the tech, and how to play what you own.</p>
+      <p class="lede">Emulators are software, legal, fascinating, and mostly open-source. ROMs are copies of games, and this site will never hand you one. These guides teach the tools, the tech, and how to play what you own.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="player.html">» Try the in-browser Player</a>
         <a class="btn btn-ghost" href="play-legal.html">The legal lane</a>
@@ -178,7 +178,7 @@
         <article class="feature-card">
           <div class="icon" aria-hidden="true">💾</div>
           <h3>Rip your own cartridges</h3>
-          <p>Dump the games you physically own with a GB Operator, Retrode, or the open-source sanni reader — the legal way to get ROMs.</p>
+          <p>Dump the games you physically own with a GB Operator, Retrode, or the open-source sanni reader, the legal way to get ROMs.</p>
           <a class="card-link" href="guides/rip-your-own-cartridges.html">Read the guide ›</a>
         </article>
       </div>
@@ -192,7 +192,7 @@
         <article class="feature-card">
           <div class="icon" aria-hidden="true">🎯</div>
           <h3>Which system should you emulate?</h3>
-          <p>Four questions — nostalgia era, device power, game taste, tinkering tolerance — and an honest pick. Weak devices get steered to GBA/SNES, never N64.</p>
+          <p>Four questions, nostalgia era, device power, game taste, tinkering tolerance, and an honest pick. Weak devices get steered to GBA/SNES, never N64.</p>
           <a class="card-link" href="system-picker.html">Take the quiz ›</a>
         </article>
       </div>
@@ -202,7 +202,7 @@
   <section class="section" id="side-by-side">
     <div class="wrap">
       <div class="section-head"><h2><span class="tick">»</span> Emulators, side by side</h2><span class="results-count">the 10 picks, record against record</span></div>
-      <p class="vs-note">The guides above argue in prose; this is the fight card. Pick any two of the cabinet's <strong>10 emulator picks</strong> and their real records sit side by side — systems, platforms, license, the BIOS story, each project's own notes. The verdict strip reports only what the records support: a bigger listed footprint, a BIOS one side needs and the other doesn't, a license difference. No scores, no rankings, no winner. Where a record describes its reach in words ("Dozens via cores"), the words are shown verbatim and left uncounted — a shrug is never compared against a number. Games get the same treatment at <a href="versus.html">Versus</a>.</p>
+      <p class="vs-note">The guides above argue in prose; this is the fight card. Pick any two of the cabinet's <strong>10 emulator picks</strong> and their real records sit side by side, systems, platforms, license, the BIOS story, each project's own notes. The verdict strip reports only what the records support: a bigger listed footprint, a BIOS one side needs and the other doesn't, a license difference. No scores, no rankings, no winner. Where a record describes its reach in words ("Dozens via cores"), the words are shown verbatim and left uncounted, a shrug is never compared against a number. Games get the same treatment at <a href="versus.html">Versus</a>.</p>
       <div class="vs-pickers">
         <div class="vs-pick">
           <label for="ev-a"><strong>Corner A</strong></label>
@@ -218,17 +218,17 @@
       </div>
       <div class="ev-seedrow">
         <div class="vs-pick">
-          <label for="ev-seed"><strong>Surprise seed</strong> — any word or phrase</label>
+          <label for="ev-seed"><strong>Surprise seed</strong>, any word or phrase</label>
           <input id="ev-seed" type="text" value="cabinet-34" autocomplete="off" spellcheck="false">
         </div>
         <div class="vs-pick-actions">
           <button class="btn btn-cyan" id="ev-deal" type="button">🎲 Deal the seeded pairing</button>
         </div>
       </div>
-      <p class="vs-note">The deal is seeded, not random: an FNV-1a hash of your seed plus the sorted emulator ids feeds a mulberry32 generator, so the same seed against the same catalog deals the same pairing every time. The seed rides in the pairing link and on the share card — re-deal it and check our work.</p>
+      <p class="vs-note">The deal is seeded, not random: an FNV-1a hash of your seed plus the sorted emulator ids feeds a mulberry32 generator, so the same seed against the same catalog deals the same pairing every time. The seed rides in the pairing link and on the share card, re-deal it and check our work.</p>
       <p id="ev-error" role="alert"></p>
       <p class="vs-note" id="ev-seed-note" aria-live="polite"></p>
-      <p class="vs-note" id="ev-starter" hidden>Starter pairing on the marquee: the cabinet's first two picks. Change either corner — or deal a seed — and it is your card.</p>
+      <p class="vs-note" id="ev-starter" hidden>Starter pairing on the marquee: the cabinet's first two picks. Change either corner, or deal a seed, and it is your card.</p>
       <div id="ev-stage"></div>
       <div id="ev-verdict" aria-live="polite"></div>
       <section class="vs-cardbox" id="ev-cardbox" hidden aria-label="Share card">
@@ -257,7 +257,7 @@
         <article class="feature-card">
           <div class="icon" aria-hidden="true">🟣</div>
           <h3>Game Boy Advance</h3>
-          <p>mGBA core, zero BIOS, runs on anything. The easiest first emulation project — color correction, saves, cheats, and a legal homebrew starter pack.</p>
+          <p>mGBA core, zero BIOS, runs on anything. The easiest first emulation project, color correction, saves, cheats, and a legal homebrew starter pack.</p>
           <a class="card-link" href="guides/gba.html">Read the guide ›</a>
         </article>
         <article class="feature-card">
@@ -269,7 +269,7 @@
         <article class="feature-card">
           <div class="icon" aria-hidden="true">🔴</div>
           <h3>Nintendo 64</h3>
-          <p>Mupen64Plus-Next, zero BIOS — and honest notes about the quirks. Framebuffer emulation, resolution tuning, and real hardware requirements.</p>
+          <p>Mupen64Plus-Next, zero BIOS, and honest notes about the quirks. Framebuffer emulation, resolution tuning, and real hardware requirements.</p>
           <a class="card-link" href="guides/n64.html">Read the guide ›</a>
         </article>
         <article class="feature-card">
@@ -301,7 +301,7 @@
         <article class="feature-card">
           <div class="icon" aria-hidden="true">🧬</div>
           <h3>How GBA becomes WebAssembly</h3>
-          <p>The reverse-engineering pattern behind browser GBA: ARM/THUMB basic blocks lifted into real WASM, frame timing, memory mapping — written from scratch.</p>
+          <p>The reverse-engineering pattern behind browser GBA: ARM/THUMB basic blocks lifted into real WASM, frame timing, memory mapping, written from scratch.</p>
           <a class="card-link" href="guides/gba-wasm.html">Read the explainer ›</a>
         </article>
         <article class="feature-card">
@@ -313,7 +313,7 @@
         <article class="feature-card">
           <div class="icon" aria-hidden="true">🏆</div>
           <h3>Best emulator per system</h3>
-          <p>One honest pick per classic system — accuracy, ease of use, and platform notes. No ROM links, just the software.</p>
+          <p>One honest pick per classic system, accuracy, ease of use, and platform notes. No ROM links, just the software.</p>
           <a class="card-link" href="guides/best-emulator-per-system.html">See the picks ›</a>
         </article>
       </div>
@@ -351,7 +351,7 @@
         <article class="feature-card">
           <div class="icon" aria-hidden="true">🤝</div>
           <h3>Retro games for every player</h3>
-          <p>An accessibility guide: remapping, turbo, rewind, color correction, and difficulty dials — the tools the originals never shipped with.</p>
+          <p>An accessibility guide: remapping, turbo, rewind, color correction, and difficulty dials, the tools the originals never shipped with.</p>
           <a class="card-link" href="guides/accessibility-in-retro-gaming.html">Read the guide ›</a>
         </article>
         <article class="feature-card">
@@ -375,7 +375,7 @@
         <article class="feature-card">
           <div class="icon" aria-hidden="true">🪄</div>
           <h3>Cheat codes, decoded</h3>
-          <p>What a cheat code actually is — an address and a value — plus the Konami Code, the Game Genie, the lawsuit that made cheat devices legal, GameShark, and how to find your own codes.</p>
+          <p>What a cheat code actually is, an address and a value, plus the Konami Code, the Game Genie, the lawsuit that made cheat devices legal, GameShark, and how to find your own codes.</p>
           <a class="card-link" href="guides/cheat-codes.html">Read the guide ›</a>
         </article>
       </div>
@@ -395,7 +395,7 @@
         <article class="feature-card">
           <div class="icon" aria-hidden="true">🏛️</div>
           <h3>Internet Archive playable collections</h3>
-          <p>The Archive's Console Living Room, Internet Arcade and MS-DOS library — vintage software preserved and playable in the browser.</p>
+          <p>The Archive's Console Living Room, Internet Arcade and MS-DOS library, vintage software preserved and playable in the browser.</p>
           <a class="card-link" href="games.html">Find them in the directory ›</a>
         </article>
       </div>
@@ -443,7 +443,7 @@
       </div>
     </div>
     <div class="footer-note">
-      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Button Mash, your browser is the console. Built 2026.</span>
       <span>Zero ROMs hosted. Zero piracy links.</span>
     </div>
     <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>

@@ -8,8 +8,8 @@ const puppeteer = require("puppeteer-core");
 const BASE = "file:///home/hatch/workspace/button-mash";
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 
 async function newPage(browser) {
@@ -17,7 +17,7 @@ async function newPage(browser) {
   const errors = [];
   page.on("console", (m) => {
     if (m.type() !== "error") return;
-    // Over file:// the Curator live probe (/api/*) deterministically 404s —
+    // Over file:// the Curator live probe (/api/*) deterministically 404s,
     // the designed fallback contract (static renders, badge reads "cached"),
     // so its console noise is expected, not an app error. Same filter as
     // test_wave19 / test_curatornight21; this suite predates the probes
@@ -72,7 +72,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       await page.waitForFunction(
         () => document.getElementById("shelf-score-attack"), { timeout: 30000 });
       // Poll for the scrolled state (load-time smooth scroll can be deferred
-      // ~2s by Chrome — wave-16 flake note; the scroll itself is instant/auto).
+      // ~2s by Chrome, wave-16 flake note; the scroll itself is instant/auto).
       let visible = false;
       try {
         await page.waitForFunction(() => {

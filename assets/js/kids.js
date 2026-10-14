@@ -1,12 +1,12 @@
-/* Button Mash — Kids corner: age-band filters over the kid-safe catalog. */
+/* Button Mash: Kids corner: age-band filters over the kid-safe catalog. */
 (function () {
   'use strict';
 
   var BANDS = [
     { id: 'all', label: 'All ages', desc: 'every kid-safe game' },
-    { id: '5-7', label: 'Ages 5–7', desc: 'one-button toys and sandboxes' },
-    { id: '8-10', label: 'Ages 8–10', desc: 'puzzles and gentle games' },
-    { id: '11-12', label: 'Ages 11–12', desc: 'harder puzzles and slow strategy' }
+    { id: '5-7', label: 'Ages 5-7', desc: 'one-button toys and sandboxes' },
+    { id: '8-10', label: 'Ages 8-10', desc: 'puzzles and gentle games' },
+    { id: '11-12', label: 'Ages 11-12', desc: 'harder puzzles and slow strategy' }
   ];
 
   async function initKids() {
@@ -29,7 +29,7 @@
     var state = { band: 'all' };
 
     function bandLabel(b) {
-      return b === '5-7' ? 'Ages 5–7' : b === '8-10' ? 'Ages 8–10' : 'Ages 11–12';
+      return b === '5-7' ? 'Ages 5-7' : b === '8-10' ? 'Ages 8-10' : 'Ages 11-12';
     }
 
     function card(g) {

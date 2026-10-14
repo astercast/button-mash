@@ -1,14 +1,14 @@
-/* Wave 28 checks: Curator pass 4 — the Flash-era shelf.
+/* Wave 28 checks: Curator pass 4, the Flash-era shelf.
 
    The tranche wave 27 named next: the Flash-era entries' year/creator
-   claims — the "Flash-back machine" collection (the Ruffle shelf),
+   claims, the "Flash-back machine" collection (the Ruffle shelf),
    never checked against a source outside the repo. Five of its nine
    entries carry a year and/or creator claim; each was verified
    2026-10-12 against the games' own records and reputable archives
    (Wikipedia, MobyGames, the Newgrounds wikis, the linked
    archive.org items themselves). Three stand as written and are
    pinned verbatim below. Two earned fixes, both attribution errors
-   of the same family as wave 27's Transport Tycoon lesson — the
+   of the same family as wave 27's Transport Tycoon lesson, the
    entry must credit what it actually links to:
 
    - Alien Hominid (Flash) called itself "The Behemoth's 2002"
@@ -19,7 +19,7 @@
      the prototype's success, to build the console version. The
      archive.org item this entry links is itself credited to Fulp
      and Paladin. The entry now names them.
-   - Dad 'n Me was "Tom Fulp's 2005" — the year is right (July 27,
+   - Dad 'n Me was "Tom Fulp's 2005", the year is right (July 27,
      2005) but the game's own credits split the work: programming by
      Fulp, art by Paladin, the same duo as Alien Hominid. The
      singular possessive dropped the artist; the entry now names
@@ -27,13 +27,13 @@
 
    The shelf's other four entries (Canabalt, Line Rider, Happy
    Wheels, QWOP) carry no year or creator claim in their
-   descriptions, so there was nothing in this tranche to verify —
+   descriptions, so there was nothing in this tranche to verify,
    that scope fact is pinned below.
 
    Taxonomy: still untouched. The TAXONOMY_BRIEF.md call (rotation
    6) remains UNDECIDED; purrgatory, Lookouts and Little Troubles in
    Spooky Town stay pinned in horror, census 213 / horror 6 / cozy
-   16, exactly as waves 25–27 left them.
+   16, exactly as waves 25-27 left them.
 
    Run: node scripts/test_curator28.js   (pure node, no browser)
    Exit 0 = all pass. */
@@ -44,8 +44,8 @@ const path = require("path");
 const ROOT = "/home/hatch/workspace/button-mash";
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 
 const gamesDoc = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/games.json"), "utf8"));
@@ -83,7 +83,7 @@ gamesDoc.games.forEach((g) => { byId[g.id] = g; });
     "the entry names the creators the thing it links to names (the Transport Tycoon rule)");
   check("fix: Dad 'n Me credits both makers, year unchanged",
     byId["dad-n-me"].description ===
-      "Tom Fulp and Dan Paladin's 2005 beat-em-up: a dad, his kid, and a city full of punks — Flash brawling at its finest, via Ruffle.",
+      "Tom Fulp and Dan Paladin's 2005 beat-em-up: a dad, his kid, and a city full of punks: Flash brawling at its finest, via Ruffle.",
     "released July 27, 2005; the game's own credits split programming (Fulp) and art (Paladin)");
 }
 
@@ -91,7 +91,7 @@ gamesDoc.games.forEach((g) => { byId[g.id] = g; });
 const VERIFIED = {
   "fancy-pants-1": "Brad Borne's 2006 stick-figure platformer: the smoothest Flash run-and-slide ever, preserved on the Archive via Ruffle.",
   "achievement-unlocked": "John Cooney's 2008 metagame: a tiny platformer about unlocking 100 achievements for doing literally everything.",
-  "time-fcuk": "Edmund McMillen's 2009 puzzle-platformer: a box, a time mechanic, and an ending you'll argue about — preserved via Ruffle.",
+  "time-fcuk": "Edmund McMillen's 2009 puzzle-platformer: a box, a time mechanic, and an ending you'll argue about, preserved via Ruffle.",
 };
 Object.keys(VERIFIED).forEach((id) => {
   check("verified as written: " + id,
@@ -114,7 +114,7 @@ Object.keys(VERIFIED).forEach((id) => {
 {
   const horror = gamesDoc.games.filter((g) => g.genre === "horror");
   const cozy = gamesDoc.games.filter((g) => g.genre === "cozy");
-  check("taxonomy: the brief's call is still UNDECIDED — nothing reshelved",
+  check("taxonomy: the brief's call is still UNDECIDED, nothing reshelved",
     byId["purrgatory"].genre === "horror" && byId["lookouts"].genre === "horror" &&
     byId["spooky-town"].genre === "horror",
     "all three stay in horror until a human rules on TAXONOMY_BRIEF.md");

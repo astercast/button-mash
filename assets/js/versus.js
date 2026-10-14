@@ -1,11 +1,11 @@
-/* Button Mash — Versus UI (wave 33).
+/* Button Mash: Versus UI (wave 33).
  *
  * Thin DOM shell over assets/js/versus-core.js (BM.Versus): all
  * comparison logic, verdict wording, pairing parsing, and the
  * share card live in the core and are unit-tested there. This file
  * only loads the real catalog (data/v1/games.json +
  * collections.json + kid-safe.json, static-first like every other
- * page on the cabinet — the page works with the functions cold),
+ * page on the cabinet, the page works with the functions cold),
  * fills the two pickers, renders what the core returns, and keeps
  * the pairing in the URL (?a=&b=) so any face-off is a link.
  *
@@ -63,14 +63,14 @@
     card.appendChild(el('p', 'vs-desc', p.description));
     var rows = [
       ['Year named in its description', p.year !== null ? String(p.year) : 'No year named'],
-      ['Genre', p.genre || '—'],
-      ['Controls', p.controls || '—'],
-      ['Plays on', p.host || '—'],
+      ['Genre', p.genre || '-'],
+      ['Controls', p.controls || '-'],
+      ['Plays on', p.host || '-'],
       ['Collections', p.collections.length
         ? p.collections.map(function (c) { return c.title; }).join('; ')
         : 'Not on a collection shelf yet'],
       ['Tags', p.tags.length ? p.tags.join(', ') : 'No tags'],
-      ['Kids corner', p.kidSafe ? 'Audit pass — listed in Kids corner' : 'Not listed in Kids corner'],
+      ['Kids corner', p.kidSafe ? 'Audit pass, listed in Kids corner' : 'Not listed in Kids corner'],
     ];
     var dl = el('dl', 'vs-rows');
     rows.forEach(function (r) {
@@ -110,12 +110,12 @@
       var qs = (aId || bId) ? '?' + V.encodePair(aId || '', bId || '') +
         (state.lastSeed ? '&seed=' + encodeURIComponent(state.lastSeed) : '') : '';
       history.replaceState(null, '', 'versus.html' + qs);
-    } catch (e) { /* file:// in some browsers — the page still works */ }
+    } catch (e) { /* file:// in some browsers, the page still works */ }
 
     if (!aId || !bId) {
       stage.appendChild(el('p', 'vs-empty', !aId && !bId
         ? 'No pairing yet. Pick two games above and the cabinet puts their records side by side.'
-        : 'One side is still empty — pick the second game and the face-off lights up.'));
+        : 'One side is still empty, pick the second game and the face-off lights up.'));
       $('vs-live').textContent = 'Versus is waiting for two games.';
       return;
     }
@@ -137,14 +137,14 @@
     if (cmp.thin) {
       strip.appendChild(el('p', 'vs-strip-head', 'No basis to compare'));
       strip.appendChild(el('p', 'vs-strip-line',
-        'Neither catalog record carries a year, a shelf, a tag, written coverage, or a Kids corner pass the strip could report — so the strip reports nothing. ' +
+        'Neither catalog record carries a year, a shelf, a tag, written coverage, or a Kids corner pass the strip could report, so the strip reports nothing. ' +
         'What separates these two is in the rows above: genre, controls, and the catalog\u2019s own words. Versus does not invent a winner from that.'));
     } else {
       strip.appendChild(el('p', 'vs-strip-head', 'What the records support'));
       cmp.verdicts.forEach(function (v) {
         strip.appendChild(el('p', 'vs-strip-line', '• ' + v.text));
       });
-      strip.appendChild(el('p', 'vs-strip-note', 'Counts and dates only — no scores, no rankings, and no winner. Which one you play is still your call.'));
+      strip.appendChild(el('p', 'vs-strip-note', 'Counts and dates only, no scores, no rankings, and no winner. Which one you play is still your call.'));
     }
     verdictBox.appendChild(strip);
 
@@ -191,7 +191,7 @@
       $('vs-seed').value = seedParam;
     }
     /* A bare visit gets an honest default pairing to look at:
-       the catalog's first game against its oldest dated record —
+       the catalog's first game against its oldest dated record,
        chosen from the data, labelled as a starter, changeable. */
     if (!pair.a && !pair.b) {
       var dated = games.filter(function (g) { return V.yearNamed(g.description, g.id) !== null; })
@@ -203,17 +203,17 @@
       }
     }
     render();
-    /* The dropped-id notice is posted AFTER render() — render
+    /* The dropped-id notice is posted AFTER render(), render
        clears the alert line on every pairing change, and a notice
        set before it would never be seen. */
     if (pair.dropped.length) {
       $('vs-error').textContent = 'Dropped from the link: ' + pair.dropped.join(', ') +
-        ' — not a catalog id this cabinet can vouch for. The rest of the pairing stands.';
+        ', not a catalog id this cabinet can vouch for. The rest of the pairing stands.';
     }
   }
 
   function init() {
-    if (!V) { $('vs-error').textContent = 'The Versus engine did not load — reload the page.'; return; }
+    if (!V) { $('vs-error').textContent = 'The Versus engine did not load, reload the page.'; return; }
     $('vs-a').addEventListener('change', function () { state.lastSeed = null; render(); });
     $('vs-b').addEventListener('change', function () { state.lastSeed = null; render(); });
     $('vs-swap').addEventListener('click', function () {
@@ -223,7 +223,7 @@
       state.lastSeed = null;
       render();
     });
-    /* Surprise pairing — SEEDED since wave 34 (Seed-Reckoning):
+    /* Surprise pairing: SEEDED since wave 34 (Seed-Reckoning):
        the seed in the seed box deals the pairing via the core's
        FNV-1a + mulberry32, and the seed rides in the URL and on
        the share card. Same seed + same catalog = same pairing. */
@@ -231,7 +231,7 @@
       if (state.games.length < 2) return;
       var dealt = V.seededPair($('vs-seed').value, state.games);
       if (!dealt) {
-        $('vs-error').textContent = 'Type a seed first — any word or phrase. The same seed always deals the same pairing.';
+        $('vs-error').textContent = 'Type a seed first, any word or phrase. The same seed always deals the same pairing.';
         return;
       }
       state.lastSeed = dealt.seed;
@@ -239,7 +239,7 @@
       $('vs-b').value = dealt.bId;
       $('vs-starter').hidden = true;
       render();
-      $('vs-seed-note').textContent = 'Dealt by seed "' + dealt.seed + '" — re-deal it any time; the same seed against the same catalog lands on this exact pairing.';
+      $('vs-seed-note').textContent = 'Dealt by seed "' + dealt.seed + '", re-deal it any time; the same seed against the same catalog lands on this exact pairing.';
     });
     $('vs-copy').addEventListener('click', function () {
       copyText($('vs-card-text').textContent, $('vs-copy'), '✓ Card copied');

@@ -1,10 +1,10 @@
-/* Arcade Passport — the booklet page (passport.html).
+/* Arcade Passport, the booklet page (passport.html).
  *
  * Renders the stamp booklet from BM.Passport state plus the live
  * catalog: stamps come from bm.passport.v1 (earned on the
  * Collections page, where shelves are actually seen), guide marks
  * are derived on the spot from the checklist store via BM.getChecks
- * — nothing on this page is estimated, cached from a server, or
+ *, nothing on this page is estimated, cached from a server, or
  * counted twice. Everything lives in this browser. */
 (function () {
   'use strict';
@@ -32,7 +32,7 @@
       [
         [prog.stamps + ' / ' + prog.stampsTotal, 'shelves stamped'],
         [prog.marks + ' / ' + prog.marksTotal, 'guide marks'],
-        [prog.startedAt ? fmtDate(prog.startedAt) : '—', 'first stamp'],
+        [prog.startedAt ? fmtDate(prog.startedAt) : '-', 'first stamp'],
       ].forEach(function (pair) {
         var cell = BM.el('div', 'stat-readout');
         cell.appendChild(BM.el('div', 'stat-num', pair[0]));
@@ -48,9 +48,9 @@
       var strong = BM.el('strong', null, prog.stamps + ' of ' + prog.stampsTotal + ' shelves stamped');
       line.appendChild(strong);
       line.appendChild(document.createTextNode(
-        prog.stamps === 0 ? ' — no stamps yet. The booklet is blank, the cabinet is patient.'
-        : prog.stamps === prog.stampsTotal ? ' — every shelf in the cabinet, seen. Full booklet.'
-        : ' — ' + (prog.stampsTotal - prog.stamps) + ' to go.'));
+        prog.stamps === 0 ? ', no stamps yet. The booklet is blank, the cabinet is patient.'
+        : prog.stamps === prog.stampsTotal ? ', every shelf in the cabinet, seen. Full booklet.'
+        : ', ' + (prog.stampsTotal - prog.stamps) + ' to go.'));
     }
 
     var grid = document.getElementById('stamp-grid');

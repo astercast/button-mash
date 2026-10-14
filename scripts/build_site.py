@@ -11,34 +11,34 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 
 PAGES = [
-    ("index.html", "Home — the universal in-browser game console"),
+    ("index.html", "Home, the universal in-browser game console"),
     ("games.html", "Game directory: curated free browser games, search + genre/tag filters, shareable filtered views"),
-    ("game.html", "Game file: per-game metadata page (game.html?id=<id>) — description, controls, kid-safe + multiplayer + vibe marks, curated-shelf cross-links, play-tracking, verified play link"),
+    ("game.html", "Game file: per-game metadata page (game.html?id=<id>), description, controls, kid-safe + multiplayer + vibe marks, curated-shelf cross-links, play-tracking, verified play link"),
     ("player.html", "The Player: bring-your-own-file EmulatorJS console (20+ systems)"),
     ("converter.html", "Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 4 compression levels + presets, honest ROM validation, custom titles + cover art, Player-mode deep links"),
     ("party-planner.html", "Party planner 2.0: guest list + game voting + rotation scheduler + snack-break timer + party timeline (setup->games->tournament->free play), kids-party mode from the 75 kid-safe games, tournament handoff with real names (?names=), shareable party links"),
-    ("game-night.html", "Game Night: the Curator deals your night — headcount, hours, mood in; a marquee lineup out (warm-up, main events, showdown/deep-dive, cool-down) with per-game session + skill-floor curator estimates, genre variety, timebox fit, ceremony reveal; client-side from the 213-game catalog"),
+    ("game-night.html", "Game Night: the Curator deals your night, headcount, hours, mood in; a marquee lineup out (warm-up, main events, showdown/deep-dive, cool-down) with per-game session + skill-floor curator estimates, genre variety, timebox fit, ceremony reveal; client-side from the 213-game catalog"),
     ("tournament.html", "Tournament brackets 2.0: seeded 2-16 player single or double elimination, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, print + copy"),
-    ("tournament-night.html", "Tournament Night: a full bracket night whose entrants are real catalog games — pick a saved Game Night lineup (bm.lineups.v1) or a hand-built collection, seed a single-elimination bracket in source order on the Tournament 2.0 bracket engine, pick winners round by round with picks persisted in the browser (bm.tournament-night.v1), and crown a champion with a plain-text results card"),
-    ("system-picker.html", "Which system should you emulate? — 1-minute quiz with honest device-limit recommendations"),
-    ("kids.html", "Kids corner: kid-safe browser games, no chat, age bands 5–7 / 8–10 / 11–12, parent notes on every game, reduced-motion default"),
-    ("parents.html", "Parent guide: how Kids corner curation works, the honesty policy, common-sense screen-time tips, the 'one more level' save-state trick, and the Exclusion Ledger — every game kept out of Kids corner with the audit's recorded reason, word for word"),
+    ("tournament-night.html", "Tournament Night: a full bracket night whose entrants are real catalog games, pick a saved Game Night lineup (bm.lineups.v1) or a hand-built collection, seed a single-elimination bracket in source order on the Tournament 2.0 bracket engine, pick winners round by round with picks persisted in the browser (bm.tournament-night.v1), and crown a champion with a plain-text results card"),
+    ("system-picker.html", "Which system should you emulate?: 1-minute quiz with honest device-limit recommendations"),
+    ("kids.html", "Kids corner: kid-safe browser games, no chat, age bands 5-7 / 8-10 / 11-12, parent notes on every game, reduced-motion default"),
+    ("parents.html", "Parent guide: how Kids corner curation works, the honesty policy, common-sense screen-time tips, the 'one more level' save-state trick, and the Exclusion Ledger, every game kept out of Kids corner with the audit's recorded reason, word for word"),
     ("collections.html", "Hand-built game collections"),
-    ("emulation.html", "Emulation hub: guides, explainers, legal sources, and Emulator Side-by-Side — any two of the 10 emulator picks record against record (systems, platforms, license, BIOS) with a record-backed verdict strip and a seeded surprise pairing (recorded seed + sorted ids, FNV-1a/mulberry32 — same seed, same pairing)"),
+    ("emulation.html", "Emulation hub: guides, explainers, legal sources, and Emulator Side-by-Side, any two of the 10 emulator picks record against record (systems, platforms, license, BIOS) with a record-backed verdict strip and a seeded surprise pairing (recorded seed + sorted ids, FNV-1a/mulberry32, same seed, same pairing)"),
     ("monster-taming.html", "Monster-taming corner: original-IP creature games + GBA tech"),
-    ("trophy-room.html", "The Trophy Room: persistent play-tracking — games played/beaten, per-genre completion dials, 16-prize achievement case, collection progress, JSON export/import"),
-    ("passport.html", "Arcade Passport: a stamp booklet for the 24 collections — a stamp lands when a shelf actually scrolls into view on the Collections page, guide marks derive from the guides' own checklist store; browser-local only, no play telemetry"),
-    ("versus.html", "Versus: head-to-head comparison of any two catalog games from their real records (year named in the description, collections, genre, controls, tags, Kids corner pass, written coverage) with a verdict strip that reports only what the data supports — no scores, no invented winner, an honest no-basis state for thin records; shareable pairings at versus.html?a=<id>&b=<id>"),
+    ("trophy-room.html", "The Trophy Room: persistent play-tracking, games played/beaten, per-genre completion dials, 16-prize achievement case, collection progress, JSON export/import"),
+    ("passport.html", "Arcade Passport: a stamp booklet for the 24 collections, a stamp lands when a shelf actually scrolls into view on the Collections page, guide marks derive from the guides' own checklist store; browser-local only, no play telemetry"),
+    ("versus.html", "Versus: head-to-head comparison of any two catalog games from their real records (year named in the description, collections, genre, controls, tags, Kids corner pass, written coverage) with a verdict strip that reports only what the data supports, no scores, no invented winner, an honest no-basis state for thin records; shareable pairings at versus.html?a=<id>&b=<id>"),
     ("play-legal.html", "Play it legal: the site's one clear legal page"),
-    ("genres/roguelike.html", "Genre deep dive: roguelikes — die, learn, die better"),
-    ("genres/cozy.html", "Genre deep dive: cozy games — gentle games for grey weather"),
-    ("genres/puzzle.html", "Genre deep dive: puzzle games — think first, click second"),
-    ("genres/retro.html", "Genre deep dive: retro games — insert coin, travel back"),
-    ("genres/action.html", "Genre deep dive: action games — move first, think later"),
-    ("genres/multiplayer.html", "Genre deep dive: multiplayer games — bring everyone"),
-    ("genres/idle.html", "Genre deep dive: idle games — it plays itself (almost)"),
-    ("genres/horror.html", "Genre deep dive: horror games — small shelf, long shadows"),
-    ("journal.html", "Play journal: your backlog & logbook — shelve any of the 213 catalog games as want to play, playing, or finished, and keep dated log entries per playthrough; browser-local only, no account, no server"),
+    ("genres/roguelike.html", "Genre deep dive: roguelikes, die, learn, die better"),
+    ("genres/cozy.html", "Genre deep dive: cozy games, gentle games for grey weather"),
+    ("genres/puzzle.html", "Genre deep dive: puzzle games, think first, click second"),
+    ("genres/retro.html", "Genre deep dive: retro games, insert coin, travel back"),
+    ("genres/action.html", "Genre deep dive: action games, move first, think later"),
+    ("genres/multiplayer.html", "Genre deep dive: multiplayer games, bring everyone"),
+    ("genres/idle.html", "Genre deep dive: idle games, it plays itself (almost)"),
+    ("genres/horror.html", "Genre deep dive: horror games, small shelf, long shadows"),
+    ("journal.html", "Play journal: your backlog & logbook, shelve any of the 213 catalog games as want to play, playing, or finished, and keep dated log entries per playthrough; browser-local only, no account, no server"),
     ("data/v1/", "JSON API index"),
     ("API.md", "API documentation"),
     ("404.html", "Game over: arcade-styled 404 with insert-coin home CTA"),
@@ -86,45 +86,45 @@ def build_llms():
 
     lines = ["# Button Mash", ""]
     lines.append(
-        "The universal in-browser game console. Three centerpieces: (1) the Player — "
+        "The universal in-browser game console. Three centerpieces: (1) the Player: "
         "a bring-your-own-file EmulatorJS console for 20+ classic systems (the site hosts zero ROMs; "
-        "the user's file never leaves their machine); (2) the Converter 3.0 — batch-convert GBA, GB/GBC, NES, SNES or Genesis files you own "
+        "the user's file never leaves their machine); (2) the Converter 3.0, batch-convert GBA, GB/GBC, NES, SNES or Genesis files you own "
         "into self-contained playable .html browser games (client-side only, all five cores BIOS-free, honest validation, compression levels); "
-        "(3) the Party Planner — headcount + time + vibe in, timed game-night rotation plan out. "
+        "(3) the Party Planner, headcount + time + vibe in, timed game-night rotation plan out. "
         f"Plus a curated directory of {ngames} free, legal browser games (every link verified live 2026-10-11), "
         "hand-built collections, genre deep dives, and legal-lane emulation guides. "
-        "No ROM piracy links, no cracked-game sites, no commercial ROM downloads — ever."
+        "No ROM piracy links, no cracked-game sites, no commercial ROM downloads, ever."
     )
     lines.append("")
     lines.append("## Play")
-    lines.append("- player.html — the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.1: named save slots + auto-save, per-system keyboard+gamepad remap, cheat-code entry, display options (CRT/integer-scale/aspect, per-system quick settings), honest netplay notes)")
-    lines.append("- converter.html — Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 5 BIOS-free cores (mGBA/Gambatte/FCEUmm/Snes9x/Genesis Plus GX), 4 compression levels + presets, honest ROM validation (refuses empty/all-zero/bad-NES, warns on blank headers / missing SEGA string, keeps SNES copier headers), custom titles + cover art, ▶ Player mode deep links")
-    lines.append("- party-planner.html — Party planner 2.0: guest list (2-16 names), per-guest game voting (ties go to the earliest-picked game), fair rotation scheduler (hot-seat groups of 4), party timeline with snack break + tournament slot, snack-break timer, kids-party mode from the 75 kid-safe games, tournament handoff 2.0 (?players=N&names=A,B&games=ids&format=), shareable #p= party links, print party pack + copy-as-text")
-    lines.append("- game-night.html — Game Night: the Curator deals your night — headcount (1-12) + time (15-240 min) + vibe + skill mix + kids flag in, marquee lineup out (warm-up, main events, showdown/deep-dive, cool-down) with per-game session + skill-floor curator estimates, genre variety, timebox fit, and a staggered marquee ceremony reveal; client-side from the 213-game verified catalog, nothing sent; dealt nights can be saved in the browser (bm.lineups.v1) and rematched with fresh picks on the same setup")
-    lines.append("- tournament.html — Tournament 2.0: single- or double-elimination brackets for game night (2-16 players, manual seeding UI + randomize, honest byes, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids))")
-    lines.append("- tournament-night.html — Tournament Night: a bracket night for the games themselves — pick a saved Game Night lineup or a collection, seed its real games in source order on the bracket engine, pick winners round by round (picks persist in bm.tournament-night.v1), crown a champion, copy the plain-text results card")
-    lines.append("- versus.html?a=<id>&b=<id> — Versus: any two catalog games side by side from their real records (year named in the description, collections, genre, controls, tags, Kids corner pass, written coverage); the verdict strip reports only what the data supports (older/newer, shelf footprint, coverage, Kids pass) — no scores, no winner; thin record pairs get an honest no-basis state; share card + pairing link")
-    lines.append(f"- games.html — the {ngames}-game directory (search incl. tags, genre + tag filters, shareable URL views, favorites, random game, game of the day)")
-    lines.append("- game.html?id=<game-id> — per-game metadata file: description, controls, kid-safe + multiplayer + vibe marks (live Curator enrichment with honest live/cached badge), curated-shelf cross-links, played/beaten tracking, shareable game-file links, prev/next through the catalog")
-    lines.append("- trophy-room.html — The Trophy Room: persistent play-tracking (mark games played/beaten on any game card; per-genre completion dials, 16-prize achievement case, per-collection progress; JSON export/import with schema validation; all browser-local)")
-    lines.append(f"- kids.html — Kids corner: {nkids} kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5–7 / 8–10 / 11–12, parent notes, reduced-motion default")
-    lines.append("- parents.html — parent guide: curation method, honesty policy (assessments not guarantees — play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick")
-    lines.append(f"- collections.html — {ncols} hand-built collections")
-    lines.append("- genres/roguelike.html, genres/cozy.html, genres/puzzle.html, genres/retro.html, genres/action.html, genres/multiplayer.html, genres/idle.html, genres/horror.html — genre deep dives with start-here picks (all eight genres — the set is complete)")
-    lines.append("- journal.html — Play journal & backlog (T-MASH-2): per-game status shelves (want to play / playing / finished) and dated log entries, multiple per playthrough, for all 213 catalog games; persisted in this browser only (localStorage bm.journal.v1), no account, no server")
+    lines.append("- player.html, the bring-your-own-file Player (EmulatorJS, 20+ systems, save states, fullscreen; Player 2.1: named save slots + auto-save, per-system keyboard+gamepad remap, cheat-code entry, display options (CRT/integer-scale/aspect, per-system quick settings), honest netplay notes)")
+    lines.append("- converter.html: Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 5 BIOS-free cores (mGBA/Gambatte/FCEUmm/Snes9x/Genesis Plus GX), 4 compression levels + presets, honest ROM validation (refuses empty/all-zero/bad-NES, warns on blank headers / missing SEGA string, keeps SNES copier headers), custom titles + cover art, ▶ Player mode deep links")
+    lines.append("- party-planner.html: Party planner 2.0: guest list (2-16 names), per-guest game voting (ties go to the earliest-picked game), fair rotation scheduler (hot-seat groups of 4), party timeline with snack break + tournament slot, snack-break timer, kids-party mode from the 75 kid-safe games, tournament handoff 2.0 (?players=N&names=A,B&games=ids&format=), shareable #p= party links, print party pack + copy-as-text")
+    lines.append("- game-night.html: Game Night: the Curator deals your night, headcount (1-12) + time (15-240 min) + vibe + skill mix + kids flag in, marquee lineup out (warm-up, main events, showdown/deep-dive, cool-down) with per-game session + skill-floor curator estimates, genre variety, timebox fit, and a staggered marquee ceremony reveal; client-side from the 213-game verified catalog, nothing sent; dealt nights can be saved in the browser (bm.lineups.v1) and rematched with fresh picks on the same setup")
+    lines.append("- tournament.html: Tournament 2.0: single- or double-elimination brackets for game night (2-16 players, manual seeding UI + randomize, honest byes, best-of-N per round, per-round game voting from the full catalog, match history + undo, shareable bracket links, localStorage saves, print + copy-my-bracket; accepts the party planner handoff (?players=N&games=ids))")
+    lines.append("- tournament-night.html: Tournament Night: a bracket night for the games themselves, pick a saved Game Night lineup or a collection, seed its real games in source order on the bracket engine, pick winners round by round (picks persist in bm.tournament-night.v1), crown a champion, copy the plain-text results card")
+    lines.append("- versus.html?a=<id>&b=<id>: Versus: any two catalog games side by side from their real records (year named in the description, collections, genre, controls, tags, Kids corner pass, written coverage); the verdict strip reports only what the data supports (older/newer, shelf footprint, coverage, Kids pass), no scores, no winner; thin record pairs get an honest no-basis state; share card + pairing link")
+    lines.append(f"- games.html, the {ngames}-game directory (search incl. tags, genre + tag filters, shareable URL views, favorites, random game, game of the day)")
+    lines.append("- game.html?id=<game-id>, per-game metadata file: description, controls, kid-safe + multiplayer + vibe marks (live Curator enrichment with honest live/cached badge), curated-shelf cross-links, played/beaten tracking, shareable game-file links, prev/next through the catalog")
+    lines.append("- trophy-room.html: The Trophy Room: persistent play-tracking (mark games played/beaten on any game card; per-genre completion dials, 16-prize achievement case, per-collection progress; JSON export/import with schema validation; all browser-local)")
+    lines.append(f"- kids.html: Kids corner: {nkids} kid-safe games (no chat, no unmoderated multiplayer, no gambling, no graphic/horror content), age bands 5-7 / 8-10 / 11-12, parent notes, reduced-motion default")
+    lines.append("- parents.html, parent guide: curation method, honesty policy (assessments not guarantees, play the first 10 minutes together), common-sense screen-time tips, save-state 'one more level' trick")
+    lines.append(f"- collections.html, {ncols} hand-built collections")
+    lines.append("- genres/roguelike.html, genres/cozy.html, genres/puzzle.html, genres/retro.html, genres/action.html, genres/multiplayer.html, genres/idle.html, genres/horror.html, genre deep dives with start-here picks (all eight genres, the set is complete)")
+    lines.append("- journal.html: Play journal & backlog (T-MASH-2): per-game status shelves (want to play / playing / finished) and dated log entries, multiple per playthrough, for all 213 catalog games; persisted in this browser only (localStorage bm.journal.v1), no account, no server")
     lines.append("")
     lines.append("## Learn")
-    lines.append("- emulation.html — emulation hub, incl. Emulator Side-by-Side (any two of the 10 picks, record against record; seeded surprise pairing)")
-    lines.append("- monster-taming.html — original-IP monster-taming games + GBA-to-WASM tech")
-    lines.append("- play-legal.html — the one clear legal page")
+    lines.append("- emulation.html, emulation hub, incl. Emulator Side-by-Side (any two of the 10 picks, record against record; seeded surprise pairing)")
+    lines.append("- monster-taming.html, original-IP monster-taming games + GBA-to-WASM tech")
+    lines.append("- play-legal.html, the one clear legal page")
     for slug, title in GUIDES:
-        lines.append(f"- {slug} — {title}")
+        lines.append(f"- {slug}, {title}")
     lines.append("")
     lines.append(f"## Games ({len(games)} total)")
     lines.append("")
     for g in games:
         lines.append(
-            f"- {g['title']} [{g['genre']} · {g['controls']}] — {g['description']} Play: {g['url']}"
+            f"- {g['title']} [{g['genre']} · {g['controls']}], {g['description']} Play: {g['url']}"
         )
     lines.append("")
     lines.append(f"## Collections ({len(collections)} total)")
@@ -135,16 +135,16 @@ def build_llms():
         for gid in c["game_ids"]:
             if gid in by_id:
                 titles.append(by_id[gid])
-        lines.append(f"- {c['title']}: {c['tagline']} — " + "; ".join(titles))
+        lines.append(f"- {c['title']}: {c['tagline']}: " + "; ".join(titles))
     lines.append("")
     lines.append(f"## Emulators ({len(emulators)} picks, software only)")
     lines.append("")
     for e in emulators:
         bios = " (needs your own dumped BIOS)" if e.get("bios_required") else ""
-        lines.append(f"- {e['name']} [{', '.join(e['systems'])}]{bios} — {e['notes']} {e['url']}")
+        lines.append(f"- {e['name']} [{', '.join(e['systems'])}]{bios}, {e['notes']} {e['url']}")
     lines.append("")
     lines.append("## API")
-    lines.append("- data/v1/index.json — endpoint catalog")
+    lines.append("- data/v1/index.json, endpoint catalog")
     lines.append("- data/v1/games.json, collections.json, emulators.json, guides.json, homebrew-packs.json, kid-safe.json (kid-safe: kid_safe, no_chat, age_band, parent_note, verify_live, audit_basis per record)")
     lines.append("- skills/: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker, tournament-runner, kids-corner-guide")
     lines.append("")
@@ -156,7 +156,7 @@ def build_llms():
 
 def build_llms_full():
     guides = load("guides.json")
-    lines = ["# Button Mash — full context", ""]
+    lines = ["# Button Mash, full context", ""]
     lines.append((ROOT / "llms.txt").read_text())
     lines.append("# Guides (full text)")
     lines.append("")

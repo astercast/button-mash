@@ -1,5 +1,5 @@
 /* ============================================================
-   Button Mash — components: coin-slot CTAs, cabinet game cards,
+   Button Mash, components: coin-slot CTAs, cabinet game cards,
    filters, console chrome, converter panels, tool cards.
    Signature: every primary action is a coin slot; every card is
    a cabinet panel with corner screws and a genre art-strip.
@@ -66,7 +66,7 @@
   box-shadow: 0 0 30px rgba(255, 46, 136, 0.7), var(--shadow-pop);
 }
 .btn-primary.btn-sm { padding-left: 1rem; }
-.btn-primary.btn-sm::before, .btn-primary.btn-sm::after { display: none; }
+.btn-primary.btn-sm::before.btn-primary.btn-sm::after { display: none; }
 
 .btn-cyan {
   background: linear-gradient(180deg, #0b2b33, #03222b);
@@ -319,7 +319,7 @@
   color: var(--ink-mute);
   pointer-events: none;
 }
-select, .chip-select {
+select.chip-select {
   background: var(--bezel);
   border: 2px solid var(--edge);
   border-radius: var(--r-sm);
@@ -522,7 +522,7 @@ select, .chip-select {
 
 /* Key mapping table */
 .keymap { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
-.keymap th, .keymap td {
+.keymap th.keymap td {
   text-align: left;
   padding: 0.55rem 0.8rem;
   border-bottom: 1px solid var(--edge);
@@ -774,11 +774,11 @@ select, .chip-select {
 /* ---------- Player CRT overlay (per-screen filter, separate from page FX) ---------- */
 .crt-overlay {
   position: absolute; inset: 0; z-index: 4; pointer-events: none;
-  background: repeating-linear-gradient(0deg, rgba(0,0,0,.28) 0 1px, transparent 1px 3px);
+  background: repeating-linear-gradient(0deg, rgba(0,0,0.28) 0 1px, transparent 1px 3px);
 }
 .crt-overlay::after {
   content: ""; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at center, transparent 52%, rgba(0,0,0,.5) 100%);
+  background: radial-gradient(ellipse at center, transparent 52%, rgba(0,0,0.5) 100%);
 }
 @media (prefers-reduced-motion: no-preference) {
   html:not(.fx-off) .crt-overlay { animation: crt-flicker 5s infinite steps(48); }
@@ -815,7 +815,7 @@ select, .chip-select {
 .tool-card ul.plain li:last-child { border-bottom: 0; }
 .tool-card .grow { flex: 1; min-width: 10rem; }
 .tool-card .mono { font-family: var(--font-code); font-size: 0.82rem; word-break: break-all; }
-.tool-card input[type="text"], .tool-card input[type="file"] {
+.tool-card input[type="text"].tool-card input[type="file"] {
   background: var(--bezel); border: 2px solid var(--edge); border-radius: var(--r-sm);
   color: var(--ink); padding: 0.55rem 0.8rem; font-size: 0.9rem; width: 100%;
   box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.7);
@@ -847,7 +847,7 @@ kbd.key {
   box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
 }
 .remap-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 0.6rem 0; }
-.remap-table th, .remap-table td { text-align: left; padding: 0.4rem 0.5rem; border-bottom: 1px solid var(--edge); vertical-align: middle; }
+.remap-table th.remap-table td { text-align: left; padding: 0.4rem 0.5rem; border-bottom: 1px solid var(--edge); vertical-align: middle; }
 .remap-table th { color: var(--ink-dim); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
 .remap-table td .btn { margin: 0.1rem; }
 .honest-list { margin: 0.8rem 0; padding-left: 1.2rem; color: var(--ink-dim); font-size: 0.92rem; }
@@ -889,7 +889,7 @@ kbd.key {
 #settings-dialog .tool-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 0.8rem 0 0; }
 /* Reduced motion: no animation or transitions on player chrome. */
 @media (prefers-reduced-motion: reduce) {
-  .console-shell *, #settings-dialog *, .tool-card * { animation: none !important; transition: none !important; }
+  .console-shell *, #settings-dialog *.tool-card * { animation: none !important; transition: none !important; }
 }
 
 /* ---- API freshness badge (server-program spec §3.2) ----
@@ -897,7 +897,7 @@ kbd.key {
    text managed by assets/js/api-client.js (live | waking server… |
    cached · updated HH:MM | none). The dot is pure CSS (::before) so the
    client only ever sets textContent. role="status" announces changes to
-   screen readers; tabindex="0" keeps it keyboard-reachable. No keyframes —
+   screen readers; tabindex="0" keeps it keyboard-reachable. No keyframes,
    reduced-motion safe by construction. */
 .api-badge {
   display: inline-flex;

@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PlayStation emulation guide — Button Mash</title>
+<title>PlayStation emulation guide: Button Mash</title>
 <meta name="description" content="Play your own PS1 discs in the browser with the PCSX-ReARMed core: BIOS honesty, settings that matter, performance tips, save states, cheats, and a legal homebrew starter pack.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="PlayStation emulation guide — Button Mash">
+<meta property="og:title" content="PlayStation emulation guide: Button Mash">
 <meta property="og:description" content="Play your own PS1 discs in the browser with the PCSX-ReARMed core: BIOS honesty, settings that matter, performance tips, save states, cheats, and a legal homebrew starter pack.">
 <meta property="og:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="PlayStation emulation guide — Button Mash">
+<meta name="twitter:title" content="PlayStation emulation guide: Button Mash">
 <meta name="twitter:description" content="Play your own PS1 discs in the browser with the PCSX-ReARMed core: BIOS honesty, settings that matter, performance tips, save states, cheats, and a legal homebrew starter pack.">
 <meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <link rel="canonical" href="https://button-mash-live.vercel.app/guides/ps1.html">
@@ -77,7 +77,7 @@
   <h1>PlayStation emulation guide</h1>
   <p class="lede">The disc era in your browser: a fast, friendly core, one honest BIOS conversation, and a library of RPGs and platformers that defined 3D gaming.</p>
   <ul class="chips" aria-label="Guide facts"><li>Core: <code>psx</code> · PCSX-ReARMed</li><li>BIOS: boots via HLE; your dumped BIOS improves accuracy</li><li>⏱ ~15 min</li><li>Intermediate</li></ul>
-  <aside class="legal-note"><strong>Legal lane:</strong> the Player only loads files <em>you</em> supply — your own disc rips, homebrew, or public-domain titles. No ROMs or BIOS files are provided or linked anywhere on this site.</aside>
+  <aside class="legal-note"><strong>Legal lane:</strong> the Player only loads files <em>you</em> supply, your own disc rips, homebrew, or public-domain titles. No ROMs or BIOS files are provided or linked anywhere on this site.</aside>
 
   <div class="toc">
     <h2>On this page</h2>
@@ -95,14 +95,14 @@
 
   <section class="guide-section" id="core">
     <h2>1. The core: PCSX-ReARMed</h2>
-    <p>The Player's <code>psx</code> core is <strong>PCSX-ReARMed</strong> — the default PlayStation backend in the official EmulatorJS core list (the alternate is Mednafen's PSX HW core). It's the pragmatic pick: fast enough for browsers, accurate enough for the vast majority of the library.</p>
+    <p>The Player's <code>psx</code> core is <strong>PCSX-ReARMed</strong>, the default PlayStation backend in the official EmulatorJS core list (the alternate is Mednafen's PSX HW core). It's the pragmatic pick: fast enough for browsers, accurate enough for the vast majority of the library.</p>
     <p>The Player detects <code>.cue</code>, <code>.bin</code>, <code>.iso</code>, <code>.img</code>, <code>.chd</code>, and <code>.m3u</code> files and boots PCSX-ReARMed automatically. For multi-disc games, an <code>.m3u</code> playlist pointing at your own rips keeps disc-swapping simple.</p>
   </section>
 
   <section class="guide-section" id="bios">
     <h2>2. BIOS notes: honest, not scary</h2>
-    <p>PCSX-ReARMed boots most games <strong>without any BIOS</strong> — the core includes a high-level reimplementation of the PlayStation's firmware (HLE). So you can try the system today with zero extra files.</p>
-    <p>That said, HLE isn't the real thing: a handful of games glitch or refuse to boot without the genuine firmware. The proper fix is dumping the BIOS from <strong>your own PlayStation hardware</strong> (a <code>scph5501.bin</code>-style dump) and attaching it with the Player's BIOS picker — the Player already warns you about this when you select PlayStation. <strong>Never download a BIOS file</strong>; they're copyrighted software, exactly like ROMs.</p>
+    <p>PCSX-ReARMed boots most games <strong>without any BIOS</strong>, the core includes a high-level reimplementation of the PlayStation's firmware (HLE). So you can try the system today with zero extra files.</p>
+    <p>That said, HLE isn't the real thing: a handful of games glitch or refuse to boot without the genuine firmware. The proper fix is dumping the BIOS from <strong>your own PlayStation hardware</strong> (a <code>scph5501.bin</code>-style dump) and attaching it with the Player's BIOS picker, the Player already warns you about this when you select PlayStation. <strong>Never download a BIOS file</strong>; they're copyrighted software, exactly like ROMs.</p>
   </section>
 
   <section class="guide-section" id="settings">
@@ -110,64 +110,64 @@
     <p>Open the engine's in-game menu (the ⚙ icon) while a PlayStation game is running:</p>
     <ul>
       <li><strong>Enhanced resolution:</strong> render above native PS1 resolution for crisp 3D. 2× is the sweet spot; higher costs real performance.</li>
-      <li><strong>CD fast-load / fast boot:</strong> skips the classic boot animation and speeds up disc reads — big quality-of-life win.</li>
-      <li><strong>Dithering:</strong> the PS1 dithered everything to hide its color limits; on modern screens it can look noisy. Your call — purists leave it on.</li>
-      <li><strong>Analog toggle:</strong> many games support the DualShock analog sticks — the Player's gamepad support and remap tools cover this.</li>
+      <li><strong>CD fast-load / fast boot:</strong> skips the classic boot animation and speeds up disc reads, big quality-of-life win.</li>
+      <li><strong>Dithering:</strong> the PS1 dithered everything to hide its color limits; on modern screens it can look noisy. Your call, purists leave it on.</li>
+      <li><strong>Analog toggle:</strong> many games support the DualShock analog sticks, the Player's gamepad support and remap tools cover this.</li>
     </ul>
   </section>
 
   <section class="guide-section" id="performance">
     <h2>4. Performance: fine on most machines</h2>
-    <p>PS1 in a browser is much lighter than its reputation suggests — any recent laptop or desktop runs it full-speed, and recent phones do fine at native resolution. If it stutters: lower the enhanced resolution back to 1×, close other tabs, and make sure the browser isn't in a throttled low-power state. Keep your own rips in <code>.chd</code> format — much smaller files, same game.</p>
+    <p>PS1 in a browser is much lighter than its reputation suggests, any recent laptop or desktop runs it full-speed, and recent phones do fine at native resolution. If it stutters: lower the enhanced resolution back to 1×, close other tabs, and make sure the browser isn't in a throttled low-power state. Keep your own rips in <code>.chd</code> format, much smaller files, same game.</p>
   </section>
 
   <section class="guide-section" id="saves">
     <h2>5. Saves &amp; cheats in the Player</h2>
     <ul>
-      <li><strong>Save states</strong> — made in the engine's in-game menu. With <em>Keep in Browser</em> on (Settings → Save States), the Player 2.0 Save tool on <a href="../player.html">player.html</a> can export/import/delete them.</li>
-      <li><strong>Memory cards</strong> — the engine emulates PS1 memory cards, so in-game saving works normally.</li>
-      <li><strong>Cheats</strong> — the Player 2.0 Cheats tool takes GameShark codes, stored per game and injected before boot; toggle in the engine's cheat manager.</li>
-      <li><strong>Keyboard remap</strong> — the Player 2.0 Controls tool remaps Player 1's keyboard and gamepad bindings (applies on next boot).</li>
+      <li><strong>Save states</strong>, made in the engine's in-game menu. With <em>Keep in Browser</em> on (Settings → Save States), the Player 2.0 Save tool on <a href="../player.html">player.html</a> can export/import/delete them.</li>
+      <li><strong>Memory cards</strong>, the engine emulates PS1 memory cards, so in-game saving works normally.</li>
+      <li><strong>Cheats</strong>, the Player 2.0 Cheats tool takes GameShark codes, stored per game and injected before boot; toggle in the engine's cheat manager.</li>
+      <li><strong>Keyboard remap</strong>, the Player 2.0 Controls tool remaps Player 1's keyboard and gamepad bindings (applies on next boot).</li>
     </ul>
   </section>
 
   <section class="guide-section" id="play">
     <h2>6. Play it in the Player</h2>
     <p><a class="btn btn-primary" href="../player.html?core=psx">» Open the Player (PlayStation pre-selected)</a></p>
-    <p class="hint">The <code>?core=psx</code> deep link just pre-selects the system — your game file still comes from your own machine, and it never leaves it. Attach your own dumped BIOS with the BIOS picker for maximum accuracy.</p>
+    <p class="hint">The <code>?core=psx</code> deep link just pre-selects the system, your game file still comes from your own machine, and it never leaves it. Attach your own dumped BIOS with the BIOS picker for maximum accuracy.</p>
   </section>
 
   <section class="guide-section" id="starter">
     <h2>7. Homebrew starter pack</h2>
-    <p>The PS1 homebrew scene is small but genuinely active — a great low-stakes way to test the core. Every link verified live on 2026-10-11.</p>
+    <p>The PS1 homebrew scene is small but genuinely active, a great low-stakes way to test the core. Every link verified live on 2026-10-11.</p>
     <ul class="pack-list">
-      <li><a href="https://pdroms.de/sony-playstation-ps1">pdroms.de — PlayStation section</a><span class="pack-note">Public-domain PS1 titles from the classic archive.</span></li>
-      <li><a href="https://itch.io/games/tag-playstation">itch.io — games tagged PlayStation</a><span class="pack-note">Indie devs shipping playable PS1 homebrew; many free.</span></li>
-      <li><a href="https://psxdev.net/">PSXDEV</a><span class="pack-note">The PS1 homebrew development community — tools and releases.</span></li>
+      <li><a href="https://pdroms.de/sony-playstation-ps1">pdroms.de: PlayStation section</a><span class="pack-note">Public-domain PS1 titles from the classic archive.</span></li>
+      <li><a href="https://itch.io/games/tag-playstation">itch.io, games tagged PlayStation</a><span class="pack-note">Indie devs shipping playable PS1 homebrew; many free.</span></li>
+      <li><a href="https://psxdev.net/">PSXDEV</a><span class="pack-note">The PS1 homebrew development community, tools and releases.</span></li>
       <li><a href="https://psx.dev/">psx.dev</a><span class="pack-note">PS1 homebrew hub with modern tooling and demos.</span></li>
     </ul>
-    <p class="hint">Download on your own computer, then drag the file into the Player. The file is read locally — nothing uploads.</p>
+    <p class="hint">Download on your own computer, then drag the file into the Player. The file is read locally, nothing uploads.</p>
   </section>
 
   <section class="guide-section" id="native">
     <h2>8. Prefer a desktop app? DuckStation</h2>
-    <p><strong>DuckStation</strong> (<a href="https://www.duckstation.org/">duckstation.org</a>) is the modern PlayStation accuracy pick — gorgeous upscaling, per-game settings, and cheat support. It needs your own dumped BIOS for full accuracy (same rule as everywhere: dump your hardware, never download). The browser Player wins on zero-setup convenience.</p>
+    <p><strong>DuckStation</strong> (<a href="https://www.duckstation.org/">duckstation.org</a>) is the modern PlayStation accuracy pick, gorgeous upscaling, per-game settings, and cheat support. It needs your own dumped BIOS for full accuracy (same rule as everywhere: dump your hardware, never download). The browser Player wins on zero-setup convenience.</p>
   </section>
 
   <section aria-labelledby="more-guides"><h2 id="more-guides">More guides</h2>
   <ul class="guide-list">
-    <li><a href="n64.html">Nintendo 64 emulation guide</a> — the cartridge-era rival.</li>
-    <li><a href="snes.html">SNES emulation guide</a> — where the 16-bit RPGs live.</li>
-    <li><a href="../system-picker.html">Which system should you emulate?</a> — the quiz, if you haven't picked yet.</li>
-    <li><a href="emulatorjs-self-hosting.html">EmulatorJS self-hosting guide</a> — host the multi-system web player yourself.</li>
-    <li><a href="rip-your-own-cartridges.html">Rip your own cartridges</a> — the legal way to get ROMs: dump hardware you own.</li>
+    <li><a href="n64.html">Nintendo 64 emulation guide</a>, the cartridge-era rival.</li>
+    <li><a href="snes.html">SNES emulation guide</a>, where the 16-bit RPGs live.</li>
+    <li><a href="../system-picker.html">Which system should you emulate?</a>, the quiz, if you haven't picked yet.</li>
+    <li><a href="emulatorjs-self-hosting.html">EmulatorJS self-hosting guide</a>, host the multi-system web player yourself.</li>
+    <li><a href="rip-your-own-cartridges.html">Rip your own cartridges</a>, the legal way to get ROMs: dump hardware you own.</li>
   </ul></section>
 </article>
 </main>
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-note">
-      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Button Mash, your browser is the console. Built 2026.</span>
       <span>Zero ROMs hosted. Zero piracy links.</span>
     </div>
     <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>

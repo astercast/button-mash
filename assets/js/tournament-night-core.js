@@ -1,9 +1,9 @@
-/* Button Mash — Tournament Night core: a full bracket night whose
+/* Button Mash: Tournament Night core: a full bracket night whose
  * entrants are real catalog games (wave 32).
  *
  * UMD module, DOM-free: the same code runs in the browser and under
  * node (scripts/test_tournamentnight32.js exercises it with
- * fixtures). The bracket math is NOT reinvented here — every round,
+ * fixtures). The bracket math is NOT reinvented here, every round,
  * bye, advancement and champion is computed by the cabinet's own
  * single-elimination engine, assets/js/bracket.js (window.Bracket
  * in the browser, require() under node). This module owns only the
@@ -13,7 +13,7 @@
  *            hand-built collection (data/v1/collections.json). The
  *            entrants are that source's real games, in source order:
  *            first game = top seed. Names, descriptions and URLs are
- *            copied from the catalog at seed time — this module
+ *            copied from the catalog at seed time, this module
  *            never invents a game, a stat, or a result.
  *   PICKS    one click per match: the picked game wins the match
  *            (best-of-1, the bracket engine's default). Picks are
@@ -22,7 +22,7 @@
  *            clearing a pick cascades exactly like Tournament 2.0.
  *   STATE    localStorage key "bm.tournament-night.v1", in-memory
  *            fallback with an honest on-page notice when storage
- *            is blocked — the passport/lineups discipline. Records
+ *            is blocked, the passport/lineups discipline. Records
  *            validate field by field on load: a corrupt night is
  *            dropped whole (a bracket is one record, not a shelf),
  *            never half-rendered.
@@ -124,27 +124,27 @@
 
   function cleanName(name, sourceName) {
     var n = String(name == null ? '' : name).replace(/\s+/g, ' ').trim();
-    if (!n) n = (sourceName || 'Tournament') + ' — Tournament Night';
+    if (!n) n = (sourceName || 'Tournament') + ': Tournament Night';
     return n.slice(0, MAX_NAME);
   }
 
   /* Seed a night. source: {type:'collection'|'lineup', id, name}.
-     Returns {ok:true, night} or {ok:false, error} — refusals are
+     Returns {ok:true, night} or {ok:false, error}, refusals are
      plain answers (too few / too many real games), never throws. */
   function createNight(opts) {
     opts = opts || {};
     var entrants = (opts.entrants || []).map(entrantFromGame).filter(Boolean);
     if (entrants.length < MIN_ENTRANTS) {
       return { ok: false, error: 'A tournament night needs at least ' + MIN_ENTRANTS +
-        ' real games — that source only offers ' + entrants.length + '.' };
+        ' real games, that source only offers ' + entrants.length + '.' };
     }
     if (entrants.length > MAX_ENTRANTS) {
       return { ok: false, error: 'A bracket night caps at ' + MAX_ENTRANTS +
-        ' games — that source offers ' + entrants.length + '.' };
+        ' games, that source offers ' + entrants.length + '.' };
     }
     var titles = entrants.map(function (e) { return e.title; });
     if (new Set(titles.map(function (t) { return t.toLowerCase(); })).size !== titles.length) {
-      return { ok: false, error: 'Two entrants share a title — a bracket cannot tell them apart.' };
+      return { ok: false, error: 'Two entrants share a title, a bracket cannot tell them apart.' };
     }
     var bracket = Bracket.createTournament(titles);
     if (bracket.error) return { ok: false, error: bracket.error };
@@ -168,7 +168,7 @@
      A stored night is data a stranger's browser could hand us.
      The bracket half must agree with the entrant half exactly:
      same titles, same order, plausible shape. Anything less and
-     the night is dropped whole — a half-valid bracket is worse
+     the night is dropped whole, a half-valid bracket is worse
      than a blank marquee. */
 
   function validNight(n) {
@@ -247,7 +247,7 @@
   function resultsCard(night) {
     var champ = champion(night);
     var lines = [
-      'TOURNAMENT NIGHT — "' + night.name + '" (Button Mash)',
+      'TOURNAMENT NIGHT: "' + night.name + '" (Button Mash)',
       (night.source.type === 'lineup' ? 'Saved lineup: ' : 'Collection: ') + night.source.name +
         ' · ' + night.entrants.length + ' games · single elimination · picks saved in this browser',
       '',
@@ -258,7 +258,7 @@
       if (!played.length && !byes.length) return;
       lines.push(round.name + ':');
       byes.forEach(function (m) {
-        lines.push('  ' + m.winner.name + ' — first-round bye (top seed)');
+        lines.push('  ' + m.winner.name + ', first-round bye (top seed)');
       });
       played.forEach(function (m) {
         var loser = m.winner.seed === m.a.seed ? m.b : m.a;
@@ -273,7 +273,7 @@
       lines.push('Play it: ' + champ.url);
     } else {
       var p = progress(night);
-      lines.push('No champion yet — ' + p.decided + ' of ' + p.total + ' matches decided. The night is still on.');
+      lines.push('No champion yet, ' + p.decided + ' of ' + p.total + ' matches decided. The night is still on.');
     }
     return lines.join('\n');
   }

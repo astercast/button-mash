@@ -2,7 +2,7 @@
 
    (1) unit checks against the UMD core (assets/js/passport-core.js)
    with an injected storage backend; (2) the checklist registry is
-   pinned against the real guide pages — step counts must match the
+   pinned against the real guide pages, step counts must match the
    ul.checklist lengths or the suite fails; (3) headless: the
    Collections page stamps shelves as they scroll into view and the
    stamps persist, passport.html renders the booklet from that same
@@ -12,7 +12,7 @@
 
    Honesty contract under test: a stamp exists only because a shelf
    was actually on screen; a guide mark exists only because every
-   checklist step is ticked in bm_checks_v1 — the site's own store.
+   checklist step is ticked in bm_checks_v1, the site's own store.
 
    Run: NODE_PATH=~/workspace/smoke/node_modules node scripts/test_passport31.js
    Exit 0 = all pass. */
@@ -25,8 +25,8 @@ const ROOT = "/home/hatch/workspace/button-mash";
 const BASE = "file://" + ROOT;
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -52,7 +52,7 @@ function fakeStorage() {
   const st = fakeStorage();
   const s0 = PP.loadState(st);
   check("blank storage reads as a blank passport", PP.stampCount(s0) === 0 && PP.firstStampAt(s0) === null,
-    "no stamps, no start date — nothing invented");
+    "no stamps, no start date, nothing invented");
   check("stamp: first sighting wins and never re-dates",
     PP.stamp(s0, "rainy-day-cozy", 1000) === true && PP.stamp(s0, "rainy-day-cozy", 9999) === false &&
     s0.stamps["rainy-day-cozy"] === 1000,
@@ -113,7 +113,7 @@ function fakeStorage() {
   const chip0 = await page.$eval("#passport-chip", (el) => el.textContent);
   check("collections: the passport chip is live in the hero", /Arcade passport:/.test(chip0), chip0.trim());
   await page.evaluate(() => {
-    // behavior:"auto" — the page's CSS smooth-scroll is animation, not
+    // behavior:"auto", the page's CSS smooth-scroll is animation, not
     // arrival; the site's own scrollToShelf makes the same choice.
     document.querySelectorAll(".collection-card")[2].scrollIntoView({ behavior: "auto", block: "center" });
   });

@@ -1,7 +1,7 @@
-/* POST /api/game-night — the Curator's game-night engine (spec §7.7).
+/* POST /api/game-night, the Curator's game-night engine (spec §7.7).
    Stateless deterministic compute: group size, time available, vibe in;
    lineup out. Nothing stored. The engine can only pick from the repo's
-   213-game legal browser catalog — that is the safety property.
+   213-game legal browser catalog, that is the safety property.
 
    Body: { group_size: 1-12, minutes: 15-240,
            vibe: ["cozy"|"chaotic"|"competitive"|"party"|"chill"],
@@ -10,7 +10,7 @@
                     plan_notes[], scored_from, metadata_as_of, scoring_version,
                     inputs_echo, no_lineup_reason }
    An impossible request (e.g. systems=["ps1"]) returns an honest empty
-   lineup with plan_notes explaining why — never invented games.
+   lineup with plan_notes explaining why, never invented games.
 
    Rate limit: compute bucket (20/min per IP). Cache: no-store. */
 "use strict";
@@ -67,7 +67,7 @@ function validate(body) {
   } else {
     const unknown = vibes.filter((v) => KNOWN_VIBES.indexOf(String(v).toLowerCase()) === -1);
     if (unknown.length > 0) {
-      bad.push("vibe (unknown vibe(s): " + unknown.join(", ") + " — pick from " + KNOWN_VIBES.join(", ") + ")");
+      bad.push("vibe (unknown vibe(s): " + unknown.join(", ") + ", pick from " + KNOWN_VIBES.join(", ") + ")");
     } else {
       clean.vibes = vibes.map((v) => String(v).toLowerCase());
     }
@@ -89,7 +89,7 @@ function validate(body) {
   // kids: optional bool
   if (body.kids !== undefined) {
     if (typeof body.kids !== "boolean") {
-      bad.push("kids (optional: true/false — true restricts to the kid-safe corpus)");
+      bad.push("kids (optional: true/false, true restricts to the kid-safe corpus)");
     } else {
       clean.kids = body.kids;
     }
@@ -112,7 +112,7 @@ module.exports = async (req, res) => {
     console.log("[ratelimit] ip=" + ipHash(lim.ip) + " bucket=compute path=/api/game-night");
     res.setHeader("Retry-After", String(lim.retryAfter));
     return err(res, SERVICE, VERSION, 429, "RATE_LIMITED",
-      "Too many requests — slow down and try again in " + lim.retryAfter + "s.", null);
+      "Too many requests, slow down and try again in " + lim.retryAfter + "s.", null);
   }
 
   let raw;

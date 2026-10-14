@@ -1,4 +1,4 @@
-/* GET /api/games — curated browser-game catalog (spec §7.7).
+/* GET /api/games, curated browser-game catalog (spec §7.7).
    Query: ?genre= ?q= ?players= ?system= ?limit= (default 50, max 200),
           ?id= (single-game lookup; wins over the other filters, 404 on miss)
    Reads the repo's data/v1/games.json (the legal-lane corpus: 213 curl-verified
@@ -48,7 +48,7 @@ module.exports = (req, res) => {
     console.log("[ratelimit] ip=" + ipHash(lim.ip) + " bucket=public path=/api/games");
     res.setHeader("Retry-After", String(lim.retryAfter));
     return err(res, SERVICE, VERSION, 429, "RATE_LIMITED",
-      "Too many requests — slow down and try again in " + lim.retryAfter + "s.", null);
+      "Too many requests, slow down and try again in " + lim.retryAfter + "s.", null);
   }
 
   const url = new URL(req.url, "http://localhost");

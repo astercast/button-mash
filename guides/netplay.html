@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Play together online: the netplay guide — Button Mash</title>
+<title>Play together online: the netplay guide: Button Mash</title>
 <meta name="description" content="Retro multiplayer over the internet: how RetroArch's rewind-based rollback netplay works, the same-version-same-core-same-game rule, hosting with relay servers, what plays well, and the honest limits.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Play together online: the netplay guide — Button Mash">
+<meta property="og:title" content="Play together online: the netplay guide: Button Mash">
 <meta property="og:description" content="Retro multiplayer over the internet: how RetroArch's rewind-based rollback netplay works, the same-version-same-core-same-game rule, hosting with relay servers, what plays well, and the honest limits.">
 <meta property="og:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Play together online: the netplay guide — Button Mash">
+<meta name="twitter:title" content="Play together online: the netplay guide: Button Mash">
 <meta name="twitter:description" content="Retro multiplayer over the internet: how RetroArch's rewind-based rollback netplay works, the same-version-same-core-same-game rule, hosting with relay servers, what plays well, and the honest limits.">
 <meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <link rel="canonical" href="https://button-mash-live.vercel.app/guides/netplay.html">
@@ -83,9 +83,9 @@
 <article class="guide-page">
   <p class="kicker">Deep-dive guide · Play together</p>
   <h1>Play together online: the netplay guide</h1>
-  <p class="lede">Two couches, one game. How rewind-based rollback netplay puts a second player on your screen from across the internet — and the three rules that keep the session from falling apart.</p>
+  <p class="lede">Two couches, one game. How rewind-based rollback netplay puts a second player on your screen from across the internet, and the three rules that keep the session from falling apart.</p>
   <ul class="chips" aria-label="Guide facts"><li>Primary tool: RetroArch</li><li>⏱ ~20 min</li><li>Intermediate</li></ul>
-  <aside class="legal-note"><strong>Legal lane:</strong> netplay syncs <em>inputs</em>, not games — every player still needs their own legal copy: a dump of a cartridge they own, or homebrew. Never send someone a ROM file to "get them set up."</aside>
+  <aside class="legal-note"><strong>Legal lane:</strong> netplay syncs <em>inputs</em>, not games, every player still needs their own legal copy: a dump of a cartridge they own, or homebrew. Never send someone a ROM file to "get them set up."</aside>
 
   <div class="toc toc--sticky" data-spy>
     <h2>On this page</h2>
@@ -103,13 +103,13 @@
 
   <section class="guide-section" id="what" aria-labelledby="what-h">
     <h2 id="what-h"><span class="sec-num">01</span>What netplay actually sends</h2>
-    <p>Cloud gaming streams video to you; netplay does the opposite. Both players run the <em>same emulator, the same core, the same game</em> locally, and the network carries only controller inputs — a few bytes per frame saying "player 2 pressed right." Because both machines simulate the identical game from identical inputs, both screens agree. It's beautifully cheap: a dial-up-era idea that still beats video streaming on latency.</p>
+    <p>Cloud gaming streams video to you; netplay does the opposite. Both players run the <em>same emulator, the same core, the same game</em> locally, and the network carries only controller inputs, a few bytes per frame saying "player 2 pressed right." Because both machines simulate the identical game from identical inputs, both screens agree. It's beautifully cheap: a dial-up-era idea that still beats video streaming on latency.</p>
     <p>This is also why netplay can't conjure a game for someone who doesn't have it. If your friend hasn't loaded the same file on their own machine, there is nothing to sync. The legal lane and the technical lane are the same road here.</p>
   </section>
 
   <section class="guide-section" id="rollback" aria-labelledby="rollback-h">
     <h2 id="rollback-h"><span class="sec-num">02</span>How RetroArch's rollback works</h2>
-    <p>Old netplay made everyone wait for the slowest player's inputs — fine on LAN, miserable on the internet. RetroArch's netplay is built on <strong>replay</strong>: your game runs ahead immediately with your own inputs (zero added input delay in the default configuration), and when the other player's inputs arrive late, the emulator <strong>rewinds to the last frame you both agreed on, replays with the real inputs, and lands on the corrected state</strong> — invisibly, in milliseconds.</p>
+    <p>Old netplay made everyone wait for the slowest player's inputs, fine on LAN, miserable on the internet. RetroArch's netplay is built on <strong>replay</strong>: your game runs ahead immediately with your own inputs (zero added input delay in the default configuration), and when the other player's inputs arrive late, the emulator <strong>rewinds to the last frame you both agreed on, replays with the real inputs, and lands on the corrected state</strong>, invisibly, in milliseconds.</p>
     <p>Think of it as the emulator constantly re-doing the last few frames whenever new information arrives. As long as both sides agree on which frame is which, they can't drift apart: every input always lands on its correct frame. It supports up to 16 players plus spectators, which is why tournament streams and big co-op rooms use it.</p>
     <div class="key-point"><p><strong>Why this matters:</strong> rollback needs the emulator to snapshot and restore its entire state dozens of times per second. Cores that serialize state quickly give buttery netplay; cores that don't give slideshow netplay. That's the whole reason some systems work and others don't (section 5).</p></div>
   </section>
@@ -119,11 +119,11 @@
     <p>RetroArch's own documentation states the guarantee plainly: netplay stays in sync only when <strong>the core is deterministic, the only inputs are gamepads/analog sticks, and both the core and the loaded content are identical on host and client</strong>. In practice, the pre-flight checklist is:</p>
     <ul>
       <li><strong>Same RetroArch version</strong> on every device (current stable is 1.22.2 as of late 2026).</li>
-      <li><strong>Same core version</strong> — update cores on both sides before the session.</li>
-      <li><strong>Byte-identical game content.</strong> Same dump, same file, same checksum. One byte of difference and the session desyncs — this is the #1 cause of "it worked yesterday."</li>
+      <li><strong>Same core version</strong>, update cores on both sides before the session.</li>
+      <li><strong>Byte-identical game content.</strong> Same dump, same file, same checksum. One byte of difference and the session desyncs, this is the #1 cause of "it worked yesterday."</li>
       <li><strong>No save states during the session.</strong> Loading a state mid-game is the #2 desync cause; the two machines' histories diverge permanently.</li>
     </ul>
-    <p>Cross-platform works — PC, Android, Steam Deck, and retro handhelds can share a session — with the caveat that wildly different CPU architectures can still behave differently at the margins. When in doubt, test a five-minute session before inviting the crowd.</p>
+    <p>Cross-platform works: PC, Android, Steam Deck, and retro handhelds can share a session, with the caveat that wildly different CPU architectures can still behave differently at the margins. When in doubt, test a five-minute session before inviting the crowd.</p>
   </section>
 
   <section class="guide-section" id="hosting" aria-labelledby="hosting-h">
@@ -137,7 +137,7 @@
     <p>Two ways to cross the internet:</p>
     <dl>
       <dt>Relay servers (easiest)</dt>
-      <dd>RetroArch runs public relay servers (including locations in North America and Europe) that punch through NAT for you — zero router configuration. The cost is extra latency, since your inputs take a detour.</dd>
+      <dd>RetroArch runs public relay servers (including locations in North America and Europe) that punch through NAT for you, zero router configuration. The cost is extra latency, since your inputs take a detour.</dd>
       <dt>Port forwarding (fastest)</dt>
       <dd>Forward TCP port 55435 on the host's router straight to the host machine. Lower latency, but you touch your router settings and your firewall must allow RetroArch.</dd>
     </dl>
@@ -148,58 +148,58 @@
     <h2 id="what-works-h"><span class="sec-num">05</span>What plays well (and what doesn't)</h2>
     <dl>
       <dt>Excellent: NES, SNES, Genesis, GBA, arcade (FBNeo)</dt>
-      <dd>Lightweight cores serialize fast, so rollback is invisible. This is the netplay sweet spot — 8-bit and 16-bit co-op and versus feel local.</dd>
+      <dd>Lightweight cores serialize fast, so rollback is invisible. This is the netplay sweet spot: 8-bit and 16-bit co-op and versus feel local.</dd>
       <dt>Impractical: PlayStation, N64 and up</dt>
       <dd>Heavier cores can't snapshot/restore fast enough for smooth rollback; sessions stutter or collapse. The docs are blunt: the performance requirements make the current model unsuitable for these.</dd>
       <dt>Not emulated: link cables</dt>
-      <dd>RetroArch netplay syncs <em>controllers</em>, not link-cable data — so Game Boy link features like Pokémon trading don't work over netplay. Two exceptions: the <strong>TGB-Dual</strong> and <strong>SameBoy</strong> cores implement same-game GB/GBC multiplayer properly.</dd>
+      <dd>RetroArch netplay syncs <em>controllers</em>, not link-cable data, so Game Boy link features like Pokémon trading don't work over netplay. Two exceptions: the <strong>TGB-Dual</strong> and <strong>SameBoy</strong> cores implement same-game GB/GBC multiplayer properly.</dd>
     </dl>
     <div class="key-point"><p><strong>The Pokémon question, answered:</strong> no, you cannot trade Pokémon over RetroArch netplay. Link-cable emulation is a different technology from controller netplay. SameBoy's same-game multiplayer is the real answer for GB/GBC link play.</p></div>
   </section>
 
   <section class="guide-section" id="news" aria-labelledby="news-h">
     <h2 id="news-h"><span class="sec-num">06</span>New in 2026: Dolphin on your phone</h2>
-    <p>Dolphin's 2609 release (September 2026) added <strong>Android NetPlay with lockstep networking against desktop clients</strong> — real cross-platform multiplayer between phones and PCs for GameCube and Wii games. It's lockstep rather than rollback (everyone waits for everyone, like the old days), which suits Dolphin's heavier cores, and it makes the phone in your pocket a legitimate netplay endpoint for the first time.</p>
-    <p>Dolphin is now also distributed directly through the Google Play Store, so the Android side of that equation is a normal app install. For GameCube/Wii multiplayer specifically, Dolphin — not RetroArch — is the current answer.</p>
+    <p>Dolphin's 2609 release (September 2026) added <strong>Android NetPlay with lockstep networking against desktop clients</strong>, real cross-platform multiplayer between phones and PCs for GameCube and Wii games. It's lockstep rather than rollback (everyone waits for everyone, like the old days), which suits Dolphin's heavier cores, and it makes the phone in your pocket a legitimate netplay endpoint for the first time.</p>
+    <p>Dolphin is now also distributed directly through the Google Play Store, so the Android side of that equation is a normal app install. For GameCube/Wii multiplayer specifically, Dolphin, not RetroArch, is the current answer.</p>
   </section>
 
   <section class="guide-section" id="here" aria-labelledby="here-h">
     <h2 id="here-h"><span class="sec-num">07</span>Netplay on this site: the honest state</h2>
-    <p>The EmulatorJS engine behind our Player advertises experimental WebRTC room-code netplay — but its own documentation flags it as still being worked on, and we have <strong>not</strong> verified it end-to-end on the stable build. So: not enabled here, not promised. We'd rather say "not yet" than ship a button that desyncs your game night.</p>
+    <p>The EmulatorJS engine behind our Player advertises experimental WebRTC room-code netplay, but its own documentation flags it as still being worked on, and we have <strong>not</strong> verified it end-to-end on the stable build. So: not enabled here, not promised. We'd rather say "not yet" than ship a button that desyncs your game night.</p>
     <p>What works today for playing together on Button Mash:</p>
     <ul>
-      <li><strong>Hot-seat on one screen</strong> — the Player's controller remapping supports multiple gamepads on the same machine.</li>
-      <li><strong>The Party Planner</strong> — builds a timed rotation across party-tagged games so a room full of people shares controllers fairly (<a href="../party-planner.html">plan a game night</a>).</li>
-      <li><strong>Tournaments</strong> — run a real bracket around whatever you're playing (<a href="../tournament.html">bracket builder</a>).</li>
+      <li><strong>Hot-seat on one screen</strong>, the Player's controller remapping supports multiple gamepads on the same machine.</li>
+      <li><strong>The Party Planner</strong>, builds a timed rotation across party-tagged games so a room full of people shares controllers fairly (<a href="../party-planner.html">plan a game night</a>).</li>
+      <li><strong>Tournaments</strong>, run a real bracket around whatever you're playing (<a href="../tournament.html">bracket builder</a>).</li>
     </ul>
   </section>
 
   <section class="guide-section" id="troubleshooting" aria-labelledby="troubleshooting-h">
     <h2 id="troubleshooting-h"><span class="sec-num">08</span>Troubleshooting checklist</h2>
-    <p>When a session misbehaves, walk this list in order — it resolves the vast majority of netplay grief:</p>
+    <p>When a session misbehaves, walk this list in order, it resolves the vast majority of netplay grief:</p>
     <ol>
       <li><strong>Desync right at the start:</strong> content mismatch. Compare checksums of the game file on both machines; re-copy the host's file to the client.</li>
       <li><strong>Desync mid-session:</strong> someone loaded a save state, or core versions differ. Update cores everywhere, agree on no-states.</li>
       <li><strong>"Failed to initialize netplay" as client:</strong> wrong IP, host hasn't started hosting yet, or the host's firewall is blocking RetroArch. Confirm the host's session is live first.</li>
-      <li><strong>Stutter that isn't desync:</strong> serialization too slow for the core (wrong system for netplay — see section 5), or relay latency. Try port forwarding; drop to an 8/16-bit game as a control test.</li>
-      <li><strong>One player's inputs feel delayed:</strong> that's the network, not the emulator — rollback hides it until latency gets extreme. Play closer (geographically) or accept it.</li>
+      <li><strong>Stutter that isn't desync:</strong> serialization too slow for the core (wrong system for netplay, see section 5), or relay latency. Try port forwarding; drop to an 8/16-bit game as a control test.</li>
+      <li><strong>One player's inputs feel delayed:</strong> that's the network, not the emulator, rollback hides it until latency gets extreme. Play closer (geographically) or accept it.</li>
     </ol>
   </section>
 
   <section aria-labelledby="more-guides"><h2 id="more-guides">More guides</h2>
   <ul class="guide-list">
-    <li><a href="retroarch-setup.html">RetroArch setup guide</a> — install it, add cores, and configure controllers before your first netplay session.</li>
-    <li><a href="save-workflows.html">Saves that survive: states, SRAM &amp; backup workflows</a> — why save states and netplay don't mix, and how to back up everything else.</li>
-    <li><a href="rip-your-own-cartridges.html">Rip your own cartridges</a> — byte-identical content starts with verified dumps of games you own.</li>
-    <li><a href="accessibility-in-retro-gaming.html">Retro games for every player</a> — remapping and assists that make multiplayer welcoming for everyone.</li>
-    <li><a href="../party-planner.html">Party planner</a> — the couch-multiplayer alternative: timed rotations for a room full of players.</li>
+    <li><a href="retroarch-setup.html">RetroArch setup guide</a>, install it, add cores, and configure controllers before your first netplay session.</li>
+    <li><a href="save-workflows.html">Saves that survive: states, SRAM &amp; backup workflows</a>, why save states and netplay don't mix, and how to back up everything else.</li>
+    <li><a href="rip-your-own-cartridges.html">Rip your own cartridges</a>, byte-identical content starts with verified dumps of games you own.</li>
+    <li><a href="accessibility-in-retro-gaming.html">Retro games for every player</a>, remapping and assists that make multiplayer welcoming for everyone.</li>
+    <li><a href="../party-planner.html">Party planner</a>, the couch-multiplayer alternative: timed rotations for a room full of players.</li>
   </ul></section>
 </article>
 </main>
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-note">
-      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Button Mash, your browser is the console. Built 2026.</span>
       <span>Zero ROMs hosted. Zero piracy links.</span>
     </div>
     <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>

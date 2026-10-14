@@ -1,4 +1,4 @@
-/* Button Mash — games directory: search, genre filters, favorites, random, game-of-the-day. */
+/* Button Mash, games directory: search, genre filters, favorites, random, game-of-the-day. */
 (function () {
   'use strict';
 
@@ -9,7 +9,7 @@
   /* ---------- URL-synced filter state ----------
      Filters live in the query string (?q=&genre=&tags=a,b&favs=1) so any
      view is shareable. State is read on load (validated against the
-     catalog) and written with replaceState on every change — no history
+     catalog) and written with replaceState on every change, no history
      spam, no reloads. */
   function readURLState(knownGenres, knownTags) {
     var p;
@@ -29,7 +29,7 @@
   }
 
   /* Wave B (server-program spec §3): the directory reads the static fallback
-     contract file data/v1/games.json — the same file GET /api/games serves —
+     contract file data/v1/games.json, the same file GET /api/games serves,
      so the page is complete even with the functions unreachable. A live
      probe follows immediately; see probeLiveCatalog below. */
   function loadStaticCatalog() {
@@ -208,7 +208,7 @@
     function emptyCabinet() {
       return '<div class="empty-state empty-cabinet">' +
         '<p class="empty-title">\u00BB NO GAMES ON THIS CHANNEL</p>' +
-        '<p class="empty-sub">The cabinet is empty \u2014 loosen a filter or two.</p>' +
+        '<p class="empty-sub">The cabinet is empty. Loosen a filter or two.</p>' +
         '<button class="chip" id="clear-filters" type="button">\u00BB Clear all filters</button></div>';
     }
 
@@ -243,7 +243,7 @@
       var noPref = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
       if (!firstRender && document.startViewTransition && noPref) {
         // Swallow skip-rejections: rapid successive filters abort the in-flight
-        // transition, which rejects its promises — that is normal, not an error.
+        // transition, which rejects its promises, that is normal, not an error.
         var vt = document.startViewTransition(apply);
         if (vt) {
           ["finished", "ready", "updateCallbackDone"].forEach(function (k) {

@@ -24,8 +24,8 @@ const ROOT = "/home/hatch/workspace/button-mash";
 const BASE = "file://" + ROOT;
 let failures = 0;
 function check(name, cond, detail) {
-  if (cond) { console.log("PASS", name, "—", detail); }
-  else { failures++; console.error("FAIL", name, "—", detail); }
+  if (cond) { console.log("PASS", name, ", ", detail); }
+  else { failures++; console.error("FAIL", name, ", ", detail); }
 }
 
 const games = JSON.parse(fs.readFileSync(path.join(ROOT, "data/games.json"), "utf8")).games;
@@ -75,13 +75,13 @@ const featured = [...page39.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
   const CTX = { collections: colsDoc.collections || [],
     kidIds: new Set((kidsDoc["kid-safe"] || []).filter((k) => k.kid_safe).map((k) => k.id)) };
   const cmp = V.compare(byId["venge"], byId["kaaarot"], CTX);
-  check("versus: the changed pairing — Venge.io vs kaaarot ties on coverage since the dive, footprint alone fires",
+  check("versus: the changed pairing: Venge.io vs kaaarot ties on coverage since the dive, footprint alone fires",
     cmp.ok && !cmp.thin && cmp.verdicts.length === 1 &&
     cmp.verdicts[0].kind === "footprint" &&
     V.profile(byId["venge"], CTX).coverageCount === 1 &&
     V.profile(byId["kaaarot"], CTX).coverageCount === 1 &&
     V.profile(byId["kaaarot"], CTX).coverage.some((c) => c.label === "Genre deep dive: multiplayer"),
-    "venge carries the action dive, kaaarot now carries the multiplayer dive (1 coverage entry each) — wave 38 fired footprint + coverage; the tie leaves footprint alone");
+    "venge carries the action dive, kaaarot now carries the multiplayer dive (1 coverage entry each), wave 38 fired footprint + coverage; the tie leaves footprint alone");
 }
 
 /* ---------------- (3) headless ---------------- */
@@ -101,7 +101,7 @@ const featured = [...page39.matchAll(/data-game="([^"]+)"/g)].map((m) => m[1]);
   }));
   check("headless: page renders all cards under exactly one h1",
     rendered.h1 === 1 && rendered.cards === 15,
-    "h1=" + rendered.h1 + " cards=" + rendered.cards + " — " + rendered.title);
+    "h1=" + rendered.h1 + " cards=" + rendered.cards + ": " + rendered.title);
   await page.setViewport({ width: 390, height: 844 });
   await new Promise((r) => setTimeout(r, 400));
   const overflow = await page.evaluate(() =>

@@ -1,4 +1,4 @@
-/* Tournament Night — the cabinet on its biggest night.
+/* Tournament Night, the cabinet on its biggest night.
    Marquee energy: a lit sign over a dark bezel, rounds as columns
    of match tickets, and a champion card that reads like the sign
    at the end of the night. One primary action (start the night,
@@ -9,7 +9,7 @@
   border: 3px solid var(--neon-amber);
   border-radius: var(--r-md);
   background: var(--panel);
-  box-shadow: 0 0 0 6px rgba(0, 0, 0, .25), 0 18px 44px rgba(0, 0, 0, .4);
+  box-shadow: 0 0 0 6px rgba(0, 0, 0.25), 0 18px 44px rgba(0, 0, 0.4);
   padding: clamp(18px, 3.4vw, 34px);
   margin-top: 22px;
 }
@@ -33,7 +33,7 @@
 .tn-source label:has(input:disabled) { opacity: .55; cursor: default; }
 .tn-source small { display: block; color: var(--ink-dim); font-weight: 400; }
 .tn-panel { display: grid; gap: .5rem; }
-.tn-panel select, .tn-setup input[type="text"] {
+.tn-panel select.tn-setup input[type="text"] {
   font-size: 1rem; padding: .55rem .7rem; border-radius: 8px;
   border: 2px solid var(--edge-bright); background: var(--panel); color: var(--ink);
   width: 100%;
@@ -62,7 +62,7 @@
   border: 2px solid var(--edge-bright); background: var(--panel); color: var(--ink);
   font: inherit;
 }
-.tn-entrant:hover:not(:disabled), .tn-entrant:focus-visible { border-color: var(--neon-cyan, #22d3ee); }
+.tn-entrant:hover:not(:disabled).tn-entrant:focus-visible { border-color: var(--neon-cyan, #22d3ee); }
 .tn-entrant:disabled { cursor: default; }
 .tn-entrant.is-winner { outline: 2px solid var(--neon-lime); border-color: var(--neon-lime); }
 .tn-entrant.is-loser { opacity: .6; }
@@ -103,8 +103,8 @@
   * { animation: none !important; transition: none !important; }
 }
 @media print {
-  .site-header, .site-footer, .tn-setup, .tn-actions, .skip-link { display: none !important; }
+  .site-header.site-footer.tn-setup.tn-actions.skip-link { display: none !important; }
   body { background: #fff; color: #000; }
-  .tn-round, .tn-match, .tn-entrant, .tn-champion { border: 1px solid #000; background: #fff; }
-  .tn-champion-title, .tn-round-name { color: #000; }
+  .tn-round.tn-match.tn-entrant.tn-champion { border: 1px solid #000; background: #fff; }
+  .tn-champion-title.tn-round-name { color: #000; }
 }

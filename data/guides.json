@@ -4,19 +4,19 @@
     "id": "emulatorjs-selfhost",
     "sections": [
       {
-        "body": "EmulatorJS is a free, open-source project that puts classic console emulation in a web page. It bundles libretro cores compiled to WebAssembly, so systems from the NES to the GBA run right in the browser with no plugins.\n\nThe software itself is completely legal — and it ships with zero games. You supply the game files, and this is the part that matters: only load ROMs you dumped from cartridges or discs you own, plus homebrew and public-domain titles. Downloading commercial ROMs you don't own is piracy, no matter how nicely the player is skinned.",
+        "body": "EmulatorJS is a free, open-source project that puts classic console emulation in a web page. It bundles libretro cores compiled to WebAssembly, so systems from the NES to the GBA run right in the browser with no plugins.\n\nThe software itself is completely legal, and it ships with zero games. You supply the game files, and this is the part that matters: only load ROMs you dumped from cartridges or discs you own, plus homebrew and public-domain titles. Downloading commercial ROMs you don't own is piracy, no matter how nicely the player is skinned.",
         "heading": "What it is (and the legal line)"
       },
       {
-        "body": "- A web host that serves static files (any static host works), or just your own computer for local play\n- ROM files you dumped yourself — see the rip-your-own-cartridges guide\n- For some systems, a BIOS file dumped from hardware you own (GBA and PlayStation cores need one)\n- About 30 minutes",
+        "body": "- A web host that serves static files (any static host works), or just your own computer for local play\n- ROM files you dumped yourself, see the rip-your-own-cartridges guide\n- For some systems, a BIOS file dumped from hardware you own (GBA and PlayStation cores need one)\n- About 30 minutes",
         "heading": "What you need"
       },
       {
-        "body": "Grab the latest release ZIP from the project's GitHub releases page (github.com/EmulatorJS/EmulatorJS) and unzip it into your site folder. The ZIP contains the loader, the cores, and a data directory — no installer, no build step.\n\nIf you'd rather not self-host, the project's own demo page shows the same setup; the steps below work identically on any static host.",
+        "body": "Grab the latest release ZIP from the project's GitHub releases page (github.com/EmulatorJS/EmulatorJS) and unzip it into your site folder. The ZIP contains the loader, the cores, and a data directory, no installer, no build step.\n\nIf you'd rather not self-host, the project's own demo page shows the same setup; the steps below work identically on any static host.",
         "heading": "1. Get the release"
       },
       {
-        "body": "Create a folder (call it `roms`) and copy in only ROMs you dumped from games you own, plus homebrew or public-domain ROMs. One subfolder per system keeps cores straight — `roms/gba/`, `roms/snes/`, and so on.\n\nName files clearly. EmulatorJS doesn't care about fancy naming schemes; it cares that the file is a valid dump.",
+        "body": "Create a folder (call it `roms`) and copy in only ROMs you dumped from games you own, plus homebrew or public-domain ROMs. One subfolder per system keeps cores straight, `roms/gba/`, `roms/snes/`, and so on.\n\nName files clearly. EmulatorJS doesn't care about fancy naming schemes; it cares that the file is a valid dump.",
         "heading": "2. Add your own games"
       },
       {
@@ -24,7 +24,7 @@
         "heading": "3. Embed the player"
       },
       {
-        "body": "Some cores refuse to boot without a system BIOS. Dump the BIOS from hardware you own — the same dumpers in the rip-your-own guide usually handle this — and place it where the core's documentation says to look. Never download a BIOS file; like ROMs, they're copyrighted software.",
+        "body": "Some cores refuse to boot without a system BIOS. Dump the BIOS from hardware you own, the same dumpers in the rip-your-own guide usually handle this, and place it where the core's documentation says to look. Never download a BIOS file; like ROMs, they're copyrighted software.",
         "heading": "4. BIOS files (dump your own)"
       },
       {
@@ -32,12 +32,12 @@
         "heading": "5. Extras worth knowing"
       },
       {
-        "body": "EmulatorJS gives you the player, not the games. If a setup tutorial tells you to download a ROM pack, close the tab — that tutorial is pointing you at piracy. Your library should be: dumps of games you physically own, homebrew from its authors, and public-domain releases. That's the whole legal lane, and it's plenty.",
+        "body": "EmulatorJS gives you the player, not the games. If a setup tutorial tells you to download a ROM pack, close the tab, that tutorial is pointing you at piracy. Your library should be: dumps of games you physically own, homebrew from its authors, and public-domain releases. That's the whole legal lane, and it's plenty.",
         "heading": "The rule, one more time"
       }
     ],
     "slug": "emulatorjs-self-hosting",
-    "summary": "Host the open-source EmulatorJS player on your own site and play ROMs you dumped yourself — setup, cores, BIOS, and the legal line.",
+    "summary": "Host the open-source EmulatorJS player on your own site and play ROMs you dumped yourself, setup, cores, BIOS, and the legal line.",
     "time_minutes": 30,
     "title": "EmulatorJS self-hosting guide"
   },
@@ -46,23 +46,23 @@
     "id": "retroarch-setup",
     "sections": [
       {
-        "body": "RetroArch is a free, open-source frontend for emulators. Instead of one emulator per system, you install RetroArch once and add small emulator modules called cores — one for each console you want to play. It runs on Windows, macOS, Linux, Android, iOS, and even in a browser.\n\nRetroArch contains no games and no BIOS files. You bring those: dumps of games you own (see the rip-your-own guide) and homebrew or public-domain titles.",
+        "body": "RetroArch is a free, open-source frontend for emulators. Instead of one emulator per system, you install RetroArch once and add small emulator modules called cores, one for each console you want to play. It runs on Windows, macOS, Linux, Android, iOS, and even in a browser.\n\nRetroArch contains no games and no BIOS files. You bring those: dumps of games you own (see the rip-your-own guide) and homebrew or public-domain titles.",
         "heading": "What it is (and the legal line)"
       },
       {
-        "body": "Download RetroArch from retroarch.com — pick your platform. It's also on Steam and most package managers, which handle updates for you. Install it like any normal app; the first launch walks you through the basics.",
+        "body": "Download RetroArch from retroarch.com, pick your platform. It's also on Steam and most package managers, which handle updates for you. Install it like any normal app; the first launch walks you through the basics.",
         "heading": "1. Install RetroArch"
       },
       {
-        "body": "Go to Main Menu → Online Updater → Core Downloader. You'll see a list of cores, each named for the hardware it emulates. Install the core matching hardware you own — for example, a Game Boy Advance core if you have GBA cartridges to dump.\n\nCores are emulator software, and they're legal. Installing ten cores you never use harms nothing; loading a game you don't own into one is the part that's piracy.",
+        "body": "Go to Main Menu → Online Updater → Core Downloader. You'll see a list of cores, each named for the hardware it emulates. Install the core matching hardware you own, for example, a Game Boy Advance core if you have GBA cartridges to dump.\n\nCores are emulator software, and they're legal. Installing ten cores you never use harms nothing; loading a game you don't own into one is the part that's piracy.",
         "heading": "2. Download cores (the emulators)"
       },
       {
-        "body": "Main Menu → Load Content → browse to your dumped ROM file. RetroArch will ask which core to use; pick the one you installed. To build a pretty library view, use Import Content → Scan Directory on a folder of your dumps — RetroArch matches them against its database and builds per-system playlists with box art.",
+        "body": "Main Menu → Load Content → browse to your dumped ROM file. RetroArch will ask which core to use; pick the one you installed. To build a pretty library view, use Import Content → Scan Directory on a folder of your dumps: RetroArch matches them against its database and builds per-system playlists with box art.",
         "heading": "3. Load your own games"
       },
       {
-        "body": "Settings → Input. Most USB and Bluetooth gamepads are recognized automatically with sane default mappings — plug in and play. If a button feels wrong, remap it per-core under Quick Menu → Controls while a game is running; RetroArch saves the remap for that core.",
+        "body": "Settings → Input. Most USB and Bluetooth gamepads are recognized automatically with sane default mappings, plug in and play. If a button feels wrong, remap it per-core under Quick Menu → Controls while a game is running; RetroArch saves the remap for that core.",
         "heading": "4. Controllers"
       },
       {
@@ -70,12 +70,12 @@
         "heading": "5. The good stuff: saves, shaders, netplay"
       },
       {
-        "body": "Keep your library to three sources: dumps of games you own, homebrew from its authors, and public-domain releases. RetroArch never asks where your files came from — that's your responsibility, and it's the whole difference between a legal retro setup and a piracy box.",
+        "body": "Keep your library to three sources: dumps of games you own, homebrew from its authors, and public-domain releases. RetroArch never asks where your files came from, that's your responsibility, and it's the whole difference between a legal retro setup and a piracy box.",
         "heading": "The rule, one more time"
       }
     ],
     "slug": "retroarch-setup",
-    "summary": "Install RetroArch, add cores for hardware you own, and load your own dumped games — controllers, save states, shaders, and netplay included.",
+    "summary": "Install RetroArch, add cores for hardware you own, and load your own dumped games, controllers, save states, shaders, and netplay included.",
     "time_minutes": 20,
     "title": "RetroArch setup guide"
   },
@@ -84,15 +84,15 @@
     "id": "gba-wasm-recompiler",
     "sections": [
       {
-        "body": "Most browser emulation interprets a console's CPU in real time. A static recompiler takes a different path: it translates the game's ARM/Thumb machine code into WebAssembly ahead of time, once. The result is a self-contained web page — WASM plus a small runtime shim — that plays the game with no emulator needed at runtime.\n\nThe open-source demo at agnt-gg/gba-pokemon-rom-to-wasm walks the whole pattern end to end and is the best reference for how the pieces fit.",
+        "body": "Most browser emulation interprets a console's CPU in real time. A static recompiler takes a different path: it translates the game's ARM/Thumb machine code into WebAssembly ahead of time, once. The result is a self-contained web page: WASM plus a small runtime shim, that plays the game with no emulator needed at runtime.\n\nThe open-source demo at agnt-gg/gba-pokemon-rom-to-wasm walks the whole pattern end to end and is the best reference for how the pieces fit.",
         "heading": "The pattern"
       },
       {
-        "body": "The input ROM must be a dump of a cartridge you physically own — see the rip-your-own-cartridges guide. Two hard rules:\n\n1. Never feed a downloaded ROM into the toolchain. The recompiler doesn't care where the file came from; the law does.\n2. Don't redistribute the built page. The output still contains the original game's copyrighted code, so sharing the build is sharing the game.\n\nBuild for yourself, play it yourself. That's the legal lane.",
+        "body": "The input ROM must be a dump of a cartridge you physically own, see the rip-your-own-cartridges guide. Two hard rules:\n\n1. Never feed a downloaded ROM into the toolchain. The recompiler doesn't care where the file came from; the law does.\n2. Don't redistribute the built page. The output still contains the original game's copyrighted code, so sharing the build is sharing the game.\n\nBuild for yourself, play it yourself. That's the legal lane.",
         "heading": "The non-negotiable input rule"
       },
       {
-        "body": "Use a cartridge dumper — a GB Operator, Joey Jr., Sanni Cart Reader, or similar — to read your own GBA cartridge into a ROM file on your computer. Verify the dump (most dumper software shows a checksum) before you build.",
+        "body": "Use a cartridge dumper, a GB Operator, Joey Jr., Sanni Cart Reader, or similar, to read your own GBA cartridge into a ROM file on your computer. Verify the dump (most dumper software shows a checksum) before you build.",
         "heading": "1. Dump your own cartridge"
       },
       {
@@ -100,20 +100,20 @@
         "heading": "2. Run the recompiler on your dump"
       },
       {
-        "body": "The output is static files, so any static web host works — or just open the HTML file locally. Saves typically persist via localStorage or IndexedDB in the browser. Keep the page private, or share it only with people who own the same cartridge.",
+        "body": "The output is static files, so any static web host works, or just open the HTML file locally. Saves typically persist via localStorage or IndexedDB in the browser. Keep the page private, or share it only with people who own the same cartridge.",
         "heading": "3. Host the build yourself"
       },
       {
-        "body": "At build time, each ARM instruction in the game maps to equivalent WebAssembly operations. Anything the game expects from real GBA hardware — the picture processing unit, the sound channels, the timers, the memory-mapped I/O — is implemented in the runtime shim the recompiler ships with. It's emulation, just done ahead of time instead of on the fly.",
+        "body": "At build time, each ARM instruction in the game maps to equivalent WebAssembly operations. Anything the game expects from real GBA hardware, the picture processing unit, the sound channels, the timers, the memory-mapped I/O, is implemented in the runtime shim the recompiler ships with. It's emulation, just done ahead of time instead of on the fly.",
         "heading": "How it works, briefly"
       },
       {
-        "body": "- Not every game recompiles cleanly; anti-piracy checks and unusual hardware tricks can break the build\n- Performance varies by browser and device; desktop Chrome/Firefox are the smoothest targets\n- Debugging a broken build means reading the recompiler's logs, not the game's code — start with a simple, well-documented game\n- This pattern generalizes: the same idea applies to other consoles, with different recompiler projects",
+        "body": "- Not every game recompiles cleanly; anti-piracy checks and unusual hardware tricks can break the build\n- Performance varies by browser and device; desktop Chrome/Firefox are the smoothest targets\n- Debugging a broken build means reading the recompiler's logs, not the game's code, start with a simple, well-documented game\n- This pattern generalizes: the same idea applies to other consoles, with different recompiler projects",
         "heading": "Limits and gotchas"
       }
     ],
     "slug": "gba-to-wasm-recompiler",
-    "summary": "Turn a GBA cartridge you own into a self-contained browser page via static recompilation — the user-supplied-ROMs-only pattern, end to end.",
+    "summary": "Turn a GBA cartridge you own into a self-contained browser page via static recompilation, the user-supplied-ROMs-only pattern, end to end.",
     "time_minutes": 90,
     "title": "GBA-to-WASM recompiler guide"
   },
@@ -122,32 +122,32 @@
     "id": "rip-your-own",
     "sections": [
       {
-        "body": "Dumping is reading the data off a cartridge or disc you own into a file on your computer. That file — the ROM or disc image — is a backup of your property, and it's the only legal way to get game files for the emulators and recompilers in the other guides.\n\nThis guide is practical how-to, not legal advice. The general principle is simple: back up what you own, and never distribute the copies.",
+        "body": "Dumping is reading the data off a cartridge or disc you own into a file on your computer. That file, the ROM or disc image, is a backup of your property, and it's the only legal way to get game files for the emulators and recompilers in the other guides.\n\nThis guide is practical how-to, not legal advice. The general principle is simple: back up what you own, and never distribute the copies.",
         "heading": "The idea"
       },
       {
-        "body": "Making a personal backup of software you own is treated very differently from downloading or sharing copies you have no rights to. The bright line is distribution: uploading your dumps, sharing them with friends, or downloading someone else's is piracy regardless of whether you own the game.\n\nLaws vary by country and change over time. When in doubt, the conservative read — your dumps, your devices, no sharing — keeps you safe everywhere.",
+        "body": "Making a personal backup of software you own is treated very differently from downloading or sharing copies you have no rights to. The bright line is distribution: uploading your dumps, sharing them with friends, or downloading someone else's is piracy regardless of whether you own the game.\n\nLaws vary by country and change over time. When in doubt, the conservative read, your dumps, your devices, no sharing, keeps you safe everywhere.",
         "heading": "The legal framing (general principles)"
       },
       {
-        "body": "- Game Boy / Game Boy Color / Game Boy Advance: GB Operator (Epilogue) or Joey Jr. — dead simple USB dumpers\n- SNES + Genesis: Retrode 2 — plug the cart into a USB adapter that mounts like a drive\n- Multi-system DIY: INLretro Dumper or the open-source Sanni Cart Reader — more systems, more tinkering\n- Save files: most of these dumpers also back up the save RAM, so your 100-hour file survives",
+        "body": "- Game Boy / Game Boy Color / Game Boy Advance: GB Operator (Epilogue) or Joey Jr., dead simple USB dumpers\n- SNES + Genesis: Retrode 2, plug the cart into a USB adapter that mounts like a drive\n- Multi-system DIY: INLretro Dumper or the open-source Sanni Cart Reader, more systems, more tinkering\n- Save files: most of these dumpers also back up the save RAM, so your 100-hour file survives",
         "heading": "Pick a dumper for your system"
       },
       {
-        "body": "1. Clean the cartridge's edge connector with isopropyl alcohol and a cotton swab — dirty contacts cause bad dumps\n2. Seat the cart firmly in the dumper\n3. Run the dumper software and save the ROM file\n4. Verify it: good dumper software shows a checksum. Compare it against a known-good database entry for your exact cartridge — a match means a perfect read\n5. Keep the physical cartridge. It's your proof of ownership and the reason the backup is yours to make",
+        "body": "1. Clean the cartridge's edge connector with isopropyl alcohol and a cotton swab, dirty contacts cause bad dumps\n2. Seat the cart firmly in the dumper\n3. Run the dumper software and save the ROM file\n4. Verify it: good dumper software shows a checksum. Compare it against a known-good database entry for your exact cartridge, a match means a perfect read\n5. Keep the physical cartridge. It's your proof of ownership and the reason the backup is yours to make",
         "heading": "The dumping ritual"
       },
       {
-        "body": "Optical media needs a compatible disc drive plus dumping software; the per-system guides in preservation communities document exact drive models and settings. The same rule applies: your disc, your dump, no sharing. Disc dumps are big — budget storage accordingly.",
+        "body": "Optical media needs a compatible disc drive plus dumping software; the per-system guides in preservation communities document exact drive models and settings. The same rule applies: your disc, your dump, no sharing. Disc dumps are big, budget storage accordingly.",
         "heading": "Disc-based games"
       },
       {
-        "body": "- Keep each ROM next to a small text file with its checksum and the cartridge it came from\n- Back up save files separately; they're tiny and irreplaceable\n- Store everything twice (local drive + a backup) — dumped once, kept forever\n- Label homebrew and public-domain ROMs as such so your future self knows what's shareable",
+        "body": "- Keep each ROM next to a small text file with its checksum and the cartridge it came from\n- Back up save files separately; they're tiny and irreplaceable\n- Store everything twice (local drive + a backup), dumped once, kept forever\n- Label homebrew and public-domain ROMs as such so your future self knows what's shareable",
         "heading": "Store it right"
       }
     ],
     "slug": "rip-your-own-cartridges",
-    "summary": "Turn cartridges you own into verified ROM backups with a USB dumper — hardware picks, the dumping ritual, and the no-distribution rule.",
+    "summary": "Turn cartridges you own into verified ROM backups with a USB dumper, hardware picks, the dumping ritual, and the no-distribution rule.",
     "time_minutes": 45,
     "title": "Rip-your-own-cartridges guide"
   },
@@ -156,15 +156,15 @@
     "id": "homebrew-sources",
     "sections": [
       {
-        "body": "Homebrew means new games made by hobbyists for old (and new) hardware, released free by their authors. Public domain means the copyright expired or was explicitly waived. Both are fully legal to download, play, and share — they're the guilt-free way to fill an emulator library or a recompiler project.",
+        "body": "Homebrew means new games made by hobbyists for old (and new) hardware, released free by their authors. Public domain means the copyright expired or was explicitly waived. Both are fully legal to download, play, and share, they're the guilt-free way to fill an emulator library or a recompiler project.",
         "heading": "What counts as legal"
       },
       {
-        "body": "- pdroms.de — a long-running archive of homebrew ROMs across dozens of systems. Everything there is distributed by its authors.\n- nesdev.com — the NES homebrew development community: forums, tutorials, and released homebrew games.\n- gbdev.io — the Game Boy homebrew hub: dev resources plus finished, free games.\n- itch.io (itch.io/games, search 'homebrew') — many homebrew devs release ROMs free on their itch pages; filter by 'play in browser' for instant play.\n- Internet Archive collections — the MS-DOS Games, Internet Arcade, and Console Living Room collections (all in our game directory) include homebrew and public-domain titles; check each item's rights statement.",
+        "body": "- pdroms.de, a long-running archive of homebrew ROMs across dozens of systems. Everything there is distributed by its authors.\n- nesdev.com, the NES homebrew development community: forums, tutorials, and released homebrew games.\n- gbdev.io, the Game Boy homebrew hub: dev resources plus finished, free games.\n- itch.io (itch.io/games, search 'homebrew'), many homebrew devs release ROMs free on their itch pages; filter by 'play in browser' for instant play.\n- Internet Archive collections, the MS-DOS Games, Internet Arcade, and Console Living Room collections (all in our game directory) include homebrew and public-domain titles; check each item's rights statement.",
         "heading": "Where to find them"
       },
       {
-        "body": "- OpenTTD (openttd.org) — a complete, open-source transport sim and a genuinely great game\n- The open-source web games in our directory — 2048, Hextris, A Dark Room, and friends are free software you can also self-host\n- Engine recreations exist for some classics, but they typically need original game data from a copy you own — the engine is free, the assets aren't",
+        "body": "- OpenTTD (openttd.org), a complete, open-source transport sim and a genuinely great game\n- The open-source web games in our directory: 2048, Hextris, A Dark Room, and friends are free software you can also self-host\n- Engine recreations exist for some classics, but they typically need original game data from a copy you own, the engine is free, the assets aren't",
         "heading": "Open-source originals (not ROMs at all)"
       },
       {
@@ -183,7 +183,7 @@
     "title": "How GBA becomes WebAssembly",
     "difficulty": "Intermediate",
     "time_minutes": 12,
-    "summary": "The reverse-engineering pattern behind browser GBA: ARM/THUMB basic blocks lifted into real WASM, frame timing, memory mapping — original explainer.",
+    "summary": "The reverse-engineering pattern behind browser GBA: ARM/THUMB basic blocks lifted into real WASM, frame timing, memory mapping, original explainer.",
     "sections": [
       {
         "heading": "The CPU problem: ARM in a browser",
@@ -203,7 +203,7 @@
       },
       {
         "heading": "Differential verification",
-        "body": "Serious projects run the WASM translation and a trusted interpreter side by side and compare CPU state after every block — any divergence is a translation bug."
+        "body": "Serious projects run the WASM translation and a trusted interpreter side by side and compare CPU state after every block, any divergence is a translation bug."
       }
     ]
   },
@@ -217,7 +217,7 @@
     "sections": [
       {
         "heading": "The core idea",
-        "body": "An emulator pretends to be the original chips — CPU, graphics, sound, timers — well enough that the game can't tell the difference."
+        "body": "An emulator pretends to be the original chips: CPU, graphics, sound, timers, well enough that the game can't tell the difference."
       },
       {
         "heading": "Interpreters vs. recompilers",
@@ -233,7 +233,7 @@
       },
       {
         "heading": "Save states",
-        "body": "Complete snapshots of the emulated machine — save mid-jump. In browsers they persist via local storage / IndexedDB."
+        "body": "Complete snapshots of the emulated machine, save mid-jump. In browsers they persist via local storage / IndexedDB."
       }
     ]
   },
@@ -243,7 +243,7 @@
     "title": "Best emulator per system",
     "difficulty": "Reference",
     "time_minutes": 6,
-    "summary": "One honest emulator pick per classic system: accuracy, ease of use, platform notes. Software only — no ROM links.",
+    "summary": "One honest emulator pick per classic system: accuracy, ease of use, platform notes. Software only, no ROM links.",
     "sections": [
       {
         "heading": "The picks",
@@ -265,7 +265,7 @@
     "sections": [
       {
         "heading": "The core: mGBA, the accuracy king",
-        "body": "The Player's gba core is mGBA — the single GBA backend in the official EmulatorJS core list, and one of the most accurate GBA emulators ever written. Auto-detected from .gba files; the manual dropdown exists only if detection fails."
+        "body": "The Player's gba core is mGBA, the single GBA backend in the official EmulatorJS core list, and one of the most accurate GBA emulators ever written. Auto-detected from .gba files; the manual dropdown exists only if detection fails."
       },
       {
         "heading": "BIOS notes",
@@ -273,7 +273,7 @@
       },
       {
         "heading": "Settings that matter",
-        "body": "Color correction (GBA games were drawn for the dim unlit screen — correction restores the intended look); fast-forward for slow stretches; Keep in Browser under Settings -> Save States so the Player 2.0 Save tool can export/import states as files."
+        "body": "Color correction (GBA games were drawn for the dim unlit screen, correction restores the intended look); fast-forward for slow stretches; Keep in Browser under Settings -> Save States so the Player 2.0 Save tool can export/import states as files."
       },
       {
         "heading": "Performance",
@@ -299,11 +299,11 @@
     "sections": [
       {
         "heading": "The core: Snes9x, the workhorse",
-        "body": "The Player's snes core is Snes9x — the default SNES backend in the official EmulatorJS core list (alternate: bsnes). In development since 1997; handles Super FX, SA-1, and DSP chips well. Auto-detected from .sfc/.smc files."
+        "body": "The Player's snes core is Snes9x, the default SNES backend in the official EmulatorJS core list (alternate: bsnes). In development since 1997; handles Super FX, SA-1, and DSP chips well. Auto-detected from .sfc/.smc files."
       },
       {
         "heading": "BIOS notes",
-        "body": "None needed — the SNES has no separate system BIOS; every cartridge is self-contained."
+        "body": "None needed, the SNES has no separate system BIOS; every cartridge is self-contained."
       },
       {
         "heading": "Settings that matter",
@@ -311,7 +311,7 @@
       },
       {
         "heading": "Performance",
-        "body": "Trivial on anything — 1990 hardware on a 1997-hardened core. Slowdown is browser throttling, never the core."
+        "body": "Trivial on anything: 1990 hardware on a 1997-hardened core. Slowdown is browser throttling, never the core."
       },
       {
         "heading": "Saves & cheats",
@@ -331,17 +331,17 @@
     "id": "system-guide-nes",
     "slug": "nes",
     "title": "NES emulation guide",
-    "summary": "The Player's nes core is FCEUmm (default NES backend in the EmulatorJS core list; Nestopia UE is the alternate for accuracy purists). BIOS-free for cartridges — the one exception is Famicom Disk System disks, which need a BIOS dumped from your own hardware. Covers mapper support, the sprite-flicker switch, save states and Game Genie cheats via Player 2.0, deep link (player.html?core=nes), and a verified homebrew starter pack.",
+    "summary": "The Player's nes core is FCEUmm (default NES backend in the EmulatorJS core list; Nestopia UE is the alternate for accuracy purists). BIOS-free for cartridges, the one exception is Famicom Disk System disks, which need a BIOS dumped from your own hardware. Covers mapper support, the sprite-flicker switch, save states and Game Genie cheats via Player 2.0, deep link (player.html?core=nes), and a verified homebrew starter pack.",
     "difficulty": "Beginner",
     "time_minutes": 10,
     "sections": [
       {
         "heading": "The core: FCEUmm, the mapper sponge",
-        "body": "The Player's nes core is FCEUmm — the default NES backend in the official EmulatorJS core list (alternate: Nestopia UE). The NES put half its hardware in the cartridge (the mapper chips), and FCEUmm's whole reputation is supporting hundreds of them. Auto-detected from .nes files."
+        "body": "The Player's nes core is FCEUmm, the default NES backend in the official EmulatorJS core list (alternate: Nestopia UE). The NES put half its hardware in the cartridge (the mapper chips), and FCEUmm's whole reputation is supporting hundreds of them. Auto-detected from .nes files."
       },
       {
         "heading": "BIOS notes",
-        "body": "None needed for cartridges — the NES has no system BIOS. The single exception: Famicom Disk System .fds disks need the FDS BIOS, dumped from your own Famicom hardware. Never download one."
+        "body": "None needed for cartridges, the NES has no system BIOS. The single exception: Famicom Disk System .fds disks need the FDS BIOS, dumped from your own Famicom hardware. Never download one."
       },
       {
         "heading": "Settings that matter",
@@ -349,11 +349,11 @@
       },
       {
         "heading": "Performance",
-        "body": "Effortless — 1983 hardware. If an NES game stutters in the browser, the browser is throttling the tab, not the core struggling."
+        "body": "Effortless: 1983 hardware. If an NES game stutters in the browser, the browser is throttling the tab, not the core struggling."
       },
       {
         "heading": "Saves & cheats",
-        "body": "Save states via the in-game menu (export/import/delete with the Player 2.0 Save tool); battery saves persist. Cheats tool takes Game Genie codes — the NES is the system the Game Genie was invented for — stored per game, injected before boot."
+        "body": "Save states via the in-game menu (export/import/delete with the Player 2.0 Save tool); battery saves persist. Cheats tool takes Game Genie codes, the NES is the system the Game Genie was invented for, stored per game, injected before boot."
       },
       {
         "heading": "Homebrew starter pack",
@@ -361,7 +361,7 @@
       },
       {
         "heading": "Accuracy purists: Nestopia UE",
-        "body": "Nestopia UE favors cycle-level accuracy — the pick for finicky mappers and timing-sensitive homebrew. It's the EmulatorJS alternate NES backend for self-hosted setups. FCEUmm covers essentially everything in browser play."
+        "body": "Nestopia UE favors cycle-level accuracy, the pick for finicky mappers and timing-sensitive homebrew. It's the EmulatorJS alternate NES backend for self-hosted setups. FCEUmm covers essentially everything in browser play."
       }
     ]
   },
@@ -375,11 +375,11 @@
     "sections": [
       {
         "heading": "The core: Mupen64Plus-Next",
-        "body": "The Player's n64 core is Mupen64Plus-Next — the default N64 backend in the official EmulatorJS core list. The N64's graphics quirks make it the least predictable system here: most games run great, a few famous ones have graphical oddities. Auto-detected from .n64/.z64/.v64."
+        "body": "The Player's n64 core is Mupen64Plus-Next, the default N64 backend in the official EmulatorJS core list. The N64's graphics quirks make it the least predictable system here: most games run great, a few famous ones have graphical oddities. Auto-detected from .n64/.z64/.v64."
       },
       {
         "heading": "BIOS notes",
-        "body": "None needed for the browser core — it boots games with no BIOS file."
+        "body": "None needed for the browser core, it boots games with no BIOS file."
       },
       {
         "heading": "Settings that matter",
@@ -391,7 +391,7 @@
       },
       {
         "heading": "Saves & cheats",
-        "body": "Save states from the in-game menu (export/import with the Player 2.0 Save tool); the engine emulates the memory pak so in-game saves work. Cheats tool takes GameShark codes — treat as experimental on N64. Analog-stick axes need the engine's own Control Settings, not the Player remap tool."
+        "body": "Save states from the in-game menu (export/import with the Player 2.0 Save tool); the engine emulates the memory pak so in-game saves work. Cheats tool takes GameShark codes, treat as experimental on N64. Analog-stick axes need the engine's own Control Settings, not the Player remap tool."
       },
       {
         "heading": "Homebrew starter pack",
@@ -409,19 +409,19 @@
     "sections": [
       {
         "heading": "The core: PCSX-ReARMed",
-        "body": "The Player's psx core is PCSX-ReARMed — the default PlayStation backend in the official EmulatorJS core list. Fast enough for browsers, accurate enough for most of the library. Detects .cue/.bin/.iso/.img/.chd/.m3u; use .m3u playlists for multi-disc games."
+        "body": "The Player's psx core is PCSX-ReARMed, the default PlayStation backend in the official EmulatorJS core list. Fast enough for browsers, accurate enough for most of the library. Detects .cue/.bin/.iso/.img/.chd/.m3u; use .m3u playlists for multi-disc games."
       },
       {
         "heading": "BIOS notes: honest, not scary",
-        "body": "Boots most games with no BIOS via built-in HLE (high-level firmware reimplementation). A handful of games glitch without genuine firmware — the proper fix is dumping the BIOS from your own PlayStation and attaching it with the Player's BIOS picker. Never download a BIOS file."
+        "body": "Boots most games with no BIOS via built-in HLE (high-level firmware reimplementation). A handful of games glitch without genuine firmware, the proper fix is dumping the BIOS from your own PlayStation and attaching it with the Player's BIOS picker. Never download a BIOS file."
       },
       {
         "heading": "Settings that matter",
-        "body": "Enhanced resolution (2x is the sweet spot); CD fast-load/fast boot; dithering (taste — purists leave it on); analog toggle for DualShock-supported games."
+        "body": "Enhanced resolution (2x is the sweet spot); CD fast-load/fast boot; dithering (taste, purists leave it on); analog toggle for DualShock-supported games."
       },
       {
         "heading": "Performance",
-        "body": "Lighter than its reputation: recent laptops/desktops and recent phones run full speed. Stutter fixes: drop enhanced resolution to 1x, close tabs, exit low-power mode. Keep own rips as .chd — much smaller."
+        "body": "Lighter than its reputation: recent laptops/desktops and recent phones run full speed. Stutter fixes: drop enhanced resolution to 1x, close tabs, exit low-power mode. Keep own rips as .chd, much smaller."
       },
       {
         "heading": "Saves & cheats",
@@ -447,11 +447,11 @@
     "sections": [
       {
         "heading": "The core: Genesis Plus GX",
-        "body": "The Player's segaMD core is Genesis Plus GX — the default backend for Genesis/Mega Drive, Game Gear, and Sega CD in the official EmulatorJS core list, widely considered the accuracy standard for Sega's 16-bit hardware. Auto-detected from .md/.gen/.smd."
+        "body": "The Player's segaMD core is Genesis Plus GX, the default backend for Genesis/Mega Drive, Game Gear, and Sega CD in the official EmulatorJS core list, widely considered the accuracy standard for Sega's 16-bit hardware. Auto-detected from .md/.gen/.smd."
       },
       {
         "heading": "BIOS notes",
-        "body": "None needed for Genesis cartridges. (Only the Sega CD add-on — a separate segaCD core — needs a user-dumped BIOS; the Player flags that system.)"
+        "body": "None needed for Genesis cartridges. (Only the Sega CD add-on, a separate segaCD core, needs a user-dumped BIOS; the Player flags that system.)"
       },
       {
         "heading": "Settings that matter",
@@ -459,7 +459,7 @@
       },
       {
         "heading": "Performance",
-        "body": "The lightest console core in the Player — 1988 hardware. Anything with a modern browser runs full speed."
+        "body": "The lightest console core in the Player: 1988 hardware. Anything with a modern browser runs full speed."
       },
       {
         "heading": "Saves & cheats",
@@ -475,17 +475,17 @@
     "id": "system-guide-gameboy",
     "slug": "gameboy",
     "title": "Game Boy / Color emulation guide",
-    "summary": "The Player's gb core is Gambatte (default GB backend in the EmulatorJS core list; alternate mGBA) — cycle-accurate, BIOS-free, and full speed on any device. Covers colorization palettes, saves and Game Genie/GameShark cheats via Player 2.0, deep link (player.html?core=gb), and a verified homebrew starter pack (GBDev community included).",
+    "summary": "The Player's gb core is Gambatte (default GB backend in the EmulatorJS core list; alternate mGBA), cycle-accurate, BIOS-free, and full speed on any device. Covers colorization palettes, saves and Game Genie/GameShark cheats via Player 2.0, deep link (player.html?core=gb), and a verified homebrew starter pack (GBDev community included).",
     "difficulty": "Beginner",
     "time_minutes": 10,
     "sections": [
       {
         "heading": "The core: Gambatte, cycle-accurate",
-        "body": "The Player's gb core is Gambatte — the default Game Boy backend in the official EmulatorJS core list (alternate: mGBA). Cycle-accurate with essentially perfect compatibility; one core covers .gb and .gbc."
+        "body": "The Player's gb core is Gambatte, the default Game Boy backend in the official EmulatorJS core list (alternate: mGBA). Cycle-accurate with essentially perfect compatibility; one core covers .gb and .gbc."
       },
       {
         "heading": "BIOS notes",
-        "body": "None needed — Gambatte boots games directly with a reimplemented boot process; no boot-ROM dump required."
+        "body": "None needed: Gambatte boots games directly with a reimplemented boot process; no boot-ROM dump required."
       },
       {
         "heading": "Settings that matter",
@@ -493,7 +493,7 @@
       },
       {
         "heading": "Performance",
-        "body": "The cheapest compute in the Player — full speed on any device that loads the page. The honest pick for the weakest hardware."
+        "body": "The cheapest compute in the Player, full speed on any device that loads the page. The honest pick for the weakest hardware."
       },
       {
         "heading": "Saves & cheats",
@@ -505,7 +505,7 @@
       },
       {
         "heading": "Prefer a desktop app? SameBoy",
-        "body": "SameBoy (sameboy.github.io) is the desktop accuracy champion for GB/GBC — same legality, same BIOS-free story; the browser Player wins on convenience and phone play."
+        "body": "SameBoy (sameboy.github.io) is the desktop accuracy champion for GB/GBC, same legality, same BIOS-free story; the browser Player wins on convenience and phone play."
       }
     ]
   },
@@ -519,7 +519,7 @@
     "sections": [
       {
         "heading": "Why dead consoles are the friendliest dev targets",
-        "body": "Fixed hardware means zero surprises: one CPU, one screen, identical for every player. Constraints force design over decoration, and the feedback loop is minutes. The scene ships real games yearly — from jam entries to releases like 2026's Zombie Nest GBA and the MAGFest Indie Retro Homebrew Showcase finalists."
+        "body": "Fixed hardware means zero surprises: one CPU, one screen, identical for every player. Constraints force design over decoration, and the feedback loop is minutes. The scene ships real games yearly, from jam entries to releases like 2026's Zombie Nest GBA and the MAGFest Indie Retro Homebrew Showcase finalists."
       },
       {
         "heading": "Pick your first system (the honest ladder)",
@@ -527,11 +527,11 @@
       },
       {
         "heading": "The GBA toolchain, end to end",
-        "body": "devkitPro + devkitARM: install the package manager, run `sudo dkp-pacman -S gba-dev gba-examples`, set DEVKITPRO/DEVKITARM/PATH, copy /opt/devkitpro/examples/gba/template, run make. A .gba with no errors means the toolchain works — one evening, start to finish."
+        "body": "devkitPro + devkitARM: install the package manager, run `sudo dkp-pacman -S gba-dev gba-examples`, set DEVKITPRO/DEVKITARM/PATH, copy /opt/devkitpro/examples/gba/template, run make. A .gba with no errors means the toolchain works, one evening, start to finish."
       },
       {
         "heading": "Learn the hardware: Tonc and the 240x160 canvas",
-        "body": "Tonc (coranac.com/tonc/text/) is the canonical GBA course: video modes, tiles and sprites, 15-bit palettes, the vblank heartbeat. libgba vs libtonc vs the Butano engine — pick libtonc as a beginner."
+        "body": "Tonc (coranac.com/tonc/text/) is the canonical GBA course: video modes, tiles and sprites, 15-bit palettes, the vblank heartbeat. libgba vs libtonc vs the Butano engine, pick libtonc as a beginner."
       },
       {
         "heading": "The 8-bit path: Game Boy and NES",
@@ -547,7 +547,7 @@
       },
       {
         "heading": "The legal lane for developers",
-        "body": "Your code, your art, your music — never lift commercial assets. Open-source the engine if you like; clones of mechanics are legal, copies of assets aren't; fan games with others' characters live in a takedown gray zone. Every byte yours = sell, share, jam, press."
+        "body": "Your code, your art, your music, never lift commercial assets. Open-source the engine if you like; clones of mechanics are legal, copies of assets aren't; fan games with others' characters live in a takedown gray zone. Every byte yours = sell, share, jam, press."
       }
     ]
   },
@@ -561,7 +561,7 @@
     "sections": [
       {
         "heading": "What netplay actually sends",
-        "body": "Not video — controller inputs, a few bytes per frame. Both players run the same emulator, core, and game locally; identical inputs keep both screens in agreement. Everyone still needs their own legal copy."
+        "body": "Not video, controller inputs, a few bytes per frame. Both players run the same emulator, core, and game locally; identical inputs keep both screens in agreement. Everyone still needs their own legal copy."
       },
       {
         "heading": "How RetroArch's rollback works",
@@ -569,7 +569,7 @@
       },
       {
         "heading": "The matching rule: same, same, same",
-        "body": "Same RetroArch version (1.22.2 current), same core version, byte-identical game content on every machine. No save states mid-session — the top two desync causes are content mismatch and mid-game states."
+        "body": "Same RetroArch version (1.22.2 current), same core version, byte-identical game content on every machine. No save states mid-session, the top two desync causes are content mismatch and mid-game states."
       },
       {
         "heading": "Hosting: lobby, relay, or port forward",
@@ -577,15 +577,15 @@
       },
       {
         "heading": "What plays well (and what doesn't)",
-        "body": "Excellent: NES/SNES/Genesis/GBA/FBNeo arcade. Impractical: PS1/N64 (serialization too slow). Not emulated: link cables — no Pokemon trading over netplay; exceptions are the TGB-Dual and SameBoy cores for same-game GB/GBC multiplayer."
+        "body": "Excellent: NES/SNES/Genesis/GBA/FBNeo arcade. Impractical: PS1/N64 (serialization too slow). Not emulated: link cables, no Pokemon trading over netplay; exceptions are the TGB-Dual and SameBoy cores for same-game GB/GBC multiplayer."
       },
       {
         "heading": "New in 2026: Dolphin on your phone",
-        "body": "Dolphin 2609 (Sept 2026) added Android NetPlay with lockstep networking against desktop clients — cross-platform GameCube/Wii multiplayer, phone to PC. Dolphin is now on the Google Play Store too."
+        "body": "Dolphin 2609 (Sept 2026) added Android NetPlay with lockstep networking against desktop clients, cross-platform GameCube/Wii multiplayer, phone to PC. Dolphin is now on the Google Play Store too."
       },
       {
         "heading": "Netplay on this site: the honest state",
-        "body": "EmulatorJS advertises experimental WebRTC room-code netplay but it is unverified on the stable build — not enabled here, not promised. What works today: hot-seat multi-gamepad play, the Party Planner for couch rotations, and tournament brackets."
+        "body": "EmulatorJS advertises experimental WebRTC room-code netplay but it is unverified on the stable build, not enabled here, not promised. What works today: hot-seat multi-gamepad play, the Party Planner for couch rotations, and tournament brackets."
       },
       {
         "heading": "Troubleshooting checklist",
@@ -611,27 +611,27 @@
       },
       {
         "heading": "Battery saves: the game's own memory",
-        "body": "SRAM emulated as a file (often .srm). Portable between emulators and flash carts — the closest thing to a universal save format. Close games cleanly so SRAM flushes; dump SRAM with your cartridges since the 100-hour file is irreplaceable."
+        "body": "SRAM emulated as a file (often .srm). Portable between emulators and flash carts, the closest thing to a universal save format. Close games cleanly so SRAM flushes; dump SRAM with your cartridges since the 100-hour file is irreplaceable."
       },
       {
         "heading": "Memory cards & controller paks",
-        "body": "Card images (.mcr for PS1, .mpk-ish for N64 paks) behave like the plastic. Per-game cards avoid the 'card full' tragedy; back up the card file like any save. Original hardware paks had batteries that die too."
+        "body": "Card images (.mcr for PS1.mpk-ish for N64 paks) behave like the plastic. Per-game cards avoid the 'card full' tragedy; back up the card file like any save. Original hardware paks had batteries that die too."
       },
       {
         "heading": "Where RetroArch keeps it all",
-        "body": "Savefiles dir (SRAM + card images — the folder to back up), Savestates dir (numbered slots), SaveRAM autosave interval (flush every N seconds — turn it on), state slot hotkeys."
+        "body": "Savefiles dir (SRAM + card images, the folder to back up), Savestates dir (numbered slots), SaveRAM autosave interval (flush every N seconds, turn it on), state slot hotkeys."
       },
       {
         "heading": "Where this site's Player keeps it all",
-        "body": "Default: the engine downloads states as .state files. Keep in Browser mode: states in IndexedDB (EmulatorJS-states store), unlocking named slots (save/restore/rename/export/delete) and 1/5/15-min auto-save. Browser storage is mortal — export what you care about."
+        "body": "Default: the engine downloads states as .state files. Keep in Browser mode: states in IndexedDB (EmulatorJS-states store), unlocking named slots (save/restore/rename/export/delete) and 1/5/15-min auto-save. Browser storage is mortal, export what you care about."
       },
       {
         "heading": "Moving saves between emulators",
-        "body": "SRAM (.srm): usually portable — rename to match and it works. States: never portable across cores/versions/emulators — convert via in-game save first. Memory cards: portable within shared formats. Region must match."
+        "body": "SRAM (.srm): usually portable, rename to match and it works. States: never portable across cores/versions/emulators, convert via in-game save first. Memory cards: portable within shared formats. Region must match."
       },
       {
         "heading": "The backup routine (3-2-1)",
-        "body": "Three copies, two media, one off-site: working copy, a dated saves-backup folder, cloud/external drive. Include SRAM, card images, exported states, and a note of the emulator version. Saves are kilobytes — no excuses."
+        "body": "Three copies, two media, one off-site: working copy, a dated saves-backup folder, cloud/external drive. Include SRAM, card images, exported states, and a note of the emulator version. Saves are kilobytes, no excuses."
       }
     ]
   },
@@ -645,7 +645,7 @@
     "sections": [
       {
         "heading": "The problem: drawn for a screen you don't own",
-        "body": "Pixel artists painted for CRT blur: composite smear, phosphor bleed, scanlines. Dithering was drawn to melt into new colors on a CRT — raw LCD pixels expose the trick. Shaders put the display back."
+        "body": "Pixel artists painted for CRT blur: composite smear, phosphor bleed, scanlines. Dithering was drawn to melt into new colors on a CRT, raw LCD pixels expose the trick. Shaders put the display back."
       },
       {
         "heading": "Anatomy of the CRT look",
@@ -665,7 +665,7 @@
       },
       {
         "heading": "Run-ahead & black frame insertion",
-        "body": "Run-ahead: emulator simulates 1-2 frames ahead and rolls back — deletes emulator latency, needs a deterministic core, can't fix TV lag. BFI: strobes black frames for CRT-like motion clarity; halves brightness, needs 120Hz+."
+        "body": "Run-ahead: emulator simulates 1-2 frames ahead and rolls back, deletes emulator latency, needs a deterministic core, can't fix TV lag. BFI: strobes black frames for CRT-like motion clarity; halves brightness, needs 120Hz+."
       },
       {
         "heading": "Refresh rates: 59.73 vs. 60",
@@ -681,13 +681,13 @@
     "id": "accessibility-retro",
     "slug": "accessibility-in-retro-gaming",
     "title": "Retro games for every player: an accessibility guide",
-    "summary": "Old games shipped zero accessibility features — the emulator layer adds what they lack: remapping, turbo/autofire, rewind, save states, color correction, and honest difficulty options. No medical claims, just the toolbox.",
+    "summary": "Old games shipped zero accessibility features, the emulator layer adds what they lack: remapping, turbo/autofire, rewind, save states, color correction, and honest difficulty options. No medical claims, just the toolbox.",
     "difficulty": "Beginner",
     "time_minutes": 8,
     "sections": [
       {
         "heading": "The honest baseline",
-        "body": "1991 games: no remapping, no colorblind mode, no subtitles, no difficulty slider. The good news: emulator-added tools work on the whole library at once. No medical claims here — a toolbox, not a diagnosis."
+        "body": "1991 games: no remapping, no colorblind mode, no subtitles, no difficulty slider. The good news: emulator-added tools work on the whole library at once. No medical claims here, a toolbox, not a diagnosis."
       },
       {
         "heading": "Hands: remapping, turbo, one-handed play",
@@ -695,15 +695,15 @@
       },
       {
         "heading": "Eyes: color, contrast, and size",
-        "body": "GBA color correction restores intended contrast; OS color filters apply to emulator windows; integer scaling + fullscreen for size; drop shaders before anything else if text is hard to read; retro games flash a lot — preview first, keep sessions short."
+        "body": "GBA color correction restores intended contrast; OS color filters apply to emulator windows; integer scaling + fullscreen for size; drop shaders before anything else if text is hard to read; retro games flash a lot, preview first, keep sessions short."
       },
       {
         "heading": "Ears: what sound actually carries",
-        "body": "Retro games carry almost nothing critical in audio — no voice acting, no audio-only objectives. One of the most naturally accessible catalogs for deaf/hard-of-hearing players; rhythm games are the exception."
+        "body": "Retro games carry almost nothing critical in audio, no voice acting, no audio-only objectives. One of the most naturally accessible catalogs for deaf/hard-of-hearing players; rhythm games are the exception."
       },
       {
         "heading": "Mind: difficulty is a dial now",
-        "body": "Save states, rewind (RetroArch), slow motion, cheat codes as accessibility tools, guides/walkthroughs for cryptic 90s design. Old difficulty was often artificial — the dial is legitimate."
+        "body": "Save states, rewind (RetroArch), slow motion, cheat codes as accessibility tools, guides/walkthroughs for cryptic 90s design. Old difficulty was often artificial, the dial is legitimate."
       },
       {
         "heading": "On 'cheating' (it's not)",
@@ -733,7 +733,7 @@
       },
       {
         "heading": "The legal frame (brief, honest)",
-        "body": "Not legal advice: personal backups of what you own vs. distribution — the bright line. Context: the 2024 DMCA rulemaking rejected remote sharing of out-of-print games by archives; next cycle 2027. Your personal archiving doesn't depend on it."
+        "body": "Not legal advice: personal backups of what you own vs. distribution, the bright line. Context: the 2024 DMCA rulemaking rejected remote sharing of out-of-print games by archives; next cycle 2027. Your personal archiving doesn't depend on it."
       },
       {
         "heading": "Checksums: the fingerprint",
@@ -765,13 +765,13 @@
     "id": "gamepad-setup",
     "slug": "gamepad-setup",
     "title": "Controllers in the browser: the gamepad setup guide",
-    "summary": "Get any USB or Bluetooth controller working with browser games and this site's Player — the Gamepad API, testing, per-system remapping, and honest troubleshooting.",
+    "summary": "Get any USB or Bluetooth controller working with browser games and this site's Player, the Gamepad API, testing, per-system remapping, and honest troubleshooting.",
     "difficulty": "Beginner",
     "time_minutes": 20,
     "sections": [
       {
         "heading": "Why a controller changes browser games",
-        "body": "Some games were designed around a pad, and it shows. Platformers, racers, twin-stick shooters, and fighting games all play better with analog sticks and real buttons than with arrow keys — and anything you play in this site's Player (the EmulatorJS console) was literally built for a controller. The good news: modern browsers speak gamepad natively. No drivers, no mapping software, no downloads — plug in and play."
+        "body": "Some games were designed around a pad, and it shows. Platformers, racers, twin-stick shooters, and fighting games all play better with analog sticks and real buttons than with arrow keys, and anything you play in this site's Player (the EmulatorJS console) was literally built for a controller. The good news: modern browsers speak gamepad natively. No drivers, no mapping software, no downloads, plug in and play."
       },
       {
         "heading": "How browser gamepads work (the 60-second version)",
@@ -779,27 +779,27 @@
       },
       {
         "heading": "Pick your controller",
-        "body": "- Xbox (One / Series) — the safe default. Wired over USB or Bluetooth; the standard mapping just works everywhere.\n- PlayStation (DualShock 4 / DualSense) — excellent pads, work wired or over Bluetooth; some browsers show PlayStation button labels, some show Xbox-style numbers. The positions are identical.\n- Switch Pro Controller — works over Bluetooth and USB; check the button mapping in a tester first, since its face layout is swapped vs. Xbox.\n- 8BitDo and other Bluetooth pads — usually fine; their 'X-input mode' (the Xbox-compatible mode) is the one browsers understand best.\n- Cheap no-name USB pads — often fine for 2D games; test every button before a tournament."
+        "body": "- Xbox (One / Series), the safe default. Wired over USB or Bluetooth; the standard mapping just works everywhere.\n- PlayStation (DualShock 4 / DualSense), excellent pads, work wired or over Bluetooth; some browsers show PlayStation button labels, some show Xbox-style numbers. The positions are identical.\n- Switch Pro Controller, works over Bluetooth and USB; check the button mapping in a tester first, since its face layout is swapped vs. Xbox.\n- 8BitDo and other Bluetooth pads, usually fine; their 'X-input mode' (the Xbox-compatible mode) is the one browsers understand best.\n- Cheap no-name USB pads, often fine for 2D games; test every button before a tournament."
       },
       {
         "heading": "Connect it: USB vs. Bluetooth",
-        "body": "USB is the zero-fuss path: plug the cable in and the browser sees the pad within a second. For Bluetooth, put the controller in pairing mode (Xbox: hold the pair button; DualSense: hold PS + Create; 8BitDo: hold the mode-specific combo from its manual), then pair it in your OS Bluetooth settings like any device. One honest caveat: some Bluetooth stacks add a few milliseconds of input lag — imperceptible in RPGs and platformers, worth knowing about for rhythm games and fighters. If a pad refuses to appear, try the cable before anything else."
+        "body": "USB is the zero-fuss path: plug the cable in and the browser sees the pad within a second. For Bluetooth, put the controller in pairing mode (Xbox: hold the pair button; DualSense: hold PS + Create; 8BitDo: hold the mode-specific combo from its manual), then pair it in your OS Bluetooth settings like any device. One honest caveat: some Bluetooth stacks add a few milliseconds of input lag, imperceptible in RPGs and platformers, worth knowing about for rhythm games and fighters. If a pad refuses to appear, try the cable before anything else."
       },
       {
         "heading": "Test it before you play",
-        "body": "Open html5gamepad.com with the controller connected and press buttons: you should see each input light up with its standard-mapping number. This one page answers every 'is it the game or the pad?' question in ten seconds. If the tester sees the pad but a game doesn't, the game probably only polls for pads on a timer or needs a button press to 'wake' the listing — click into the game and press any button. If the tester doesn't see it either, it's a connection problem, not a game problem."
+        "body": "Open html5gamepad.com with the controller connected and press buttons: you should see each input light up with its standard-mapping number. This one page answers every 'is it the game or the pad?' question in ten seconds. If the tester sees the pad but a game doesn't, the game probably only polls for pads on a timer or needs a button press to 'wake' the listing, click into the game and press any button. If the tester doesn't see it either, it's a connection problem, not a game problem."
       },
       {
         "heading": "Gamepads in this site's Player",
-        "body": "The Player (this site's EmulatorJS console) has gamepad support built in — Player 1's pad just works, no setup. For finer control, the per-system remapper (Player 2.1) lets you capture gamepad buttons per system: open the remap panel, pick a button, and press the pad button you want. Your mapping is stored per system in the browser and applied at boot. Note it overrides any mapping you set inside the engine's own menu, and Esc cancels a capture. If your pad has a non-standard layout, capture each button once and you're done forever."
+        "body": "The Player (this site's EmulatorJS console) has gamepad support built in: Player 1's pad just works, no setup. For finer control, the per-system remapper (Player 2.1) lets you capture gamepad buttons per system: open the remap panel, pick a button, and press the pad button you want. Your mapping is stored per system in the browser and applied at boot. Note it overrides any mapping you set inside the engine's own menu, and Esc cancels a capture. If your pad has a non-standard layout, capture each button once and you're done forever."
       },
       {
         "heading": "Which catalog games love a pad",
-        "body": "Reach for the controller for: the arcade shelf (Robotron: 2084 is the twin-stick original; Defender and Joust were built for arcade sticks), the Flash-back machine (Fancy Pants Adventure, Alien Hominid), racers and runners (HexGL supports gamepad natively — check its controls line), and anything in the Player. Stick to keyboard and mouse for: idle games, puzzle games, text adventures like Zork, and the strategy shelf — a pad adds nothing there. When in doubt, the game's controls line tells you what's intended."
+        "body": "Reach for the controller for: the arcade shelf (Robotron: 2084 is the twin-stick original; Defender and Joust were built for arcade sticks), the Flash-back machine (Fancy Pants Adventure, Alien Hominid), racers and runners (HexGL supports gamepad natively, check its controls line), and anything in the Player. Stick to keyboard and mouse for: idle games, puzzle games, text adventures like Zork, and the strategy shelf, a pad adds nothing there. When in doubt, the game's controls line tells you what's intended."
       },
       {
         "heading": "Troubleshooting: the honest list",
-        "body": "- Pad not detected: press any button after the page loads (browsers only list pads after first input), then check html5gamepad.com. Still nothing? Try USB.\n- Wrong button does the thing: the game assumed the standard mapping and your pad is exotic. Remap it in the Player's per-system remapper, or check the tester's mapping.\n- Two pads, wrong one is Player 1: browsers order pads by connection order — unplug and reconnect in the order you want them.\n- Steam is running: Steam's controller layer can swallow inputs before the browser sees them. Quit Steam or disable its controller support for desktop.\n- It works everywhere except one game: that game polls getGamepads() once at load instead of every frame. Reload the page with the pad already connected and press a button on the title screen."
+        "body": "- Pad not detected: press any button after the page loads (browsers only list pads after first input), then check html5gamepad.com. Still nothing? Try USB.\n- Wrong button does the thing: the game assumed the standard mapping and your pad is exotic. Remap it in the Player's per-system remapper, or check the tester's mapping.\n- Two pads, wrong one is Player 1: browsers order pads by connection order, unplug and reconnect in the order you want them.\n- Steam is running: Steam's controller layer can swallow inputs before the browser sees them. Quit Steam or disable its controller support for desktop.\n- It works everywhere except one game: that game polls getGamepads() once at load instead of every frame. Reload the page with the pad already connected and press a button on the title screen."
       }
     ]
   },
@@ -813,7 +813,7 @@
     "sections": [
       {
         "heading": "What PICO-8 is",
-        "body": "PICO-8 is a 'fantasy console' by Lexaloffle: a fake 1980s machine with deliberately tiny limits (128x128 pixels, 16 colors, 32KB cartridges) that runs on your real computer. The limits are the point — they force small, finished, weird games, and the community has made thousands of them. The software itself costs $15 and is worth it if you want to make games; playing other people's games in the browser is completely free."
+        "body": "PICO-8 is a 'fantasy console' by Lexaloffle: a fake 1980s machine with deliberately tiny limits (128x128 pixels, 16 colors, 32KB cartridges) that runs on your real computer. The limits are the point, they force small, finished, weird games, and the community has made thousands of them. The software itself costs $15 and is worth it if you want to make games; playing other people's games in the browser is completely free."
       },
       {
         "heading": "Splore: the built-in game browser",
@@ -821,27 +821,27 @@
       },
       {
         "heading": "The BBS: where the carts live",
-        "body": "The Lexaloffle BBS (lexaloffle.com/bbs) is the official community hub: every published cartridge gets a page where anyone can play it in the browser — no PICO-8 purchase needed — star it, favorite it, and download the .p8.png cartridge file. The BBS sorts by featured, new, and top-rated, and the comments are where developers explain their tricks. If Splore is the storefront, the BBS is the town square."
+        "body": "The Lexaloffle BBS (lexaloffle.com/bbs) is the official community hub: every published cartridge gets a page where anyone can play it in the browser, no PICO-8 purchase needed, star it, favorite it, and download the .p8.png cartridge file. The BBS sorts by featured, new, and top-rated, and the comments are where developers explain their tricks. If Splore is the storefront, the BBS is the town square."
       },
       {
         "heading": "Where the gems hide",
-        "body": "Start with the BBS 'featured' and top-rated sorts — curation by thousands of players beats any algorithm. Then follow developers: PICO-8's best creators publish repeatedly, and their BBS profiles are discographies. Check the carts linked from this site's pico8-gems collection for a hand-picked starting shelf. And don't sleep on tweetcarts: 140-character games that fit in a post, some of them genuinely brilliant."
+        "body": "Start with the BBS 'featured' and top-rated sorts, curation by thousands of players beats any algorithm. Then follow developers: PICO-8's best creators publish repeatedly, and their BBS profiles are discographies. Check the carts linked from this site's pico8-gems collection for a hand-picked starting shelf. And don't sleep on tweetcarts: 140-character games that fit in a post, some of them genuinely brilliant."
       },
       {
         "heading": "Playing in your browser (free)",
-        "body": "Every BBS cartridge page has a built-in web player — click and play, no install, no account. Developers can also export any cart as a standalone HTML5 page, which is why PICO-8 games show up embedded across the web. Keyboard controls are the default (arrows + Z/X); many web exports also accept gamepads. Your progress saves in the browser like any web game."
+        "body": "Every BBS cartridge page has a built-in web player, click and play, no install, no account. Developers can also export any cart as a standalone HTML5 page, which is why PICO-8 games show up embedded across the web. Keyboard controls are the default (arrows + Z/X); many web exports also accept gamepads. Your progress saves in the browser like any web game."
       },
       {
         "heading": "The pico8-gems shelf",
-        "body": "This site's pico8-gems collection is the curated on-ramp: a Doom demake, the original Celeste, and other standout carts, each linking to its official BBS page. Play the shelf first, then use the BBS sorts above to go deeper. If a shelf game hooks you, its BBS page links the developer's other carts — that's the rabbit hole, and it's a good one."
+        "body": "This site's pico8-gems collection is the curated on-ramp: a Doom demake, the original Celeste, and other standout carts, each linking to its official BBS page. Play the shelf first, then use the BBS sorts above to go deeper. If a shelf game hooks you, its BBS page links the developer's other carts, that's the rabbit hole, and it's a good one."
       },
       {
         "heading": "Make your first cart (the 10-minute version)",
-        "body": "If the $15 calls to you: PICO-8's editor is code, sprites, map, sound, and music in one window, all in Lua. The built-in help and the official manual walk you from a blank cart to a moving sprite in minutes. Publish to the BBS when it does something fun — the community plays and comments on everything, including gloriously broken first attempts. The legal lane is clean by design: every cart is its author's original work."
+        "body": "If the $15 calls to you: PICO-8's editor is code, sprites, map, sound, and music in one window, all in Lua. The built-in help and the official manual walk you from a blank cart to a moving sprite in minutes. Publish to the BBS when it does something fun, the community plays and comments on everything, including gloriously broken first attempts. The legal lane is clean by design: every cart is its author's original work."
       },
       {
         "heading": "Why it matters",
-        "body": "PICO-8 proved that constraints make better games and friendlier developers. Thousands of people finished and shipped something — most for the first time in their lives — because the canvas was small enough to fill. Whether you play the shelf, browse the BBS, or buy the console and make your own, you're participating in the healthiest corner of game development. Start with someone else's cart. End with your own."
+        "body": "PICO-8 proved that constraints make better games and friendlier developers. Thousands of people finished and shipped something, most for the first time in their lives, because the canvas was small enough to fill. Whether you play the shelf, browse the BBS, or buy the console and make your own, you're participating in the healthiest corner of game development. Start with someone else's cart. End with your own."
       }
     ]
   },
@@ -855,7 +855,7 @@
     "sections": [
       {
         "heading": "What a cheat code actually is",
-        "body": "An address plus a value: somewhere in memory the game keeps a number (lives, health, ammo), and a code changes it or holds it. Two families: RAM codes (watch/poke working memory; GameShark, Action Replay, most emulator engines) and ROM patches (change what the program says as it is read; the Game Genie). Codes are written for one version of one game — region and revision are part of the code."
+        "body": "An address plus a value: somewhere in memory the game keeps a number (lives, health, ammo), and a code changes it or holds it. Two families: RAM codes (watch/poke working memory; GameShark, Action Replay, most emulator engines) and ROM patches (change what the program says as it is read; the Game Genie). Codes are written for one version of one game, region and revision are part of the code."
       },
       {
         "heading": "Built-in codes: the Konami Code",
@@ -863,7 +863,7 @@
       },
       {
         "heading": "The Game Genie: a cartridge that lies",
-        "body": "Codemasters developed it; Galoob sold it in the US (Camerica in Canada); NES debut 1990. A pass-through cartridge between game and console that serves a different byte when a targeted ROM address is read — the cartridge itself is never modified. Six-letter codes decode to address + replacement, applied unconditionally; eight-letter codes add a compare byte so bank-switched games are only patched when the right bank is showing."
+        "body": "Codemasters developed it; Galoob sold it in the US (Camerica in Canada); NES debut 1990. A pass-through cartridge between game and console that serves a different byte when a targeted ROM address is read, the cartridge itself is never modified. Six-letter codes decode to address + replacement, applied unconditionally; eight-letter codes add a compare byte so bank-switched games are only patched when the right bank is showing."
       },
       {
         "heading": "The court case that made it legal",
@@ -871,11 +871,11 @@
       },
       {
         "heading": "GameShark & Action Replay: the RAM years",
-        "body": "Datel's Action Replay went after RAM, where disc-era games keep health, money, and items. InterAct sold Datel's devices in the US from 1996 under the GameShark name — same hardware family, different badge, interchangeable codes. Codes are barely-encoded hex: address, value. Pro models added code searching, the skill section 7 teaches."
+        "body": "Datel's Action Replay went after RAM, where disc-era games keep health, money, and items. InterAct sold Datel's devices in the US from 1996 under the GameShark name, same hardware family, different badge, interchangeable codes. Codes are barely-encoded hex: address, value. Pro models added code searching, the skill section 7 teaches."
       },
       {
         "heading": "Cheats in emulators & this site's Player",
-        "body": "Emulator cores decode Genie/GameShark/Action Replay formats to address-and-value pairs, applied per core — support varies and nothing is guaranteed. In this site's Player: boot your game, add named codes under the Cheats card; they are stored per game in your browser, handed to the engine's cheat manager (EJS_cheats) before boot, and toggled from the cheat icon in the in-game menu."
+        "body": "Emulator cores decode Genie/GameShark/Action Replay formats to address-and-value pairs, applied per core, support varies and nothing is guaranteed. In this site's Player: boot your game, add named codes under the Cheats card; they are stored per game in your browser, handed to the engine's cheat manager (EJS_cheats) before boot, and toggled from the cheat icon in the in-game menu."
       },
       {
         "heading": "Find your own codes: the memory search",
@@ -883,7 +883,7 @@
       },
       {
         "heading": "Cheat manners: where codes don't belong",
-        "body": "Single-player: your game, your difficulty dial. Multiplayer/netplay: off-limits — tampering with a shared session, and one side's altered memory desyncs the rest. Hardcore achievement modes lock cheats out by design. Practice: keep one clean save no cheat session touches, and stack codes one at a time so the last added is the first suspect when something freezes."
+        "body": "Single-player: your game, your difficulty dial. Multiplayer/netplay: off-limits, tampering with a shared session, and one side's altered memory desyncs the rest. Hardcore achievement modes lock cheats out by design. Practice: keep one clean save no cheat session touches, and stack codes one at a time so the last added is the first suspect when something freezes."
       }
     ]
   }

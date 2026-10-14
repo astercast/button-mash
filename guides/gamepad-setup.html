@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Controllers in the browser: the gamepad setup guide — Button Mash</title>
-<meta name="description" content="Get any USB or Bluetooth controller working with browser games and this site's Player — the Gamepad API, testing, per-system remapping, and honest troubleshooting.">
+<title>Controllers in the browser: the gamepad setup guide: Button Mash</title>
+<meta name="description" content="Get any USB or Bluetooth controller working with browser games and this site's Player, the Gamepad API, testing, per-system remapping, and honest troubleshooting.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Controllers in the browser: the gamepad setup guide — Button Mash">
-<meta property="og:description" content="Get any USB or Bluetooth controller working with browser games and this site's Player — the Gamepad API, testing, per-system remapping, and honest troubleshooting.">
+<meta property="og:title" content="Controllers in the browser: the gamepad setup guide: Button Mash">
+<meta property="og:description" content="Get any USB or Bluetooth controller working with browser games and this site's Player, the Gamepad API, testing, per-system remapping, and honest troubleshooting.">
 <meta property="og:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Controllers in the browser: the gamepad setup guide — Button Mash">
-<meta name="twitter:description" content="Get any USB or Bluetooth controller working with browser games and this site's Player — the Gamepad API, testing, per-system remapping, and honest troubleshooting.">
+<meta name="twitter:title" content="Controllers in the browser: the gamepad setup guide: Button Mash">
+<meta name="twitter:description" content="Get any USB or Bluetooth controller working with browser games and this site's Player, the Gamepad API, testing, per-system remapping, and honest troubleshooting.">
 <meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <link rel="canonical" href="https://button-mash-live.vercel.app/guides/gamepad-setup.html">
 <meta name="theme-color" content="#07070f">
@@ -85,7 +85,7 @@
   <h1>Controllers in the browser</h1>
   <p class="lede">The gamepad setup guide: which controllers work, how to connect and test them, per-system remapping in this site's Player, and the honest troubleshooting list.</p>
   <ul class="chips" aria-label="Guide facts"><li>Needs: any USB/Bluetooth pad</li><li>⏱ ~20 min</li><li>Beginner</li></ul>
-  <aside class="legal-note"><strong>No drivers needed:</strong> modern browsers speak gamepad natively — if a tutorial tells you to install mapping software for browser play, it's solving a problem you don't have.</aside>
+  <aside class="legal-note"><strong>No drivers needed:</strong> modern browsers speak gamepad natively, if a tutorial tells you to install mapping software for browser play, it's solving a problem you don't have.</aside>
 
   <div class="toc toc--sticky" data-spy>
     <h2>On this page</h2>
@@ -103,48 +103,48 @@
 
   <section class="guide-section" id="why" aria-labelledby="why-h">
     <h2 id="why-h"><span class="sec-num">01</span>Why a controller changes browser games</h2>
-    <p>Some games were designed around a pad, and it shows. Platformers, racers, twin-stick shooters, and fighting games all play better with analog sticks and real buttons than with arrow keys — and anything you play in this site's Player (the EmulatorJS console) was literally built for a controller. The good news: modern browsers speak gamepad natively. No drivers, no mapping software, no downloads — plug in and play.</p>
+    <p>Some games were designed around a pad, and it shows. Platformers, racers, twin-stick shooters, and fighting games all play better with analog sticks and real buttons than with arrow keys, and anything you play in this site's Player (the EmulatorJS console) was literally built for a controller. The good news: modern browsers speak gamepad natively. No drivers, no mapping software, no downloads, plug in and play.</p>
   </section>
 
   <section class="guide-section" id="how" aria-labelledby="how-h">
     <h2 id="how-h"><span class="sec-num">02</span>How browser gamepads work (the 60-second version)</h2>
     <p>Browsers expose controllers through the <strong>Gamepad API</strong>: a page asks for the list of connected pads with <code>navigator.getGamepads()</code>, and the browser fires <code>gamepadconnected</code> / <code>gamepaddisconnected</code> events when pads come and go. Each pad reports buttons as pressed-or-not values and sticks as axes between -1 and 1. Most controllers follow the <strong>"standard" mapping</strong>, which means button 0 is the bottom face button (A on Xbox, Cross on PlayStation) no matter which brand you plugged in.</p>
-    <p>The details live in two places: the <a href="https://www.w3.org/TR/gamepad/">W3C Gamepad specification</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API">MDN's Gamepad API docs</a>. You don't need to read either to play — but if you're building a web game yourself, that's the starting line.</p>
+    <p>The details live in two places: the <a href="https://www.w3.org/TR/gamepad/">W3C Gamepad specification</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API">MDN's Gamepad API docs</a>. You don't need to read either to play, but if you're building a web game yourself, that's the starting line.</p>
   </section>
 
   <section class="guide-section" id="pick" aria-labelledby="pick-h">
     <h2 id="pick-h"><span class="sec-num">03</span>Pick your controller</h2>
     <ul>
-      <li><strong>Xbox (One / Series)</strong> — the safe default. Wired over USB or Bluetooth; the standard mapping just works everywhere.</li>
-      <li><strong>PlayStation (DualShock 4 / DualSense)</strong> — excellent pads, wired or Bluetooth; some browsers show PlayStation labels, some show Xbox-style numbers. The positions are identical.</li>
-      <li><strong>Switch Pro Controller</strong> — works over Bluetooth and USB; check the button mapping in a tester first, since its face layout is swapped vs. Xbox.</li>
-      <li><strong>8BitDo and other Bluetooth pads</strong> — usually fine; X-input mode (the Xbox-compatible mode) is the one browsers understand best.</li>
-      <li><strong>Cheap no-name USB pads</strong> — often fine for 2D games; test every button before a tournament.</li>
+      <li><strong>Xbox (One / Series)</strong>, the safe default. Wired over USB or Bluetooth; the standard mapping just works everywhere.</li>
+      <li><strong>PlayStation (DualShock 4 / DualSense)</strong>, excellent pads, wired or Bluetooth; some browsers show PlayStation labels, some show Xbox-style numbers. The positions are identical.</li>
+      <li><strong>Switch Pro Controller</strong>, works over Bluetooth and USB; check the button mapping in a tester first, since its face layout is swapped vs. Xbox.</li>
+      <li><strong>8BitDo and other Bluetooth pads</strong>, usually fine; X-input mode (the Xbox-compatible mode) is the one browsers understand best.</li>
+      <li><strong>Cheap no-name USB pads</strong>, often fine for 2D games; test every button before a tournament.</li>
     </ul>
   </section>
 
   <section class="guide-section" id="connect" aria-labelledby="connect-h">
     <h2 id="connect-h"><span class="sec-num">04</span>Connect it: USB vs. Bluetooth</h2>
     <p><strong>USB is the zero-fuss path:</strong> plug the cable in and the browser sees the pad within a second. For Bluetooth, put the controller in pairing mode (Xbox: hold the pair button; DualSense: hold PS + Create; 8BitDo: hold the mode-specific combo from its manual), then pair it in your OS Bluetooth settings like any device.</p>
-    <p>One honest caveat: some Bluetooth stacks add a few milliseconds of input lag — imperceptible in RPGs and platformers, worth knowing about for rhythm games and fighters. If a pad refuses to appear, try the cable before anything else.</p>
+    <p>One honest caveat: some Bluetooth stacks add a few milliseconds of input lag, imperceptible in RPGs and platformers, worth knowing about for rhythm games and fighters. If a pad refuses to appear, try the cable before anything else.</p>
   </section>
 
   <section class="guide-section" id="test" aria-labelledby="test-h">
     <h2 id="test-h"><span class="sec-num">05</span>Test it before you play</h2>
     <p>Open <a href="https://html5gamepad.com/">html5gamepad.com</a> with the controller connected and press buttons: you should see each input light up with its standard-mapping number. This one page answers every "is it the game or the pad?" question in ten seconds.</p>
-    <p>If the tester sees the pad but a game doesn't, the game probably needs a button press to "wake" the listing — click into the game and press any button. If the tester doesn't see it either, it's a connection problem, not a game problem.</p>
+    <p>If the tester sees the pad but a game doesn't, the game probably needs a button press to "wake" the listing, click into the game and press any button. If the tester doesn't see it either, it's a connection problem, not a game problem.</p>
   </section>
 
   <section class="guide-section" id="player" aria-labelledby="player-h">
     <h2 id="player-h"><span class="sec-num">06</span>Gamepads in this site's Player</h2>
-    <p>The <a href="../player.html">Player</a> (this site's EmulatorJS console) has gamepad support built in — Player 1's pad just works, no setup. For finer control, the <strong>per-system remapper</strong> (Player 2.1) lets you capture gamepad buttons per system: open the remap panel, pick a button, and press the pad button you want. Your mapping is stored per system in the browser and applied at boot.</p>
+    <p>The <a href="../player.html">Player</a> (this site's EmulatorJS console) has gamepad support built in: Player 1's pad just works, no setup. For finer control, the <strong>per-system remapper</strong> (Player 2.1) lets you capture gamepad buttons per system: open the remap panel, pick a button, and press the pad button you want. Your mapping is stored per system in the browser and applied at boot.</p>
     <p>Two honest notes: the remap <strong>overrides</strong> any mapping you set inside the engine's own menu, and <strong>Esc cancels</strong> a capture. If your pad has a non-standard layout, capture each button once and you're done forever.</p>
   </section>
 
   <section class="guide-section" id="which" aria-labelledby="which-h">
     <h2 id="which-h"><span class="sec-num">07</span>Which catalog games love a pad</h2>
-    <p>Reach for the controller for: the arcade shelf (<em>Robotron: 2084</em> is the twin-stick original; <em>Defender</em> and <em>Joust</em> were built for arcade sticks), the Flash-back machine (<em>Fancy Pants Adventure</em>, <em>Alien Hominid</em>), racers and runners (<em>HexGL</em> supports gamepad natively — check its controls line), and anything in the Player.</p>
-    <p>Stick to keyboard and mouse for: idle games, puzzle games, text adventures like <em>Zork</em>, and the strategy shelf — a pad adds nothing there. When in doubt, the game's controls line tells you what's intended.</p>
+    <p>Reach for the controller for: the arcade shelf (<em>Robotron: 2084</em> is the twin-stick original; <em>Defender</em> and <em>Joust</em> were built for arcade sticks), the Flash-back machine (<em>Fancy Pants Adventure</em>, <em>Alien Hominid</em>), racers and runners (<em>HexGL</em> supports gamepad natively, check its controls line), and anything in the Player.</p>
+    <p>Stick to keyboard and mouse for: idle games, puzzle games, text adventures like <em>Zork</em>, and the strategy shelf, a pad adds nothing there. When in doubt, the game's controls line tells you what's intended.</p>
   </section>
 
   <section class="guide-section" id="trouble" aria-labelledby="trouble-h">
@@ -152,7 +152,7 @@
     <ul>
       <li><strong>Pad not detected:</strong> press any button after the page loads (browsers only list pads after first input), then check html5gamepad.com. Still nothing? Try USB.</li>
       <li><strong>Wrong button does the thing:</strong> the game assumed the standard mapping and your pad is exotic. Remap it in the Player's per-system remapper, or check the tester's mapping.</li>
-      <li><strong>Two pads, wrong one is Player 1:</strong> browsers order pads by connection order — unplug and reconnect in the order you want them.</li>
+      <li><strong>Two pads, wrong one is Player 1:</strong> browsers order pads by connection order, unplug and reconnect in the order you want them.</li>
       <li><strong>Steam is running:</strong> Steam's controller layer can swallow inputs before the browser sees them. Quit Steam or disable its controller support for desktop.</li>
       <li><strong>It works everywhere except one game:</strong> that game polls <code>getGamepads()</code> once at load instead of every frame. Reload the page with the pad already connected and press a button on the title screen.</li>
     </ul>
@@ -160,17 +160,17 @@
 
   <section aria-labelledby="more-guides"><h2 id="more-guides">More guides</h2>
   <ul class="guide-list">
-    <li><a href="../player.html">The Player — gamepad support built in, per-system remapping in Player 2.1.</a></li>
-    <li><a href="accessibility-in-retro-gaming.html">Retro games for every player — remapping, turbo, and one-handed layouts.</a></li>
-    <li><a href="netplay.html">Play together online — the netplay guide, for when one pad isn't enough.</a></li>
-    <li><a href="emulatorjs-self-hosting.html">EmulatorJS self-hosting — the same gamepad support on your own site.</a></li>
+    <li><a href="../player.html">The Player, gamepad support built in, per-system remapping in Player 2.1.</a></li>
+    <li><a href="accessibility-in-retro-gaming.html">Retro games for every player, remapping, turbo, and one-handed layouts.</a></li>
+    <li><a href="netplay.html">Play together online, the netplay guide, for when one pad isn't enough.</a></li>
+    <li><a href="emulatorjs-self-hosting.html">EmulatorJS self-hosting, the same gamepad support on your own site.</a></li>
   </ul></section>
 </article>
 </main>
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-note">
-      <span>Button Mash — your browser is the console. Built 2026.</span>
+      <span>Button Mash, your browser is the console. Built 2026.</span>
       <span>Zero ROMs hosted. Zero piracy links.</span>
     </div>
     <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>

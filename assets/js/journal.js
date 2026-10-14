@@ -1,7 +1,7 @@
-/* Button Mash — Play Journal UI (T-MASH-2, wave 40).
+/* Button Mash: Play Journal UI (T-MASH-2, wave 40).
  *
  * Renders the journal page from two sources only: the real catalog
- * (data/v1/games.json — every one of the 213 games is addressable in
+ * (data/v1/games.json, every one of the 213 games is addressable in
  * the picker and the all-games list) and the visitor's own journal
  * store (assets/js/journal-core.js, localStorage "bm.journal.v1").
  * No server, no account, no telemetry: the page writes nothing
@@ -92,15 +92,15 @@
     var g = byId[currentId];
     if (picker) picker.value = currentId;
     if (statusSel) statusSel.value = store.getStatus(currentId) || '';
-    if (entryNote) entryNote.textContent = g.title + ' — ' + g.genre + '. ' + g.description;
+    if (entryNote) entryNote.textContent = g.title + ', ' + g.genre + '. ' + g.description;
     if (logsList) {
       logsList.textContent = '';
       var logs = store.getLogs(currentId);
-      if (!logs.length) logsList.appendChild(el('li', 'journal-empty', 'No log entries yet — a playthrough can hold as many as you write.'));
+      if (!logs.length) logsList.appendChild(el('li', 'journal-empty', 'No log entries yet, a playthrough can hold as many as you write.'));
       logs.forEach(function (log, i) {
         var li = el('li', 'journal-log');
         li.appendChild(el('strong', null, log.date));
-        li.appendChild(el('span', null, ' — ' + log.text));
+        li.appendChild(el('span', null, ', ' + log.text));
         var del = el('button', 'journal-log-remove', 'Remove');
         del.type = 'button';
         del.setAttribute('data-log-index', String(i));
@@ -114,8 +114,8 @@
     }
   }
 
-  /* URL state (rotation 21): the open game rides in ?game=<id> — the
-   * same deep link the game files and dive cards already use — so a
+  /* URL state (rotation 21): the open game rides in ?game=<id>, the
+   * same deep link the game files and dive cards already use, so a
    * journal view is linkable and the back button walks selections.
    * User picks push a history entry; load and popstate never push. */
   function syncUrl(id) {
@@ -124,7 +124,7 @@
       if (p.get('game') === id) return;
       p.set('game', id);
       history.pushState({ bmJournalGame: id }, '', location.pathname + '?' + p.toString() + location.hash);
-    } catch (e) { /* history unavailable (e.g. file://) — the journal still works */ }
+    } catch (e) { /* history unavailable (e.g. file://), the journal still works */ }
   }
 
   function openGame(id, focus, skipUrl) {

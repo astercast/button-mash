@@ -1,4 +1,4 @@
-/* Button Mash — interactive guide checklists with localStorage persistence. */
+/* Button Mash, interactive guide checklists with localStorage persistence. */
 (function () {
   'use strict';
 
