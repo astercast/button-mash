@@ -2,6 +2,43 @@
 
 Running record of build waves. Newest first.
 
+## Rotation 21 — 2026-10-13 — FULL REDESIGN: the cabinet, rebuilt quiet (user scope confirmation 18:25 PDT; navigation standard 18:33 PDT)
+
+Presentation only; no content, data, or functionality removed.
+Navigation: 15 visible top-level items → 5 primary (Games, Kids
+corner, Collections, Party planner, Game night) + one grouped
+"More" disclosure + one action (Play); every destination kept,
+none duplicated; the More trigger lights when the current page
+lives inside it, so location is always evident; mobile is the
+same single row plus that one menu — the headline lands in the
+first breath. The design system itself is restated in
+`redesign.css`'s R21 token layer (type jobs, spacing rhythm,
+zoned palette, one shadow/radius language) with the component
+language (hero, cards, chips/filters, forms, tables, lists,
+empty states, guide chapters) rebuilt on it across the entry
+surfaces, all eight dives, the guides, and the picker.
+The R21 design audit ranked Mash worst in the fleet (15-item nav
+filling ~45% of the mobile viewport, five neon accents at once,
+no games on the homepage, a broken glyph in the primary CTA).
+This pass: a new last-loaded sheet (`assets/css/redesign.css`,
+stamped on all 53 pages by `scripts/build.py` `wire_redesign`,
+which also regroups every full nav into 5 primaries + a "More"
+disclosure + Play — every original link, label, and aria-current
+kept); glow retired from chrome (kept, turned down, in the
+below-fold cabinet); the coin-bezel pseudo-element that rendered
+as the CTA's broken glyph removed — primary buttons are defined
+solid pills; the homepage's game sampler moved into the hero so
+real games appear in the first screen on desktop and mobile;
+the games directory hero compacted so cards own the screen.
+Play Journal fold-in: selecting a game now writes `?game=<id>`
+(pushState, popstate-restoring, load never pushes) — journal
+views are linkable and back-button-safe (`assets/js/journal.js`).
+Census: 53 pages before and after; hrefs 2,567 → 2,620 (+53 =
+the redesign sheet link, one per page); dives 8-of-8; journal
+picker still all 213 games. WF battery 385/385; test_journal40
+ALL PASS. Proof frames:
+`~/workspace/progress-archive/design-polish-r21/after/mash-*`.
+
 ## Wave 41 — 2026-10-13 — HEADLINE (stated before building): The Horror Deep Dive — the LAST dive standing, dives go 7-of-8 to 8-of-8, THE SET IS COMPLETE
 
 **Headline**: rotation 20 takes the last line on the wave-33

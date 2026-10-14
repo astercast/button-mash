@@ -242,6 +242,13 @@ def main():
             print(" -", e)
         sys.exit(1)
 
+    wire_redesign()
+    if errors:
+        print("BUILD FAILED:")
+        for e in errors:
+            print(" -", e)
+        sys.exit(1)
+
     print(f"BUILD OK — {len(games)} games ({len(game_domains)} domains), "
           f"{len(collections)} collections, {len(emulators)} emulators, {len(guides)} guides")
 
@@ -448,6 +455,91 @@ def wire_exclusions(games, kids_doc):
     if new_text != text:
         page.write_text(new_text)
     print(f"exclusion ledger: {len(excluded)} verdicts stamped on parents.html")
+
+
+# ---------------------------------------------------------------------------
+# Rotation 21 Design Polish (2026-10-13). Two stamps, both idempotent:
+#   1. assets/css/redesign.css is linked last in every page's <head>
+#      (between bm-r21 markers), so the polish sheet has the final
+#      word on shared chrome after the neon-era sheets.
+#   2. The primary nav is restructured from a flat 11-15 item list
+#      into a primary few + a grouped "More" disclosure + the Play
+#      CTA. EVERY original link survives with its href, label, and
+#      aria-current intact — only the grouping changes. Slim navs
+#      (8 or fewer links, e.g. the 404) are left alone.
+_R21_RE = re.compile(r"<!-- bm-r21:start -->.*?<!-- bm-r21:end -->\n?", re.S)
+_R21_NAV_RE = re.compile(
+    r'<nav class="site-nav" aria-label="Primary">\s*<ul>\s*(.*?)\s*</ul>\s*</nav>',
+    re.S)
+_R21_ITEM_RE = re.compile(r"<li>(<a\b[^>]*>.*?</a>)</li>", re.S)
+_R21_PRIMARY = ["games.html", "kids.html", "collections.html",
+                "party-planner.html", "game-night.html"]
+
+
+def _r21_href_base(anchor):
+    m = re.search(r'href="([^"]+)"', anchor)
+    if not m:
+        return ""
+    return m.group(1).split("?")[0].split("#")[0].rstrip("/").split("/")[-1]
+
+
+def _r21_nav(nav_match):
+    items = _R21_ITEM_RE.findall(nav_match.group(1))
+    if len(items) <= 8:
+        return nav_match.group(0)
+    primary, rest, cta = [], [], None
+    for a in items:
+        if "nav-cta" in a:
+            cta = a
+        elif _r21_href_base(a) in _R21_PRIMARY:
+            primary.append(a)
+        else:
+            rest.append(a)
+    if not primary or not rest:
+        return nav_match.group(0)
+    lines = ['<nav class="site-nav" aria-label="Primary" data-r21-nav>',
+             '      <ul class="nav-primary">']
+    lines += [f"        <li>{a}</li>" for a in primary]
+    lines += ["      </ul>",
+              '      <details class="nav-more">',
+              "        <summary>More</summary>",
+              '        <ul class="nav-rest">']
+    lines += [f"          <li>{a}</li>" for a in rest]
+    lines += ["        </ul>", "      </details>"]
+    if cta:
+        lines.append(f"      {cta}")
+    lines.append("    </nav>")
+    return "\n".join(lines)
+
+
+def wire_redesign():
+    pages = sorted(
+        p for p in ROOT.rglob("*.html")
+        if ".git" not in p.parts
+        and not p.relative_to(ROOT).as_posix().startswith("assets/vendor/"))
+    stamped = navs = 0
+    for page in pages:
+        rel = page.relative_to(ROOT).as_posix()
+        text = page.read_text()
+        prefix = "../" * rel.count("/")
+        new = _R21_RE.sub("", text)
+        head, sep, rest_text = new.partition("</head>")
+        if not sep:
+            fail(f"{rel}: no </head> — cannot wire redesign sheet")
+            continue
+        block = ("<!-- bm-r21:start -->\n"
+                 f'<link rel="stylesheet" href="{prefix}assets/css/redesign.css">\n'
+                 "<!-- bm-r21:end -->\n")
+        new = head + block + sep + rest_text
+        new2, n = _R21_NAV_RE.subn(_r21_nav, new, count=1)
+        if n and new2 != new:
+            navs += 1
+            new = new2
+        if new != text:
+            page.write_text(new)
+            stamped += 1
+    print(f"redesign wiring: {len(pages)} pages stamped "
+          f"({stamped} updated, {navs} navs regrouped)")
 
 
 if __name__ == "__main__":

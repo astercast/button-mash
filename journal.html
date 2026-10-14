@@ -52,6 +52,9 @@
 #journal-all .journal-all-item:hover, .journal-open:hover, .journal-log-remove:hover { border-color: var(--neon-pink, #ff2e88); }
 #journal-all .journal-all-item .genre-tag { margin-left: .5rem; }
 </style>
+<!-- bm-r21:start -->
+<link rel="stylesheet" href="assets/css/redesign.css">
+<!-- bm-r21:end -->
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -59,22 +62,27 @@
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
-    <nav class="site-nav" aria-label="Primary">
-      <ul>
-        <li><a href="index.html">Home</a></li>
+    <nav class="site-nav" aria-label="Primary" data-r21-nav>
+      <ul class="nav-primary">
         <li><a href="games.html">Games</a></li>
         <li><a href="kids.html">Kids corner</a></li>
         <li><a href="collections.html">Collections</a></li>
         <li><a href="party-planner.html">Party planner</a></li>
         <li><a href="game-night.html">Game night</a></li>
-        <li><a href="tournament.html">Tournament</a></li>
-        <li><a href="emulation.html">Emulation</a></li>
-        <li><a href="monster-taming.html">Monster Taming</a></li>
-        <li><a href="play-legal.html">Play Legal</a></li>
-        <li><a href="trophy-room.html">Trophy room</a></li>
-        <li><a href="journal.html" aria-current="page">Play journal</a></li>
-        <li><a class="nav-cta" href="player.html">» Play</a></li>
       </ul>
+      <details class="nav-more">
+        <summary>More</summary>
+        <ul class="nav-rest">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="tournament.html">Tournament</a></li>
+          <li><a href="emulation.html">Emulation</a></li>
+          <li><a href="monster-taming.html">Monster Taming</a></li>
+          <li><a href="play-legal.html">Play Legal</a></li>
+          <li><a href="trophy-room.html">Trophy room</a></li>
+          <li><a href="journal.html" aria-current="page">Play journal</a></li>
+        </ul>
+      </details>
+      <a class="nav-cta" href="player.html">» Play</a>
     </nav>
   </div>
 </header>

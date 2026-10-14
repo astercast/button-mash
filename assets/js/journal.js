@@ -114,9 +114,23 @@
     }
   }
 
-  function openGame(id, focus) {
+  /* URL state (rotation 21): the open game rides in ?game=<id> — the
+   * same deep link the game files and dive cards already use — so a
+   * journal view is linkable and the back button walks selections.
+   * User picks push a history entry; load and popstate never push. */
+  function syncUrl(id) {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('game') === id) return;
+      p.set('game', id);
+      history.pushState({ bmJournalGame: id }, '', location.pathname + '?' + p.toString() + location.hash);
+    } catch (e) { /* history unavailable (e.g. file://) — the journal still works */ }
+  }
+
+  function openGame(id, focus, skipUrl) {
     if (!byId[id]) return;
     currentId = id;
+    if (!skipUrl) syncUrl(id);
     renderEditor();
     if (focus) {
       var ed = document.getElementById('journal-editor');
@@ -152,8 +166,13 @@
         if (count) count.textContent = 'All ' + games.length + ' catalog games';
         renderAll(); renderShelves();
         var want = new URLSearchParams(location.search).get('game');
-        if (want && byId[want]) openGame(want, false);
-        else if (games.length) openGame(games[0].id, false);
+        if (want && byId[want]) openGame(want, false, true);
+        else if (games.length) openGame(games[0].id, false, true);
+        window.addEventListener('popstate', function () {
+          var back = new URLSearchParams(location.search).get('game');
+          if (back && byId[back]) openGame(back, false, true);
+          else if (games.length) openGame(games[0].id, false, true);
+        });
       })
       .catch(function () {
         if (entryNote) entryNote.textContent = 'The catalog could not be loaded, so the journal cannot address any games right now.';
