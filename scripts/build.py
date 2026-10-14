@@ -272,6 +272,13 @@ def main():
             print(" -", e)
         sys.exit(1)
 
+    wire_chrome()
+    if errors:
+        print("BUILD FAILED:")
+        for e in errors:
+            print(" -", e)
+        sys.exit(1)
+
     print(f"BUILD OK, {len(games)} games ({len(game_domains)} domains), "
           f"{len(collections)} collections, {len(emulators)} emulators, {len(guides)} guides")
 
@@ -490,17 +497,19 @@ def wire_exclusions(games, kids_doc):
 #      (flat twilight indigo, one amber accent, bezels + hard shadows)
 #      has the true final word.
 #   2. The primary nav is restructured from a flat 11-15 item list
-#      into a primary few + a grouped "More" disclosure + the Play
-#      CTA. EVERY original link survives with its href, label, and
-#      aria-current intact, only the grouping changes. Slim navs
-#      (8 or fewer links, e.g. the 404) are left alone.
+#      into a primary few + a grouped "More" disclosure + the
+#      player CTA. EVERY original link survives with its href and
+#      aria-current intact, only the grouping changes (rotation 30,
+#      VP-0040: the CTA's label becomes "Player", naming the
+#      machine, and the primary set is the wire_chrome set below).
+#      Slim navs (8 or fewer links, e.g. the 404) are left alone
+#      here; wire_chrome unifies them instead.
 _R21_RE = re.compile(r"<!-- bm-r21:start -->.*?<!-- bm-r21:end -->\n?", re.S)
 _R21_NAV_RE = re.compile(
     r'<nav class="site-nav" aria-label="Primary">\s*<ul>\s*(.*?)\s*</ul>\s*</nav>',
     re.S)
 _R21_ITEM_RE = re.compile(r"<li>(<a\b[^>]*>.*?</a>)</li>", re.S)
-_R21_PRIMARY = ["games.html", "kids.html", "collections.html",
-                "party-planner.html", "game-night.html"]
+_R21_PRIMARY = ["games.html", "collections.html", "converter.html"]
 
 
 def _r21_href_base(anchor):
@@ -517,6 +526,9 @@ def _r21_nav(nav_match):
     primary, rest, cta = [], [], None
     for a in items:
         if "nav-cta" in a:
+            # Rotation 30 (VP-0040): the player entry names the machine.
+            if _r21_href_base(a) == "player.html":
+                a = re.sub(r">[^<]*</a>", ">Player</a>", a, count=1)
             cta = a
         elif _r21_href_base(a) in _R21_PRIMARY:
             primary.append(a)
@@ -611,6 +623,163 @@ def wire_redesign():
             stamped += 1
     print(f"redesign wiring: {len(pages)} pages stamped "
           f"({stamped} updated, {navs} navs regrouped)")
+
+
+# ---------------------------------------------------------------------------
+# Rotation 30 (VP-0040, navigation clarity). One chrome set, stamped
+# idempotently on every visitor page:
+#   1. The top bar is identical on every page class: the wordmark,
+#      three primary links (Games, Collections, Converter), one
+#      "More" disclosure carrying every remaining destination, and
+#      the player CTA labelled "Player" so the entry names the
+#      machine it opens. The Converter is named in the bar under
+#      its own name; section-only destinations (Kids corner, Party
+#      planner, Game night, ...) live in the More disclosure and
+#      the footer map, never as vanishing primary items.
+#   2. Every page carries the complete footer map (the Play and
+#      Learn columns below plus the landed For machines column);
+#      pages that shipped a note-only footer gain the grid, pages
+#      with a grid are restamped to the same map. The footer note
+#      and coin plate are page furniture and stay untouched.
+# aria-current moves to whichever stamped link names the page
+# itself; pages whose surface is not a bar destination (guides,
+# genres, game detail, DOS corner, parents, system picker, 404)
+# carry no current mark in the bar, as before. The vendor
+# template (assets/vendor/) is the converter's output file, not a
+# site surface, and is skipped like every other wiring stamp.
+_CHROME_NAV_RE = re.compile(
+    r'<nav class="site-nav"[^>]*>.*?</nav>', re.S)
+_CHROME_PRIMARY = [("games.html", "Games"),
+                   ("collections.html", "Collections"),
+                   ("converter.html", "Converter")]
+_CHROME_REST = [("index.html", "Home"),
+                ("kids.html", "Kids corner"),
+                ("party-planner.html", "Party planner"),
+                ("game-night.html", "Game night"),
+                ("tournament.html", "Tournament"),
+                ("emulation.html", "Emulation"),
+                ("monster-taming.html", "Monster Taming"),
+                ("play-legal.html", "Play Legal"),
+                ("trophy-room.html", "Trophy room"),
+                ("passport.html", "Arcade passport"),
+                ("tournament-night.html", "Tournament night"),
+                ("versus.html", "Versus"),
+                ("journal.html", "Play journal")]
+_CHROME_CTA = ("player.html", "Player")
+_CHROME_FOOTER = [
+    ("Play", [("index.html", "Home"),
+              ("player.html", "The Player"),
+              ("converter.html", "Converter"),
+              ("games.html", "Game directory"),
+              ("collections.html", "Collections"),
+              ("kids.html", "Kids corner"),
+              ("party-planner.html", "Party planner"),
+              ("game-night.html", "Game night"),
+              ("tournament.html", "Tournament"),
+              ("tournament-night.html", "Tournament night"),
+              ("versus.html", "Versus"),
+              ("trophy-room.html", "Trophy room"),
+              ("passport.html", "Arcade passport"),
+              ("journal.html", "Play journal")]),
+    ("Learn", [("emulation.html", "Emulation hub"),
+               ("guides/reverse-engineering.html",
+                "Reverse-engineering guide"),
+               ("guides/gba-wasm.html", "GBA → WASM explainer"),
+               ("monster-taming.html", "Monster-taming corner"),
+               ("dos.html", "DOS corner"),
+               ("system-picker.html", "System picker"),
+               ("parents.html", "Parent guide"),
+               ("play-legal.html", "Play it legal")]),
+    ("For machines", [("data/v1/", "API v1"),
+                      ("API.md", "API.md"),
+                      ("llms.txt", "llms.txt"),
+                      ("skills/", "skills/")]),
+]
+
+
+def _chrome_nav(prefix, current):
+    def link(href, label, cls=None):
+        cur = ' aria-current="page"' if current == href else ""
+        c = f' class="{cls}"' if cls else ""
+        return f'<a{c} href="{prefix}{href}"{cur}>{label}</a>'
+
+    lines = ['<nav class="site-nav" aria-label="Primary" data-r21-nav>',
+             '      <ul class="nav-primary">']
+    lines += [f"        <li>{link(h, t)}</li>" for h, t in _CHROME_PRIMARY]
+    lines += ["      </ul>",
+              '      <details class="nav-more">',
+              "        <summary>More</summary>",
+              '        <ul class="nav-rest">']
+    lines += [f"          <li>{link(h, t)}</li>" for h, t in _CHROME_REST]
+    lines += ["        </ul>", "      </details>"]
+    lines.append(f"      {link(*_CHROME_CTA, cls='nav-cta')}")
+    lines.append("    </nav>")
+    return "\n".join(lines)
+
+
+def _chrome_footer_grid(prefix):
+    lines = ['<div class="footer-grid">']
+    for heading, links in _CHROME_FOOTER:
+        lines.append("      <div>")
+        lines.append(f"        <h3>{heading}</h3>")
+        lines.append("        <ul>")
+        lines += [f'          <li><a href="{prefix}{h}">{t}</a></li>'
+                  for h, t in links]
+        lines.append("        </ul>")
+        lines.append("      </div>")
+    lines.append("    </div>")
+    return "\n".join(lines)
+
+
+def _chrome_replace_grid(text, grid):
+    start = text.find('<div class="footer-grid">')
+    if start == -1:
+        anchor = '    <div class="footer-note">'
+        if anchor not in text:
+            return None
+        return text.replace(anchor, "    " + grid + "\n" + anchor, 1)
+    depth, end = 0, None
+    for m in re.finditer(r"<div\b|</div>", text[start:]):
+        if m.group(0) == "<div":
+            depth += 1
+        else:
+            depth -= 1
+            if depth == 0:
+                end = start + m.end()
+                break
+    if end is None:
+        return None
+    return text[:start] + grid + text[end:]
+
+
+def wire_chrome():
+    pages = sorted(
+        p for p in ROOT.rglob("*.html")
+        if ".git" not in p.parts
+        and not p.relative_to(ROOT).as_posix().startswith("assets/vendor/"))
+    stamped = 0
+    for page in pages:
+        rel = page.relative_to(ROOT).as_posix()
+        text = page.read_text()
+        orig = text
+        prefix = "../" * rel.count("/")
+        current = rel if rel in {h for h, _ in
+                                  _CHROME_PRIMARY + _CHROME_REST
+                                  + [_CHROME_CTA]} else None
+        text, n = _CHROME_NAV_RE.subn(
+            lambda _m: _chrome_nav(prefix, current), text, count=1)
+        if not n:
+            fail(f"{rel}: site-nav missing, chrome not wired")
+            continue
+        new_text = _chrome_replace_grid(text, _chrome_footer_grid(prefix))
+        if new_text is None:
+            fail(f"{rel}: footer grid/note anchors missing, chrome not wired")
+            continue
+        text = new_text
+        if text != orig:
+            page.write_text(text)
+            stamped += 1
+    print(f"chrome wiring: {len(pages)} pages stamped ({stamped} updated)")
 
 
 if __name__ == "__main__":
