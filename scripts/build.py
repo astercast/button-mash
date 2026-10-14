@@ -108,7 +108,8 @@ def main():
     game_domains = set()
     for g in games:
         where = f"games.json:{g.get('id')}"
-        check(set(g.keys()) <= {"id", "title", "url", "genre", "controls", "description", "tags"},
+        check(set(g.keys()) <= {"id", "title", "url", "genre", "controls", "description", "tags",
+                                "maker", "players", "time", "editions"},
               f"{where}: bad fields {sorted(g.keys())}")
         check(bool(ID_RE.match(g.get("id", "") or "")), f"{where}: bad id")
         check(g.get("id") not in seen, f"{where}: duplicate id")
@@ -125,6 +126,28 @@ def main():
             check(isinstance(g["tags"], list) and all(
                 isinstance(t, str) and ID_RE.match(t) for t in g["tags"]),
                 f"{where}: tags must be a list of slug strings")
+        # --- machine-page record (rotation 22): credits, players,
+        # editorial time tiers, edition ladder. Every game carries the
+        # full record; exactly one edition is the shelved build. ---
+        check(isinstance(g.get("maker"), str) and g["maker"].strip(),
+              f"{where}: maker must be a non-empty string")
+        check(isinstance(g.get("players"), str) and g["players"].strip(),
+              f"{where}: players must be a non-empty string")
+        t = g.get("time") or {}
+        check(all(isinstance(t.get(k), str) and t[k].strip()
+                  for k in ("main", "extra", "full")),
+              f"{where}: time needs main/extra/full strings")
+        check(t.get("signal") in ("pinned", "typical"),
+              f"{where}: time.signal must be pinned|typical")
+        eds = g.get("editions") or []
+        check(isinstance(eds, list) and len(eds) >= 1 and all(
+            isinstance(e, dict) and set(e.keys()) <= {"name", "note", "shelved"}
+            and isinstance(e.get("name"), str) and e["name"].strip()
+            and isinstance(e.get("note"), str) and e["note"].strip()
+            for e in eds),
+            f"{where}: editions must be name/note rungs")
+        check(sum(1 for e in eds if e.get("shelved")) == 1,
+              f"{where}: exactly one edition must be shelved")
 
     # --- collections reference real games ---
     cseen = set()

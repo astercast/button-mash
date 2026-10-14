@@ -32,9 +32,14 @@
       });
     }
     cols.forEach(function (c) {
-      var card = BM.el('article', 'collection-card');
+      // Rotation 22 (MASH-STUDY Section 4.2): a collection index prints
+      // as a CREDITS LIST, title and maker inline, the way film credits
+      // roll. The card grid is gone; the section is the shelf, the list
+      // is the celebration. Trophy progress and passport stamps ride
+      // along unchanged, on the section instead of the card.
+      var card = BM.el('section', 'collection-credits');
       card.id = 'shelf-' + c.id;
-      var top = BM.el('div', 'card-top');
+      var top = BM.el('div', 'credits-top');
       top.appendChild(BM.el('span', 'badge', c.tagline));
       var link = BM.el('button', 'chip shelf-link', '\u00BB Copy shelf link');
       link.type = 'button';
@@ -45,7 +50,7 @@
       top.appendChild(link);
       card.appendChild(top);
       card.appendChild(BM.el('h3', null, c.title));
-      card.appendChild(BM.el('p', null, c.description));
+      card.appendChild(BM.el('p', 'credits-intro', c.description));
       // Trophy Room: per-shelf completion strip (played/beaten progress).
       var prog = BM.el('div', 'shelf-progress');
       prog.setAttribute('data-collection', c.id);
@@ -58,22 +63,30 @@
       var plabel = BM.el('p', 'shelf-progress-label', '\u00BB shelf progress loading\u2026');
       prog.appendChild(plabel);
       card.appendChild(prog);
-      var ol = BM.el('ol');
+      var ol = BM.el('ol', 'credits-list');
       (c.game_ids || []).forEach(function (gid) {
         var g = byId[gid];
         if (!g) return;
-        var li = BM.el('li');
-        var row = BM.el('span', 'shelf-row');
-        var a = BM.el('a', null, g.title);
-        a.href = g.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
-        row.appendChild(a);
-        // Wave 19: every shelf row links to the game's full metadata file.
-        var det = BM.el('a', 'shelf-detail-link', '\u00BB file');
-        det.href = 'game.html?id=' + encodeURIComponent(gid);
-        det.setAttribute('aria-label', 'Full game file for ' + g.title);
-        row.appendChild(det);
-        li.appendChild(row);
-        li.appendChild(document.createTextNode(': ' + (g.description || '')));
+        var li = BM.el('li', 'credit-line');
+        // Title links to the game's machine page on this site. No
+        // outbound play link: that is the house rule (2026-10-14).
+        var a = BM.el('a', 'credit-title', g.title);
+        a.href = 'game.html?id=' + encodeURIComponent(gid);
+        li.appendChild(a);
+        if (g.maker) {
+          li.appendChild(document.createTextNode(', '));
+          li.appendChild(BM.el('span', 'credit-maker', g.maker));
+        }
+        if (g.editions && g.editions.length) {
+          for (var i = 0; i < g.editions.length; i++) {
+            if (g.editions[i].shelved) {
+              li.appendChild(document.createTextNode(' \u00B7 '));
+              li.appendChild(BM.el('span', 'credit-edition',
+                'BM_' + (i + 1 < 10 ? '0' : '') + (i + 1)));
+              break;
+            }
+          }
+        }
         ol.appendChild(li);
       });
       card.appendChild(ol);
@@ -94,9 +107,9 @@
   function paintPassport(grid, cols) {
     if (!window.BM || !BM.Passport) return;
     var state = BM.Passport.loadState();
-    grid.querySelectorAll('.collection-card').forEach(function (card) {
+    grid.querySelectorAll('.collection-credits').forEach(function (card) {
       var id = card.id.replace(/^shelf-/, '');
-      var top = card.querySelector('.card-top');
+      var top = card.querySelector('.credits-top');
       if (!top) return;
       var ribbon = top.querySelector('.stamp-ribbon');
       if (BM.Passport.hasStamp(state, id)) {
@@ -136,7 +149,7 @@
           paintPassport(grid, cols);
         });
       }, { threshold: 0.25 });
-      grid.querySelectorAll('.collection-card').forEach(function (card) {
+      grid.querySelectorAll('.collection-credits').forEach(function (card) {
         var state = BM.Passport.loadState();
         if (!BM.Passport.hasStamp(state, card.id.replace(/^shelf-/, ''))) ppObserver.observe(card);
       });

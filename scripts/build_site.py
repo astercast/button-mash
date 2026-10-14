@@ -13,7 +13,7 @@ DATA = ROOT / "data"
 PAGES = [
     ("index.html", "Home, the universal in-browser game console"),
     ("games.html", "Game directory: curated free browser games, search + genre/tag filters, shareable filtered views"),
-    ("game.html", "Game file: per-game metadata page (game.html?id=<id>), description, controls, kid-safe + multiplayer + vibe marks, curated-shelf cross-links, play-tracking, verified play link"),
+    ("game.html", "Game file: per-game metadata page (game.html?id=<id>), description, controls, kid-safe + multiplayer + vibe marks, curated-shelf cross-links, play-tracking"),
     ("player.html", "The Player: bring-your-own-file EmulatorJS console (20+ systems)"),
     ("converter.html", "Converter 3.0: batch ROM-to-browser-game conversion (GBA/GB/GBC/NES/SNES/Genesis files in, one self-contained .html per file out), 4 compression levels + presets, honest ROM validation, custom titles + cover art, Player-mode deep links"),
     ("party-planner.html", "Party planner 2.0: guest list + game voting + rotation scheduler + snack-break timer + party timeline (setup->games->tournament->free play), kids-party mode from the 75 kid-safe games, tournament handoff with real names (?names=), shareable party links"),

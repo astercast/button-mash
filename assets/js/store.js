@@ -90,10 +90,10 @@
     card.appendChild(fav);
 
     var h = el('h3');
+    // House rule (user order, 2026-10-14): a card's title opens the
+    // game's own file on this site, never an outbound play link.
     var a = el('a', null, game.title);
-    a.href = game.url;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
+    a.href = 'game.html?id=' + encodeURIComponent(game.id);
     h.appendChild(a);
     card.appendChild(h);
 
@@ -103,6 +103,18 @@
     var tag = el('span', 'genre-tag genre-' + game.genre, game.genre);
     meta.appendChild(tag);
     if (game.controls) meta.appendChild(el('span', 'controls-hint', game.controls));
+    // The shelved edition, numbered in the AP formula's manner
+    // (rotation 22): the same BM_0N the game page's ladder and the
+    // credits lists print, so a version reads the same everywhere.
+    if (game.editions && game.editions.length) {
+      for (var i = 0; i < game.editions.length; i++) {
+        if (game.editions[i].shelved) {
+          var code = 'BM_' + (i + 1 < 10 ? '0' : '') + (i + 1);
+          meta.appendChild(el('span', 'edition-tag', code + ' · ' + game.editions[i].name));
+          break;
+        }
+      }
+    }
     card.appendChild(meta);
     return card;
   }

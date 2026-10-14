@@ -108,14 +108,14 @@ function fakeStorage() {
 
   // Collections: scroll the first shelves into view → stamps land.
   await page.goto(BASE + "/collections.html", { waitUntil: "networkidle0", timeout: 60000 });
-  await page.waitForSelector(".collection-card", { timeout: 30000 });
+  await page.waitForSelector(".collection-credits", { timeout: 30000 });
   await sleep(600);
   const chip0 = await page.$eval("#passport-chip", (el) => el.textContent);
   check("collections: the passport chip is live in the hero", /Arcade passport:/.test(chip0), chip0.trim());
   await page.evaluate(() => {
     // behavior:"auto", the page's CSS smooth-scroll is animation, not
     // arrival; the site's own scrollToShelf makes the same choice.
-    document.querySelectorAll(".collection-card")[2].scrollIntoView({ behavior: "auto", block: "center" });
+    document.querySelectorAll(".collection-credits")[2].scrollIntoView({ behavior: "auto", block: "center" });
   });
   // IO callbacks land asynchronously; wait for the count to settle,
   // then take ONE snapshot and hold every later check to it.
@@ -133,7 +133,7 @@ function fakeStorage() {
   const stampIds = Object.keys(stored.stamps || {});
   check("collections: shelves that entered the viewport are stamped",
     stampIds.length >= 2, stampIds.length + " stamps after scrolling: " + stampIds.slice(0, 4).join(", "));
-  const ribbon = await page.evaluate(() => !!document.querySelector(".collection-card .stamp-ribbon"));
+  const ribbon = await page.evaluate(() => !!document.querySelector(".collection-credits .stamp-ribbon"));
   check("collections: a stamped shelf wears its ink ribbon", ribbon, "ribbon painted from the same store");
   const chip1 = await page.$eval("#passport-chip", (el) => el.textContent);
   check("collections: the chip count matches the store",

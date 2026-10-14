@@ -83,30 +83,199 @@
     }
     hero.appendChild(meta);
 
-    var lede = el("p", "lede", game.description || "");
-    hero.appendChild(lede);
-
-    if (game.controls) {
-      var ctl = el("p", "game-controls");
-      ctl.appendChild(el("span", "kicker-sm", "» CONTROLS: "));
-      ctl.appendChild(document.createTextNode(game.controls));
-      hero.appendChild(ctl);
-    }
-
-    var dom = domainOf(game.url);
+    // The description and the controls no longer sit in the hero: the
+    // machine page below the backglass carries them (the premise leads
+    // The Loop, the controls are stated in The Cabinet and again in the
+    // spec list). The hero is the backglass only: name, marks, play.
+    // House rule (user order, 2026-10-14): Button Mash does not link
+    // out to play. The play row points at the site's own machines, the
+    // Player and the Converter; the game's own URL stays in the record
+    // as provenance (footnote one), never as a play link.
     var playRow = el("div", "play-row");
-    var play = el("a", "btn-primary play-btn", "» PLAY AT " + (dom || "THE OFFICIAL PAGE"));
-    play.href = game.url;
-    play.target = "_blank";
-    play.rel = "noopener noreferrer";
+    var play = el("a", "btn-primary play-btn", "» PLAY IN THE PLAYER");
+    play.href = "player.html";
     playRow.appendChild(play);
+    var convert = el("a", "card-link", "» Convert a game you own");
+    convert.href = "converter.html";
+    playRow.appendChild(convert);
     var journalLink = el("a", "card-link", "» Journal this game");
     journalLink.href = "journal.html?game=" + game.id;
     playRow.appendChild(journalLink);
-    var note = el("p", "play-note",
-      "Opens in a new tab. Button Mash never hosts the game itself, this link is the official page, verified live.");
-    playRow.appendChild(note);
     hero.appendChild(playRow);
+  }
+
+  /* ---- The machine page (rotation 22, MASH-STUDY Section 4.1) ----
+     The game as a machine, in the Analogue anatomy: claim headlines in
+     the machine's own order with the specifications written as prose
+     inside the claims, then the page closes in apparatus, a ruled spec
+     list and numbered footnotes carrying provenance, version notes,
+     and the Curator's qualifications. Editions print with their numbers
+     in the AP formula's manner (BM_01, BM_02), the same formula the
+     listings and the credits lists carry. All copy is composed from
+     the game's record (data/v1/games.json); nothing is invented at
+     render time beyond the grammar that joins the facts. */
+
+  function editionCode(i) { return "BM_" + (i + 1 < 10 ? "0" : "") + (i + 1); }
+
+  function shelvedRung(game) {
+    var eds = game.editions || [];
+    for (var i = 0; i < eds.length; i++) {
+      if (eds[i].shelved) return { index: i, rung: eds[i] };
+    }
+    return null;
+  }
+
+  function splitSentences(text) {
+    var parts = String(text || "").split(/(?<=[.!?])\s+(?=[A-Z0-9"“])/);
+    return parts.map(function (s) { return s.trim(); }).filter(Boolean);
+  }
+
+  function lcFirst(s) { return s ? s.charAt(0).toLowerCase() + s.slice(1) : s; }
+
+  var FEEL_CLAIMS = {
+    puzzle: "Quiet on the surface, loud in the head.",
+    action: "Hands first, questions later.",
+    roguelike: "Death is the tutorial.",
+    idle: "It plays while you watch, and while you do not.",
+    multiplayer: "Better with witnesses.",
+    retro: "An old machine, still warm.",
+    horror: "Small shelf, long shadows.",
+    cozy: "No timers, no teeth."
+  };
+
+  var LOOP_FALLBACK = {
+    puzzle: "The loop is the whole game: one board, one decision at a time, and a restart that is always one click away.",
+    action: "The loop is the whole game: drop in, stir it up, and go again before the dust settles.",
+    roguelike: "The loop is the whole game: one run teaches the next, and the next run proves it.",
+    idle: "The loop is the whole game: set it growing, come back, and spend what it earned you.",
+    multiplayer: "The loop is the whole game: one more round with the same crowd, and then one more after that.",
+    retro: "The loop is the whole game: the same cabinet ritual that worked the first time, quarters optional.",
+    horror: "The loop is the whole game: walk in, learn what the place wants, and try to walk out.",
+    cozy: "The loop is the whole game: potter, wander, make a small thing, and close the tab smiling."
+  };
+
+  function claimSection(verdict, claim, proseParts) {
+    var s = el("section", "machine-claim");
+    s.appendChild(el("h2", "claim-verdict", verdict));
+    s.appendChild(el("p", "claim-headline", claim));
+    proseParts.forEach(function (p) {
+      if (p) s.appendChild(el("p", "claim-prose", p));
+    });
+    return s;
+  }
+
+  function renderMachine(game) {
+    var box = $("machine-page");
+    if (!box || !game.maker || !game.editions) return;
+    box.innerHTML = "";
+    var dom = domainOf(game.url);
+    var shelved = shelvedRung(game);
+    var t = game.time || {};
+    var sentences = splitSentences(game.description || "");
+    var premise = sentences.length ? sentences[0] : (game.description || "");
+    var rest = sentences.slice(1).join(" ");
+
+    // THE CABINET. Where the machine lives, and who built it.
+    var cabinetProse = game.title + " is a " + genreLabel(game.genre).toLowerCase() +
+      " game by " + game.maker + ". It lives at " + dom + ", the official page, and runs " +
+      "in the browser with nothing to install and no account to make. The controls are " +
+      lcFirst(game.controls || "whatever the page asks of you") + ".";
+    box.appendChild(claimSection("The Cabinet.", game.title + " runs in a tab.", [cabinetProse]));
+
+    // THE LOOP. The premise leads, as the claim; the rest is prose.
+    var loopProse = [];
+    if (rest) loopProse.push(rest);
+    else if (LOOP_FALLBACK[game.genre]) loopProse.push(LOOP_FALLBACK[game.genre]);
+    box.appendChild(claimSection("The Loop.", premise, loopProse));
+
+    // THE FEEL. The genre's claim, and the maker's name on it.
+    var feelProse = "The Curator files " + game.title + " under " +
+      genreLabel(game.genre).toLowerCase() + ", and the filing is the maker's fault: " +
+      game.maker + " built it that way.";
+    if (game.tags && game.tags.length) {
+      feelProse += " It travels with the " + game.tags.join(" and ") + " crowd.";
+    }
+    box.appendChild(claimSection("The Feel.", FEEL_CLAIMS[game.genre] || "Filed, verified, and on the shelf.", [feelProse]));
+
+    // THE MODES. Who the machine seats, and the times stated in prose.
+    var modesClaim = game.players === "1 player"
+      ? "One pair of hands is the whole arcade."
+      : "Built to be played with other people.";
+    var modesProse = "Seats: " + lcFirst(game.players || "1 player") + ". " +
+      "Main story: " + lcFirst(t.main || "") + ". " +
+      "Main + extra: " + lcFirst(t.extra || "") + ". " +
+      "Completionist: " + lcFirst(t.full || "") + ".";
+    box.appendChild(claimSection("The Modes.", modesClaim, [modesProse]));
+
+    // THE APPARATUS, part one: the ruled spec list.
+    var app = el("section", "machine-apparatus");
+    app.appendChild(el("h2", "claim-verdict", "The Specifications."));
+    var dl = el("dl", "spec-list");
+    function specRow(term, value) {
+      var row = el("div", "spec-row");
+      row.appendChild(el("dt", null, term));
+      var dd = el("dd", null, value);
+      row.appendChild(dd);
+      dl.appendChild(row);
+    }
+    specRow("Maker", game.maker);
+    specRow("Players", game.players);
+    specRow("Controls", game.controls || "");
+    specRow("Main story", t.main || "");
+    specRow("Main + extra", t.extra || "");
+    specRow("Completionist", t.full || "");
+    if (shelved) {
+      specRow("Versions", editionCode(shelved.index) + " of " + game.editions.length +
+        " on record: " + shelved.rung.name + " is the shelved build");
+    }
+    app.appendChild(dl);
+
+    // The edition ladder, numbered in the AP formula's manner.
+    if (game.editions.length) {
+      var ladder = el("ol", "edition-ladder");
+      game.editions.forEach(function (rung, i) {
+        var li = el("li", "ladder-rung" + (rung.shelved ? " rung-shelved" : ""));
+        li.appendChild(el("span", "rung-code", editionCode(i)));
+        li.appendChild(el("span", "rung-name", rung.name));
+        li.appendChild(el("span", "rung-note", rung.note));
+        if (rung.shelved) li.appendChild(el("span", "rung-mark", "ON THE SHELF"));
+        ladder.appendChild(li);
+      });
+      app.appendChild(ladder);
+    }
+
+    // THE APPARATUS, part two: the numbered footnotes.
+    app.appendChild(el("h2", "claim-verdict", "The Fine Print."));
+    var notes = el("ol", "footnotes");
+    function note(text) { notes.appendChild(el("li", null, text)); }
+    if (shelved) {
+      note("Provenance. The build of record is " + editionCode(shelved.index) + ", " +
+        shelved.rung.name + ", served at " + dom + ", and the Curator verified it live " +
+        "for this record. This file links nowhere else to play: games on Button Mash " +
+        "are played on Button Mash.");
+    }
+    if (game.editions.length > 1) {
+      note("Versions. The ladder lists every form of this game the Curator's record " +
+        "holds, oldest first. Mash shelves " + editionCode(shelved ? shelved.index : 0) +
+        "; the other rungs are named so the record is complete, not because the site " +
+        "links them.");
+    } else {
+      note("Versions. One form is on record: " + (shelved ? shelved.rung.name : "") +
+        ". If this game exists in other forms, the record does not hold them yet.");
+    }
+    note("The times. The session figures are the Curator's editorial estimates for a " +
+      "browser game, the same table the Game Night dealer uses, and they are never " +
+      "copied from any other catalog. The basis for this game: " +
+      (t.signal === "pinned"
+        ? "pinned by hand, because the genre bucket plainly misread this one."
+        : "genre-typical, the honest average for its kind until a hand pin says otherwise."));
+    note("The credit. " + game.maker + ", as the Curator records it. Where a game's " +
+      "own page or its preservation record names a person or a studio, that is what " +
+      "prints; where the record holds only the maker's published imprint, the imprint " +
+      "prints. Corrections are welcome and land in the record.");
+    app.appendChild(notes);
+
+    box.appendChild(app);
   }
 
   function renderTrophy(game) {
@@ -268,6 +437,7 @@
 
       // Static render first: the page is complete even with the functions down.
       renderHero(game, null);
+      renderMachine(game);
       renderShelves(game, collections);
       renderRelated(game, games);
       renderTrophy(game);

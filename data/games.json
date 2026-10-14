@@ -6,7 +6,22 @@
       "genre": "puzzle",
       "id": "2048",
       "title": "2048",
-      "url": "https://play2048.co/"
+      "url": "https://play2048.co/",
+      "maker": "Gabriele Cirulli",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at play2048.co",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Keyboard",
@@ -14,7 +29,26 @@
       "genre": "puzzle",
       "id": "wordle",
       "title": "Wordle",
-      "url": "https://www.nytimes.com/games/wordle/index.html"
+      "url": "https://www.nytimes.com/games/wordle/index.html",
+      "maker": "Josh Wardle",
+      "players": "1 player",
+      "time": {
+        "main": "One day's board: about 5 minutes",
+        "extra": "The streak kept: a few minutes a day, every day",
+        "full": "No finish line; a new board arrives daily and the streak is the score",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original (2021)",
+          "note": "Josh Wardle's own page, the version the world found first"
+        },
+        {
+          "name": "The New York Times edition",
+          "note": "The game's home since 2022, the build Mash shelves",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse / touch",
@@ -22,7 +56,22 @@
       "genre": "puzzle",
       "id": "connections",
       "title": "Connections",
-      "url": "https://www.nytimes.com/games/connections"
+      "url": "https://www.nytimes.com/games/connections",
+      "maker": "The New York Times",
+      "players": "1 player",
+      "time": {
+        "main": "One day's board: about 5 minutes",
+        "extra": "The streak kept: a few minutes a day, every day",
+        "full": "No finish line; a new board arrives daily and the streak is the score",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.nytimes.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Keyboard (customizable)",
@@ -34,6 +83,21 @@
       "tags": [
         "party",
         "racing"
+      ],
+      "maker": "osk",
+      "players": "1 player alone, or a full lobby online",
+      "time": {
+        "main": "One sitting: about 15 minutes of matches",
+        "extra": "A long session in the league: about an hour",
+        "full": "No finish line; the rank is the point, and the top of it is very far away",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at tetr.io",
+          "shelved": true
+        }
       ]
     },
     {
@@ -42,7 +106,22 @@
       "genre": "puzzle",
       "id": "jstris",
       "title": "Jstris",
-      "url": "https://jstris.jezevec10.com/"
+      "url": "https://jstris.jezevec10.com/",
+      "maker": "jezevec10",
+      "players": "1 player alone, or a full lobby online",
+      "time": {
+        "main": "One sitting: about 15 minutes of matches",
+        "extra": "A long session against the room: about an hour",
+        "full": "No finish line; the leaderboard is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at jstris.jezevec10.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse / touch",
@@ -50,7 +129,22 @@
       "genre": "puzzle",
       "id": "little-alchemy-2",
       "title": "Little Alchemy 2",
-      "url": "https://littlealchemy2.com/"
+      "url": "https://littlealchemy2.com/",
+      "maker": "Recloak",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 20 minutes of combining",
+        "extra": "The base set discovered: about 5 hours across sittings",
+        "full": "All 700 plus items: about 15 hours of tinkering",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at littlealchemy2.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -58,7 +152,22 @@
       "genre": "puzzle",
       "id": "infinite-craft",
       "title": "Infinite Craft",
-      "url": "https://neal.fun/infinite-craft/"
+      "url": "https://neal.fun/infinite-craft/",
+      "maker": "Neal Agarwal",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at neal.fun",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Keyboard",
@@ -66,7 +175,22 @@
       "genre": "puzzle",
       "id": "password-game",
       "title": "The Password Game",
-      "url": "https://neal.fun/password-game/"
+      "url": "https://neal.fun/password-game/",
+      "maker": "Neal Agarwal",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at neal.fun",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse / touch",
@@ -74,7 +198,22 @@
       "genre": "puzzle",
       "id": "logos-memory",
       "title": "Draw Logos From Memory",
-      "url": "https://neal.fun/logos-from-memory/"
+      "url": "https://neal.fun/logos-from-memory/",
+      "maker": "Neal Agarwal",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 10 minutes",
+        "extra": "A long day with it: about 30 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at neal.fun",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -82,7 +221,22 @@
       "genre": "puzzle",
       "id": "globle",
       "title": "Globle",
-      "url": "https://globle-game.com/"
+      "url": "https://globle-game.com/",
+      "maker": "Abe Train",
+      "players": "1 player",
+      "time": {
+        "main": "One day's board: about 5 minutes",
+        "extra": "The streak kept: a few minutes a day, every day",
+        "full": "No finish line; a new board arrives daily and the streak is the score",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at globle-game.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -90,7 +244,22 @@
       "genre": "puzzle",
       "id": "worldle",
       "title": "Worldle",
-      "url": "https://worldle.teuteuf.fr/"
+      "url": "https://worldle.teuteuf.fr/",
+      "maker": "Teuteuf",
+      "players": "1 player",
+      "time": {
+        "main": "One day's board: about 5 minutes",
+        "extra": "The streak kept: a few minutes a day, every day",
+        "full": "No finish line; a new board arrives daily and the streak is the score",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at worldle.teuteuf.fr",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -98,7 +267,22 @@
       "genre": "puzzle",
       "id": "framed",
       "title": "Framed",
-      "url": "https://framed.wtf/"
+      "url": "https://framed.wtf/",
+      "maker": "framed.wtf",
+      "players": "1 player",
+      "time": {
+        "main": "One day's board: about 5 minutes",
+        "extra": "The streak kept: a few minutes a day, every day",
+        "full": "No finish line; a new board arrives daily and the streak is the score",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at framed.wtf",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -110,6 +294,21 @@
       "tags": [
         "party",
         "trivia"
+      ],
+      "maker": "Anton Wallén",
+      "players": "1 to 12 players",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.geoguessr.com",
+          "shelved": true
+        }
       ]
     },
     {
@@ -118,7 +317,22 @@
       "genre": "puzzle",
       "id": "sudoku-serges",
       "title": "Sudoku",
-      "url": "https://sergesgames.itch.io/sudoku"
+      "url": "https://sergesgames.itch.io/sudoku",
+      "maker": "Serges Games",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at sergesgames.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse / keyboard",
@@ -126,7 +340,22 @@
       "genre": "puzzle",
       "id": "type-help",
       "title": "Type Help",
-      "url": "https://william-rous.itch.io/type-help"
+      "url": "https://william-rous.itch.io/type-help",
+      "maker": "William Rous",
+      "players": "1 player",
+      "time": {
+        "main": "The whole case, start to finish: about 3 to 5 hours",
+        "extra": "Case plus the files reread with new eyes: about 6 hours",
+        "full": "Every ending and every name placed: about 8 hours",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at william-rous.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -134,7 +363,22 @@
       "genre": "puzzle",
       "id": "asteroid-launcher",
       "title": "Asteroid Launcher",
-      "url": "https://neal.fun/asteroid-launcher/"
+      "url": "https://neal.fun/asteroid-launcher/",
+      "maker": "Neal Agarwal",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 10 minutes",
+        "extra": "A long day with it: about 30 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at neal.fun",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "WASD + mouse",
@@ -146,6 +390,21 @@
       "tags": [
         "party",
         "shooter"
+      ],
+      "maker": "Yendis Entertainment",
+      "players": "1 to 10 players",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at krunker.io",
+          "shelved": true
+        }
       ]
     },
     {
@@ -158,6 +417,21 @@
       "tags": [
         "party",
         "shooter"
+      ],
+      "maker": "Blue Wizard Digital",
+      "players": "1 to 10 players",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at shellshock.io",
+          "shelved": true
+        }
       ]
     },
     {
@@ -170,6 +444,21 @@
       "tags": [
         "party",
         "shooter"
+      ],
+      "maker": "Tall Team",
+      "players": "1 to 10 players",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at smashkarts.io",
+          "shelved": true
+        }
       ]
     },
     {
@@ -178,7 +467,22 @@
       "genre": "action",
       "id": "venge",
       "title": "Venge.io",
-      "url": "https://live.venge.io/"
+      "url": "https://live.venge.io/",
+      "maker": "Venge",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at live.venge.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "WASD + mouse",
@@ -186,7 +490,22 @@
       "genre": "action",
       "id": "repuls",
       "title": "REPULS.io",
-      "url": "https://repuls.io/"
+      "url": "https://repuls.io/",
+      "maker": "Docski",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at repuls.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "WASD + mouse",
@@ -194,7 +513,22 @@
       "genre": "action",
       "id": "evio",
       "title": "ev.io",
-      "url": "https://ev.io/"
+      "url": "https://ev.io/",
+      "maker": "Enthusiast Gaming",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at ev.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "WASD + mouse",
@@ -202,7 +536,22 @@
       "genre": "action",
       "id": "kirka",
       "title": "Kirka.io",
-      "url": "https://kirka.io/"
+      "url": "https://kirka.io/",
+      "maker": "Pierre-Éli",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at kirka.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "WASD + mouse",
@@ -210,7 +559,22 @@
       "genre": "action",
       "id": "gats",
       "title": "Gats.io",
-      "url": "https://gats.io/"
+      "url": "https://gats.io/",
+      "maker": "Night Steed Games",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at gats.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Arrow keys",
@@ -218,7 +582,22 @@
       "genre": "action",
       "id": "funkin",
       "title": "Friday Night Funkin'",
-      "url": "https://ninja-muffin24.itch.io/funkin"
+      "url": "https://ninja-muffin24.itch.io/funkin",
+      "maker": "The Funkin' Crew",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at ninja-muffin24.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Arrows / WASD",
@@ -230,6 +609,21 @@
       "tags": [
         "party",
         "arena"
+      ],
+      "maker": "Chaz",
+      "players": "1 to 8 players",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at bonk.io",
+          "shelved": true
+        }
       ]
     },
     {
@@ -238,7 +632,22 @@
       "genre": "action",
       "id": "diepio",
       "title": "Diep.io",
-      "url": "https://diep.io/"
+      "url": "https://diep.io/",
+      "maker": "Matheus Valadares",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at diep.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "WASD / arrows + mouse",
@@ -246,7 +655,22 @@
       "genre": "action",
       "id": "starblast",
       "title": "Starblast.io",
-      "url": "https://starblast.io/"
+      "url": "https://starblast.io/",
+      "maker": "Neuronality",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at starblast.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -254,7 +678,22 @@
       "genre": "action",
       "id": "powerline",
       "title": "Powerline.io",
-      "url": "https://powerline.io/"
+      "url": "https://powerline.io/",
+      "maker": "Powerline.io",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at powerline.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Arrows / WASD",
@@ -262,7 +701,22 @@
       "genre": "action",
       "id": "splix",
       "title": "Splix.io",
-      "url": "https://splix.io/"
+      "url": "https://splix.io/",
+      "maker": "Splix.io",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at splix.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Q W O P keys",
@@ -270,7 +724,22 @@
       "genre": "action",
       "id": "qwop",
       "title": "QWOP",
-      "url": "https://www.foddy.net/legacy/Athletics.html"
+      "url": "https://www.foddy.net/legacy/Athletics.html",
+      "maker": "Bennett Foddy",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.foddy.net",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "One button (space / click)",
@@ -278,7 +747,22 @@
       "genre": "action",
       "id": "canabalt",
       "title": "Canabalt",
-      "url": "https://adamatomic.com/canabalt/"
+      "url": "https://adamatomic.com/canabalt/",
+      "maker": "Adam Saltsman",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at adamatomic.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Arrows + space",
@@ -286,7 +770,22 @@
       "genre": "action",
       "id": "happy-wheels",
       "title": "Happy Wheels",
-      "url": "https://totaljerkface.com/happy_wheels.tjf"
+      "url": "https://totaljerkface.com/happy_wheels.tjf",
+      "maker": "Jim Bonacci",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at totaljerkface.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse (draw)",
@@ -294,7 +793,22 @@
       "genre": "action",
       "id": "line-rider",
       "title": "Line Rider",
-      "url": "https://www.linerider.com/"
+      "url": "https://www.linerider.com/",
+      "maker": "Boštjan Čadež",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.linerider.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse / keyboard",
@@ -302,7 +816,22 @@
       "genre": "roguelike",
       "id": "breach-command",
       "title": "Breach Command",
-      "url": "https://parris-tech-services.github.io/breach-command/"
+      "url": "https://parris-tech-services.github.io/breach-command/",
+      "maker": "Parris Tech Services",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 25 minutes",
+        "extra": "The run plus the side rooms: about 50 minutes all told",
+        "full": "Everything there is: about 2.1 hours all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at parris-tech-services.github.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -310,7 +839,22 @@
       "genre": "roguelike",
       "id": "dragonsweeper",
       "title": "Dragonsweeper",
-      "url": "https://danielben.itch.io/dragonsweeper"
+      "url": "https://danielben.itch.io/dragonsweeper",
+      "maker": "Daniel Benmergui",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 25 minutes",
+        "extra": "The run plus the side rooms: about 50 minutes all told",
+        "full": "Everything there is: about 2.1 hours all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at danielben.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "WASD + mouse",
@@ -318,7 +862,22 @@
       "genre": "roguelike",
       "id": "hordes",
       "title": "Hordes.io",
-      "url": "https://hordes.io/"
+      "url": "https://hordes.io/",
+      "maker": "Hordes.io",
+      "players": "1 or more in a shared world, online",
+      "time": {
+        "main": "One sitting: about 30 minutes",
+        "extra": "A long day with it: about 90 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at hordes.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Arrows / WASD + Z X",
@@ -326,7 +885,22 @@
       "genre": "action",
       "id": "poom",
       "title": "Poom",
-      "url": "https://freds72.itch.io/poom"
+      "url": "https://freds72.itch.io/poom",
+      "maker": "freds72",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at freds72.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Arrows + Z X",
@@ -334,7 +908,22 @@
       "genre": "action",
       "id": "celeste-classic",
       "title": "Celeste Classic",
-      "url": "https://maddymakesgamesinc.itch.io/celesteclassic"
+      "url": "https://maddymakesgamesinc.itch.io/celesteclassic",
+      "maker": "Maddy Thorson and Noel Berry",
+      "players": "1 player",
+      "time": {
+        "main": "A first clear: about 30 to 60 minutes",
+        "extra": "Clear plus the strawberries on the way: about 90 minutes",
+        "full": "Every berry, deathless: an afternoon of attempts",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at maddymakesgamesinc.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Keyboard (multi)",
@@ -342,7 +931,22 @@
       "genre": "multiplayer",
       "id": "kaaarot",
       "title": "Kaaarot",
-      "url": "https://lambdahumans.itch.io/kaaarot"
+      "url": "https://lambdahumans.itch.io/kaaarot",
+      "maker": "Lambda Humans",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at lambdahumans.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse (click)",
@@ -350,7 +954,26 @@
       "genre": "idle",
       "id": "cookie-clicker",
       "title": "Cookie Clicker",
-      "url": "https://www.cookieclicker.com/"
+      "url": "https://www.cookieclicker.com/",
+      "maker": "Orteil",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 5 minutes",
+        "extra": "A long day with it: about 15 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "Cookie Clicker (2013)",
+          "note": "The browser original, still updated, the build Mash shelves",
+          "shelved": true
+        },
+        {
+          "name": "The Steam edition (2021)",
+          "note": "The same cookie, with a soundtrack and no tab required"
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -358,7 +981,22 @@
       "genre": "idle",
       "id": "a-dark-room",
       "title": "A Dark Room",
-      "url": "https://adarkroom.doublespeakgames.com/"
+      "url": "https://adarkroom.doublespeakgames.com/",
+      "maker": "Doublespeak Games",
+      "players": "1 player",
+      "time": {
+        "main": "A first run to the end of the story: about 4 to 6 hours of sittings",
+        "extra": "Run plus the village fully grown: about 8 hours",
+        "full": "Everything, every ending and the prestige runs: days of quiet clicking",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at adarkroom.doublespeakgames.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -366,7 +1004,22 @@
       "genre": "idle",
       "id": "universal-paperclips",
       "title": "Universal Paperclips",
-      "url": "https://www.decisionproblem.com/paperclips/"
+      "url": "https://www.decisionproblem.com/paperclips/",
+      "maker": "Frank Lantz",
+      "players": "1 player",
+      "time": {
+        "main": "A first run to the end of the universe: about 4 to 6 hours",
+        "extra": "Run plus the full project list: about 8 hours",
+        "full": "Everything: the universe ends; the clips are forever",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.decisionproblem.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -374,7 +1027,22 @@
       "genre": "idle",
       "id": "candy-box-2",
       "title": "Candy Box 2",
-      "url": "https://candybox2.github.io/"
+      "url": "https://candybox2.github.io/",
+      "maker": "aniwey",
+      "players": "1 player",
+      "time": {
+        "main": "A first run: about 8 to 10 hours across sittings",
+        "extra": "Run plus the wishes and the dev's room: about 12 hours",
+        "full": "Everything, every lollipop: about 15 hours",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at candybox2.github.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -382,7 +1050,22 @@
       "genre": "idle",
       "id": "kittens-game",
       "title": "Kittens Game",
-      "url": "https://kittensgame.com/web/"
+      "url": "https://kittensgame.com/web/",
+      "maker": "Bloodrizer",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 30 minutes of tending",
+        "extra": "A first year of seasons: days of sittings",
+        "full": "Everything: kittens is measured in months, and players keep ledgers",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at kittensgame.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -390,7 +1073,22 @@
       "genre": "idle",
       "id": "trimps",
       "title": "Trimps",
-      "url": "https://trimps.github.io/"
+      "url": "https://trimps.github.io/",
+      "maker": "GreenSatellite",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at trimps.github.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -398,7 +1096,22 @@
       "genre": "idle",
       "id": "antimatter-dimensions",
       "title": "Antimatter Dimensions",
-      "url": "https://ivark.github.io/AntimatterDimensions/"
+      "url": "https://ivark.github.io/AntimatterDimensions/",
+      "maker": "Hevipelle",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at ivark.github.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -410,6 +1123,21 @@
       "tags": [
         "party",
         "arena"
+      ],
+      "maker": "Matheus Valadares",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at agar.io",
+          "shelved": true
+        }
       ]
     },
     {
@@ -422,6 +1150,21 @@
       "tags": [
         "party",
         "arena"
+      ],
+      "maker": "Steve Howse",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at slither.io",
+          "shelved": true
+        }
       ]
     },
     {
@@ -434,6 +1177,21 @@
       "tags": [
         "party",
         "drawing"
+      ],
+      "maker": "skribbl.io",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at skribbl.io",
+          "shelved": true
+        }
       ]
     },
     {
@@ -446,6 +1204,21 @@
       "tags": [
         "party",
         "drawing"
+      ],
+      "maker": "Gartic",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at garticphone.com",
+          "shelved": true
+        }
       ]
     },
     {
@@ -458,6 +1231,21 @@
       "tags": [
         "party",
         "sports"
+      ],
+      "maker": "Mario Carbajal",
+      "players": "1 to 10 in one room, online",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.haxball.com",
+          "shelved": true
+        }
       ]
     },
     {
@@ -466,7 +1254,22 @@
       "genre": "multiplayer",
       "id": "pokemon-showdown",
       "title": "Pokémon Showdown",
-      "url": "https://pokemonshowdown.com/"
+      "url": "https://pokemonshowdown.com/",
+      "maker": "Zarel and the Showdown team",
+      "players": "2 players, online",
+      "time": {
+        "main": "One sitting: a few battles, about 15 to 30 minutes",
+        "extra": "A long session up the ladder: about 2 hours",
+        "full": "No finish line; the ladder is the record",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at pokemonshowdown.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -478,6 +1281,21 @@
       "tags": [
         "party",
         "word"
+      ],
+      "maker": "BlankMediaGames",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at townofsalem.com",
+          "shelved": true
+        }
       ]
     },
     {
@@ -490,6 +1308,21 @@
       "tags": [
         "party",
         "board"
+      ],
+      "maker": "Grégory Isabelli and Emmanuel Colin",
+      "players": "1 to 6 players at a table, online",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at en.boardgamearena.com",
+          "shelved": true
+        }
       ]
     },
     {
@@ -503,6 +1336,21 @@
         "party",
         "board",
         "coop"
+      ],
+      "maker": "Colonist",
+      "players": "3 to 4 players, online",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at colonist.io",
+          "shelved": true
+        }
       ]
     },
     {
@@ -516,6 +1364,21 @@
         "party",
         "word",
         "coop"
+      ],
+      "maker": "Vlaada Chvátil (Czech Games)",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at codenames.game",
+          "shelved": true
+        }
       ]
     },
     {
@@ -528,6 +1391,21 @@
       "tags": [
         "party",
         "word"
+      ],
+      "maker": "Goat, Wolf, and Cabbage",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at secrethitler.io",
+          "shelved": true
+        }
       ]
     },
     {
@@ -540,6 +1418,21 @@
       "tags": [
         "party",
         "word"
+      ],
+      "maker": "JKLM.fun",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at jklm.fun",
+          "shelved": true
+        }
       ]
     },
     {
@@ -552,6 +1445,21 @@
       "tags": [
         "party",
         "drawing"
+      ],
+      "maker": "Drawasaurus",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.drawasaurus.org",
+          "shelved": true
+        }
       ]
     },
     {
@@ -564,6 +1472,21 @@
       "tags": [
         "party",
         "board"
+      ],
+      "maker": "PlayingCards.io",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at playingcards.io",
+          "shelved": true
+        }
       ]
     },
     {
@@ -576,6 +1499,21 @@
       "tags": [
         "party",
         "drawing"
+      ],
+      "maker": "Make It Meme",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at makeitmeme.com",
+          "shelved": true
+        }
       ]
     },
     {
@@ -588,6 +1526,21 @@
       "tags": [
         "party",
         "board"
+      ],
+      "maker": "Thibault Duplessis",
+      "players": "2 players, online",
+      "time": {
+        "main": "One sitting: a game or three, about 15 to 45 minutes",
+        "extra": "A long session: puzzles, an arena, and a study or two, about 2 hours",
+        "full": "No finish line; the rating is the record",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at lichess.org",
+          "shelved": true
+        }
       ]
     },
     {
@@ -596,7 +1549,22 @@
       "genre": "multiplayer",
       "id": "bloxd",
       "title": "Bloxd.io",
-      "url": "https://bloxd.io/"
+      "url": "https://bloxd.io/",
+      "maker": "Bloxd",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at bloxd.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse / WASD",
@@ -604,7 +1572,22 @@
       "genre": "multiplayer",
       "id": "moomoo",
       "title": "Moomoo.io",
-      "url": "https://moomoo.io/"
+      "url": "https://moomoo.io/",
+      "maker": "Moomoo.io",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at moomoo.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse / WASD",
@@ -612,7 +1595,22 @@
       "genre": "multiplayer",
       "id": "zombs",
       "title": "Zombs.io",
-      "url": "https://zombs.io/"
+      "url": "https://zombs.io/",
+      "maker": "Zombs.io",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at zombs.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "WASD + mouse",
@@ -620,7 +1618,22 @@
       "genre": "multiplayer",
       "id": "zombsroyale",
       "title": "ZombsRoyale.io",
-      "url": "https://zombsroyale.io/"
+      "url": "https://zombsroyale.io/",
+      "maker": "End Game",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at zombsroyale.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -628,7 +1641,22 @@
       "genre": "multiplayer",
       "id": "deeeep",
       "title": "Deeeep.io",
-      "url": "https://deeeep.io/"
+      "url": "https://deeeep.io/",
+      "maker": "Deeeep.io",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at deeeep.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -636,7 +1664,22 @@
       "genre": "multiplayer",
       "id": "wormate",
       "title": "Wormate.io",
-      "url": "https://wormate.io/"
+      "url": "https://wormate.io/",
+      "maker": "Wormate",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at wormate.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Keyboard (on-screen pad)",
@@ -644,7 +1687,26 @@
       "genre": "retro",
       "id": "console-living-room",
       "title": "Internet Archive: Console Living Room",
-      "url": "https://archive.org/details/consolelivingroom"
+      "url": "https://archive.org/details/consolelivingroom",
+      "maker": "The Internet Archive",
+      "players": "1 player, browsing a library",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Keyboard (on-screen pad)",
@@ -652,7 +1714,26 @@
       "genre": "retro",
       "id": "internet-arcade",
       "title": "Internet Archive: Internet Arcade",
-      "url": "https://archive.org/details/internetarcade"
+      "url": "https://archive.org/details/internetarcade",
+      "maker": "The Internet Archive",
+      "players": "1 player, browsing a library",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Keyboard",
@@ -660,7 +1741,26 @@
       "genre": "retro",
       "id": "msdos-library",
       "title": "Internet Archive: MS-DOS Library",
-      "url": "https://archive.org/details/softwarelibrary_msdos"
+      "url": "https://archive.org/details/softwarelibrary_msdos",
+      "maker": "The Internet Archive",
+      "players": "1 player, browsing a library",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Arrows + Z X",
@@ -668,7 +1768,22 @@
       "genre": "retro",
       "id": "moss-moss",
       "title": "Moss Moss",
-      "url": "https://noelcody.itch.io/moss-moss"
+      "url": "https://noelcody.itch.io/moss-moss",
+      "maker": "Noel Cody",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at noelcody.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Arrows + Z X",
@@ -676,7 +1791,22 @@
       "genre": "retro",
       "id": "pico8-tops",
       "title": "Top PICO-8 Games (collection)",
-      "url": "https://itch.io/c/4233781/top-pico-8-games"
+      "url": "https://itch.io/c/4233781/top-pico-8-games",
+      "maker": "Lexaloffle",
+      "players": "1 player, browsing a library",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The library itself",
+          "note": "A whole shelf of games under one roof",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -684,7 +1814,22 @@
       "genre": "retro",
       "id": "kingdom-of-loathing",
       "title": "Kingdom of Loathing",
-      "url": "https://www.kingdomofloathing.com/"
+      "url": "https://www.kingdomofloathing.com/",
+      "maker": "Asymmetric Publications",
+      "players": "1 player, in a world shared with everyone else",
+      "time": {
+        "main": "One sitting: about 30 minutes of adventures",
+        "extra": "A full ascension: about 2 to 4 weeks of sittings",
+        "full": "Everything: the game counts in ascensions, and the count is yours",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.kingdomofloathing.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -692,7 +1837,22 @@
       "genre": "retro",
       "id": "urban-dead",
       "title": "Urban Dead",
-      "url": "https://www.urbandead.com/"
+      "url": "https://www.urbandead.com/",
+      "maker": "Kevan Davis",
+      "players": "1 player, in a world shared with everyone else",
+      "time": {
+        "main": "One full run: about 30 minutes",
+        "extra": "The run plus the side rooms: about an hour all told",
+        "full": "Everything there is: about 2.5 hours all told, give or take a sitting",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.urbandead.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -700,7 +1860,22 @@
       "genre": "horror",
       "id": "wbwwb",
       "title": "We Become What We Behold",
-      "url": "https://ncase.itch.io/wbwwb"
+      "url": "https://ncase.itch.io/wbwwb",
+      "maker": "Nicky Case",
+      "players": "1 player",
+      "time": {
+        "main": "The whole piece: about 5 minutes, once through",
+        "extra": "Once more, watching what you missed: about 5 minutes",
+        "full": "There is no more; it is a five-minute argument, complete",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at ncase.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -708,7 +1883,22 @@
       "genre": "horror",
       "id": "anxiety",
       "title": "Adventures With Anxiety",
-      "url": "https://ncase.itch.io/anxiety"
+      "url": "https://ncase.itch.io/anxiety",
+      "maker": "Nicky Case",
+      "players": "1 player",
+      "time": {
+        "main": "The whole story: about 30 to 40 minutes",
+        "extra": "Story plus the other choices: about an hour",
+        "full": "Every branch: about 90 minutes",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at ncase.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -716,7 +1906,22 @@
       "genre": "horror",
       "id": "purrgatory",
       "title": "purrgatory",
-      "url": "https://nivrad00.itch.io/purrgatory"
+      "url": "https://nivrad00.itch.io/purrgatory",
+      "maker": "nivrad00",
+      "players": "1 player",
+      "time": {
+        "main": "A first clear: about 3 to 4 hours",
+        "extra": "Clear plus every soul befriended properly: about 5 hours",
+        "full": "Every ending: about 6 hours",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at nivrad00.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -724,7 +1929,22 @@
       "genre": "horror",
       "id": "lookouts",
       "title": "Lookouts",
-      "url": "https://paranoidhawk.itch.io/lookouts"
+      "url": "https://paranoidhawk.itch.io/lookouts",
+      "maker": "paranoidhawk",
+      "players": "1 player",
+      "time": {
+        "main": "The whole story: about 2 to 3 hours",
+        "extra": "Story plus the second scout's route: about 4 hours",
+        "full": "Every ending: about 5 hours",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at paranoidhawk.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -732,7 +1952,22 @@
       "genre": "horror",
       "id": "spooky-town",
       "title": "Little Troubles in Spooky Town",
-      "url": "https://kenney.itch.io/little-troubles-in-spooky-town"
+      "url": "https://kenney.itch.io/little-troubles-in-spooky-town",
+      "maker": "Kenney",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at kenney.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -740,7 +1975,22 @@
       "genre": "horror",
       "id": "dating-killmulator-2",
       "title": "Dating Killmulator 2",
-      "url": "https://coolom-games.itch.io/dating-killmulator-2"
+      "url": "https://coolom-games.itch.io/dating-killmulator-2",
+      "maker": "Coolom Games",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 30 minutes",
+        "extra": "The run plus the side rooms: about an hour all told",
+        "full": "Everything there is: about 2.5 hours all told, give or take a sitting",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at coolom-games.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -748,7 +1998,22 @@
       "genre": "cozy",
       "id": "serenitrove",
       "title": "Serenitrove",
-      "url": "https://alfredncy.itch.io/serenitrove"
+      "url": "https://alfredncy.itch.io/serenitrove",
+      "maker": "alfredncy",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at alfredncy.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -756,7 +2021,22 @@
       "genre": "cozy",
       "id": "townscaper",
       "title": "Townscaper",
-      "url": "https://oskarstalberg.com/Townscaper/"
+      "url": "https://oskarstalberg.com/Townscaper/",
+      "maker": "Oskar Stålberg",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at oskarstalberg.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -764,7 +2044,22 @@
       "genre": "cozy",
       "id": "six-cats-under",
       "title": "Six Cats Under",
-      "url": "https://teambeanloop.itch.io/six-cats-under"
+      "url": "https://teambeanloop.itch.io/six-cats-under",
+      "maker": "Team Bean Loop",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at teambeanloop.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -772,7 +2067,22 @@
       "genre": "cozy",
       "id": "goodbye-doggy",
       "title": "goodbye, doggy",
-      "url": "https://picogram.itch.io/goodbye-doggy"
+      "url": "https://picogram.itch.io/goodbye-doggy",
+      "maker": "Picogram",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at picogram.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse / keyboard",
@@ -780,7 +2090,22 @@
       "genre": "cozy",
       "id": "tale-of-crowns",
       "title": "A Tale of Crowns",
-      "url": "https://qeresi.itch.io/a-tale-of-crowns"
+      "url": "https://qeresi.itch.io/a-tale-of-crowns",
+      "maker": "qeresi",
+      "players": "1 player",
+      "time": {
+        "main": "The chapters so far: about 3 to 4 hours",
+        "extra": "Chapters plus the other court routes: about 6 hours",
+        "full": "Everything published: the crown is still being written",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at qeresi.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Arrows / WASD",
@@ -788,7 +2113,22 @@
       "genre": "cozy",
       "id": "slow-roads",
       "title": "Slow Roads",
-      "url": "https://slowroads.io/"
+      "url": "https://slowroads.io/",
+      "maker": "Anslo",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at slowroads.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "controls": "Mouse",
@@ -796,7 +2136,22 @@
       "genre": "cozy",
       "id": "fallen-london",
       "title": "Fallen London",
-      "url": "https://www.fallenlondon.com/"
+      "url": "https://www.fallenlondon.com/",
+      "maker": "Failbetter Games",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 25 minutes of actions",
+        "extra": "A storyline followed to its end: weeks of sittings",
+        "full": "Everything: London has been accumulating for fifteen years; nobody has finished it",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.fallenlondon.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "paper-io",
@@ -808,6 +2163,21 @@
       "tags": [
         "party",
         "arena"
+      ],
+      "maker": "Voodoo",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at paper-io.com",
+          "shelved": true
+        }
       ]
     },
     {
@@ -816,7 +2186,22 @@
       "url": "https://www.crazygames.com/game/slope",
       "genre": "action",
       "controls": "Arrow keys / A-D",
-      "description": "Steer a ball down an endless neon slope at breakneck speed. One wrong twitch and the run is over."
+      "description": "Steer a ball down an endless neon slope at breakneck speed. One wrong twitch and the run is over.",
+      "maker": "Rob Kay",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.crazygames.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "moto-x3m",
@@ -824,7 +2209,22 @@
       "url": "https://www.crazygames.com/game/moto-x3m",
       "genre": "action",
       "controls": "Arrow keys",
-      "description": "Flip a dirt bike over 22 stunt tracks packed with explosives. Land the backflip or eat the ramp."
+      "description": "Flip a dirt bike over 22 stunt tracks packed with explosives. Land the backflip or eat the ramp.",
+      "maker": "Madpuffers",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.crazygames.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "tetris-official",
@@ -832,7 +2232,22 @@
       "url": "https://www.tetris.com/play-tetris",
       "genre": "puzzle",
       "controls": "Keyboard (customizable)",
-      "description": "The official free Tetris in your browser. Marathon, sprint and daily challenges on the real deal."
+      "description": "The official free Tetris in your browser. Marathon, sprint and daily challenges on the real deal.",
+      "maker": "The Tetris Company",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser edition",
+          "note": "Tetris at its own page, the build Mash shelves",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "seterra",
@@ -840,7 +2255,22 @@
       "url": "https://www.seterra.com/",
       "genre": "puzzle",
       "controls": "Mouse / touch",
-      "description": "Geography quizzes with 400+ map challenges. You'll learn every capital by accident."
+      "description": "Geography quizzes with 400+ map challenges. You'll learn every capital by accident.",
+      "maker": "Seterra",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.seterra.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "zero-hh1",
@@ -848,7 +2278,22 @@
       "url": "https://0hh1.com/",
       "genre": "puzzle",
       "controls": "Mouse / touch",
-      "description": "A tiny perfect logic puzzle: fill the grid red or blue, no three in a row. Fresh puzzles every day."
+      "description": "A tiny perfect logic puzzle: fill the grid red or blue, no three in a row. Fresh puzzles every day.",
+      "maker": "Q42",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at 0hh1.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "clumsy-bird",
@@ -856,7 +2301,22 @@
       "url": "https://ellisonleao.github.io/clumsy-bird/",
       "genre": "action",
       "controls": "Click / tap / spacebar",
-      "description": "The open-source Flappy Bird. Tap through the pipes, rage, repeat, and the code is right there to read."
+      "description": "The open-source Flappy Bird. Tap through the pipes, rage, repeat, and the code is right there to read.",
+      "maker": "Ellison Leão",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at ellisonleao.github.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "astray",
@@ -864,7 +2324,22 @@
       "url": "https://wwwtyro.github.io/Astray/",
       "genre": "action",
       "controls": "WASD + mouse",
-      "description": "A procedurally generated 3D maze walked in first person. Open source, quietly unsettling, different every run."
+      "description": "A procedurally generated 3D maze walked in first person. Open source, quietly unsettling, different every run.",
+      "maker": "Rye Terrell (wwwtyro)",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at wwwtyro.github.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "hexgl",
@@ -872,7 +2347,22 @@
       "url": "https://hexgl.bkcore.com/",
       "genre": "action",
       "controls": "Arrow keys / gamepad",
-      "description": "A futuristic anti-gravity racer in WebGL. Open source and still slick more than a decade later."
+      "description": "A futuristic anti-gravity racer in WebGL. Open source and still slick more than a decade later.",
+      "maker": "Thibaut Despoulain (BKcore)",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at hexgl.bkcore.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "minecraft-classic",
@@ -884,6 +2374,25 @@
       "tags": [
         "party",
         "coop"
+      ],
+      "maker": "Mojang",
+      "players": "1 or more in a shared world, online",
+      "time": {
+        "main": "One full run: about 30 minutes",
+        "extra": "The run plus the side rooms: about an hour all told",
+        "full": "Everything there is: about 2.5 hours all told, give or take a sitting",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "Minecraft (2009)",
+          "note": "The original creative-mode release, 32 blocks and no survival"
+        },
+        {
+          "name": "Minecraft Classic",
+          "note": "Mojang's free browser build, the one Mash shelves",
+          "shelved": true
+        }
       ]
     },
     {
@@ -896,6 +2405,21 @@
       "tags": [
         "party",
         "word"
+      ],
+      "maker": "Lexulous",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.lexulous.com",
+          "shelved": true
+        }
       ]
     },
     {
@@ -908,6 +2432,21 @@
       "tags": [
         "party",
         "phone"
+      ],
+      "maker": "AirConsole (N-Dream)",
+      "players": "2 or more players, phones as controllers",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.airconsole.com",
+          "shelved": true
+        }
       ]
     },
     {
@@ -920,6 +2459,21 @@
       "tags": [
         "party",
         "board"
+      ],
+      "maker": "PlayOK",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.playok.com",
+          "shelved": true
+        }
       ]
     },
     {
@@ -928,7 +2482,22 @@
       "url": "https://swarmsim.com/",
       "genre": "idle",
       "controls": "Mouse",
-      "description": "Grow a meat-eating bug swarm from a few larvae to a galaxy-devouring horde. Absurdly deep, fully open source."
+      "description": "Grow a meat-eating bug swarm from a few larvae to a galaxy-devouring horde. Absurdly deep, fully open source.",
+      "maker": "Swarm Sim",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at swarmsim.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "melvor-idle",
@@ -936,7 +2505,22 @@
       "url": "https://www.melvoridle.com/",
       "genre": "idle",
       "controls": "Mouse",
-      "description": "RuneScape-style skilling as a pure idle game. Chop, fish and fight while you do literally anything else."
+      "description": "RuneScape-style skilling as a pure idle game. Chop, fish and fight while you do literally anything else.",
+      "maker": "Malcs",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.melvoridle.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "quickdraw",
@@ -944,7 +2528,22 @@
       "url": "https://quickdraw.withgoogle.com/",
       "genre": "puzzle",
       "controls": "Mouse / touch",
-      "description": "Doodle against a neural net that guesses your drawing in 20 seconds. Humbling for actual artists."
+      "description": "Doodle against a neural net that guesses your drawing in 20 seconds. Humbling for actual artists.",
+      "maker": "Google",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 10 minutes",
+        "extra": "A long day with it: about 30 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at quickdraw.withgoogle.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "sandspiel",
@@ -952,7 +2551,22 @@
       "url": "https://sandspiel.club/",
       "genre": "cozy",
       "controls": "Mouse / touch",
-      "description": "A falling-sand toy with fire, water, plants and acid. No goals, no score, just beautiful chaos."
+      "description": "A falling-sand toy with fire, water, plants and acid. No goals, no score, just beautiful chaos.",
+      "maker": "Max Bittker",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at sandspiel.club",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "song-maker",
@@ -960,7 +2574,22 @@
       "url": "https://musiclab.chromeexperiments.com/Song-Maker/",
       "genre": "cozy",
       "controls": "Mouse / touch",
-      "description": "Google's dead-simple music maker. Paint notes on a grid, press play, share the tune."
+      "description": "Google's dead-simple music maker. Paint notes on a grid, press play, share the tune.",
+      "maker": "Google (Chrome Music Lab)",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at musiclab.chromeexperiments.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "deep-sea",
@@ -968,7 +2597,22 @@
       "url": "https://neal.fun/deep-sea/",
       "genre": "cozy",
       "controls": "Scroll",
-      "description": "Scroll from sunlit waves to the abyss, meeting real deep-sea creatures on the way down. Meditative and factual."
+      "description": "Scroll from sunlit waves to the abyss, meeting real deep-sea creatures on the way down. Meditative and factual.",
+      "maker": "Neal Agarwal",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at neal.fun",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "nested",
@@ -976,7 +2620,22 @@
       "url": "https://orteil.dashnet.org/nested",
       "genre": "cozy",
       "controls": "Mouse",
-      "description": "A universe inside a universe inside a universe, from the Cookie Clicker creator. Zoom in forever."
+      "description": "A universe inside a universe inside a universe, from the Cookie Clicker creator. Zoom in forever.",
+      "maker": "Orteil",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at orteil.dashnet.org",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "koala-max",
@@ -984,7 +2643,22 @@
       "url": "https://koalastothemax.com/",
       "genre": "puzzle",
       "controls": "Mouse",
-      "description": "Split a photo into smaller and smaller circles to reveal what's underneath. Weirdly, deeply addictive."
+      "description": "Split a photo into smaller and smaller circles to reveal what's underneath. Weirdly, deeply addictive.",
+      "maker": "Koalas to the Max",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 10 minutes",
+        "extra": "A long day with it: about 30 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at koalastothemax.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "space-elevator",
@@ -992,7 +2666,22 @@
       "url": "https://neal.fun/space-elevator/",
       "genre": "puzzle",
       "controls": "Scroll",
-      "description": "Ride a space elevator from Earth to orbit, learning real orbital physics as you climb."
+      "description": "Ride a space elevator from Earth to orbit, learning real orbital physics as you climb.",
+      "maker": "Neal Agarwal",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 10 minutes",
+        "extra": "A long day with it: about 30 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at neal.fun",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "classicreload",
@@ -1000,7 +2689,22 @@
       "url": "https://classicreload.com/",
       "genre": "retro",
       "controls": "Keyboard / mouse",
-      "description": "Hundreds of DOS-era classics playable in the browser. The 90s shareware shelf, preserved and playable."
+      "description": "Hundreds of DOS-era classics playable in the browser. The 90s shareware shelf, preserved and playable.",
+      "maker": "ClassicReload",
+      "players": "1 player, browsing a library",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The library itself",
+          "note": "A whole shelf of games under one roof",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "lexaloffle-bbs",
@@ -1008,7 +2712,22 @@
       "url": "https://www.lexaloffle.com/bbs/?cat=7",
       "genre": "retro",
       "controls": "Keyboard",
-      "description": "The PICO-8 community board: thousands of tiny games and demos that run right in your browser."
+      "description": "The PICO-8 community board: thousands of tiny games and demos that run right in your browser.",
+      "maker": "Lexaloffle",
+      "players": "1 player, browsing a library",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The library itself",
+          "note": "A whole shelf of games under one roof",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "jetpunk",
@@ -1020,6 +2739,21 @@
       "tags": [
         "party",
         "trivia"
+      ],
+      "maker": "JetPunk",
+      "players": "1 to 4 players",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.jetpunk.com",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1028,7 +2762,22 @@
       "url": "https://bippinbits.itch.io/tristram",
       "genre": "roguelike",
       "controls": "WASD / arrow keys + mouse",
-      "description": "Diablo-homage auto-battler: recruit heroes, send them into the cathedral catacombs, and spend their loot rebuilding Tristram. Made in 72 hours for Ludum Dare 55."
+      "description": "Diablo-homage auto-battler: recruit heroes, send them into the cathedral catacombs, and spend their loot rebuilding Tristram. Made in 72 hours for Ludum Dare 55.",
+      "maker": "Bippin Bits",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at bippinbits.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "die-in-the-dungeon",
@@ -1036,7 +2785,22 @@
       "url": "https://alarts.itch.io/die-in-the-dungeon",
       "genre": "roguelike",
       "controls": "Mouse",
-      "description": "A turn-based, dice-building roguelite, no cards, just dice. Guide a frog warrior through 20 floors of monsters; 4.7 stars from thousands of itch.io ratings."
+      "description": "A turn-based, dice-building roguelite, no cards, just dice. Guide a frog warrior through 20 floors of monsters; 4.7 stars from thousands of itch.io ratings.",
+      "maker": "Alarts",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 25 minutes",
+        "extra": "The run plus the side rooms: about 50 minutes all told",
+        "full": "Everything there is: about 2.1 hours all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at alarts.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "trevosa",
@@ -1044,7 +2808,22 @@
       "url": "https://jamwitch.itch.io/trevosa",
       "genre": "puzzle",
       "controls": "Mouse / keyboard",
-      "description": "A language-and-family-tree deduction mystery: search the archives, translate invented Trevosan words, and untangle seven generations of a royal dynasty."
+      "description": "A language-and-family-tree deduction mystery: search the archives, translate invented Trevosan words, and untangle seven generations of a royal dynasty.",
+      "maker": "jamwitch",
+      "players": "1 player",
+      "time": {
+        "main": "The whole archive: about 2 to 3 hours",
+        "extra": "Archive plus the margins and the second pass: about 4 hours",
+        "full": "Every entry cross-referenced: about 5 hours",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at jamwitch.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "prerolled",
@@ -1052,7 +2831,22 @@
       "url": "https://red-sauce.itch.io/prerolled",
       "genre": "idle",
       "controls": "Mouse",
-      "description": "A cozy dice-shop roguelite: craft silly dice boxes, match customer stipulations, upgrade your shop, and make rent, or the run ends."
+      "description": "A cozy dice-shop roguelite: craft silly dice boxes, match customer stipulations, upgrade your shop, and make rent, or the run ends.",
+      "maker": "Red Sauce",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at red-sauce.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "zombie-nest-gba",
@@ -1060,7 +2854,22 @@
       "url": "https://enarkz.itch.io/zombie-nest-gba",
       "genre": "roguelike",
       "controls": "Keyboard",
-      "description": "A new GBA homebrew top-down zombie roguelike (53 KB, 4 modes, 10 weapons). The itch page ships a free browser demo of the warehouse biome, and the full ROM feeds the Player/Converter."
+      "description": "A new GBA homebrew top-down zombie roguelike (53 KB, 4 modes, 10 weapons). The itch page ships a free browser demo of the warehouse biome, and the full ROM feeds the Player/Converter.",
+      "maker": "enarkz",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 25 minutes",
+        "extra": "The run plus the side rooms: about 50 minutes all told",
+        "full": "Everything there is: about 2.1 hours all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at enarkz.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "dare-to-doku",
@@ -1068,7 +2877,22 @@
       "url": "https://daretosquare.itch.io/dare-to-doku",
       "genre": "puzzle",
       "controls": "Mouse",
-      "description": "A GBA Jam 2026 homebrew: a 'star battle' logic puzzle, deduce where every player hides in grids of 4-10 across 10,000 unique levels. Playable in the browser."
+      "description": "A GBA Jam 2026 homebrew: a 'star battle' logic puzzle, deduce where every player hides in grids of 4-10 across 10,000 unique levels. Playable in the browser.",
+      "maker": "Dare to Square",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at daretosquare.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "english-brick-breaker",
@@ -1076,7 +2900,22 @@
       "url": "https://wqnlll.github.io/english-brick-breaker.html",
       "genre": "puzzle",
       "controls": "Mouse / keyboard",
-      "description": "A brick breaker that teaches 222 English words across 8 topics. Pure vanilla JS, no accounts, no downloads: Chromebook-friendly."
+      "description": "A brick breaker that teaches 222 English words across 8 topics. Pure vanilla JS, no accounts, no downloads: Chromebook-friendly.",
+      "maker": "wqnlll",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at wqnlll.github.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "math-challenge",
@@ -1084,7 +2923,22 @@
       "url": "https://wqnlll.github.io/math-challenge.html",
       "genre": "puzzle",
       "controls": "Keyboard",
-      "description": "Timed arithmetic across 7 levels, from single-digit addition to word problems. Vanilla JS, no accounts."
+      "description": "Timed arithmetic across 7 levels, from single-digit addition to word problems. Vanilla JS, no accounts.",
+      "maker": "wqnlll",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at wqnlll.github.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "tank-battle",
@@ -1092,7 +2946,22 @@
       "url": "https://wqnlll.github.io/tank-battle.html",
       "genre": "action",
       "controls": "Keyboard",
-      "description": "Top-down tank combat in a single vanilla-JS page, no download, no account."
+      "description": "Top-down tank combat in a single vanilla-JS page, no download, no account.",
+      "maker": "wqnlll",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at wqnlll.github.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "red-alert-rts",
@@ -1100,7 +2969,22 @@
       "url": "https://wqnlll.github.io/rts.html",
       "genre": "action",
       "controls": "Mouse / keyboard",
-      "description": "A Red Alert-style RTS built lockstep in vanilla JS, with fog of war and an AI that respects it. No accounts, no installs."
+      "description": "A Red Alert-style RTS built lockstep in vanilla JS, with fog of war and an AI that respects it. No accounts, no installs.",
+      "maker": "wqnlll",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 30 minutes",
+        "extra": "The run plus the side rooms: about an hour all told",
+        "full": "Everything there is: about 2.5 hours all told, give or take a sitting",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at wqnlll.github.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "3d-plane-battle",
@@ -1108,7 +2992,22 @@
       "url": "https://wqnlll.github.io/3d-plane.html",
       "genre": "action",
       "controls": "Keyboard",
-      "description": "Three.js arcade plane combat in one static page. No accounts, no installs."
+      "description": "Three.js arcade plane combat in one static page. No accounts, no installs.",
+      "maker": "wqnlll",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at wqnlll.github.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "evolution-of-trust",
@@ -1116,7 +3015,22 @@
       "url": "https://ncase.me/trust/",
       "genre": "puzzle",
       "controls": "Mouse, click through the interactive story",
-      "description": "An interactive essay on game theory: play trust games against copycats, cheaters, and grudgers to see what cooperation is really worth."
+      "description": "An interactive essay on game theory: play trust games against copycats, cheaters, and grudgers to see what cooperation is really worth.",
+      "maker": "Nicky Case",
+      "players": "1 player",
+      "time": {
+        "main": "The whole piece: about 30 minutes",
+        "extra": "Piece plus the sandbox played properly: about an hour",
+        "full": "There is no more; it is an essay, and it ends",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at ncase.me",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "better-ballot",
@@ -1124,7 +3038,22 @@
       "url": "https://ncase.me/ballot/",
       "genre": "puzzle",
       "controls": "Mouse, run elections",
-      "description": "An interactive explainer of voting systems, run the same election under different rules and watch different winners emerge."
+      "description": "An interactive explainer of voting systems, run the same election under different rules and watch different winners emerge.",
+      "maker": "Nicky Case",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at ncase.me",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "parable-of-polygons",
@@ -1132,7 +3061,22 @@
       "url": "https://ncase.me/polygons/",
       "genre": "puzzle",
       "controls": "Mouse, drag shapes",
-      "description": "A playable parable about tiny biases and big patterns: shuffle shapes around and watch neighborhoods segregate themselves."
+      "description": "A playable parable about tiny biases and big patterns: shuffle shapes around and watch neighborhoods segregate themselves.",
+      "maker": "Vi Hart and Nicky Case",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at ncase.me",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "wisdom-madness-crowds",
@@ -1140,7 +3084,22 @@
       "url": "https://ncase.me/crowds/",
       "genre": "puzzle",
       "controls": "Mouse, place bets",
-      "description": "An interactive essay on when crowds are wise and when they are a mob, bet on guesses and watch the network think."
+      "description": "An interactive essay on when crowds are wise and when they are a mob, bet on guesses and watch the network think.",
+      "maker": "Nicky Case",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at ncase.me",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "sight-and-light",
@@ -1148,7 +3107,22 @@
       "url": "https://ncase.me/sight-and-light/",
       "genre": "puzzle",
       "controls": "Mouse, flip panels",
-      "description": "A short interactive comic about how eyes and light actually work, with little optics toys tucked into the panels."
+      "description": "A short interactive comic about how eyes and light actually work, with little optics toys tucked into the panels.",
+      "maker": "Nicky Case",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at ncase.me",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "bitburner",
@@ -1156,7 +3130,22 @@
       "url": "https://danielyxie.github.io/bitburner/",
       "genre": "idle",
       "controls": "Keyboard, type commands; mouse for menus",
-      "description": "A hacking incremental: write real JavaScript to automate servers and climb a fictional cyber-underworld. Free and open source."
+      "description": "A hacking incremental: write real JavaScript to automate servers and climb a fictional cyber-underworld. Free and open source.",
+      "maker": "Daniel Xie and contributors",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 30 minutes of scripts",
+        "extra": "The story nodes cleared: about 30 hours across sittings",
+        "full": "Everything: the scripts keep earning while you sleep; so does the game",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at danielyxie.github.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "mindustry",
@@ -1164,7 +3153,22 @@
       "url": "https://mindustrygame.github.io/",
       "genre": "action",
       "controls": "Mouse + WASD, build, pan, command",
-      "description": "Open-source factory defense: design conveyor-fed production lines, then hold them against waves. The web build runs right in your browser."
+      "description": "Open-source factory defense: design conveyor-fed production lines, then hold them against waves. The web build runs right in your browser.",
+      "maker": "Anuken",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 45 minutes of factory",
+        "extra": "The campaign's first planet cleared: about 20 hours",
+        "full": "Everything, both planets and the tech tree: about 60 hours",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at mindustrygame.github.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "shapez",
@@ -1172,7 +3176,22 @@
       "url": "https://shapez.io/",
       "genre": "puzzle",
       "controls": "Mouse, place belts and machines",
-      "description": "Design ever-more-elegant factories that cut, paint, and stack shapes into ordered chaos. Meditative automation puzzling."
+      "description": "Design ever-more-elegant factories that cut, paint, and stack shapes into ordered chaos. Meditative automation puzzling.",
+      "maker": "Tobias Springer",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 45 minutes of belt-laying",
+        "extra": "The main levels cleared: about 15 hours",
+        "full": "Everything, the full tree and free play: about 40 hours",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at shapez.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "dcss-webtiles",
@@ -1180,7 +3199,22 @@
       "url": "https://crawl.akrasiac.org/",
       "genre": "roguelike",
       "controls": "Keyboard, full keybinds; mouse for menus",
-      "description": "The legendary open-source roguelike in the browser: turn-based, brutally fair, and deep enough to lose a year to."
+      "description": "The legendary open-source roguelike in the browser: turn-based, brutally fair, and deep enough to lose a year to.",
+      "maker": "The Stone Soup team",
+      "players": "1 player",
+      "time": {
+        "main": "One run: about 45 minutes to 3 hours, ending in death or glory",
+        "extra": "A first win, when it comes: weeks of runs",
+        "full": "Everything, every species and god: measured in years, honestly",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at crawl.akrasiac.org",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "angband-live",
@@ -1188,7 +3222,22 @@
       "url": "https://angband.live/",
       "genre": "roguelike",
       "controls": "Keyboard, roguelike keybinds",
-      "description": "One of the great traditional roguelikes, live in your browser: descend a 100-level Tolkien-inspired dungeon one careful turn at a time."
+      "description": "One of the great traditional roguelikes, live in your browser: descend a 100-level Tolkien-inspired dungeon one careful turn at a time.",
+      "maker": "The Angband team",
+      "players": "1 player",
+      "time": {
+        "main": "One dive: about 45 minutes to 2 hours",
+        "extra": "A first kill of Morgoth, when it comes: weeks of dives",
+        "full": "Everything, every class and race: measured in years, honestly",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at angband.live",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "nethack-web",
@@ -1196,7 +3245,22 @@
       "url": "https://www.alt.org/nethack/",
       "genre": "roguelike",
       "controls": "Keyboard, classic keybinds",
-      "description": "NetHack in a terminal, in your browser. The 1987 classic that helped define the genre Rogue named, still undefeated, still hilarious."
+      "description": "NetHack in a terminal, in your browser. The 1987 classic that helped define the genre Rogue named, still undefeated, still hilarious.",
+      "maker": "The NetHack DevTeam",
+      "players": "1 player",
+      "time": {
+        "main": "One run: about an hour, ending the usual way",
+        "extra": "A first ascension, when it comes: months of runs",
+        "full": "Everything: players have been finishing NetHack for forty years and counting",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.alt.org",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "spelunky-classic",
@@ -1204,7 +3268,26 @@
       "url": "https://spelunkyworld.com/original.html",
       "genre": "roguelike",
       "controls": "Arrow keys to move, Z / X to act",
-      "description": "The original free Spelunky as an HTML5 port: procedural caves, shopkeepers with long memories, and glorious deaths."
+      "description": "The original free Spelunky as an HTML5 port: procedural caves, shopkeepers with long memories, and glorious deaths.",
+      "maker": "Derek Yu",
+      "players": "1 player",
+      "time": {
+        "main": "One run: minutes, ending in a spike or a shopkeeper",
+        "extra": "A first clear of the whole cave: about 10 hours of runs",
+        "full": "Everything, the City of Gold and back: about 40 hours",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "Spelunky (2008)",
+          "note": "Derek Yu's freeware original, the build Mash shelves",
+          "shelved": true
+        },
+        {
+          "name": "Spelunky HD (2013)",
+          "note": "The remake, with the daily challenge and the City of Gold run"
+        }
+      ]
     },
     {
       "id": "powder-game",
@@ -1212,7 +3295,22 @@
       "url": "https://dan-ball.jp/en/javagame/dust2/",
       "genre": "cozy",
       "controls": "Mouse, pick elements, paint",
-      "description": "A falling-sand toy: pour powder, water, fire, and acid into a sandbox and watch the physics play out."
+      "description": "A falling-sand toy: pour powder, water, fire, and acid into a sandbox and watch the physics play out.",
+      "maker": "Dan-Ball",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at dan-ball.jp",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "stick-ranger",
@@ -1220,7 +3318,22 @@
       "url": "https://dan-ball.jp/en/javagame/ranger/",
       "genre": "idle",
       "controls": "Mouse, mostly runs itself",
-      "description": "A tiny idle RPG: four stick figures march right, fighting monsters automatically while you nudge their stats. Weirdly absorbing."
+      "description": "A tiny idle RPG: four stick figures march right, fighting monsters automatically while you nudge their stats. Weirdly absorbing.",
+      "maker": "Dan-Ball",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 5 minutes",
+        "extra": "A long day with it: about 15 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at dan-ball.jp",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "flexbox-froggy",
@@ -1228,7 +3341,22 @@
       "url": "https://flexboxfroggy.com/",
       "genre": "puzzle",
       "controls": "Keyboard, write flexbox CSS",
-      "description": "Rescue frogs with flexbox: 24 gentle levels that teach CSS layout better than any tutorial."
+      "description": "Rescue frogs with flexbox: 24 gentle levels that teach CSS layout better than any tutorial.",
+      "maker": "Thomas Park",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at flexboxfroggy.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "grid-garden",
@@ -1236,7 +3364,22 @@
       "url": "https://cssgridgarden.com/",
       "genre": "puzzle",
       "controls": "Keyboard, write grid CSS",
-      "description": "Grow a garden with CSS grid: 28 levels of planting carrots that turn the grid spec into something you can see."
+      "description": "Grow a garden with CSS grid: 28 levels of planting carrots that turn the grid spec into something you can see.",
+      "maker": "Thomas Park",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at cssgridgarden.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "codingame",
@@ -1244,7 +3387,22 @@
       "url": "https://www.codingame.com/start/",
       "genre": "puzzle",
       "controls": "Keyboard, write code",
-      "description": "Coding puzzles and bot-arena battles in 25+ languages, solve solo challenges or clash your AI against other programmers'."
+      "description": "Coding puzzles and bot-arena battles in 25+ languages, solve solo challenges or clash your AI against other programmers'.",
+      "maker": "CodinGame",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.codingame.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "codecombat",
@@ -1252,7 +3410,22 @@
       "url": "https://codecombat.com/",
       "genre": "puzzle",
       "controls": "Keyboard, write code",
-      "description": "Learn to code by commanding heroes: type real Python or JavaScript to move, fight, and quest through a fantasy campaign."
+      "description": "Learn to code by commanding heroes: type real Python or JavaScript to move, fight, and quest through a fantasy campaign.",
+      "maker": "CodeCombat",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 30 minutes",
+        "extra": "The run plus the side rooms: about an hour all told",
+        "full": "Everything there is: about 2.5 hours all told, give or take a sitting",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at codecombat.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "vampire-survivors",
@@ -1260,7 +3433,22 @@
       "url": "https://poncle.itch.io/vampire-survivors",
       "genre": "roguelike",
       "controls": "WASD / arrows, move; attacks are automatic",
-      "description": "The official web demo of the bullet-heaven phenomenon: pick a build, survive the swarm, become the storm."
+      "description": "The official web demo of the bullet-heaven phenomenon: pick a build, survive the swarm, become the storm.",
+      "maker": "Poncle",
+      "players": "1 player",
+      "time": {
+        "main": "One run: 30 minutes on the clock, win or lose",
+        "extra": "Run plus the collection filled in: about 20 hours",
+        "full": "Everything, every unlock: about 100 hours and a graveyard of builds",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at poncle.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "doing-work",
@@ -1268,7 +3456,22 @@
       "url": "https://pippinbarr.com/itisasifyouweredoingwork/",
       "genre": "cozy",
       "controls": "Mouse + keyboard, do the work",
-      "description": "Pippin Barr's office parody: do fake data entry, dodge your fake boss, and feel weirdly seen. An art game about the 9-to-5."
+      "description": "Pippin Barr's office parody: do fake data entry, dodge your fake boss, and feel weirdly seen. An art game about the 9-to-5.",
+      "maker": "Pippin Barr",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at pippinbarr.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "chogue",
@@ -1276,7 +3479,22 @@
       "url": "https://pippinbarr.com/chogue/",
       "genre": "roguelike",
       "controls": "Mouse, move like chess",
-      "description": "Chess meets roguelike: every piece you capture joins your party for a dungeon crawl. Pippin Barr and Jonathan Lessard's strangest hybrid."
+      "description": "Chess meets roguelike: every piece you capture joins your party for a dungeon crawl. Pippin Barr and Jonathan Lessard's strangest hybrid.",
+      "maker": "Pippin Barr and Jonathan Lessard",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 25 minutes",
+        "extra": "The run plus the side rooms: about 50 minutes all told",
+        "full": "Everything there is: about 2.1 hours all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at pippinbarr.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "absurdle",
@@ -1284,7 +3502,22 @@
       "url": "https://qntm.org/files/absurdle/absurdle.html",
       "genre": "puzzle",
       "controls": "Keyboard, type guesses",
-      "description": "Wordle's adversarial twin: the game changes its answer to dodge your guesses as long as possible. Bring your best opener."
+      "description": "Wordle's adversarial twin: the game changes its answer to dodge your guesses as long as possible. Bring your best opener.",
+      "maker": "qntm",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at qntm.org",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "semantle",
@@ -1292,7 +3525,22 @@
       "url": "https://semantle.com/",
       "genre": "puzzle",
       "controls": "Keyboard, type guesses",
-      "description": "Guess the secret word by meaning: every guess is scored on semantic similarity, not spelling. Strangely philosophical."
+      "description": "Guess the secret word by meaning: every guess is scored on semantic similarity, not spelling. Strangely philosophical.",
+      "maker": "David Turner",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at semantle.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "waffle",
@@ -1300,7 +3548,22 @@
       "url": "https://wafflegame.net/",
       "genre": "puzzle",
       "controls": "Mouse / keyboard, swap letters",
-      "description": "A waffle-ironed word puzzle: swap letters in a grid to bake six words at once. Fifteen swaps, no more, new puzzle daily."
+      "description": "A waffle-ironed word puzzle: swap letters in a grid to bake six words at once. Fifteen swaps, no more, new puzzle daily.",
+      "maker": "Waffle",
+      "players": "1 player",
+      "time": {
+        "main": "One day's board: about 5 minutes",
+        "extra": "The streak kept: a few minutes a day, every day",
+        "full": "No finish line; a new board arrives daily and the streak is the score",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at wafflegame.net",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "contexto",
@@ -1308,7 +3571,22 @@
       "url": "https://contexto.me/",
       "genre": "puzzle",
       "controls": "Keyboard, type guesses",
-      "description": "Guess the secret word while an AI ranks every try by closeness. Unlimited guesses, infinite rabbit holes, daily word."
+      "description": "Guess the secret word while an AI ranks every try by closeness. Unlimited guesses, infinite rabbit holes, daily word.",
+      "maker": "Contexto",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at contexto.me",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "bandle",
@@ -1316,7 +3594,22 @@
       "url": "https://bandle.app/",
       "genre": "puzzle",
       "controls": "Mouse / keyboard, guess the song",
-      "description": "Name that tune from an increasingly long clip, six tries, new song every day, for people who hear in genres."
+      "description": "Name that tune from an increasingly long clip, six tries, new song every day, for people who hear in genres.",
+      "maker": "Bandle",
+      "players": "1 player",
+      "time": {
+        "main": "One day's board: about 5 minutes",
+        "extra": "The streak kept: a few minutes a day, every day",
+        "full": "No finish line; a new board arrives daily and the streak is the score",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at bandle.app",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "pointer-pointer",
@@ -1324,7 +3617,22 @@
       "url": "https://pointerpointer.com/",
       "genre": "cozy",
       "controls": "Mouse, move the pointer",
-      "description": "Move your cursor and the internet points at it, a photo always finds your pointer. Oddly delightful, every time."
+      "description": "Move your cursor and the internet points at it, a photo always finds your pointer. Oddly delightful, every time.",
+      "maker": "Studio Moniker",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at pointerpointer.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "hacker-typer",
@@ -1332,7 +3640,22 @@
       "url": "https://hackertyper.net/",
       "genre": "cozy",
       "controls": "Keyboard, mash keys",
-      "description": "Smash the keyboard and look like a movie hacker: every keystroke writes flawless exploit code. Zero skill required."
+      "description": "Smash the keyboard and look like a movie hacker: every keystroke writes flawless exploit code. Zero skill required.",
+      "maker": "Hacker Typer",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at hackertyper.net",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "doom-1993",
@@ -1340,7 +3663,26 @@
       "url": "https://archive.org/details/msdos_DOOM_1993",
       "genre": "retro",
       "controls": "Arrow keys, move; Ctrl, fire",
-      "description": "The 1993 shareware episode in the Internet Archive's DOSBox: the game that made the FPS a phenomenon, exactly as it was."
+      "description": "The 1993 shareware episode in the Internet Archive's DOSBox: the game that made the FPS a phenomenon, exactly as it was.",
+      "maker": "id Software",
+      "players": "1 player",
+      "time": {
+        "main": "The shelved shareware episode: about an hour",
+        "extra": "Episode plus the secrets: about 90 minutes",
+        "full": "All three episodes of the full game: about 4 to 5 hours",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "DOOM (1993)",
+          "note": "id Software's original release, all three episodes"
+        },
+        {
+          "name": "The shareware episode",
+          "note": "Episode one, free then and preserved now at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "oregon-trail",
@@ -1348,7 +3690,26 @@
       "url": "https://archive.org/details/msdos_Oregon_Trail_The_1990",
       "genre": "retro",
       "controls": "Keyboard, menus and hunting",
-      "description": "The 1990 DOS classic in the Archive: ford rivers, hunt buffalo, and try not to die of dysentery on the trail west."
+      "description": "The 1990 DOS classic in the Archive: ford rivers, hunt buffalo, and try not to die of dysentery on the trail west.",
+      "maker": "MECC",
+      "players": "1 player",
+      "time": {
+        "main": "One trail west: about 1 to 2 hours",
+        "extra": "Trail plus the hunting and the river calls done well: about 2 hours",
+        "full": "Every starting job, every fortune: the trail always ends in Oregon or a grave",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "prince-of-persia",
@@ -1356,7 +3717,26 @@
       "url": "https://archive.org/details/msdos_Prince_of_Persia_1990",
       "genre": "retro",
       "controls": "Arrow keys, run, jump, fight",
-      "description": "Jordan Mechner's rotoscoped classic in its 1990 DOS port (the Apple II original is 1989): sixty minutes to save the princess, one leap of faith at a time."
+      "description": "Jordan Mechner's rotoscoped classic in its 1990 DOS port (the Apple II original is 1989): sixty minutes to save the princess, one leap of faith at a time.",
+      "maker": "Jordan Mechner",
+      "players": "1 player",
+      "time": {
+        "main": "A first clear: about 2 hours, sixty minutes at a time",
+        "extra": "Clear plus the potions and the shortcut routes: about 3 hours",
+        "full": "A perfect run, no deaths: the palace in well under the hour, eventually",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "wolfenstein-3d",
@@ -1364,7 +3744,26 @@
       "url": "https://archive.org/details/msdos_Wolfenstein_3D_1992",
       "genre": "retro",
       "controls": "Arrow keys, move; Ctrl, fire",
-      "description": "The 1992 shareware episode in the Archive: id Software's maze-blaster that started it all. Achtung!"
+      "description": "The 1992 shareware episode in the Archive: id Software's maze-blaster that started it all. Achtung!",
+      "maker": "id Software",
+      "players": "1 player",
+      "time": {
+        "main": "The shelved episode: about an hour",
+        "extra": "Episode plus the secret levels: about 90 minutes",
+        "full": "All six episodes: about 5 to 6 hours",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "recoil-foundry",
@@ -1372,7 +3771,22 @@
       "url": "https://caleb-guyer.itch.io/recoil-foundry",
       "genre": "action",
       "controls": "Mouse, aim and fire; recoil moves you",
-      "description": "Build one gun whose recoil throws you across a factory. Movement IS the weapon, master the kick."
+      "description": "Build one gun whose recoil throws you across a factory. Movement IS the weapon, master the kick.",
+      "maker": "Caleb Guyer",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at caleb-guyer.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "hatchstead",
@@ -1380,7 +3794,22 @@
       "url": "https://hatchstead.onyxrefinery.co.uk/",
       "genre": "cozy",
       "controls": "Mouse, breed and manage",
-      "description": "A free browser creature-breeding sim: hatch snakes, breed new bloodlines, and grow your reptile collection. A demo of the upcoming Kickstarter game."
+      "description": "A free browser creature-breeding sim: hatch snakes, breed new bloodlines, and grow your reptile collection. A demo of the upcoming Kickstarter game.",
+      "maker": "Onyx Refinery",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at hatchstead.onyxrefinery.co.uk",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "floodlines",
@@ -1388,7 +3817,22 @@
       "url": "https://hydroengineer.itch.io/floodlines",
       "genre": "puzzle",
       "controls": "Mouse, place defenses",
-      "description": "An open-source tower defense about real floods: place levees and pumps using real rainfall data to save the town."
+      "description": "An open-source tower defense about real floods: place levees and pumps using real rainfall data to save the town.",
+      "maker": "Hydro Engineer",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at hydroengineer.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "hydro-operator",
@@ -1396,7 +3840,22 @@
       "url": "https://hydroengineer.itch.io/hydro-operator",
       "genre": "puzzle",
       "controls": "Mouse, manage flows",
-      "description": "Balance a dam in this open-source sim: juggle water levels, power demand, and flood risk like a real river operator."
+      "description": "Balance a dam in this open-source sim: juggle water levels, power demand, and flood risk like a real river operator.",
+      "maker": "Hydro Engineer",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at hydroengineer.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "skystack",
@@ -1404,7 +3863,22 @@
       "url": "https://hydroengineer.itch.io/skystack",
       "genre": "puzzle",
       "controls": "Mouse, build floors",
-      "description": "An open-source SimTower homage: stack apartments, offices, and lobbies into a skyscraper that actually works."
+      "description": "An open-source SimTower homage: stack apartments, offices, and lobbies into a skyscraper that actually works.",
+      "maker": "Hydro Engineer",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at hydroengineer.itch.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "simcity-1989",
@@ -1412,7 +3886,26 @@
       "url": "https://archive.org/details/msdos_SimCity_1989",
       "genre": "retro",
       "controls": "Mouse",
-      "description": "Zone land, lay roads, and keep the Sims happy in the city-builder that started it all: Will Wright's 1989 original, playable in the Archive's DOSBox."
+      "description": "Zone land, lay roads, and keep the Sims happy in the city-builder that started it all: Will Wright's 1989 original, playable in the Archive's DOSBox.",
+      "maker": "Maxis",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 45 minutes of zoning",
+        "extra": "A city grown to a metropolis: about 4 to 6 hours",
+        "full": "Everything: a city is never finished, only abandoned",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "lemmings-1991",
@@ -1420,7 +3913,26 @@
       "url": "https://archive.org/details/msdos_Lemmings_1991",
       "genre": "retro",
       "controls": "Mouse",
-      "description": "Guide the green-haired marchers home: assign blockers, bashers, and builders before they stroll off the cliff. DMA Design's 1991 puzzler."
+      "description": "Guide the green-haired marchers home: assign blockers, bashers, and builders before they stroll off the cliff. DMA Design's 1991 puzzler.",
+      "maker": "DMA Design",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 25 minutes of rescues",
+        "extra": "The Fun and Tricky ranks: about 5 hours",
+        "full": "All 120 levels through Mayhem: about 15 hours and some hair",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "monkey-island",
@@ -1428,7 +3940,26 @@
       "url": "https://archive.org/details/msdos_Secret_of_Monkey_Island_The_1990",
       "genre": "retro",
       "controls": "Mouse",
-      "description": "Guybrush Threepwood wants to be a pirate. Insult-sword-fight your way through Lucasfilm Games' 1990 point-and-click classic."
+      "description": "Guybrush Threepwood wants to be a pirate. Insult-sword-fight your way through Lucasfilm Games' 1990 point-and-click classic.",
+      "maker": "Lucasfilm Games",
+      "players": "1 player",
+      "time": {
+        "main": "A first run: the whole island, about 5 to 7 hours across sittings",
+        "extra": "Run plus every insult duel and grog machine: about 8 hours",
+        "full": "Everything, every joke found: about 10 hours, the Curator's count",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "duke3d-shareware",
@@ -1439,6 +3970,25 @@
       "description": "Hail to the king, baby: the shareware episode of 3D Realms' 1996 FPS: Hollywood Holocaust, free and legal, in the browser.",
       "tags": [
         "shooter"
+      ],
+      "maker": "3D Realms",
+      "players": "1 to 8 players",
+      "time": {
+        "main": "The shelved shareware episode: about an hour",
+        "extra": "Episode plus the secrets: about 90 minutes",
+        "full": "The full game's episodes: about 8 to 10 hours",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "Duke Nukem 3D (1996)",
+          "note": "3D Realms' full release, three episodes and an attitude"
+        },
+        {
+          "name": "The shareware episode",
+          "note": "L.A. Meltdown, preserved at the Internet Archive",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1447,7 +3997,26 @@
       "url": "https://archive.org/details/msdos_Zork_I_-_The_Great_Underground_Empire_1980",
       "genre": "retro",
       "controls": "Keyboard (type commands)",
-      "description": "West of house. It is pitch black. The 1980 text adventure that defined a genre, no graphics, all imagination, right in your browser."
+      "description": "West of house. It is pitch black. The 1980 text adventure that defined a genre, no graphics, all imagination, right in your browser.",
+      "maker": "Infocom",
+      "players": "1 player",
+      "time": {
+        "main": "A first descent: about 8 to 10 hours, map in hand",
+        "extra": "Descent plus the treasures hunted properly: about 12 hours",
+        "full": "Everything, all 350 points: a weekend and then some",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "civ1",
@@ -1455,7 +4024,26 @@
       "url": "https://archive.org/details/CIVILIZATION_201902",
       "genre": "retro",
       "controls": "Mouse + keyboard",
-      "description": "4000 BC to the space race: found cities, research pottery, and outlast history itself in the 1991 original 4X."
+      "description": "4000 BC to the space race: found cities, research pottery, and outlast history itself in the 1991 original 4X.",
+      "maker": "MicroProse",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about an hour of one more turn",
+        "extra": "A full campaign, stone age to spaceflight: about 4 to 6 hours",
+        "full": "Every leader, every difficulty: the game does not run out",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "alone-dark",
@@ -1463,7 +4051,26 @@
       "url": "https://archive.org/details/msdos_Alone_in_the_Dark_1992",
       "genre": "retro",
       "controls": "Keyboard",
-      "description": "The 1992 survival-horror pioneer: explore a haunted Louisiana mansion as Carnby or Emily Hartwood, tank controls and all."
+      "description": "The 1992 survival-horror pioneer: explore a haunted Louisiana mansion as Carnby or Emily Hartwood, tank controls and all.",
+      "maker": "Infogrames",
+      "players": "1 player",
+      "time": {
+        "main": "A first clear: about 5 to 6 hours",
+        "extra": "Clear plus the books read and the house learned: about 7 hours",
+        "full": "Everything in the mansion: about 8 hours",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "transport-tycoon",
@@ -1471,7 +4078,26 @@
       "url": "https://archive.org/details/msdos_Transport_Tycoon_Deluxe_1995",
       "genre": "retro",
       "controls": "Mouse",
-      "description": "Chris Sawyer's transport empire sim in its 1995 Deluxe edition (the original is 1994): lay rail, run buses, and out-profit the competition across a century."
+      "description": "Chris Sawyer's transport empire sim in its 1995 Deluxe edition (the original is 1994): lay rail, run buses, and out-profit the competition across a century.",
+      "maker": "Chris Sawyer",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about an hour of track-laying",
+        "extra": "A full century, 1930 to 2030: about 5 to 8 hours",
+        "full": "Everything: the century is the finish line, and most players start another",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "Transport Tycoon (1994)",
+          "note": "Chris Sawyer's original, a single disk of empire"
+        },
+        {
+          "name": "Transport Tycoon Deluxe (1995)",
+          "note": "The Deluxe edition the record links, preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "theme-park",
@@ -1479,7 +4105,26 @@
       "url": "https://archive.org/details/msdos_Theme_Park_1994",
       "genre": "retro",
       "controls": "Mouse",
-      "description": "Bullfrog's 1994 theme-park tycoon: set ride prices, salt the fries, and keep the queues moving."
+      "description": "Bullfrog's 1994 theme-park tycoon: set ride prices, salt the fries, and keep the queues moving.",
+      "maker": "Bullfrog",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 45 minutes of rides and prices",
+        "extra": "A park grown to the fireworks: about 4 hours",
+        "full": "Every park, every ride researched: the season never really ends",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "master-of-orion",
@@ -1487,7 +4132,26 @@
       "url": "https://archive.org/details/msdos_Master_of_Orion_1993",
       "genre": "retro",
       "controls": "Mouse + keyboard",
-      "description": "The 1993 4X that named the genre: colonize stars, design ships, and out-diplomacize the galaxy."
+      "description": "The 1993 4X that named the genre: colonize stars, design ships, and out-diplomacize the galaxy.",
+      "maker": "Simtex",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about an hour of empire",
+        "extra": "A full campaign to the vote or the war: about 4 to 6 hours",
+        "full": "Every race, every galaxy size: no natural end",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "railroad-tycoon",
@@ -1495,7 +4159,26 @@
       "url": "https://archive.org/details/railroad_tycoon_1990",
       "genre": "retro",
       "controls": "Mouse",
-      "description": "Sid Meier's 1990 railroad empire: lay track, haul freight, and bankrupt the robber barons."
+      "description": "Sid Meier's 1990 railroad empire: lay track, haul freight, and bankrupt the robber barons.",
+      "maker": "MicroProse",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 45 minutes",
+        "extra": "The run plus the side rooms: about 90 minutes all told",
+        "full": "Everything there is: about 3.8 hours all told, give or take a sitting",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "quake-shareware",
@@ -1506,6 +4189,25 @@
       "description": "id Software's 1996 true-3D shooter: the shareware episode with the nailgun, free and legal in your browser.",
       "tags": [
         "shooter"
+      ],
+      "maker": "id Software",
+      "players": "1 to 8 players",
+      "time": {
+        "main": "The shelved shareware episode: about an hour",
+        "extra": "Episode plus the secrets: about 90 minutes",
+        "full": "The full game's four episodes: about 5 to 6 hours",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "Quake (1996)",
+          "note": "id Software's original release, four episodes"
+        },
+        {
+          "name": "The shareware episode",
+          "note": "Episode one, preserved at the Internet Archive",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1514,7 +4216,26 @@
       "url": "https://archive.org/details/SimCity2000",
       "genre": "retro",
       "controls": "Mouse",
-      "description": "The 1993 sequel with arcologies, newspapers, and underground plumbing, the definitive 90s city builder, in DOSBox."
+      "description": "The 1993 sequel with arcologies, newspapers, and underground plumbing, the definitive 90s city builder, in DOSBox.",
+      "maker": "Maxis",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 45 minutes of zoning",
+        "extra": "A city grown to a metropolis: about 5 to 7 hours",
+        "full": "Everything: a city is never finished, only abandoned",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "oregon-trail-deluxe",
@@ -1522,7 +4243,26 @@
       "url": "https://archive.org/details/msdos_Oregon_Trail_Deluxe_The_1992",
       "genre": "retro",
       "controls": "Keyboard + mouse",
-      "description": "The 1992 deluxe edition of the classroom classic: hunt, ford rivers, and mind the dysentery on the trail west."
+      "description": "The 1992 deluxe edition of the classroom classic: hunt, ford rivers, and mind the dysentery on the trail west.",
+      "maker": "MECC",
+      "players": "1 player",
+      "time": {
+        "main": "One trail west: about 1 to 2 hours",
+        "extra": "Trail plus the hunting and the river calls done well: about 2 hours",
+        "full": "Every starting job, every fortune: the trail always ends in Oregon or a grave",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The Oregon Trail (1990)",
+          "note": "MECC's DOS edition, the classroom standard"
+        },
+        {
+          "name": "The Oregon Trail Deluxe (1992)",
+          "note": "The Deluxe edition the record links, preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "commander-keen3",
@@ -1530,7 +4270,26 @@
       "url": "https://archive.org/details/msdos_Commander_Keen_3_-_Keen_Must_Die_1990",
       "genre": "retro",
       "controls": "Arrow keys + Ctrl/Space",
-      "description": "Billy Blaze's 1990 pogo-stick platforming finale to the Invasion of the Vorticons trilogy, id's shareware-era charmer."
+      "description": "Billy Blaze's 1990 pogo-stick platforming finale to the Invasion of the Vorticons trilogy, id's shareware-era charmer.",
+      "maker": "id Software",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "keen-dreams",
@@ -1538,7 +4297,26 @@
       "url": "https://archive.org/details/msdos_Commander_Keen_-_Keen_Dreams_1993",
       "genre": "retro",
       "controls": "Arrow keys + Ctrl/Space",
-      "description": "The lost Keen episode: battle vegetable tyrants with flower-power pellets in id's 1991 fever dream."
+      "description": "The lost Keen episode: battle vegetable tyrants with flower-power pellets in id's 1991 fever dream.",
+      "maker": "id Software",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "space-invaders",
@@ -1549,6 +4327,25 @@
       "description": "Taito's 1978 quarter-muncher: four notes of bass, one descending armada, and the birth of the high score.",
       "tags": [
         "shooter"
+      ],
+      "maker": "Taito",
+      "players": "1 to 2 players",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1557,7 +4354,26 @@
       "url": "https://archive.org/details/arcade_digdug",
       "genre": "retro",
       "controls": "Arrow keys / buttons",
-      "description": "Namco's 1982 digger: tunnel through the dirt, pump up Pookas, and drop rocks on Fygars."
+      "description": "Namco's 1982 digger: tunnel through the dirt, pump up Pookas, and drop rocks on Fygars.",
+      "maker": "Namco",
+      "players": "1 to 2 players, alternating",
+      "time": {
+        "main": "One sitting: about 10 minutes",
+        "extra": "A long day with it: about 30 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "joust",
@@ -1565,7 +4381,26 @@
       "url": "https://archive.org/details/arcade_joust",
       "genre": "retro",
       "controls": "Buttons (flap)",
-      "description": "Williams' 1982 ostrich jousting: flap higher than the rival knights and lance them out of the sky."
+      "description": "Williams' 1982 ostrich jousting: flap higher than the rival knights and lance them out of the sky.",
+      "maker": "Williams",
+      "players": "1 to 2 players, alternating",
+      "time": {
+        "main": "One sitting: about 10 minutes",
+        "extra": "A long day with it: about 30 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "centipede",
@@ -1576,6 +4411,25 @@
       "description": "Atari's 1981 shooter: blast the descending centipede through a mushroom field before it reaches you.",
       "tags": [
         "shooter"
+      ],
+      "maker": "Atari",
+      "players": "1 to 2 players",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1587,6 +4441,25 @@
       "description": "Atari's 1980 Cold War nightmare: defend six cities with three batteries. The end is not a matter of if.",
       "tags": [
         "shooter"
+      ],
+      "maker": "Atari",
+      "players": "1 to 2 players",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1598,6 +4471,25 @@
       "description": "Williams' 1981 rescue shooter: the hardest game of the golden age, save the humanoids, mind the hyperspace.",
       "tags": [
         "shooter"
+      ],
+      "maker": "Williams",
+      "players": "1 to 2 players",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1606,7 +4498,26 @@
       "url": "https://archive.org/details/arcade_qbert",
       "genre": "retro",
       "controls": "Arrow keys (diagonal)",
-      "description": "Gottlieb's 1982 cube-hopper: change every tile's color, dodge Coily, and mind the @!#?@! swearing."
+      "description": "Gottlieb's 1982 cube-hopper: change every tile's color, dodge Coily, and mind the @!#?@! swearing.",
+      "maker": "Gottlieb",
+      "players": "1 to 2 players, alternating",
+      "time": {
+        "main": "One sitting: about 10 minutes",
+        "extra": "A long day with it: about 30 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "tempest",
@@ -1617,6 +4528,25 @@
       "description": "Atari's 1981 vector shooter: Dave Theurer's neon tube-blaster, the first game with a selectable starting level.",
       "tags": [
         "shooter"
+      ],
+      "maker": "Atari",
+      "players": "1 to 2 players",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1629,6 +4559,25 @@
       "tags": [
         "shooter",
         "arena"
+      ],
+      "maker": "Williams",
+      "players": "1 to 2 players",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1640,6 +4589,25 @@
       "description": "Capcom's 1984 vertical shooter: loop-de-loop over the Pacific in the first of the 19XX series.",
       "tags": [
         "shooter"
+      ],
+      "maker": "Capcom",
+      "players": "1 to 2 players",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1651,6 +4619,25 @@
       "description": "Namco's 1987 sequel: the dive-bombing classic with triple-ship power-ups and branching warp zones.",
       "tags": [
         "shooter"
+      ],
+      "maker": "Namco",
+      "players": "1 to 2 players",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1659,7 +4646,26 @@
       "url": "https://archive.org/details/arcade_20pacgal",
       "genre": "retro",
       "controls": "Arrow keys / buttons",
-      "description": "The 2000 arcade reunion cabinet: Ms. Pac-Man and Galaga, class of 1981, together in one anniversary machine."
+      "description": "The 2000 arcade reunion cabinet: Ms. Pac-Man and Galaga, class of 1981, together in one anniversary machine.",
+      "maker": "Namco",
+      "players": "1 to 2 players, alternating",
+      "time": {
+        "main": "One sitting: about 10 minutes",
+        "extra": "A long day with it: about 30 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "bubble-bobble-2",
@@ -1670,6 +4676,25 @@
       "description": "Taito's 1994 co-op bubble-blower: trap monsters in bubbles with a friend, in the sequel to the arcade sweetheart.",
       "tags": [
         "coop"
+      ],
+      "maker": "Taito",
+      "players": "1 to 2 players",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1678,7 +4703,26 @@
       "url": "https://archive.org/details/arcade_sfa2",
       "genre": "retro",
       "controls": "Arrows + buttons",
-      "description": "Capcom's 1996 fighter: the Alpha series at its peak, air-blocking, custom combos, and anime-styled sprites."
+      "description": "Capcom's 1996 fighter: the Alpha series at its peak, air-blocking, custom combos, and anime-styled sprites.",
+      "maker": "Capcom",
+      "players": "1 to 2 players",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "congo-bongo",
@@ -1686,7 +4730,26 @@
       "url": "https://archive.org/details/arcade_congo",
       "genre": "retro",
       "controls": "Arrow keys",
-      "description": "Sega's 1983 isometric platformer: climb, dodge, and outwit the ape in the isometric rival to Donkey Kong."
+      "description": "Sega's 1983 isometric platformer: climb, dodge, and outwit the ape in the isometric rival to Donkey Kong.",
+      "maker": "Sega",
+      "players": "1 to 2 players, alternating",
+      "time": {
+        "main": "One sitting: about 10 minutes",
+        "extra": "A long day with it: about 30 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The original release",
+          "note": "The game's first form, as its record names it"
+        },
+        {
+          "name": "The preserved build",
+          "note": "Preserved at the Internet Archive",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "fancy-pants-1",
@@ -1694,7 +4757,22 @@
       "url": "https://archive.org/details/fpaworld-1-07a_202204",
       "genre": "action",
       "controls": "Arrow keys",
-      "description": "Brad Borne's 2006 stick-figure platformer: the smoothest Flash run-and-slide ever, preserved on the Archive via Ruffle."
+      "description": "Brad Borne's 2006 stick-figure platformer: the smoothest Flash run-and-slide ever, preserved on the Archive via Ruffle.",
+      "maker": "Brad Borne",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The Flash original",
+          "note": "Preserved at the Internet Archive, running under Ruffle",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "alien-hominid-flash",
@@ -1705,6 +4783,25 @@
       "description": "Tom Fulp and Dan Paladin's 2002 run-and-gun: the little yellow alien's Newgrounds debut, preserved via Ruffle.",
       "tags": [
         "shooter"
+      ],
+      "maker": "Tom Fulp and Dan Paladin",
+      "players": "1 to 8 players",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "Alien Hominid (2002)",
+          "note": "The Flash original on Newgrounds, preserved at the Internet Archive under Ruffle",
+          "shelved": true
+        },
+        {
+          "name": "Alien Hominid HD (2004)",
+          "note": "The console remake, the same alien with a bigger budget"
+        }
       ]
     },
     {
@@ -1713,7 +4810,22 @@
       "url": "https://archive.org/details/dadnme",
       "genre": "action",
       "controls": "Arrow keys + A/S",
-      "description": "Tom Fulp and Dan Paladin's 2005 beat-em-up: a dad, his kid, and a city full of punks: Flash brawling at its finest, via Ruffle."
+      "description": "Tom Fulp and Dan Paladin's 2005 beat-em-up: a dad, his kid, and a city full of punks: Flash brawling at its finest, via Ruffle.",
+      "maker": "Tom Fulp and Dan Paladin",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The Flash original",
+          "note": "Preserved at the Internet Archive, running under Ruffle",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "achievement-unlocked",
@@ -1721,7 +4833,22 @@
       "url": "https://archive.org/details/achievementflash",
       "genre": "action",
       "controls": "Arrow keys",
-      "description": "John Cooney's 2008 metagame: a tiny platformer about unlocking 100 achievements for doing literally everything."
+      "description": "John Cooney's 2008 metagame: a tiny platformer about unlocking 100 achievements for doing literally everything.",
+      "maker": "John Cooney (jmtb02)",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The Flash original",
+          "note": "Preserved at the Internet Archive, running under Ruffle",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "time-fcuk",
@@ -1729,7 +4856,22 @@
       "url": "https://archive.org/details/time-fcuk",
       "genre": "puzzle",
       "controls": "Arrow keys + Z",
-      "description": "Edmund McMillen's 2009 puzzle-platformer: a box, a time mechanic, and an ending you'll argue about, preserved via Ruffle."
+      "description": "Edmund McMillen's 2009 puzzle-platformer: a box, a time mechanic, and an ending you'll argue about, preserved via Ruffle.",
+      "maker": "Edmund McMillen",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 10 minutes",
+        "extra": "The run plus the side rooms: about 20 minutes all told",
+        "full": "Everything there is: about 50 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The Flash original",
+          "note": "Preserved at the Internet Archive, running under Ruffle",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "run-3",
@@ -1737,7 +4879,22 @@
       "url": "https://www.player03.com/run/3/",
       "genre": "action",
       "controls": "Arrow keys / WASD",
-      "description": "Player03's endless tunnel-runner: sprint through collapsing space tunnels in the series' official web version."
+      "description": "Player03's endless tunnel-runner: sprint through collapsing space tunnels in the series' official web version.",
+      "maker": "Player 03",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.player03.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "subway-surfers",
@@ -1745,7 +4902,22 @@
       "url": "https://poki.com/en/g/subway-surfers",
       "genre": "action",
       "controls": "Arrow keys / swipe",
-      "description": "SYBO's endless runner, officially on Poki: dodge trains, grab coins, and outrun the inspector."
+      "description": "SYBO's endless runner, officially on Poki: dodge trains, grab coins, and outrun the inspector.",
+      "maker": "SYBO",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at poki.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "stickman-hook",
@@ -1753,7 +4925,22 @@
       "url": "https://poki.com/en/g/stickman-hook",
       "genre": "action",
       "controls": "Click / tap",
-      "description": "Madbox's one-button grappler: swing the stickman through 100+ bouncy levels, officially on Poki."
+      "description": "Madbox's one-button grappler: swing the stickman through 100+ bouncy levels, officially on Poki.",
+      "maker": "Madbox",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at poki.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "arras-io",
@@ -1765,6 +4952,21 @@
       "tags": [
         "shooter",
         "arena"
+      ],
+      "maker": "Arras.io",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at arras.io",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1773,7 +4975,22 @@
       "url": "https://hole-io.com/",
       "genre": "action",
       "controls": "Mouse / drag",
-      "description": "Voodoo's city-swallowing arcade: grow your black hole from manhole to metropolis in two minutes."
+      "description": "Voodoo's city-swallowing arcade: grow your black hole from manhole to metropolis in two minutes.",
+      "maker": "Voodoo",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 15 minutes",
+        "extra": "A long day with it: about 45 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at hole-io.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "tanki",
@@ -1785,6 +5002,21 @@
       "tags": [
         "shooter",
         "arena"
+      ],
+      "maker": "Alternativa Games",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at tankionline.com",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1796,6 +5028,21 @@
       "description": "Eat, evolve, survive: climb the food chain from mouse to dragon in this multiplayer survival arena.",
       "tags": [
         "arena"
+      ],
+      "maker": "Mope.io",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at mope.io",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1807,6 +5054,21 @@
       "description": "Pirate battle royale: grab doubloons, grow your crew, and be the last pirate standing.",
       "tags": [
         "arena"
+      ],
+      "maker": "YoHoHo.io",
+      "players": "1 against a full arena, online",
+      "time": {
+        "main": "One sitting: about 20 minutes",
+        "extra": "A long day with it: about an hour across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.yohoho.io",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1818,6 +5080,21 @@
       "description": "Scopely's official web version: 32-player obstacle-course chaos, right in the browser.",
       "tags": [
         "party"
+      ],
+      "maker": "Kitka Games",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.stumbleguys.com",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1829,6 +5106,21 @@
       "description": "The open-source Minecraft Classic revival: build together on multiplayer servers with the free web client.",
       "tags": [
         "coop"
+      ],
+      "maker": "The ClassiCube team",
+      "players": "2 or more players, online",
+      "time": {
+        "main": "One full run: about 15 minutes",
+        "extra": "The run plus the side rooms: about 30 minutes all told",
+        "full": "Everything there is: about 75 minutes all told, give or take a sitting",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.classicube.net",
+          "shelved": true
+        }
       ]
     },
     {
@@ -1837,7 +5129,22 @@
       "url": "https://pseudo-corp.github.io/SynergismOfficial/",
       "genre": "idle",
       "controls": "Mouse",
-      "description": "Pseudo-Corp's open-source incremental: prestige through dimensions of numbers in the genre's deepest rabbit hole."
+      "description": "Pseudo-Corp's open-source incremental: prestige through dimensions of numbers in the genre's deepest rabbit hole.",
+      "maker": "Pseudo-Corp",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 5 minutes",
+        "extra": "A long day with it: about 15 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at pseudo-corp.github.io",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "realm-grinder",
@@ -1845,7 +5152,22 @@
       "url": "https://www.kongregate.com/games/divinegames/realm-grinder",
       "genre": "idle",
       "controls": "Mouse",
-      "description": "Divine Games' fantasy idle RPG: align with factions, cast spells, and abdicate your way to exponential gold, officially on Kongregate."
+      "description": "Divine Games' fantasy idle RPG: align with factions, cast spells, and abdicate your way to exponential gold, officially on Kongregate.",
+      "maker": "Divine Games",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 5 minutes",
+        "extra": "A long day with it: about 15 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.kongregate.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "adventure-capitalist",
@@ -1853,7 +5175,22 @@
       "url": "https://www.kongregate.com/games/HyperHippoGames/adventure-capitalist",
       "genre": "idle",
       "controls": "Mouse",
-      "description": "Hyper Hippo's capitalist clicker: lemonade stands to moon shoes, the idle game that ate 2014, officially on Kongregate."
+      "description": "Hyper Hippo's capitalist clicker: lemonade stands to moon shoes, the idle game that ate 2014, officially on Kongregate.",
+      "maker": "Hyper Hippo",
+      "players": "1 player",
+      "time": {
+        "main": "One sitting: about 5 minutes",
+        "extra": "A long day with it: about 15 minutes across sittings",
+        "full": "No finish line; the score, the streak, or the build is the point",
+        "signal": "typical"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.kongregate.com",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "tatham-puzzles",
@@ -1861,7 +5198,22 @@
       "url": "https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/",
       "genre": "puzzle",
       "controls": "Mouse",
-      "description": "40+ hand-crafted logic puzzles (Loopy, Mines, Net, Map...) as official JavaScript builds, the puzzle collection other collections wish they were."
+      "description": "40+ hand-crafted logic puzzles (Loopy, Mines, Net, Map...) as official JavaScript builds, the puzzle collection other collections wish they were.",
+      "maker": "Simon Tatham",
+      "players": "1 player",
+      "time": {
+        "main": "One full run: about 20 minutes",
+        "extra": "The run plus the side rooms: about 40 minutes all told",
+        "full": "Everything there is: about 100 minutes all told, give or take a sitting",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at www.chiark.greenend.org.uk",
+          "shelved": true
+        }
+      ]
     },
     {
       "id": "sort-the-court",
@@ -1869,7 +5221,22 @@
       "url": "https://graebor.itch.io/sort-the-court",
       "genre": "puzzle",
       "controls": "Mouse",
-      "description": "Graebor's royal decision game: answer yes or no to your subjects and keep the kingdom (and treasury) alive."
+      "description": "Graebor's royal decision game: answer yes or no to your subjects and keep the kingdom (and treasury) alive.",
+      "maker": "Graeme Borland",
+      "players": "1 player",
+      "time": {
+        "main": "One reign: about 20 minutes",
+        "extra": "Reign plus the castle fully grown: about an hour",
+        "full": "Every ending of the reign: about 2 hours of yes and no",
+        "signal": "pinned"
+      },
+      "editions": [
+        {
+          "name": "The official browser build",
+          "note": "Served from the maker's own page at graebor.itch.io",
+          "shelved": true
+        }
+      ]
     }
   ],
   "generated_at": "2026-10-11T00:00:00Z",

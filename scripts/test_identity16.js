@@ -286,16 +286,16 @@ async function waitScrollY(page, min, timeout) {
   {
     const { page, errors } = await newPage(browser);
     await page.goto(BASE + "/collections.html", { waitUntil: "networkidle2", timeout: 60000 });
-    await page.waitForSelector(".collection-card", { timeout: 15000 });
+    await page.waitForSelector(".collection-credits", { timeout: 15000 });
     await sleep(400);
     const s = await page.evaluate(() => ({
-      cards: document.querySelectorAll(".collection-card").length,
-      ids: document.querySelectorAll(".collection-card[id^='shelf-']").length,
+      cards: document.querySelectorAll(".collection-credits").length,
+      ids: document.querySelectorAll(".collection-credits[id^='shelf-']").length,
       jumpLinks: document.querySelectorAll("#shelf-jump a").length,
       copyBtns: document.querySelectorAll(".shelf-link").length,
       fxToggle: !!document.getElementById("fx-toggle"),
     }));
-    check("16.31 24 shelf cards with anchor ids", s.cards === 24 && s.ids === 24, s.ids + " anchored");
+    check("16.31 24 shelf sections with anchor ids", s.cards === 24 && s.ids === 24, s.ids + " anchored");
     check("16.32 jump nav has 24 links", s.jumpLinks === 24, s.jumpLinks + " links");
     check("16.33 per-shelf copy buttons", s.copyBtns === 24, s.copyBtns + " buttons");
     check("16.34 FX toggle on collections", s.fxToggle, "injected");
@@ -310,7 +310,7 @@ async function waitScrollY(page, min, timeout) {
   {
     const { page, errors } = await newPage(browser);
     await page.goto(BASE + "/collections.html#shelf-party-night", { waitUntil: "networkidle2", timeout: 60000 });
-    await page.waitForSelector(".collection-card", { timeout: 15000 });
+    await page.waitForSelector(".collection-credits", { timeout: 15000 });
     await waitScrollY(page, 200);
     const y = await page.evaluate(() => window.scrollY);
     check("16.37 deep link scrolls to shelf", y > 200, "scrollY=" + Math.round(y));

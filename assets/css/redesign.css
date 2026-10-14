@@ -309,6 +309,16 @@ a.nav-cta:active { transform: translateY(2px); box-shadow: 0 1px 0 #a1124e; }
 }
 .shelf-section .section-head h2 { font-size: 1.02rem; }
 
+/* The season, stated in prose at the shelf's head (rotation 22). */
+.season-line {
+  max-width: 68ch;
+  margin: 0.4rem 0 1.1rem;
+  color: var(--ink-dim);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.season-line strong { color: var(--ink); }
+
 /* Cards: one face, one genre colour per card. The genre
    strip returns as discipline: a single 3px top edge in
    that genre's own neon, and the tag tinted to match. */
@@ -324,6 +334,55 @@ a.nav-cta:active { transform: translateY(2px); box-shadow: 0 1px 0 #a1124e; }
   border-color: var(--edge-bright); box-shadow: 0 16px 38px rgba(0, 0, 0, 0.55), 0 0 22px rgba(0, 229, 255, 0.10);
 }
 .game-card h3 { padding-right: 2rem; }
+
+/* The shelved edition's number, printed in every listing (rotation 22). */
+.edition-tag {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+  color: var(--neon-cyan);
+}
+
+/* ---- Collection indexes as credits lists (rotation 22) ----
+   One column of shelves; each shelf is a heading, a line of prose,
+   its progress strip, and the credits: title and maker inline.
+   No card grid anywhere a collection is listed. */
+.credits-stack { display: grid; gap: 2.75rem; }
+
+.collection-credits { scroll-margin-top: 7rem; max-width: 72ch; }
+.collection-credits h3 { margin: 0.4rem 0 0.3rem; }
+
+.credits-top {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.6rem; flex-wrap: wrap;
+}
+
+.credits-intro { color: var(--ink-dim); margin: 0 0 0.4rem; }
+
+.credits-list {
+  list-style: none;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  border-top: 2px solid var(--edge);
+}
+
+.credit-line {
+  padding: 0.5rem 0.1rem;
+  border-bottom: 1px solid var(--line, rgba(255, 255, 255, 0.12));
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+
+.credit-title { font-weight: 700; color: var(--ink); text-decoration: none; }
+.credit-title:hover { color: var(--neon-cyan); text-decoration: underline; }
+
+.credit-maker { color: var(--ink-dim); }
+
+.credit-edition {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  color: var(--neon-cyan);
+}
 .game-card h3 a:hover { color: #fff; text-decoration: underline; text-decoration-color: var(--accent); }
 .game-card:has(.genre-puzzle) { --card-art: var(--neon-cyan); }
 .game-card:has(.genre-action) { --card-art: var(--neon-pink); }

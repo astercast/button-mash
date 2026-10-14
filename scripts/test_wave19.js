@@ -86,11 +86,14 @@ function stubEnvelopes() {
       const facts = await page.evaluate(() => ({
         title: document.title,
         kicker: document.querySelector(".game-hero-section .kicker").textContent,
-        desc: document.querySelector(".game-hero-section .lede").textContent.slice(0, 40),
-        controls: document.querySelector(".game-controls").textContent,
+        // Rotation 22: the description leads The Loop on the machine
+        // page; the controls are stated in the spec list.
+        loopClaim: document.querySelector(".machine-claim .claim-headline") ?
+          document.querySelectorAll(".machine-claim .claim-headline")[1].textContent : "",
+        specText: document.querySelector(".spec-list") ? document.querySelector(".spec-list").textContent : "",
         playHref: document.querySelector(".play-btn").href,
         playTarget: document.querySelector(".play-btn").target,
-        playText: document.querySelector(".play-btn").textContent,
+        outbound: Array.from(document.querySelectorAll("#main a")).filter((a) => a.href === "https://tetr.io/").length,
         badge: document.querySelector("#detail-badge").textContent,
         badgeState: document.querySelector("#detail-badge").dataset.apiState,
         badgeRole: document.querySelector("#detail-badge").getAttribute("role"),
@@ -98,10 +101,10 @@ function stubEnvelopes() {
       check("detail: title + document title", facts.title === "TETR.IO: Button Mash", facts.title);
       check("detail: kicker carries the game id", facts.kicker === "GAME FILE // TETRIO", facts.kicker);
       check("detail: real description + controls",
-        facts.desc.includes("Blisteringly fast") && facts.controls.includes("Keyboard (customizable)"), "static catalog data");
-      check("detail: play button is the verified external URL",
-        facts.playHref === "https://tetr.io/" && facts.playTarget === "_blank" && facts.playText.includes("tetr.io"),
-        facts.playHref + " " + facts.playTarget + " / " + facts.playText);
+        facts.loopClaim.includes("Blisteringly fast") && facts.specText.includes("Keyboard (customizable)"), "machine page data");
+      check("detail: play is on-site, no outbound play link (house rule 2026-10-14)",
+        facts.playHref.endsWith("/player.html") && facts.playTarget !== "_blank" && facts.outbound === 0,
+        facts.playHref + " " + facts.playTarget + " / outbound=" + facts.outbound);
       check("detail: badge falls back to cached over file://",
         facts.badgeState === "cached" && facts.badge.includes("cached") && facts.badgeRole === "status",
         facts.badgeState + " / " + facts.badge);
