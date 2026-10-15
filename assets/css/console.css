@@ -3,10 +3,10 @@
    hairlines, one signal accent, mono readouts. */
 
 /* ---------- Page head ---------- */
-.page-head { padding-top: clamp(30px, 5vw, 58px); max-width: 760px; }
+.page-head { padding-top: clamp(22px, 3.6vw, 40px); max-width: 760px; }
 .page-head h1 {
-  font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem);
-  letter-spacing: -0.03em; line-height: 1.05; margin-top: 14px; text-wrap: balance;
+  font-family: var(--font-display); font-size: clamp(1.7rem, 4vw, 2.5rem);
+  letter-spacing: -0.03em; line-height: 1.06; margin-top: 12px; text-wrap: balance;
 }
 .page-head h1 .accent { color: var(--signal); }
 .page-head .lede { margin-top: 16px; }
@@ -14,10 +14,10 @@
 
 /* ---------- Console shell ---------- */
 .console-shell {
-  margin-top: clamp(26px, 4vw, 40px);
-  border: 1px solid var(--line-strong); border-radius: var(--r-xl);
-  background: linear-gradient(180deg, var(--surface-2), var(--surface));
-  padding: clamp(10px, 1.6vw, 16px);
+  margin-top: clamp(20px, 3vw, 30px);
+  border: 1px solid var(--line-strong); border-radius: 20px;
+  background: var(--surface);
+  padding: clamp(10px, 1.4vw, 14px);
   view-transition-name: stage-screen;
 }
 .console-bar {
@@ -40,9 +40,9 @@
 }
 
 .ejs-stage {
-  position: relative; border-radius: calc(var(--r-xl) - 8px);
+  position: relative; border-radius: 14px;
   background: var(--screen); overflow: hidden;
-  aspect-ratio: 16 / 10.4;
+  aspect-ratio: 16 / 11;
   transition: box-shadow var(--t-med);
 }
 .ejs-stage.dragging { box-shadow: inset 0 0 0 2px var(--signal); }
@@ -76,11 +76,18 @@
 .drop-veil {
   position: absolute; inset: 0; z-index: 6;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 13px; text-align: center; padding: 28px;
-  background: radial-gradient(90% 90% at 50% 0%, rgba(191, 247, 71, 0.05), transparent 60%);
+  gap: 10px; text-align: center; padding: 20px;
   overflow-y: auto;
 }
-.drop-veil h2 { font-family: var(--font-display); font-size: clamp(1.3rem, 3vw, 1.8rem); letter-spacing: -0.02em; }
+/* Secondary intakes sit in a quieter tier under the primary act:
+   system override, URL, BIOS. Same controls, lower voice. */
+.veil-more {
+  display: grid; gap: 8px; justify-items: center;
+  width: min(580px, 100%);
+  border-top: 1px dashed var(--line); padding-top: 10px; margin-top: 2px;
+}
+.veil-note { font-size: var(--type-micro); color: var(--ink-dim); }
+.drop-veil h2 { font-family: var(--font-display); font-size: clamp(1.2rem, 2.6vw, 1.5rem); letter-spacing: -0.02em; }
 .drop-veil p { color: var(--ink-dim); font-size: var(--type-small); max-width: 520px; }
 .drop-veil p strong { color: var(--ink-2); }
 .file-input-row, .url-row {
@@ -181,7 +188,7 @@ legend { font-size: var(--type-small); font-weight: 600; padding: 0 7px; }
 
 /* dialog */
 dialog {
-  border: 1px solid var(--line-strong); border-radius: var(--r-xl);
+  border: 1px solid var(--line-strong); border-radius: 20px;
   background: var(--surface); color: var(--ink);
   padding: 0; max-width: min(560px, 92vw); width: 100%;
 }
@@ -202,7 +209,7 @@ dialog::backdrop { background: rgba(3, 4, 6, 0.72); backdrop-filter: blur(4px); 
 
 /* DOS room bits */
 .dos-screen {
-  position: relative; border-radius: calc(var(--r-xl) - 8px);
+  position: relative; border-radius: 14px;
   background: var(--screen); overflow: hidden; aspect-ratio: 16 / 10.4;
   display: grid; place-items: center;
 }

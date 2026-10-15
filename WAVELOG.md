@@ -2,6 +2,25 @@
 
 Running record of build waves. Newest first.
 
+## Professional rework — 2026-10-15 — The Darkroom: the apparatus is the page (user fleet-wide order, same day)
+
+Presentation only; every converter engine, route, and JS contract
+untouched. The three-line kinetic headline and the aurora glow are
+gone: a compact nameplate (title, one-line promise, an IN / READ /
+OUT facts rail in mono) now stands over a wider, flatter stage, and
+the whole screen fits the first viewport on desktop and phone
+(measured: screen y 305–884 at 1440×900; at base it spanned
+597–1164). Result cards are restyled as a receipt ledger docked
+under the screen; coverage reads as a ruled spec plate; the steps
+and terms are ruled sections, not card bands. The Player's console
+rises under a two-line lede, and its secondary intakes (system
+override, URL, BIOS) sit in a quiet dashed tier under the primary
+Choose file(s) act. Ground is flat graphite throughout: no glow,
+no grain; the only light is state. Proof: build.py OK,
+test_portplay 103/0, test_converter12 65/0, in-browser conversion
+and boot re-exercised end to end. Landing record:
+`~/workspace/fleet-ops/wave-engine/landing-portplay-pro-rework-2026-10-15.md`.
+
 ## Rebrand — 2026-10-15 — PORTPLAY: converter-only total rebuild (user order 01:57 PDT)
 
 The site stops being a gaming library and becomes one product: the

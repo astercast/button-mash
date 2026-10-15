@@ -42,7 +42,7 @@
     <div class="page-head">
       <p class="kicker">The full console</p>
       <h1>The Player. <span class="accent">Your file, the whole console.</span></h1>
-      <p class="lede">The stage plays a game in seconds. The Player is where a game gets the full treatment: named save slots, per-system control remapping, cheats, display options, your own BIOS for the two systems that need one. Same rule as everywhere on PortPlay: <strong>your file is read on this device and never uploaded.</strong> DOS games have their own room, <a href="dos.html">the DOS room</a>, and a file no browser can run gets a plain answer and <a href="guide.html">the guide</a>, never a guess.</p>
+      <p class="lede">Named save slots, per-system control remapping, cheats, display options, your own BIOS for the two systems that need one. <strong>Your file is read on this device and never uploaded.</strong> DOS games have their own room, <a href="dos.html">the DOS room</a>; a file no browser can run gets a plain answer and <a href="guide.html">the guide</a>, never a guess.</p>
     </div>
 
     <div class="console-shell" id="console-shell">
@@ -60,18 +60,23 @@
           <div class="file-input-row">
             <button class="btn" id="browse-btn" type="button">Choose file(s)</button>
             <input type="file" id="rom-file" class="sr-only" tabindex="-1" multiple aria-label="Choose a game file, or several files for a disc set">
-            <label for="system-select" class="sr-only">System (auto-detect by default)</label>
-            <select id="system-select" aria-label="System override">
-              <option value="auto">Auto-detect system</option>
-            </select>
           </div>
-          <div class="url-row">
-            <input type="url" id="rom-url" placeholder="Or paste a direct file URL (the host must allow it)" aria-label="Direct file URL">
-            <button class="btn btn-ghost btn-small" id="load-url-btn" type="button">Load URL</button>
-          </div>
-          <div class="file-input-row">
-            <label for="bios-file" style="font-size:.85rem;color:var(--ink-dim)">BIOS file (only for PlayStation / Sega CD, dumped from your own hardware):</label>
-            <input type="file" id="bios-file" aria-label="BIOS file (PlayStation or Sega CD only)">
+          <div class="veil-more">
+            <div class="file-input-row">
+              <label for="system-select" class="veil-note">System</label>
+              <select id="system-select" aria-label="System override">
+                <option value="auto">Auto-detect system</option>
+              </select>
+              <span class="veil-note">Auto-detect reads the file itself and is right almost every time.</span>
+            </div>
+            <div class="url-row">
+              <input type="url" id="rom-url" placeholder="Or paste a direct file URL (the host must allow it)" aria-label="Direct file URL">
+              <button class="btn btn-ghost btn-small" id="load-url-btn" type="button">Load URL</button>
+            </div>
+            <div class="file-input-row">
+              <label for="bios-file" class="veil-note">BIOS file (only for PlayStation / Sega CD, dumped from your own hardware):</label>
+              <input type="file" id="bios-file" aria-label="BIOS file (PlayStation or Sega CD only)">
+            </div>
           </div>
           <p id="veil-error" role="alert"></p>
         </div>
