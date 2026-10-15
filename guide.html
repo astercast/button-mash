@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Guide · PortPlay</title>
+<meta name="description" content="For the games a browser cannot convert: native emulation, decompilation, recompilation, and source ports, using your own copy throughout. Plus how to dump your own games.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Guide · PortPlay">
+<meta property="og:description" content="The converter's other half: the working paths for the systems no browser can run, and step one for all of them, your own files.">
+<meta property="og:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://button-mash-live.vercel.app/guide.html">
+<meta name="theme-color" content="#080908">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/sora-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/console.css">
+<link rel="stylesheet" href="assets/css/guide.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to the guide</a>
+
+<header class="topbar">
+  <div class="shell topbar-in">
+    <a class="wordmark" href="index.html" aria-label="PortPlay home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2.5" y="2.5" width="27" height="27" rx="8.5" fill="none" stroke="#bff747" stroke-width="2.4"/><path d="M13 10.8v10.4c0 .9 1 1.5 1.8 1L24 16.9a1.15 1.15 0 0 0 0-2L14.8 9.9c-.8-.5-1.8.1-1.8.9z" fill="#bff747"/></svg>
+      <span class="wordmark-name">Port<em>Play</em></span>
+    </a>
+    <nav class="topnav" aria-label="Primary">
+      <a href="index.html">Converter</a>
+      <a href="player.html">Player</a>
+      <a href="dos.html">DOS</a>
+      <a href="guide.html" aria-current="page">Guide</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="shell">
+    <div class="page-head">
+      <p class="kicker">The converter's other half</p>
+      <h1>The games a browser <span class="accent">cannot convert.</span></h1>
+      <p class="lede">Some games cannot become browser games today, and PortPlay will not pretend otherwise. For every system the converter has to decline, here is the working path: native emulation, decompilation, recompilation, or a source port, using <strong>your own copy</strong> throughout. Legal lane, always: dump your own media, from hardware you own, with your own tools. Never download game files, BIOS, or firmware; every project named here ships without the game, and you feed it yours.</p>
+      <nav class="guide-nav" aria-label="Guide sections">
+        <a class="chip" href="#paths">The four paths</a>
+        <a class="chip" href="#systems">Find your system</a>
+        <a class="chip" href="#dump">Dump your own games</a>
+        <a class="chip" href="#recompilation">Recompilation</a>
+      </nav>
+    </div>
+
+    <div class="guide-body">
+      <h2 id="paths">Four paths, plainly told</h2>
+      <p>A graceful, specific no, with a working path attached, is worth more than a vague maybe. Every path below starts from the same place: a game you own, dumped by you. Emulators, decompilers, and recompilers are legal tools. The game files, and the BIOS and firmware inside your consoles, are yours to extract and nobody else's to give you.</p>
+      <div class="path-grid">
+        <article class="path-card">
+          <h3>Path A: native emulation</h3>
+          <p>The game runs inside an emulator program on your computer. Not browser play, but for the big systems it is excellent today: PCSX2 for PlayStation 2, Dolphin for GameCube and Wii, RPCS3 for PlayStation 3, xemu for the original Xbox, Xenia for Xbox 360. Each keeps a compatibility list; check your game before you invest an evening, because per-game support varies more than any project's marketing admits.</p>
+        </article>
+        <article class="path-card">
+          <h3>Path B: matching decompilation</h3>
+          <p>A community rebuilds the game's source code by hand, function by function, until compiling their code produces bytes identical to the original. A finished decompilation is portable source, but two honest facts apply: the repos contain no game assets, so building one requires your original disc or cartridge, which the build verifies; and a finished decomp is not a finished port, somebody still writes the renderer, inputs, and platform code. Progress lives at decomp.dev.</p>
+        </article>
+        <article class="path-card" id="recompilation">
+          <h3>Path C: static recompilation</h3>
+          <p>A tool translates the game's machine code into C automatically, ahead of time, and a small runtime stands in for the console. It is newer and far faster than hand decompilation, and it produced the most impressive ports of the last few years: Zelda 64: Recompiled for Majora's Mask in 2024, and Unleashed Recompiled, a native PC port of the Xbox 360 Sonic Unleashed, in 2025. A recompiled game is ordinary C, so it can in principle be compiled to WebAssembly; today the ports target native first.</p>
+        </article>
+        <article class="path-card">
+          <h3>Path D: source ports and engine recreations</h3>
+          <p>The oldest path. Some engines were open-sourced by their makers, id Software's Doom and Quake are the famous ones, and communities have rebuilt hundreds of others. The engine is new; the levels, art, and music still come from your copy. ScummVM is the friendliest example: point it at a folder of your adventure game's files and it simply runs them. Many of these ports have web builds, one title at a time, which is where most real PC-games-in-a-browser actually come from.</p>
+        </article>
+      </div>
+
+      <h2 id="systems">Find your system</h2>
+
+      <div class="sys-row" id="ps2">
+        <h3>PlayStation 2 <span class="tone">Guide only</span></h3>
+        <p>No browser engine plays the PS2 library today. The one browser build that exists drops whole classes of games, and the emulator that plays the library properly, <a href="https://pcsx2.net" target="_blank" rel="noopener">PCSX2</a>, has no web version.</p>
+        <p>Install PCSX2 on your computer, dump the BIOS from your own PlayStation 2, load this disc image, and play. Your saves live in PCSX2 memory cards you control.</p>
+      </div>
+
+      <div class="sys-row" id="gamecube">
+        <h3>GameCube <span class="tone">Guide only</span></h3>
+        <p><a href="https://dolphin-emu.org" target="_blank" rel="noopener">Dolphin</a>, the GameCube and Wii emulator, has no browser build; the one WebAssembly prototype is a single-game research demo. On a computer, Dolphin plays GameCube games beautifully, many better than the original hardware did.</p>
+        <p>Your file is already in a format Dolphin reads (.iso, .gcm, .rvz, and .wbfs all work). Any gamepad works; a GameCube controller adapter works too.</p>
+      </div>
+
+      <div class="sys-row" id="wii">
+        <h3>Wii <span class="tone">Guide only</span></h3>
+        <p>Beyond the missing browser engine, Wii games expect a Wii Remote: pointer aim and motion have no honest equivalent in a browser tab. Dolphin on a computer handles both, emulated with a mouse and pad, or with a real Wii Remote over Bluetooth.</p>
+        <p>Load your disc image (.iso, .rvz, .wbfs) and map the remote, or pair a real one.</p>
+      </div>
+
+      <div class="sys-row" id="ps3">
+        <h3>PlayStation 3 <span class="tone">Guide only</span></h3>
+        <p>The PS3 chip is a PowerPC core welded to eight co-processors; RPCS3 asks for a strong desktop CPU and a modern graphics card even running natively. A browser tab is not close, and this site will not pretend otherwise.</p>
+        <p>Install RPCS3 on a desktop computer (a mid laptop will frustrate), install the PS3 system software from the update file for your own console, and check your game on the RPCS3 compatibility list first.</p>
+      </div>
+
+      <div class="sys-row" id="xbox">
+        <h3>Xbox (original) <span class="tone">Guide only</span></h3>
+        <p>The Xbox emulator xemu is a full PC-class machine emulator with no browser build anywhere. It also needs two small files dumped from your own Xbox, which is exactly the kind of thing this guide exists to walk through.</p>
+        <p>Install xemu, dump the MCPX boot ROM and BIOS from your own Xbox, convert your disc dump to XISO format, and check the xemu compatibility list; about the popular half of the library plays well.</p>
+      </div>
+
+      <div class="sys-row" id="xbox360">
+        <h3>Xbox 360 <span class="tone">Guide only</span></h3>
+        <p>Xenia, the 360 emulator, is native-only and needs a modern CPU and graphics card. The interesting exception: a few 360 games have been statically recompiled into native PC ports, Sonic Unleashed among them, and those ports are the best way those games exist anywhere.</p>
+        <p>Install Xenia on a Windows computer with a Vulkan-capable graphics card and load your own dumped disc image or install folder. If your game has a Recompiled release, use that instead; <a href="#recompilation">Path C</a> explains how to find out.</p>
+      </div>
+
+      <div class="sys-row" id="switch">
+        <h3>Nintendo Switch <span class="tone">Guide only</span></h3>
+        <p>This one is a matter of care, not just power, and the exception is deliberate, not an oversight. The Switch emulators were shut down under legal action in 2024, and pointing you at what replaced them would put you and this site at risk. This guide carries no Switch emulator walkthrough.</p>
+        <p>Your games play on the hardware you own. What PortPlay can honestly help with is preservation: back up your saves from your own console so a lost machine is not a lost library, and keep cartridges and receipts; a cared-for collection outlives every storefront.</p>
+      </div>
+
+      <div class="sys-row" id="psp">
+        <h3>PSP <span class="tone">On the bench</span></h3>
+        <p>PSP in the browser exists as an experimental core, and PortPlay does not ship experiments under a promise. The native emulator <a href="https://www.ppsspp.org" target="_blank" rel="noopener">PPSSPP</a> is excellent, runs on almost anything, and needs no BIOS; it carries its own replacement firmware.</p>
+        <p>Install PPSSPP on your computer or phone and load this file; it reads .iso, .cso, and .pbp dumps of your own UMDs and purchases.</p>
+      </div>
+
+      <div class="sys-row" id="saturn">
+        <h3>Sega Saturn <span class="tone">On the bench</span></h3>
+        <p>Saturn emulation is real in browser cores, but it is the first system where "your game may run slowly" has to be said out loud, and it needs a BIOS dumped from your own Saturn.</p>
+        <p>Native path today: RetroArch with the Beetle Saturn core, or Yabause for lighter machines. CHD is the kindest format for Saturn discs if you convert your dumps on your computer.</p>
+      </div>
+
+      <div class="sys-row" id="dreamcast">
+        <h3>Dreamcast <span class="tone">On the bench</span></h3>
+        <p>The Dreamcast emulator Flycast is strong natively, but its browser build is the unstable end of the spectrum, so it waits here rather than shipping wobbly. Flycast can even boot through a built-in replacement BIOS when you have no dump handy.</p>
+        <p>Install Flycast and load this file; it reads .gdi, .cdi, .cue, and .chd dumps of your own discs. A BIOS from your own Dreamcast improves compatibility but is optional.</p>
+      </div>
+
+      <h2 id="dump">Start at the beginning: your own files</h2>
+      <p>Whichever path your game takes, step one is the same: get your game off its disc or cartridge and onto your computer, legally.</p>
+      <ul>
+        <li><strong>Cartridges:</strong> a USB cartridge reader (the Retrode and GBxCart RW class of tools) reads the ROM and, just as important, the save file inside your cartridge. Insert your cart, read, verify the size looks sane, and keep the dump with the cartridge's name.</li>
+        <li><strong>Discs:</strong> many consoles' discs read in an ordinary PC drive with the right software; the Redump project's guides are the reference pattern for clean, verifiable rips. Some systems need the console itself or a specific drive; when a decline card names a dumping step, that is the step that matters.</li>
+        <li><strong>Console files and saves:</strong> BIOS, firmware, and saves come off your own console, by its own backup tools or a softmod; never by download. A save backed up is a library that survives dead hardware.</li>
+        <li><strong>PC games:</strong> an installed folder from your own machine usually is the game; copy it whole, executables and data together, and it is ready for the DOS room or a source port.</li>
+      </ul>
+      <p>A note on freshness: decompilation percentages and emulator statuses drift monthly. Figures in this guide carry their date (October 2026); the live trackers, decomp.dev for decompilation progress and each emulator's own compatibility list, are the authority. A stale figure here is a bug, not a cosmetic issue, and this page gets a regular pass.</p>
+      <p><a href="index.html">Back to the converter</a> · <a href="player.html">Open the Player</a></p>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="shell footer-in">
+    <span>PortPlay converts and plays game files you supply.</span>
+    <nav aria-label="Footer">
+      <a href="index.html">Converter</a>
+      <a href="player.html">Player</a>
+      <a href="dos.html">DOS</a>
+      <a href="guide.html">Guide</a>
+    </nav>
+    <p class="fineprint">PortPlay hosts no games, sells no games, and links to no game downloads. The guide names emulator projects for your own copies; it links to no game files, BIOS, or firmware.</p>
+  </div>
+</footer>
+
+<script src="assets/js/config.js"></script>
+</body>
+</html>

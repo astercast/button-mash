@@ -1,4 +1,4 @@
-/* Button Mash Converter 4.0, shared DOM helpers: the decline card
+/* PortPlay converter, shared DOM helpers: the decline card
    (a graceful, specific "no" is a designed output of the converter,
    dossier section 3.3) and the DOS-corner handoff (files staged in
    IndexedDB so a drop on one page can boot on another without an
@@ -18,7 +18,7 @@
     var card = el('article', 'decline-card');
     card.setAttribute('role', 'note');
     card.appendChild(el('p', 'decline-kicker',
-      det.tone === 'not-yet' ? 'Converter 4.0 · an honest not-yet' : 'Converter 4.0 · an honest no'));
+      det.tone === 'not-yet' ? 'PortPlay · an honest not-yet' : 'PortPlay · an honest no'));
     if (fileName) card.appendChild(el('p', 'decline-file', fileName));
     card.appendChild(el('h3', 'decline-head', det.headline));
     card.appendChild(el('p', 'decline-body', det.body));
@@ -28,14 +28,14 @@
       card.appendChild(ol);
     }
     var row = el('p', 'decline-links');
-    var g = el('a', 'btn btn-primary btn-sm', det.guideLabel || 'Read the guide');
-    g.href = det.guide || 'guides/reverse-engineering.html';
+    var g = el('a', 'btn btn-small', det.guideLabel || 'Read the guide');
+    g.href = det.guide || 'guide.html';
     row.appendChild(g);
-    var hub = el('a', 'btn btn-ghost btn-sm', 'Guide hub');
-    hub.href = 'guides/reverse-engineering.html';
+    var hub = el('a', 'btn btn-ghost btn-small', 'The guide');
+    hub.href = 'guide.html';
     row.appendChild(hub);
-    var dump = el('a', 'btn btn-ghost btn-sm', 'Dump your own games');
-    dump.href = 'guides/re-dump-your-games.html';
+    var dump = el('a', 'btn btn-ghost btn-small', 'Dump your own games');
+    dump.href = 'guide.html#dump';
     row.appendChild(dump);
     card.appendChild(row);
     if (det.via) card.appendChild(el('p', 'decline-via', 'How we know: ' + det.via + '. Your file was read on this device only and never uploaded.'));

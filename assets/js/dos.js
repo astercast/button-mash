@@ -173,13 +173,13 @@
         li.appendChild(info);
         var acts = document.createElement('span'); acts.className = 'slot-actions';
         var play = document.createElement('button');
-        play.type = 'button'; play.className = 'btn btn-ghost btn-sm'; play.textContent = '▶ Play';
+        play.type = 'button'; play.className = 'btn btn-ghost btn-small'; play.textContent = 'Play';
         play.addEventListener('click', function () {
           bundleBlob = g.blob; bundleName = g.name; bundleId = g.id;
           runBundle();
         });
         var del = document.createElement('button');
-        del.type = 'button'; del.className = 'btn btn-ghost btn-sm'; del.textContent = 'Delete';
+        del.type = 'button'; del.className = 'btn btn-ghost btn-small'; del.textContent = 'Delete';
         del.addEventListener('click', function () { window.BMLibrary.deleteGame(g.id).then(renderBundles); });
         acts.appendChild(play); acts.appendChild(del);
         li.appendChild(acts);

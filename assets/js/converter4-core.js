@@ -1,4 +1,4 @@
-/* Button Mash Converter 4.0, core logic (UMD: browser + node).
+/* PortPlay converter core logic (UMD: browser + node).
    Pure, DOM-free functions for the Rotation 23 build:
    - content-hash game identity (dossier section 3.6)
    - content-first file detection + the detect-and-decline table
@@ -261,70 +261,70 @@
       headline: 'That is a PlayStation 2 game, and a browser cannot run it yet.',
       body: 'No browser engine plays the PS2 library today. The one browser build that exists drops whole classes of games, and the emulator that plays the library properly, PCSX2, has no web version. Your game is not stuck, it just plays on a computer instead of in a tab.',
       steps: ['Install PCSX2 on your computer (free, Windows, Mac and Linux).', 'Dump the BIOS from your own PlayStation 2, the dumping guide walks it.', 'Load this disc image and play. Your save files live in PCSX2 memory cards you control.'],
-      guide: 'guides/reverse-engineering.html', guideLabel: 'Read the path in the guide'
+      guide: 'guide.html', guideLabel: 'Read the path in the guide'
     },
     gamecube: {
       system: 'GameCube', tone: 'guide-only',
       headline: 'That is a GameCube game, and it plays natively, not in a tab.',
       body: 'Dolphin, the GameCube and Wii emulator, has no browser build. The one WebAssembly prototype is a single-game research demo, not a way to play your library. On a computer, Dolphin plays GameCube games beautifully, many of them better than the original hardware did.',
       steps: ['Install Dolphin on your computer.', 'This file is already in a format Dolphin reads (.iso, .gcm, .rvz and .wbfs all work).', 'Any gamepad works; a GameCube controller adapter works too.'],
-      guide: 'guides/reverse-engineering.html', guideLabel: 'Read the path in the guide'
+      guide: 'guide.html', guideLabel: 'Read the path in the guide'
     },
     wii: {
       system: 'Wii', tone: 'guide-only',
       headline: 'That is a Wii game, and it plays natively, not in a tab.',
       body: 'Beyond the missing browser engine, Wii games expect a Wii Remote: pointer aim and motion have no honest equivalent in a browser tab. Dolphin on a computer handles both, emulated with a mouse and pad, or with a real Wii Remote over Bluetooth.',
       steps: ['Install Dolphin on your computer.', 'Load this disc image; Dolphin reads .iso, .rvz and .wbfs.', 'Map the Wii Remote to your mouse and pad, or pair a real one over Bluetooth.'],
-      guide: 'guides/reverse-engineering.html', guideLabel: 'Read the path in the guide'
+      guide: 'guide.html', guideLabel: 'Read the path in the guide'
     },
     ps3: {
       system: 'PlayStation 3', tone: 'guide-only',
       headline: 'That is a PlayStation 3 game, and no browser can run it.',
       body: 'The PS3 chip is a PowerPC core welded to eight co-processors; the working emulator, RPCS3, asks for a strong desktop CPU and a modern graphics card even before it runs natively. A browser tab is not close, and this site will not pretend otherwise.',
       steps: ['Install RPCS3 on a desktop computer (a mid laptop will frustrate; the guide says why).', 'Install the PS3 system software from the update file for your own console.', 'Check your game on the RPCS3 compatibility list before you invest an evening.'],
-      guide: 'guides/reverse-engineering.html', guideLabel: 'Read the path in the guide'
+      guide: 'guide.html', guideLabel: 'Read the path in the guide'
     },
     xbox: {
       system: 'Xbox (original)', tone: 'guide-only',
       headline: 'That is an original Xbox game, and it plays natively, not in a tab.',
       body: 'The Xbox emulator xemu is a full PC-class machine emulator with no browser build anywhere. It also needs two small files dumped from your own Xbox, which is exactly the kind of thing the guide exists to walk through.',
       steps: ['Install xemu on your computer.', 'Dump the MCPX boot ROM and BIOS from your own Xbox, and convert your disc dump to XISO format.', 'Check your game on the xemu compatibility list; about the popular half of the library plays well.'],
-      guide: 'guides/reverse-engineering.html', guideLabel: 'Read the path in the guide'
+      guide: 'guide.html', guideLabel: 'Read the path in the guide'
     },
     xbox360: {
       system: 'Xbox 360', tone: 'guide-only',
       headline: 'That is an Xbox 360 game, and no browser can run it.',
       body: 'Xenia, the 360 emulator, is native-only and needs a modern CPU and graphics card to transpile a triple-core PowerPC in real time. The interesting exception: a few 360 games have been statically recompiled into native PC ports, Sonic Unleashed among them, and those ports are the best way those games exist anywhere.',
       steps: ['Install Xenia on a Windows computer with a Vulkan-capable graphics card.', 'Load your own dumped disc image or install folder.', 'If your game has a Recompiled release, use that instead; the recompilation guide explains how to find out.'],
-      guide: 'guides/re-recompilation.html', guideLabel: 'Read the recompilation guide'
+      guide: 'guide.html#recompilation', guideLabel: 'Read the recompilation guide'
     },
     switch: {
       system: 'Nintendo Switch', tone: 'guide-only',
       headline: 'That is a Switch game, and it stays on your Switch.',
-      body: 'This one is a matter of care, not just power. The Switch emulators were shut down under legal action in 2024, and pointing you at what replaced them would put you and this site at risk. Your games play on the hardware you own; what Button Mash can honestly help with is keeping your saves and your collection safe.',
+      body: 'This one is a matter of care, not just power. The Switch emulators were shut down under legal action in 2024, and pointing you at what replaced them would put you and this site at risk. Your games play on the hardware you own; what PortPlay can honestly help with is keeping your saves and your collection safe.',
       steps: ['Play it on your Switch; that is the whole path, stated plainly.', 'Back up your saves from your own console so a lost machine is not a lost library.', 'Keep cartridges and receipts; a cared-for collection outlives every storefront.'],
-      guide: 'guides/reverse-engineering.html', guideLabel: 'Read the preservation notes'
+      guide: 'guide.html#switch', guideLabel: 'Read the preservation notes'
     },
     psp: {
       system: 'PSP', tone: 'not-yet',
       headline: 'That is a PSP game. It is on the bench, not on the shelf yet.',
-      body: 'PSP in the browser exists as an experimental core, and Converter 4.0 does not ship experiments under a promise. The native emulator PPSSPP is excellent, runs on almost anything, and needs no BIOS: PPSSPP carries its own replacement firmware.',
-      steps: ['Install PPSSPP on your computer or phone.', 'Load this file; PPSSPP reads .iso, .cso and .pbp dumps of your own UMDs and purchases.', 'Watch this space: PSP joins the Player as a labelled experiment in a later rotation.'],
-      guide: 'guides/reverse-engineering.html', guideLabel: 'Read more in the guide hub'
+      body: 'PSP in the browser exists as an experimental core, and PortPlay does not ship experiments under a promise. The native emulator PPSSPP is excellent, runs on almost anything, and needs no BIOS: PPSSPP carries its own replacement firmware.',
+      steps: ['Install PPSSPP on your computer or phone.', 'Load this file; PPSSPP reads .iso, .cso and .pbp dumps of your own UMDs and purchases.', 'Watch this space: PSP joins the player as a labelled experiment in a later build.'],
+      guide: 'guide.html', guideLabel: 'Read more in the guide'
     },
     saturn: {
       system: 'Sega Saturn', tone: 'not-yet',
       headline: 'That is a Sega Saturn game. It is on the bench, not on the shelf yet.',
-      body: 'Saturn emulation is real in browser cores, but it is the first system where "your game may run slowly" has to be said out loud, and it needs a BIOS dumped from your own Saturn. Converter 4.0 ships it as a labelled beta in a later rotation rather than overselling it now.',
+      body: 'Saturn emulation is real in browser cores, but it is the first system where "your game may run slowly" has to be said out loud, and it needs a BIOS dumped from your own Saturn. PortPlay ships it as a labelled beta in a later build rather than overselling it now.',
       steps: ['Native path today: RetroArch with the Beetle Saturn core, or Yabause for lighter machines.', 'Dump your Saturn BIOS from your own console; the dumping guide covers the pattern.', 'CHD is the kindest format for Saturn discs if you convert your dumps on your computer.'],
-      guide: 'guides/reverse-engineering.html', guideLabel: 'Read more in the guide hub'
+      guide: 'guide.html', guideLabel: 'Read more in the guide'
     },
     dreamcast: {
       system: 'Dreamcast', tone: 'not-yet',
       headline: 'That is a Dreamcast game. It is on the bench, not on the shelf yet.',
       body: 'The Dreamcast emulator Flycast is strong natively, but its browser build is the unstable end of the spectrum, so it waits here rather than shipping wobbly. Flycast can even boot through a built-in replacement BIOS when you have no dump handy.',
       steps: ['Install Flycast on your computer.', 'Load this file; Flycast reads .gdi, .cdi, .cue and .chd dumps of your own discs.', 'A BIOS dumped from your own Dreamcast improves compatibility but is optional.'],
-      guide: 'guides/reverse-engineering.html', guideLabel: 'Read more in the guide hub'
+      guide: 'guide.html', guideLabel: 'Read more in the guide'
     }
   };
 
@@ -482,7 +482,7 @@
     var file = parts.pop();
     var dir = parts.join('/');
     var lines = [
-      '# Button Mash DOS corner bundle. Built in your browser from',
+      '# PortPlay DOS bundle. Built in your browser from',
       '# your own files; nothing was uploaded. Edit freely, this is',
       '# a standard dosbox.conf.',
       '[sdl]',

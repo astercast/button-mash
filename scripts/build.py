@@ -1,785 +1,267 @@
 #!/usr/bin/env python3
-"""Build Button Mash: validate data, regenerate data/v1 + llms.txt + sitemap.
+"""PortPlay build + validation.
 
-Usage: python3 scripts/build.py
-Prints BUILD OK with counts, or exits non-zero listing validation errors.
+The site is five pages: index.html (the Stage), player.html (the Console),
+dos.html (the DOS room), guide.html, 404.html. This script:
 
-Steps:
-  1. Validate data/*.json (structural checks + schema-shaped fields).
-  2. Domain audit: every game URL must be https on a sane domain; every
-     external link in guide HTML must be on the allowlist (game domains +
-     verified reference domains). New game domains must be curl-verified
-     (HTTP 200) before being added, see WAVELOG wave 2.
-  3. Regenerate data/v1 (scripts/build_api.py) and llms.txt/llms-full.txt/sitemap.xml
-     (scripts/build_site.py).
+  1. Verifies the required files exist.
+  2. Generates data/v1/coverage.json by PARSING the converter engines
+     (converter-core.js PROFILES, converter4-core.js PLAY_EXTS + DECLINES),
+     so the coverage rendered on the Stage is exactly the coverage the code
+     routes — never a second, hand-written list that can drift.
+  3. Verifies every decline's guide anchor exists in guide.html.
+  4. Scans the served files for external links and fails on any host outside
+     the allowlist (no invented domains, no game-download links, ever).
+  5. Regenerates sitemap.xml and llms.txt.
+
+Deterministic: same inputs, same outputs (timestamp-free).
 """
-import html
 import json
 import re
-import subprocess
 import sys
 from pathlib import Path
-from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA = ROOT / "data"
 
-# Reference domains allowed in guide bodies / emulator records (verified live 2026-10-11
-# or official project homes).
-REFERENCE_DOMAINS = {
-    "github.com", "emulatorjs.org", "cdn.emulatorjs.org", "demo.emulatorjs.org",
-    "retroarch.com", "www.retroarch.com", "mgba.io", "sameboy.github.io", "mesen.ca", "duckstation.org",
-    "pcsx2.net", "ppsspp.org", "www.ppsspp.org", "www.duckstation.org", "dolphin-emu.org",
-    "pdroms.de", "nesdev.com", "gbdev.io", "gamebrew.org",
-    "archive.org", "tuxemon.org", "lfkdsk.github.io",
-    "epilogue.co", "retrode.com", "gog.com",
-    "retroachievements.org", "opengameart.org",
-    "n64.dev", "psx.dev", "psxdev.net",
-    "docs.libretro.com", "www.coranac.com", "hh.gbdev.io",
-    "datomatic.no-intro.org", "no-intro.org",
-    "www.redump.org", "redump.org", "wiki.redump.org",
-    "developer.mozilla.org", "html5gamepad.com", "www.w3.org",
-    "lexaloffle.com", "www.lexaloffle.com",
-    "zophar.net", "www.zophar.net",
+PAGES = ["index.html", "player.html", "dos.html", "guide.html", "404.html"]
+REQUIRED = PAGES + [
+    "assets/js/config.js",
+    "assets/js/stage.js",
+    "assets/js/converter-core.js",
+    "assets/js/converter4-core.js",
+    "assets/js/converter4-ui.js",
+    "assets/js/player.js",
+    "assets/js/library.js",
+    "assets/js/dos.js",
+    "assets/vendor/pako.min.js",
+    "assets/vendor/template-game.html",
+    "assets/css/tokens.css",
+    "assets/css/base.css",
+    "assets/css/stage.css",
+    "assets/css/console.css",
+    "assets/css/guide.css",
+    "favicon.svg",
+    "robots.txt",
+]
+ALLOWED_HOSTS = {
+    "button-mash-live.vercel.app",   # canonical
+    "cdn.emulatorjs.org",             # play engine data (referenced in JS)
+    "v8.js-dos.com",                  # DOS engine (referenced in JS)
+    "emulatorjs.org",                 # engine attribution
+    "pcsx2.net", "dolphin-emu.org", "www.ppsspp.org",  # guide: native paths
+    "schema.org",                     # JSON-LD @context identifier, not a link
 }
-
-GENRES = {"puzzle", "action", "roguelike", "idle", "multiplayer", "retro", "horror", "cozy"}
-ID_RE = re.compile(r"^[a-z0-9-]+$")
-
-errors = []
+# DECLINES tone map — the build FAILS if a decline key is unclassified here,
+# so a new "no" can never ship without an honest tone.
+DECLINE_TONES = {
+    "ps2": "guide-only", "gamecube": "guide-only", "wii": "guide-only",
+    "ps3": "guide-only", "xbox": "guide-only", "xbox360": "guide-only",
+    "switch": "guide-only",
+    "psp": "not-yet", "saturn": "not-yet", "dreamcast": "not-yet",
+}
+DECLINE_TONE_LABELS = {"guide-only": "Guide only", "not-yet": "On the bench"}
+DECLINE_NAMES = {
+    "ps2": "PlayStation 2", "gamecube": "GameCube", "wii": "Wii",
+    "ps3": "PlayStation 3", "xbox": "Xbox (original)",
+    "xbox360": "Xbox 360", "switch": "Nintendo Switch",
+    "psp": "PSP", "saturn": "Sega Saturn", "dreamcast": "Dreamcast",
+}
 
 
 def fail(msg):
-    errors.append(msg)
+    print("BUILD FAIL: " + msg)
+    sys.exit(1)
 
 
-def sync_game_night_client():
-    # "Same function, two homes" (ARCHITECTURE.md §7.7): the game-night engine
-    # lives in lib/game-night.js (server, CommonJS) and ships a browser twin at
-    # assets/js/game-night.js for the client-side fallback. Regenerate the twin
-    # from the server source so the two can never drift, the client file is
-    # generated, never hand-edited. The lib source has no node-isms (pure
-    # functions only), so wrapping it in an IIFE + swapping module.exports for
-    # a window global is the whole transform.
-    src = (ROOT / "lib" / "game-night.js").read_text()
-    if "module.exports = {" not in src:
-        fail("lib/game-night.js: expected module.exports block missing, cannot sync client twin")
-        return
-    if re.search(r"\brequire\(|\bprocess\.|\bBuffer\.|\b__dirname\b", src):
-        fail("lib/game-night.js: node-isms found, browser twin transform is unsafe")
-        return
-    body = src.replace("module.exports = {", "global.BMGameNight = {", 1)
-    out = (
-        "/* game-night.js, browser twin of lib/game-night.js (\"same function, two homes\").\n"
-        "   REGENERATED by scripts/build.py, do not hand-edit; change lib/game-night.js.\n"
-        "   Exposes window.BMGameNight with the identical scoring engine the\n"
-        "   POST /api/game-night function runs, so the client-side fallback on\n"
-        "   party-planner.html computes exactly what the server would. */\n"
-        "(function (global) {\n"
-        + body
-        + "\n})(typeof window !== \"undefined\" ? window : this);\n"
-    )
-    dest = ROOT / "assets" / "js" / "game-night.js"
-    if not dest.exists() or dest.read_text() != out:
-        dest.write_text(out)
-        print("game-night client twin regenerated from lib/game-night.js")
-    else:
-        print("game-night client twin in sync with lib/game-night.js")
+def parse_profiles(src):
+    """converter-core.js PROFILES (object keyed by id) ->
+    [{system, core, formats[], max_mb}]."""
+    m = re.search(r"var PROFILES = \{(.*?)\n  \};", src, re.S)
+    if not m:
+        fail("converter-core.js: PROFILES block not found")
+    block = m.group(1)
+    out = []
+    for obj in re.finditer(r"\n    (\w+):\s*\{(.*?)\n    \}", block, re.S):
+        body = obj.group(2)
+        def field(name):
+            fm = re.search(name + r":\s*'([^']*)'", body)
+            return fm.group(1) if fm else None
+        ext = re.search(r"ext:\s*/\\\.\(?([a-z0-9|]+)\)?\$/", body)
+        maxm = re.search(r"max:\s*(\d+)\s*\*\s*MB", body)
+        formats = ["." + e for e in ext.group(1).split("|")] if ext else []
+        out.append({
+            "system": field("system"),
+            "core": field("core"),
+            "formats": formats,
+            "max_mb": int(maxm.group(1)) if maxm else None,
+        })
+    if len(out) < 4:
+        fail("converter-core.js: suspiciously few profiles parsed (%d)" % len(out))
+    return out
 
 
-def check(cond, msg):
-    if not cond:
-        fail(msg)
+def parse_play_exts(c4_src, player_src):
+    """PLAY_EXTS maps extension -> core id; the human labels live in
+    player.js CORE_MAP. Group formats by core label."""
+    m = re.search(r"var PLAY_EXTS = \{(.*?)\n  \};", c4_src, re.S)
+    if not m:
+        fail("converter4-core.js: PLAY_EXTS block not found")
+    labels = {}
+    cm = re.search(r"var SYSTEM_LABELS = \{(.*?)\n  \};", player_src, re.S)
+    if cm:
+        for core, label in re.findall(r"(\w+):\s*'([^']+)'", cm.group(1)):
+            labels[core] = label
+    if not labels:
+        fail("player.js: SYSTEM_LABELS block not parsed; coverage labels would be raw core ids")
+    groups = {}
+    for ext, core in re.findall(r"'?([a-z0-9]+)'?:\s*'([a-zA-Z0-9]+)'", m.group(1)):
+        label = labels.get(core, core)
+        groups.setdefault(label, []).append("." + ext)
+    out = [{"label": k, "formats": sorted(v)} for k, v in sorted(groups.items())]
+    # Disc images are routed by content sniffing (detectDisc), not extension.
+    out.append({"label": "PlayStation (disc image)",
+                "formats": [".iso", ".chd", ".cue + .bin"]})
+    out.append({"label": "Sega CD (disc image)",
+                "formats": [".iso", ".chd", ".cue + .bin"]})
+    out.sort(key=lambda r: r["label"])
+    return out
 
 
-def load(name):
-    return json.loads((DATA / name).read_text())
+def parse_declines(src):
+    m = re.search(r"var DECLINES = \{(.*?)\n  \};", src, re.S)
+    if not m:
+        fail("converter4-core.js: DECLINES block not found")
+    block = "\n" + m.group(1)
+    keys = re.findall(r"\n    ([a-z0-9]+):\s*\{", block)
+    for key in keys:
+        if key not in DECLINE_TONES:
+            fail("converter4-core.js: DECLINES key %r has no tone in build.py" % key)
+    out = []
+    for obj in re.finditer(r"\n    ([a-z0-9]+):\s*\{(.*?)\n    \}", block, re.S):
+        key, body = obj.group(1), obj.group(2)
+        hm = re.search(r"headline:\s*'([^']*)'", body)
+        gm = re.search(r"guide:\s*'([^']*)'", body)
+        tm = re.search(r"tone:\s*'([^']*)'", body)
+        if tm and tm.group(1) != DECLINE_TONES[key]:
+            fail("decline %s: core tone %r disagrees with build.py map %r"
+                 % (key, tm.group(1), DECLINE_TONES[key]))
+        out.append({
+            "key": key,
+            "headline": hm.group(1) if hm else key,
+            "tone": DECLINE_TONES[key],
+            "guide": gm.group(1) if gm else "guide.html",
+        })
+    if len(out) != len(DECLINE_TONES):
+        fail("declines parsed %d, tone map has %d" % (len(out), len(DECLINE_TONES)))
+    return out
 
 
 def main():
-    games_doc = load("games.json")
-    games = games_doc["games"]
-    collections = load("collections.json")["collections"]
-    emulators = load("emulators.json")["emulators"]
-    guides = load("guides.json")
+    for rel in REQUIRED:
+        if not (ROOT / rel).exists():
+            fail("missing required file: " + rel)
 
-    # --- games ---
-    seen = set()
-    game_domains = set()
-    for g in games:
-        where = f"games.json:{g.get('id')}"
-        check(set(g.keys()) <= {"id", "title", "url", "genre", "controls", "description", "tags",
-                                "maker", "players", "time", "editions"},
-              f"{where}: bad fields {sorted(g.keys())}")
-        check(bool(ID_RE.match(g.get("id", "") or "")), f"{where}: bad id")
-        check(g.get("id") not in seen, f"{where}: duplicate id")
-        seen.add(g.get("id"))
-        check(g.get("genre") in GENRES, f"{where}: bad genre {g.get('genre')!r}")
-        check(all(isinstance(g.get(k), str) and g[k].strip()
-                  for k in ("title", "url", "controls", "description")),
-              f"{where}: empty field")
-        p = urlparse(g.get("url", ""))
-        check(p.scheme == "https", f"{where}: URL must be https: {g.get('url')!r}")
-        check(bool(p.hostname) and "." in (p.hostname or ""), f"{where}: bad host")
-        game_domains.add(p.hostname or "")
-        if "tags" in g:
-            check(isinstance(g["tags"], list) and all(
-                isinstance(t, str) and ID_RE.match(t) for t in g["tags"]),
-                f"{where}: tags must be a list of slug strings")
-        # --- machine-page record (rotation 22): credits, players,
-        # editorial time tiers, edition ladder. Every game carries the
-        # full record; exactly one edition is the shelved build. ---
-        check(isinstance(g.get("maker"), str) and g["maker"].strip(),
-              f"{where}: maker must be a non-empty string")
-        check(isinstance(g.get("players"), str) and g["players"].strip(),
-              f"{where}: players must be a non-empty string")
-        t = g.get("time") or {}
-        check(all(isinstance(t.get(k), str) and t[k].strip()
-                  for k in ("main", "extra", "full")),
-              f"{where}: time needs main/extra/full strings")
-        check(t.get("signal") in ("pinned", "typical"),
-              f"{where}: time.signal must be pinned|typical")
-        eds = g.get("editions") or []
-        check(isinstance(eds, list) and len(eds) >= 1 and all(
-            isinstance(e, dict) and set(e.keys()) <= {"name", "note", "shelved"}
-            and isinstance(e.get("name"), str) and e["name"].strip()
-            and isinstance(e.get("note"), str) and e["note"].strip()
-            for e in eds),
-            f"{where}: editions must be name/note rungs")
-        check(sum(1 for e in eds if e.get("shelved")) == 1,
-              f"{where}: exactly one edition must be shelved")
+    core_src = (ROOT / "assets/js/converter-core.js").read_text(encoding="utf-8")
+    c4_src = (ROOT / "assets/js/converter4-core.js").read_text(encoding="utf-8")
+    guide_src = (ROOT / "guide.html").read_text(encoding="utf-8")
 
-    # --- collections reference real games ---
-    cseen = set()
-    for c in collections:
-        where = f"collections.json:{c.get('id')}"
-        check(bool(ID_RE.match(c.get("id", "") or "")), f"{where}: bad id")
-        check(c.get("id") not in cseen, f"{where}: duplicate id")
-        cseen.add(c.get("id"))
-        check(4 <= len(c.get("game_ids", [])) <= 12, f"{where}: want 5-12 games")
-        for gid in c.get("game_ids", []):
-            check(gid in seen, f"{where}: unknown game_id {gid!r}")
+    player_src = (ROOT / "assets/js/player.js").read_text(encoding="utf-8")
+    convert = parse_profiles(core_src)
+    play = parse_play_exts(c4_src, player_src)
+    declines = parse_declines(c4_src)
 
-    # --- emulators ---
-    for e in emulators:
-        p = urlparse(e.get("url", ""))
-        check(p.scheme == "https", f"emulators.json:{e.get('id')}: URL must be https")
+    # Every decline's guide anchor must exist in guide.html.
+    guide_ids = set(re.findall(r'id="([^"]+)"', guide_src))
+    for d in declines:
+        anchor = d["guide"].split("#", 1)[1] if "#" in d["guide"] else None
+        if anchor and anchor not in guide_ids:
+            fail("decline %s points at guide anchor #%s, not in guide.html" % (d["key"], anchor))
+    if "dump" not in guide_ids:
+        fail("guide.html is missing the #dump anchor")
 
-    # --- guides ---
-    for g in guides:
-        where = f"guides.json:{g.get('id')}"
-        check(set(g.keys()) == {"id", "slug", "title", "summary", "difficulty", "time_minutes", "sections"},
-              f"{where}: bad fields")
-        check(isinstance(g.get("time_minutes"), int) and g["time_minutes"] > 0,
-              f"{where}: bad time_minutes")
-        for s in g.get("sections", []):
-            check(set(s.keys()) == {"heading", "body"}, f"{where}: bad section fields")
+    coverage = {
+        "version": "v1",
+        "generated_by": "scripts/build.py from the converter engines",
+        "convert": [
+            {"name": c["system"], "note": " ".join(c["formats"]),
+             "core": c["core"], "formats": c["formats"], "max_mb": c["max_mb"]}
+            for c in convert
+        ],
+        "play": [
+            {"name": p["label"], "note": " ".join(p["formats"]),
+             "formats": p["formats"]}
+            for p in play
+        ],
+        "guide": [
+            {"name": DECLINE_NAMES[d["key"]],
+             "note": DECLINE_TONE_LABELS[d["tone"]],
+             "tone": d["tone"], "guide": d["guide"]}
+            for d in declines
+        ],
+        "dos": {"name": "DOS (PC)", "note": ".zip, .jsdos, or the game's folder",
+                "formats": [".zip", ".jsdos", "folder"]},
+    }
+    out_dir = ROOT / "data" / "v1"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "coverage.json").write_text(
+        json.dumps(coverage, indent=2, sort_keys=False) + "\n", encoding="utf-8")
 
-    # --- kids audit: every game gets a verdict, curated entries are fully flagged ---
-    kids_doc = load("kids.json")
-    check(set(kids_doc.keys()) == {"policy", "age_bands", "curated", "excluded"},
-          "kids.json: bad top-level fields")
-    check(set(kids_doc.get("age_bands", {}).keys()) == {"5-7", "8-10", "11-12"},
-          "kids.json: age_bands must be exactly 5-7/8-10/11-12")
-    curated, excluded = kids_doc["curated"], kids_doc["excluded"]
-    cids = [k["id"] for k in curated]
-    eids = [e["id"] for e in excluded]
-    check(len(set(cids)) == len(cids) and len(set(eids)) == len(eids),
-          "kids.json: duplicate ids")
-    check(not (set(cids) & set(eids)), "kids.json: id in both curated and excluded")
-    missing = set(seen) - set(cids) - set(eids)
-    check(not missing, f"kids.json: games missing a verdict: {sorted(missing)}")
-    extra = (set(cids) | set(eids)) - set(seen)
-    check(not extra, f"kids.json: unknown game ids: {sorted(extra)}")
-    for k in curated:
-        where = f"kids.json:{k.get('id')}"
-        check(set(k.keys()) == {"id", "kid_safe", "no_chat", "age_band", "parent_note",
-                                "verify_live", "audit_basis"},
-              f"{where}: bad fields")
-        check(k.get("kid_safe") is True and k.get("no_chat") is True,
-              f"{where}: kid_safe and no_chat must both be true")
-        check(k.get("age_band") in kids_doc["age_bands"], f"{where}: bad age_band")
-        check(isinstance(k.get("parent_note"), str) and k["parent_note"].strip(),
-              f"{where}: parent_note must be non-empty")
-        check(isinstance(k.get("audit_basis"), str) and k["audit_basis"].strip(),
-              f"{where}: audit_basis must be non-empty (every flag needs a basis)")
-        check(isinstance(k.get("verify_live"), bool), f"{where}: verify_live must be bool")
-    for e in excluded:
-        where = f"kids.json:excluded:{e.get('id')}"
-        check(set(e.keys()) == {"id", "reason"}, f"{where}: bad fields")
-        check(isinstance(e.get("reason"), str) and e["reason"].strip(),
-              f"{where}: exclusion reason must be non-empty")
-
-    # --- external links inside guide HTML bodies: allowlist ---
-    # (Heads are out of scope: since wave 34 they carry the site's own
-    # canonical URL on the recorded production host, which is not a
-    # guide-body reference link.)
-    allowed = game_domains | REFERENCE_DOMAINS
-    href_re = re.compile(r'href="(https?://[^"]+)"')
-    for html in sorted((ROOT / "guides").glob("*.html")):
-        for m in href_re.finditer(html.read_text().partition("</head>")[2]):
-            host = urlparse(m.group(1)).hostname or ""
-            if host not in allowed:
-                fail(f"{html.name}: external link to non-allowlisted domain {host!r} ({m.group(1)[:70]})")
-
-    if errors:
-        print("BUILD FAILED:")
-        for e in errors:
-            print(" -", e)
-        sys.exit(1)
-
-    # Legal-lane gate: no ROM/BIOS download links, no piracy domains.
-    r = subprocess.run([sys.executable, str(ROOT / "scripts" / "check_legal.py")],
-                       capture_output=True, text=True)
-    print(r.stdout.strip())
-    if r.returncode != 0:
-        print(r.stderr)
-        sys.exit("scripts/check_legal.py failed")
-
-    for script in ("scripts/build_api.py", "scripts/build_site.py"):
-        r = subprocess.run([sys.executable, str(ROOT / script)], capture_output=True, text=True)
-        if r.returncode != 0:
-            print(r.stdout, r.stderr)
-            sys.exit(f"{script} failed")
-
-    # Server/client parity: regenerate the game-night browser twin from
-    # lib/game-night.js (Wave B, the party-planner fallback contract).
-    sync_game_night_client()
-    if errors:
-        print("BUILD FAILED:")
-        for e in errors:
-            print(" -", e)
-        sys.exit(1)
-
-    wire_placement(games, collections, emulators)
-    if errors:
-        print("BUILD FAILED:")
-        for e in errors:
-            print(" -", e)
-        sys.exit(1)
-
-    wire_exclusions(games, kids_doc)
-    if errors:
-        print("BUILD FAILED:")
-        for e in errors:
-            print(" -", e)
-        sys.exit(1)
-
-    wire_redesign()
-    if errors:
-        print("BUILD FAILED:")
-        for e in errors:
-            print(" -", e)
-        sys.exit(1)
-
-    wire_chrome()
-    if errors:
-        print("BUILD FAILED:")
-        for e in errors:
-            print(" -", e)
-        sys.exit(1)
-
-    print(f"BUILD OK, {len(games)} games ({len(game_domains)} domains), "
-          f"{len(collections)} collections, {len(emulators)} emulators, {len(guides)} guides")
-
-
-# ---------------------------------------------------------------------------
-# Placement pass (wave 34, completing rotation 12's OG/absolute-URL work).
-# Page heads are source in this repo, but the placement block is WIRED
-# HERE, at the generator level, so a rebuild re-stamps every page and a
-# hand-edit that drops a line is healed (and WF39 fails the suite if the
-# wiring itself ever stops producing it). Per page, in <head>, right
-# after the twitter:image meta:
-#   - rel="canonical": absolute, self-referential, on the one recorded
-#     production host (the same host WF38 pins for og:image).
-#   - theme-color: #07070f, the --bg token verbatim (cabinet black),
-#     per the Foundry icon/theme proposal.
-#   - file favicons: the proposal's head block, with depth-relative
-#     hrefs (the repo's link checker and file:// browsing cannot
-#     resolve root-absolute hrefs; the live host serves the same
-#     files from the same root). Files: favicon.ico/.svg,
-#     apple-touch-icon.png (+ icon-192/512 for manifests/installers).
-#   - og:image:width/height: the OG card's real 1200x630.
-# JSON-LD is stamped between bm-jsonld markers only where a list
-# honestly fits, built from the real records loaded above, an
-# ItemList of the catalog on games.html, of the collections on
-# collections.html, of the emulator picks on emulation.html, and a
-# WebSite block on the homepage. No ratings, no prices, nothing
-# invented. robots.txt is regenerated here too (allow-all + the
-# sitemap this repo publishes).
-HOST = "https://button-mash-live.vercel.app"
-
-_STRIP_RES = [
-    re.compile(r'<link rel="canonical"[^>]*>\n?'),
-    re.compile(r'<meta name="theme-color"[^>]*>\n?'),
-    re.compile(r'<link rel="icon"[^>]*>\n?'),
-    re.compile(r'<link rel="apple-touch-icon"[^>]*>\n?'),
-    re.compile(r'<meta property="og:image:(?:width|height)"[^>]*>\n?'),
-    re.compile(r'<!-- bm-jsonld:start -->.*?<!-- bm-jsonld:end -->\n?', re.S),
-    re.compile(r'<!-- bm-vt:start -->.*?<!-- bm-vt:end -->\n?', re.S),
-]
-
-# View Transitions (wave 35): cross-document transitions graduate
-# from the guides (guides.css, wave 13) to the cabinet's browsing
-# pages, stamped here so every page carries the identical block:
-# navigation:auto under BOTH gates the guides use, the visitor's
-# reduced-motion preference and the site's own FX switch, plus a
-# short 180ms crossfade so the swap reads as a screen change, not
-# a blink. Four pages are deliberately NOT stamped, so navigation
-# to and from them stays instant (both documents must opt in):
-# player.html + converter.html boot an engine / handle the
-# visitor's own files, and a snapshot fade over a live canvas
-# earns nothing; kids.html + parents.html are the family pages,
-# whose standing rule is motion-off by default.
-_VT_SKIP = {"player.html", "converter.html", "kids.html", "parents.html"}
-
-_VT_BLOCK = (
-    "<!-- bm-vt:start -->\n"
-    "<style data-bm-vt>\n"
-    "@media (prefers-reduced-motion: no-preference) {\n"
-    "  html:not(.fx-off) {\n"
-    "    @view-transition { navigation: auto; }\n"
-    "    ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .18s; }\n"
-    "  }\n"
-    "}\n"
-    "</style>\n"
-    "<!-- bm-vt:end -->"
-)
-
-
-def _canonical_for(rel):
-    return HOST + "/" if rel == "index.html" else HOST + "/" + rel
-
-
-def _jsonld_for(rel, head, games, collections, emulators):
-    if rel == "index.html":
-        m = re.search(r'<meta name="description" content="([^"]*)">', head)
-        return {"@context": "https://schema.org", "@type": "WebSite",
-                "name": "Button Mash", "url": HOST + "/",
-                "description": m.group(1) if m else ""}
-    if rel == "games.html":
-        return {"@context": "https://schema.org", "@type": "ItemList",
-                "name": "Button Mash game catalog",
-                "numberOfItems": len(games),
-                "itemListElement": [
-                    {"@type": "ListItem", "position": i + 1, "name": g["title"],
-                     "url": HOST + "/game.html?id=" + g["id"]}
-                    for i, g in enumerate(games)]}
-    if rel == "collections.html":
-        return {"@context": "https://schema.org", "@type": "ItemList",
-                "name": "Button Mash collections",
-                "numberOfItems": len(collections),
-                "itemListElement": [
-                    {"@type": "ListItem", "position": i + 1, "name": c["title"],
-                     "url": HOST + "/collections.html#shelf-" + c["id"]}
-                    for i, c in enumerate(collections)]}
-    if rel == "emulation.html":
-        return {"@context": "https://schema.org", "@type": "ItemList",
-                "name": "Button Mash emulator picks",
-                "numberOfItems": len(emulators),
-                "itemListElement": [
-                    {"@type": "ListItem", "position": i + 1, "name": e["name"],
-                     "url": e["url"]}
-                    for i, e in enumerate(emulators)]}
-    return None
-
-
-def wire_placement(games, collections, emulators):
-    pages = sorted(
-        p for p in ROOT.rglob("*.html")
-        if ".git" not in p.parts
-        and not p.relative_to(ROOT).as_posix().startswith("assets/vendor/"))
-    stamped = 0
-    for page in pages:
-        rel = page.relative_to(ROOT).as_posix()
-        text = page.read_text()
-        head, sep, rest = text.partition("</head>")
-        if not sep:
-            fail(f"{rel}: no </head>, cannot wire placement block")
-            continue
-        for rx in _STRIP_RES:
-            head = rx.sub("", head)
-        prefix = "../" * rel.count("/")
-        block = "\n".join([
-            f'<link rel="canonical" href="{_canonical_for(rel)}">',
-            '<meta name="theme-color" content="#07070f">',
-            f'<link rel="icon" href="{prefix}favicon.ico" sizes="48x48">',
-            f'<link rel="icon" href="{prefix}favicon.svg" type="image/svg+xml">',
-            f'<link rel="apple-touch-icon" href="{prefix}apple-touch-icon.png">',
-            '<meta property="og:image:width" content="1200">',
-            '<meta property="og:image:height" content="630">',
-        ])
-        ld = _jsonld_for(rel, head, games, collections, emulators)
-        if ld is not None:
-            block += ("\n<!-- bm-jsonld:start -->\n"
-                      '<script type="application/ld+json" data-bm-jsonld>\n'
-                      + json.dumps(ld, indent=1, ensure_ascii=False)
-                      + "\n</script>\n<!-- bm-jsonld:end -->")
-        if rel not in _VT_SKIP:
-            block += "\n" + _VT_BLOCK
-        anchor = '<meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">'
-        if anchor not in head:
-            fail(f"{rel}: twitter:image anchor missing, placement block not wired")
-            continue
-        head = head.replace(anchor, anchor + "\n" + block, 1)
-        new_text = head + sep + rest
-        if new_text != text:
-            page.write_text(new_text)
-            stamped += 1
-    robots = ("User-agent: *\nAllow: /\n\n"
-              f"Sitemap: {HOST}/sitemap.xml\n")
-    robots_path = ROOT / "robots.txt"
-    if not robots_path.exists() or robots_path.read_text() != robots:
-        robots_path.write_text(robots)
-    print(f"placement wiring: {len(pages)} pages stamped "
-          f"({stamped} updated), robots.txt in place")
-
-
-# ---------------------------------------------------------------------------
-# Exclusion Ledger (wave 35). Until this wave the Kids Corner audit
-# published only its "in" half: data/v1/kid-safe.json exposes the
-# 113 curated games, while the 100 exclusion reasons recorded in
-# data/kids.json surfaced nowhere a parent could read them (the
-# wave-33 completeness audit's named gap). The ledger stamps the
-# full "out" half onto parents.html, the parents' surface, NOT
-# kids.html itself, between bm-ledger markers: the accounting
-# line derived from the records (total / in / out), then every
-# excluded game in title order with its title linked to its game
-# file and its reason copied VERBATIM from kids.json. Reasons are
-# never paraphrased, softened, or sorted into bars the audit did
-# not record. Idempotent: the stamped block is replaced whole on
-# every build, and WF41 fails the suite if a reason drifts from
-# the record or a verdict goes missing.
-_LEDGER_RE = re.compile(
-    r"<!-- bm-ledger:start -->.*?<!-- bm-ledger:end -->", re.S)
-
-
-def wire_exclusions(games, kids_doc):
-    titles = {g["id"]: g["title"] for g in games}
-    curated = kids_doc["curated"]
-    excluded = sorted(kids_doc["excluded"],
-                      key=lambda e: titles[e["id"]].lower())
-    lines = [
-        "<!-- bm-ledger:start -->",
-        (f'<p class="ledger-count" data-bm-ledger-count>'
-         f"{len(games)} games audited &middot; {len(curated)} in Kids corner "
-         f"&middot; {len(excluded)} kept out. Every reason below is the "
-         f"audit&rsquo;s own recorded reason, word for word.</p>"),
-        '<ul class="ledger-list">',
+    # External-link allowlist across everything served.
+    served = PAGES + [
+        "assets/js/config.js", "assets/js/stage.js", "assets/js/converter-core.js",
+        "assets/js/converter4-core.js", "assets/js/converter4-ui.js",
+        "assets/js/player.js", "assets/js/library.js", "assets/js/dos.js",
+        "assets/vendor/template-game.html",
     ]
-    for e in excluded:
-        title = html.escape(titles[e["id"]])
-        reason = html.escape(e["reason"])
-        lines.append(
-            f'<li data-ledger-item data-ledger-id="{e["id"]}">'
-            f'<a href="game.html?id={e["id"]}">{title}</a>: {reason}</li>')
-    lines += ["</ul>", "<!-- bm-ledger:end -->"]
-    block = "\n".join(lines)
+    bad = []
+    for rel in served:
+        text = (ROOT / rel).read_text(encoding="utf-8")
+        for host in re.findall(r"https?://([a-zA-Z0-9.-]+)", text):
+            if host not in ALLOWED_HOSTS:
+                bad.append("%s -> %s" % (rel, host))
+    if bad:
+        fail("external host(s) outside the allowlist: " + "; ".join(sorted(set(bad))))
 
-    page = ROOT / "parents.html"
-    text = page.read_text()
-    if "<!-- bm-ledger:start -->" not in text:
-        fail("parents.html: bm-ledger markers missing, ledger not wired")
-        return
-    new_text = _LEDGER_RE.sub(lambda _m: block, text, count=1)
-    if new_text != text:
-        page.write_text(new_text)
-    print(f"exclusion ledger: {len(excluded)} verdicts stamped on parents.html")
+    # Internal links in the five pages resolve to real files.
+    missing = []
+    for rel in PAGES:
+        text = (ROOT / rel).read_text(encoding="utf-8")
+        for href in re.findall(r'(?:href|src)="([^"#]+)"', text):
+            if href.startswith(("http", "mailto:", "data:")) or href.startswith("#"):
+                continue
+            target = (ROOT / href.split("?")[0])
+            if not target.exists():
+                missing.append("%s -> %s" % (rel, href))
+    if missing:
+        fail("broken internal link(s): " + "; ".join(sorted(set(missing))))
 
+    base = "https://button-mash-live.vercel.app"
+    urls = ["", "index.html", "player.html", "dos.html", "guide.html"]
+    sitemap = ['<?xml version="1.0" encoding="UTF-8"?>',
+               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for u in urls:
+        sitemap.append("  <url><loc>%s/%s</loc></url>" % (base, u))
+    sitemap.append("</urlset>")
+    (ROOT / "sitemap.xml").write_text("\n".join(sitemap) + "\n", encoding="utf-8")
 
-# ---------------------------------------------------------------------------
-# Rotation 21 Design Polish (2026-10-13). Two stamps, both idempotent:
-#   1. assets/css/redesign.css is linked last in every page's <head>
-#      (between bm-r21 markers), so the polish sheet has the final
-#      word on shared chrome after the neon-era sheets.
-#      Rotation 23 adds assets/css/cabinet.css inside the same block,
-#      after redesign.css: the "cabinet, unboxed" composition layer
-#      (flat twilight indigo, one amber accent, bezels + hard shadows)
-#      has the true final word.
-#   2. The primary nav is restructured from a flat 11-15 item list
-#      into a primary few + a grouped "More" disclosure + the
-#      player CTA. EVERY original link survives with its href and
-#      aria-current intact, only the grouping changes (rotation 30,
-#      VP-0040: the CTA's label becomes "Player", naming the
-#      machine, and the primary set is the wire_chrome set below).
-#      Slim navs (8 or fewer links, e.g. the 404) are left alone
-#      here; wire_chrome unifies them instead.
-_R21_RE = re.compile(r"<!-- bm-r21:start -->.*?<!-- bm-r21:end -->\n?", re.S)
-_R21_NAV_RE = re.compile(
-    r'<nav class="site-nav" aria-label="Primary">\s*<ul>\s*(.*?)\s*</ul>\s*</nav>',
-    re.S)
-_R21_ITEM_RE = re.compile(r"<li>(<a\b[^>]*>.*?</a>)</li>", re.S)
-_R21_PRIMARY = ["games.html", "collections.html", "converter.html"]
+    llms = """# PortPlay
 
+PortPlay is a client-side game converter and player. A visitor drops a game
+file they own; PortPlay identifies it by its contents, plays it in the
+browser via EmulatorJS cores, and (for cartridge systems) builds a portable
+single-file HTML copy they keep. DOS games are wrapped into .jsdos bundles
+in the DOS room. Systems no browser can run get a plain explanation and a
+working native path in the guide. PortPlay hosts no games, sells no games,
+and links to no game downloads. Files never leave the visitor's device.
 
-def _r21_href_base(anchor):
-    m = re.search(r'href="([^"]+)"', anchor)
-    if not m:
-        return ""
-    return m.group(1).split("?")[0].split("#")[0].rstrip("/").split("/")[-1]
+Pages: index.html (converter), player.html (full player console),
+dos.html (DOS room), guide.html (the systems a browser cannot convert, and
+how to dump your own games). Coverage data: data/v1/coverage.json.
+"""
+    (ROOT / "llms.txt").write_text(llms, encoding="utf-8")
 
-
-def _r21_nav(nav_match):
-    items = _R21_ITEM_RE.findall(nav_match.group(1))
-    if len(items) <= 8:
-        return nav_match.group(0)
-    primary, rest, cta = [], [], None
-    for a in items:
-        if "nav-cta" in a:
-            # Rotation 30 (VP-0040): the player entry names the machine.
-            if _r21_href_base(a) == "player.html":
-                a = re.sub(r">[^<]*</a>", ">Player</a>", a, count=1)
-            cta = a
-        elif _r21_href_base(a) in _R21_PRIMARY:
-            primary.append(a)
-        else:
-            rest.append(a)
-    if not primary or not rest:
-        return nav_match.group(0)
-    lines = ['<nav class="site-nav" aria-label="Primary" data-r21-nav>',
-             '      <ul class="nav-primary">']
-    lines += [f"        <li>{a}</li>" for a in primary]
-    lines += ["      </ul>",
-              '      <details class="nav-more">',
-              "        <summary>More</summary>",
-              '        <ul class="nav-rest">']
-    lines += [f"          <li>{a}</li>" for a in rest]
-    lines += ["        </ul>", "      </details>"]
-    if cta:
-        lines.append(f"      {cta}")
-    lines.append("    </nav>")
-    return "\n".join(lines)
-
-
-def _r22_relocate_shelf(text):
-    # Rotation 21 v2 (restraint pass): the homepage hero is ONE
-    # headline, ONE subline, ONE action, the games shelf that v1
-    # carried inside the hero moves out to become the first
-    # content section below it. Div-depth parsed (the shelf nests
-    # divs), idempotent: once the shelf sits in its own section
-    # after the hero, this is a no-op. Content is moved verbatim;
-    # #genre-sampler and its data wiring are untouched.
-    marker = '<div class="hero-shelf">'
-    start = text.find(marker)
-    if start == -1:
-        return text
-    hero_end = text.find("</section>", start)
-    if 'class="section shelf-section"' in text[:start]:
-        return text
-    depth, i = 0, start
-    end = None
-    for m in re.finditer(r"<div\b|</div>", text[start:]):
-        if m.group(0) == "<div":
-            depth += 1
-        else:
-            depth -= 1
-            if depth == 0:
-                end = start + m.end()
-                break
-    if end is None or hero_end == -1 or end > hero_end:
-        return text
-    shelf = text[start:end]
-    rest = text[:start] + text[end:]
-    hero_close = rest.find("</section>", start)
-    if hero_close == -1:
-        return text
-    insert_at = hero_close + len("</section>")
-    section = ('\n\n  <section class="section shelf-section" '
-               'aria-label="Fresh from the shelf">\n'
-               '    <div class="wrap">\n      ' + shelf +
-               '\n    </div>\n  </section>')
-    return rest[:insert_at] + section + rest[insert_at:]
-
-
-def wire_redesign():
-    pages = sorted(
-        p for p in ROOT.rglob("*.html")
-        if ".git" not in p.parts
-        and not p.relative_to(ROOT).as_posix().startswith("assets/vendor/"))
-    stamped = navs = 0
-    for page in pages:
-        rel = page.relative_to(ROOT).as_posix()
-        text = page.read_text()
-        orig = text
-        if rel == "index.html":
-            text = _r22_relocate_shelf(text)
-        prefix = "../" * rel.count("/")
-        new = _R21_RE.sub("", text)
-        head, sep, rest_text = new.partition("</head>")
-        if not sep:
-            fail(f"{rel}: no </head>, cannot wire redesign sheet")
-            continue
-        block = ("<!-- bm-r21:start -->\n"
-                 f'<link rel="stylesheet" href="{prefix}assets/css/redesign.css">\n'
-                 f'<link rel="stylesheet" href="{prefix}assets/css/cabinet.css">\n'
-                 "<!-- bm-r21:end -->\n")
-        new = head + block + sep + rest_text
-        new2, n = _R21_NAV_RE.subn(_r21_nav, new, count=1)
-        if n and new2 != new:
-            navs += 1
-            new = new2
-        if new != orig:
-            page.write_text(new)
-            stamped += 1
-    print(f"redesign wiring: {len(pages)} pages stamped "
-          f"({stamped} updated, {navs} navs regrouped)")
-
-
-# ---------------------------------------------------------------------------
-# Rotation 30 (VP-0040, navigation clarity). One chrome set, stamped
-# idempotently on every visitor page:
-#   1. The top bar is identical on every page class: the wordmark,
-#      three primary links (Games, Collections, Converter), one
-#      "More" disclosure carrying every remaining destination, and
-#      the player CTA labelled "Player" so the entry names the
-#      machine it opens. The Converter is named in the bar under
-#      its own name; section-only destinations (Kids corner, Party
-#      planner, Game night, ...) live in the More disclosure and
-#      the footer map, never as vanishing primary items.
-#   2. Every page carries the complete footer map (the Play and
-#      Learn columns below plus the landed For machines column);
-#      pages that shipped a note-only footer gain the grid, pages
-#      with a grid are restamped to the same map. The footer note
-#      and coin plate are page furniture and stay untouched.
-# aria-current moves to whichever stamped link names the page
-# itself; pages whose surface is not a bar destination (guides,
-# genres, game detail, DOS corner, parents, system picker, 404)
-# carry no current mark in the bar, as before. The vendor
-# template (assets/vendor/) is the converter's output file, not a
-# site surface, and is skipped like every other wiring stamp.
-_CHROME_NAV_RE = re.compile(
-    r'<nav class="site-nav"[^>]*>.*?</nav>', re.S)
-_CHROME_PRIMARY = [("games.html", "Games"),
-                   ("collections.html", "Collections"),
-                   ("converter.html", "Converter")]
-_CHROME_REST = [("index.html", "Home"),
-                ("kids.html", "Kids corner"),
-                ("party-planner.html", "Party planner"),
-                ("game-night.html", "Game night"),
-                ("tournament.html", "Tournament"),
-                ("emulation.html", "Emulation"),
-                ("monster-taming.html", "Monster Taming"),
-                ("play-legal.html", "Play Legal"),
-                ("trophy-room.html", "Trophy room"),
-                ("passport.html", "Arcade passport"),
-                ("tournament-night.html", "Tournament night"),
-                ("versus.html", "Versus"),
-                ("journal.html", "Play journal")]
-_CHROME_CTA = ("player.html", "Player")
-_CHROME_FOOTER = [
-    ("Play", [("index.html", "Home"),
-              ("player.html", "The Player"),
-              ("converter.html", "Converter"),
-              ("games.html", "Game directory"),
-              ("collections.html", "Collections"),
-              ("kids.html", "Kids corner"),
-              ("party-planner.html", "Party planner"),
-              ("game-night.html", "Game night"),
-              ("tournament.html", "Tournament"),
-              ("tournament-night.html", "Tournament night"),
-              ("versus.html", "Versus"),
-              ("trophy-room.html", "Trophy room"),
-              ("passport.html", "Arcade passport"),
-              ("journal.html", "Play journal")]),
-    ("Learn", [("emulation.html", "Emulation hub"),
-               ("guides/reverse-engineering.html",
-                "Reverse-engineering guide"),
-               ("guides/gba-wasm.html", "GBA → WASM explainer"),
-               ("monster-taming.html", "Monster-taming corner"),
-               ("dos.html", "DOS corner"),
-               ("system-picker.html", "System picker"),
-               ("parents.html", "Parent guide"),
-               ("play-legal.html", "Play it legal")]),
-    ("For machines", [("data/v1/", "API v1"),
-                      ("API.md", "API.md"),
-                      ("llms.txt", "llms.txt"),
-                      ("skills/", "skills/")]),
-]
-
-
-def _chrome_nav(prefix, current):
-    def link(href, label, cls=None):
-        cur = ' aria-current="page"' if current == href else ""
-        c = f' class="{cls}"' if cls else ""
-        return f'<a{c} href="{prefix}{href}"{cur}>{label}</a>'
-
-    lines = ['<nav class="site-nav" aria-label="Primary" data-r21-nav>',
-             '      <ul class="nav-primary">']
-    lines += [f"        <li>{link(h, t)}</li>" for h, t in _CHROME_PRIMARY]
-    lines += ["      </ul>",
-              '      <details class="nav-more">',
-              "        <summary>More</summary>",
-              '        <ul class="nav-rest">']
-    lines += [f"          <li>{link(h, t)}</li>" for h, t in _CHROME_REST]
-    lines += ["        </ul>", "      </details>"]
-    lines.append(f"      {link(*_CHROME_CTA, cls='nav-cta')}")
-    lines.append("    </nav>")
-    return "\n".join(lines)
-
-
-def _chrome_footer_grid(prefix):
-    lines = ['<div class="footer-grid">']
-    for heading, links in _CHROME_FOOTER:
-        lines.append("      <div>")
-        lines.append(f"        <h3>{heading}</h3>")
-        lines.append("        <ul>")
-        lines += [f'          <li><a href="{prefix}{h}">{t}</a></li>'
-                  for h, t in links]
-        lines.append("        </ul>")
-        lines.append("      </div>")
-    lines.append("    </div>")
-    return "\n".join(lines)
-
-
-def _chrome_replace_grid(text, grid):
-    start = text.find('<div class="footer-grid">')
-    if start == -1:
-        anchor = '    <div class="footer-note">'
-        if anchor not in text:
-            return None
-        return text.replace(anchor, "    " + grid + "\n" + anchor, 1)
-    depth, end = 0, None
-    for m in re.finditer(r"<div\b|</div>", text[start:]):
-        if m.group(0) == "<div":
-            depth += 1
-        else:
-            depth -= 1
-            if depth == 0:
-                end = start + m.end()
-                break
-    if end is None:
-        return None
-    return text[:start] + grid + text[end:]
-
-
-def wire_chrome():
-    pages = sorted(
-        p for p in ROOT.rglob("*.html")
-        if ".git" not in p.parts
-        and not p.relative_to(ROOT).as_posix().startswith("assets/vendor/"))
-    stamped = 0
-    for page in pages:
-        rel = page.relative_to(ROOT).as_posix()
-        text = page.read_text()
-        orig = text
-        prefix = "../" * rel.count("/")
-        current = rel if rel in {h for h, _ in
-                                  _CHROME_PRIMARY + _CHROME_REST
-                                  + [_CHROME_CTA]} else None
-        text, n = _CHROME_NAV_RE.subn(
-            lambda _m: _chrome_nav(prefix, current), text, count=1)
-        if not n:
-            fail(f"{rel}: site-nav missing, chrome not wired")
-            continue
-        new_text = _chrome_replace_grid(text, _chrome_footer_grid(prefix))
-        if new_text is None:
-            fail(f"{rel}: footer grid/note anchors missing, chrome not wired")
-            continue
-        text = new_text
-        if text != orig:
-            page.write_text(text)
-            stamped += 1
-    print(f"chrome wiring: {len(pages)} pages stamped ({stamped} updated)")
+    print("BUILD OK — PortPlay: 5 pages, %d convert profiles, %d play groups, %d guide declines"
+          % (len(convert), len(play), len(declines)))
 
 
 if __name__ == "__main__":

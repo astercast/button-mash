@@ -3,154 +3,111 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Player: Button Mash</title>
-<meta name="description" content="Button Mash Player: run your own game files in the browser via EmulatorJS. 20+ systems, save states, on-screen controls, fullscreen. Bring your own file, the site hosts zero ROMs.">
+<title>The Player · PortPlay</title>
+<meta name="description" content="The PortPlay player: the full console for your own game files. Twenty-plus systems, save slots, per-system control remapping, cheats, display options. Your file never leaves your device.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="The Player: Button Mash">
-<meta property="og:description" content="Button Mash Player: run your own game files in the browser via EmulatorJS. 20+ systems, save states, on-screen controls, fullscreen. Bring your own file, the site hosts zero ROMs.">
+<meta property="og:title" content="The Player · PortPlay">
+<meta property="og:description" content="Drop a game file you own and play it with the full console around it: save slots, remapping, cheats, display options. Nothing uploads.">
 <meta property="og:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Player: Button Mash">
-<meta name="twitter:description" content="Button Mash Player: run your own game files in the browser via EmulatorJS. 20+ systems, save states, on-screen controls, fullscreen. Bring your own file, the site hosts zero ROMs.">
-<meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <link rel="canonical" href="https://button-mash-live.vercel.app/player.html">
-<meta name="theme-color" content="#07070f">
-<link rel="icon" href="favicon.ico" sizes="48x48">
+<meta name="theme-color" content="#080908">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<link rel="preload" href="assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/sora-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
-<link rel="stylesheet" href="assets/css/layout.css">
-<link rel="stylesheet" href="assets/css/components.css">
-<link rel="stylesheet" href="assets/css/wave16.css">
-<link rel="stylesheet" href="assets/css/attract.css">
-<!-- bm-r21:start -->
-<link rel="stylesheet" href="assets/css/redesign.css">
-<link rel="stylesheet" href="assets/css/cabinet.css">
-<!-- bm-r21:end -->
+<link rel="stylesheet" href="assets/css/console.css">
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main">Skip to the player</a>
 
-<header class="site-header">
-  <div class="wrap header-inner">
-    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
-    <nav class="site-nav" aria-label="Primary" data-r21-nav>
-      <ul class="nav-primary">
-        <li><a href="games.html">Games</a></li>
-        <li><a href="collections.html">Collections</a></li>
-        <li><a href="converter.html">Converter</a></li>
-      </ul>
-      <details class="nav-more">
-        <summary>More</summary>
-        <ul class="nav-rest">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="kids.html">Kids corner</a></li>
-          <li><a href="party-planner.html">Party planner</a></li>
-          <li><a href="game-night.html">Game night</a></li>
-          <li><a href="tournament.html">Tournament</a></li>
-          <li><a href="emulation.html">Emulation</a></li>
-          <li><a href="monster-taming.html">Monster Taming</a></li>
-          <li><a href="play-legal.html">Play Legal</a></li>
-          <li><a href="trophy-room.html">Trophy room</a></li>
-          <li><a href="passport.html">Arcade passport</a></li>
-          <li><a href="tournament-night.html">Tournament night</a></li>
-          <li><a href="versus.html">Versus</a></li>
-          <li><a href="journal.html">Play journal</a></li>
-        </ul>
-      </details>
-      <a class="nav-cta" href="player.html" aria-current="page">Player</a>
+<header class="topbar">
+  <div class="shell topbar-in">
+    <a class="wordmark" href="index.html" aria-label="PortPlay home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2.5" y="2.5" width="27" height="27" rx="8.5" fill="none" stroke="#bff747" stroke-width="2.4"/><path d="M13 10.8v10.4c0 .9 1 1.5 1.8 1L24 16.9a1.15 1.15 0 0 0 0-2L14.8 9.9c-.8-.5-1.8.1-1.8.9z" fill="#bff747"/></svg>
+      <span class="wordmark-name">Port<em>Play</em></span>
+    </a>
+    <nav class="topnav" aria-label="Primary">
+      <a href="index.html">Converter</a>
+      <a href="player.html" aria-current="page">Player</a>
+      <a href="dos.html">DOS</a>
+      <a href="guide.html">Guide</a>
     </nav>
   </div>
 </header>
 
 <main id="main">
-  <section class="hero">
-    <div class="wrap hero-inner">
-      <span class="kicker">Centerpiece 01</span>
-      <h1>The Player. <span class="pink">Bring your own file.</span></h1>
-      <p class="lede">Twenty-plus classic systems, one browser tab. Drop in a game file <strong>you own</strong>, it never leaves your machine, and play with keyboard, gamepad, touch controls, save states and fullscreen. Powered by the open-source <a href="https://emulatorjs.org" target="_blank" rel="noopener">EmulatorJS</a> engine. DOS games have their own room, the <a href="dos.html">DOS corner</a>, and if a file belongs to a system no browser can run, the Player will tell you so plainly and point you at <a href="guides/reverse-engineering.html">the guide</a> instead of guessing.</p>
+  <div class="shell">
+    <div class="page-head">
+      <p class="kicker">The full console</p>
+      <h1>The Player. <span class="accent">Your file, the whole console.</span></h1>
+      <p class="lede">The stage plays a game in seconds. The Player is where a game gets the full treatment: named save slots, per-system control remapping, cheats, display options, your own BIOS for the two systems that need one. Same rule as everywhere on PortPlay: <strong>your file is read on this device and never uploaded.</strong> DOS games have their own room, <a href="dos.html">the DOS room</a>, and a file no browser can run gets a plain answer and <a href="guide.html">the guide</a>, never a guess.</p>
     </div>
-  </section>
 
-  <section class="section">
-    <div class="wrap">
-      <div class="console-shell" id="console-shell">
-        <div class="console-bar">
-          <span class="led idle" id="console-led" aria-hidden="true"></span>
-          <span class="console-title" id="console-title" role="status">IDLE: DROP A FILE TO BEGIN</span>
-          <span class="spacer"></span>
-          <span class="sys-badge" id="sys-badge" hidden></span>
-        </div>
+    <div class="console-shell" id="console-shell">
+      <div class="console-bar">
+        <span class="led idle" id="console-led" aria-hidden="true"></span>
+        <span class="console-title" id="console-title" role="status">IDLE: DROP A FILE TO BEGIN</span>
+        <span class="spacer"></span>
+        <span class="sys-badge" id="sys-badge" hidden></span>
+      </div>
 
-        <div class="ejs-stage" id="ejs-stage">
-          <div class="drop-veil" id="drop-veil">
-            <div class="big-icon" aria-hidden="true">📥</div>
-            <h2>Drop your game file here</h2>
-            <p>…or use the buttons below. Your file is read locally in your browser, <strong>it is never uploaded anywhere.</strong> Button Mash hosts zero ROMs and provides zero game files.</p>
-            <div class="file-input-row">
-              <button class="btn btn-primary" id="browse-btn" type="button">📁 Choose file(s)</button>
-              <input type="file" id="rom-file" class="sr-only" tabindex="-1" multiple aria-label="Choose a game file, or several files for a disc set">
-              <label for="system-select" class="sr-only">System (auto-detect by default)</label>
-              <select id="system-select" aria-label="System override">
-                <option value="auto">Auto-detect system</option>
-              </select>
-            </div>
-            <div class="url-row">
-              <input type="url" id="rom-url" placeholder="…or paste a direct file URL (needs CORS)" aria-label="Direct file URL">
-              <button class="btn btn-ghost btn-sm" id="load-url-btn" type="button">Load URL</button>
-            </div>
-            <div class="file-input-row">
-              <label for="bios-file" style="font-size:.85rem;color:var(--ink-dim)">BIOS file (only needed for PlayStation / Sega CD, dumped from your own hardware):</label>
-              <input type="file" id="bios-file" aria-label="BIOS file (PlayStation or Sega CD only)">
-            </div>
-            <p id="veil-error" role="alert" style="color:var(--neon-pink);font-weight:700"></p>
+      <div class="ejs-stage" id="ejs-stage">
+        <div class="drop-veil" id="drop-veil">
+          <h2>Drop your game file here</h2>
+          <p>Or use the controls below. PortPlay identifies the file by its contents, not just its name. <strong>It is never uploaded anywhere</strong>, and this site provides no game files.</p>
+          <div class="file-input-row">
+            <button class="btn" id="browse-btn" type="button">Choose file(s)</button>
+            <input type="file" id="rom-file" class="sr-only" tabindex="-1" multiple aria-label="Choose a game file, or several files for a disc set">
+            <label for="system-select" class="sr-only">System (auto-detect by default)</label>
+            <select id="system-select" aria-label="System override">
+              <option value="auto">Auto-detect system</option>
+            </select>
           </div>
-        </div>
-
-        <div class="player-toolbar" id="player-toolbar" hidden>
-          <span class="sys-badge" id="sys-badge2"></span>
-          <button class="btn btn-ghost btn-sm" id="fullscreen-btn" type="button" aria-pressed="false">⛶ Fullscreen</button>
-          <button class="btn btn-ghost btn-sm" id="crt-btn" type="button" aria-pressed="false">📺 CRT filter</button>
-          <button class="btn btn-ghost btn-sm" id="settings-btn" type="button">⚙ Quick settings</button>
-          <button class="btn btn-ghost btn-sm" id="eject-btn" type="button">⏏ Eject / load another</button>
-          <span style="font-size:.82rem;color:var(--ink-mute)">Tip: the in-game menu (top-left icon once booted) has save states, shaders and more, the Player&nbsp;2.1 tools below add named save slots, per-system control remapping, cheats and display options. Press <kbd class="key">f</kbd> for fullscreen.</span>
+          <div class="url-row">
+            <input type="url" id="rom-url" placeholder="Or paste a direct file URL (the host must allow it)" aria-label="Direct file URL">
+            <button class="btn btn-ghost btn-small" id="load-url-btn" type="button">Load URL</button>
+          </div>
+          <div class="file-input-row">
+            <label for="bios-file" style="font-size:.85rem;color:var(--ink-dim)">BIOS file (only for PlayStation / Sega CD, dumped from your own hardware):</label>
+            <input type="file" id="bios-file" aria-label="BIOS file (PlayStation or Sega CD only)">
+          </div>
+          <p id="veil-error" role="alert"></p>
         </div>
       </div>
 
-      <div class="bios-note" id="bios-note" hidden style="margin-top:1rem"></div>
-
-      <div id="decline-host" hidden style="margin-top:1rem"></div>
-
-      <div class="legal-banner">
-        <strong>🛡️ Legal lane:</strong> the Player is a <em>bring-your-own-file</em> tool. Only load game files you own (dumps of cartridges/discs you physically own, homebrew, or public-domain releases). <a href="play-legal.html">Read the rules</a> · <a href="guides/rip-your-own-cartridges.html">How to rip your own cartridges</a>
+      <div class="player-toolbar" id="player-toolbar" hidden>
+        <span class="sys-badge" id="sys-badge2"></span>
+        <button class="btn btn-ghost btn-small" id="fullscreen-btn" type="button" aria-pressed="false">Fullscreen</button>
+        <button class="btn btn-ghost btn-small" id="crt-btn" type="button" aria-pressed="false">CRT filter</button>
+        <button class="btn btn-ghost btn-small" id="settings-btn" type="button">Quick settings</button>
+        <button class="btn btn-ghost btn-small" id="eject-btn" type="button">Eject / load another</button>
+        <span class="tip">The in-game menu (top-left once booted) holds save states and shaders. The tools below add named save slots, per-system remapping, cheats, and display options. Press <kbd class="key">f</kbd> for fullscreen.</span>
       </div>
     </div>
-  </section>
 
-  <section class="section" id="player-2-tools" aria-labelledby="tools-heading">
-    <div class="wrap">
-      <div class="section-head"><h2 id="tools-heading"><span class="tick">»</span> Player 2.1 tools</h2></div>
-      <p class="section-sub">Client-side upgrades. Everything below runs in your browser, your files, saves and settings never leave your machine.</p>
+    <div class="bios-note" id="bios-note" hidden></div>
+    <div id="decline-host" hidden></div>
+
+    <section class="section" id="player-2-tools" aria-labelledby="tools-heading">
+      <div class="section-head"><h2 id="tools-heading">Player tools</h2></div>
+      <p class="section-sub">Everything below runs in your browser. Your files, saves, and settings never leave your machine.</p>
       <div class="tools-grid">
 
         <article class="tool-card" aria-labelledby="slots-heading">
-          <h3 id="slots-heading"><span class="tick">💾</span> Save slots</h3>
-          <p>Named save slots for the current (or most recent) game, kept in this browser's storage, the same place the engine's <em>Keep in Browser</em> mode uses. <strong>Save</strong> copies the engine slot into a named slot; <strong>Restore</strong> copies it back so the engine's <em>Load State</em> picks it up. Slots are browser-local, export the file to move one to another device.</p>
+          <h3 id="slots-heading">Save slots</h3>
+          <p>Named save slots for the current (or most recent) game, kept in this browser's storage, the same place the engine's <em>Keep in Browser</em> mode uses. <strong>Save</strong> copies the engine slot into a named slot; <strong>Restore</strong> copies it back so the engine's <em>Load State</em> picks it up. Slots are browser-local, so export the file to move one to another device.</p>
           <div class="tool-status" id="slots-status" role="status">Boot a game above to manage its save slots.</div>
           <ul class="plain slots-list" id="slots-list" aria-label="Save slots"></ul>
           <div class="tool-actions">
-            <button class="btn btn-ghost btn-sm" id="slot-new" type="button" disabled>＋ New slot</button>
-            <label class="btn btn-ghost btn-sm" for="import-state-file" style="cursor:pointer">📥 Import .state file</label>
+            <button class="btn btn-ghost btn-small" id="slot-new" type="button" disabled>New slot</button>
+            <label class="btn btn-ghost btn-small" for="import-state-file" style="cursor:pointer">Import .state file</label>
             <input type="file" id="import-state-file" class="sr-only" tabindex="-1" accept=".state" aria-label="Import a save state file">
-            <button class="btn btn-ghost btn-sm" id="slots-refresh" type="button">↻ Refresh</button>
+            <button class="btn btn-ghost btn-small" id="slots-refresh" type="button">Refresh</button>
           </div>
           <fieldset class="autosave-box">
-            <legend>⏱ Auto-save</legend>
+            <legend>Auto-save</legend>
             <div class="form-row">
               <label><input type="checkbox" id="autosave-toggle"> Auto-save the engine slot</label>
               <label>every
@@ -163,50 +120,50 @@
             </div>
             <p class="hint" id="autosave-status" role="status"></p>
           </fieldset>
-          <p class="hint">Import writes the file into browser storage under the current game's name, so the engine's <em>Load State</em> picks it up. State files are tied to the emulator build, a file from a much newer/older engine may not load. Auto-save copies the engine slot on a timer while this tab stays open, and only works in <em>Keep in Browser</em> mode (in-game menu → Settings → Save States).</p>
+          <p class="hint">Import writes the file into browser storage under the current game's name, so the engine's Load State picks it up. State files are tied to the emulator build; a file from a much newer or older engine may not load. Auto-save copies the engine slot on a timer while this tab stays open, and only works in Keep in Browser mode (in-game menu, Settings, Save States).</p>
         </article>
 
         <article class="tool-card" aria-labelledby="controls-heading">
-          <h3 id="controls-heading"><span class="tick">🎮</span> Controls, per-system remap</h3>
-          <p>Player&nbsp;1's keyboard and gamepad bindings, one map per system, remap GBA once and every GBA game uses it. Click <em>Remap key</em>, then press a key (<kbd class="key">Esc</kbd> cancels); click <em>Remap pad</em>, then press a gamepad button (<kbd class="key">Esc</kbd> cancels). Saved maps apply the next time a game for that system boots. The remapper itself is fully keyboard-operable.</p>
+          <h3 id="controls-heading">Controls, per-system remap</h3>
+          <p>Player 1's keyboard and gamepad bindings, one map per system: remap GBA once and every GBA game uses it. Click <em>Remap key</em>, then press a key (<kbd class="key">Esc</kbd> cancels); click <em>Remap pad</em>, then press a gamepad button. Saved maps apply the next time a game for that system boots. The remapper is fully keyboard-operable.</p>
           <div class="form-row">
             <label for="remap-system"><strong>System</strong></label>
             <select id="remap-system" aria-label="System for control remapping"></select>
           </div>
           <div class="tool-status" id="controls-status" role="status">Pick a system to see its mappings.</div>
-          <div style="overflow-x:auto">
+          <div class="table-scroll">
           <table class="remap-table" id="controls-table" aria-label="Player 1 control mappings">
             <thead><tr><th scope="col">Button</th><th scope="col">Keyboard</th><th scope="col">Gamepad</th><th scope="col">Remap</th></tr></thead>
             <tbody id="controls-tbody"></tbody>
           </table>
           </div>
           <div class="tool-actions">
-            <button class="btn btn-ghost btn-sm" id="remap-reset" type="button">↩ Reset this system to defaults</button>
+            <button class="btn btn-ghost btn-small" id="remap-reset" type="button">Reset this system to defaults</button>
           </div>
-          <p class="hint">This per-system map overrides Player&nbsp;1 changes made in the engine's own Control Settings on next boot, use this panel for Player&nbsp;1. Analog-stick axes can only be remapped in the engine's own Control Settings (gamepad icon in the in-game menu). Your older per-game mappings were moved into the per-system map automatically.</p>
+          <p class="hint">This per-system map overrides Player 1 changes made in the engine's own Control Settings on next boot; use this panel for Player 1. Analog-stick axes can only be remapped in the engine's own Control Settings (gamepad icon in the in-game menu). Older per-game mappings were moved into the per-system map automatically.</p>
         </article>
 
         <article class="tool-card" aria-labelledby="cheats-heading">
-          <h3 id="cheats-heading"><span class="tick">✨</span> Cheats</h3>
-          <p>Enter your own cheat codes for the current game. They're loaded into the engine's cheat manager when the game boots, toggle them on/off with the cheat icon in the in-game menu. Use codes you trust, for games you own.</p>
+          <h3 id="cheats-heading">Cheats</h3>
+          <p>Enter your own cheat codes for the current game. They load into the engine's cheat manager when the game boots; toggle them with the cheat icon in the in-game menu. Use codes you trust, for games you own.</p>
           <div class="tool-status" id="cheats-status" role="status">Boot a game above to attach cheats to it.</div>
           <ul class="plain" id="cheats-list" aria-label="Cheat codes for this game"></ul>
           <div class="form-row">
             <input type="text" id="cheat-name" placeholder="Name (e.g. Infinite lives)" aria-label="Cheat name" maxlength="80">
-            <input type="text" id="cheat-code" placeholder="Code (e.g. 00FF…)" aria-label="Cheat code" maxlength="120">
+            <input type="text" id="cheat-code" placeholder="Code" aria-label="Cheat code" maxlength="120">
           </div>
           <div class="tool-actions">
-            <button class="btn btn-primary btn-sm" id="cheat-add" type="button">＋ Add cheat</button>
+            <button class="btn btn-small" id="cheat-add" type="button">Add cheat</button>
           </div>
-          <p class="hint">Code formats (Game Genie / GameShark / Action Replay) are applied by each core's own cheat engine, what works varies by system and isn't guaranteed. If a code glitches, disable it in the in-game cheat manager.</p>
+          <p class="hint">Code formats (Game Genie, GameShark, Action Replay) are applied by each core's own cheat engine; what works varies by system and is not guaranteed. If a code glitches, disable it in the in-game cheat manager.</p>
         </article>
 
         <article class="tool-card" aria-labelledby="display-heading">
-          <h3 id="display-heading"><span class="tick">📺</span> Display options <span class="sys-badge" id="display-sys"></span></h3>
-          <p>CRT scanlines, integer scaling and aspect ratio for <span id="display-sys-2">this system</span>, remembered per system on this device. Reduced-motion safe: the tube flicker never runs when your OS asks for reduced motion, and panel animations are disabled.</p>
+          <h3 id="display-heading">Display options <span class="sys-badge" id="display-sys"></span></h3>
+          <p>CRT scanlines, integer scaling, and aspect ratio for <span id="display-sys-2">this system</span>, remembered per system on this device. Reduced-motion safe: the tube flicker never runs when your system asks for reduced motion.</p>
           <div class="form-row checks">
-            <label><input type="checkbox" id="disp-crt"> 📺 CRT filter (scanlines + vignette)</label>
-            <label><input type="checkbox" id="disp-intscale"> 🔲 Integer scale (crisp pixels)</label>
+            <label><input type="checkbox" id="disp-crt"> CRT filter (scanlines + vignette)</label>
+            <label><input type="checkbox" id="disp-intscale"> Integer scale (crisp pixels)</label>
           </div>
           <div class="form-row">
             <label for="disp-aspect"><strong>Aspect ratio</strong></label>
@@ -218,215 +175,144 @@
             </select>
           </div>
           <div class="tool-actions">
-            <button class="btn btn-ghost btn-sm" id="fs-btn-2" type="button" aria-pressed="false">⛶ Fullscreen</button>
-            <button class="btn btn-ghost btn-sm" id="settings-open-2" type="button">⚙ Quick settings</button>
+            <button class="btn btn-ghost btn-small" id="fs-btn-2" type="button" aria-pressed="false">Fullscreen</button>
+            <button class="btn btn-ghost btn-small" id="settings-open-2" type="button">Quick settings</button>
           </div>
           <p class="hint">Also in the toolbar while playing, and in the quick-settings drawer. Integer scale snaps the picture to whole-pixel multiples, no blurry half-pixels. Aspect options reframe the engine's canvas with CSS; the emulated resolution never changes.</p>
         </article>
 
       </div>
-    </div>
-  </section>
+    </section>
 
-  <dialog id="settings-dialog" aria-labelledby="settings-dialog-title">
-    <div class="dialog-card">
-      <h3 id="settings-dialog-title">⚙ Quick settings <span id="settings-dialog-sys"></span></h3>
-      <p class="hint">Remembered per system on this device. Everything here applies live.</p>
-      <fieldset>
-        <legend>📺 Display</legend>
-        <div class="form-row checks">
-          <label><input type="checkbox" id="dlg-crt"> CRT filter</label>
-          <label><input type="checkbox" id="dlg-intscale"> Integer scale</label>
-        </div>
-        <div class="form-row">
-          <label for="dlg-aspect"><strong>Aspect ratio</strong></label>
-          <select id="dlg-aspect" aria-label="Aspect ratio">
-            <option value="fill">Fill (engine default)</option>
-            <option value="4:3">4:3</option>
-            <option value="16:9">16:9</option>
-            <option value="original">Original (1:1 pixels)</option>
-          </select>
-        </div>
-        <div class="tool-actions">
-          <button class="btn btn-ghost btn-sm" id="fs-btn-3" type="button" aria-pressed="false">⛶ Fullscreen</button>
-        </div>
-      </fieldset>
-      <fieldset>
-        <legend>⏱ Auto-save</legend>
-        <div class="form-row">
-          <label><input type="checkbox" id="dlg-autosave"> Auto-save the engine slot</label>
-          <label>every
-            <select id="dlg-autosave-mins" aria-label="Auto-save interval">
-              <option value="1">1 minute</option>
-              <option value="5" selected>5 minutes</option>
-              <option value="15">15 minutes</option>
+    <dialog id="settings-dialog" aria-labelledby="settings-dialog-title">
+      <div class="dialog-card">
+        <h3 id="settings-dialog-title">Quick settings <span id="settings-dialog-sys"></span></h3>
+        <p class="hint">Remembered per system on this device. Everything here applies live.</p>
+        <fieldset>
+          <legend>Display</legend>
+          <div class="form-row checks">
+            <label><input type="checkbox" id="dlg-crt"> CRT filter</label>
+            <label><input type="checkbox" id="dlg-intscale"> Integer scale</label>
+          </div>
+          <div class="form-row">
+            <label for="dlg-aspect"><strong>Aspect ratio</strong></label>
+            <select id="dlg-aspect" aria-label="Aspect ratio">
+              <option value="fill">Fill (engine default)</option>
+              <option value="4:3">4:3</option>
+              <option value="16:9">16:9</option>
+              <option value="original">Original (1:1 pixels)</option>
             </select>
-          </label>
+          </div>
+          <div class="tool-actions">
+            <button class="btn btn-ghost btn-small" id="fs-btn-3" type="button" aria-pressed="false">Fullscreen</button>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Auto-save</legend>
+          <div class="form-row">
+            <label><input type="checkbox" id="dlg-autosave"> Auto-save the engine slot</label>
+            <label>every
+              <select id="dlg-autosave-mins" aria-label="Auto-save interval">
+                <option value="1">1 minute</option>
+                <option value="5" selected>5 minutes</option>
+                <option value="15">15 minutes</option>
+              </select>
+            </label>
+          </div>
+          <p class="hint" id="dlg-autosave-status" role="status"></p>
+        </fieldset>
+        <div class="tool-actions">
+          <a class="btn btn-ghost btn-small" href="#controls-heading" id="dlg-remap-link">Remap controls</a>
+          <form method="dialog" style="display:inline"><button class="btn btn-small" value="close">Done</button></form>
         </div>
-        <p class="hint" id="dlg-autosave-status" role="status"></p>
-      </fieldset>
-      <div class="tool-actions">
-        <a class="btn btn-ghost btn-sm" href="#controls-heading" id="dlg-remap-link">🎮 Remap controls</a>
-        <form method="dialog" style="display:inline"><button class="btn btn-primary btn-sm" value="close">Done</button></form>
       </div>
-    </div>
-  </dialog>
+    </dialog>
 
-  <section class="section" id="library" aria-labelledby="library-heading">
-    <div class="wrap">
-      <div class="section-head"><h2 id="library-heading"><span class="tick">»</span> Your library, on this device</h2></div>
+    <section class="section" id="library" aria-labelledby="library-heading">
+      <div class="section-head"><h2 id="library-heading">Your games, on this device</h2></div>
       <p class="section-sub">Games you keep are staged in this browser only, addressed by a hash of their contents, so renaming a file never orphans it or its saves. Nothing here uploads, and there is no account. Browser storage can be evicted by the browser, so export your saves; that button is the seatbelt.</p>
-      <div class="tool-status" id="library-status" role="status">Reading the library…</div>
+      <div class="tool-status" id="library-status" role="status">Reading your games…</div>
       <ul class="plain slots-list" id="library-list" aria-label="Staged games"></ul>
       <div class="tool-actions">
-        <button class="btn btn-ghost btn-sm" id="library-keep" type="button" disabled>＋ Keep the current game in the library</button>
-        <button class="btn btn-ghost btn-sm" id="library-persist" type="button">Ask the browser to keep this storage</button>
-        <button class="btn btn-ghost btn-sm" id="saves-export" type="button">⬇ Download my saves (zip)</button>
-        <label class="btn btn-ghost btn-sm" for="saves-import" style="cursor:pointer">⬆ Import saves</label>
+        <button class="btn btn-ghost btn-small" id="library-keep" type="button" disabled>Keep the current game here</button>
+        <button class="btn btn-ghost btn-small" id="library-persist" type="button">Ask the browser to keep this storage</button>
+        <button class="btn btn-ghost btn-small" id="saves-export" type="button">Download my saves (zip)</button>
+        <label class="btn btn-ghost btn-small" for="saves-import" style="cursor:pointer">Import saves</label>
         <input type="file" id="saves-import" class="sr-only" tabindex="-1" accept=".zip,.state" aria-label="Import a saves zip or a single state file">
       </div>
       <p class="hint" id="library-estimate">Checking storage…</p>
-    </div>
-  </section>
+    </section>
 
-  <section class="section" id="netplay-notes" aria-labelledby="netplay-heading">
-    <div class="wrap">
-      <div class="section-head"><h2 id="netplay-heading"><span class="tick">»</span> Netplay, the honest state</h2></div>
+    <section class="section" id="netplay-notes" aria-labelledby="netplay-heading">
+      <div class="section-head"><h2 id="netplay-heading">Netplay, the honest state</h2></div>
       <ul class="honest-list">
-        <li><strong>What it is:</strong> the EmulatorJS engine advertises a WebRTC room-code netplay feature (a host creates a room, others join with a code, inputs sync peer-to-peer). Both players need their own copy of the same game file, no file ever travels through us.</li>
-        <li><strong>The honest state:</strong> the engine's own docs flag netplay as <em>"being worked on"</em>, historically it needed pre-4.0 builds, old cores, and a signaling server. Button Mash has <strong>not</strong> verified netplay end-to-end on the stable engine build, so it is <strong>not enabled or promised</strong> here. Expect latency; not every core or game behaves.</li>
-        <li><strong>If you try it elsewhere:</strong> same file on both ends (dumped from hardware you own), a decent connection, and low expectations for twitchy games. For local multiplayer, two gamepads on one machine in this Player works today.</li>
+        <li><strong>What it is:</strong> the EmulatorJS engine advertises a WebRTC room-code netplay feature: a host creates a room, others join with a code, inputs sync peer to peer. Both players need their own copy of the same game file; no file ever travels through us.</li>
+        <li><strong>The honest state:</strong> the engine's own docs flag netplay as "being worked on"; historically it needed older builds and a signaling server. PortPlay has <strong>not</strong> verified netplay end to end on the stable engine build, so it is <strong>not enabled or promised</strong> here. Expect latency; not every core or game behaves.</li>
+        <li><strong>What works today:</strong> local multiplayer, two gamepads on one machine in this Player. For online play, both players load their own dumps of the same game in an engine that supports it natively.</li>
       </ul>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="wrap">
-      <div class="section-head"><h2><span class="tick">»</span> How to play</h2></div>
-      <div class="grid cols-3">
-        <article class="feature-card">
-          <div class="icon" aria-hidden="true">1️⃣</div>
-          <h3>Load your file</h3>
-          <p>Drag &amp; drop, pick from your device, or paste a direct download URL (the host must allow cross-origin fetches, if a URL fails, download it and drop it in). The system is auto-detected from the file extension; override it with the dropdown if needed.</p>
-        </article>
-        <article class="feature-card">
-          <div class="icon" aria-hidden="true">2️⃣</div>
-          <h3>Control it your way</h3>
-          <p>Keyboard works out of the box, arrow keys and the usual suspects cover most games. The <a href="#player-2-tools">Controls tool</a> shows Player&nbsp;1's keyboard + gamepad bindings and lets you remap them, one map per system (applies on next boot; <kbd class="key">Esc</kbd> cancels a remap). USB gamepads are supported, and touch devices get on-screen buttons automatically.</p>
-        </article>
-        <article class="feature-card">
-          <div class="icon" aria-hidden="true">3️⃣</div>
-          <h3>Save like it's 1999 (but better)</h3>
-          <p>Save states live in the in-game menu: by default they download as <code>.state</code> files; switch to <em>Keep in Browser</em> in the engine's Settings → Save States and the <a href="#player-2-tools">Save slots tool</a> gives every game named slots, save, restore, rename, export, import, delete, plus an auto-save timer. Everything is browser-local; export the file to move a save to another device. In-game saves (SRAM) work too. Ejecting swaps the cartridge, your slots stay put.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <div class="section-head"><h2><span class="tick">»</span> Supported systems</h2></div>
-      <p class="section-sub">Cores via EmulatorJS (stable CDN). If your file's extension isn't auto-detected, pick the system manually before dropping it in.</p>
-      <div style="overflow-x:auto">
+    <section class="section" aria-labelledby="systems-heading">
+      <div class="section-head"><h2 id="systems-heading">Systems the Player runs</h2></div>
+      <p class="section-sub">Cores via EmulatorJS (stable CDN), identified by the file's contents. If a file is not recognised, pick the system manually above before dropping it in.</p>
+      <div class="table-scroll">
       <table class="keymap">
         <thead><tr><th>System</th><th>Core</th><th>File types</th><th>BIOS needed?</th></tr></thead>
         <tbody>
           <tr><td>Game Boy Advance</td><td>mGBA</td><td>.gba</td><td>No</td></tr>
-          <tr><td>Game Boy / Game Boy Color</td><td>Gambatte</td><td>.gb.gbc</td><td>No</td></tr>
+          <tr><td>Game Boy / Game Boy Color</td><td>Gambatte</td><td>.gb .gbc</td><td>No</td></tr>
           <tr><td>NES</td><td>FCEUmm</td><td>.nes</td><td>No</td></tr>
-          <tr><td>SNES</td><td>Snes9x</td><td>.sfc.smc</td><td>No</td></tr>
-          <tr><td>Genesis / Mega Drive</td><td>Genesis Plus GX</td><td>.md.gen.smd</td><td>No</td></tr>
+          <tr><td>Super Nintendo</td><td>Snes9x</td><td>.sfc .smc</td><td>No</td></tr>
+          <tr><td>Genesis / Mega Drive</td><td>Genesis Plus GX</td><td>.md .gen .smd</td><td>No</td></tr>
           <tr><td>Master System</td><td>SMS Plus</td><td>.sms</td><td>No</td></tr>
           <tr><td>Game Gear</td><td>Genesis Plus GX</td><td>.gg</td><td>No</td></tr>
           <tr><td>32X</td><td>PicoDrive</td><td>.32x</td><td>No</td></tr>
-          <tr><td>Sega CD</td><td>Genesis Plus GX</td><td>.cue/.bin.chd</td><td><strong>Yes, your own dump</strong></td></tr>
-          <tr><td>PlayStation</td><td>PCSX ReARMed</td><td>.cue/.bin.chd.iso</td><td><strong>Yes, your own dump</strong></td></tr>
-          <tr><td>Nintendo 64</td><td>Mupen64Plus-Next</td><td>.n64.z64.v64</td><td>No</td></tr>
+          <tr><td>Sega CD</td><td>Genesis Plus GX</td><td>.cue/.bin .chd</td><td><strong>Yes, your own dump</strong></td></tr>
+          <tr><td>PlayStation</td><td>PCSX ReARMed</td><td>.cue/.bin .chd .iso</td><td><strong>Yes, your own dump</strong></td></tr>
+          <tr><td>Nintendo 64</td><td>Mupen64Plus-Next</td><td>.n64 .z64 .v64</td><td>No</td></tr>
           <tr><td>Nintendo DS</td><td>melonDS</td><td>.nds</td><td>Optional (improves compatibility)</td></tr>
           <tr><td>TurboGrafx-16</td><td>Mednafen PCE</td><td>.pce</td><td>No</td></tr>
           <tr><td>Virtual Boy</td><td>Beetle VB</td><td>.vb</td><td>No</td></tr>
-          <tr><td>Atari 2600 / 7800 / Lynx</td><td>Stella / ProSystem / Handy</td><td>.a26.a78.lnx</td><td>No</td></tr>
-          <tr><td>Neo Geo Pocket, WonderSwan, ColecoVision</td><td>Mednafen / GearColeco</td><td>.ngp.ws.col</td><td>No</td></tr>
-          <tr><td>DOS (PC)</td><td>DOSBox via js-dos</td><td colspan="2">Has its own room: <a href="dos.html">the DOS corner</a></td></tr>
+          <tr><td>Atari 2600 / 7800 / Lynx</td><td>Stella / ProSystem / Handy</td><td>.a26 .a78 .lnx</td><td>No</td></tr>
+          <tr><td>Neo Geo Pocket, WonderSwan, ColecoVision</td><td>Mednafen / GearColeco</td><td>.ngp .ws .col</td><td>No</td></tr>
+          <tr><td>DOS (PC)</td><td>DOSBox via js-dos</td><td colspan="2">Has its own room: <a href="dos.html">the DOS room</a></td></tr>
         </tbody>
       </table>
       </div>
       <div class="callout" style="margin-top:1.2rem">
-        <p><strong>And the honest boundary:</strong> PlayStation 2, GameCube, Wii, PlayStation 3, Xbox, Xbox 360 and Switch files cannot play in any browser today. Drop one here anyway and the Player will name the system and hand you the working path for it, or read it now in <a href="guides/reverse-engineering.html">the reverse-engineering guide</a>. Saturn and PSP are recognised too; they join as labelled experiments in a later rotation, not under a promise today.</p>
+        <p><strong>And the honest boundary:</strong> PlayStation 2, GameCube, Wii, PlayStation 3, Xbox, Xbox 360, and Switch files cannot play in any browser today. Drop one anyway and the Player names the system and hands you the working path, or read it now in <a href="guide.html">the guide</a>. PSP, Saturn, and Dreamcast are recognised too; they are on the bench, not under a promise.</p>
       </div>
       <div class="callout warn" style="margin-top:1.2rem">
-        <p><strong>BIOS honesty:</strong> PlayStation and Sega CD cores need BIOS files dumped from hardware you own: Button Mash will never provide them, and no download link for them exists on this site. Attach your own via the BIOS picker above. Everything else boots with no BIOS.</p>
+        <p><strong>BIOS honesty:</strong> PlayStation and Sega CD need BIOS files dumped from hardware you own. PortPlay will never provide them, and no download link for them exists on this site. Attach your own with the BIOS picker above. Everything else boots with no BIOS.</p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="wrap">
-      <div class="section-head"><h2><span class="tick">»</span> Make it portable</h2></div>
-      <p class="section-sub">Love a game you own on GBA? The Converter wraps your ROM into a single <code>.html</code> file that boots straight into the game, host it anywhere, share the file, double-click to play.</p>
-      <a class="btn btn-cyan" href="converter.html">⚡ Open the ROM → Browser Game Converter</a>
-    </div>
-  </section>
+    <section class="section" aria-labelledby="portable-heading">
+      <div class="section-head"><h2 id="portable-heading">Make it portable</h2></div>
+      <p class="section-sub">A cartridge game you own can also become a single HTML file: the game and its player in one file, yours to keep and open anywhere. That happens on the converter, automatically, the moment you drop the file.</p>
+      <p style="margin-top:16px"><a class="btn" href="index.html">Open the converter</a></p>
+    </section>
+  </div>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-grid">
-      <div>
-        <h3>Play</h3>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="player.html">The Player</a></li>
-          <li><a href="converter.html">Converter</a></li>
-          <li><a href="games.html">Game directory</a></li>
-          <li><a href="collections.html">Collections</a></li>
-          <li><a href="kids.html">Kids corner</a></li>
-          <li><a href="party-planner.html">Party planner</a></li>
-          <li><a href="game-night.html">Game night</a></li>
-          <li><a href="tournament.html">Tournament</a></li>
-          <li><a href="tournament-night.html">Tournament night</a></li>
-          <li><a href="versus.html">Versus</a></li>
-          <li><a href="trophy-room.html">Trophy room</a></li>
-          <li><a href="passport.html">Arcade passport</a></li>
-          <li><a href="journal.html">Play journal</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3>Learn</h3>
-        <ul>
-          <li><a href="emulation.html">Emulation hub</a></li>
-          <li><a href="guides/reverse-engineering.html">Reverse-engineering guide</a></li>
-          <li><a href="guides/gba-wasm.html">GBA → WASM explainer</a></li>
-          <li><a href="monster-taming.html">Monster-taming corner</a></li>
-          <li><a href="dos.html">DOS corner</a></li>
-          <li><a href="system-picker.html">System picker</a></li>
-          <li><a href="parents.html">Parent guide</a></li>
-          <li><a href="play-legal.html">Play it legal</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3>For machines</h3>
-        <ul>
-          <li><a href="data/v1/">API v1</a></li>
-          <li><a href="API.md">API.md</a></li>
-          <li><a href="llms.txt">llms.txt</a></li>
-          <li><a href="skills/">skills/</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-note">
-      <span>Button Mash, your browser is the console. Built 2026.</span>
-      <span>Zero ROMs hosted. Zero piracy links. Engine: EmulatorJS (GPL-3.0).</span>
-    </div>
-    <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>
+<footer class="footer">
+  <div class="shell footer-in">
+    <span>PortPlay converts and plays game files you supply.</span>
+    <nav aria-label="Footer">
+      <a href="index.html">Converter</a>
+      <a href="player.html">Player</a>
+      <a href="dos.html">DOS</a>
+      <a href="guide.html">Guide</a>
+    </nav>
+    <p class="fineprint">PortPlay hosts no games, sells no games, and links to no game downloads. Play engines are EmulatorJS cores, loaded from the EmulatorJS CDN; your files never leave your device.</p>
   </div>
 </footer>
 
+<script src="assets/js/config.js"></script>
 <script src="assets/vendor/pako.min.js"></script>
 <script src="assets/js/converter4-core.js"></script>
 <script src="assets/js/converter4-ui.js"></script>
 <script src="assets/js/library.js"></script>
 <script src="assets/js/player.js"></script>
-<script src="assets/js/arcade.js"></script>
 </body>
 </html>

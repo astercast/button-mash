@@ -1,43 +1,61 @@
-# Button Mash 🕹️
+# PortPlay
 
-The universal in-browser game console — play anything in your browser, **legally**.
+**Drop a game you own. Play it here.**
 
-- **The Player** (`player.html`): bring-your-own-file EmulatorJS console for 20+ classic systems (GBA, SNES, NES, Genesis, GB/GBC, N64, PlayStation, …). File picker, drag-and-drop, URL loading, on-screen/keyboard/gamepad controls, save states, fullscreen. The site hosts zero ROMs; your file never leaves your machine.
-- **The Converter** (`converter.html`): drop in a GBA file you own → download a single self-contained `.html` browser game (ROM embedded, boots straight into play). 100% client-side.
-- **89 curated browser games** (`games.html`): puzzle, action, roguelike, idle, multiplayer, retro, horror, cozy. Every URL curl-verified live. Search, genre filters, favorites (localStorage), random game, game of the day.
-- **19 hand-built collections** (`collections.html`), **20 emulation guides** (`emulation.html` → `guides/`), incl. 6 per-system guides (GBA, SNES, N64, PS1, Genesis, Game Boy/Color) + 6 deep-dive guides (homebrew development, netplay, save workflows, CRT/display science, accessibility, game preservation — the "Deep-dive guides" knowledge hub) + the system-picker quiz (`system-picker.html`), **monster-taming corner**, and **play-legal.html** — the one clear legal page.
-- **Legal lane (non-negotiable)**: no ROM download links, no piracy sites, no cracked-game links, no BIOS downloads. Emulators are software; games come from your own dumps, homebrew, or legal archives.
+PortPlay is a client-side game converter and player. A visitor brings a game
+file they own; PortPlay identifies it by its contents, plays it in the
+browser, and (for cartridge systems) builds a portable single-file HTML copy
+they keep. There is no library, no catalog, no accounts, and no uploads:
+files are read on the visitor's device and never leave it.
 
-## Structure
+This repository was Button Mash until 2026-10-15. The library, catalog,
+collections, and every outbound game link were removed on the user's order;
+the site is the converter and nothing else. The directory and repo keep the
+`button-mash` name; the site's identity is PortPlay, isolated in
+`assets/js/config.js` plus page titles, so a future rename is a small,
+named change (see the landing record in `~/workspace/fleet-ops/wave-engine/`).
 
-- `index.html` — hub: centerpieces, game of the day, genre sampler
-- `player.html` / `converter.html` — the two centerpieces (`assets/js/player.js`, `assets/js/converter.js`, `assets/vendor/template-game.html`)
-- `games.html` / `collections.html` — directory + collections (rendered from `data/`)
-- `emulation.html`, `monster-taming.html`, `play-legal.html` — hubs and policy
-- `guides/<slug>.html` — 20 guides (some with interactive checklists; 6 deep-dive long-form guides)
-- `data/` — `games.json`, `collections.json`, `emulators.json`, `guides.json` (sources of truth)
-- `data/v1/` — `index/games/collections/emulators/guides.json` + `schema/` (static JSON API)
-- `assets/css/` — `tokens/base/layout/components/guides.css` (arcade design system)
-- `assets/js/` — `store/directory/player/converter/checklists.js`
-- `skills/` — 14 agent skills: game-finder, emulator-setup, player-guide, legal-sourcing, collection-curator, homebrew-hunter, party-game-picker, party-planner-runner, converter-multi-system, retro-guide, classroom-games, system-picker, tournament-runner, kids-corner-guide
-- `pipeline/` — `watch_itch.py`, `watch_emulator_releases.py` → `review_queue.json` (human review, never auto-publishes)
-- `scripts/` — `build.py` (validate + regenerate), `build_api.py`, `build_site.py`, `check_links.py`
-- `llms.txt` / `llms-full.txt` — agent-readable site summaries
-- `API.md`, `GO_LIVE.md`, `PIPELINE.md`, `WAVELOG.md` — docs
+## The five pages
 
-## Build & validate
+- `index.html` — **the Stage**: drop a file, it plays on the spot; a
+  portable copy builds alongside. Coverage lists are generated from the
+  converter's own code by `scripts/build.py` (`data/v1/coverage.json`), so
+  the page can only claim what the code routes.
+- `player.html` — **the Console**: the full player (EmulatorJS) with named
+  save slots, per-system control remapping, cheats, display options, your
+  own BIOS for PlayStation / Sega CD, and an on-device shelf of your games.
+- `dos.html` — **the DOS room**: a DOS game (ZIP or folder) is wrapped into
+  a `.jsdos` bundle in the browser and booted under DOSBox via js-dos.
+- `guide.html` — **the Guide**: for the systems no browser can convert
+  (PS2, GameCube, Wii, PS3, Xbox, 360, Switch) and the ones on the bench
+  (PSP, Saturn, Dreamcast): the working native path for each, and how to
+  dump your own games.
+- `404.html` — says so, briefly.
 
-```bash
-python3 scripts/build.py        # validate + regenerate api/llms/sitemap (prints BUILD OK)
-python3 scripts/check_links.py  # link check (prints LINK CHECK OK, 0 broken)
-node --check assets/js/*.js     # JS syntax
-python3 -m http.server          # serve locally, open index.html
+## How it works
+
+- `assets/js/converter4-core.js` — content-first router: reads the file's
+  own bytes (signatures, ISO contents, headers) and routes to play, convert,
+  DOS, a disc picker, or an honest decline with a guide link.
+- `assets/js/converter-core.js` — the single-file converter: validation
+  with honesty rules, deflate (in a Web Worker, `assets/js/stage.js`), and
+  the portable HTML builder (`assets/vendor/template-game.html`).
+- `assets/js/player.js` + `assets/js/library.js` — the console and the
+  on-device shelf (content-hash identity, so renames never orphan saves).
+- Play engines are EmulatorJS cores loaded from the EmulatorJS CDN at play
+  time; the DOS engine is js-dos. PortPlay hosts no games, sells no games,
+  and links to no game downloads, BIOS, or firmware. Ever.
+
+## Build and test
+
+```sh
+python3 scripts/build.py            # validates + regenerates data/v1/coverage.json, sitemap, llms.txt
+node scripts/test_converter12.js    # the standing converter contract suite
+node scripts/test_portplay.js       # per-class end-to-end proof (convert/play/decline/DOS/zip/coverage)
+python3 scripts/make_fixtures.py    # regenerates the homebrew test fixtures (deterministic)
 ```
 
-## Deploy
-
-GitHub-only, no Vercel (standing rule). See `GO_LIVE.md`. Pushes go through `python3 ~/workspace/skills/github/bin/gh-push.py ~/workspace/button-mash` — plain `git push` can't auth via this environment's connector.
-
-## The legal lane
-
-This repo will never contain: ROM download links, ROM piracy sites, cracked-game links, copyrighted game files, or BIOS downloads. The Player and Converter are bring-your-own-file tools. Every game URL in `data/games.json` was curl-verified (HTTP 200) on 2026-10-11; the build audits external link domains. An invented link fails the build.
+Deploy is a static Vercel build (`python3 scripts/build.py`, Standard build
+machine) with one serverless function, `api/health.js`. The working repo is
+never deployed directly; the `-live` snapshot repo is updated only on the
+user's explicit push order (see `GO_LIVE.md` / `LIVE_CHECKLIST.md`).

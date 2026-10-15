@@ -786,7 +786,7 @@
   function mkBtn(text, label, onClick, disabled, disabledTitle) {
     var b = document.createElement('button');
     b.type = 'button';
-    b.className = 'btn btn-ghost btn-sm';
+    b.className = 'btn btn-ghost btn-small';
     b.textContent = text;
     b.setAttribute('aria-label', label || text);
     if (disabled) {
@@ -1292,11 +1292,11 @@
       var td3 = document.createElement('td');
       (function (btnId, btnLabel) {
         var bk = document.createElement('button');
-        bk.type = 'button'; bk.className = 'btn btn-ghost btn-sm'; bk.textContent = 'Remap key';
+        bk.type = 'button'; bk.className = 'btn btn-ghost btn-small'; bk.textContent = 'Remap key';
         bk.setAttribute('aria-label', 'Remap keyboard key for ' + btnLabel + ' (' + (SYSTEM_LABELS[core] || core) + ')');
         bk.addEventListener('click', function () { startKeyCapture(core, btnId, bk); });
         var bp = document.createElement('button');
-        bp.type = 'button'; bp.className = 'btn btn-ghost btn-sm'; bp.textContent = 'Remap pad';
+        bp.type = 'button'; bp.className = 'btn btn-ghost btn-small'; bp.textContent = 'Remap pad';
         bp.setAttribute('aria-label', 'Remap gamepad button for ' + btnLabel + ' (' + (SYSTEM_LABELS[core] || core) + ')');
         bp.addEventListener('click', function () { startPadCapture(core, btnId, bp); });
         td3.appendChild(bk); td3.appendChild(bp);
@@ -1436,7 +1436,7 @@
       var code = document.createElement('code'); code.className = 'mono'; code.textContent = c.code || '';
       nm.appendChild(code);
       var rm = document.createElement('button');
-      rm.type = 'button'; rm.className = 'btn btn-ghost btn-sm'; rm.textContent = 'Remove';
+      rm.type = 'button'; rm.className = 'btn btn-ghost btn-small'; rm.textContent = 'Remove';
       rm.setAttribute('aria-label', 'Remove cheat ' + (c.name || ''));
       rm.addEventListener('click', function () {
         var a = getCheats();

@@ -7,3 +7,12 @@
 *.webp binary
 *.woff binary
 *.woff2 binary
+*.gba binary
+*.gb binary
+*.gbc binary
+*.nes binary
+*.sfc binary
+*.smc binary
+*.gen binary
+*.zip binary
+tests/homebrew-test-roms/** binary

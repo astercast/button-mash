@@ -3,327 +3,183 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Button Mash: Play Anything in Your Browser</title>
-<meta name="description" content="Button Mash: a universal in-browser game console. Play 213 curated browser games, run your own game files with EmulatorJS, or convert a ROM you own into a self-contained browser game. Legal lane only.">
+<title>PortPlay · Drop a game you own. Play it here.</title>
+<meta name="description" content="PortPlay is a game converter, not a library. Drop a game file you own and it converts and plays in your browser. Nothing uploads, nothing is hosted, no accounts.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Button Mash: Play Anything in Your Browser">
-<meta property="og:description" content="Button Mash: a universal in-browser game console. Play 213 curated browser games, run your own game files with EmulatorJS, or convert a ROM you own into a self-contained browser game. Legal lane only.">
+<meta property="og:title" content="PortPlay · Drop a game you own. Play it here.">
+<meta property="og:description" content="A converter, not a library. Drop a game you own; it plays in this tab, and cartridge games become a portable file that is yours to keep.">
 <meta property="og:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Button Mash: Play Anything in Your Browser">
-<meta name="twitter:description" content="Button Mash: a universal in-browser game console. Play 213 curated browser games, run your own game files with EmulatorJS, or convert a ROM you own into a self-contained browser game. Legal lane only.">
-<meta name="twitter:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <link rel="canonical" href="https://button-mash-live.vercel.app/">
-<meta name="theme-color" content="#07070f">
-<link rel="icon" href="favicon.ico" sizes="48x48">
+<meta name="theme-color" content="#080908">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<!-- bm-jsonld:start -->
-<script type="application/ld+json" data-bm-jsonld>
-{
- "@context": "https://schema.org",
- "@type": "WebSite",
- "name": "Button Mash",
- "url": "https://button-mash-live.vercel.app/",
- "description": "Button Mash: a universal in-browser game console. Play 213 curated browser games, run your own game files with EmulatorJS, or convert a ROM you own into a self-contained browser game. Legal lane only."
-}
-</script>
-<!-- bm-jsonld:end -->
-<!-- bm-vt:start -->
-<style data-bm-vt>
-@media (prefers-reduced-motion: no-preference) {
-  html:not(.fx-off) {
-    @view-transition { navigation: auto; }
-    ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .18s; }
-  }
-}
-</style>
-<!-- bm-vt:end -->
-<link rel="preload" href="assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/sora-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
-<link rel="stylesheet" href="assets/css/layout.css">
-<link rel="stylesheet" href="assets/css/components.css">
-<link rel="stylesheet" href="assets/css/wave16.css">
-<link rel="stylesheet" href="assets/css/trophy.css">
-<link rel="stylesheet" href="assets/css/attract.css">
-<link rel="stylesheet" href="assets/css/makeover.css">
-<!-- bm-r21:start -->
-<link rel="stylesheet" href="assets/css/redesign.css">
-<link rel="stylesheet" href="assets/css/cabinet.css">
-<!-- bm-r21:end -->
+<link rel="stylesheet" href="assets/css/stage.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"PortPlay","url":"https://button-mash-live.vercel.app/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (browser)","description":"A client-side game converter and player. Drop a game file you own; PortPlay converts and plays it in the browser. No uploads, no hosted games."}
+</script>
 </head>
 <body>
-<!-- you found the service panel. the high scores are all mine., the curator -->
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main">Skip to the converter</a>
 
-<header class="site-header">
-  <div class="wrap header-inner">
-    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">🕹️</span>Button<em>Mash</em></a>
-    <nav class="site-nav" aria-label="Primary" data-r21-nav>
-      <ul class="nav-primary">
-        <li><a href="games.html">Games</a></li>
-        <li><a href="collections.html">Collections</a></li>
-        <li><a href="converter.html">Converter</a></li>
-      </ul>
-      <details class="nav-more">
-        <summary>More</summary>
-        <ul class="nav-rest">
-          <li><a href="index.html" aria-current="page">Home</a></li>
-          <li><a href="kids.html">Kids corner</a></li>
-          <li><a href="party-planner.html">Party planner</a></li>
-          <li><a href="game-night.html">Game night</a></li>
-          <li><a href="tournament.html">Tournament</a></li>
-          <li><a href="emulation.html">Emulation</a></li>
-          <li><a href="monster-taming.html">Monster Taming</a></li>
-          <li><a href="play-legal.html">Play Legal</a></li>
-          <li><a href="trophy-room.html">Trophy room</a></li>
-          <li><a href="passport.html">Arcade passport</a></li>
-          <li><a href="tournament-night.html">Tournament night</a></li>
-          <li><a href="versus.html">Versus</a></li>
-          <li><a href="journal.html">Play journal</a></li>
-        </ul>
-      </details>
-      <a class="nav-cta" href="player.html">Player</a>
+<header class="topbar">
+  <div class="shell topbar-in">
+    <a class="wordmark" href="index.html" aria-label="PortPlay home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2.5" y="2.5" width="27" height="27" rx="8.5" fill="none" stroke="#bff747" stroke-width="2.4"/><path d="M13 10.8v10.4c0 .9 1 1.5 1.8 1L24 16.9a1.15 1.15 0 0 0 0-2L14.8 9.9c-.8-.5-1.8.1-1.8.9z" fill="#bff747"/></svg>
+      <span class="wordmark-name">Port<em>Play</em></span>
+    </a>
+    <nav class="topnav" aria-label="Primary">
+      <a href="index.html" aria-current="page">Converter</a>
+      <a href="player.html">Player</a>
+      <a href="dos.html">DOS</a>
+      <a href="guide.html">Guide</a>
     </nav>
   </div>
 </header>
 
 <main id="main">
-  <section class="hero" aria-label="What Button Mash is">
-    <div class="wrap hero-masthead">
-      <p class="hero-eyebrow">» <span data-game-count>213</span> games on the shelf · no installs · no accounts · no piracy, ever</p>
-      <h1 class="hero-title">Your browser<br>is the <em>console</em>.</h1>
-      <div class="hero-cta">
-        <a class="btn-primary hero-cta-main" href="games.html">» Browse the games</a>
-        <a class="hero-cta-quiet" href="player.html">Bring a game you own »</a>
-      </div>
-      <p class="stats-line">213 games on the shelf · 113 kid-safe · 24 shelves · 29 guides, every link checked by the Curator, every game played from its own file on this site.</p>
+  <div class="stage-wrap shell">
+    <div class="aurora" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <div class="stage-head">
+      <p class="kicker">The game converter</p>
+      <h1 class="hero-title">
+        <span class="kw">Your</span> <span class="kw">game.</span><br>
+        <span class="kw accent">Playing</span> <span class="kw accent">here.</span><br>
+        <span class="kw">In</span> <span class="kw">seconds.</span>
+      </h1>
+      <p class="lede">Drop a game file you own. PortPlay reads the file itself, converts it, and plays it in this tab. <strong>Nothing uploads. No account. No library.</strong></p>
     </div>
-  <section class="cabinet-section" aria-label="Button Mash arcade cabinet">
-    <div class="wrap">
-      <div class="cabinet" id="arcade-cabinet">
-        <div class="cabinet-marquee">
-          <div class="marquee-bulbs" aria-hidden="true"></div>
-          <h2 class="marquee-title">BUTTON <em>MASH</em></h2>
-          <p class="marquee-sub">» YOUR BROWSER IS THE CONSOLE «</p>
-          <div class="marquee-bulbs bottom" aria-hidden="true"></div>
-        </div>
-        <div class="cabinet-body">
-          <aside class="cabinet-side left" aria-hidden="true"></aside>
-          <div class="cabinet-center">
-            <div class="cabinet-screen-bezel">
-              <div class="cabinet-screen" id="cabinet-screen">
-                <div class="screen-crt" aria-hidden="true"></div>
-                <div class="demo-stage" id="demo-stage" role="region" aria-label="Demo loop: rotating game spotlights">
-                  <noscript><p style="color:var(--ink-dim);font-family:var(--font-mono)">The demo needs JavaScript. <a href="games.html" style="color:var(--neon-cyan)">Browse all 213 games ›</a></p></noscript>
-                </div>
-                <p class="demo-announcer sr-only" id="demo-announcer" aria-live="polite"></p>
-                <p class="insert-coin-line" aria-hidden="true"><span>· INSERT COIN ·</span></p>
-                <div class="screen-flash" aria-hidden="true"></div>
-              </div>
-            </div>
-            <div class="control-deck" role="toolbar" aria-label="Demo loop controls">
-              <button class="deck-btn" id="demo-prev" type="button">‹ Prev</button>
-              <button class="deck-btn" id="demo-pause" type="button" aria-pressed="false"><span>⏸ Pause</span></button>
-              <button class="deck-btn" id="demo-next" type="button">Next ›</button>
-              <a class="insert-coin-plate" id="insert-coin" href="games.html">» INSERT COIN: PRESS START</a>
-            </div>
-            <p class="demo-callouts" aria-hidden="true"><span class="callout-swap" id="demo-callout"></span></p>
-            <p class="sr-only" id="demo-stats-summary"></p>
+
+    <section class="stage" id="stage" data-state="idle" aria-label="Converter">
+      <div class="aperture" id="aperture">
+        <div class="screen" id="screen">
+          <div class="idle-face" id="idle-face" role="button" tabindex="0" aria-label="Choose a game file, or drop one anywhere on this panel">
+            <svg class="ring-mark" viewBox="0 0 96 96" aria-hidden="true">
+              <circle class="ring" cx="48" cy="48" r="41" fill="none" stroke="#bff747" stroke-width="2" stroke-dasharray="4 7" opacity="0.75"/>
+              <rect x="24" y="24" width="48" height="48" rx="14" fill="none" stroke="#f4f6fa" stroke-width="2.5"/>
+              <path d="M42 38.5v19c0 1.7 1.9 2.8 3.4 1.9L60 49.9a2.15 2.15 0 0 0 0-3.8L45.4 36.6c-1.5-.9-3.4.2-3.4 1.9z" fill="#bff747"/>
+            </svg>
+            <p class="idle-title">Drop your game</p>
+            <p class="idle-sub">A cartridge, disc image, or DOS game <b>you own</b>. We identify it by its bytes, never by filename alone.</p>
+            <span class="btn" aria-hidden="true">Choose a file</span>
           </div>
-          <aside class="cabinet-side right" aria-hidden="true"></aside>
+          <div class="scanline" aria-hidden="true"></div>
         </div>
-        <div class="cabinet-kick" aria-hidden="true"><span>• 213 FREE GAMES • NO PIRACY, EVER •</span></div>
+        <input type="file" id="file-input" multiple hidden aria-label="Choose game files">
       </div>
-    </div>
-  </section>
-    <div class="wrap hero-after">
-      <p class="hero-sub">A cabinet's worth of games that run in a tab. Nothing to download.
-        Nothing to sign up for. The cabinet above is live: it plays its own
-        attract loop, like the old days, and every spotlight opens its file
-        right here. Below it, two machines: the Player for games you own,
-        and Converter 4.0 for turning them into browser games of your own.</p>
-    </div>
-  </section>
 
-  <section class="section shelf-section" aria-label="Fresh from the shelf">
-    <div class="wrap">
-      <div class="hero-shelf">
-        <div class="section-head">
-          <h2>Fresh from the shelf</h2>
-          <a href="games.html" id="all-games-link">All 213 games ›</a>
+      <div class="readout" aria-live="polite">
+        <span class="dot" aria-hidden="true"></span>
+        <span id="readout-text">Ready when you are</span>
+        <span class="game-name" id="readout-game"></span>
+        <span class="spacer"></span>
+        <a href="player.html">Full player</a>
+      </div>
+      <div class="filament" role="progressbar" aria-label="Conversion progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="filament"><i id="filament-fill"></i></div>
+
+      <div class="queue" id="queue" aria-live="polite"></div>
+    </section>
+
+    <section class="band" aria-label="How it works">
+      <div class="band-head">
+        <h2>Three steps. One of them is yours.</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <p class="n">1</p>
+          <h3>Drop it here</h3>
+          <p>A file from a game you own: a cartridge dump, a disc image, a zipped DOS game. PortPlay reads the bytes and knows what it is.</p>
         </div>
-        <p class="season-line"><strong>The Season.</strong> The shelf is a season,
-          not a warehouse: <span data-game-count>213</span> games up, and the Curator
-          walks the whole shelf every week. A link found dead comes off the same day.
-          A new find earns its slot at the head of the season, and nothing stays up
-          on reputation alone.</p>
-        <div class="grid cols-4" id="genre-sampler"></div>
+        <div class="step">
+          <p class="n">2</p>
+          <h3>It plays</h3>
+          <p>The right engine loads on its own and the game starts on the screen above. No core picker, no settings page, no sign-up.</p>
+        </div>
+        <div class="step">
+          <p class="n">3</p>
+          <h3>Take it with you</h3>
+          <p>Cartridge games also become one portable HTML file: the game and its player in a single file that opens anywhere, forever yours.</p>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
+    <section class="band" aria-label="What PortPlay handles">
+      <div class="band-head">
+        <h2>What it takes, and what it will not pretend to.</h2>
+        <p>This list is generated from the converter's own code, not written by marketing. If a system is not here, the converter cannot run it.</p>
+      </div>
+      <div class="coverage" id="coverage">
+        <div class="cov-group">
+          <h3>Converts to a portable file <span>one HTML file, plays anywhere</span></h3>
+          <div class="cov-list" data-cov="convert"></div>
+        </div>
+        <div class="cov-group">
+          <h3>Plays right here <span>streamed from your file, nothing stored</span></h3>
+          <div class="cov-list" data-cov="play"></div>
+        </div>
+        <div class="cov-group">
+          <h3>Guide only, for now <span>no browser engine exists yet</span></h3>
+          <div class="cov-list" data-cov="guide"></div>
+        </div>
+      </div>
+    </section>
 
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>» INSERT COIN</span><span>• 213 FREE GAMES</span><span>⚡ GBA › BROWSER</span><span>🕹️ 20+ SYSTEMS</span><span>• SAVE STATES</span><span>• NO PIRACY, EVER</span><span>» INSERT COIN</span><span>• 213 FREE GAMES</span><span>⚡ GBA › BROWSER</span><span>🕹️ 20+ SYSTEMS</span><span>• SAVE STATES</span><span>• NO PIRACY, EVER</span>
-    </div>
+    <section class="band" aria-label="The fine print, up front">
+      <div class="honest">
+        <div>
+          <h3>Nothing uploads</h3>
+          <p>Your file is read on this device and never leaves it. The only thing downloaded is the emulator engine itself, from the EmulatorJS CDN.</p>
+        </div>
+        <div>
+          <h3>Your games, your copies</h3>
+          <p>PortPlay hosts no games and links to none. It converts files you already own. That line does not move.</p>
+        </div>
+        <div>
+          <h3>Honest noes</h3>
+          <p>Some systems cannot run in a browser at all. PortPlay says so in plain words and routes you to the guide, instead of faking a conversion.</p>
+        </div>
+        <div>
+          <h3>Saves stay yours</h3>
+          <p>Save states and battery saves live in this browser, tied to your game's own bytes, and follow it between this stage and the full player.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" aria-label="When a game cannot convert">
+      <div class="guide-cta">
+        <div>
+          <h2>Some games need the workshop, not the stage.</h2>
+          <p>Decompilations, recompilers, and your own cartridge dumps: the guide covers the routes that run the games a browser cannot convert directly.</p>
+        </div>
+        <a class="btn btn-ghost" href="guide.html">Read the guide</a>
+      </div>
+    </section>
   </div>
-
-  <section class="section" id="how">
-    <div class="wrap">
-      <div class="section-head">
-        <h2><span class="tick">»</span> Start here: the two machines</h2>
-        <p class="section-sub">Everything else on this site is games and writing. These two are the workshop.</p>
-      </div>
-      <div class="grid cols-2">
-        <article class="feature-card">
-          <div class="icon" aria-hidden="true">🎮</div>
-          <h3>The Player, your files, in the browser</h3>
-          <p>Drag in a game file you own: GBA, SNES, NES, Genesis, Game Boy, N64, PlayStation, 20+ systems. Keyboard, gamepad, save states, fullscreen. The site hosts zero ROMs, and your file never leaves your machine. That's the whole deal.</p>
-          <a class="card-link" href="player.html">Open the Player ›</a>
-        </article>
-        <article class="feature-card">
-          <div class="icon" aria-hidden="true">⚡</div>
-          <h3>The Converter, your ROM becomes a web page</h3>
-          <p>Drop in a GBA, SNES, Genesis, NES, or Game Boy file you own and get back a single <code>.html</code> file that <em>is</em> your game: boots straight into play, works anywhere you can host a file. Everything happens on your machine, nothing uploads, ever.</p>
-          <a class="card-link" href="converter.html">Try the Converter ›</a>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <div class="gotd" id="gotd" aria-live="polite">
-        <span class="gotd-label">Game of the day</span>
-        <p>Loading today's pick…</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <aside class="curator-note" aria-label="A note from the curator">
-        <p class="curator-kicker">» A note from the curator</p>
-        <p>I built Button Mash because browser games deserved better than a search-results
-          page with forty pop-ups. Every game here is one I'd actually tell a friend
-          about, including the weird ones. <em>Especially</em> the weird ones. If a
-          link dies, it comes off the shelf; if a game wastes your time, it never got on.</p>
-        <p class="curator-sign">, The Curator</p>
-      </aside>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <aside class="curator-note" aria-label="Game night">
-        <p class="curator-kicker">» Hosting people?</p>
-        <p>Tell the Curator the headcount, the hours, and the mood, it deals your night like
-          a good set: warm-up, main events, showdown, cool-down, from the 213 verified games.
-          <a href="game-night.html" style="font-weight:700">» Deal the night</a>.</p>
-      </aside>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <h2><span class="tick">»</span> Learn the craft</h2>
-      </div>
-      <div class="grid cols-3">
-        <article class="feature-card">
-          <div class="icon" aria-hidden="true">🔧</div>
-          <h3>Emulation hub</h3>
-          <p>Setup guides for EmulatorJS, RetroArch and mGBA, a per-system best-emulator table, and plain-English explainers on how emulation actually works.</p>
-          <a class="card-link" href="emulation.html">Enter the hub ›</a>
-        </article>
-        <article class="feature-card">
-          <div class="icon" aria-hidden="true">🧬</div>
-          <h3>How GBA becomes WebAssembly</h3>
-          <p>The reverse-engineering pattern behind browser GBA: lifting ARM/THUMB code into WASM, frame timing, memory mapping. Original explainer, real tech.</p>
-          <a class="card-link" href="guides/gba-wasm.html">Read the explainer ›</a>
-        </article>
-        <article class="feature-card">
-          <div class="icon" aria-hidden="true">⚖️</div>
-          <h3>Play it legal</h3>
-          <p>One clear page: what you can and can't do here, legal ROM sources, and how to rip games you physically own. No piracy links, ever.</p>
-          <a class="card-link" href="play-legal.html">Read the rules ›</a>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <div class="legal-banner">
-        <strong>🛡️ The Button Mash promise:</strong> this site hosts zero ROMs, links zero ROMs, and will never point you at piracy. Emulation here means emulators as software, your own files, homebrew, and legal archives. <a href="play-legal.html">Read the full legal lane ›</a>
-      </div>
-    </div>
-  </section>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-grid">
-      <div>
-        <h3>Play</h3>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="player.html">The Player</a></li>
-          <li><a href="converter.html">Converter</a></li>
-          <li><a href="games.html">Game directory</a></li>
-          <li><a href="collections.html">Collections</a></li>
-          <li><a href="kids.html">Kids corner</a></li>
-          <li><a href="party-planner.html">Party planner</a></li>
-          <li><a href="game-night.html">Game night</a></li>
-          <li><a href="tournament.html">Tournament</a></li>
-          <li><a href="tournament-night.html">Tournament night</a></li>
-          <li><a href="versus.html">Versus</a></li>
-          <li><a href="trophy-room.html">Trophy room</a></li>
-          <li><a href="passport.html">Arcade passport</a></li>
-          <li><a href="journal.html">Play journal</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3>Learn</h3>
-        <ul>
-          <li><a href="emulation.html">Emulation hub</a></li>
-          <li><a href="guides/reverse-engineering.html">Reverse-engineering guide</a></li>
-          <li><a href="guides/gba-wasm.html">GBA → WASM explainer</a></li>
-          <li><a href="monster-taming.html">Monster-taming corner</a></li>
-          <li><a href="dos.html">DOS corner</a></li>
-          <li><a href="system-picker.html">System picker</a></li>
-          <li><a href="parents.html">Parent guide</a></li>
-          <li><a href="play-legal.html">Play it legal</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3>For machines</h3>
-        <ul>
-          <li><a href="data/v1/">API v1</a></li>
-          <li><a href="API.md">API.md</a></li>
-          <li><a href="llms.txt">llms.txt</a></li>
-          <li><a href="skills/">skills/</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-note">
-      <span>Button Mash, your browser is the console. Built 2026.</span>
-      <span>Zero ROMs hosted. Zero piracy links. All game descriptions original.</span>
-    </div>
-    <div class="coin-plate" aria-hidden="true"><span>• GAME OVER? INSERT COIN TO CONTINUE •</span></div>
+<footer class="footer">
+  <div class="shell footer-in">
+    <span>PortPlay converts and plays game files you supply.</span>
+    <nav aria-label="Footer">
+      <a href="index.html">Converter</a>
+      <a href="player.html">Player</a>
+      <a href="dos.html">DOS</a>
+      <a href="guide.html">Guide</a>
+    </nav>
+    <p class="fineprint">PortPlay hosts no games, sells no games, and links to no game downloads. Play engines are EmulatorJS cores, loaded from the EmulatorJS CDN; your files never leave your device. Converted files are yours: keep them, back them up, play them anywhere.</p>
   </div>
 </footer>
 
-<script src="assets/js/store.js"></script>
-<script src="assets/js/trophy-core.js"></script>
-<script src="assets/js/attract.js"></script>
-<script src="assets/js/arcade.js"></script>
-<script src="assets/js/directory.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/vendor/pako.min.js"></script>
+<script src="assets/js/converter-core.js"></script>
+<script src="assets/js/converter4-core.js"></script>
+<script src="assets/js/converter4-ui.js"></script>
+<script src="assets/js/stage.js"></script>
 </body>
 </html>

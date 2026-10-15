@@ -2,6 +2,26 @@
 
 Running record of build waves. Newest first.
 
+## Rebrand — 2026-10-15 — PORTPLAY: converter-only total rebuild (user order 01:57 PDT)
+
+The site stops being a gaming library and becomes one product: the
+converter. Removed: the catalog, collections, genres, kids corner,
+tournaments, journal, passport, trophy room, versus, party tools, the
+Curator and its cron, the games/collections/game-night APIs, and every
+outbound game link (224+ files). What remains is five pages: the Stage
+(index), the Console (player), the DOS room, the Guide, and a 404.
+
+Kept and carried over verbatim: the converter engines
+(`converter-core.js`, `converter4-core.js`), the console (`player.js`),
+the on-device shelf (`library.js`), and the DOS room (`dos.js`). New:
+content-first stage choreography (`stage.js`), a Web Worker conversion
+path, coverage generated from the engines' own code
+(`data/v1/coverage.json`), per-class proof fixtures and
+`scripts/test_portplay.js` (103 checks). Identity: "The Instrument",
+graphite + one signal accent, Sora/Inter, self-hosted. Name isolated in
+`assets/js/config.js`. Landing record:
+`~/workspace/fleet-ops/wave-engine/landing-portplay-rebrand-2026-10-15.md`.
+
 ## Rotation 21 — 2026-10-13 — FULL REDESIGN: the cabinet, rebuilt quiet (user scope confirmation 18:25 PDT; navigation standard 18:33 PDT)
 
 Presentation only; no content, data, or functionality removed.

@@ -136,10 +136,10 @@ const template = fs.readFileSync(path.join(ROOT, "assets/vendor/template-game.ht
 const tplTokens = [...new Set(template.match(/__BM_[A-Z0-9_]+__/g) || [])];
 check("template tokens == contract", tplTokens.length === C.TOKENS.length && C.TOKENS.every((t) => tplTokens.includes(t)),
   C.TOKENS.length + " tokens: " + tplTokens.join(", "));
-const convJs = fs.readFileSync(path.join(ROOT, "assets/js/converter.js"), "utf8");
-check("converter.js wires every token field", ["name:", "gameId:", "buildDate:", "romSize:", "romB64:",
+const convJs = fs.readFileSync(path.join(ROOT, "assets/js/stage.js"), "utf8");
+check("stage.js wires every token field", ["name:", "gameId:", "buildDate:", "romSize:", "romB64:",
   "core:", "coreLabel:", "system:", "hint:", "compressed:", "cover:"].every((f) => convJs.includes(f)),
-  "buildHtml fields incl. compressed + cover");
+  "buildHtml fields incl. compressed + cover (stage.js is the converter UI since the PortPlay rebuild)");
 const built = C.buildHtml(template, {
   name: "Test <Game>", gameId: "bm-test-1", buildDate: "2026-10-11", romSize: "1.0 MB",
   romB64: "AAEC", core: "gba", coreLabel: "mGBA core", system: "Game Boy Advance",
@@ -149,7 +149,8 @@ check("buildHtml: no leftovers", !/__BM_[A-Z0-9_]+__/.test(built), "all 11 repla
 check("buildHtml: name escaped", built.includes("Test &lt;Game&gt;") && !built.includes("Test <Game>"), "XSS-safe");
 check("buildHtml: compressed flag", built.includes('var BM_COMPRESSED = "1"'), "inflate path armed");
 check("buildHtml: cover embedded", built.includes('var BM_COVER = "data:image/png;base64,AAA"'), "cover token");
-check("output has player deep link", built.includes('href="player.html?core=gba"'), "?core=gba preselect");
+check("output has player deep link", built.includes("player.html?core=gba"),
+  "?core=gba preselect (absolute URL since the PortPlay rebuild, so downloaded files still find the player)");
 check("output has inflate guard", built.includes("DecompressionStream"), "compressed boot path");
 check("buildHtml: missing token throws", (() => {
   try { C.buildHtml(template.replace("__BM_COVER__", ""), { name: "x", gameId: "y", buildDate: "z", romSize: "r", romB64: "b", core: "c", coreLabel: "l", system: "s", hint: "h", compressed: "0", cover: "" }); return false; }
@@ -210,16 +211,16 @@ async function batchTests() {
   check("queueStats", st.total === 5 && st.done === 1 && st.failed === 1 && st.cancelled === 1 &&
     st.queued === 1 && st.active === 1 && st.bytesIn === 100 && st.bytesOut === 130, "counts + byte totals");
 
-  // HTML radios match the core compression contract
-  const html = fs.readFileSync(path.join(ROOT, "converter.html"), "utf8");
-  check("compression radios match core", C.COMPRESSION.every((c) => html.includes('value="' + c.id + '"')),
-    C.COMPRESSION.map((c) => c.id).join(","));
-  check("converter.html loads pako+core", html.includes("assets/vendor/pako.min.js") && html.includes("assets/js/converter-core.js"),
-    "script order: pako, core, ui");
-  check("batch UI ids present", ["conv-queue", "conv-cancel", "conv-download-all", "conv-cover", "conv-status"]
-    .every((id) => html.includes('id="' + id + '"')), "queue, cancel, cover, live region");
-  check("presets set compression radios", ["best", "balanced", "none"].every((p) => html.includes('data-preset="' + p + '"')),
-    "one-click presets");
+  // The Stage (index.html + stage.js) is the converter UI since the PortPlay
+  // rebuild: no radios or presets, the Balanced profile is the house choice.
+  const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+  check("stage deflates at Balanced (level 6)", convJs.includes("var level = 6") &&
+    C.COMPRESSION.some((c) => c.id === "balanced" && c.level === 6), "one honest default, no knobs");
+  check("index.html loads pako+core+router+stage", html.includes("assets/vendor/pako.min.js") &&
+    html.includes("assets/js/converter-core.js") && html.includes("assets/js/converter4-core.js") &&
+    html.includes("assets/js/stage.js"), "script order: pako, core, router, ui, stage");
+  check("stage UI ids present", ["stage", "aperture", "file-input", "queue", "readout-text", "filament"]
+    .every((id) => html.includes('id="' + id + '"')), "stage, aperture, queue, readout, filament");
 }
 
 batchTests().then(() => {

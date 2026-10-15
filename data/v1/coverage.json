@@ -1,0 +1,279 @@
+{
+  "version": "v1",
+  "generated_by": "scripts/build.py from the converter engines",
+  "convert": [
+    {
+      "name": "Game Boy Advance",
+      "note": ".gba",
+      "core": "gba",
+      "formats": [
+        ".gba"
+      ],
+      "max_mb": 32
+    },
+    {
+      "name": "Game Boy / Game Boy Color",
+      "note": ".gb .gbc",
+      "core": "gb",
+      "formats": [
+        ".gb",
+        ".gbc"
+      ],
+      "max_mb": 8
+    },
+    {
+      "name": "NES",
+      "note": ".nes",
+      "core": "nes",
+      "formats": [
+        ".nes"
+      ],
+      "max_mb": 4
+    },
+    {
+      "name": "Super Nintendo",
+      "note": ".sfc .smc",
+      "core": "snes",
+      "formats": [
+        ".sfc",
+        ".smc"
+      ],
+      "max_mb": 6
+    },
+    {
+      "name": "Sega Genesis",
+      "note": ".md .gen",
+      "core": "segaMD",
+      "formats": [
+        ".md",
+        ".gen"
+      ],
+      "max_mb": 4
+    }
+  ],
+  "play": [
+    {
+      "name": "32X",
+      "note": ".32x",
+      "formats": [
+        ".32x"
+      ]
+    },
+    {
+      "name": "Atari 2600",
+      "note": ".a26",
+      "formats": [
+        ".a26"
+      ]
+    },
+    {
+      "name": "Atari 7800",
+      "note": ".a78",
+      "formats": [
+        ".a78"
+      ]
+    },
+    {
+      "name": "Atari Lynx",
+      "note": ".lnx",
+      "formats": [
+        ".lnx"
+      ]
+    },
+    {
+      "name": "ColecoVision",
+      "note": ".col",
+      "formats": [
+        ".col"
+      ]
+    },
+    {
+      "name": "Game Boy / Color",
+      "note": ".gb .gbc",
+      "formats": [
+        ".gb",
+        ".gbc"
+      ]
+    },
+    {
+      "name": "Game Boy Advance",
+      "note": ".gba",
+      "formats": [
+        ".gba"
+      ]
+    },
+    {
+      "name": "Game Gear",
+      "note": ".gg",
+      "formats": [
+        ".gg"
+      ]
+    },
+    {
+      "name": "Genesis / Mega Drive",
+      "note": ".gen .md .smd",
+      "formats": [
+        ".gen",
+        ".md",
+        ".smd"
+      ]
+    },
+    {
+      "name": "Master System",
+      "note": ".sms",
+      "formats": [
+        ".sms"
+      ]
+    },
+    {
+      "name": "NES",
+      "note": ".nes",
+      "formats": [
+        ".nes"
+      ]
+    },
+    {
+      "name": "Neo Geo Pocket",
+      "note": ".ngc .ngp",
+      "formats": [
+        ".ngc",
+        ".ngp"
+      ]
+    },
+    {
+      "name": "Nintendo 64",
+      "note": ".n64 .v64 .z64",
+      "formats": [
+        ".n64",
+        ".v64",
+        ".z64"
+      ]
+    },
+    {
+      "name": "Nintendo DS",
+      "note": ".nds",
+      "formats": [
+        ".nds"
+      ]
+    },
+    {
+      "name": "PlayStation (disc image)",
+      "note": ".iso .chd .cue + .bin",
+      "formats": [
+        ".iso",
+        ".chd",
+        ".cue + .bin"
+      ]
+    },
+    {
+      "name": "SNES",
+      "note": ".sfc .smc",
+      "formats": [
+        ".sfc",
+        ".smc"
+      ]
+    },
+    {
+      "name": "Sega CD (disc image)",
+      "note": ".iso .chd .cue + .bin",
+      "formats": [
+        ".iso",
+        ".chd",
+        ".cue + .bin"
+      ]
+    },
+    {
+      "name": "TurboGrafx-16",
+      "note": ".pce",
+      "formats": [
+        ".pce"
+      ]
+    },
+    {
+      "name": "Virtual Boy",
+      "note": ".vb",
+      "formats": [
+        ".vb"
+      ]
+    },
+    {
+      "name": "WonderSwan",
+      "note": ".ws .wsc",
+      "formats": [
+        ".ws",
+        ".wsc"
+      ]
+    }
+  ],
+  "guide": [
+    {
+      "name": "PlayStation 2",
+      "note": "Guide only",
+      "tone": "guide-only",
+      "guide": "guide.html"
+    },
+    {
+      "name": "GameCube",
+      "note": "Guide only",
+      "tone": "guide-only",
+      "guide": "guide.html"
+    },
+    {
+      "name": "Wii",
+      "note": "Guide only",
+      "tone": "guide-only",
+      "guide": "guide.html"
+    },
+    {
+      "name": "PlayStation 3",
+      "note": "Guide only",
+      "tone": "guide-only",
+      "guide": "guide.html"
+    },
+    {
+      "name": "Xbox (original)",
+      "note": "Guide only",
+      "tone": "guide-only",
+      "guide": "guide.html"
+    },
+    {
+      "name": "Xbox 360",
+      "note": "Guide only",
+      "tone": "guide-only",
+      "guide": "guide.html#recompilation"
+    },
+    {
+      "name": "Nintendo Switch",
+      "note": "Guide only",
+      "tone": "guide-only",
+      "guide": "guide.html#switch"
+    },
+    {
+      "name": "PSP",
+      "note": "On the bench",
+      "tone": "not-yet",
+      "guide": "guide.html"
+    },
+    {
+      "name": "Sega Saturn",
+      "note": "On the bench",
+      "tone": "not-yet",
+      "guide": "guide.html"
+    },
+    {
+      "name": "Dreamcast",
+      "note": "On the bench",
+      "tone": "not-yet",
+      "guide": "guide.html"
+    }
+  ],
+  "dos": {
+    "name": "DOS (PC)",
+    "note": ".zip, .jsdos, or the game's folder",
+    "formats": [
+      ".zip",
+      ".jsdos",
+      "folder"
+    ]
+  }
+}

@@ -214,12 +214,12 @@
         li.appendChild(info);
         var acts = document.createElement('span'); acts.className = 'slot-actions';
         var play = document.createElement('button');
-        play.type = 'button'; play.className = 'btn btn-ghost btn-sm'; play.textContent = '▶ Play';
+        play.type = 'button'; play.className = 'btn btn-ghost btn-small'; play.textContent = '▶ Play';
         play.addEventListener('click', function () {
           document.dispatchEvent(new CustomEvent('bm:library-play', { detail: { id: g.id } }));
         });
         var del = document.createElement('button');
-        del.type = 'button'; del.className = 'btn btn-ghost btn-sm'; del.textContent = 'Delete';
+        del.type = 'button'; del.className = 'btn btn-ghost btn-small'; del.textContent = 'Delete';
         del.addEventListener('click', function () {
           api.deleteGame(g.id).then(renderLibrary).then(renderEstimate);
         });

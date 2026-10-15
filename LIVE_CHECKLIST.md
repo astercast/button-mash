@@ -1,309 +1,35 @@
-# LIVE_CHECKLIST — button-mash live track
+# LIVE_CHECKLIST — PortPlay live track
 
-What's wired in the live-track release repo
-**`astercast/button-mash-live`** (one-time snapshot of this working repo,
-pushed 2026-10-11/12 for the one-time Vercel deploy). Kept here so the
-working repo stays the source of truth for the live wiring.
+The live site is the snapshot repo **`astercast/button-mash-live`**
+(deployed at `https://button-mash-live.vercel.app`), updated only on the
+user's explicit push order. The working repo stays the source of truth.
 
-## Snapshot contents (108 files, commit `7380978` local)
+## Current live wiring (from the 2026-10-11/12 first deploy)
 
-- Static frontend at root: 17 pages (`index.html`, `player.html`,
-  `converter.html`, `collections.html`, `games.html`, `emulation.html`,
-  `kids.html`, `parents.html`, `party-planner.html`, `system-picker.html`,
-  `tournament.html`, `trophy-room.html`, `monster-taming.html`,
-  `play-legal.html`, `404.html`), `genres/`, `guides/`, `assets/`,
-  `sitemap.xml`, `llms.txt`, `llms-full.txt`
-- `api/` — 5 serverless functions + static `data/v1/*.json` fallbacks
-- `lib/` — function runtime deps (envelope, cronauth, fetchx, github,
-  ratelimit, game-night engine)
-- `data/` — catalog JSON fetched at runtime by the frontend
-  (`data/games.json`, `data/collections.json`)
-- `vercel.json` — adapted: **no buildCommand** (pre-built snapshot),
-  `outputDirectory: "."`, functions + cron + headers preserved
-- `README.md` — release notes + env var docs
+- Vercel project serves the snapshot repo root as a static site with
+  serverless functions under `api/`.
+- Build machine: **Standard, never Turbo** (Sept 2026 Turbo invoice).
+- The snapshot predates the PortPlay rebuild; it still serves the old
+  Button Mash library until the next ordered snapshot replaces it whole.
 
-Excluded: `scripts/`, `pipeline/`, `tests/`, `skills/`, `.github/`,
-dev notes (`AGENT.md`, `API.md`, `GO_LIVE.md`, `PIPELINE.md`, `WAVELOG.md`).
+## Next snapshot must contain (PortPlay surface)
 
-**Runtime rule (2026-10-12, deploy lesson, corrected twice):** Vercel: never
-set `functions.*.runtime` for Node — omit it entirely. Both `nodejs22.x` and
-`nodejs20.x` fail build validation ("Function Runtimes must have a valid
-version"); `runtime` is only for community/unsupported runtimes and must be
-an npm package name (e.g. `vercel-php@0.5.2`). Vercel auto-detects Node from
-the `api/` directory. Vercel functions entries need ≥1 valid property —
-empty `{}` fails validation ("Function must contain at least one
-property") — so each EXPLICIT function path gets `{"maxDuration": 10}`
-(matches the 10s Hobby execution limit), e.g.
-`"api/health.js": {"maxDuration": 10}`. Explicit paths only, never broad
-globs. CRITICAL: the `functions` map is NOT an allowlist — Vercel
-auto-deploys EVERY `.js` file under `api/` as a serverless function
-regardless, so no static `.js` data file may ever live under `api/`
-(this repo: none — `data/v1/` holds only `.json`). Also: two files sharing
-a basename without extension in the same dir (e.g. `x.flat.js` +
-`x.flat.json`) fail the build with "conflicting paths or names".
+- Pages: `index.html`, `player.html`, `dos.html`, `guide.html`, `404.html`
+  — and nothing else. No `games.html`, no `guides/`, no `genres/`.
+- `assets/` (css, js, fonts, vendor, og-card.png, icons), `favicon.svg`.
+- `data/v1/coverage.json` — static data at top level, never under `api/`.
+- `api/health.js` only, plus `lib/envelope.js` (its one dependency).
+- `vercel.json`: buildCommand `python3 scripts/build.py`, functions map =
+  `api/health.js` only, `{"maxDuration": 10}`, **no `runtime` key, no
+  crons**.
+- `robots.txt`, `sitemap.xml`, `llms.txt` (build-regenerated).
 
-No static .js data files under api/ ever — Vercel deploys every .js there
-as a function (functions map is not an allowlist); basename collisions
-(x.js + x.json) fail the build (2026-10-12). Audit 2026-10-12: clean —
-`api/` holds only the 5 function files, `data/v1/` only `.json`, zero
-basename collisions.
+Excluded as before: `scripts/`, `tests/`, dev docs, `.github/`.
 
-Vercel never serves static files under api/ — all static data lives in
-data/v1/; only real function handlers under api/ (2026-10-12). Every
-frontend fetch, server function, cron, and doc that referenced `api/v1/`
-was moved to `data/v1/` (top-level `data/*.json` untouched). Generator
-scripts must emit to data/v1/ too: `scripts/build_api.py`'s output dir is
-`data/v1/` (fixed in wave 20 so a rebuild can't reintroduce `api/v1/`),
-and `scripts/build.py` regenerates the game-night client twin into
-`assets/js/` — no generator writes static data under `api/`, ever.
-Build machines: **Standard only, never Turbo** (Sept 2026 invoice
-$38.64) — set in the Vercel project settings, it is not a repo file.
+## Verify after the snapshot push
 
-## Functions (5 — Hobby limit is 12)
-
-| method | path | file | notes |
-|---|---|---|---|
-| GET | `/api/health` | `api/health.js` | status, roster, freshness; no external calls |
-| GET | `/api/games` | `api/games.js` | local compute over bundled `data/v1/games.json` |
-| GET | `/api/collections` | `api/collections.js` | local compute over bundled `data/v1/collections.json` |
-| POST | `/api/game-night` | `api/game-night.js` | stateless engine (`lib/game-night.js`); browser twin in `assets/js/game-night.js` regenerated by `scripts/build.py` — never hand-edit the twin |
-| GET | `/api/cron/curator` | `api/cron/curator.js` | weekly watch; RSS/Atom fetches race in parallel, 9.5s internal hard stop |
-
-All functions are zero-npm-dependency `nodejs22.x`, designed under the 10s
-Hobby timeout. Frontend calls `/api/*` first (7s timeout) and falls back to
-`data/v1/*.json` — the site works even with functions cold or down.
-
-## Cron
-
-- `/api/cron/curator` — schedule `0 10 * * 1` (Mondays 10:00 UTC, production
-  only). Checks emulator release feeds + itch homebrew feeds, diffs against
-  `data/v1/curator-watch.json`, commits on change via GitHub Contents API.
-  New releases are TRACKED, never auto-published (human review before
-  catalog entry). 60s duplicate-delivery cooldown.
-
-## Env vars (all optional — graceful degradation)
-
-| variable | without it |
-|---|---|
-| `CRON_SECRET` | cron auth check skipped; only Vercel Cron calls the path anyway |
-| `GITHUB_REPO_TOKEN` | cron runs **read-only**: checks feeds, returns diff, persists nothing (`committed:false, read_only:true`) |
-| `GITHUB_REPO` | set to `astercast/button-mash-live` on the live track so watch commits land there |
-| `REPO_STATIC_PREFIX` | empty = repo root (correct for this snapshot) |
-
-## Known-good status (verified 2026-10-12, wave 27, working repo)
-
-- `python3 scripts/build.py` → BUILD OK (213 games, 24 collections,
-  10 emulators, 24 guides; game-night twin in sync)
-- Wave 27: WF1–WF29 249/249, test_curator27 ALL PASS (30 checks),
-  test_identity16 41/41 (4th attempt; documented load stall on 1–3),
-  test_lineups23 ALL PASS, test_curator24/25/26 ALL PASS,
-  test_player21 ALL PASSED, test_converter12 66/66; HUMAN DECISION
-  BRIEF for the cozy/horror taxonomy call shipped as
-  `TAXONOMY_BRIEF.md` (evidence + census effect horror 6→4 /
-  cozy 16→18 + Spooky Town rider + recommendation; NOTHING
-  reshelved — games still pinned in horror pending the human
-  ruling); Curator pass 3 verified the retro shelf's 16
-  year/maker claims (14 stand as written; 1942's "granddaddy of
-  the shmup" corrected to first of the 19XX series; Transport
-  Tycoon now names the 1995 Deluxe edition it links, original
-  1994); Curator scoring v2.2.0
-- Wave 26: WF1–WF28 242/242, test_curator26 ALL PASS (14 checks),
-  test_identity16 41/41, test_lineups23 ALL PASS, test_curator24
-  ALL PASS, test_curator25 ALL PASS, test_player21 ALL PASSED,
-  test_converter12 66/66; blanket-claim audit shipped: emulation
-  hub hero + how-emulation-works legal note corrected to "mostly
-  open-source" (9 of 10 catalog emulators are open; DuckStation is
-  CC BY-NC-ND 4.0 source-available), Mindustry's unverifiable
-  "web build is the full game" softened, all other audited
-  absolute claims verified and left as written (full list in
-  WAVELOG wave 26); cozy/horror taxonomy still NOT reshelved
-  pending a human call; Curator scoring v2.2.0
-- Wave 25: WF1–WF27 236/236, api tests 40/40, test_identity16 41/41,
-  test_lineups23 ALL PASS, test_curator24 ALL PASS, test_curator25
-  ALL PASS (19 checks), test_player21 ALL PASSED, test_converter12
-  66/66; cheat-code guide added (9th deep-dive; 24 guides total);
-  DuckStation license corrected to CC BY-NC-ND 4.0 (Sept 2024
-  relicense, verified against the upstream license-change commit);
-  cozy/horror taxonomy recommendation recorded in WAVELOG, games
-  deliberately NOT reshelved pending a human call; Curator scoring
-  v2.2.0
-- Legal gate → 0 piracy links (40 pages, 213 game URLs; zero ROMs hosted,
-  zero ROM/BIOS download links)
-- Link check → 0 broken (39 pages, 1261 local, 76 external)
-- File-server spot check → `/`, `/player.html`, `/converter.html`,
-  `/data/v1/index.json`, `/data/v1/games.json`, `/data/games.json` all 200
-  with valid JSON
-- player.html null-textContent engine-failure bug → **fixed** (null-guarded
-  `veilError()` in `assets/js/player.js`)
-- `vercel.json` parses; no buildCommand; publish dir root
-
-## Free-tier / best-pattern audit — wave 33 (2026-10-13, working repo)
-
-Measured on the working tree (handlers invoked in-process with mock
-req/res, 15–25 runs each, warm); the live track inherits these numbers
-when a snapshot is next ordered.
-
-- **Function count: 5 of the 12-function Hobby cap** — `api/health.js`,
-  `api/games.js`, `api/collections.js`, `api/game-night.js`,
-  `api/cron/curator.js`. All zero-npm-dependency, explicit paths in
-  `vercel.json`, `maxDuration: 10` each, no `runtime` key (WF21 pins
-  this). Headroom: 7 functions.
-- **Estimated monthly invocations (assumption stated):** 10,000 page
-  views/month — a generous figure for this site — with at most ~2
-  live-API probes per view (directory, collections, game file, and
-  Game Night are the API-calling surfaces; every other page is pure
-  static + `data/v1` JSON). That is **≤ ~20,000 invocations/month
-  before edge caching**; the envelope's SWR headers (`s-maxage=600`)
-  collapse repeat origin hits inside each 10-minute window across a
-  small URL space (games list/detail variants, collections, health),
-  so realistic origin invocations land in the **low thousands**. Cron
-  adds ~4–5/month (weekly). All figures sit far under the Hobby
-  allowance (100k invocations/month fleet-wide note); Hobby pauses
-  rather than bills on overage, and the static fallback keeps the
-  site fully usable while paused.
-- **Worst-case duration vs the 10s ceiling:** measured medians —
-  health 1.58ms (p95 5.33ms; it re-reads 5 static JSON files per
-  call), games list 0.17ms, games `?id=` 0.05ms, collections 0.24ms,
-  game-night POST 0.56ms (max observed 12.95ms). Even with a cold
-  start plus ~150KB of bundled JSON parsing, every request handler
-  keeps **>30× headroom** under 10s. The one long pole is the cron:
-  8 feeds race in parallel under 4s per-feed timeouts inside a
-  **9.5s internal hard stop** (`BUDGET_MS`, with a 3s write reserve —
-  the commit is skipped, never the deadline), i.e. worst case 9.5s
-  of the 10s ceiling, by design.
-- **First degradation point:** the per-instance in-memory rate
-  limiter (60/min public, 20/min compute, per IP) sheds load first —
-  by design, with a 429 + `Retry-After` and the frontend already on
-  its static fallback. Behind it, the invocation budget is the first
-  hard wall (≈5× the traffic assumption above); degradation there is
-  graceful, not a bill: functions pause, `ApiClient.fetchWithFallback`
-  serves `data/v1/*.json`, and every page still renders. Bandwidth
-  is not a near-term constraint (largest static payload is
-  kid-safe.json at 71KB, games.json 66KB, both edge-cached).
-- **Alignment check (static-first, SWR, precomputed JSON, coalescing,
-  honest fallbacks, small handlers, health surfacing):** static-first
-  ✓ (frontend renders from `data/v1`, probes live second); precomputed
-  JSON ✓ (build regenerates `data/v1`; handlers only filter/shape
-  bundled data — no upstream calls except the cron's bounded feeds);
-  SWR ✓ on the API envelope (`s-maxage=600, stale-while-revalidate=
-  86400`; health `s-maxage=60`); honest fallbacks ✓ (7s live timeout →
-  static → labelled `none` state; cron degrades read-only without a
-  token and says so); small handlers ✓ (45–230 lines each); health
-  surfacing ✓ (`/api/health` never 5xxes, reports freshness per file
-  against a 7-day SLA matching the weekly cron). Coalescing: the
-  frontend has no request dedupe layer, but the URL space is tiny and
-  edge SWR does the coalescing — recorded as acceptable, not a gap.
-- **Fix shipped this wave:** `vercel.json` gained explicit
-  `Cache-Control` SWR headers for the static surfaces that previously
-  had none — `/data/v1/(.*)` gets `public, s-maxage=600,
-  stale-while-revalidate=86400` (mirroring the API envelope) and
-  `/assets/(.*)` gets `max-age=3600, s-maxage=3600,
-  stale-while-revalidate=86400`. Functions map, crons, and the
-  no-`runtime` rule are untouched (WF21 + api.test.sh §7 re-verified).
-  Nothing else in the audit would break, throttle, or bill: no
-  function writes state, no external API is metered, and the cron's
-  GitHub commit path is the only outbound write (skipped when the
-  token is absent).
-
-## Placement pass — wave 34 (2026-10-13, working repo)
-
-Completes the placement remainder rotation 12 started (OG card +
-absolute og:image, WF38). All of it is wired at the generator
-level (`scripts/build.py` `wire_placement`, idempotent — a second
-build stamps 0 pages) and pinned by WF39/WF40 (suite 320/320):
-
-- **Canonical**: `rel="canonical"` on all 53 pages, absolute and
-  self-referential on the recorded host
-  `https://button-mash-live.vercel.app` (root URL for index.html).
-- **robots.txt**: allow-all + `Sitemap:` pointer to the published
-  `sitemap.xml` (whose `<loc>` entries stay relative — WF6/7/13/
-  17/18/21/23 pin that form; the robots pointer is the absolute
-  URL the spec requires).
-- **JSON-LD**: stamped only where a list honestly fits, from the
-  real records — ItemList of the 213 games (games.html), of the
-  24 collections (collections.html), of the 10 emulator picks
-  (emulation.html), WebSite on index.html. No ratings/prices.
-- **theme-color + favicons**: `#07070f` (the `--bg` token
-  verbatim) and the Foundry icon proposal's button mark —
-  `favicon.svg` (master), `favicon.ico` (16/32/48),
-  `apple-touch-icon.png` (180), `icon-192/512.png` — files at the
-  repo root, linked depth-relative (the link checker and file://
-  browsing cannot resolve root-absolute hrefs; same files, same
-  root on the live host). Plus `og:image:width/height` 1200/630.
-- **Line endings (Rule 1762)**: audited — 0 CRLF files in the
-  tree; `.gitattributes` now pins `* text eol=lf`.
-- **Commons adoptions this wave**: align-on-touch — the OG
-  absolutize pattern's canonical sibling (same recorded host,
-  strict-equality WF pin), the Foundry icon/theme proposal
-  (values verbatim), and the Seed-Reckoning seed discipline
-  adopted from the 9th-site test-bed onto both surprise surfaces.
-
-## Wave 35 — Exclusion Ledger + View Transitions (2026-10-13, working repo)
-
-- **No deploy-shape change**: still 5 functions of the 12 cap, no
-  new endpoint, no cron change. The ledger is static HTML stamped
-  at build time (`wire_exclusions`); `data/v1/kid-safe.json` still
-  exposes only the curated subset by design.
-- **View Transitions**: the `bm-vt` block is stamped by
-  `wire_placement` on 49 of 53 pages (progressive enhancement —
-  browsers without cross-document VT support navigate as before;
-  zero JS, zero cost when unsupported). `player.html`,
-  `converter.html`, `kids.html`, `parents.html` are deliberately
-  unstamped (tool surfaces + the motion-off family pages), so
-  navigation to/from them stays instant. Both gates ride along:
-  `prefers-reduced-motion: no-preference` and the FX switch.
-
-## Wave 40 — Idle Deep Dive + Play Journal (T-MASH-2) (2026-10-13, working repo)
-
-- **No deploy-shape change**: still 5 functions of the 12 cap, no
-  new endpoint, no cron change. Two new static pages
-  (`genres/idle.html`, `journal.html`); the journal's state is
-  browser-local only (localStorage `bm.journal.v1`), so the free
-  tier sees zero new load.
-- **View Transitions**: `wire_placement` now stamps 49 of 53
-  pages; both new pages were born placed (0 updated at build).
-- **Gap closure**: T-MASH-2 (personal play journal & backlog,
-  research cycle 132) CLOSED by this wave — journal surfaces
-  0 → 1, all 213 catalog games addressable. T-MASH-1/5
-  (time-to-beat data) remain deferred by name — they need a
-  sourced data pass; no playtimes were fabricated.
-
-## After the deploy
-
-- Vercel project: Framework Preset **Other**, no build command, output `.`
-- Build machine **Standard** (never Turbo — Sept 2026 invoice $38.64)
-- Assert `/api/health` returns `"status": "ok"` and the 5-function roster
-- Dashboard → Cron Jobs: `/api/cron/curator` listed at `0 10 * * 1`
-- **Never re-push `-live` without an explicit user "push"/"ship it".**
-
-## Wave 41 — Horror Deep Dive, the last dive (2026-10-13, working repo)
-
-- **No deploy-shape change**: still 5 functions of the 12 cap, no
-  new endpoint, no cron change. One new static page
-  (`genres/horror.html`); the site grows 52 → 53 pages.
-- **View Transitions**: `wire_placement` now stamps 49 of 53
-  pages; the horror dive was born placed (0 updated at build).
-- **Dive set complete**: all eight genres now have a deep dive
-  (8 of 8) — the wave-33 dive debt is fully paid. T-MASH-1/5
-  (time-to-beat data) remain deferred by name — they need a
-  sourced data pass; no playtimes were fabricated.
-
-## Rotation 23 — The Cabinet, Unboxed + Converter 4.0 (2026-10-14, working repo)
-
-- **No deploy-shape change**: still 5 functions of the 12 cap, each
-  `{"maxDuration": 10}`, no runtime pin, no cron change. New static
-  pages: `dos.html` (DOS corner) + 5 reverse-engineering guides
-  (`guides/reverse-engineering.html`, `re-dump-your-games.html`,
-  `re-ghidra-first-session.html`, `re-matching-decomp.html`,
-  `re-recompilation.html`); the site grows 53 → 59 stamped pages.
-- **Data**: guides 24 → 29; emulators 10 → 11 (js-dos added; every
-  emulator record now carries a `distribution` field, and the
-  EmulatorJS record carries per-core `core_licenses`). Static data
-  still lives in `data/v1/`; nothing new under `api/`.
-- **CDN-loaded engines**: EmulatorJS (unchanged) and js-dos (v8
-  "latest" channel) load at runtime from their projects' CDNs; the
-  DOS corner builds `.jsdos` bundles client-side from the visitor's
-  own files. Neither engine is self-hosted (dossier §3.4 decision).
-- **Outbound rule, completed**: every presented game-play link now
-  resolves on-site (`game.html?id=`); catalog `url` fields remain as
-  provenance data only. Genre deep-dive title links (98) included.
+- Remote commit exists; remote tree == snapshot tree (Trees API).
+- `https://button-mash-live.vercel.app/` serves PortPlay (title check).
+- `/api/health` returns the envelope with service `portplay`, status `ok`.
+- Drop test in a browser: a cartridge file plays on the Stage and the
+  portable-copy card appears.
