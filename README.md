@@ -27,9 +27,9 @@ named change (see the landing record in `~/workspace/fleet-ops/wave-engine/`).
 - `dos.html` — **the DOS room**: a DOS game (ZIP or folder) is wrapped into
   a `.jsdos` bundle in the browser and booted under DOSBox via js-dos.
 - `guide.html` — **the Guide**: for the systems no browser can convert
-  (PS2, GameCube, Wii, PS3, Xbox, 360, Switch) and the ones on the bench
-  (PSP, Saturn, Dreamcast): the working native path for each, and how to
-  dump your own games.
+  (PS2, GameCube, Wii, PS3, Xbox, 360, Switch, 3DS, Wii U, Vita) and the
+  ones on the bench (PSP, Saturn, Dreamcast): the working native path
+  for each, and how to dump your own games.
 - `404.html` — says so, briefly.
 
 ## How it works

@@ -25,9 +25,16 @@
     sega32x: '32X', segaCD: 'Sega CD', psx: 'PlayStation', ps1: 'PlayStation',
     n64: 'Nintendo 64', nds: 'Nintendo DS', pce: 'TurboGrafx-16', vb: 'Virtual Boy',
     atari2600: 'Atari 2600', atari7800: 'Atari 7800', lynx: 'Atari Lynx',
-    ngp: 'Neo Geo Pocket', ws: 'WonderSwan', coleco: 'ColecoVision'
+    ngp: 'Neo Geo Pocket', ws: 'WonderSwan', coleco: 'ColecoVision',
+    a5200: 'Atari 5200', jaguar: 'Atari Jaguar', c64: 'Commodore 64',
+    amiga: 'Commodore Amiga', segaSG: 'SG-1000', '3do': '3DO'
   };
-  var BIOS_CORES = ['psx', 'segaCD'];
+  var BIOS_NOTES = {
+    psx: 'Playing with the built-in BIOS replacement. If this disc refuses to boot, the full player takes a BIOS dumped from your own console.',
+    segaCD: 'Playing with the built-in BIOS replacement. If this disc refuses to boot, the full player takes a BIOS dumped from your own console.',
+    amiga: 'Amiga games need a Kickstart ROM from an Amiga you own. The full player takes one with its BIOS picker; without it this floppy will not boot.',
+    '3do': '3DO games need a BIOS dumped from your own 3DO console. The full player takes one with its BIOS picker; without it this disc will not boot.'
+  };
 
   function $(id) { return document.getElementById(id); }
   function esc(s) { return C ? C.escHtml(s) : String(s); }
@@ -119,8 +126,8 @@
     setState('reading');
     setReadout('Loading ' + (SYSTEM_LABELS[core] || core) + ' engine', file.name);
     if (det && det.ambiguous && det.note) addNoteCard(file.name, det.note);
-    if (BIOS_CORES.indexOf(core) !== -1) {
-      addNoteCard(file.name, 'Playing with the built-in BIOS replacement. If this disc refuses to boot, the full player takes a BIOS dumped from your own console.');
+    if (BIOS_NOTES[core]) {
+      addNoteCard(file.name, BIOS_NOTES[core]);
     }
   }
 
@@ -348,7 +355,7 @@
     var folderDet = C4.detectFolder(names);
     if (folderDet.kind === 'decline') { routeDecline(file, folderDet); return; }
     if (folderDet.kind === 'dos') { routeDos([file], file.name); return; }
-    var PLAYABLE = { nes: 1, sfc: 1, smc: 1, gb: 1, gbc: 1, gba: 1, md: 1, gen: 1, smd: 1, sms: 1, gg: 1, '32x': 1, n64: 1, z64: 1, v64: 1, nds: 1, pce: 1, vb: 1, a26: 1, a78: 1, lnx: 1, ngp: 1, ngc: 1, ws: 1, wsc: 1, col: 1, cue: 1, m3u: 1, chd: 1 };
+    var PLAYABLE = { nes: 1, sfc: 1, smc: 1, gb: 1, gbc: 1, gba: 1, md: 1, gen: 1, smd: 1, sms: 1, gg: 1, '32x': 1, n64: 1, z64: 1, v64: 1, nds: 1, pce: 1, vb: 1, a26: 1, a78: 1, lnx: 1, ngp: 1, ngc: 1, ws: 1, wsc: 1, col: 1, cue: 1, m3u: 1, chd: 1, a52: 1, jag: 1, j64: 1, d64: 1, t64: 1, prg: 1, crt: 1, tap: 1, adf: 1, sg: 1, fds: 1, unf: 1, unif: 1, fig: 1, swc: 1, vboy: 1, lyx: 1, agb: 1, sgx: 1, ngpc: 1, dsi: 1 };
     var romEntries = entries.filter(function (e) { return PLAYABLE[C4.extOf(e.name)]; });
     if (romEntries.length === 1 && entries.length <= 3) {
       var data = C4.zipExtract(buf, romEntries[0], window.pako ? window.pako.inflateRaw : null);

@@ -298,6 +298,27 @@
       steps: ['Install Xenia on a Windows computer with a Vulkan-capable graphics card.', 'Load your own dumped disc image or install folder.', 'If your game has a Recompiled release, use that instead; the recompilation guide explains how to find out.'],
       guide: 'guide.html#recompilation', guideLabel: 'Read the recompilation guide'
     },
+    n3ds: {
+      system: 'Nintendo 3DS', tone: 'guide-only',
+      headline: 'That is a Nintendo 3DS game, and it plays natively, not in a tab.',
+      body: 'A browser core for the 3DS exists now, but 3DS games are encrypted: a working copy needs keys and decryption from your own console, files run to gigabytes, and browser performance is unproven. The native emulator Azahar, fed a copy you decrypted from your own 3DS, is the honest path today.',
+      steps: ['Install Azahar on your computer (free, Windows, Mac and Linux).', 'Decrypt the dump with keys from your own 3DS; an encrypted dump plays nowhere, including here.', 'Load the decrypted copy in Azahar and play.'],
+      guide: 'guide.html#3ds', guideLabel: 'Read the path in the guide'
+    },
+    wiiu: {
+      system: 'Wii U', tone: 'guide-only',
+      headline: 'That is a Wii U game, and it plays natively, not in a tab.',
+      body: 'No browser engine plays Wii U games at all. The native emulator Cemu plays much of the library well on a computer, including the GamePad screen on a second display or a controller stick layout.',
+      steps: ['Install Cemu on your computer.', 'Dump your game and its keys from your own Wii U; the guide names the pattern.', 'Load the dump in Cemu and map the GamePad to your controller.'],
+      guide: 'guide.html#wiiu', guideLabel: 'Read the path in the guide'
+    },
+    vita: {
+      system: 'PlayStation Vita', tone: 'guide-only',
+      headline: 'That is a PlayStation Vita game, and it plays natively, not in a tab.',
+      body: 'No browser engine plays Vita games. The native emulator Vita3K plays a growing share of the library on a computer and needs the Vita system files from your own console to do it well.',
+      steps: ['Install Vita3K on your computer.', 'Install the Vita firmware from the update file for your own console.', 'Install this package in Vita3K; check your game on its compatibility list first.'],
+      guide: 'guide.html#vita', guideLabel: 'Read the path in the guide'
+    },
     switch: {
       system: 'Nintendo Switch', tone: 'guide-only',
       headline: 'That is a Switch game, and it stays on your Switch.',
@@ -335,7 +356,20 @@
     md: 'segaMD', gen: 'segaMD', smd: 'segaMD', sms: 'segaMS', gg: 'segaGG',
     '32x': 'sega32x', n64: 'n64', z64: 'n64', v64: 'n64', nds: 'nds',
     pce: 'pce', vb: 'vb', a26: 'atari2600', a78: 'atari7800', lnx: 'lynx',
-    ngp: 'ngp', ngc: 'ngp', ws: 'ws', wsc: 'ws', col: 'coleco'
+    ngp: 'ngp', ngc: 'ngp', ws: 'ws', wsc: 'ws', col: 'coleco',
+    /* Completeness wave 2026-10-15: cores that already exist in the
+       EmulatorJS family (docs4devs cores list) but routed nowhere.
+       a5200 = Atari 5200, jaguar = Atari Jaguar, c64 = Commodore 64
+       (VICE), amiga = Commodore Amiga (PUAE, own Kickstart in the
+       full player), segaSG = SG-1000 (Genesis Plus GX family). The
+       rest are format variants of systems already handled: Famicom
+       Disk System and UNIF boards on the NES core, SNES copier
+       formats, raw Lynx, SuperGrafx, DSi, .agb, .ngpc, .vboy. */
+    a52: 'a5200', jag: 'jaguar', j64: 'jaguar',
+    d64: 'c64', t64: 'c64', prg: 'c64', crt: 'c64', tap: 'c64',
+    adf: 'amiga', sg: 'segaSG',
+    fds: 'nes', unf: 'nes', unif: 'nes', fig: 'snes', swc: 'snes', vboy: 'vb',
+    lyx: 'lynx', agb: 'gba', sgx: 'pce', ngpc: 'ngp', dsi: 'nds'
   };
 
   /* Content-first detection. Input: {name, size, head} where head is
@@ -355,12 +389,21 @@
     var head = input.head || new Uint8Array(0);
 
     /* --- container + disc magics, content before extension --- */
+    /* A Vita .vpk IS a ZIP archive; the name is the only honest tell,
+       so it is read before the ZIP signature below. */
+    if (ext === 'vpk') {
+      var dv = DECLINES.vita; return { kind: 'decline', key: 'vita', system: dv.system, tone: dv.tone, headline: dv.headline, body: dv.body, steps: dv.steps, guide: dv.guide, guideLabel: dv.guideLabel, via: 'Vita package extension (.vpk)' };
+    }
     if (head.length >= 4 && head[0] === 0x50 && head[1] === 0x4B && head[2] === 0x03 && head[3] === 0x04) {
       return { kind: 'zip', via: 'ZIP signature' };
     }
     if (hasStr(head, 0, 'MComprHD')) {
       return { kind: 'play', core: 'psx', system: 'ps1', via: 'CHD container signature', ambiguous: true,
-        note: 'CHD holds one disc and the header does not name its system. PlayStation is pre-selected; if this is a Sega CD or Saturn disc, pick that system before it boots.' };
+        note: 'CHD holds one disc and the header does not name its system. PlayStation is pre-selected; if this is a Sega CD or 3DO disc, pick that system in the full player before it boots.' };
+    }
+    /* Nintendo 3DS images carry an NCSD (or NCCH) signature at 0x100. */
+    if (head.length >= 0x104 && (hasStr(head, 0x100, 'NCSD') || hasStr(head, 0x100, 'NCCH'))) {
+      var d0 = DECLINES.n3ds; return { kind: 'decline', key: 'n3ds', system: d0.system, tone: d0.tone, headline: d0.headline, body: d0.body, steps: d0.steps, guide: d0.guide, guideLabel: d0.guideLabel, via: '3DS NCSD signature in the header' };
     }
     if (hasStr(head, 0, 'CISO')) {
       var d = DECLINES.psp; return { kind: 'decline', key: 'psp', system: d.system, tone: d.tone, headline: d.headline, body: d.body, steps: d.steps, guide: d.guide, guideLabel: d.guideLabel, via: 'CSO container signature' };
@@ -404,25 +447,45 @@
       if (names.some(function (n) { return n.indexOf('SLUS') === 0 || n.indexOf('SCUS') === 0 || n.indexOf('SLES') === 0 || n.indexOf('SCES') === 0; })) {
         return { kind: 'disc-picker', candidates: ['psx', 'ps2'], via: 'ISO carries a PlayStation-style disc code but no readable SYSTEM.CNF' };
       }
-      return { kind: 'disc-picker', candidates: ['psx', 'segaCD'], via: 'ISO9660 disc the header does not identify further' };
+      return { kind: 'disc-picker', candidates: ['psx', 'segaCD', '3do'], via: 'ISO9660 disc the header does not identify further' };
+    }
+
+    /* --- .bin content routes: the generic extension, read honestly ---
+       A small .bin carrying a TMR SEGA header (0x1FF0, 0x3FF0 or
+       0x7FF0) is a Master System or Game Gear cartridge dump; the
+       header cannot split the two, so Master System is pre-selected
+       with the ambiguity stated. A small .bin carrying the SEGA
+       string at 0x100 is a Genesis cartridge dump (the disc systems
+       with SEGA headers were all caught by signature above). */
+    if (ext === 'bin' && input.size && input.size <= 2 * 1024 * 1024 &&
+        (hasStr(head, 0x7FF0, 'TMR SEGA') || hasStr(head, 0x3FF0, 'TMR SEGA') || hasStr(head, 0x1FF0, 'TMR SEGA'))) {
+      return { kind: 'play', core: 'segaMS', system: 'sms', via: 'TMR SEGA cartridge header in a .bin dump', ambiguous: true,
+        note: 'This .bin carries a Master System family header. Master System is pre-selected; if this is a Game Gear game, open it in the full player and pick Game Gear there.' };
+    }
+    if (ext === 'bin' && input.size && input.size <= 8 * 1024 * 1024 && hasStr(head, 0x100, 'SEGA')) {
+      return { kind: 'play', core: 'segaMD', system: 'md', via: 'Genesis cartridge header in a .bin dump' };
     }
 
     /* --- extension routing (fallback + fast path) --- */
+    if (ext === 'fds') {
+      return { kind: 'play', core: 'nes', system: 'fds', via: 'Famicom Disk System extension', ambiguous: true,
+        note: 'Disk System games need the disk BIOS (disksys.rom) dumped from your own Famicom Disk System. Attach it with the BIOS picker in the full player; without it this disc will not boot.' };
+    }
     if (PLAY_EXTS[ext]) return { kind: 'play', core: PLAY_EXTS[ext], system: ext, via: 'file extension' };
     if (ext === 'm3u') return { kind: 'play', core: 'psx', system: 'ps1', via: 'M3U playlist' };
     if (ext === 'cue') return { kind: 'play', core: 'psx', system: 'ps1', via: 'cue sheet (PlayStation pre-selected)', ambiguous: true, note: 'A cue sheet does not name its system. PlayStation is pre-selected; Sega CD cue sheets should be switched with the system picker before booting.' };
     if (ext === 'exe' || ext === 'com' || ext === 'bat') return { kind: 'dos', via: 'DOS program extension' };
     if (ext === 'jsdos') return { kind: 'dos', via: 'js-dos bundle' };
-    var DECLINE_EXTS = { nsp: 'switch', xci: 'switch', nca: 'switch', nro: 'switch', xiso: 'xbox', xex: 'xbox360', wbfs: 'wii', rvz: 'gamecube', gcm: 'gamecube', pbp: 'psp', cso: 'psp', cdi: 'dreamcast', gdi: 'dreamcast' };
+    var DECLINE_EXTS = { nsp: 'switch', xci: 'switch', nca: 'switch', nro: 'switch', xiso: 'xbox', xex: 'xbox360', wbfs: 'wii', rvz: 'gamecube', gcm: 'gamecube', pbp: 'psp', cso: 'psp', cdi: 'dreamcast', gdi: 'dreamcast', '3ds': 'n3ds', cci: 'n3ds', cia: 'n3ds', wud: 'wiiu', wux: 'wiiu', rpx: 'wiiu', vpk: 'vita' };
     if (DECLINE_EXTS[ext]) {
       var key = DECLINE_EXTS[ext], dd2 = DECLINES[key];
       return { kind: 'decline', key: key, system: dd2.system, tone: dd2.tone, headline: dd2.headline, body: dd2.body, steps: dd2.steps, guide: dd2.guide, guideLabel: dd2.guideLabel, via: '.' + ext + ' file extension' };
     }
     if (ext === 'iso' || ext === 'img') {
-      return { kind: 'disc-picker', candidates: ['psx', 'segaCD'], via: 'unidentified disc image extension' };
+      return { kind: 'disc-picker', candidates: ['psx', 'segaCD', '3do'], via: 'unidentified disc image extension' };
     }
     if (ext === 'bin') {
-      return { kind: 'disc-picker', candidates: ['psx', 'segaCD'], via: 'raw disc track extension (needs its .cue for CD audio)' };
+      return { kind: 'disc-picker', candidates: ['psx', 'segaCD', '3do'], via: 'raw disc track extension (needs its .cue for CD audio)' };
     }
     if (ext === 'chd') {
       return { kind: 'play', core: 'psx', system: 'ps1', via: 'CHD extension', ambiguous: true, note: 'CHD does not name its system in the extension. PlayStation is pre-selected; pick Sega CD above if that is what this is.' };

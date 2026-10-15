@@ -56,7 +56,8 @@ ALLOWED_HOSTS = {
 DECLINE_TONES = {
     "ps2": "guide-only", "gamecube": "guide-only", "wii": "guide-only",
     "ps3": "guide-only", "xbox": "guide-only", "xbox360": "guide-only",
-    "switch": "guide-only",
+    "switch": "guide-only", "n3ds": "guide-only", "wiiu": "guide-only",
+    "vita": "guide-only",
     "psp": "not-yet", "saturn": "not-yet", "dreamcast": "not-yet",
 }
 DECLINE_TONE_LABELS = {"guide-only": "Guide only", "not-yet": "On the bench"}
@@ -64,6 +65,7 @@ DECLINE_NAMES = {
     "ps2": "PlayStation 2", "gamecube": "GameCube", "wii": "Wii",
     "ps3": "PlayStation 3", "xbox": "Xbox (original)",
     "xbox360": "Xbox 360", "switch": "Nintendo Switch",
+    "n3ds": "Nintendo 3DS", "wiiu": "Wii U", "vita": "PlayStation Vita",
     "psp": "PSP", "saturn": "Sega Saturn", "dreamcast": "Dreamcast",
 }
 

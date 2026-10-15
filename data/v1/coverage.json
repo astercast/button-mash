@@ -67,6 +67,13 @@
       ]
     },
     {
+      "name": "Atari 5200",
+      "note": ".a52",
+      "formats": [
+        ".a52"
+      ]
+    },
+    {
       "name": "Atari 7800",
       "note": ".a78",
       "formats": [
@@ -74,10 +81,19 @@
       ]
     },
     {
-      "name": "Atari Lynx",
-      "note": ".lnx",
+      "name": "Atari Jaguar",
+      "note": ".j64 .jag",
       "formats": [
-        ".lnx"
+        ".j64",
+        ".jag"
+      ]
+    },
+    {
+      "name": "Atari Lynx",
+      "note": ".lnx .lyx",
+      "formats": [
+        ".lnx",
+        ".lyx"
       ]
     },
     {
@@ -85,6 +101,24 @@
       "note": ".col",
       "formats": [
         ".col"
+      ]
+    },
+    {
+      "name": "Commodore 64",
+      "note": ".crt .d64 .prg .t64 .tap",
+      "formats": [
+        ".crt",
+        ".d64",
+        ".prg",
+        ".t64",
+        ".tap"
+      ]
+    },
+    {
+      "name": "Commodore Amiga",
+      "note": ".adf",
+      "formats": [
+        ".adf"
       ]
     },
     {
@@ -97,8 +131,9 @@
     },
     {
       "name": "Game Boy Advance",
-      "note": ".gba",
+      "note": ".agb .gba",
       "formats": [
+        ".agb",
         ".gba"
       ]
     },
@@ -127,17 +162,21 @@
     },
     {
       "name": "NES",
-      "note": ".nes",
+      "note": ".fds .nes .unf .unif",
       "formats": [
-        ".nes"
+        ".fds",
+        ".nes",
+        ".unf",
+        ".unif"
       ]
     },
     {
       "name": "Neo Geo Pocket",
-      "note": ".ngc .ngp",
+      "note": ".ngc .ngp .ngpc",
       "formats": [
         ".ngc",
-        ".ngp"
+        ".ngp",
+        ".ngpc"
       ]
     },
     {
@@ -151,8 +190,9 @@
     },
     {
       "name": "Nintendo DS",
-      "note": ".nds",
+      "note": ".dsi .nds",
       "formats": [
+        ".dsi",
         ".nds"
       ]
     },
@@ -166,11 +206,20 @@
       ]
     },
     {
-      "name": "SNES",
-      "note": ".sfc .smc",
+      "name": "SG-1000",
+      "note": ".sg",
       "formats": [
+        ".sg"
+      ]
+    },
+    {
+      "name": "SNES",
+      "note": ".fig .sfc .smc .swc",
+      "formats": [
+        ".fig",
         ".sfc",
-        ".smc"
+        ".smc",
+        ".swc"
       ]
     },
     {
@@ -184,16 +233,18 @@
     },
     {
       "name": "TurboGrafx-16",
-      "note": ".pce",
+      "note": ".pce .sgx",
       "formats": [
-        ".pce"
+        ".pce",
+        ".sgx"
       ]
     },
     {
       "name": "Virtual Boy",
-      "note": ".vb",
+      "note": ".vb .vboy",
       "formats": [
-        ".vb"
+        ".vb",
+        ".vboy"
       ]
     },
     {
@@ -241,6 +292,24 @@
       "note": "Guide only",
       "tone": "guide-only",
       "guide": "guide.html#recompilation"
+    },
+    {
+      "name": "Nintendo 3DS",
+      "note": "Guide only",
+      "tone": "guide-only",
+      "guide": "guide.html#3ds"
+    },
+    {
+      "name": "Wii U",
+      "note": "Guide only",
+      "tone": "guide-only",
+      "guide": "guide.html#wiiu"
+    },
+    {
+      "name": "PlayStation Vita",
+      "note": "Guide only",
+      "tone": "guide-only",
+      "guide": "guide.html#vita"
     },
     {
       "name": "Nintendo Switch",

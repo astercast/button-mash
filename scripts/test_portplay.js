@@ -59,6 +59,12 @@ const PLAY_EXTS = {
   "32x": "sega32x", n64: "n64", z64: "n64", v64: "n64", nds: "nds",
   pce: "pce", vb: "vb", a26: "atari2600", a78: "atari7800", lnx: "lynx",
   ngp: "ngp", ngc: "ngp", ws: "ws", wsc: "ws", col: "coleco",
+  /* completeness wave 2026-10-15 */
+  a52: "a5200", jag: "jaguar", j64: "jaguar",
+  d64: "c64", t64: "c64", prg: "c64", crt: "c64", tap: "c64",
+  adf: "amiga", sg: "segaSG",
+  fds: "nes", unf: "nes", unif: "nes", fig: "snes", swc: "snes",
+  vboy: "vb", lyx: "lynx", agb: "gba", sgx: "pce", ngpc: "ngp", dsi: "nds",
 };
 for (const [ext, core] of Object.entries(PLAY_EXTS)) {
   const det = C4.detect({ name: "game." + ext, size: 4096, head: new Uint8Array(0) });
@@ -68,6 +74,32 @@ const chdHead = new Uint8Array(64); chdHead.set(Buffer.from("MComprHD", "ascii")
 check("play route CHD signature", (() => { const d = C4.detect({ name: "disc.chd", size: 9e8, head: chdHead }); return d.kind === "play" && d.core === "psx"; })(), "content over extension");
 const scdHead = new Uint8Array(64); scdHead.set(Buffer.from("SEGADISCSYSTEM", "ascii"));
 check("play route Sega CD signature", (() => { const d = C4.detect({ name: "disc.bin", size: 9e8, head: scdHead }); return d.kind === "play" && d.core === "segaCD"; })(), "bytes name the system");
+
+/* Completeness wave fixtures: the new systems route end to end from
+   structurally real fixture files on disk, not just extension names. */
+const NEW_FIXTURE_ROUTES = [
+  ["fixture-atari5200.a52", "a5200"], ["fixture-jaguar.j64", "jaguar"],
+  ["fixture-c64.d64", "c64"], ["fixture-c64.prg", "c64"],
+  ["fixture-amiga.adf", "amiga"], ["fixture-sg1000.sg", "segaSG"],
+  ["fixture-fds.fds", "nes"],
+];
+for (const [file, core] of NEW_FIXTURE_ROUTES) {
+  const bytes = FIX(file);
+  const d = C4.detect({ name: file, size: bytes.length, head: bytes.slice(0, Math.min(bytes.length, 2 * 1024 * 1024)) });
+  check("fixture routes " + file, d.kind === "play" && d.core === core, d.kind + "/" + (d.core || d.key || ""));
+}
+check("fixture D64 is a true 35-track size", FIX("fixture-c64.d64").length === 174848, "174,848 bytes");
+check("fixture ADF is a true 880 KB size", FIX("fixture-amiga.adf").length === 901120, "901,120 bytes");
+check("fixture FDS carries its signature", (() => { const b = FIX("fixture-fds.fds"); return b[0] === 0x46 && b[1] === 0x44 && b[2] === 0x53 && b[3] === 0x1A; })(), "FDS header");
+check("FDS route carries the disk BIOS note", (() => { const d = C4.detect({ name: "game.fds", size: 65516, head: new Uint8Array(0) }); return d.kind === "play" && !!d.note && /disksys/i.test(d.note); })(), "own-BIOS honesty rides the route");
+
+/* .bin content routes: the generic extension, proven by its bytes. */
+const genBin = new Uint8Array(1024 * 1024); genBin.set(Buffer.from("SEGA MEGA DRIVE ", "ascii"), 0x100);
+check("play route Genesis .bin by header", (() => { const d = C4.detect({ name: "game.bin", size: genBin.length, head: genBin }); return d.kind === "play" && d.core === "segaMD"; })(), "SEGA string at 0x100");
+const smsBin = new Uint8Array(32 * 1024); smsBin.set(Buffer.from("TMR SEGA", "ascii"), 0x7FF0);
+check("play route Master System .bin by header", (() => { const d = C4.detect({ name: "game.bin", size: smsBin.length, head: smsBin }); return d.kind === "play" && d.core === "segaMS" && d.ambiguous === true; })(), "TMR SEGA at 0x7FF0, ambiguity stated");
+const bigBin = new Uint8Array(64); /* a headerless small read of a big disc track stays a disc */
+check("big .bin still routes to the disc picker", (() => { const d = C4.detect({ name: "track.bin", size: 6e8, head: bigBin }); return d.kind === "disc-picker" && d.candidates.indexOf("3do") !== -1; })(), "size guard holds, 3DO is a picker candidate");
 
 /* Minimal ISO9660 image builder (PVD + root dir + optional SYSTEM.CNF). */
 function both32(buf, off, v) {
@@ -142,6 +174,10 @@ DECLINE_ROUTES.pop();
 DECLINE_ROUTES.push(
   ["xbox", { name: "game.xiso", size: 7e9, head: new Uint8Array(0) }, "Xbox disc extension"],
   ["xbox360", { name: "default.xex", size: 8e9, head: new Uint8Array(0) }, "Xbox 360 executable extension"],
+  ["n3ds", { name: "game.3ds", size: 2e9, head: new Uint8Array(0) }, "3DS dump extension"],
+  ["n3ds", { name: "game.rom", size: 2e9, head: headWith((h) => h.set(Buffer.from("NCSD", "ascii"), 0x100)) }, "3DS NCSD signature"],
+  ["wiiu", { name: "game.wux", size: 8e9, head: new Uint8Array(0) }, "Wii U disc extension"],
+  ["vita", { name: "game.vpk", size: 5e8, head: headWith((h) => h.set(Buffer.from("PK\x03\x04", "latin1"))) }, "Vita package named before its ZIP signature"],
 );
 const guideHtml = fs.readFileSync(path.join(ROOT, "guide.html"), "utf8");
 const seenDeclines = new Set();

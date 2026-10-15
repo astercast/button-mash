@@ -47,6 +47,7 @@
       <nav class="guide-nav" aria-label="Guide sections">
         <a class="chip" href="#paths">The four paths</a>
         <a class="chip" href="#systems">Find your system</a>
+        <a class="chip" href="#more">More systems</a>
         <a class="chip" href="#dump">Dump your own games</a>
         <a class="chip" href="#recompilation">Recompilation</a>
       </nav>
@@ -118,6 +119,24 @@
         <p>Your games play on the hardware you own. What PortPlay can honestly help with is preservation: back up your saves from your own console so a lost machine is not a lost library, and keep cartridges and receipts; a cared-for collection outlives every storefront.</p>
       </div>
 
+      <div class="sys-row" id="3ds">
+        <h3>Nintendo 3DS <span class="tone">Guide only</span></h3>
+        <p>A browser core for the 3DS exists now, and PortPlay still will not route your game to it. 3DS games are encrypted: a working copy needs keys and decryption from your own console, the files run to gigabytes, and browser performance is unproven. Pretending that is a drop-and-play conversion would break this site's one promise.</p>
+        <p>Install Azahar on your computer, decrypt the dump with keys from your own 3DS (an encrypted dump plays nowhere, including here), and load the decrypted copy. Your saves and your console's keys stay yours throughout.</p>
+      </div>
+
+      <div class="sys-row" id="wiiu">
+        <h3>Wii U <span class="tone">Guide only</span></h3>
+        <p>No browser engine plays Wii U games at all. Cemu, the native Wii U emulator, plays much of the library well on a computer, GamePad screen included.</p>
+        <p>Install Cemu, dump your game and its keys from your own Wii U with the console's own homebrew dumping tools, and load the dump (.wud, .wux, or an extracted folder). Map the GamePad to your controller, or put it on a second screen.</p>
+      </div>
+
+      <div class="sys-row" id="vita">
+        <h3>PlayStation Vita <span class="tone">Guide only</span></h3>
+        <p>No browser engine plays Vita games. Vita3K, the native Vita emulator, plays a growing share of the library and needs the Vita system files to do it well.</p>
+        <p>Install Vita3K, install the Vita firmware from the update file for your own console, then install your game package (.vpk) inside Vita3K. Check your game on the Vita3K compatibility list first; support is per game and younger than the other paths here.</p>
+      </div>
+
       <div class="sys-row" id="psp">
         <h3>PSP <span class="tone">On the bench</span></h3>
         <p>PSP in the browser exists as an experimental core, and PortPlay does not ship experiments under a promise. The native emulator <a href="https://www.ppsspp.org" target="_blank" rel="noopener">PPSSPP</a> is excellent, runs on almost anything, and needs no BIOS; it carries its own replacement firmware.</p>
@@ -134,6 +153,25 @@
         <h3>Dreamcast <span class="tone">On the bench</span></h3>
         <p>The Dreamcast emulator Flycast is strong natively, but its browser build is the unstable end of the spectrum, so it waits here rather than shipping wobbly. Flycast can even boot through a built-in replacement BIOS when you have no dump handy.</p>
         <p>Install Flycast and load this file; it reads .gdi, .cdi, .cue, and .chd dumps of your own discs. A BIOS from your own Dreamcast improves compatibility but is optional.</p>
+      </div>
+
+      <h2 id="more">More systems, plainly</h2>
+      <p>A few more formats a collection can hold, and where each one honestly stands.</p>
+      <div class="sys-row">
+        <h3>Arcade and Neo Geo cabinets</h3>
+        <p>The browser engine family includes an arcade core (FBNeo), and the full Player offers it as a manual system: pick Arcade there, then drop your cabinet ROM set ZIP. The converter stage will not guess at a ZIP, because a cabinet set is many files whose identity a single drop cannot prove, and a wrong guess would boot the wrong game or none. Natively, FBNeo and MAME remain the reference path, with the ROM set version matched to the emulator version.</p>
+      </div>
+      <div class="sys-row">
+        <h3>TurboGrafx-CD and PC Engine CD</h3>
+        <p>These discs play on the same PC Engine core as the cartridges, but they need the System Card BIOS dumped from your own console. In the full Player, pick TurboGrafx-16 yourself and attach the System Card with the BIOS picker before dropping the disc set. A cue sheet dropped cold still defaults to PlayStation, because a cue sheet does not name its system; the manual pick is the honest route.</p>
+      </div>
+      <div class="sys-row">
+        <h3>The other Commodores</h3>
+        <p>The Commodore 128, VIC-20, PET, and Plus/4 all have working cores in the same VICE family as the 64, and all of them share the same program file forms. A .prg cannot name its machine, so the converter sends it to the Commodore 64, the machine most such files belong to. If yours is for a sibling machine, the VICE package runs all five natively, one emulator per machine.</p>
+      </div>
+      <div class="sys-row">
+        <h3>Systems with no browser core in the engine family</h3>
+        <p>Intellivision, Vectrex, Odyssey 2, Channel F, MSX, ZX Spectrum, Amstrad CPC, Atari ST, the Atari 8-bit computers, Apple II, PC-FX, Neo Geo CD, and Philips CD-i: no core for any of them ships in the engine this site loads, and most of their common file forms are ambiguous disc images or bare .bin files that another system also uses, so the converter will not pretend to recognise them either. Every one has a mature native emulator (Hatari for the ST, Altirra for the Atari 8-bits, AppleWin for the Apple II, openMSX for MSX, Mednafen for PC-FX are the usual starting points), and the dumping section below is step one for all of them. Amiga CD32 discs are the one partial exception: the Amiga route in the full Player can boot many of them with a CD32 Kickstart from your own console attached.</p>
       </div>
 
       <h2 id="dump">Start at the beginning: your own files</h2>

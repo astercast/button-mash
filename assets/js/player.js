@@ -26,9 +26,19 @@
     lnx: 'lynx',
     ngp: 'ngp', ngc: 'ngp',
     ws: 'ws', wsc: 'ws',
-    col: 'coleco'
+    col: 'coleco',
+    /* Completeness wave 2026-10-15: engine-family cores that routed
+       nowhere, plus format variants of handled systems. */
+    a52: 'a5200',
+    jag: 'jaguar', j64: 'jaguar',
+    d64: 'c64', t64: 'c64', prg: 'c64', crt: 'c64', tap: 'c64',
+    adf: 'amiga',
+    sg: 'segaSG',
+    fds: 'nes', unf: 'nes', unif: 'nes',
+    fig: 'snes', swc: 'snes',
+    vboy: 'vb', lyx: 'lynx', agb: 'gba', sgx: 'pce', ngpc: 'ngp', dsi: 'nds'
   };
-  var BIOS_CORES = ['psx', 'segaCD']; /* need a user-supplied BIOS to boot reliably */
+  var BIOS_CORES = ['psx', 'segaCD', 'amiga', '3do']; /* need a user-supplied BIOS to boot reliably */
 
   var SYSTEM_LABELS = {
     nes: 'NES', snes: 'SNES', gb: 'Game Boy / Color', gba: 'Game Boy Advance',
@@ -36,7 +46,9 @@
     sega32x: '32X', segaCD: 'Sega CD', psx: 'PlayStation', n64: 'Nintendo 64',
     nds: 'Nintendo DS', pce: 'TurboGrafx-16', vb: 'Virtual Boy',
     atari2600: 'Atari 2600', atari7800: 'Atari 7800', lynx: 'Atari Lynx',
-    ngp: 'Neo Geo Pocket', ws: 'WonderSwan', coleco: 'ColecoVision'
+    ngp: 'Neo Geo Pocket', ws: 'WonderSwan', coleco: 'ColecoVision',
+    a5200: 'Atari 5200', jaguar: 'Atari Jaguar', c64: 'Commodore 64',
+    amiga: 'Commodore Amiga', segaSG: 'SG-1000', '3do': '3DO', arcade: 'Arcade'
   };
 
   var stage, veil, fileInput, urlInput, sysSelect, biosInput;
@@ -188,6 +200,17 @@
         'its BIOS (bios_CD_U.bin, bios_CD_J.bin or bios_CD_E.bin by region), dumped from your own Sega CD. ' +
         'Attach it with the BIOS picker above before the disc. The <a href="guides/re-dump-your-games.html">dumping guide</a> ' +
         'covers the pattern. Button Mash does not provide BIOS files.';
+    } else if (core === 'amiga') {
+      note.hidden = false;
+      note.innerHTML = '<strong>Amiga Kickstart, your own dump:</strong> Amiga games need a Kickstart ROM ' +
+        'from an Amiga you own (or the licensed Amiga Forever set you bought). Attach it with the BIOS picker ' +
+        'above before the floppy. PortPlay cannot give you one, and no download for one exists here. ' +
+        'Floppy games written for a different Kickstart version than yours may refuse; that mismatch is the first thing to check.';
+    } else if (core === '3do') {
+      note.hidden = false;
+      note.innerHTML = '<strong>3DO BIOS, your own dump:</strong> the 3DO core cannot boot without a BIOS ' +
+        'dumped from your own 3DO console. Attach it with the BIOS picker above before the disc. ' +
+        'PortPlay does not provide BIOS files.';
     } else if (core === 'nds') {
       note.hidden = false;
       note.innerHTML = '<strong>Nintendo DS notes:</strong> both screens render stacked here, and your mouse ' +
@@ -247,6 +270,18 @@
     if (keepBtn) keepBtn.disabled = !contentId;
     currentBlobUrl = URL.createObjectURL(file);
     boot(currentBlobUrl, file.name, core);
+    /* Famicom Disk System rides the NES core but needs its own disk
+       BIOS; boot() just hid the BIOS note for the NES core, so the
+       FDS note is stated here where the file name is known. */
+    if (/\.fds$/i.test(file.name)) {
+      var fnote = $('bios-note');
+      if (fnote) {
+        fnote.hidden = false;
+        fnote.innerHTML = '<strong>Famicom Disk System BIOS, your own dump:</strong> Disk System games need ' +
+          'the disk BIOS (disksys.rom) dumped from your own Famicom Disk System. Attach it with the BIOS picker ' +
+          'above and drop the disc again. PortPlay does not provide BIOS files.';
+      }
+    }
   }
 
   async function intakeZip(file) {
