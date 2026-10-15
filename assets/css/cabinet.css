@@ -612,6 +612,30 @@ div:has(> table.remap-table) { overflow-x: auto; }
      from R25; they get the width too */
   .credit-title { min-width: 44px; }
 
+  /* ROTATION 30 (S5 residue): the three honestly fixable classes
+     from the r29 residue. The tip glyph is a real button with no
+     label row to carry it, so the button itself takes the floor
+     (its circle grows inside the card meta row, which wraps).
+     The stretched card titles take the floor as a box, in both
+     dimensions (their ::after plate already made the whole card
+     the hit area; the measured box now matches the hit area),
+     and the feature-card titles take the width floor alongside
+     their r29 height floor. The planner and curator-night
+     choice rows were the one place the standing "label rows are
+     the targets" argument was not yet true (36.3px rows): the
+     rows take the floor, so the argument is measured, not
+     asserted. The native radio/checkbox box itself is still not
+     inflated; prose-inline links, breadcrumbs, sr-only inputs,
+     the hero quiet CTA, and the fenced console/FX classes are
+     named and left in landing-mash-r30-residue.md. */
+  .tip-trigger { width: 44px; height: 44px; }
+  .game-card h3 a {
+    display: inline-flex; align-items: center;
+    min-height: 44px; min-width: 44px;
+  }
+  .feature-card h3 a { min-width: 44px; }
+  .pp-row label, .cn-radios label { min-height: 44px; }
+
   /* CONSOLE REVERSIONS: the player cabinet (stage veil, console
      shell toolbar, tool cards, library actions) keeps its landed
      geometry exactly. These selectors outrank the floors above
