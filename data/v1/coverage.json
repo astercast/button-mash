@@ -4,10 +4,11 @@
   "convert": [
     {
       "name": "Game Boy Advance",
-      "note": ".gba",
+      "note": ".gba .agb",
       "core": "gba",
       "formats": [
-        ".gba"
+        ".gba",
+        ".agb"
       ],
       "max_mb": 32
     },
@@ -23,20 +24,24 @@
     },
     {
       "name": "NES",
-      "note": ".nes",
+      "note": ".nes .unf .unif",
       "core": "nes",
       "formats": [
-        ".nes"
+        ".nes",
+        ".unf",
+        ".unif"
       ],
       "max_mb": 4
     },
     {
       "name": "Super Nintendo",
-      "note": ".sfc .smc",
+      "note": ".sfc .smc .fig .swc",
       "core": "snes",
       "formats": [
         ".sfc",
-        ".smc"
+        ".smc",
+        ".fig",
+        ".swc"
       ],
       "max_mb": 6
     },
@@ -49,6 +54,119 @@
         ".gen"
       ],
       "max_mb": 4
+    },
+    {
+      "name": "Master System",
+      "note": ".sms",
+      "core": "segaMS",
+      "formats": [
+        ".sms"
+      ],
+      "max_mb": 1
+    },
+    {
+      "name": "Game Gear",
+      "note": ".gg",
+      "core": "segaGG",
+      "formats": [
+        ".gg"
+      ],
+      "max_mb": 1
+    },
+    {
+      "name": "SG-1000",
+      "note": ".sg",
+      "core": "segaMS",
+      "formats": [
+        ".sg"
+      ],
+      "max_mb": 0.5
+    },
+    {
+      "name": "Sega 32X",
+      "note": ".32x",
+      "core": "sega32x",
+      "formats": [
+        ".32x"
+      ],
+      "max_mb": 4
+    },
+    {
+      "name": "TurboGrafx-16 / PC Engine",
+      "note": ".pce .sgx",
+      "core": "pce",
+      "formats": [
+        ".pce",
+        ".sgx"
+      ],
+      "max_mb": 4
+    },
+    {
+      "name": "Atari 2600",
+      "note": ".a26",
+      "core": "atari2600",
+      "formats": [
+        ".a26"
+      ],
+      "max_mb": 0.0625
+    },
+    {
+      "name": "Atari 7800",
+      "note": ".a78",
+      "core": "atari7800",
+      "formats": [
+        ".a78"
+      ],
+      "max_mb": 0.5
+    },
+    {
+      "name": "Atari 5200",
+      "note": ".a52",
+      "core": "a5200",
+      "formats": [
+        ".a52"
+      ],
+      "max_mb": 0.0625
+    },
+    {
+      "name": "WonderSwan",
+      "note": ".ws .wsc",
+      "core": "ws",
+      "formats": [
+        ".ws",
+        ".wsc"
+      ],
+      "max_mb": 16
+    },
+    {
+      "name": "Neo Geo Pocket",
+      "note": ".ngp .ngc .ngpc",
+      "core": "ngp",
+      "formats": [
+        ".ngp",
+        ".ngc",
+        ".ngpc"
+      ],
+      "max_mb": 4
+    },
+    {
+      "name": "Virtual Boy",
+      "note": ".vb .vboy",
+      "core": "vb",
+      "formats": [
+        ".vb",
+        ".vboy"
+      ],
+      "max_mb": 16
+    },
+    {
+      "name": "Commodore 64",
+      "note": ".prg",
+      "core": "c64",
+      "formats": [
+        ".prg"
+      ],
+      "max_mb": 0.125
     }
   ],
   "play": [

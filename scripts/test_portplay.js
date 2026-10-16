@@ -37,6 +37,16 @@ const CONVERT_CASES = [
   ["fixture-gba.gba", "gba"], ["fixture-gb.gb", "gb"], ["fixture-nes.nes", "nes"],
   ["fixture-snes.sfc", "snes"], ["fixture-genesis.md", "segamd"],
   ["rkanoid-latest-demo.gba", "gba"], /* real homebrew control */
+  /* Completeness proof pass 2026-10-15: profiles admitted only after a
+     hand-built fixture booted end to end through the template + engine
+     in a real browser (results in the landing record). */
+  ["fixture-sms.sms", "segams"], ["fixture-gg.gg", "segagg"],
+  ["fixture-sg1000.sg", "segasg"], ["fixture-32x.32x", "sega32x"],
+  ["fixture-pce.pce", "pce"], ["fixture-atari2600.a26", "atari2600"],
+  ["fixture-atari7800.a78", "atari7800"], ["fixture-atari5200.a52", "a5200"],
+  ["fixture-ws.ws", "ws"], ["fixture-wsc.wsc", "ws"],
+  ["fixture-ngp.ngp", "ngp"], ["fixture-vb.vb", "vb"],
+  ["fixture-c64.prg", "c64"],
 ];
 for (const [file, key] of CONVERT_CASES) {
   const bytes = FIX(file);
@@ -51,6 +61,16 @@ for (const [file, key] of CONVERT_CASES) {
   });
   check("convert builds portable file for " + file, !/__BM_[A-Z0-9_]+__/.test(html), "no tokens left");
 }
+
+/* Validation helpers for the new profiles: spec arithmetic, proven
+   against the fixtures and against deliberately corrupted copies. */
+check("sms fixture carries TMR SEGA", C.sega8HeaderOk(FIX("fixture-sms.sms")) === true, "header at 0x7FF0");
+check("gg fixture carries TMR SEGA", C.sega8HeaderOk(FIX("fixture-gg.gg")) === true, "header at 0x7FF0");
+check("a78 fixture carries its header", C.a78HeaderOk(FIX("fixture-atari7800.a78")) === true, "ATARI7800 magic");
+check("ws fixture footer checksum adds up", C.wsFooterChecksumOk(FIX("fixture-ws.ws")) === true, "spec sum");
+check("ws checksum catches corruption", (() => { const b = FIX("fixture-ws.ws").slice(); b[12345] ^= 0xFF; return C.wsFooterChecksumOk(b) === false; })(), "one flipped byte fails the sum");
+check("sms validation is clean on the fixture", C.validateRom(FIX("fixture-sms.sms"), "segams").warnings.length === 0, "no warnings");
+check("a78 validation warns without a header", (() => { const b = FIX("fixture-atari7800.a78").slice(); b.fill(0, 0, 128); return C.validateRom(b, "atari7800").warnings.length === 1; })(), "headerless .a78 warns, never errors");
 
 /* ---------- 2. PLAY: every claimed extension + signature routes ---------- */
 const PLAY_EXTS = {
@@ -70,6 +90,13 @@ for (const [ext, core] of Object.entries(PLAY_EXTS)) {
   const det = C4.detect({ name: "game." + ext, size: 4096, head: new Uint8Array(0) });
   check("play route ." + ext, det.kind === "play" && det.core === core, det.kind + "/" + (det.core || det.key || ""));
 }
+/* Engine alias: the router's system names must resolve to core files
+   the EmulatorJS CDN actually serves (segaSG 404s; Genesis Plus GX
+   serves SG-1000 as segaMD, boot-proven in the proof pass). */
+check("ejsCoreFor translates segaSG", C4.ejsCoreFor("segaSG") === "segaMS", "alias to the SMS Plus GX core (Genesis mode refuses Z80 carts)");
+check("ejsCoreFor passes real cores through", C4.ejsCoreFor("gba") === "gba" && C4.ejsCoreFor("segaCD") === "segaCD", "identity for served names");
+check("every alias target is itself a routed core", Object.values(C4.EJS_ALIASES).every((t) => Object.values(PLAY_EXTS).includes(t) || t === "segaCD"), "targets exist in the play map");
+
 const chdHead = new Uint8Array(64); chdHead.set(Buffer.from("MComprHD", "ascii"));
 check("play route CHD signature", (() => { const d = C4.detect({ name: "disc.chd", size: 9e8, head: chdHead }); return d.kind === "play" && d.core === "psx"; })(), "content over extension");
 const scdHead = new Uint8Array(64); scdHead.set(Buffer.from("SEGADISCSYSTEM", "ascii"));

@@ -38,7 +38,7 @@
     fig: 'snes', swc: 'snes',
     vboy: 'vb', lyx: 'lynx', agb: 'gba', sgx: 'pce', ngpc: 'ngp', dsi: 'nds'
   };
-  var BIOS_CORES = ['psx', 'segaCD', 'amiga', '3do']; /* need a user-supplied BIOS to boot reliably */
+  var BIOS_CORES = ['psx', 'segaCD', 'amiga', '3do', 'lynx', 'coleco', 'nds']; /* need (or strongly want) a user-supplied BIOS; each has a note in updateBiosNote */
 
   var SYSTEM_LABELS = {
     nes: 'NES', snes: 'SNES', gb: 'Game Boy / Color', gba: 'Game Boy Advance',
@@ -117,7 +117,7 @@
     if (readDisplay(core).crt) powerOnScreen();
 
     window.EJS_player = '#ejs-screen';
-    window.EJS_core = core;
+    window.EJS_core = (C4 && C4.ejsCoreFor) ? C4.ejsCoreFor(core) : core;
     window.EJS_gameUrl = gameBlobUrl;
     window.EJS_gameName = fileName.replace(/\.[^.]+$/, '');
     /* Converter 4.0: the game ID is a CONTENT hash (converter4-core),
@@ -211,13 +211,31 @@
       note.innerHTML = '<strong>3DO BIOS, your own dump:</strong> the 3DO core cannot boot without a BIOS ' +
         'dumped from your own 3DO console. Attach it with the BIOS picker above before the disc. ' +
         'PortPlay does not provide BIOS files.';
+    } else if (core === 'c64') {
+      note.hidden = false;
+      note.innerHTML = '<strong>Commodore 64 notes:</strong> the machine starts at its READY prompt, like the ' +
+        'real hardware. A .prg program: click the screen, type RUN and press Enter. A disk (.d64): type ' +
+        'LOAD"*",8,1 and press Enter, then RUN when it finishes. The system ROMs live inside the VICE core, ' +
+        'so no BIOS file is ever needed here.';
+    } else if (core === 'lynx') {
+      note.hidden = false;
+      note.innerHTML = '<strong>Atari Lynx boot image, your own dump:</strong> the Lynx core cannot boot a ' +
+        'game without the boot image (lynxboot.img) dumped from your own Lynx. Attach it with the BIOS ' +
+        'picker above before the game; without it the screen stays black. PortPlay does not provide BIOS files.';
+    } else if (core === 'coleco') {
+      note.hidden = false;
+      note.innerHTML = '<strong>ColecoVision BIOS, your own dump:</strong> the ColecoVision core cannot start ' +
+        'a game without the console BIOS (colecovision.rom) dumped from your own ColecoVision; without it ' +
+        'the screen just says NO BIOS. Attach it with the BIOS picker above before the game. ' +
+        'PortPlay does not provide BIOS files.';
     } else if (core === 'nds') {
       note.hidden = false;
       note.innerHTML = '<strong>Nintendo DS notes:</strong> both screens render stacked here, and your mouse ' +
-        'is the stylus on the lower screen (touch works natively on touch devices). Most games boot with no ' +
-        'extra files. If a game refuses to boot, sits on a Nintendo logo, or asks for system files, it wants ' +
-        'the firmware and BIOS dumped from your own DS; attach them with the BIOS picker and try again. ' +
-        'Games that truly need the microphone or the camera cannot use them in a browser tab.';
+        'is the stylus on the lower screen (touch works natively on touch devices). The DS core the engine ' +
+        'loads by default (melonDS) wants the firmware and BIOS dumped from your own DS (firmware.bin, ' +
+        'bios7.bin, bios9.bin); without them many games refuse to boot or sit on a logo screen. Attach the ' +
+        'files with the BIOS picker above. Games that truly need the microphone or the camera cannot use ' +
+        'them in a browser tab.';
     } else {
       note.hidden = true;
     }

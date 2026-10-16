@@ -350,7 +350,7 @@
   };
 
   /* Player-routable cartridge/disc extensions beyond the single-file
-     converter's five profiles (mirrors the Player's core map). */
+     converter's profiles (mirrors the Player's core map). */
   var PLAY_EXTS = {
     nes: 'nes', sfc: 'snes', smc: 'snes', gb: 'gb', gbc: 'gb', gba: 'gba',
     md: 'segaMD', gen: 'segaMD', smd: 'segaMD', sms: 'segaMS', gg: 'segaGG',
@@ -361,7 +361,8 @@
        EmulatorJS family (docs4devs cores list) but routed nowhere.
        a5200 = Atari 5200, jaguar = Atari Jaguar, c64 = Commodore 64
        (VICE), amiga = Commodore Amiga (PUAE, own Kickstart in the
-       full player), segaSG = SG-1000 (Genesis Plus GX family). The
+       full player), segaSG = SG-1000 (served by SMS Plus GX; see
+       EJS_ALIASES below). The
        rest are format variants of systems already handled: Famicom
        Disk System and UNIF boards on the NES core, SNES copier
        formats, raw Lynx, SuperGrafx, DSi, .agb, .ngpc, .vboy. */
@@ -371,6 +372,24 @@
     fds: 'nes', unf: 'nes', unif: 'nes', fig: 'snes', swc: 'snes', vboy: 'vb',
     lyx: 'lynx', agb: 'gba', sgx: 'pce', ngpc: 'ngp', dsi: 'nds'
   };
+
+  /* System name -> the core file the EmulatorJS CDN actually serves.
+     One entry today, each fact proven in the completeness proof pass
+     (2026-10-15): the router, labels and coverage call the system
+     'segaSG', but no core file by that name exists on the CDN (the
+     loader 404s it, a dead screen). The Genesis Plus GX core file is
+     not the answer either: in Genesis mode it reads 68000 vectors
+     from the cartridge's first bytes, and SG-1000 carts start with
+     Z80 code, so real games hang it. The Master System core file
+     ('segaMS', SMS Plus GX) is the honest host: the SMS hardware
+     itself was backwards compatible with SG-1000 cartridges, and the
+     SG-1000 fixture's program runs on it end to end (its backdrop
+     colour fills the screen, capture in the landing record). The
+     boot paths (stage.js, player.js) translate through this map, so
+     the system name a visitor sees stays SG-1000 while the engine
+     loads the core that actually plays it. */
+  var EJS_ALIASES = { segaSG: 'segaMS' };
+  function ejsCoreFor(core) { return EJS_ALIASES[core] || core; }
 
   /* Content-first detection. Input: {name, size, head} where head is
      a Uint8Array of the file's first bytes (2MB serves every check
@@ -584,6 +603,8 @@
     detect: detect,
     detectFolder: detectFolder,
     DECLINES: DECLINES,
+    EJS_ALIASES: EJS_ALIASES,
+    ejsCoreFor: ejsCoreFor,
     buildM3U: buildM3U,
     discSortKey: discSortKey,
     chooseDosExecutable: chooseDosExecutable,

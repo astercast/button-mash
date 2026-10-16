@@ -89,13 +89,13 @@ def parse_profiles(src):
             fm = re.search(name + r":\s*'([^']*)'", body)
             return fm.group(1) if fm else None
         ext = re.search(r"ext:\s*/\\\.\(?([a-z0-9|]+)\)?\$/", body)
-        maxm = re.search(r"max:\s*(\d+)\s*\*\s*MB", body)
+        maxm = re.search(r"max:\s*(\d+)\s*\*\s*(MB|KB)", body)
         formats = ["." + e for e in ext.group(1).split("|")] if ext else []
         out.append({
             "system": field("system"),
             "core": field("core"),
             "formats": formats,
-            "max_mb": int(maxm.group(1)) if maxm else None,
+            "max_mb": (int(maxm.group(1)) if maxm.group(2) == "MB" else int(maxm.group(1)) / 1024) if maxm else None,
         })
     if len(out) < 4:
         fail("converter-core.js: suspiciously few profiles parsed (%d)" % len(out))

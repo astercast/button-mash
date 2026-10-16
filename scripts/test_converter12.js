@@ -45,7 +45,13 @@ check("reject .sfc-like .smd", C.profileFor("game.smd") === null, "interleaved f
 check("reject .bin", C.profileFor("game.bin") === null, "too generic to trust");
 check("reject .iso", C.profileFor("game.iso") === null, "PSX not claimed");
 check("reject no extension", C.profileFor("game") === null, "no guessing");
-check("five profiles", Object.keys(C.PROFILES).length === 5, Object.keys(C.PROFILES).join(","));
+check("seventeen profiles", Object.keys(C.PROFILES).length === 17, Object.keys(C.PROFILES).join(","));
+/* the 2026-10-15 proof pass widened variant extensions on proven cores */
+check("variant extensions route to their proven profiles",
+  C.profileFor("game.agb").key === "gba" && C.profileFor("game.unif").key === "nes" &&
+  C.profileFor("game.fig").key === "snes" && C.profileFor("game.sgx").key === "pce" &&
+  C.profileFor("game.ngpc").key === "ngp" && C.profileFor("game.vboy").key === "vb",
+  "agb/unif/fig/sgx/ngpc/vboy");
 
 /* ---------- 2. validation ---------- */
 // 2a. the real homebrew file: zeroed header, must WARN not ERROR

@@ -84,21 +84,27 @@ def genesis():
 
 
 def _z80_stub():
-    """Minimal SMS/GG program: interrupts off, stack set, VDP display on,
-    backdrop colour written to CRAM, then loop forever."""
-    return bytes([
+    """Minimal SMS/GG program: interrupts off, stack set, VDP mode 4
+    selected (reg0 bit2), display on (reg1 bit6), backdrop pointed at
+    CRAM slot 16 (reg7 = 0), and every CRAM slot painted yellow so the
+    whole screen, active area and backdrop alike, shows the colour.
+    Then loop forever."""
+    stub = [
         0xF3,                    # DI
         0x31, 0xF0, 0xDF,        # LD SP,0xDFF0
         0xED, 0x56,              # IM 1
-        0x3E, 0x00, 0xD3, 0xBF,  # reg0 = 0x00
+        0x3E, 0x04, 0xD3, 0xBF,  # reg0 = 0x04 (mode 4 select)
         0x3E, 0x80, 0xD3, 0xBF,
-        0x3E, 0xE0, 0xD3, 0xBF,  # reg1 = 0xE0 (display on)
+        0x3E, 0x40, 0xD3, 0xBF,  # reg1 = 0x40 (display on)
         0x3E, 0x81, 0xD3, 0xBF,
-        0x3E, 0x00, 0xD3, 0xBF,  # CRAM address 0
+        0x3E, 0x00, 0xD3, 0xBF,  # reg7 = 0x00 (backdrop = CRAM 16)
+        0x3E, 0x87, 0xD3, 0xBF,
+        0x3E, 0x00, 0xD3, 0xBF,  # CRAM write from address 0
         0x3E, 0xC0, 0xD3, 0xBF,
-        0x3E, 0x0F, 0xD3, 0xBE,  # backdrop colour
-        0x18, 0xFE,              # JR -2 (loop)
-    ])
+    ]
+    stub += [0x3E, 0x0F, 0xD3, 0xBE] * 17   # CRAM 0..16 = yellow
+    stub += [0x18, 0xFE]                    # JR -2 (loop)
+    return bytes(stub)
 
 
 def _sega8(region_size_byte):
@@ -319,8 +325,22 @@ def amigaadf():
 
 
 def sg1000():
-    """SG-1000 cartridge: raw image at a real cart size (32 KB)."""
-    return bytes(pattern(32 * 1024, 73))
+    """SG-1000 cartridge: raw image at a real cart size (32 KB) with a
+    real Z80 entry stub (TMS9918 VDP registers set, backdrop colour
+    written, then loop). No header format exists for SG-1000 carts."""
+    b = bytearray(pattern(32 * 1024, 73))
+    stub = bytes([
+        0xF3,                    # DI
+        0x3E, 0x00, 0xD3, 0xBF,  # VDP reg0 = 0x00
+        0x3E, 0x80, 0xD3, 0xBF,
+        0x3E, 0xE0, 0xD3, 0xBF,  # VDP reg1 = 0xE0 (display on)
+        0x3E, 0x81, 0xD3, 0xBF,
+        0x3E, 0x0B, 0xD3, 0xBF,  # VDP reg7 = backdrop colour 0x0B
+        0x3E, 0x87, 0xD3, 0xBF,
+        0x18, 0xFE,              # JR -2 (loop)
+    ])
+    b[0:len(stub)] = stub
+    return bytes(b)
 
 
 def fds():

@@ -1,6 +1,7 @@
 /* Button Mash Converter 4.0, single-file core logic (UMD: browser + node).
-   The 5 proven profiles live here unchanged; Converter 4.0 routing,
-   detection and declines live in converter4-core.js.
+   The converter profiles live here (the original five plus the systems
+   the 2026-10-15 completeness proof pass admitted); Converter 4.0
+   routing, detection and declines live in converter4-core.js.
    Pure, DOM-free functions: system profiles, ROM validation, output naming,
    template token assembly, and the sequential batch runner. The DOM layer
    (assets/js/converter.js) and the test suite (scripts/test_converter12.js)
@@ -24,13 +25,21 @@
   'use strict';
 
   var MB = 1024 * 1024;
+  var KB = 1024;
 
   /* Per-system conversion profiles. max = largest real cart for the system;
-     warn = file size above which embedding gets unwieldy (base64 adds ~33%). */
+     warn = file size above which embedding gets unwieldy (base64 adds ~33%).
+     Completeness wave 2026-10-15 (proof pass): every profile below the
+     original five was admitted only after a hand-built fixture for its
+     system booted end to end through this exact template + engine path
+     in a real browser (fixtures: scripts/make_fixtures.py; results in
+     the landing record). Single file and no BIOS is the admission bar;
+     systems that need a BIOS file stay play-only in the full player,
+     where the BIOS picker lives. */
   var PROFILES = {
     gba: {
       key: 'gba',
-      ext: /\.gba$/i, core: 'gba', engine: 'mGBA',
+      ext: /\.(gba|agb)$/i, core: 'gba', engine: 'mGBA',
       system: 'Game Boy Advance',
       max: 32 * MB, warn: 16 * MB,
       hint: 'keyboard works out of the box (arrow keys + Z/X cover most GBA games)',
@@ -46,7 +55,7 @@
     },
     nes: {
       key: 'nes',
-      ext: /\.nes$/i, core: 'nes', engine: 'FCEUmm',
+      ext: /\.(nes|unf|unif)$/i, core: 'nes', engine: 'FCEUmm',
       system: 'NES',
       max: 4 * MB, warn: 1 * MB,
       hint: 'keyboard works out of the box (arrow keys + Z/X = B/A, Enter = Start)',
@@ -54,7 +63,7 @@
     },
     snes: {
       key: 'snes',
-      ext: /\.(sfc|smc)$/i, core: 'snes', engine: 'Snes9x',
+      ext: /\.(sfc|smc|fig|swc)$/i, core: 'snes', engine: 'Snes9x',
       system: 'Super Nintendo',
       max: 6 * MB, warn: 3 * MB,
       hint: 'keyboard works out of the box (arrow keys + Z/X cover the main buttons)',
@@ -67,6 +76,102 @@
       max: 4 * MB, warn: 2 * MB,
       hint: 'keyboard works out of the box (arrow keys + Z/X cover the main buttons)',
       biosNote: 'Genesis Plus GX needs no BIOS for cartridge games, boots with zero extra files.'
+    },
+    segams: {
+      key: 'segams',
+      ext: /\.sms$/i, core: 'segaMS', engine: 'SMS Plus GX',
+      system: 'Master System',
+      max: 1 * MB, warn: 512 * KB,
+      hint: 'keyboard works out of the box (arrow keys + Z/X cover the two buttons)',
+      biosNote: 'SMS Plus GX needs no BIOS at all: Master System cartridges boot with zero extra files.'
+    },
+    segagg: {
+      key: 'segagg',
+      ext: /\.gg$/i, core: 'segaGG', engine: 'Genesis Plus GX',
+      system: 'Game Gear',
+      max: 1 * MB, warn: 512 * KB,
+      hint: 'keyboard works out of the box (arrow keys + Z/X cover the two buttons)',
+      biosNote: 'Genesis Plus GX needs no BIOS for Game Gear cartridges, boots with zero extra files.'
+    },
+    segasg: {
+      key: 'segasg',
+      ext: /\.sg$/i, core: 'segaMS', engine: 'SMS Plus GX',
+      system: 'SG-1000',
+      max: 512 * KB, warn: 256 * KB,
+      hint: 'keyboard works out of the box (arrow keys + Z/X cover the two buttons)',
+      biosNote: 'SG-1000 cartridges play on the SMS Plus GX core: the Master System hardware was itself backwards compatible with them, and its emulator keeps that support. No BIOS, no extra files.'
+    },
+    sega32x: {
+      key: 'sega32x',
+      ext: /\.32x$/i, core: 'sega32x', engine: 'PicoDrive',
+      system: 'Sega 32X',
+      max: 4 * MB, warn: 2 * MB,
+      hint: 'keyboard works out of the box (arrow keys + Z/X cover the main buttons)',
+      biosNote: 'PicoDrive needs no BIOS for 32X cartridges, boots with zero extra files.'
+    },
+    pce: {
+      key: 'pce',
+      ext: /\.(pce|sgx)$/i, core: 'pce', engine: 'Beetle PCE',
+      system: 'TurboGrafx-16 / PC Engine',
+      max: 4 * MB, warn: 2 * MB,
+      hint: 'keyboard works out of the box (arrow keys + Z/X = II/I, Enter = Run)',
+      biosNote: 'Beetle PCE needs no BIOS for HuCard games. (PC Engine CD games are a different path: they need a system card file, so discs stay in the full player.)'
+    },
+    atari2600: {
+      key: 'atari2600',
+      ext: /\.a26$/i, core: 'atari2600', engine: 'Stella',
+      system: 'Atari 2600',
+      max: 64 * KB, warn: 32 * KB,
+      hint: 'keyboard works out of the box (arrow keys + Z = fire)',
+      biosNote: 'Stella needs no BIOS at all: Atari 2600 cartridges boot with zero extra files.'
+    },
+    atari7800: {
+      key: 'atari7800',
+      ext: /\.a78$/i, core: 'atari7800', engine: 'ProSystem',
+      system: 'Atari 7800',
+      max: 512 * KB, warn: 256 * KB,
+      hint: 'keyboard works out of the box (arrow keys + Z/X cover the two buttons)',
+      biosNote: 'ProSystem boots 7800 cartridges with no BIOS file. A BIOS dumped from an original 7800 is optional and not needed here.'
+    },
+    a5200: {
+      key: 'a5200',
+      ext: /\.a52$/i, core: 'a5200', engine: 'a5200',
+      system: 'Atari 5200',
+      max: 64 * KB, warn: 32 * KB,
+      hint: 'keyboard works out of the box (arrow keys move, Z = fire)',
+      biosNote: 'The a5200 core needs no BIOS file from you: 5200 cartridges boot with zero extra files.'
+    },
+    ws: {
+      key: 'ws',
+      ext: /\.(ws|wsc)$/i, core: 'ws', engine: 'Beetle Cygne',
+      system: 'WonderSwan',
+      max: 16 * MB, warn: 4 * MB,
+      hint: 'keyboard works out of the box (arrow keys + Z/X cover the main buttons)',
+      biosNote: 'Beetle Cygne needs no BIOS at all: WonderSwan cartridges boot with zero extra files.'
+    },
+    ngp: {
+      key: 'ngp',
+      ext: /\.(ngp|ngc|ngpc)$/i, core: 'ngp', engine: 'Beetle NeoPop',
+      system: 'Neo Geo Pocket',
+      max: 4 * MB, warn: 2 * MB,
+      hint: 'keyboard works out of the box (arrow keys + Z/X = A/B)',
+      biosNote: 'Beetle NeoPop emulates the console BIOS inside the core: Neo Geo Pocket cartridges boot with zero extra files.'
+    },
+    vb: {
+      key: 'vb',
+      ext: /\.(vb|vboy)$/i, core: 'vb', engine: 'Beetle VB',
+      system: 'Virtual Boy',
+      max: 16 * MB, warn: 2 * MB,
+      hint: 'keyboard works out of the box (arrow keys cover the left pad, Z/X the face buttons)',
+      biosNote: 'Beetle VB needs no BIOS at all: Virtual Boy cartridges boot with zero extra files.'
+    },
+    c64: {
+      key: 'c64',
+      ext: /\.prg$/i, core: 'c64', engine: 'VICE',
+      system: 'Commodore 64',
+      max: 128 * KB, warn: 64 * KB,
+      hint: 'the C64 starts at its READY prompt, like the real machine: click the screen, type RUN and press Enter, and your program starts (a real keyboard helps here)',
+      biosNote: 'VICE carries the C64 system ROMs inside the core: a .prg program needs no extra files. (Disk and tape images stay in the full player.)'
     }
   };
 
@@ -208,7 +313,60 @@
       warnings.push('No "SEGA" header string at 0x100, most Genesis ROMs, including homebrew, carry it. The emulator does not check it, so the game will likely still boot, but treat the dump as suspect.');
     }
 
+    if ((profileKey === 'segams' || profileKey === 'segagg') && sega8HeaderOk(b) === false) {
+      warnings.push('No "TMR SEGA" header at the end of the cartridge area, most Master System and Game Gear dumps carry it. The emulator does not check it, so the game will likely still boot, but treat the dump as suspect.');
+    }
+
+    if (profileKey === 'atari7800' && a78HeaderOk(b) === false) {
+      warnings.push('No A78 header at the start of the file, real .a78 dumps carry one (it names the cartridge hardware for the core). The file may be a raw 7800 image with the wrong extension, or a damaged dump.');
+    }
+
+    if (profileKey === 'ws' && wsFooterChecksumOk(b) === false) {
+      warnings.push('Footer checksum mismatch, the WonderSwan cartridge footer does not add up. The file may be corrupt or truncated; the game might still boot, but treat it as suspect.');
+    }
+
+    if (profileKey === 'pce' && b.length > 512 && (b.length % 1024) === 512) {
+      notes.push('512-byte copier header detected, kept as-is; the Beetle PCE core skips it automatically.');
+    }
+
     return { errors: errors, warnings: warnings, notes: notes };
+  }
+
+  /* SMS/GG cartridge header: "TMR SEGA" sits at 0x7FF0 in a 32K+ dump
+     (0x3FF0 / 0x1FF0 in smaller ones). Emulators do not check it, so a
+     missing header warns, never errors (same discipline as Genesis). */
+  function sega8HeaderOk(bytes) {
+    var b = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes || []);
+    var spots = [0x7FF0, 0x3FF0, 0x1FF0];
+    for (var i = 0; i < spots.length; i++) {
+      var o = spots[i];
+      if (b.length >= o + 8 && strAt8(b, o, 8) === 'TMR SEGA') return true;
+    }
+    return b.length < 0x2008 ? null : false;
+  }
+
+  /* A78 header: byte 0 is a version, bytes 1.. carry "ATARI7800". */
+  function a78HeaderOk(bytes) {
+    var b = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes || []);
+    if (b.length < 128) return null;
+    return strAt8(b, 1, 9) === 'ATARI7800';
+  }
+
+  /* WonderSwan footer checksum: the last two bytes are the little-endian
+     sum of every byte before them. Pure spec arithmetic, like the GB
+     header checksum above. */
+  function wsFooterChecksumOk(bytes) {
+    var b = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes || []);
+    if (b.length < 0x10000) return null; /* too small to say */
+    var sum = 0;
+    for (var i = 0; i < b.length - 2; i++) sum = (sum + b[i]) & 0xFFFF;
+    return sum === (b[b.length - 2] | (b[b.length - 1] << 8));
+  }
+
+  function strAt8(b, off, len) {
+    var s = '';
+    for (var i = 0; i < len; i++) s += String.fromCharCode(b[off + i]);
+    return s;
   }
 
   /* SNES copier-header detection: .smc files often carry a 512-byte copier
@@ -324,6 +482,9 @@
     nesInfo: nesInfo,
     snesCopierHeader: snesCopierHeader,
     genesisHasSegaString: genesisHasSegaString,
+    sega8HeaderOk: sega8HeaderOk,
+    a78HeaderOk: a78HeaderOk,
+    wsFooterChecksumOk: wsFooterChecksumOk,
     buildHtml: buildHtml,
     queueStats: queueStats,
     processQueue: processQueue

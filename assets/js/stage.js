@@ -1,11 +1,11 @@
 /* PortPlay stage: the drop-and-play moment.
    One surface does the whole job: a dropped file is identified by
    its bytes (converter4-core), boots on this screen (EmulatorJS),
-   and, for the five cartridge systems the single-file converter
-   proves, is also built into a portable HTML file in the
-   background (converter-core). Nothing uploads, ever; the only
-   network fetch is the emulator engine itself, from the
-   EmulatorJS CDN, and the game template, from this site. */
+   and, for the cartridge systems the single-file converter proves,
+   is also built into a portable HTML file in the background
+   (converter-core). Nothing uploads, ever; the only network fetch
+   is the emulator engine itself, from the EmulatorJS CDN, and the
+   game template, from this site. */
 (function () {
   'use strict';
 
@@ -29,11 +29,14 @@
     a5200: 'Atari 5200', jaguar: 'Atari Jaguar', c64: 'Commodore 64',
     amiga: 'Commodore Amiga', segaSG: 'SG-1000', '3do': '3DO'
   };
-  var BIOS_NOTES = {
+  var BOOT_NOTES = {
     psx: 'Playing with the built-in BIOS replacement. If this disc refuses to boot, the full player takes a BIOS dumped from your own console.',
-    segaCD: 'Playing with the built-in BIOS replacement. If this disc refuses to boot, the full player takes a BIOS dumped from your own console.',
+    segaCD: 'Sega CD games need a BIOS dumped from your own Sega CD before they can boot. The full player takes one with its BIOS picker; without it this disc will not boot.',
     amiga: 'Amiga games need a Kickstart ROM from an Amiga you own. The full player takes one with its BIOS picker; without it this floppy will not boot.',
-    '3do': '3DO games need a BIOS dumped from your own 3DO console. The full player takes one with its BIOS picker; without it this disc will not boot.'
+    '3do': '3DO games need a BIOS dumped from your own 3DO console. The full player takes one with its BIOS picker; without it this disc will not boot.',
+    lynx: 'Lynx games need the boot image (lynxboot.img) dumped from your own Lynx before they can boot. The full player takes one with its BIOS picker; without it this game stays on a black screen.',
+    coleco: 'ColecoVision games need the console BIOS (colecovision.rom) dumped from your own ColecoVision before they can boot. The full player takes one with its BIOS picker; without it this game sits on a NO BIOS screen.',
+    c64: 'The Commodore 64 starts at its READY prompt, like the real machine. Click the screen, type RUN and press Enter for a program; for a disk, LOAD"*",8,1 first, then RUN.'
   };
 
   function $(id) { return document.getElementById(id); }
@@ -100,7 +103,7 @@
     screen.appendChild(mount);
 
     window.EJS_player = '#ejs-screen';
-    window.EJS_core = core;
+    window.EJS_core = C4.ejsCoreFor ? C4.ejsCoreFor(core) : core;
     window.EJS_gameUrl = currentBlobUrl;
     window.EJS_gameName = file.name.replace(/\.[^.]+$/, '');
     window.EJS_gameID = contentId || ('pp-' + file.name.length + '-' + file.size.toString(36));
@@ -126,8 +129,8 @@
     setState('reading');
     setReadout('Loading ' + (SYSTEM_LABELS[core] || core) + ' engine', file.name);
     if (det && det.ambiguous && det.note) addNoteCard(file.name, det.note);
-    if (BIOS_NOTES[core]) {
-      addNoteCard(file.name, BIOS_NOTES[core]);
+    if (BOOT_NOTES[core]) {
+      addNoteCard(file.name, BOOT_NOTES[core]);
     }
   }
 
