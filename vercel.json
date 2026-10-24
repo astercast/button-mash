@@ -1,1 +1,201 @@
-{"$schema":"https://openapi.vercel.sh/vercel.json","buildCommand":"python3 scripts/build.py","cleanUrls":true,"functions":{"api/health.js":{"maxDuration":10}},"headers":[{"headers":[{"key":"X-Content-Type-Options","value":"nosniff"},{"key":"Referrer-Policy","value":"no-referrer"}],"source":"/api/(.*)"},{"headers":[{"key":"Cache-Control","value":"public, s-maxage=600, stale-while-revalidate=86400"},{"key":"X-Content-Type-Options","value":"nosniff"},{"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"}],"source":"/data/v1/(.*)"},{"headers":[{"key":"Cache-Control","value":"public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400"},{"key":"X-Content-Type-Options","value":"nosniff"},{"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"}],"source":"/assets/(.*)"},{"headers":[{"key":"X-Content-Type-Options","value":"nosniff"},{"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"}],"source":"/(.*)"}],"installCommand":"echo 'no dependencies'","outputDirectory":".","trailingSlash":false}
+{
+ "$schema": "https://openapi.vercel.sh/vercel.json",
+ "buildCommand": "python3 scripts/build.py",
+ "cleanUrls": true,
+ "functions": {
+  "api/health.js": {
+   "maxDuration": 10
+  }
+ },
+ "headers": [
+  {
+   "headers": [
+    {
+     "key": "X-Content-Type-Options",
+     "value": "nosniff"
+    },
+    {
+     "key": "Referrer-Policy",
+     "value": "no-referrer"
+    }
+   ],
+   "source": "/api/(.*)"
+  },
+  {
+   "headers": [
+    {
+     "key": "Cache-Control",
+     "value": "public, s-maxage=600, stale-while-revalidate=86400"
+    },
+    {
+     "key": "X-Content-Type-Options",
+     "value": "nosniff"
+    },
+    {
+     "key": "Referrer-Policy",
+     "value": "strict-origin-when-cross-origin"
+    }
+   ],
+   "source": "/data/v1/(.*)"
+  },
+  {
+   "headers": [
+    {
+     "key": "Cache-Control",
+     "value": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400"
+    },
+    {
+     "key": "X-Content-Type-Options",
+     "value": "nosniff"
+    },
+    {
+     "key": "Referrer-Policy",
+     "value": "strict-origin-when-cross-origin"
+    }
+   ],
+   "source": "/assets/(.*)"
+  },
+  {
+   "headers": [
+    {
+     "key": "X-Content-Type-Options",
+     "value": "nosniff"
+    },
+    {
+     "key": "Referrer-Policy",
+     "value": "strict-origin-when-cross-origin"
+    }
+   ],
+   "source": "/(.*)"
+  },
+  {
+   "source": "/index.html",
+   "headers": [
+    {
+     "key": "Cross-Origin-Opener-Policy",
+     "value": "same-origin"
+    },
+    {
+     "key": "Cross-Origin-Embedder-Policy",
+     "value": "require-corp"
+    },
+    {
+     "key": "X-Content-Type-Options",
+     "value": "nosniff"
+    },
+    {
+     "key": "Referrer-Policy",
+     "value": "strict-origin-when-cross-origin"
+    }
+   ]
+  },
+  {
+   "source": "/player.html",
+   "headers": [
+    {
+     "key": "Cross-Origin-Opener-Policy",
+     "value": "same-origin"
+    },
+    {
+     "key": "Cross-Origin-Embedder-Policy",
+     "value": "require-corp"
+    },
+    {
+     "key": "X-Content-Type-Options",
+     "value": "nosniff"
+    },
+    {
+     "key": "Referrer-Policy",
+     "value": "strict-origin-when-cross-origin"
+    }
+   ]
+  },
+  {
+   "source": "/play-frame.html",
+   "headers": [
+    {
+     "key": "Cross-Origin-Opener-Policy",
+     "value": "same-origin"
+    },
+    {
+     "key": "Cross-Origin-Embedder-Policy",
+     "value": "require-corp"
+    },
+    {
+     "key": "X-Content-Type-Options",
+     "value": "nosniff"
+    },
+    {
+     "key": "Referrer-Policy",
+     "value": "strict-origin-when-cross-origin"
+    }
+   ]
+  },
+  {
+   "source": "/",
+   "headers": [
+    {
+     "key": "Cross-Origin-Opener-Policy",
+     "value": "same-origin"
+    },
+    {
+     "key": "Cross-Origin-Embedder-Policy",
+     "value": "require-corp"
+    },
+    {
+     "key": "X-Content-Type-Options",
+     "value": "nosniff"
+    },
+    {
+     "key": "Referrer-Policy",
+     "value": "strict-origin-when-cross-origin"
+    }
+   ]
+  },
+  {
+   "source": "/player",
+   "headers": [
+    {
+     "key": "Cross-Origin-Opener-Policy",
+     "value": "same-origin"
+    },
+    {
+     "key": "Cross-Origin-Embedder-Policy",
+     "value": "require-corp"
+    },
+    {
+     "key": "X-Content-Type-Options",
+     "value": "nosniff"
+    },
+    {
+     "key": "Referrer-Policy",
+     "value": "strict-origin-when-cross-origin"
+    }
+   ]
+  },
+  {
+   "source": "/play-frame",
+   "headers": [
+    {
+     "key": "Cross-Origin-Opener-Policy",
+     "value": "same-origin"
+    },
+    {
+     "key": "Cross-Origin-Embedder-Policy",
+     "value": "require-corp"
+    },
+    {
+     "key": "X-Content-Type-Options",
+     "value": "nosniff"
+    },
+    {
+     "key": "Referrer-Policy",
+     "value": "strict-origin-when-cross-origin"
+    }
+   ]
+  }
+ ],
+ "installCommand": "echo 'no dependencies'",
+ "outputDirectory": ".",
+ "trailingSlash": false
+}

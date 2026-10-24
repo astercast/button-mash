@@ -188,9 +188,10 @@
   /* Full template token contract. buildHtml() replaces every one and throws
      if any token survives, a leftover token would ship a broken game. */
   var TOKENS = [
-    '__BM_GAME_NAME__', '__BM_GAME_ID__', '__BM_BUILD_DATE__', '__BM_ROM_SIZE__',
+    '__BM_GAME_NAME__', '__BM_BUILD_DATE__', '__BM_ROM_SIZE__',
     '__BM_ROM_B64__', '__BM_CORE__', '__BM_CORE_LABEL__', '__BM_SYSTEM__',
-    '__BM_HINT__', '__BM_COMPRESSED__', '__BM_COVER__'
+    '__BM_HINT__', '__BM_COMPRESSED__', '__BM_COVER__',
+    '__BM_GAME_NAME_JS__', '__BM_GAME_ID_JS__', '__BM_OFFLINE_JS__'
   ];
 
   function profileFor(name) {
@@ -411,6 +412,11 @@
     var html = template;
     var values = {
       '__BM_GAME_NAME__': escHtml(fields.name),
+      /* PP11: values that land inside <script> are JSON-encoded, never
+         HTML-escaped: a backslash or quote in a file name must not
+         break the portable file, and &quot; must not show as text. */
+      '__BM_GAME_NAME_JS__': JSON.stringify(String(fields.name)).replace(/</g, '\\u003c'),
+      '__BM_GAME_ID_JS__': JSON.stringify(String(fields.gameId)).replace(/</g, '\\u003c'),
       '__BM_GAME_ID__': escHtml(fields.gameId),
       '__BM_BUILD_DATE__': escHtml(fields.buildDate),
       '__BM_ROM_SIZE__': escHtml(fields.romSize),
@@ -420,7 +426,10 @@
       '__BM_SYSTEM__': escHtml(fields.system),
       '__BM_HINT__': fields.hint, /* profile hints contain trusted <kbd> markup */
       '__BM_COMPRESSED__': fields.compressed === '1' ? '1' : '0',
-      '__BM_COVER__': fields.cover ? escHtml(fields.cover) : ''
+      '__BM_COVER__': fields.cover ? escHtml(fields.cover) : '',
+      /* PP11 Offline edition: a raw JSON literal built by the stage
+         ({loader, files:{basename: base64}}) or null for Light. */
+      '__BM_OFFLINE_JS__': fields.offlineJs || 'null'
     };
     TOKENS.forEach(function (t) { html = html.split(t).join(values[t]); });
     var leftover = html.match(/__BM_[A-Z0-9_]+__/g);

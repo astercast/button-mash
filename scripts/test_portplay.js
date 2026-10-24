@@ -120,11 +120,77 @@ check("fixture ADF is a true 880 KB size", FIX("fixture-amiga.adf").length === 9
 check("fixture FDS carries its signature", (() => { const b = FIX("fixture-fds.fds"); return b[0] === 0x46 && b[1] === 0x44 && b[2] === 0x53 && b[3] === 0x1A; })(), "FDS header");
 check("FDS route carries the disk BIOS note", (() => { const d = C4.detect({ name: "game.fds", size: 65516, head: new Uint8Array(0) }); return d.kind === "play" && !!d.note && /disksys/i.test(d.note); })(), "own-BIOS honesty rides the route");
 
+/* FDS consistency (Rotation 144): every player surface treats a Disk
+   System file as BIOS-required in the PP13 pattern. The stage gates
+   on C4.BIOS_REQUIRED; the legacy player (player.js, DOM code the
+   node suites cannot execute) is asserted by shape, the fleet's
+   standing instrument for that file: its system-keyed table agrees
+   with C4's, its boot gate runs before boot(), intake passes the
+   detected system through, and player.html names FDS wherever the
+   BIOS story is told. */
+const playerSrc = fs.readFileSync(path.join(ROOT, "assets/js/player.js"), "utf8");
+const playerHtml = fs.readFileSync(path.join(ROOT, "player.html"), "utf8");
+check("FDS is BIOS-required in the C4 table (stage pattern)", !!C4.BIOS_REQUIRED.fds && C4.BIOS_REQUIRED.fds.files.join(",") === "disksys.rom", "BIOS_REQUIRED.fds names disksys.rom");
+check("player.js carries the system-keyed FDS table", /var BIOS_SYSTEMS = \{ fds: \['disksys\.rom'\] \};/.test(playerSrc), "agrees with C4.BIOS_REQUIRED.fds.files");
+check("player.js FDS gate refuses the boot before boot()", (() => {
+  const gate = playerSrc.indexOf("if (isFdsFile(file, opts) && !fdsBiosAttached())");
+  const bootCall = playerSrc.indexOf("boot(currentBlobUrl, file.name, core)");
+  return gate !== -1 && bootCall !== -1 && gate < bootCall;
+})(), "ask first, no crash");
+check("player.js gate states the ask, never supplies the BIOS", playerSrc.includes("DISK SYSTEM BIOS NEEDED FIRST") && playerSrc.includes("PortPlay does not provide BIOS files."), "disksys.rom named in the note");
+check("player intake passes the detected system to bootFile", playerSrc.includes("Object.assign({}, opts, { system: det.system })"), "magic-detected FDS under any name is gated");
+check("player.html names FDS at the BIOS picker", playerHtml.includes("3DO, Famicom Disk System; dumped from your own hardware"), "picker label");
+check("player.html systems table carries the FDS row", playerHtml.includes("<td>Famicom Disk System</td>") && playerHtml.includes("Yes, your own dump (disksys.rom)"), "presented table agrees with the gate");
+check("player.html BIOS honesty names FDS", playerHtml.includes("PlayStation, Sega CD and the Famicom Disk System need BIOS files"), "no blanket no-BIOS claim over disks");
+check("misnamed FDS magic detects as system fds", (() => { const h = new Uint8Array(64); h.set(Buffer.from("FDS\x1A", "ascii")); const d = C4.detect({ name: "disk.dat", size: 65000, head: h }); return d.kind === "play" && d.core === "nes" && d.system === "fds"; })(), "the gate's system key exists on the magic route");
+
+/* Manual-pick FDS closure (Rotation 145): intake runs detection only
+   on the auto path, so under a MANUAL system pick the R144 gate was
+   name-based only — a disk image under any other name booted with no
+   BIOS ask. bootFile is the choke point every boot passes through:
+   when a caller supplies no system it now detects the file itself
+   and adopts the detected system before the gate. player.js is DOM
+   code the node suites cannot execute, so the mechanism is asserted
+   by shape (the fleet's standing instrument for that file) and the
+   detection behaviour it relies on is proven live below. */
+check("player intake detection is auto-only (the gap the closure covers)", playerSrc.includes("if (sysSelect.value === 'auto' && C4)"), "manual picks skip intake detection");
+check("player manual path reaches bootFile without a system", playerSrc.includes("await bootFile(file, core, opts);"), "the fallthrough the bootFile detection covers");
+check("player.js bootFile detects the file when no system was supplied", (() => {
+  const det = playerSrc.indexOf("if (!opts.system && C4)");
+  const gate = playerSrc.indexOf("if (isFdsFile(file, opts) && !fdsBiosAttached())");
+  return det !== -1 && gate !== -1 && det < gate;
+})(), "detection runs before the gate, at the choke point");
+check("player.js bootFile adopts the detected system for the gate", playerSrc.includes("opts = Object.assign({}, opts, { system: det0.system })"), "the gate sees what the file is, not what it is called");
+check("FDS signature under a .bin name detects as system fds", (() => { const h = new Uint8Array(64); h.set([0x46, 0x44, 0x53, 0x1A]); const d = C4.detect({ name: "disk.bin", size: 65000, head: h }); return d.kind === "play" && d.system === "fds"; })(), "a manual NES pick of a renamed disk is gated");
+check("headerless FDS under a .nes name detects as system fds", (() => { const h = new Uint8Array(64); h[0] = 0x01; h.set(Buffer.from("*NINTENDO-HVC*", "ascii"), 1); const d = C4.detect({ name: "game.nes", size: 65500, head: h }); return d.kind === "play" && d.system === "fds"; })(), "the disk header block names the system");
+check("real NES magic does not detect as fds", (() => { const h = new Uint8Array(64); h.set([0x4E, 0x45, 0x53, 0x1A]); const d = C4.detect({ name: "game.bin", size: 32768, head: h }); return d.kind === "play" && d.system === "nes"; })(), "the gate stays open for real cartridges");
+
 /* .bin content routes: the generic extension, proven by its bytes. */
 const genBin = new Uint8Array(1024 * 1024); genBin.set(Buffer.from("SEGA MEGA DRIVE ", "ascii"), 0x100);
 check("play route Genesis .bin by header", (() => { const d = C4.detect({ name: "game.bin", size: genBin.length, head: genBin }); return d.kind === "play" && d.core === "segaMD"; })(), "SEGA string at 0x100");
 const smsBin = new Uint8Array(32 * 1024); smsBin.set(Buffer.from("TMR SEGA", "ascii"), 0x7FF0);
 check("play route Master System .bin by header", (() => { const d = C4.detect({ name: "game.bin", size: smsBin.length, head: smsBin }); return d.kind === "play" && d.core === "segaMS" && d.ambiguous === true; })(), "TMR SEGA at 0x7FF0, ambiguity stated");
+/* PP8 (byte-sniffing fix D): raw-sector discs, PBP Classics, 3DO,
+   and cartridges routed by magic under a wrong name. */
+const scdRaw = new Uint8Array(128); scdRaw.set(Buffer.from("SEGADISCSYSTEM", "ascii"), 16);
+check("PP8 Sega CD signature at raw offset 16", (() => { const d = C4.detect({ name: "track.bin", size: 9e8, head: scdRaw }); return d.kind === "play" && d.core === "segaCD"; })(), "raw 2352 layout");
+const satRaw = new Uint8Array(128); satRaw.set(Buffer.from("SEGA SEGASATURN", "ascii"), 16);
+check("PP8 Saturn signature at raw offset 16 declines", (() => { const d = C4.detect({ name: "track.bin", size: 9e8, head: satRaw }); return d.kind === "decline" && d.key === "saturn"; })(), "raw 2352 layout");
+const tdoHead = new Uint8Array(64); tdoHead[0] = 0x01; tdoHead[1] = 0x5A; tdoHead[5] = 0x5A; tdoHead[6] = 0x01;
+check("PP8 3DO Opera header", (() => { const d = C4.detect({ name: "disc.iso", size: 9e8, head: tdoHead }); return d.kind === "play" && d.core === "3do"; })(), "volume header magic");
+const pbpPs1 = new Uint8Array(2048); pbpPs1[1] = 0x50; pbpPs1[2] = 0x42; pbpPs1[3] = 0x50;
+pbpPs1[0x24] = 0x00; pbpPs1[0x25] = 0x04; pbpPs1[0x26] = 0x00; pbpPs1[0x27] = 0x00; /* 1024 little-endian */ pbpPs1.set(Buffer.from("PSISOIMG0000", "ascii"), 1024);
+check("PP8 PS1 Classic inside PBP plays", (() => { const d = C4.detect({ name: "game.pbp", size: 2048, head: pbpPs1 }); return d.kind === "play" && d.core === "psx"; })(), "DATA.PSAR magic at its recorded offset");
+const pbpPsp = new Uint8Array(64); pbpPsp[1] = 0x50; pbpPsp[2] = 0x42; pbpPsp[3] = 0x50;
+check("PP8 plain PBP still declines as PSP", (() => { const d = C4.detect({ name: "game.pbp", size: 64, head: pbpPsp }); return d.kind === "decline" && d.key === "psp"; })(), "no PSAR magic, no play route");
+const rawPvd = new Uint8Array(16 * 2352 + 24 + 64); const pvdOff = 16 * 2352 + 24;
+rawPvd.set(Buffer.from("CD001", "ascii"), pvdOff + 1); rawPvd.set(Buffer.from("PLAYSTATION", "ascii"), pvdOff + 8);
+check("PP8 raw PVD names PlayStation", C4.rawPvdSystemId(rawPvd) === "PLAYSTATION" && (() => { const d = C4.detect({ name: "track.bin", size: 9e8, head: rawPvd }); return d.kind === "play" && d.core === "psx"; })(), "MODE2/2352 descriptor");
+const misnamed = new Uint8Array(1024); misnamed.set(Buffer.from("NES\x1A", "ascii"));
+check("PP8 NES magic under a wrong name", (() => { const d = C4.detect({ name: "game.xyz", size: 1024, head: misnamed }); return d.kind === "play" && d.core === "nes"; })(), "bytes before names");
+const n64Head = new Uint8Array(64); n64Head[0] = 0x80; n64Head[1] = 0x37; n64Head[2] = 0x12; n64Head[3] = 0x40;
+check("PP8 N64 magic under a wrong name", (() => { const d = C4.detect({ name: "game.xyz", size: 64, head: n64Head }); return d.kind === "play" && d.core === "n64"; })(), "cartridge magic");
+
 const bigBin = new Uint8Array(64); /* a headerless small read of a big disc track stays a disc */
 check("big .bin still routes to the disc picker", (() => { const d = C4.detect({ name: "track.bin", size: 6e8, head: bigBin }); return d.kind === "disc-picker" && d.candidates.indexOf("3do") !== -1; })(), "size guard holds, 3DO is a picker candidate");
 
@@ -252,6 +318,35 @@ for (const [key, d] of Object.entries(C4.DECLINES)) {
   const conf = C4.dosboxConf("START.BAT", null);
   check("dosbox.conf mounts and runs the start program",
     conf.includes("[autoexec]") && conf.includes("START.BAT"), "config carries the exec");
+
+  /* ---------- PP6/PP7/PP9/PP11/PP12/PP13 (Rotation 141) ---------- */
+  check("PP9 zipStoreBlob exists", typeof C4.zipStoreBlob === "function", "Blob-of-Files builder");
+  const blobZip = await C4.zipStoreBlob([
+    { name: "fixture-nes.nes", blob: new Blob([nesBytes]) },
+    { name: "notes.txt", blob: new Blob(["hello"]) },
+  ]);
+  const blobZipBytes = new Uint8Array(await blobZip.arrayBuffer());
+  const bzEntries = C4.zipList(blobZipBytes);
+  check("PP9 blob zip lists both entries", bzEntries.length === 2 && bzEntries[0].name === "fixture-nes.nes", bzEntries.map((e) => e.name).join(","));
+  const bzOut = await C4.zipExtract(blobZipBytes, bzEntries[0]);
+  check("PP9 blob zip round-trips the ROM", bzOut.length === nesBytes.length && bzOut.every((b, i) => b === nesBytes[i]), bzOut.length + " bytes identical");
+  check("PP13 BIOS table covers the black-screen systems",
+    ["segaCD", "3do", "lynx", "coleco", "amiga"].every((k) => C4.BIOS_REQUIRED[k] && C4.BIOS_REQUIRED[k].files.length >= 1),
+    Object.keys(C4.BIOS_REQUIRED).join(","));
+  check("PP13 Lynx wants lynxboot.img", C4.BIOS_REQUIRED.lynx.files.includes("lynxboot.img"), "the boot image");
+  check("PP6 threads table maps PSP to ppsspp", C4.THREADS_CORES.psp === "ppsspp", "beta core");
+  const offHtml = C.buildHtml(template, {
+    name: "fixture-nes.nes", gameId: "pp-test", buildDate: "2026-10-23", romSize: "1 KB",
+    romB64: "AAEC", core: "nes", coreLabel: "FCEUmm", system: "NES", hint: "", compressed: "1", cover: "",
+    offlineJs: JSON.stringify({ loader: "AA==", files: { "fceumm-wasm.data": "AA==" } }),
+  });
+  check("PP11 offline build carries EJS_paths data", offHtml.includes("BM_OFFLINE") && offHtml.includes("fceumm-wasm.data") && !/__BM_[A-Z0-9_]+__/.test(offHtml), "embedded engine map, no tokens left");
+  const stageJs = fs.readFileSync(path.join(ROOT, "assets/js/stage.js"), "utf8");
+  const frameHtml = fs.readFileSync(path.join(ROOT, "play-frame.html"), "utf8");
+  check("PP7 stage boots through the frame", stageJs.includes("play-frame.html") && frameHtml.includes("portplay-boot"), "iframe isolation wired");
+  check("PP12 frame disables engine databases", frameHtml.includes("EJS_disableDatabases = true"), "the 4.2.3 switch, verified in the pinned loader");
+  check("PP10 stage prefers CompressionStream", stageJs.includes("CompressionStream('deflate')"), "pako is the fallback now");
+  check("PP14 stage has the Start gesture gate", stageJs.includes("lastGestureAt") && stageJs.includes("Start"), "sound permission re-armed");
 
   /* ---------- 5. COVERAGE agrees with the engines ---------- */
   const cov = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/coverage.json"), "utf8"));

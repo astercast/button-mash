@@ -38,6 +38,7 @@ REQUIRED = PAGES + [
     "assets/css/tokens.css",
     "assets/css/base.css",
     "assets/css/stage.css",
+    "assets/css/appliance.css",
     "assets/css/console.css",
     "assets/css/guide.css",
     "favicon.svg",
@@ -208,12 +209,33 @@ def main():
     (out_dir / "coverage.json").write_text(
         json.dumps(coverage, indent=2, sort_keys=False) + "\n", encoding="utf-8")
 
+    # PP5 pin guard: the engine version lives in config.js alone and
+    # every consumer (stage, player, portable template) must carry the
+    # same pinned, versioned path. The mutable stable channel and any
+    # second version number fail the build.
+    config_src = (ROOT / "assets/js/config.js").read_text(encoding="utf-8")
+    mver = re.search(r'engineVersion:\s*"([^"]+)"', config_src)
+    mcdn = re.search(r'engineCdn:\s*"([^"]+)"', config_src)
+    if not mver or not mcdn:
+        fail("config.js must carry engineVersion + engineCdn (PP5)")
+    pinned = "https://cdn.emulatorjs.org/%s/data/" % mver.group(1)
+    if mcdn.group(1) != pinned:
+        fail("config.js engineCdn %r is not the pinned path %r" % (mcdn.group(1), pinned))
+    for rel in ["assets/js/stage.js", "assets/js/player.js",
+                "assets/vendor/template-game.html"]:
+        text = (ROOT / rel).read_text(encoding="utf-8")
+        if "cdn.emulatorjs.org/stable/data/" in text:
+            fail("%s still loads the mutable stable engine channel (PP5)" % rel)
+        for other in re.findall(r"cdn\.emulatorjs\.org/([0-9][0-9.]*)/data/", text):
+            if other != mver.group(1):
+                fail("%s pins engine %s, config.js pins %s" % (rel, other, mver.group(1)))
+
     # External-link allowlist across everything served.
     served = PAGES + [
         "assets/js/config.js", "assets/js/stage.js", "assets/js/converter-core.js",
         "assets/js/converter4-core.js", "assets/js/converter4-ui.js",
         "assets/js/player.js", "assets/js/library.js", "assets/js/dos.js",
-        "assets/vendor/template-game.html",
+        "assets/vendor/template-game.html", "play-frame.html",
     ]
     bad = []
     for rel in served:
@@ -261,6 +283,13 @@ dos.html (DOS room), guide.html (the systems a browser cannot convert, and
 how to dump your own games). Coverage data: data/v1/coverage.json.
 """
     (ROOT / "llms.txt").write_text(llms, encoding="utf-8")
+
+    # PP7: frame isolation is load-bearing; fail the build if it rots.
+    frame = ROOT / "play-frame.html"
+    if not frame.exists() or "portplay-boot" not in frame.read_text(encoding="utf-8"):
+        fail("play-frame.html missing or no longer speaks the boot protocol (PP7)")
+    if "play-frame.html" not in (ROOT / "assets/js/stage.js").read_text(encoding="utf-8"):
+        fail("stage.js no longer boots through play-frame.html (PP7)")
 
     print("BUILD OK — PortPlay: 5 pages, %d convert profiles, %d play groups, %d guide declines"
           % (len(convert), len(play), len(declines)))

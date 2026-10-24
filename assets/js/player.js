@@ -4,7 +4,7 @@
 (function () {
   'use strict';
 
-  var CDN = 'https://cdn.emulatorjs.org/stable/data/';
+  var CDN = (window.PORTPLAY && window.PORTPLAY.engineCdn) || 'https://cdn.emulatorjs.org/4.2.3/data/';
 
   /* extension -> EmulatorJS core short name (per official EmulatorJS docs) */
   var CORE_MAP = {
@@ -39,6 +39,17 @@
     vboy: 'vb', lyx: 'lynx', agb: 'gba', sgx: 'pce', ngpc: 'ngp', dsi: 'nds'
   };
   var BIOS_CORES = ['psx', 'segaCD', 'amiga', '3do', 'lynx', 'coleco', 'nds']; /* need (or strongly want) a user-supplied BIOS; each has a note in updateBiosNote */
+  /* BIOS needs keyed by SYSTEM, not core: the PP13 pattern the stage
+     already follows (stage.js + converter4-core BIOS_REQUIRED). A
+     Famicom Disk System file detects as core 'nes', so the core-keyed
+     list above can never see it; without disksys.rom the pinned
+     engine crashes the player frame outright instead of refusing
+     (proven Rotation 142 on the stage surface). bootFile therefore
+     GATES an FDS boot on the picker holding disksys.rom, the stage's
+     ask-first shape. The file list here must agree with
+     C4.BIOS_REQUIRED.fds.files; the node suite asserts that it does.
+     PortPlay never supplies BIOS files. */
+  var BIOS_SYSTEMS = { fds: ['disksys.rom'] };
 
   var SYSTEM_LABELS = {
     nes: 'NES', snes: 'SNES', gb: 'Game Boy / Color', gba: 'Game Boy Advance',
@@ -138,6 +149,11 @@
     saveLastGame();
     applySystemRemapToEngine(core);
     window.EJS_pathtodata = CDN;
+    /* PP6: threads on only when cross-origin isolated and the core
+       needs them (PSP/ppsspp). The full player keeps its databases:
+       save slots are its promised feature, so PP12's stage-only
+       disable does not apply here. */
+    window.EJS_threads = !!window.crossOriginIsolated && core === 'psp';
     window.EJS_startOnLoaded = true;
     window.EJS_disableAutoLang = false;
     window.EJS_backgroundColor = '#05050d';
@@ -272,12 +288,74 @@
     return C4.detect({ name: file.name, size: file.size, head: head });
   }
 
+  /* FDS consistency (PP13 pattern, system-keyed). isFdsFile trusts
+     the content detection's system when intake passes it or when
+     bootFile detects it on a system-less call (the manual-pick
+     closure, Rotation 145), and the file name otherwise.
+     fdsBiosAttached is true only when the BIOS picker holds the
+     disk BIOS by name, the one file an FDS boot may use.
+     showFdsNote states the ask (no BIOS yet) or the attached
+     fact (booting) where the BIOS note lives. */
+  function isFdsFile(file, opts) {
+    return !!((opts && opts.system === 'fds') || /\.fds$/i.test((file && file.name) || ''));
+  }
+  function fdsBiosAttached() {
+    var f = biosInput && biosInput.files && biosInput.files[0];
+    if (!f) return false;
+    var want = BIOS_SYSTEMS.fds;
+    for (var i = 0; i < want.length; i++) {
+      if ((f.name || '').toLowerCase() === want[i]) return true;
+    }
+    return false;
+  }
+  function showFdsNote(attached) {
+    var fnote = $('bios-note');
+    if (!fnote) return;
+    fnote.hidden = false;
+    if (attached) {
+      fnote.innerHTML = '<strong>Famicom Disk System BIOS attached:</strong> booting with your own ' +
+        'disksys.rom dump. PortPlay does not provide BIOS files.';
+    } else {
+      fnote.innerHTML = '<strong>Famicom Disk System BIOS, your own dump:</strong> Disk System games need ' +
+        'the disk BIOS (disksys.rom) dumped from your own Famicom Disk System. Attach it with the BIOS picker ' +
+        'above and drop the disc again. PortPlay does not provide BIOS files.';
+    }
+  }
+
   async function bootFile(file, core, opts) {
     opts = opts || {};
     veilError('');
     hideDecline();
     if (sysSelect.value === 'auto') sysSelect.value = core;
     setStatus('IDENTIFYING ' + file.name.toUpperCase() + '…', true);
+    /* Manual-pick closure (Rotation 145): intake runs content
+       detection only on the auto path, so a caller arriving without
+       a system (a manual system pick, a library boot, a disc-set
+       boot) used to leave the gate below name-based only — a disk
+       image renamed to anything else booted with no BIOS ask and
+       crashed the frame, exactly what Rotation 142 proved. bootFile
+       is the one choke point every boot passes through, so when no
+       system was supplied the file is detected HERE and the detected
+       system adopted for the gate. The picked core is untouched: a
+       manual pick still chooses the core; detection only tells the
+       gate what the file IS. Detection is best-effort — if the
+       detection core failed to load, the name gate below still
+       applies, as it did before. */
+    if (!opts.system && C4) {
+      try {
+        var det0 = await detectFile(file);
+        if (det0 && det0.system) opts = Object.assign({}, opts, { system: det0.system });
+      } catch (e) { /* detection failed; the name gate below still applies */ }
+    }
+    /* The FDS gate: a Disk System file with no disksys.rom in the
+       BIOS picker is asked for its BIOS first and NOT booted. Booting
+       it anyway crashes the player frame (Rotation 142), so the note
+       alone was never enough on this surface. */
+    if (isFdsFile(file, opts) && !fdsBiosAttached()) {
+      setStatus('DISK SYSTEM BIOS NEEDED FIRST', false);
+      showFdsNote(false);
+      return;
+    }
     var contentId = opts.knownId || null;
     if (!contentId && C4) {
       try { contentId = await C4.contentIdFor(core, file.size, readSliceOf(file)); } catch (e) { contentId = null; }
@@ -288,18 +366,11 @@
     if (keepBtn) keepBtn.disabled = !contentId;
     currentBlobUrl = URL.createObjectURL(file);
     boot(currentBlobUrl, file.name, core);
-    /* Famicom Disk System rides the NES core but needs its own disk
-       BIOS; boot() just hid the BIOS note for the NES core, so the
-       FDS note is stated here where the file name is known. */
-    if (/\.fds$/i.test(file.name)) {
-      var fnote = $('bios-note');
-      if (fnote) {
-        fnote.hidden = false;
-        fnote.innerHTML = '<strong>Famicom Disk System BIOS, your own dump:</strong> Disk System games need ' +
-          'the disk BIOS (disksys.rom) dumped from your own Famicom Disk System. Attach it with the BIOS picker ' +
-          'above and drop the disc again. PortPlay does not provide BIOS files.';
-      }
-    }
+    /* FDS boots reach here only with disksys.rom attached (the gate
+       above refused the boot otherwise). boot() hid the BIOS note
+       for the NES core, so the FDS note is restated here where the
+       file's system is known. */
+    if (isFdsFile(file, opts)) showFdsNote(true);
   }
 
   async function intakeZip(file) {
@@ -428,7 +499,7 @@
       if (det.kind === 'dos') { showDosOffer([file], file.name); return; }
       if (det.kind === 'zip') { await intakeZip(file); return; }
       if (det.kind === 'play' || det.kind === 'disc-picker') {
-        await bootFile(file, det.core || 'psx', opts);
+        await bootFile(file, det.core || 'psx', Object.assign({}, opts, { system: det.system }));
         return;
       }
     }

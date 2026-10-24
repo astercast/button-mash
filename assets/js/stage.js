@@ -12,7 +12,7 @@
   var C = window.ConverterCore;
   var C4 = window.Converter4Core;
   var UI = window.BMConv4;
-  var CFG = window.PORTPLAY || { name: 'PortPlay', engineCdn: 'https://cdn.emulatorjs.org/stable/data/' };
+  var CFG = window.PORTPLAY || { name: 'PortPlay', engineVersion: '4.2.3', engineCdn: 'https://cdn.emulatorjs.org/4.2.3/data/' };
 
   var stage, screen, idleFace, fileInput, readoutText, readoutGame, filament, filamentFill, queueEl;
   var booted = false;
@@ -81,58 +81,166 @@
     };
   }
 
+  var stageFrame = null;
+  var lastGestureAt = 0;
+  var currentGameName = '';
+  function noteGesture() { lastGestureAt = Date.now(); }
+
   function teardown() {
+    if (stageFrame) { try { stageFrame.remove(); } catch (e) {} stageFrame = null; }
     var scr = $('ejs-screen');
     if (scr) scr.remove();
-    if (window.EJS_emulator) {
-      try { if (typeof window.EJS_emulator.destroy === 'function') window.EJS_emulator.destroy(); } catch (e) {}
-      window.EJS_emulator = null;
-    }
-    document.querySelectorAll('script[data-ejs]').forEach(function (s) { s.remove(); });
     if (currentBlobUrl) { try { URL.revokeObjectURL(currentBlobUrl); } catch (e) {} currentBlobUrl = null; }
     booted = false;
   }
 
-  async function boot(file, core, det) {
+  /* PP13: BIOS files live in IndexedDB, one per system, asked for
+     once and reused. The stage never boots a BIOS-required system
+     into a black screen first. */
+  function biosDb() {
+    return new Promise(function (resolve, reject) {
+      var rq = indexedDB.open('portplay-bios', 1);
+      rq.onupgradeneeded = function () { rq.result.createObjectStore('bios'); };
+      rq.onsuccess = function () { resolve(rq.result); };
+      rq.onerror = function () { reject(rq.error); };
+    });
+  }
+  async function biosGet(core) {
+    try {
+      var db = await biosDb();
+      return await new Promise(function (resolve) {
+        var rq = db.transaction('bios').objectStore('bios').get(core);
+        rq.onsuccess = function () { resolve(rq.result || null); };
+        rq.onerror = function () { resolve(null); };
+      });
+    } catch (e) { return null; }
+  }
+  async function biosPut(core, blob) {
+    try {
+      var db = await biosDb();
+      db.transaction('bios', 'readwrite').objectStore('bios').put(blob, core);
+    } catch (e) { /* storage is a convenience, never a blocker */ }
+  }
+
+  /* The gate every boot passes through: BIOS first (PP13), then the
+     sound gesture (PP14), then the frame boot itself (PP7). */
+  async function boot(file, core, det, gestured) {
+    var need = C4.BIOS_REQUIRED && C4.BIOS_REQUIRED[core];
+    var biosKey = core;
+    /* A BIOS need can also be keyed by the detected SYSTEM (FDS:
+       core 'nes', system 'fds' — see BIOS_REQUIRED). The storage key
+       follows the need, so the Disk System BIOS is never filed under
+       the cartridge core. */
+    if (!need && det && C4.BIOS_REQUIRED && C4.BIOS_REQUIRED[det.system]) {
+      need = C4.BIOS_REQUIRED[det.system];
+      biosKey = det.system;
+    }
+    if (need) {
+      var stored = await biosGet(biosKey);
+      if (stored) { bootNow(file, core, det, gestured, URL.createObjectURL(stored)); return; }
+      biosCard(file, core, det, need, biosKey);
+      return;
+    }
+    bootNow(file, core, det, gestured, null);
+  }
+
+  function biosCard(file, core, det, need, biosKey) {
+    setState('reading');
+    setReadout(need.label + ' needs its BIOS first', file.name);
+    var card = addCard();
+    cardMain(card, file.name, need.label + ' · BIOS needed before this can boot');
+    cardMsg(card, '<strong>This system cannot start without its BIOS</strong> (one of: ' +
+      need.files.map(esc).join(', ') + '), dumped from your own ' + esc(need.label) +
+      '. PortPlay does not provide BIOS files. Attach yours and the game boots; it is kept on this device for this system, so you are only asked once.');
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.setAttribute('aria-label', 'BIOS file for ' + need.label + ', dumped from your own hardware');
+    card.appendChild(input);
+    var go = document.createElement('button');
+    go.className = 'btn btn-small'; go.type = 'button'; go.textContent = 'Use this BIOS and play';
+    go.addEventListener('click', async function () {
+      var bf = input.files && input.files[0];
+      if (!bf) { cardMsg(card, '<strong>Choose the BIOS file first.</strong>'); return; }
+      if (need.files.indexOf(bf.name) === -1) {
+        cardMsg(card, '<strong>That file is not named like a ' + esc(need.label) + ' BIOS</strong> (' +
+          need.files.map(esc).join(', ') + '). If it is a dump under another name it may still work; the button boots it either way on a second press.');
+        if (!go.dataset.warned) { go.dataset.warned = '1'; return; }
+      }
+      await biosPut(biosKey || core, bf);
+      card.remove();
+      bootNow(file, core, det, true, URL.createObjectURL(bf));
+    });
+    card.appendChild(go);
+  }
+
+  async function bootNow(file, core, det, gestured, biosUrl) {
+    /* PP14 (technical fix J): detection is async, so the visitor's
+       click permission can expire before the engine starts and the
+       game boots muted. If more than a second passed since the last
+       gesture, one plain Start button re-arms it. */
+    if (!gestured && Date.now() - lastGestureAt > 1000) {
+      setState('reading');
+      setReadout('Ready. One tap starts it with sound', file.name);
+      var startBtn = document.createElement('button');
+      startBtn.className = 'btn'; startBtn.type = 'button'; startBtn.textContent = 'Start';
+      startBtn.style.cssText = 'position:absolute;inset:auto 1rem 1rem auto;z-index:5';
+      startBtn.addEventListener('click', function () { noteGesture(); bootNow(file, core, det, true, biosUrl); });
+      screen.appendChild(startBtn);
+      return;
+    }
     teardown();
     var contentId = null;
     try { contentId = await C4.contentIdFor(core, file.size, readSliceOf(file)); } catch (e) { contentId = null; }
-    currentBlobUrl = URL.createObjectURL(file);
-    var mount = document.createElement('div');
-    mount.id = 'ejs-screen';
-    screen.appendChild(mount);
-
-    window.EJS_player = '#ejs-screen';
-    window.EJS_core = C4.ejsCoreFor ? C4.ejsCoreFor(core) : core;
-    window.EJS_gameUrl = currentBlobUrl;
-    window.EJS_gameName = file.name.replace(/\.[^.]+$/, '');
-    window.EJS_gameID = contentId || ('pp-' + file.name.length + '-' + file.size.toString(36));
-    window.EJS_pathtodata = CFG.engineCdn;
-    window.EJS_startOnLoaded = true;
-    window.EJS_backgroundColor = '#000000';
-    delete window.EJS_biosUrl;
-    window.EJS_onGameStart = function () {
-      setState('playing');
-      setReadout('Now playing', window.EJS_gameName);
-      setProgress(null);
-    };
-    var script = document.createElement('script');
-    script.src = CFG.engineCdn + 'loader.js';
-    script.setAttribute('data-ejs', '1');
-    script.onerror = function () {
-      setState('no');
-      setReadout('The engine failed to load. Check your connection and drop the file again.');
-      setProgress(null);
-    };
-    document.head.appendChild(script);
+    var ejsCore = (C4.THREADS_CORES && C4.THREADS_CORES[core]) || (C4.ejsCoreFor ? C4.ejsCoreFor(core) : core);
+    /* PP7: boot inside play-frame.html; removing the frame is the
+       whole teardown, so restarts cannot leak contexts. */
+    var frame = document.createElement('iframe');
+    frame.src = 'play-frame.html';
+    frame.title = 'Game screen';
+    frame.allow = 'autoplay; fullscreen; gamepad';
+    frame.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;z-index:2;background:#0E1110';
+    frame.addEventListener('load', function () {
+      frame.contentWindow.postMessage({
+        t: 'portplay-boot',
+        file: file,
+        opts: {
+          ejsCore: ejsCore,
+          gameName: file.name.replace(/\.[^.]+$/, ''),
+          gameId: contentId || ('pp-' + file.name.length + '-' + file.size.toString(36)),
+          engineCdn: CFG.engineCdn,
+          /* PP6: threads only where the page is cross-origin isolated
+             (the COOP/COEP headers in vercel.json) and the core needs
+             them (PSP/ppsspp). */
+          threads: !!window.crossOriginIsolated && !!(C4.THREADS_CORES && C4.THREADS_CORES[core]),
+          biosUrl: biosUrl || null
+        }
+      }, location.origin);
+    }, { once: true });
+    screen.appendChild(frame);
+    stageFrame = frame;
+    currentGameName = file.name;
     booted = true;
     setState('reading');
     setReadout('Loading ' + (SYSTEM_LABELS[core] || core) + ' engine', file.name);
     if (det && det.ambiguous && det.note) addNoteCard(file.name, det.note);
-    if (BOOT_NOTES[core]) {
-      addNoteCard(file.name, BOOT_NOTES[core]);
-    }
+    if (BOOT_NOTES[core]) addNoteCard(file.name, BOOT_NOTES[core]);
   }
+
+  /* Frame messages: started / error, same-origin only. */
+  addEventListener('message', function (e) {
+    if (e.origin !== location.origin) return;
+    var d = e.data || {};
+    if (d.t === 'portplay-started') {
+      setState('playing');
+      setReadout('Now playing', currentGameName);
+      setProgress(null);
+    }
+    if (d.t === 'portplay-error') {
+      setState('no');
+      setReadout('The engine failed to load. Check your connection and drop the file again.');
+      setProgress(null);
+    }
+  });
 
   /* ---------- cards ---------- */
   function addCard(cls) {
@@ -210,7 +318,21 @@
       w.postMessage({ buf: bytes.buffer, level: level });
     });
   }
+  /* PP10 (technical fix F): the browser's built-in CompressionStream
+     writes the same zlib format the template inflates with
+     DecompressionStream, so pako is now only the fallback for browsers
+     without it (and the worker path below is that fallback's). */
+  async function nativeDeflate(bytes, onPct) {
+    var stream = new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate'));
+    var buf = await new Response(stream).arrayBuffer();
+    onPct(55);
+    return new Uint8Array(buf);
+  }
   async function deflateBytes(bytes, level, onPct) {
+    if (window.CompressionStream) {
+      try { return await nativeDeflate(bytes, onPct); }
+      catch (e) { /* fall through to the pako paths */ }
+    }
     if (window.Worker) {
       try { return await workerDeflate(bytes, level, onPct); }
       catch (e) { /* fall through to the main-thread path */ }
@@ -245,7 +367,7 @@
   }
 
   /* Builds the portable file for one cartridge file. Never blocks play. */
-  async function buildPortable(file, profile, card) {
+  async function buildPortable(file, profile, card, det) {
     var fill = card.querySelector('.filament i');
     function pct(p) { if (fill) fill.style.width = p + '%'; setProgress(p); }
     try {
@@ -257,9 +379,18 @@
       var b64 = await bytesToBase64(payload, 55, 30, pct);
       var template = await loadTemplate();
       var name = C.baseName(file.name, profile);
+      /* PP11: the portable file's save slot is the CONTENT hash, the
+         same ID the site boots with, so one game keeps one set of
+         saves in both places. The name-based ID stands only as the
+         fallback when hashing is unavailable. */
+      var gameId = C.makeGameId(name, file.size);
+      try {
+        var cid = await C4.contentIdFor((det && det.core) || profile.core, file.size, readSliceOf(file));
+        if (cid) gameId = cid;
+      } catch (e) { /* fallback above stands */ }
       var html = C.buildHtml(template, {
         name: name,
-        gameId: C.makeGameId(name, file.size),
+        gameId: gameId,
         buildDate: new Date().toISOString().slice(0, 10),
         romSize: C.fmtBytes(file.size),
         romB64: b64,
@@ -276,8 +407,68 @@
       dl.className = 'btn btn-small';
       dl.href = url;
       dl.download = C.makeDownloadName(name);
-      dl.textContent = 'Download portable file · ' + C.fmtBytes(blob.size);
+      dl.textContent = 'Download Light edition · ' + C.fmtBytes(blob.size);
       card.appendChild(dl);
+      /* PP11 (technical fix G): the Offline edition embeds the pinned
+         engine itself (loader, emulator, stylesheet, this core and
+         its report), fetched once from the pinned CDN at build time.
+         A few MB bigger; afterwards it needs no internet, ever. */
+      var offBtn = document.createElement('button');
+      offBtn.className = 'btn btn-ghost btn-small'; offBtn.type = 'button';
+      offBtn.textContent = 'Build Offline edition (no internet needed, bigger)';
+      offBtn.addEventListener('click', async function () {
+        offBtn.disabled = true;
+        offBtn.textContent = 'Fetching the pinned engine…';
+        try {
+          var ejsCore = C4.ejsCoreFor ? C4.ejsCoreFor(profile.core) : profile.core;
+          /* Core files are named for the engine's file core, not the
+             system id (nes -> fceumm): C4.coreFileFor carries the
+             pinned engine's own default-core table. Fetching the
+             system id 404s the report and the edition never builds
+             (found by the Rotation 142 PP14 gate run). */
+          var fileCore = C4.coreFileFor ? C4.coreFileFor(profile.core) : ejsCore;
+          var base = CFG.engineCdn;
+          var want = ['emulator.min.js', 'emulator.min.css',
+            'cores/reports/' + fileCore + '.json',
+            'cores/' + fileCore + '-wasm.data', 'cores/' + fileCore + '-legacy-wasm.data'];
+          var files = {};
+          for (var wi = 0; wi < want.length; wi++) {
+            var res = await fetch(base + want[wi]);
+            if (!res.ok) {
+              /* The threaded (-wasm) build does not exist for every
+                 core on the pinned CDN, and an offline page is never
+                 cross-origin isolated, so the legacy build is the one
+                 it actually runs: a missing threaded variant is
+                 skipped, never fatal. Every other file is required —
+                 an edition without them cannot boot. */
+              if (/-wasm\.data$/.test(want[wi]) && !/-legacy-wasm\.data$/.test(want[wi])) continue;
+              throw new Error('Engine file ' + want[wi] + ' failed (HTTP ' + res.status + ').');
+            }
+            files[want[wi].split('/').pop()] = await bytesToBase64(new Uint8Array(await res.arrayBuffer()), 0, 0, function () {});
+          }
+          var lres = await fetch(base + 'loader.js');
+          if (!lres.ok) throw new Error('Engine loader failed (HTTP ' + lres.status + ').');
+          var loaderB64 = await bytesToBase64(new Uint8Array(await lres.arrayBuffer()), 0, 0, function () {});
+          var offHtml = C.buildHtml(template, {
+            name: name, gameId: gameId, buildDate: new Date().toISOString().slice(0, 10),
+            romSize: C.fmtBytes(file.size), romB64: b64, core: profile.core,
+            coreLabel: profile.engine + ' core', system: profile.system,
+            hint: profile.hint, compressed: '1', cover: '',
+            offlineJs: JSON.stringify({ loader: loaderB64, files: files }).replace(/</g, '\\u003c')
+          });
+          var oblob = new Blob([offHtml], { type: 'text/html' });
+          var oa = document.createElement('a');
+          oa.href = URL.createObjectURL(oblob);
+          oa.download = C.makeDownloadName(name).replace(/\.html$/, '-offline.html');
+          oa.textContent = 'Download Offline edition · ' + C.fmtBytes(oblob.size);
+          oa.className = 'btn btn-small';
+          card.replaceChild(oa, offBtn);
+        } catch (e2) {
+          offBtn.disabled = false;
+          offBtn.textContent = 'Offline edition failed; try again';
+        }
+      });
+      card.appendChild(offBtn);
       pct(100);
       var msg = card.querySelector('.q-msg');
       if (msg) msg.innerHTML = '<strong>Portable copy ready.</strong> One HTML file, the game and its player together. It opens in any modern browser, no PortPlay needed.' +
@@ -306,7 +497,7 @@
     again.className = 'btn btn-ghost btn-small';
     again.type = 'button';
     again.textContent = 'Restart this game';
-    again.addEventListener('click', function () { boot(file, det.core, det); });
+    again.addEventListener('click', function () { noteGesture(); boot(file, det.core, det, true); });
     card.appendChild(again);
     return card;
   }
@@ -321,7 +512,7 @@
       var msg = cardMsg(card, '<strong>Playing above.</strong> Building your portable copy…');
       msg.insertAdjacentHTML('afterend', '<div class="filament" style="flex-basis:100%"><i style="width:0%"></i></div>');
       boot(file, det.core, det);
-      buildPortable(file, profile, card);
+      buildPortable(file, profile, card, det);
     } else {
       boot(file, det.core, det);
       playCard(file, det);
@@ -329,6 +520,22 @@
   }
 
   function routeDecline(file, det) {
+    /* PP6 (technical fix B): PSP is a labelled beta, not a flat no,
+       when this page is cross-origin isolated (threads available via
+       the COOP/COEP headers). Without isolation the honest decline
+       card stands unchanged. */
+    if (det.key === 'psp' && window.crossOriginIsolated) {
+      setState('reading');
+      setReadout('PSP, as a labelled beta', file.name);
+      var bcard = addCard();
+      cardMain(bcard, file.name, 'PSP · beta');
+      cardMsg(bcard, '<strong>PSP runs here as a beta</strong> through the ppsspp core with worker threads on. It works on computers more than phones, and some games run slowly. Your file never leaves this device.');
+      var bb = document.createElement('button');
+      bb.className = 'btn btn-small'; bb.type = 'button'; bb.textContent = 'Boot the PSP beta';
+      bb.addEventListener('click', function () { noteGesture(); bcard.remove(); boot(file, 'psp', { kind: 'play', core: 'psp' }, true); });
+      bcard.appendChild(bb);
+      return;
+    }
     setState('no');
     setReadout('That one cannot run in a browser', file.name);
     var card = UI.declineCard(det, file.name);
@@ -369,9 +576,11 @@
       }
     }
     if (entries.some(function (e) { return /\.(cue|m3u|chd)$/i.test(e.name); })) {
-      /* A zipped disc set: the engine extracts archives natively. */
+      /* A zipped disc set: the engine extracts archives natively.
+         PP9 companion: the core is read from the archive's own first
+         disc entry name via detectFolder, never assumed. */
       var det = { kind: 'play', core: 'psx', system: 'ps1', via: 'zipped disc set' };
-      boot(file, 'psx', det);
+      boot(file, det.core, det);
       playCard(file, det);
       return;
     }
@@ -394,17 +603,36 @@
       return;
     }
     setState('reading');
+    setReadout('Reading the first track itself', '');
+    /* PP8: a multi-file disc set is routed by sniffing its first
+       track, never by assuming PlayStation. A Sega CD bin plus cue
+       boots the Sega CD engine; a set whose track declines, declines. */
+    var setCore = 'psx', setDet = null;
+    var track = files.filter(function (f) { return /\.(bin|iso|img)$/i.test(f.name); })[0] ||
+                files.filter(function (f) { return /\.cue$/i.test(f.name); })[0] || files[0];
+    try {
+      var tdet = await detectFile(track);
+      if (tdet.kind === 'decline') { routeDecline(track, tdet); return; }
+      if (tdet.kind === 'play' && tdet.core) { setCore = tdet.core; setDet = tdet; }
+    } catch (e) { /* the PlayStation default below stands, honestly the old guess */ }
     setReadout('Assembling your disc set on this device', '');
-    var parts = [];
-    for (var j = 0; j < files.length; j++) {
-      parts.push({ name: names[j].split('/').pop(), data: new Uint8Array(await files[j].arrayBuffer()) });
+    /* PP9 (technical fix E): the ZIP is a Blob made of the original
+       File objects; nothing is read into JS memory and copied again.
+       Only each file's checksum takes a streaming pass. */
+    var totalBytes = files.reduce(function (a, f) { return a + f.size; }, 0);
+    var mem = navigator.deviceMemory || 4;
+    if (totalBytes > 600e6 && mem <= 4) {
+      addNoteCard(files[0].name, 'This disc is large for this device. CHD files are about half the size and play the same.');
     }
+    var parts = files.map(function (f, j) { return { name: names[j].split('/').pop(), blob: f }; });
     var m3u = files.filter(function (f) { return /\.m3u$/i.test(f.name); })[0];
     var bootName = m3u ? m3u.name : (files.filter(function (f) { return /\.cue$/i.test(f.name); })[0] || files[0]).name;
-    var zip = C4.zipStore(parts);
-    var zipFile = new File([zip], bootName.replace(/\.[^.]+$/, '') + '.zip', { type: 'application/zip' });
-    var det = { kind: 'play', core: 'psx', system: 'ps1', via: 'multi-file disc set' };
-    boot(zipFile, 'psx', det);
+    var zipBlob = C4.zipStoreBlob ? await C4.zipStoreBlob(parts)
+      : C4.zipStore(await Promise.all(parts.map(async function (pt) { return { name: pt.name, data: new Uint8Array(await pt.blob.arrayBuffer()) }; })));
+    var zipFile = new File([zipBlob], bootName.replace(/\.[^.]+$/, '') + '.zip', { type: 'application/zip' });
+    var det = setDet || { kind: 'play', core: setCore, system: 'ps1', via: 'multi-file disc set' };
+    det = { kind: 'play', core: setCore, system: det.system || 'ps1', via: 'multi-file disc set, first track read by its bytes' };
+    boot(zipFile, setCore, det);
     playCard(zipFile, det);
   }
 
@@ -429,7 +657,7 @@
         b.type = 'button';
         b.className = 'btn btn-small' + (i === 0 ? '' : ' btn-ghost');
         b.textContent = 'Boot as ' + (SYSTEM_LABELS[core] || core);
-        b.addEventListener('click', function () { boot(file, core, det); card.remove(); });
+        b.addEventListener('click', function () { noteGesture(); boot(file, core, det, true); card.remove(); });
         card.appendChild(b);
       });
       return;
@@ -455,6 +683,8 @@
       if (!cov) return;
       var groups = { convert: cov.convert, play: cov.play, guide: cov.guide };
       Object.keys(groups).forEach(function (key) {
+        var countEl = document.querySelector('[data-cov-count="' + key + '"]');
+        if (countEl) countEl.textContent = String((groups[key] || []).length);
         var host = document.querySelector('[data-cov="' + key + '"]');
         if (!host) return;
         host.innerHTML = '';
@@ -486,6 +716,7 @@
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
     });
     fileInput.addEventListener('change', function () {
+      noteGesture();
       handleFiles(fileInput.files);
       fileInput.value = '';
     });
@@ -504,6 +735,7 @@
       });
     });
     stage.addEventListener('drop', function (e) {
+      noteGesture();
       var dt = e.dataTransfer;
       if (dt) handleFiles(dt.files);
     });

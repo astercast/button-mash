@@ -1,0 +1,246 @@
+/* ============================================================
+   PortPlay — "The Appliance" (index.html).
+   The appliance body, its black glass window, the lamp and
+   readout, and the rating plate. Tokens live in tokens.css.
+   Below the fold the page switches to flat, unboxed spec
+   lists, so no section repeats the body's form. Motion is
+   state only. No scanline, no glow.
+   ============================================================ */
+
+/* ============ HEADER (slim, stamped) ============ */
+.topbar {
+  position: static;
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: var(--s-1) var(--s-4);
+  max-inline-size: var(--body-w);
+  margin-inline: auto;
+  padding: var(--s-3) var(--gutter) 0;
+  background: none; border: 0;
+}
+.wordmark {
+  font: 700 1.35rem/1 var(--font-stamp);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.topnav { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-3); margin-inline-start: auto; }
+.topnav a {
+  display: inline-flex; align-items: center; min-height: 44px;
+  padding-block: .55rem; padding-inline: 0;
+  font: 600 .9rem/1 var(--font-body);
+  color: var(--ink-2);
+  text-decoration: none;
+  border-radius: 0;
+}
+.topnav a:hover, .topnav a[aria-current="page"] { color: var(--ink); background: none; box-shadow: inset 0 -2px var(--ink); }
+
+/* ============ THE APPLIANCE ============ */
+.appliance {
+  container: appliance / inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "stamp    stamp"
+    "window   window"
+    "controls plate"
+    "queue    queue";
+  gap: var(--s-2) var(--s-4);
+  max-inline-size: var(--body-w);
+  margin: var(--s-3) auto var(--s-6);
+  margin-inline: max(var(--gutter), calc((100% - var(--body-w)) / 2));
+  padding: clamp(1rem, .6rem + 1.6vw, 2rem);
+  background: var(--enamel);
+  border-radius: var(--r-body);
+  box-shadow: inset 0 2px 0 var(--enamel-lip), inset 0 -4px 0 var(--enamel-deep);
+}
+.stamp {
+  grid-area: stamp;
+  margin: 0;
+  font: 700 var(--fs-stamp)/1.1 var(--font-stamp);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+/* the window: black glass, the only opening */
+.window {
+  grid-area: window;
+  position: relative;
+  padding: .6rem;
+  background: var(--glass);
+  border-radius: var(--r-window);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--glass-ink) 10%, transparent);
+}
+.screen {
+  position: relative;
+  block-size: clamp(20rem, 58svh, 40rem);
+  border-radius: calc(var(--r-window) - .4rem);
+  background: var(--glass);
+  overflow: hidden;
+  outline: 3px solid transparent;
+  outline-offset: -3px;
+}
+#ejs-screen { position: absolute; inset: 0; z-index: 2; }
+
+/* the slot: a dashed opening inside the glass, words set low and left */
+.idle-face {
+  position: absolute; inset: 1rem;
+  display: grid; align-content: end; justify-items: start;
+  gap: var(--s-2);
+  padding: clamp(1.25rem, 4cqi, 3rem);
+  border: 2px dashed color-mix(in oklab, var(--glass-ink) 28%, transparent);
+  border-radius: .6rem;
+  color: var(--glass-ink);
+  cursor: pointer;
+}
+.idle-title { margin: 0; font: 700 var(--fs-drop)/.95 var(--font-stamp); letter-spacing: .01em; text-transform: uppercase; }
+.idle-sub { margin: 0; max-inline-size: 38ch; color: color-mix(in oklab, var(--glass-ink) 78%, var(--glass)); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: .5em;
+  padding: .8em 1.2em .75em;
+  font: 700 1rem/1 var(--font-stamp);
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink);
+  background: var(--enamel);
+  border: 0; border-radius: var(--r-key);
+  box-shadow: inset 0 -3px 0 var(--enamel-deep);
+  text-decoration: none; cursor: pointer;
+}
+.btn:hover { background: var(--enamel-lip); }
+.btn-small { font-size: .85rem; padding: .6em .9em .55em; }
+.btn-ghost { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; color: inherit; }
+
+/* states */
+.appliance:not([data-state="idle"]) .idle-face { opacity: 0; pointer-events: none; scale: .985; }
+.appliance[data-state="drag"] .idle-face { opacity: 1; }
+.appliance[data-state="drag"] .screen { outline-color: var(--lamp); }
+.appliance[data-state="drag"] .idle-title::after { content: ". Let go."; color: var(--lamp); }
+
+/* controls: lamp, readout, progress */
+.controls {
+  grid-area: controls;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--s-1) var(--s-3);
+}
+.readout {
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: .4rem .7rem;
+  font: 500 var(--fs-readout)/1.4 var(--font-readout);
+}
+.readout .dot {
+  inline-size: .8rem; block-size: .8rem; flex: none;
+  border-radius: 50%;
+  background: var(--lamp-off);
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--ink) 30%, transparent);
+}
+.appliance:is([data-state="drag"], [data-state="reading"], [data-state="building"], [data-state="playing"]) .readout .dot { background: var(--lamp); }
+.appliance[data-state="no"] .readout .dot { background: var(--lamp-no); }
+.game-name { font-weight: 500; color: var(--ink-2); }
+.to-player { font: 700 .95rem/1 var(--font-stamp); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; }
+.to-player:hover { text-decoration: underline; }
+.filament {
+  grid-column: 1 / -1;
+  block-size: 4px;
+  background: color-mix(in oklab, var(--ink) 12%, transparent);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.filament i { display: block; block-size: 100%; inline-size: 0; background: var(--ink); }
+
+/* the rating plate */
+.plate {
+  grid-area: plate;
+  position: relative;
+  margin: 0;
+  padding: .7rem 1.6rem .7rem 1rem;
+  background: var(--plate);
+  border-radius: .35rem;
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ink) 18%, transparent);
+  font: 400 .72rem/1.45 var(--font-readout);
+}
+.plate::before, .plate::after {
+  content: "";
+  position: absolute; right: .55rem;
+  inline-size: .4rem; block-size: .4rem;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--plate) 60%, var(--ink));
+}
+.plate::before { top: .55rem; }
+.plate::after { bottom: .55rem; }
+.plate div { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: .5rem; }
+.plate dt { font-weight: 500; text-transform: uppercase; letter-spacing: .06em; }
+.plate dd { margin: 0; }
+
+/* the queue: portable files and messages */
+.queue { grid-area: queue; display: grid; gap: var(--s-1); }
+.queue:empty { display: none; }
+.q-card {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: var(--s-1) var(--s-2);
+  padding: var(--s-2);
+  background: var(--enamel-lip);
+  border-radius: var(--r-key);
+}
+.q-main { flex: 1; min-inline-size: 12rem; }
+.q-name { margin: 0; font-weight: 600; }
+.q-meta { margin: .2rem 0 0; font: 400 .78rem/1.4 var(--font-readout); color: var(--ink-2); }
+.q-msg { flex-basis: 100%; margin: 0; }
+.chip { display: inline-block; padding: .25em .6em; border-radius: .3rem; background: var(--plate); font: 500 .78rem/1.2 var(--font-readout); }
+
+@container appliance (width < 42rem) {
+  .appliance { grid-template-columns: minmax(0, 1fr); grid-template-areas: "stamp" "window" "controls" "plate" "queue"; }
+  .screen { block-size: clamp(16rem, 52svh, 28rem); }
+}
+/* The same narrow stack as a plain media query: the container query
+   above is the design's form, but a browser that does not apply it
+   must never be left with the two-column body on a phone (Census139
+   measured exactly that failure: the plate's max-content column
+   forced the page to 463px at a 320px viewport). */
+@media (width < 42rem) {
+  .appliance { grid-template-columns: minmax(0, 1fr); grid-template-areas: "stamp" "window" "controls" "plate" "queue"; }
+  .screen { block-size: clamp(16rem, 52svh, 28rem); }
+  .controls { grid-template-columns: minmax(0, 1fr); }
+  .plate div { grid-template-columns: 4.5rem minmax(0, 1fr); }
+  .plate dd { overflow-wrap: anywhere; }
+}
+
+/* ============ BELOW THE FOLD: flat spec lists ============ */
+.below {
+  max-inline-size: var(--body-w);
+  margin-inline: max(var(--gutter), calc((100% - var(--body-w)) / 2));
+  padding-bottom: var(--s-6);
+}
+.below h2 {
+  font: 700 var(--fs-stamp)/1.1 var(--font-stamp);
+  letter-spacing: .06em; text-transform: uppercase;
+  margin: 0 0 var(--s-2);
+}
+.cov-group { border-top: 1px solid var(--line-strong); padding: var(--s-3) 0; }
+.cov-group h3 {
+  font: 600 1rem/1.3 var(--font-body);
+  margin: 0 0 var(--s-2);
+}
+.cov-group h3 span { color: var(--ink-2); font-weight: 400; }
+.cov-list { display: flex; flex-wrap: wrap; gap: var(--s-1); }
+.cov-list .chip { background: transparent; box-shadow: inset 0 0 0 1px var(--line-strong); border-radius: .3rem; padding: .45em .7em; max-inline-size: 100%; overflow-wrap: anywhere; white-space: normal; }
+.cov-list .chip b { color: var(--ink); }
+.guide-line { border-top: 1px solid var(--line-strong); padding: var(--s-3) 0 0; }
+.guide-line p { margin: 0; max-inline-size: 62ch; }
+
+/* ============ MOTION: only state ============ */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 180ms; }
+
+  .appliance:is([data-state="reading"], [data-state="building"]) .readout .dot { animation: blink .8s steps(2, jump-none) infinite; }
+
+  .idle-face { transition: opacity 240ms var(--ease-out), scale 240ms var(--ease-out); }
+  .screen { transition: outline-color 160ms, scale 200ms var(--ease-out); }
+  .appliance[data-state="drag"] .screen { scale: 1.01; }
+  .filament i { transition: inline-size 300ms var(--ease-out), width 300ms var(--ease-out); }
+  .q-card { transition: opacity 260ms var(--ease-out), translate 260ms var(--ease-out); }
+  @starting-style { .q-card { opacity: 0; translate: 0 .5rem; } }
+}
+@keyframes blink { 50% { background: var(--lamp-off); } }

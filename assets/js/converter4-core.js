@@ -158,6 +158,81 @@
     return join(chunks);
   }
 
+  /* PP9 (technical fix E): stream a Blob/File CRC32 without ever
+     holding the whole file in JS memory. */
+  async function crc32Stream(blob) {
+    if (!CRC_TABLE) crc32(new Uint8Array(0));
+    var crc = 0xFFFFFFFF;
+    var reader = blob.stream().getReader();
+    for (;;) {
+      var step = await reader.read();
+      if (step.done) break;
+      var v = step.value;
+      for (var i = 0; i < v.length; i++) crc = CRC_TABLE[(crc ^ v[i]) & 0xFF] ^ (crc >>> 8);
+    }
+    return (crc ^ 0xFFFFFFFF) >>> 0;
+  }
+
+  /* PP9: build a stored ZIP as a Blob whose parts ARE the original
+     File/Blob objects. The browser does not copy them into JS memory,
+     so a 700 MB disc set no longer costs ~1.4 GB of RAM on the stage.
+     parts: [{name, blob}] where blob is a Blob/File/Uint8Array. */
+  async function zipStoreBlob(parts) {
+    function u16(v) { return new Uint8Array([v & 0xFF, (v >>> 8) & 0xFF]); }
+    function u32(v) { return new Uint8Array([v & 0xFF, (v >>> 8) & 0xFF, (v >>> 16) & 0xFF, (v >>> 24) & 0xFF]); }
+    function join(ps) {
+      var n = ps.reduce(function (a, x) { return a + x.length; }, 0);
+      var out = new Uint8Array(n), o = 0;
+      ps.forEach(function (x) { out.set(x, o); o += x.length; });
+      return out;
+    }
+    var chunks = [], central = [], offset = 0;
+    for (var idx = 0; idx < parts.length; idx++) {
+      var f = parts[idx];
+      var blob = f.blob instanceof Blob ? f.blob : new Blob([f.blob]);
+      var nameBytes = new Uint8Array(f.name.length);
+      for (var j = 0; j < f.name.length; j++) nameBytes[j] = f.name.charCodeAt(j) & 0x7F;
+      var crc = (blob instanceof Blob && typeof blob.stream === 'function' && blob.size > 4 * 1024 * 1024)
+        ? await crc32Stream(blob) : crc32(new Uint8Array(await blob.arrayBuffer()));
+      var localOff = offset;
+      var head = join([u32(0x04034b50), u16(20), u16(0x0800), u16(0), u16(0), u16(0x21),
+        u32(crc), u32(blob.size), u32(blob.size), u16(nameBytes.length), u16(0)]);
+      chunks.push(head, nameBytes, blob); offset += head.length + nameBytes.length + blob.size;
+      central.push(join([u32(0x02014b50), u16(20), u16(20), u16(0x0800), u16(0), u16(0), u16(0x21),
+        u32(crc), u32(blob.size), u32(blob.size), u16(nameBytes.length),
+        u16(0), u16(0), u16(0), u16(0), u32(0), u32(localOff), nameBytes]));
+    }
+    var cdStart = offset;
+    central.forEach(function (c) { chunks.push(c); offset += c.length; });
+    chunks.push(join([u32(0x06054b50), u16(0), u16(0), u16(parts.length), u16(parts.length),
+      u32(offset - cdStart), u32(cdStart), u16(0)]));
+    return new Blob(chunks, { type: 'application/zip' });
+  }
+
+  /* PP13: the systems that cannot boot at all without a BIOS file
+     dumped from the visitor's own hardware, with the file names the
+     cores expect. The stage asks for the BIOS BEFORE booting (never
+     after a black screen) and keeps it in IndexedDB per system. */
+  var BIOS_REQUIRED = {
+    segaCD: { label: 'Sega CD', files: ['bios_CD_U.bin', 'bios_CD_J.bin', 'bios_CD_E.bin'] },
+    '3do': { label: '3DO', files: ['panafz10.bin', 'panafz1.bin', 'panafz10e-anvil.bin', 'goldstar.bin', 'sanyotry.bin'] },
+    lynx: { label: 'Atari Lynx', files: ['lynxboot.img'] },
+    coleco: { label: 'ColecoVision', files: ['colecovision.rom'] },
+    /* FDS is keyed by SYSTEM, not core: a disk image detects as core
+       'nes' with system 'fds', and the FCEUmm core cannot start disk
+       images without the Disk System BIOS — in the pinned engine the
+       boot does not fail politely, it crashes the player frame
+       outright (proven firsthand in the Rotation 142 PP14 gate run:
+       the synthetic fixture AND a hand-built structured disk image
+       both crashed the renderer, while every cartridge boot passed).
+       stage.js checks the system key as well as the core key, so a
+       .fds file gets this ask instead of a dead frame. */
+    fds: { label: 'Famicom Disk System', files: ['disksys.rom'] },
+    amiga: { label: 'Commodore Amiga', files: ['kick33180.A500', 'kick34005.A500', 'kick37175.A500', 'kick40063.A600', 'kick40068.A1200', 'kick40068.A4000'] }
+  };
+  /* PP6: cores that only run with worker threads (cross-origin isolation). */
+  var THREADS_CORES = { psp: 'ppsspp' };
+
   /* List ZIP entries from the central directory. Returns
      [{name, size, method, localOffset}] or null if not a ZIP. */
   function zipList(bytes) {
@@ -391,6 +466,52 @@
   var EJS_ALIASES = { segaSG: 'segaMS' };
   function ejsCoreFor(core) { return EJS_ALIASES[core] || core; }
 
+  /* System id -> the core FILE the pinned CDN serves. At boot time
+     the engine resolves a system id to its default core internally
+     (EmulatorJS 4.2.3 getCores(), first entry per system), so the
+     boot paths above never need file names. Anything that FETCHES
+     core files itself has no resolver to lean on: the PP11 Offline
+     builder originally fetched 'cores/<system>.json' and
+     'cores/<system>-wasm.data', which 404 for every system whose
+     file core differs from its system id (nes -> fceumm, gb ->
+     gambatte, snes -> snes9x, ...), so the Offline edition could
+     never build. This table is the pinned engine's own default-core
+     list, read out of emulator.min.js itself during the Rotation
+     142 PP14 gate run; keep it in step with the pinned version. */
+  var CORE_FILES = {
+    nes: 'fceumm', gb: 'gambatte', gba: 'mgba', snes: 'snes9x',
+    segaMS: 'smsplus', segaMD: 'genesis_plus_gx', segaGG: 'genesis_plus_gx',
+    segaCD: 'genesis_plus_gx', sega32x: 'picodrive', sega: 'genesis_plus_gx',
+    atari2600: 'stella2014', atari5200: 'a5200', atari7800: 'prosystem',
+    vb: 'beetle_vb', ngp: 'mednafen_ngp', pce: 'mednafen_pce',
+    pcfx: 'mednafen_pcfx', ws: 'mednafen_wswan', psx: 'pcsx_rearmed',
+    n64: 'mupen64plus_next', nds: 'melonds', arcade: 'fbneo',
+    mame: 'mame2003_plus', coleco: 'gearcoleco', lynx: 'handy',
+    '3do': 'opera', psp: 'ppsspp', jaguar: 'virtualjaguar',
+    segaSaturn: 'yabause', amiga: 'puae', c64: 'vice_x64sc',
+    c128: 'vice_x128', pet: 'vice_xpet', plus4: 'vice_xplus4',
+    vic20: 'vice_xvic', dos: 'dosbox_pure'
+  };
+  function coreFileFor(core) { var e = ejsCoreFor(core); return CORE_FILES[e] || e; }
+
+  /* PP8 (byte-sniffing fix D): disc signatures also live at byte 16
+     in a raw 2352-byte-per-sector dump, and the ISO9660 primary
+     volume descriptor sits at sector 16 in three layouts (2048-byte
+     cooked, MODE1/2352 raw, MODE2/2352 raw). rawPvdSystemId reads
+     the descriptor's system identifier in whichever layout is
+     present, so a raw .bin names its own system instead of falling
+     through to a picker. */
+  function rawPvdSystemId(b) {
+    var offs = [16 * 2048, 16 * 2352 + 16, 16 * 2352 + 24];
+    for (var i = 0; i < offs.length; i++) {
+      var off = offs[i];
+      if (b.length > off + 40 && strAt(b, off + 1, 5) === 'CD001') {
+        return strAt(b, off + 8, 32).replace(/[\s\u0000]+$/, '');
+      }
+    }
+    return null;
+  }
+
   /* Content-first detection. Input: {name, size, head} where head is
      a Uint8Array of the file's first bytes (2MB serves every check
      here), plus optional zipEntries when head is a ZIP.
@@ -428,15 +549,30 @@
       var d = DECLINES.psp; return { kind: 'decline', key: 'psp', system: d.system, tone: d.tone, headline: d.headline, body: d.body, steps: d.steps, guide: d.guide, guideLabel: d.guideLabel, via: 'CSO container signature' };
     }
     if (head.length >= 4 && head[0] === 0x00 && head[1] === 0x50 && head[2] === 0x42 && head[3] === 0x50) {
+      /* PP8: not every PBP is a PSP package. PS1 Classics carry a
+         PlayStation disc image inside DATA.PSAR, whose offset is the
+         little-endian word at 0x24; when that offset lands inside
+         the head we were given and the PSAR magic is there, the
+         PlayStation core plays the file. */
+      if (head.length >= 0x28) {
+        var psarOff = u32le(head, 0x24);
+        if (psarOff > 0 && psarOff + 12 <= head.length &&
+            (hasStr(head, psarOff, 'PSISOIMG0000') || hasStr(head, psarOff, 'PSTITLEIMG000'))) {
+          return { kind: 'play', core: 'psx', system: 'ps1', via: 'PS1 Classic inside a PBP package' };
+        }
+      }
       var d2 = DECLINES.psp; return { kind: 'decline', key: 'psp', system: d2.system, tone: d2.tone, headline: d2.headline, body: d2.body, steps: d2.steps, guide: d2.guide, guideLabel: d2.guideLabel, via: 'PBP package signature' };
     }
-    if (hasStr(head, 0, 'SEGADISCSYSTEM')) {
+    if (hasStr(head, 0, 'SEGADISCSYSTEM') || hasStr(head, 16, 'SEGADISCSYSTEM')) {
       return { kind: 'play', core: 'segaCD', system: 'segacd', via: 'Sega CD disc signature' };
     }
-    if (hasStr(head, 0, 'SEGA SEGASATURN')) {
+    if (head.length >= 6 && head[0] === 0x01 && head[1] === 0x5A && head[5] === 0x5A && head[6] === 0x01) {
+      return { kind: 'play', core: '3do', system: '3do', via: '3DO Opera volume header' };
+    }
+    if (hasStr(head, 0, 'SEGA SEGASATURN') || hasStr(head, 16, 'SEGA SEGASATURN')) {
       var d3 = DECLINES.saturn; return { kind: 'decline', key: 'saturn', system: d3.system, tone: d3.tone, headline: d3.headline, body: d3.body, steps: d3.steps, guide: d3.guide, guideLabel: d3.guideLabel, via: 'Saturn disc signature' };
     }
-    if (hasStr(head, 0, 'SEGA SEGAKATANA')) {
+    if (hasStr(head, 0, 'SEGA SEGAKATANA') || hasStr(head, 16, 'SEGA SEGAKATANA')) {
       var d4 = DECLINES.dreamcast; return { kind: 'decline', key: 'dreamcast', system: d4.system, tone: d4.tone, headline: d4.headline, body: d4.body, steps: d4.steps, guide: d4.guide, guideLabel: d4.guideLabel, via: 'Dreamcast disc signature' };
     }
     if (head.length >= 0x20 && u32be(head, 0x1C) === 0xC2339F3D) {
@@ -444,6 +580,15 @@
     }
     if (head.length >= 0x1C && u32be(head, 0x18) === 0x5D1C9EA3) {
       var d6 = DECLINES.wii; return { kind: 'decline', key: 'wii', system: d6.system, tone: d6.tone, headline: d6.headline, body: d6.body, steps: d6.steps, guide: d6.guide, guideLabel: d6.guideLabel, via: 'Wii disc magic' };
+    }
+
+    /* --- raw-sector ISO descriptor (PP8): a raw .bin/.img whose
+       cooked-ISO check above cannot see its descriptor --- */
+    if (!isoInfo(head)) {
+      var rawSys = rawPvdSystemId(head);
+      if (rawSys === 'PLAYSTATION') {
+        return { kind: 'play', core: 'psx', system: 'ps1', via: 'ISO descriptor in a raw sector layout names PlayStation' };
+      }
     }
 
     /* --- ISO9660 sniffing: the disc names its own system --- */
@@ -483,6 +628,40 @@
     }
     if (ext === 'bin' && input.size && input.size <= 8 * 1024 * 1024 && hasStr(head, 0x100, 'SEGA')) {
       return { kind: 'play', core: 'segaMD', system: 'md', via: 'Genesis cartridge header in a .bin dump' };
+    }
+
+    /* --- cartridge magic (PP8): bytes before names, for any
+       extension. A renamed or mislabelled cartridge routes by what
+       it is, not by what it is called. --- */
+    if (hasStr(head, 0, 'NES\x1A')) {
+      return { kind: 'play', core: 'nes', system: 'nes', via: 'iNES cartridge signature' };
+    }
+    if (hasStr(head, 0, 'FDS\x1A') || hasStr(head, 1, '*NINTENDO-HVC*')) {
+      return { kind: 'play', core: 'nes', system: 'fds', via: 'Famicom Disk System signature', ambiguous: true,
+        note: 'Disk System games need the disk BIOS (disksys.rom) dumped from your own Famicom Disk System. Attach it with the BIOS picker in the full player; without it this disc will not boot.' };
+    }
+    if (head.length > 0xB2 && head[0xB2] === 0x96 && head[0x04] === 0x24 && head[0x05] === 0xFF) {
+      return { kind: 'play', core: 'gba', system: 'gba', via: 'Game Boy Advance cartridge header' };
+    }
+    if (head.length > 0x106 && head[0x104] === 0xCE && head[0x105] === 0xED && head[0x106] === 0x66) {
+      return { kind: 'play', core: 'gb', system: 'gb', via: 'Game Boy cartridge header' };
+    }
+    if (head.length >= 4 && [0x80371240, 0x37804012, 0x40123780].indexOf(u32be(head, 0)) !== -1) {
+      return { kind: 'play', core: 'n64', system: 'n64', via: 'Nintendo 64 cartridge magic' };
+    }
+    if (hasStr(head, 0, 'LYNX')) {
+      return { kind: 'play', core: 'lynx', system: 'lynx', via: 'Lynx cartridge signature', ambiguous: true,
+        note: 'Lynx games need the boot image (lynxboot.img) dumped from your own Lynx before they can boot. The full player takes one with its BIOS picker; without it this game stays on a black screen.' };
+    }
+    if (hasStr(head, 1, 'ATARI7800')) {
+      return { kind: 'play', core: 'atari7800', system: 'atari7800', via: 'Atari 7800 cartridge signature' };
+    }
+    if (hasStr(head, 0x100, 'SEGA') && input.size && input.size <= 32 * 1024 * 1024) {
+      return { kind: 'play', core: 'segaMD', system: 'md', via: 'Genesis cartridge header' };
+    }
+    if ((hasStr(head, 0x7FF0, 'TMR SEGA') || hasStr(head, 0x3FF0, 'TMR SEGA') || hasStr(head, 0x1FF0, 'TMR SEGA')) && input.size && input.size <= 2 * 1024 * 1024) {
+      return { kind: 'play', core: 'segaMS', system: 'sms', via: 'TMR SEGA cartridge header', ambiguous: true,
+        note: 'This file carries a Master System family header. Master System is pre-selected; if this is a Game Gear game, open it in the full player and pick Game Gear there.' };
     }
 
     /* --- extension routing (fallback + fast path) --- */
@@ -595,9 +774,14 @@
     sampledBytes: sampledBytes,
     crc32: crc32,
     zipStore: zipStore,
+    zipStoreBlob: zipStoreBlob,
+    crc32Stream: crc32Stream,
+    BIOS_REQUIRED: BIOS_REQUIRED,
+    THREADS_CORES: THREADS_CORES,
     zipList: zipList,
     zipExtract: zipExtract,
     isoInfo: isoInfo,
+    rawPvdSystemId: rawPvdSystemId,
     isoRootEntries: isoRootEntries,
     isoReadRootFile: isoReadRootFile,
     detect: detect,
@@ -605,6 +789,8 @@
     DECLINES: DECLINES,
     EJS_ALIASES: EJS_ALIASES,
     ejsCoreFor: ejsCoreFor,
+    CORE_FILES: CORE_FILES,
+    coreFileFor: coreFileFor,
     buildM3U: buildM3U,
     discSortKey: discSortKey,
     chooseDosExecutable: chooseDosExecutable,

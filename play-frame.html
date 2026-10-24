@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0E1110">
+<title>PortPlay game screen</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #0E1110; overflow: hidden; }
+  #game { position: absolute; inset: 0; }
+</style>
+</head>
+<body>
+<div id="game"></div>
+<script>
+/* PP7 (technical fix C): the emulator runs in its own frame. EmulatorJS
+   is not built for repeated instances in one page; restarting a game on
+   the stage used to pile up WebGL and audio contexts. Here, stopping a
+   game is removing this frame, which takes every context with it.
+   The stage sends the file in with postMessage (a File passes without
+   being copied into JS memory); only same-origin messages are read. */
+(function () {
+  'use strict';
+  var booted = false;
+  addEventListener('message', function (e) {
+    if (e.origin !== location.origin) return;
+    var d = e.data || {};
+    if (d.t !== 'portplay-boot' || booted) return;
+    booted = true;
+    var opts = d.opts || {};
+    window.EJS_player = '#game';
+    window.EJS_core = opts.ejsCore;
+    window.EJS_gameUrl = URL.createObjectURL(d.file);
+    window.EJS_gameName = opts.gameName;
+    window.EJS_gameID = opts.gameId;
+    window.EJS_pathtodata = opts.engineCdn;
+    window.EJS_threads = !!opts.threads;
+    /* PP12: the pinned 4.2.3 loader has no cache-config option; the
+       real switch is disableDatabases, verified in the loader source.
+       The stage promises nothing is stored, so engine databases
+       (core/game IndexedDB caches) are off in this frame. */
+    window.EJS_disableDatabases = true;
+    window.EJS_startOnLoaded = true;
+    window.EJS_backgroundColor = '#000000';
+    if (opts.biosUrl) window.EJS_biosUrl = opts.biosUrl;
+    window.EJS_onGameStart = function () {
+      parent.postMessage({ t: 'portplay-started' }, location.origin);
+    };
+    var s = document.createElement('script');
+    s.src = opts.engineCdn + 'loader.js';
+    s.onerror = function () {
+      parent.postMessage({ t: 'portplay-error', v: 'engine-load' }, location.origin);
+    };
+    document.body.appendChild(s);
+  });
+})();
+</script>
+</body>
+</html>

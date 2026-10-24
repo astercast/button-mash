@@ -11,10 +11,9 @@
 <meta property="og:image" content="https://button-mash-live.vercel.app/assets/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://button-mash-live.vercel.app/player.html">
-<meta name="theme-color" content="#080908">
+<meta name="theme-color" content="#EDEAE2">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preload" href="assets/fonts/sora-var-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/barlow-condensed-700-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/console.css">
@@ -74,7 +73,7 @@
               <button class="btn btn-ghost btn-small" id="load-url-btn" type="button">Load URL</button>
             </div>
             <div class="file-input-row">
-              <label for="bios-file" class="veil-note">BIOS file (only for systems that need one: PlayStation, Sega CD, Nintendo DS, Lynx, ColecoVision, Amiga, 3DO; dumped from your own hardware):</label>
+              <label for="bios-file" class="veil-note">BIOS file (only for systems that need one: PlayStation, Sega CD, Nintendo DS, Lynx, ColecoVision, Amiga, 3DO, Famicom Disk System; dumped from your own hardware):</label>
               <input type="file" id="bios-file" aria-label="BIOS file, for systems that need one, dumped from your own hardware">
             </div>
           </div>
@@ -267,6 +266,7 @@
           <tr><td>Game Boy Advance</td><td>mGBA</td><td>.gba</td><td>No</td></tr>
           <tr><td>Game Boy / Game Boy Color</td><td>Gambatte</td><td>.gb .gbc</td><td>No</td></tr>
           <tr><td>NES</td><td>FCEUmm</td><td>.nes</td><td>No</td></tr>
+          <tr><td>Famicom Disk System</td><td>FCEUmm</td><td>.fds</td><td><strong>Yes, your own dump (disksys.rom)</strong></td></tr>
           <tr><td>Super Nintendo</td><td>Snes9x</td><td>.sfc .smc</td><td>No</td></tr>
           <tr><td>Genesis / Mega Drive</td><td>Genesis Plus GX</td><td>.md .gen .smd</td><td>No</td></tr>
           <tr><td>Master System</td><td>SMS Plus</td><td>.sms</td><td>No</td></tr>
@@ -288,7 +288,7 @@
         <p><strong>And the honest boundary:</strong> PlayStation 2, GameCube, Wii, PlayStation 3, Xbox, Xbox 360, and Switch files cannot play in any browser today. Drop one anyway and the Player names the system and hands you the working path, or read it now in <a href="guide.html">the guide</a>. PSP, Saturn, and Dreamcast are recognised too; they are on the bench, not under a promise.</p>
       </div>
       <div class="callout warn" style="margin-top:1.2rem">
-        <p><strong>BIOS honesty:</strong> PlayStation and Sega CD need BIOS files dumped from hardware you own. PortPlay will never provide them, and no download link for them exists on this site. Attach your own with the BIOS picker above. Everything else boots with no BIOS.</p>
+        <p><strong>BIOS honesty:</strong> PlayStation, Sega CD and the Famicom Disk System need BIOS files dumped from hardware you own. PortPlay will never provide them, and no download link for them exists on this site. Attach your own with the BIOS picker above; the picker label lists every system that needs one.</p>
       </div>
     </section>
 

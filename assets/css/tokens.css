@@ -1,77 +1,131 @@
 /* ============================================================
    PortPlay design tokens.
-   Identity: "The Instrument", a precision conversion instrument
-   with a product-launch register. Near-black graphite, hairline
-   rules, one signal accent. Type: Sora (display) + Inter (UI),
-   both variable and self-hosted (SIL OFL), system mono for
-   readouts. Motion is one system: three durations, two easings,
-   everything reduced-motion gated in base.css.
+   Identity: "The Appliance" (design consult, graded PP1-PP4 +
+   PP5-PP14): a single-purpose enamel machine. Jadeite enamel
+   body, black glass window, one amber lamp, facts stamped on a
+   rating plate. Type: Barlow Condensed (stamped labels) +
+   Barlow (interface) + Martian Mono (readout), all self-hosted
+   from assets/fonts/ under the SIL Open Font License (PP1: no
+   remote font request is made by any page).
    ============================================================ */
 
 @font-face {
-  font-family: "Sora";
-  src: url("../fonts/sora-var-latin.woff2") format("woff2");
-  font-weight: 100 800;
+  font-family: "Barlow Condensed";
+  src: url("../fonts/barlow-condensed-600-latin.woff2") format("woff2");
+  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Inter";
-  src: url("../fonts/inter-var-latin.woff2") format("woff2");
-  font-weight: 100 900;
+  font-family: "Barlow Condensed";
+  src: url("../fonts/barlow-condensed-700-latin.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Barlow";
+  src: url("../fonts/barlow-400-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Barlow";
+  src: url("../fonts/barlow-500-latin.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Barlow";
+  src: url("../fonts/barlow-600-latin.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Barlow";
+  src: url("../fonts/barlow-700-latin.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Martian Mono";
+  src: url("../fonts/martian-mono-400-latin.woff2") format("woff2");
+  font-weight: 400 500;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
-  /* ---- Surfaces ---- */
-  --bg: #080908;
-  --bg-2: #0c0d0a;
-  --surface: #101210;
-  --surface-2: #151713;
-  --surface-3: #1e211b;
-  --screen: #050605;
-  --line: rgba(226, 232, 255, 0.09);
-  --line-strong: rgba(226, 232, 255, 0.17);
+  color-scheme: light;
 
-  /* ---- Signal ---- */
-  --signal: #bff747;
-  --signal-ink: #1a2403;
-  --signal-soft: rgba(191, 247, 71, 0.13);
-  --amber: #ffb224;
-  --red: #ff6b5e;
-
-  /* ---- Ink ---- */
-  --ink: #f4f6fa;
-  --ink-2: #c3cad6;
-  --ink-dim: #8b94a5;
-  --ink-faint: #5d6577;
+  /* ---- The Appliance palette ---- */
+  --wall:      #EDEAE2;
+  --enamel:    #C9DCCB;
+  --glass:     #0E1110;
+  --glass-ink: #E8EEE9;
+  --ink:       #18201A;
+  --ink-2:     #3E4A40;
+  --plate:     #D7DBD5;
+  --lamp:      #F2A516;
+  --lamp-no:   #D6452F;
+  --enamel-deep: color-mix(in oklab, var(--enamel) 78%, var(--ink));
+  --enamel-lip:  color-mix(in oklab, var(--enamel) 70%, #FFFFFF);
+  --lamp-off:    color-mix(in oklab, var(--enamel) 55%, var(--ink));
 
   /* ---- Type ---- */
-  --font-display: "Sora", "Inter", system-ui, sans-serif;
-  --font-ui: "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
-  --type-hero: clamp(2.6rem, 7.2vw, 5.4rem);
-  --type-h2: clamp(1.55rem, 3.4vw, 2.3rem);
-  --type-h3: 1.06rem;
-  --type-body: 1rem;
-  --type-small: 0.86rem;
-  --type-micro: 0.74rem;
+  --font-stamp:   "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body:    "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-readout: "Martian Mono", ui-monospace, Menlo, Consolas, monospace;
+  --fs-drop:    clamp(2.4rem, 1.4rem + 4.5vw, 5rem);
+  --fs-stamp:   clamp(1.15rem, .95rem + .9vw, 1.6rem);
+  --fs-body:    clamp(.98rem, .95rem + .15vw, 1.06rem);
+  --fs-readout: .88rem;
+  --fs-label:   .78rem;
 
-  /* ---- Shape ---- */
-  --r-xl: 26px;
-  --r-lg: 16px;
-  --r-md: 12px;
-  --r-sm: 8px;
+  /* ---- Space: 8px unit ---- */
+  --s-1: .5rem;
+  --s-2: 1rem;
+  --s-3: 1.5rem;
+  --s-4: 2rem;
+  --s-5: 3rem;
+  --s-6: 5rem;
+  --gutter: clamp(1rem, .4rem + 3vw, 2.5rem);
+  --body-w: 76rem;
 
-  /* ---- Motion system ---- */
+  /* ---- Shape: one body, one window, keys ---- */
+  --r-body: 1.75rem;
+  --r-window: 1rem;
+  --r-key: .6rem;
+
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-spring: cubic-bezier(0.3, 1.35, 0.4, 1);
   --t-fast: 160ms;
   --t-med: 340ms;
   --t-slow: 640ms;
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-spring: cubic-bezier(0.3, 1.35, 0.4, 1);
 
-  /* ---- Layout ---- */
-  --shell: 1180px;
-  --gutter: clamp(18px, 4vw, 40px);
+  /* ---- Old token names, so player, DOS and guide pages follow ----
+     The emulator area keeps --screen, still glass black, so games
+     still sit on black. */
+  --bg: var(--wall); --bg-2: var(--wall);
+  --surface: var(--enamel); --surface-2: var(--enamel-lip); --surface-3: var(--enamel-deep);
+  --screen: var(--glass);
+  --line: color-mix(in oklab, var(--ink) 14%, transparent);
+  --line-strong: color-mix(in oklab, var(--ink) 28%, transparent);
+  --signal: var(--lamp); --signal-ink: var(--ink);
+  --signal-soft: color-mix(in oklab, var(--lamp) 18%, transparent);
+  --amber: var(--lamp); --red: var(--lamp-no);
+  --ink-dim: var(--ink-2); --ink-faint: #5E6B60;
+  --font-display: var(--font-stamp); --font-ui: var(--font-body); --font-mono: var(--font-readout);
+  --r-xl: var(--r-body); --r-lg: var(--r-window); --r-md: var(--r-key); --r-sm: var(--r-key);
+  --type-hero: var(--fs-drop);
+  --type-h2: clamp(1.55rem, 3.4vw, 2.3rem);
+  --type-h3: 1.06rem;
+  --type-body: var(--fs-body);
+  --type-small: 0.86rem;
+  --type-micro: 0.74rem;
+  --shell: var(--body-w);
 }

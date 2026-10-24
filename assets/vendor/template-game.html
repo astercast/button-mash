@@ -6,7 +6,7 @@
 <title>__BM_GAME_NAME__ (__BM_SYSTEM__), playable in your browser</title>
 <meta name="description" content="__BM_GAME_NAME__ (__BM_SYSTEM__) as a self-contained browser game. Built from a user-supplied game file with PortPlay.">
 <style>
-  :root { --signal:#bff747; --bg:#07080b; --panel:#10131a; --line:#232833; --ink:#f4f6fa; --dim:#8b94a5; }
+  :root { --signal:#F2A516; --bg:#EDEAE2; --panel:#C9DCCB; --line:#b9c4ba; --ink:#18201A; --dim:#3E4A40; }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; min-height:100vh; display:flex; flex-direction:column; }
   header { padding:.9rem 1.2rem; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; }
@@ -29,12 +29,12 @@
   footer a { color:var(--signal); }
   .hint { padding:.8rem 1.2rem; font-size:.85rem; color:var(--dim); background:var(--panel); border-top:1px solid var(--line); line-height:1.6; }
   .hint strong { color:var(--ink); }
-  .hint kbd { background:#1e232f; border:1px solid #343a49; border-bottom-width:3px; border-radius:6px; padding:.1em .5em; font-family:ui-monospace,monospace; }
+  .hint kbd { background:#D7DBD5; border:1px solid #b9c4ba; border-bottom-width:3px; border-radius:6px; padding:.1em .5em; font-family:ui-monospace,monospace; }
 </style>
 </head>
 <body>
 <header>
-  <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect x="2.5" y="2.5" width="27" height="27" rx="8.5" fill="none" stroke="#bff747" stroke-width="2.4"/><path d="M13 10.8v10.4c0 .9 1 1.5 1.8 1L24 16.9a1.15 1.15 0 0 0 0-2L14.8 9.9c-.8-.5-1.8.1-1.8.9z" fill="#bff747"/></svg>
+  <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect x="2.5" y="2.5" width="27" height="27" rx="8.5" fill="none" stroke="#18201A" stroke-width="2.4"/><path d="M13 10.8v10.4c0 .9 1 1.5 1.8 1L24 16.9a1.15 1.15 0 0 0 0-2L14.8 9.9c-.8-.5-1.8.1-1.8.9z" fill="#F2A516"/></svg>
   <span id="cover-wrap" hidden><img id="cover-img" alt=""></span>
   <h1>__BM_GAME_NAME__<small>__BM_SYSTEM__ · self-contained browser game · game file __BM_ROM_SIZE__ · built __BM_BUILD_DATE__</small></h1>
   <div class="spacer"></div>
@@ -44,7 +44,7 @@
 
 <div id="stage">
   <div id="loading" role="status">
-    <div class="pulse" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32"><path d="M12 9.8v12.4c0 1 1.1 1.7 2 1.1L25 17a1.3 1.3 0 0 0 0-2.2L14 8.7c-.9-.6-2 .1-2 1.1z" fill="#bff747"/></svg></div>
+    <div class="pulse" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32"><path d="M12 9.8v12.4c0 1 1.1 1.7 2 1.1L25 17a1.3 1.3 0 0 0 0-2.2L14 8.7c-.9-.6-2 .1-2 1.1z" fill="#F2A516"/></svg></div>
     <p>Unpacking your game…<br><small>(large files take a moment; everything happens on your device)</small></p>
     <p id="load-error" role="alert"></p>
   </div>
@@ -70,6 +70,11 @@
 var BM_ROM_B64 = "__BM_ROM_B64__";
 var BM_COMPRESSED = "__BM_COMPRESSED__";
 var BM_COVER = "__BM_COVER__";
+/* PP11: Offline edition data, or null in a Light file. When present,
+   the engine (loader, emulator, stylesheet, core) is embedded as
+   base64 and mapped through EJS_paths, so the file works with no
+   internet at all. Light files load the pinned engine from the CDN. */
+var BM_OFFLINE = __BM_OFFLINE_JS__;
 
 function loadFail(msg) {
   var el = document.getElementById('load-error');
@@ -109,9 +114,9 @@ async function romToBlobUrl() {
 function bootEngine(gameUrl) {
   window.EJS_player = '#game';
   window.EJS_core = '__BM_CORE__';
-  window.EJS_gameName = "__BM_GAME_NAME__";
-  window.EJS_gameID = "__BM_GAME_ID__";
-  window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
+  window.EJS_gameName = __BM_GAME_NAME_JS__;
+  window.EJS_gameID = __BM_GAME_ID_JS__;
+  window.EJS_pathtodata = 'https://cdn.emulatorjs.org/4.2.3/data/';
   window.EJS_startOnLoaded = true;
   window.EJS_backgroundColor = '#000000';
   window.EJS_gameUrl = gameUrl;
@@ -121,10 +126,24 @@ function bootEngine(gameUrl) {
   };
   /* Loader is injected after the game URL exists, so config order is certain. */
   var s = document.createElement('script');
-  s.src = 'https://cdn.emulatorjs.org/stable/data/loader.js';
-  s.onerror = function () {
-    loadFail('The emulator engine failed to load. This file needs internet the very first time (the engine comes from the EmulatorJS CDN, then it is cached). Check your connection and reload.');
-  };
+  if (BM_OFFLINE) {
+    /* Offline edition: every engine file rides inside this file.
+       EJS_paths is keyed by basename in the 4.2.3 loader, verified
+       against its source; the loader itself is inlined. */
+    var paths = {};
+    Object.keys(BM_OFFLINE.files).forEach(function (k) {
+      var type = /\.js$/.test(k) ? 'text/javascript' : /\.css$/.test(k) ? 'text/css' : /\.json$/.test(k) ? 'application/json' : 'application/octet-stream';
+      paths[k] = URL.createObjectURL(new Blob([b64ToBytes(BM_OFFLINE.files[k])], { type: type }));
+    });
+    window.EJS_paths = paths;
+    s.textContent = new TextDecoder().decode(b64ToBytes(BM_OFFLINE.loader));
+    s.onerror = function () { loadFail('The embedded engine failed to start.'); };
+  } else {
+    s.src = 'https://cdn.emulatorjs.org/4.2.3/data/loader.js';
+    s.onerror = function () {
+      loadFail('The emulator engine failed to load. This file needs internet the very first time (the engine comes from the EmulatorJS CDN, then it is cached). Check your connection and reload.');
+    };
+  }
   document.body.appendChild(s);
 }
 
@@ -136,7 +155,7 @@ if (BM_COVER) {
     ci.src = BM_COVER;
     /* The token below arrives HTML-escaped; decode it for the alt text. */
     var altProbe = document.createElement('textarea');
-    altProbe.innerHTML = 'Cover art for __BM_GAME_NAME__';
+    altProbe.textContent = 'Cover art for ' + __BM_GAME_NAME_JS__;
     ci.alt = altProbe.value;
     cw.hidden = false;
   }
