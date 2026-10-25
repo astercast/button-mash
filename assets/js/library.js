@@ -177,6 +177,130 @@
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
   }
 
+  /* ---------------- whole-shelf .portplay export / import ----------------
+     One file carries the whole shelf (bundle, 2026-10-24): every staged
+     game's bytes, the engine save states, and the on-device settings and
+     control maps (the bm-/ejs- localStorage keys) — so a shelf moves
+     between this visitor's own browsers whole. The format is a stored
+     zip (C4.zipStore) with a manifest.json at its root; the .portplay
+     extension is the shelf's own name for it. Nothing uploads: the file
+     is built and read entirely on-device, like everything else here. */
+
+  function shelfSettings() {
+    var out = {};
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (k && (k.indexOf('bm-') === 0 || k.indexOf('ejs-') === 0)) out[k] = localStorage.getItem(k);
+      }
+    } catch (e) { /* settings are a bonus, never a blocker */ }
+    return out;
+  }
+  function engineStatesAll() {
+    return engineStatesOpen().then(function (db) {
+      return new Promise(function (resolve) {
+        try {
+          var store = db.transaction(['states'], 'readonly').objectStore('states');
+          var keysReq = store.getAllKeys();
+          keysReq.onsuccess = function () {
+            var keys = keysReq.result || [], out = [], pending = keys.length;
+            if (!pending) { resolve(out); return; }
+            keys.forEach(function (k) {
+              var g = store.get(k);
+              g.onsuccess = function () {
+                var v = g.result;
+                out.push({ key: String(k), data: v instanceof Uint8Array ? v : (v ? new Uint8Array(v) : new Uint8Array(0)) });
+                if (--pending === 0) resolve(out);
+              };
+              g.onerror = function () { if (--pending === 0) resolve(out); };
+            });
+          };
+          keysReq.onerror = function () { resolve([]); };
+        } catch (e) { resolve([]); }
+      });
+    }).catch(function () { return []; });
+  }
+  function exportShelf(status) {
+    return api.listGames().then(function (games) {
+      return engineStatesAll().then(async function (saves) {
+        var files = [], manifest = {
+          format: 'portplay-shelf', version: 1, exportedAt: new Date().toISOString(),
+          games: [], saves: [], settings: shelfSettings()
+        };
+        for (var i = 0; i < games.length; i++) {
+          var g = games[i];
+          var data = g.blob ? new Uint8Array(await g.blob.arrayBuffer()) : new Uint8Array(0);
+          var fname = 'games/' + i + '.bin';
+          files.push({ name: fname, data: data });
+          manifest.games.push({ id: g.id, name: g.name, core: g.core, systemLabel: g.systemLabel,
+                                size: g.size, addedAt: g.addedAt || null, file: fname });
+        }
+        saves.forEach(function (s, j) {
+          var fname = 'saves/' + j + '.state';
+          files.push({ name: fname, data: s.data });
+          manifest.saves.push({ key: s.key, file: fname });
+        });
+        files.unshift({ name: 'manifest.json',
+                        data: new TextEncoder().encode(JSON.stringify(manifest, null, 2)) });
+        var zip = C4.zipStore(files);
+        download(new Blob([zip], { type: 'application/octet-stream' }), 'portplay-shelf.portplay');
+        status('Exported the whole shelf: ' + manifest.games.length + ' game(s), ' +
+               manifest.saves.length + ' save file(s), and this device\u2019s settings and maps. ' +
+               'Keep the .portplay file somewhere safe; it is the only copy.');
+        return manifest.games.length;
+      });
+    });
+  }
+  function importShelf(file, status) {
+    return file.arrayBuffer().then(function (buf) {
+      var bytes = new Uint8Array(buf);
+      var entries = C4.zipList(bytes);
+      if (!entries) throw new Error('that file is not a .portplay shelf (no archive inside)');
+      function entryData(name) {
+        var e = entries.filter(function (x) { return x.name === name; })[0];
+        return e ? C4.zipExtract(bytes, e, window.pako ? window.pako.inflateRaw : null) : null;
+      }
+      var manData = entryData('manifest.json');
+      if (!manData) throw new Error('that archive has no shelf manifest');
+      var manifest = JSON.parse(new TextDecoder().decode(manData));
+      if (manifest.format !== 'portplay-shelf') throw new Error('that manifest is not a PortPlay shelf');
+      var jobs = [];
+      (manifest.games || []).forEach(function (g) {
+        var data = entryData(g.file);
+        if (!data) return;
+        jobs.push(api.stageGame({ id: g.id, name: g.name, core: g.core, systemLabel: g.systemLabel,
+          size: g.size, blob: new File([data], g.name, { type: 'application/octet-stream' }),
+          addedAt: g.addedAt || Date.now() }));
+      });
+      var saveCount = 0;
+      var savesJob = engineStatesOpen().then(function (db) {
+        return new Promise(function (resolve, reject) {
+          var t = db.transaction(['states'], 'readwrite');
+          var store = t.objectStore('states');
+          (manifest.saves || []).forEach(function (s) {
+            var data = entryData(s.file);
+            if (data) { store.put(data, s.key); saveCount++; }
+          });
+          t.oncomplete = resolve;
+          t.onerror = function () { reject(t.error); };
+        });
+      }).catch(function () { /* saves are restorable later from the same file */ });
+      jobs.push(savesJob);
+      return Promise.all(jobs).then(function () {
+        try {
+          var settings = manifest.settings || {};
+          Object.keys(settings).forEach(function (k) {
+            if (k.indexOf('bm-') === 0 || k.indexOf('ejs-') === 0) localStorage.setItem(k, settings[k]);
+          });
+        } catch (e) { /* maps/settings restore is best-effort */ }
+        status('Imported the shelf: ' + (manifest.games || []).length + ' game(s) staged, ' +
+               saveCount + ' save file(s) restored, settings and maps applied. Reload the player if a game was already booted.');
+        document.dispatchEvent(new CustomEvent('bm:library-changed'));
+        return (manifest.games || []).length;
+      });
+    });
+  }
+
   /* ---------------- the manager UI (player page) ---------------- */
 
   function fmtBytes(n) {
@@ -265,6 +389,23 @@
       exportSaves(function (m) { if (s) s.textContent = m; }).catch(function (e) {
         if (s) s.textContent = 'Export failed (' + (e && e.message ? e.message : e) + ').';
       });
+    });
+    var shelfExp = $('shelf-export');
+    if (shelfExp) shelfExp.addEventListener('click', function () {
+      var s = $('library-status');
+      exportShelf(function (m) { if (s) s.textContent = m; }).catch(function (e) {
+        if (s) s.textContent = 'Shelf export failed (' + (e && e.message ? e.message : e) + ').';
+      });
+    });
+    var shelfImp = $('shelf-import');
+    if (shelfImp) shelfImp.addEventListener('change', function () {
+      var f = shelfImp.files && shelfImp.files[0];
+      if (!f) return;
+      var s = $('library-status');
+      importShelf(f, function (m) { if (s) s.textContent = m; }).catch(function (e) {
+        if (s) s.textContent = 'Shelf import failed (' + (e && e.message ? e.message : e) + ').';
+      });
+      shelfImp.value = '';
     });
     var imp = $('saves-import');
     if (imp) imp.addEventListener('change', function () {

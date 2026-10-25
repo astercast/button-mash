@@ -8,20 +8,44 @@
 <style>
   html, body { margin: 0; height: 100%; background: #0E1110; overflow: hidden; }
   #game { position: absolute; inset: 0; }
+  /* Touch (design consult, 2026-10-24 evening): our own pad replaces
+     the engine's on-screen pad, and the engine menu bar hides until
+     the pad's "More" row asks for it back — in the consult captures
+     the engine's pad and menu overlapped each other. */
+  body.pp-touch:not(.pp-engine-menu) .ejs_menu_bar, body.pp-touch:not(.pp-engine-menu) .ejs_menu_button, body.pp-touch .ejs_virtualGamepad_parent, body.pp-touch .ejs_virtualGamepad_open { display: none !important; }
+  body { overscroll-behavior: none; touch-action: none; }
 </style>
 </head>
 <body>
 <div id="game"></div>
+<script src="assets/js/touchpad.js"></script>
 <script>
+/* On every start EmulatorJS asks its own CDN for a version.json (an update
+   check; no option turns it off). Answer it locally so nothing third-party
+   is called while a game runs. */
+(function(){ var f=window.fetch; if(!f||f.__bm) return;
+  window.fetch=function(u,o){ return /\/stable\/data\/version\.json/.test(String(u)) ? Promise.resolve(new Response('{}',{status:404})) : f.call(this,u,o); };
+  window.fetch.__bm=1; })();
 /* PP7 (technical fix C): the emulator runs in its own frame. EmulatorJS
    is not built for repeated instances in one page; restarting a game on
    the stage used to pile up WebGL and audio contexts. Here, stopping a
    game is removing this frame, which takes every context with it.
    The stage sends the file in with postMessage (a File passes without
-   being copied into JS memory); only same-origin messages are read. */
+   being copied into JS memory); only same-origin messages are read.
+   The full player boots through this same frame (evening consult,
+   2026-10-24): its page used to run the engine in-page and revoke the
+   game blob URL in teardown, the class behind the live "network
+   error". It now passes keepDatabases (its save slots are a promised
+   feature), its cheats and its own BIOS file through the same
+   protocol; the stage passes none of those and keeps the PP12
+   nothing-stored promise below. */
 (function () {
   'use strict';
   var booted = false;
+  /* The cores ask for a screen wake lock; a refusal is harmless
+     (NotAllowedError as an unhandled rejection), so swallow only that
+     error and keep it out of the error log (evening consult). */
+  addEventListener('unhandledrejection', function (e) { if (e.reason && e.reason.name === 'NotAllowedError') e.preventDefault(); });
   addEventListener('message', function (e) {
     if (e.origin !== location.origin) return;
     var d = e.data || {};
@@ -38,14 +62,57 @@
     /* PP12: the pinned 4.2.3 loader has no cache-config option; the
        real switch is disableDatabases, verified in the loader source.
        The stage promises nothing is stored, so engine databases
-       (core/game IndexedDB caches) are off in this frame. */
-    window.EJS_disableDatabases = true;
+       (core/game IndexedDB caches) are off in this frame — unless
+       the full player booted it: save slots are its promised
+       feature, so it passes keepDatabases and the switch stays off. */
+    if (!opts.keepDatabases) window.EJS_disableDatabases = true;
     window.EJS_startOnLoaded = true;
-    window.EJS_backgroundColor = '#000000';
-    if (opts.biosUrl) window.EJS_biosUrl = opts.biosUrl;
+    window.EJS_backgroundColor = opts.backgroundColor || '#000000';
+    if ('disableAutoLang' in opts) window.EJS_disableAutoLang = !!opts.disableAutoLang;
+    if (opts.cheats && opts.cheats.length) window.EJS_cheats = opts.cheats;
+    if (d.biosFile) window.EJS_biosUrl = URL.createObjectURL(d.biosFile);
+    else if (opts.biosUrl) window.EJS_biosUrl = opts.biosUrl;
     window.EJS_onGameStart = function () {
       parent.postMessage({ t: 'portplay-started' }, location.origin);
+      /* Phones: our own touch pad replaces the engine's (assets/js/
+         touchpad.js, evening consult). It sends presses through
+         gameManager.simulateInput, the same call the engine's own
+         pad makes. A pad failure must never cost the game its start
+         signal, so mounting is guarded and comes second. */
+      try {
+        if (matchMedia('(pointer: coarse)').matches && window.PortplayPad && window.EJS_emulator) {
+          document.body.classList.add('pp-touch');
+          window.PP_PAD = PortplayPad.mount(window.EJS_emulator, {
+            scheme: window.EJS_emulator.getControlScheme(),
+            host: document.body,
+            gameBox: document.getElementById('game'),
+            /* Pad prefs persist only on the surface that allows
+               storage: the full player (keepDatabases). On the stage
+               the PP12 nothing-stored promise is literal, so the pad
+               runs on session-only prefs there. */
+            storePrefs: !!opts.keepDatabases
+          });
+        }
+      } catch (err) { /* the game is running; the pad is an overlay */ }
     };
+    /* Round 2: a game that fails to start must not spin forever. The
+       engine prints its failure inside this frame and never calls
+       EJS_onGameStart, so watch the frame text for the failure line
+       and give up after 60 seconds either way; the stage turns the
+       'start' error into an honest readout. Proven on a scratch copy
+       in the round 2 consult (fixture-gba.gba). */
+    var started = false, failed = false;
+    var prevStart = window.EJS_onGameStart;
+    window.EJS_onGameStart = function () { started = true; prevStart(); };
+    function fail() {
+      if (started || failed) return;
+      failed = true;
+      parent.postMessage({ t: 'portplay-error', v: 'start' }, location.origin);
+    }
+    new MutationObserver(function () {
+      if (/failed to start/i.test(document.body.innerText)) fail();
+    }).observe(document.body, { subtree: true, childList: true, characterData: true });
+    setTimeout(fail, 60000);
     var s = document.createElement('script');
     s.src = opts.engineCdn + 'loader.js';
     s.onerror = function () {

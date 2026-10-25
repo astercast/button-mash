@@ -163,3 +163,22 @@ a { color: inherit; }
   }
   ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
 }
+
+/* ---------- Media slip + device probe + pad view (bundle 2026-10-24) ---------- */
+
+.slip {
+  display: flex; gap: 1rem; align-items: flex-start;
+  margin-top: 1rem; padding: .9rem 1rem;
+  border: 1px solid currentColor; border-radius: .5rem;
+}
+.slip[hidden] { display: none; }
+.slip svg { flex: 0 0 auto; }
+.slip dl { margin: 0; display: grid; gap: .25rem; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .85rem; }
+.slip dl div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: .5rem; }
+.slip dt { text-transform: uppercase; letter-spacing: .05em; opacity: .75; }
+.slip dd { margin: 0; overflow-wrap: anywhere; }
+.probe-line { font-weight: 600; margin-top: .5rem; }
+.probe-caps { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .8rem; opacity: .8; margin-top: .15rem; }
+.pad-view { margin-top: .75rem; }
+.pad-view .pad-btn.lit circle { fill: currentColor; }
+.pad-view .pad-btn.lit text { fill: var(--paper, #EDEAE2); }

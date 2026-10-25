@@ -17,23 +17,19 @@
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/console.css">
+<link rel="stylesheet" href="assets/css/header.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to the player</a>
 
 <header class="topbar">
-  <div class="shell topbar-in">
-    <a class="wordmark" href="index.html" aria-label="PortPlay home">
-      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2.5" y="2.5" width="27" height="27" rx="8.5" fill="none" stroke="#bff747" stroke-width="2.4"/><path d="M13 10.8v10.4c0 .9 1 1.5 1.8 1L24 16.9a1.15 1.15 0 0 0 0-2L14.8 9.9c-.8-.5-1.8.1-1.8.9z" fill="#bff747"/></svg>
-      <span class="wordmark-name">Port<em>Play</em></span>
-    </a>
-    <nav class="topnav" aria-label="Primary">
-      <a href="index.html">Converter</a>
-      <a href="player.html" aria-current="page">Player</a>
-      <a href="dos.html">DOS</a>
-      <a href="guide.html">Guide</a>
-    </nav>
-  </div>
+  <a class="wordmark" href="index.html" aria-label="PortPlay home">PortPlay</a>
+  <nav class="topnav" aria-label="Primary">
+    <a href="index.html">Converter</a>
+    <a href="player.html" aria-current="page">Player</a>
+    <a href="dos.html">DOS</a>
+    <a href="guide.html">Guide</a>
+  </nav>
 </header>
 
 <main id="main">
@@ -68,10 +64,6 @@
               </select>
               <span class="veil-note">Auto-detect reads the file itself and is right almost every time.</span>
             </div>
-            <div class="url-row">
-              <input type="url" id="rom-url" placeholder="Or paste a direct file URL (the host must allow it)" aria-label="Direct file URL">
-              <button class="btn btn-ghost btn-small" id="load-url-btn" type="button">Load URL</button>
-            </div>
             <div class="file-input-row">
               <label for="bios-file" class="veil-note">BIOS file (only for systems that need one: PlayStation, Sega CD, Nintendo DS, Lynx, ColecoVision, Amiga, 3DO, Famicom Disk System; dumped from your own hardware):</label>
               <input type="file" id="bios-file" aria-label="BIOS file, for systems that need one, dumped from your own hardware">
@@ -93,6 +85,9 @@
 
     <div class="bios-note" id="bios-note" hidden></div>
     <div id="decline-host" hidden></div>
+    <div class="slip" id="media-slip" hidden aria-live="polite"></div>
+    <p class="probe-line" id="probe-line" role="status">Will this device run it? Probing this device…</p>
+    <p class="probe-caps" id="probe-caps"></p>
 
     <section class="section" id="player-2-tools" aria-labelledby="tools-heading">
       <div class="section-head"><h2 id="tools-heading">Player tools</h2></div>
@@ -232,6 +227,13 @@
       </div>
     </dialog>
 
+    <section class="section" id="pad" aria-labelledby="pad-heading">
+      <div class="section-head"><h2 id="pad-heading">Pad view</h2></div>
+      <p class="section-sub">A drawn controller that lights as your real gamepad is pressed. Standard mapping; the left stick dot follows the stick. Nothing is recorded.</p>
+      <div class="pad-view" id="pad-view"></div>
+      <p class="hint" id="pad-status" role="status">Checking for a gamepad…</p>
+    </section>
+
     <section class="section" id="library" aria-labelledby="library-heading">
       <div class="section-head"><h2 id="library-heading">Your games, on this device</h2></div>
       <p class="section-sub">Games you keep are staged in this browser only, addressed by a hash of their contents, so renaming a file never orphans it or its saves. Nothing here uploads, and there is no account. Browser storage can be evicted by the browser, so export your saves; that button is the seatbelt.</p>
@@ -243,6 +245,9 @@
         <button class="btn btn-ghost btn-small" id="saves-export" type="button">Download my saves (zip)</button>
         <label class="btn btn-ghost btn-small" for="saves-import" style="cursor:pointer">Import saves</label>
         <input type="file" id="saves-import" class="sr-only" tabindex="-1" accept=".zip,.state" aria-label="Import a saves zip or a single state file">
+        <button class="btn btn-ghost btn-small" id="shelf-export" type="button">Export whole shelf (.portplay)</button>
+        <label class="btn btn-ghost btn-small" for="shelf-import" style="cursor:pointer">Import shelf (.portplay)</label>
+        <input type="file" id="shelf-import" class="sr-only" tabindex="-1" accept=".portplay,.zip" aria-label="Import a whole-shelf .portplay file">
       </div>
       <p class="hint" id="library-estimate">Checking storage…</p>
     </section>
@@ -258,7 +263,7 @@
 
     <section class="section" aria-labelledby="systems-heading">
       <div class="section-head"><h2 id="systems-heading">Systems the Player runs</h2></div>
-      <p class="section-sub">Cores via EmulatorJS (stable CDN), identified by the file's contents. If a file is not recognised, pick the system manually above before dropping it in.</p>
+      <p class="section-sub">Cores via EmulatorJS, served from this site, identified by the file's contents. If a file is not recognised, pick the system manually above before dropping it in.</p>
       <div class="table-scroll">
       <table class="keymap">
         <thead><tr><th>System</th><th>Core</th><th>File types</th><th>BIOS needed?</th></tr></thead>
@@ -309,7 +314,7 @@
       <a href="dos.html">DOS</a>
       <a href="guide.html">Guide</a>
     </nav>
-    <p class="fineprint">PortPlay hosts no games, sells no games, and links to no game downloads. Play engines are EmulatorJS cores, loaded from the EmulatorJS CDN; your files never leave your device.</p>
+    <p class="fineprint">PortPlay hosts no games, sells no games, and links to no game downloads. Play engines are EmulatorJS cores, served from this site; your files never leave your device. Engine licence: <a href="assets/emulatorjs/LICENSE">EmulatorJS is GPL-3.0</a> (<a href="assets/emulatorjs/NOTICE.txt">notice and source</a>).</p>
   </div>
 </footer>
 
@@ -318,6 +323,9 @@
 <script src="assets/js/converter4-core.js"></script>
 <script src="assets/js/converter4-ui.js"></script>
 <script src="assets/js/library.js"></script>
+<script src="assets/js/slip.js"></script>
+<script src="assets/js/probe.js"></script>
+<script src="assets/js/pad.js"></script>
 <script src="assets/js/player.js"></script>
 </body>
 </html>

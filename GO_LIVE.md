@@ -43,5 +43,5 @@ the converter engines; the only runtime data file).
    `status: "ok"`, service `portplay`.
 
 The Curator service, its cron, its secrets (`CRON_SECRET`,
-`GITHUB_REPO_TOKEN`), and the catalog functions retired with the library
+Retired 2026-10-24 (fleet-data migration): no GITHUB_REPO_TOKEN is used anywhere. Live data refreshes through the astercast/fleet-data repo; the fleet watchdog does the checking.
 on 2026-10-15. Nothing about them is needed, or wanted, anymore.

@@ -62,6 +62,12 @@
 </footer>
 
 <script>
+/* On every start EmulatorJS asks its own CDN for a version.json (an update
+   check; no option turns it off). Answer it locally so a portable file —
+   Light or Offline — never calls a third party while a game runs. */
+(function(){ var f=window.fetch; if(!f||f.__bm) return;
+  window.fetch=function(u,o){ return /\/stable\/data\/version\.json/.test(String(u)) ? Promise.resolve(new Response('{}',{status:404})) : f.call(this,u,o); };
+  window.fetch.__bm=1; })();
 /* ============================================================
    Embedded game data, base64 of the file YOU supplied at build
    time. BM_COMPRESSED "1" means the bytes below are zlib/deflate
@@ -71,9 +77,12 @@ var BM_ROM_B64 = "__BM_ROM_B64__";
 var BM_COMPRESSED = "__BM_COMPRESSED__";
 var BM_COVER = "__BM_COVER__";
 /* PP11: Offline edition data, or null in a Light file. When present,
-   the engine (loader, emulator, stylesheet, core) is embedded as
-   base64 and mapped through EJS_paths, so the file works with no
-   internet at all. Light files load the pinned engine from the CDN. */
+   the engine (loader, emulator, stylesheet, core, core report, the
+   en-US localization and the compression helpers the engine
+   decompresses cores with) is embedded as base64 and mapped through
+   EJS_paths, so the file works with no internet at all. Light files
+   load the pinned engine from PortPlay's own site first, with the
+   pinned EmulatorJS CDN as fallback. */
 var BM_OFFLINE = __BM_OFFLINE_JS__;
 
 function loadFail(msg) {
@@ -111,12 +120,30 @@ async function romToBlobUrl() {
   return URL.createObjectURL(new Blob([bytes], { type: 'application/octet-stream' }));
 }
 
+var BM_ENGINE_HOSTS = ['https://button-mash-live.vercel.app/assets/emulatorjs/data/', 'https://cdn.emulatorjs.org/4.2.3/data/'];
+
 function bootEngine(gameUrl) {
   window.EJS_player = '#game';
   window.EJS_core = '__BM_CORE__';
   window.EJS_gameName = __BM_GAME_NAME_JS__;
   window.EJS_gameID = __BM_GAME_ID_JS__;
-  window.EJS_pathtodata = 'https://cdn.emulatorjs.org/4.2.3/data/';
+  /* Player fix 2026-10-24: an Offline edition must not point the
+     engine at the CDN — every file it needs rides inside it (see
+     the BM_OFFLINE branch below) and is served through EJS_paths,
+     which the 4.2.3 loader and downloadFile consult BEFORE the
+     data path. Its EJS_pathtodata is therefore a relative folder
+     name for the one thing that is not embedded (a non-en-US
+     localization, which the loader treats as optional and falls
+     back to English without): if a vendored EmulatorJS data
+     folder sits next to the file under that name it is used,
+     otherwise nothing is fetched from any CDN. A Light edition
+     carries no engine at all, so it loads the pinned, versioned
+     engine from PortPlay's own site first (BM_ENGINE_HOSTS[0],
+     the vendored copy this file was built against) and only if
+     that is unreachable from the pinned EmulatorJS CDN — that
+     first load is the Light edition's stated trade. */
+  window.EJS_pathtodata = BM_OFFLINE ? 'emulatorjs-data/' : BM_ENGINE_HOSTS[0];
+  window.EJS_disableAutoLang = false; /* English UI rides inside Offline files; Light reads the same pinned localization */
   window.EJS_startOnLoaded = true;
   window.EJS_backgroundColor = '#000000';
   window.EJS_gameUrl = gameUrl;
@@ -129,19 +156,30 @@ function bootEngine(gameUrl) {
   if (BM_OFFLINE) {
     /* Offline edition: every engine file rides inside this file.
        EJS_paths is keyed by basename in the 4.2.3 loader, verified
-       against its source; the loader itself is inlined. */
+       against its source; the loader itself is inlined. The
+       loader's language lookup keys EJS_paths by the bare locale
+       ("en-US"), not by file name, so the embedded en-US.json is
+       aliased to that key as well. */
     var paths = {};
     Object.keys(BM_OFFLINE.files).forEach(function (k) {
       var type = /\.js$/.test(k) ? 'text/javascript' : /\.css$/.test(k) ? 'text/css' : /\.json$/.test(k) ? 'application/json' : 'application/octet-stream';
       paths[k] = URL.createObjectURL(new Blob([b64ToBytes(BM_OFFLINE.files[k])], { type: type }));
     });
+    if (paths['en-US.json']) paths['en-US'] = paths['en-US.json'];
     window.EJS_paths = paths;
     s.textContent = new TextDecoder().decode(b64ToBytes(BM_OFFLINE.loader));
     s.onerror = function () { loadFail('The embedded engine failed to start.'); };
   } else {
-    s.src = 'https://cdn.emulatorjs.org/4.2.3/data/loader.js';
+    s.src = BM_ENGINE_HOSTS[0] + 'loader.js';
     s.onerror = function () {
-      loadFail('The emulator engine failed to load. This file needs internet the very first time (the engine comes from the EmulatorJS CDN, then it is cached). Check your connection and reload.');
+      /* second host: same pinned version, run from a fresh script tag */
+      var s2 = document.createElement('script');
+      window.EJS_pathtodata = BM_ENGINE_HOSTS[1];
+      s2.src = BM_ENGINE_HOSTS[1] + 'loader.js';
+      s2.onerror = function () {
+        loadFail('The emulator engine failed to load. A Light file needs internet the first time. Check your connection and reload, or use the Offline edition.');
+      };
+      document.body.appendChild(s2);
     };
   }
   document.body.appendChild(s);

@@ -1,10 +1,21 @@
 /* Button Mash Player: EmulatorJS "bring your own file" console.
-   The site hosts zero ROMs. The user supplies their own file (or URL),
-   which is read locally and handed to EmulatorJS as a blob URL. */
+   The site hosts zero ROMs. The user supplies their own file, which
+   is read locally and handed to the play frame (play-frame.html),
+   where EmulatorJS runs it — the engine never runs in this page. */
+/* On every start EmulatorJS asks its own CDN for a version.json (an update
+   check; no option turns it off). Answer it locally so nothing third-party
+   is called while a game runs. */
+(function(){ var f=window.fetch; if(!f||f.__bm) return;
+  window.fetch=function(u,o){ return /\/stable\/data\/version\.json/.test(String(u)) ? Promise.resolve(new Response('{}',{status:404})) : f.call(this,u,o); };
+  window.fetch.__bm=1; })();
 (function () {
   'use strict';
 
-  var CDN = (window.PORTPLAY && window.PORTPLAY.engineCdn) || 'https://cdn.emulatorjs.org/4.2.3/data/';
+  /* The engine data path: the vendored EmulatorJS 4.2.3 payload in
+     this repo (assets/emulatorjs/data/), NOT a CDN — the CDN path
+     was the live "network error" at play time (player fix
+     2026-10-24). The variable keeps its CDN-era name. */
+  var CDN = (window.PORTPLAY && window.PORTPLAY.engineCdn) || 'assets/emulatorjs/data/';
 
   /* extension -> EmulatorJS core short name (per official EmulatorJS docs) */
   var CORE_MAP = {
@@ -62,8 +73,8 @@
     amiga: 'Commodore Amiga', segaSG: 'SG-1000', '3do': '3DO', arcade: 'Arcade'
   };
 
-  var stage, veil, fileInput, urlInput, sysSelect, biosInput;
-  var currentBlobUrl = null;
+  var stage, veil, fileInput, sysSelect, biosInput;
+  var playerFrame = null;
   var booted = false;
 
   /* Converter 4.0 (rotation 23): content-hash identity + detection.
@@ -107,16 +118,23 @@
   }
 
   function teardown() {
-    if (currentBlobUrl) { URL.revokeObjectURL(currentBlobUrl); currentBlobUrl = null; }
-    document.querySelectorAll('script[data-ejs]').forEach(function (s) { s.remove(); });
-    if (window.EJS_emulator) {
-      try { if (typeof window.EJS_emulator.destroy === 'function') window.EJS_emulator.destroy(); } catch (e) {}
-      window.EJS_emulator = null;
-    }
+    /* Evening consult (2026-10-24): the full player boots through
+       play-frame.html now, exactly like the stage (PP7). The engine
+       used to run in this page, and teardown had to revoke the game
+       blob URL and destroy the engine instance in the right order —
+       the order is exactly what broke live: boot() revoked the URL
+       it was about to use, EJS_gameUrl pointed at a dead blob, and
+       the engine's game fetch failed as "Network Error" (player-fix
+       boot proof, 2026-10-24). The frame owns the engine, its blob
+       URLs and every WebGL and audio context now; removing the
+       frame is the whole teardown, so nothing here can be revoked
+       or destroyed out of order. */
+    if (playerFrame) { try { playerFrame.remove(); } catch (e) {} playerFrame = null; }
+    if (screenObs) { try { screenObs.disconnect(); } catch (e) {} screenObs = null; }
     booted = false;
   }
 
-  function boot(gameBlobUrl, fileName, core) {
+  function boot(file, fileName, core) {
     teardown();
     clearScreen();
     if (veil) veil.style.display = 'none';
@@ -127,58 +145,74 @@
        Gated on this system's CRT pref; fx-off / reduced-motion make it a no-op. */
     if (readDisplay(core).crt) powerOnScreen();
 
-    window.EJS_player = '#ejs-screen';
-    window.EJS_core = (C4 && C4.ejsCoreFor) ? C4.ejsCoreFor(core) : core;
-    window.EJS_gameUrl = gameBlobUrl;
-    window.EJS_gameName = fileName.replace(/\.[^.]+$/, '');
+    var ejsCore = (C4 && C4.ejsCoreFor) ? C4.ejsCoreFor(core) : core;
+    var gameName = fileName.replace(/\.[^.]+$/, '');
     /* Converter 4.0: the game ID is a CONTENT hash (converter4-core),
        so a renamed dump keeps its identity, its slot metadata and its
        library entry. The legacy name-hash survives only as the
        fallback when the core module failed to load. */
-    window.EJS_gameID = pendingContentId || ('bm-' + fileName.length + '-' + (fileName + core).split('').reduce(function (a, c) { return (a * 31 + c.charCodeAt(0)) >>> 0; }, 7));
+    var gameId = pendingContentId || ('bm-' + fileName.length + '-' + (fileName + core).split('').reduce(function (a, c) { return (a * 31 + c.charCodeAt(0)) >>> 0; }, 7));
     curCore = core;
-    curGameName = window.EJS_gameName;
-    curGameID = window.EJS_gameID;
+    curGameName = gameName;
+    curGameID = gameId;
     remapOverride = null;
-    /* Player 2.0: preload this game's cheats into the engine's cheat manager
-       (documented window.EJS_cheats = [[name, code], ...]) */
-    window.EJS_cheats = getCheats().map(function (c) { return [c.name, c.code]; });
     /* Player 2.1: remember this game for the slots/remap/display panels,
        and fold the per-system control map into the engine's own settings
-       (applies on next boot; first boot migrates legacy per-game maps). */
+       (applies on next boot; first boot migrates legacy per-game maps).
+       The settings payload lives in this origin's localStorage, which
+       the frame's engine reads exactly as the in-page engine did. */
     saveLastGame();
     applySystemRemapToEngine(core);
-    window.EJS_pathtodata = CDN;
-    /* PP6: threads on only when cross-origin isolated and the core
-       needs them (PSP/ppsspp). The full player keeps its databases:
-       save slots are its promised feature, so PP12's stage-only
-       disable does not apply here. */
-    window.EJS_threads = !!window.crossOriginIsolated && core === 'psp';
-    window.EJS_startOnLoaded = true;
-    window.EJS_disableAutoLang = false;
-    window.EJS_backgroundColor = '#05050d';
 
-    var biosFile = biosInput && biosInput.files && biosInput.files[0];
-    if (biosFile) {
-      window.EJS_biosUrl = URL.createObjectURL(biosFile);
-    } else {
-      delete window.EJS_biosUrl;
-    }
+    var biosFile = biosInput && biosInput.files && biosInput.files[0] ? biosInput.files[0] : null;
 
     setStatus('LOADING ' + SYSTEM_LABELS[core] + '…', true);
-    var script = document.createElement('script');
-    script.src = CDN + 'loader.js';
-    script.setAttribute('data-ejs', '1');
-    script.onerror = function () {
-      setStatus('ENGINE FAILED TO LOAD', false);
-      showVeil();
-      veilError('Could not load the emulator engine from the EmulatorJS CDN. Check your connection and try again.');
-    };
-    window.EJS_onGameStart = function () {
-      setStatus('NOW PLAYING, ' + window.EJS_gameName.toUpperCase(), true);
-      applyIntScale();
-    };
-    document.head.appendChild(script);
+    /* PP7 boot protocol, the stage's own shape: the File passes to the
+       frame by postMessage (no copy into JS memory, no parent-managed
+       blob URL), the frame makes its own object URL and reports back
+       'portplay-started' / 'portplay-error' / 'portplay-exit'. */
+    var frame = document.createElement('iframe');
+    frame.src = 'play-frame.html';
+    frame.title = 'Game screen';
+    frame.allow = 'autoplay; fullscreen; gamepad';
+    /* On phones the frame goes full-viewport (the consult's stage fix,
+       applied to the player too): the touch pad mounts inside the
+       frame, so the frame has to be the screen for the pad to have
+       room; the pad's Exit row posts 'portplay-exit' back here. */
+    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
+      frame.style.cssText = 'position:fixed;inset:0;width:100%;height:100dvh;border:0;z-index:9999;background:#05050d';
+    } else {
+      frame.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;background:#05050d';
+    }
+    frame.addEventListener('load', function () {
+      try {
+        frame.contentWindow.postMessage({
+          t: 'portplay-boot',
+          file: file,
+          biosFile: biosFile,
+          opts: {
+            ejsCore: ejsCore,
+            gameName: gameName,
+            gameId: gameId,
+            engineCdn: CDN,
+            /* PP6: threads on only when cross-origin isolated and the
+               core needs them (PSP/ppsspp). */
+            threads: !!window.crossOriginIsolated && core === 'psp',
+            /* The full player keeps its databases: save slots are its
+               promised feature, so PP12's stage-only disable does not
+               apply here. */
+            keepDatabases: true,
+            /* Player 2.0: preload this game's cheats into the engine's
+               cheat manager (documented EJS_cheats = [[name, code], ...]) */
+            cheats: getCheats().map(function (c) { return [c.name, c.code]; }),
+            disableAutoLang: false,
+            backgroundColor: '#05050d'
+          }
+        }, location.origin);
+      } catch (e) { /* a frame that died before load reports through the error path */ }
+    }, { once: true });
+    screen.appendChild(frame);
+    playerFrame = frame;
     booted = true;
 
     /* Null-guarded: the badge may not exist if the DOM changed. */
@@ -362,10 +396,17 @@
     }
     pendingContentId = contentId;
     lastFileCtx = { file: file, core: core, contentId: contentId };
+    /* The media slip (bundle, 2026-10-24): what was found, from the
+       bytes, on-device — past every gate, so a refused boot never
+       gets a slip that claims it plays. */
+    if (window.PortPlaySlip) {
+      var slipHost = $('media-slip');
+      if (slipHost) window.PortPlaySlip.slipForFile(slipHost, file,
+        { system: SYSTEM_LABELS[core] || core, plays: true });
+    }
     var keepBtn = $('library-keep');
     if (keepBtn) keepBtn.disabled = !contentId;
-    currentBlobUrl = URL.createObjectURL(file);
-    boot(currentBlobUrl, file.name, core);
+    boot(file, file.name, core);
     /* FDS boots reach here only with disksys.rom attached (the gate
        above refused the boot otherwise). boot() hid the BIOS note
        for the NES core, so the FDS note is restated here where the
@@ -493,6 +534,11 @@
       var det = await detectFile(file);
       if (det.kind === 'decline') {
         setStatus('NOT PLAYABLE IN A BROWSER', false);
+        if (window.PortPlaySlip) {
+          var dslip = $('media-slip');
+          if (dslip) window.PortPlaySlip.slipForFile(dslip, file,
+            { system: det.system || det.key || 'Game file', plays: false, guideHref: det.guide });
+        }
         showPlayerDecline(det, file.name);
         return;
       }
@@ -512,28 +558,6 @@
     await bootFile(file, core, opts);
   }
 
-  function handleFile(file) {
-    if (!file) return;
-    intakeFiles([file]);
-  }
-
-  async function handleUrl() {
-    var url = (urlInput.value || '').trim();
-    if (!url) return;
-    veilError('');
-    setStatus('FETCHING FILE…', true);
-    try {
-      var res = await fetch(url);
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      var blob = await res.blob();
-      var name = url.split('?')[0].split('/').pop() || 'game.rom';
-      handleFile(new File([blob], name, { type: blob.type }));
-    } catch (e) {
-      setStatus('IDLE', false);
-      veilError('Could not fetch that URL (' + e.message + '). The host must allow cross-origin downloads (CORS). If it fails, download the file yourself and drop it in instead.');
-    }
-  }
-
   function bindDrop(zone) {
     ['dragenter', 'dragover'].forEach(function (ev) {
       zone.addEventListener(ev, function (e) { e.preventDefault(); veil.classList.add('dragging'); });
@@ -549,7 +573,7 @@
 
   /* ================= Player 2.1 =================
      All Player 2.1 features are client-side and verified against the
-     EmulatorJS 4.2.3 stable engine (cdn.emulatorjs.org/stable):
+     EmulatorJS 4.2.3 engine (vendored at assets/emulatorjs/data/):
      - save slots: IndexedDB "EmulatorJS-states" / store "states", the same
        store the engine uses. Engine slot key = "<baseFileName>.state"
        (base = game name with the engine's invalid-char strip). Since
@@ -748,18 +772,34 @@
     saveDisplay(core, d);
     applyDisplayPrefs(core);
   }
+  /* The engine canvas lives inside the play frame since the frame
+     move; the frame is same-origin, so the parent reads it directly. */
+  function engineCanvas() {
+    var screen = $('ejs-screen');
+    if (screen) {
+      var cv = null;
+      try { cv = screen.querySelector('canvas'); } catch (e) { /* no canvas yet */ }
+      if (cv) return cv;
+    }
+    if (playerFrame) {
+      try {
+        var doc = playerFrame.contentDocument;
+        if (doc) return doc.querySelector('#game canvas') || doc.querySelector('canvas');
+      } catch (e) { /* frame not ready or already gone */ }
+    }
+    return null;
+  }
   /* integer scale: snap the engine canvas to whole-pixel multiples of its
      intrinsic size (read from the canvas itself, so it works for every core) */
   function applyIntScale() {
     var screen = $('ejs-screen');
     if (!screen) return;
-    var cv = null;
-    try { cv = screen.querySelector('canvas'); } catch (e) { /* no canvas yet */ }
+    var cv = engineCanvas();
     if (!cv) return;
     if (!readDisplay(displayCore()).intScale) { cv.style.width = ''; cv.style.height = ''; return; }
     var iw = cv.width || 0, ih = cv.height || 0;
     if (!iw || !ih) return;
-    var availW = screen.clientWidth || (stage && stage.clientWidth) || iw;
+    var availW = (cv.parentElement && cv.parentElement.clientWidth) || screen.clientWidth || (stage && stage.clientWidth) || iw;
     var f = Math.max(1, Math.floor(availW / iw));
     cv.style.width = (iw * f) + 'px';
     cv.style.height = (ih * f) + 'px';
@@ -767,10 +807,17 @@
   var screenObs = null;
   function watchScreen() {
     if (screenObs) { try { screenObs.disconnect(); } catch (e) {} screenObs = null; }
-    var screen = $('ejs-screen');
-    if (!screen || !window.MutationObserver) return;
-    screenObs = new MutationObserver(function () { applyIntScale(); });
-    try { screenObs.observe(screen, { childList: true, subtree: true }); } catch (e) {}
+    if (!playerFrame || !window.MutationObserver) return;
+    var attach = function () {
+      try {
+        var doc = playerFrame.contentDocument;
+        if (!doc || !doc.documentElement) return false;
+        screenObs = new MutationObserver(function () { applyIntScale(); });
+        screenObs.observe(doc.documentElement, { childList: true, subtree: true });
+        return true;
+      } catch (e) { return false; }
+    };
+    if (!attach()) playerFrame.addEventListener('load', function () { attach(); }, { once: true });
   }
   /* fullscreen polish: one toggle, honest button state */
   function toggleFullscreen() {
@@ -1588,8 +1635,14 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     stage = $('ejs-stage'); veil = $('drop-veil');
-    fileInput = $('rom-file'); urlInput = $('rom-url');
+    fileInput = $('rom-file');
     sysSelect = $('system-select'); biosInput = $('bios-file');
+
+    /* Service worker: caches engine files for systems actually used
+       (sw.js is cache-on-request, never precached). */
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(function () { /* play works without it */ });
+    }
 
     /* populate system dropdown */
     Object.keys(SYSTEM_LABELS).forEach(function (core) {
@@ -1640,22 +1693,48 @@
         if (shell) shell.scrollIntoView({ block: 'start' });
       });
     });
-    $('load-url-btn').addEventListener('click', handleUrl);
-    urlInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') handleUrl(); });
-
+    /* Stop back to the veil: the eject button and the touch pad's
+       Exit row (a 'portplay-exit' message from the frame) land here. */
+    function stopToVeil() {
+      teardown();
+      showVeil();
+      var ptb = $('player-toolbar'); if (ptb) ptb.hidden = true;
+      var psb = $('sys-badge'); if (psb) psb.hidden = true;
+      setStatus('IDLE', false);
+      sysSelect.value = 'auto';
+      curCore = null; curGameName = null; curGameID = null;
+      remapOverride = null;
+      renderCheats(); renderRemap(); renderSlots(); scheduleAutosave();
+    }
     $('eject-btn').addEventListener('click', function () {
       /* Wow wave 1: CRT power-off collapse before the veil returns. */
-      powerOffThen(function () {
-        teardown();
-        showVeil();
-        var ptb = $('player-toolbar'); if (ptb) ptb.hidden = true;
-        var psb = $('sys-badge'); if (psb) psb.hidden = true;
-        setStatus('IDLE', false);
-        sysSelect.value = 'auto';
-        curCore = null; curGameName = null; curGameID = null;
-        remapOverride = null;
-        renderCheats(); renderRemap(); renderSlots(); scheduleAutosave();
-      });
+      powerOffThen(stopToVeil);
+    });
+
+    /* Frame messages (the PP7 protocol): started / error / exit,
+       same-origin only and only from this player's own frame. */
+    addEventListener('message', function (e) {
+      if (e.origin !== location.origin) return;
+      if (!playerFrame || e.source !== playerFrame.contentWindow) return;
+      var d = e.data || {};
+      if (d.t === 'portplay-started') {
+        setStatus('NOW PLAYING, ' + (curGameName || '').toUpperCase(), true);
+        applyIntScale();
+      }
+      if (d.t === 'portplay-error') {
+        if (d.v === 'start') {
+          setStatus('GAME FAILED TO START', false);
+          showVeil();
+          veilError('This file would not start. It may be damaged or not a real game. Some systems also need a BIOS from your own console first (see the note for the system above).');
+        } else {
+          setStatus('ENGINE FAILED TO LOAD', false);
+          showVeil();
+          veilError('Could not load the emulator engine from this site. Reload the page and try again.');
+        }
+      }
+      if (d.t === 'portplay-exit') {
+        powerOffThen(stopToVeil);
+      }
     });
 
     var fsBtn = $('fullscreen-btn');

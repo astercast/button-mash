@@ -16,3 +16,9 @@
 *.gen binary
 *.zip binary
 tests/homebrew-test-roms/** binary
+# Vendored EmulatorJS payload (2026-10-24): the core .data files are
+# 7z archives and libunrar.wasm is a wasm binary — the text/eol rule
+# above would corrupt them on commit, so the whole payload is binary.
+*.data binary
+*.wasm binary
+assets/emulatorjs/data/** binary

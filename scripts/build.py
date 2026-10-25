@@ -18,6 +18,7 @@ Deterministic: same inputs, same outputs (timestamp-free).
 """
 import json
 import re
+import shutil
 import sys
 from pathlib import Path
 
@@ -32,13 +33,25 @@ REQUIRED = PAGES + [
     "assets/js/converter4-ui.js",
     "assets/js/player.js",
     "assets/js/library.js",
+    "assets/js/slip.js",
+    "assets/js/probe.js",
+    "assets/js/pad.js",
+    "assets/js/touchpad.js",
     "assets/js/dos.js",
+    "sw.js",
     "assets/vendor/pako.min.js",
     "assets/vendor/template-game.html",
+    "assets/emulatorjs/data/loader.js",
+    "assets/emulatorjs/data/emulator.min.js",
+    "assets/emulatorjs/data/emulator.min.css",
+    "assets/emulatorjs/data/version.json",
+    "assets/emulatorjs/MANIFEST.sha256",
+    "assets/emulatorjs/LICENSE",
+    "assets/emulatorjs/NOTICE.txt",
     "assets/css/tokens.css",
     "assets/css/base.css",
-    "assets/css/stage.css",
     "assets/css/appliance.css",
+    "assets/css/header.css",
     "assets/css/console.css",
     "assets/css/guide.css",
     "favicon.svg",
@@ -46,7 +59,7 @@ REQUIRED = PAGES + [
 ]
 ALLOWED_HOSTS = {
     "button-mash-live.vercel.app",   # canonical
-    "cdn.emulatorjs.org",             # play engine data (referenced in JS)
+    "cdn.emulatorjs.org",             # portable Light files still load the pinned engine from there; engine attribution
     "v8.js-dos.com",                  # DOS engine (referenced in JS)
     "emulatorjs.org",                 # engine attribution
     "pcsx2.net", "dolphin-emu.org", "www.ppsspp.org",  # guide: native paths
@@ -209,18 +222,104 @@ def main():
     (out_dir / "coverage.json").write_text(
         json.dumps(coverage, indent=2, sort_keys=False) + "\n", encoding="utf-8")
 
-    # PP5 pin guard: the engine version lives in config.js alone and
-    # every consumer (stage, player, portable template) must carry the
-    # same pinned, versioned path. The mutable stable channel and any
-    # second version number fail the build.
+    # PP5 pin guard, player-fix form (2026-10-24): the engine version
+    # lives in config.js alone, and the engine data path it carries
+    # is the LOCAL vendored payload (assets/emulatorjs/data/), never
+    # a CDN URL — the CDN path was the live "network error" at play
+    # time. The vendored payload's own version.json must agree with
+    # config.js, and every consumer (stage, player, portable
+    # template) must agree with the pin. The mutable stable channel
+    # fails the build anywhere; the one surviving CDN reference is
+    # the portable template's Light edition, which carries no engine
+    # and must pin the same versioned path.
     config_src = (ROOT / "assets/js/config.js").read_text(encoding="utf-8")
     mver = re.search(r'engineVersion:\s*"([^"]+)"', config_src)
     mcdn = re.search(r'engineCdn:\s*"([^"]+)"', config_src)
     if not mver or not mcdn:
         fail("config.js must carry engineVersion + engineCdn (PP5)")
-    pinned = "https://cdn.emulatorjs.org/%s/data/" % mver.group(1)
-    if mcdn.group(1) != pinned:
-        fail("config.js engineCdn %r is not the pinned path %r" % (mcdn.group(1), pinned))
+    local_data = "assets/emulatorjs/data/"
+    if mcdn.group(1) != local_data:
+        fail("config.js engineCdn %r is not the vendored local path %r (player fix: no CDN at play time)"
+             % (mcdn.group(1), local_data))
+    vendored = json.loads((ROOT / "assets/emulatorjs/data/version.json").read_text(encoding="utf-8"))
+    if vendored.get("version") != mver.group(1):
+        fail("vendored engine version.json %r disagrees with config.js engineVersion %r"
+             % (vendored.get("version"), mver.group(1)))
+    # Engine pin guard (bundle reconcile, 2026-10-24; the consult's
+    # build guard, adapted to this repo's vendored layout): every file
+    # listed in assets/emulatorjs/MANIFEST.sha256 must exist and hash
+    # to its pinned value, and no unlisted payload file may ride along
+    # (scripts/vendor_engine.py regenerates the manifest deliberately).
+    import hashlib
+    eng_dir = ROOT / "assets/emulatorjs"
+    man_path = eng_dir / "MANIFEST.sha256"
+    if not man_path.exists():
+        fail("assets/emulatorjs/MANIFEST.sha256 missing; run scripts/vendor_engine.py --write")
+    pinned = {}
+    for line in man_path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        digest, rel = line.split("  ", 1)
+        pinned[rel] = digest
+        fp = eng_dir / rel
+        if not fp.exists() or hashlib.sha256(fp.read_bytes()).hexdigest() != digest:
+            fail("engine file %s is missing or differs from MANIFEST.sha256" % rel)
+    for fp in sorted((eng_dir / "data").rglob("*")):
+        if fp.is_file():
+            rel = fp.relative_to(eng_dir).as_posix()
+            if rel not in pinned:
+                fail("engine payload file %s is not in MANIFEST.sha256; re-run scripts/vendor_engine.py --write" % rel)
+    # Every file core the site routes to must be vendored with the one
+    # build its core report selects, or play for that system falls
+    # back off-site again. The routed set is parsed, not hand-listed:
+    # converter-core PROFILES + converter4-core PLAY_EXTS name the
+    # cartridge systems; the disc and beta routes in converter4-core
+    # (detect() / THREADS_CORES) add psx, segaCD, 3do and psp, and
+    # player.js's manual SYSTEM_LABELS pick adds arcade. CORE_FILES
+    # also names engine-family systems this site declines or never
+    # offers (mame, dos, saturn, ...) — those are NOT required and are
+    # deliberately not vendored.
+    c4_for_cores = (ROOT / "assets/js/converter4-core.js").read_text(encoding="utf-8")
+    core_files_map = { (k1 or k2): v for k1, k2, v in re.findall(
+        r"(?:'([^']+)'|(\w+)):\s*'([a-z0-9_]+)'", re.search(
+            r"var CORE_FILES = \{(.*?)\n  \};", c4_for_cores, re.S).group(1)) }
+    play_block = re.search(r"var PLAY_EXTS = \{(.*?)\n  \};", c4_for_cores, re.S).group(1)
+    routed_systems = set(re.findall(r"core:\s*'([A-Za-z0-9]+)'", core_src))
+    routed_systems |= set(re.findall(r":\s*'([A-Za-z0-9]+)'", play_block))
+    routed_systems |= {"psx", "segaCD", "3do", "psp", "arcade"}
+    alias = {"segaSG": "segaMS"}
+    needed = set()
+    for sysname in routed_systems:
+        host = alias.get(sysname, sysname)
+        needed.add(core_files_map.get(host, host))
+    missing_vendor = []
+    for fc in sorted(needed):
+        # ppsspp is the one exception, proven against the pinned
+        # payload itself: upstream ships NO non-threaded ppsspp
+        # build (ppsspp-wasm.data and ppsspp-legacy-wasm.data are
+        # 404 on the 4.2.3 CDN), the core requires threads, and the
+        # site only ever boots it threaded — so its vendored set is
+        # the thread build plus the assets archive it unpacks.
+        if fc == "ppsspp":
+            for rel in ("cores/ppsspp-thread-wasm.data", "cores/ppsspp-assets.zip",
+                        "cores/reports/ppsspp.json"):
+                if not (ROOT / "assets/emulatorjs/data" / rel).exists():
+                    missing_vendor.append(rel)
+            continue
+        # One build per core (bundle reconcile): the engine requests
+        # <fc>-wasm.data only when the core's report says
+        # defaultWebGL2, otherwise <fc>-legacy-wasm.data — that one
+        # build, plus the report, must be vendored.
+        report_path = ROOT / "assets/emulatorjs/data/cores/reports" / (fc + ".json")
+        if not report_path.exists():
+            missing_vendor.append("reports/" + fc + ".json")
+            continue
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        variant = "-wasm.data" if (report.get("options") or {}).get("defaultWebGL2") else "-legacy-wasm.data"
+        if not (ROOT / "assets/emulatorjs/data/cores" / (fc + variant)).exists():
+            missing_vendor.append(fc + variant)
+    if missing_vendor:
+        fail("vendored engine is missing routed core file(s): " + ", ".join(missing_vendor))
     for rel in ["assets/js/stage.js", "assets/js/player.js",
                 "assets/vendor/template-game.html"]:
         text = (ROOT / rel).read_text(encoding="utf-8")
@@ -229,12 +328,32 @@ def main():
         for other in re.findall(r"cdn\.emulatorjs\.org/([0-9][0-9.]*)/data/", text):
             if other != mver.group(1):
                 fail("%s pins engine %s, config.js pins %s" % (rel, other, mver.group(1)))
+    for rel in ["assets/js/stage.js", "assets/js/player.js"]:
+        text = (ROOT / rel).read_text(encoding="utf-8")
+        if "cdn.emulatorjs.org" in text:
+            fail("%s still references the EmulatorJS CDN; play must load the vendored engine (player fix)" % rel)
+    # Evening consult guard (2026-10-24), adapted to this repo's
+    # layout: the frame and the touch pad join the zero-CDN rule —
+    # at play time NOTHING on the site may reference the engine CDN.
+    # The one deliberate survivor is the portable template's Light
+    # edition (assets/vendor/template-game.html), which carries no
+    # engine and pins the same versioned CDN path as a fallback
+    # behind the site's own vendored copy; the version checks above
+    # keep that pin honest. "Any CDN string anywhere fails" would
+    # kill that tested fallback, so the guard is scoped to the play
+    # surfaces instead — stronger where play actually happens.
+    for rel in ["play-frame.html", "assets/js/touchpad.js"]:
+        text = (ROOT / rel).read_text(encoding="utf-8")
+        if "cdn.emulatorjs.org" in text:
+            fail("%s references the EmulatorJS CDN; play surfaces load the vendored engine only (evening consult guard)" % rel)
 
     # External-link allowlist across everything served.
     served = PAGES + [
         "assets/js/config.js", "assets/js/stage.js", "assets/js/converter-core.js",
         "assets/js/converter4-core.js", "assets/js/converter4-ui.js",
         "assets/js/player.js", "assets/js/library.js", "assets/js/dos.js",
+        "assets/js/slip.js", "assets/js/probe.js", "assets/js/pad.js",
+        "assets/js/touchpad.js", "sw.js",
         "assets/vendor/template-game.html", "play-frame.html",
     ]
     bad = []
@@ -290,6 +409,39 @@ how to dump your own games). Coverage data: data/v1/coverage.json.
         fail("play-frame.html missing or no longer speaks the boot protocol (PP7)")
     if "play-frame.html" not in (ROOT / "assets/js/stage.js").read_text(encoding="utf-8"):
         fail("stage.js no longer boots through play-frame.html (PP7)")
+    # Evening consult (2026-10-24): the full player boots through the
+    # same frame — the in-page engine and its blob-URL teardown were
+    # the "network error" class — and the frame carries the wake-lock
+    # swallow and the touch pad mount. Fail the build if any of it
+    # rots back.
+    player_js = (ROOT / "assets/js/player.js").read_text(encoding="utf-8")
+    if "play-frame.html" not in player_js:
+        fail("player.js no longer boots through play-frame.html (evening consult: full player in the frame)")
+    if "EJS_pathtodata" in player_js or "data-ejs" in player_js:
+        fail("player.js configures the engine in-page again; the frame owns the engine (evening consult)")
+    frame_src = frame.read_text(encoding="utf-8")
+    if "NotAllowedError" not in frame_src:
+        fail("play-frame.html lost the wake-lock NotAllowedError swallow (evening consult)")
+    if "PortplayPad" not in frame_src or "touchpad.js" not in frame_src:
+        fail("play-frame.html lost the touch pad mount (evening consult)")
+
+    # Round 2: publish only the site, never the whole repo. vercel.json
+    # sets outputDirectory to site/; assemble it here from an explicit
+    # allowlist (the pages, assets/, data/, api/, favicons, robots,
+    # sitemap, llms.txt) so WAVELOG.md, llms-full.txt, skills/,
+    # scripts/ and the test ROMs can never reach the public site.
+    site_dir = ROOT / "site"
+    if site_dir.exists():
+        shutil.rmtree(site_dir)
+    site_dir.mkdir(parents=True)
+    for rel in PAGES + ["play-frame.html", "sw.js", "favicon.ico", "favicon.svg",
+                        "robots.txt", "sitemap.xml", "llms.txt"]:
+        shutil.copy2(ROOT / rel, site_dir / rel)
+    for rel in ["assets", "data", "api"]:
+        shutil.copytree(ROOT / rel, site_dir / rel)
+    for banned in ["WAVELOG.md", "llms-full.txt", "skills", "scripts", "tests"]:
+        if (site_dir / banned).exists():
+            fail("site/ assembly leaked " + banned)
 
     print("BUILD OK — PortPlay: 5 pages, %d convert profiles, %d play groups, %d guide declines"
           % (len(convert), len(play), len(declines)))

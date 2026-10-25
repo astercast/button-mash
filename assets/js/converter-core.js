@@ -278,7 +278,7 @@
       return { errors: errors, warnings: warnings, notes: notes };
     }
     if (allZero(b)) {
-      errors.push('Every byte in this file is zero, that is what a failed or blank dump looks like, not a game. Re-dump or re-download the file.');
+      errors.push('Every byte in this file is zero, that is what a failed or blank dump looks like, not a game. Dump the cartridge again from your own copy.');
       return { errors: errors, warnings: warnings, notes: notes };
     }
 

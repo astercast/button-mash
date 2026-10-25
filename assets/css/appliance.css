@@ -229,6 +229,14 @@
 .guide-line { border-top: 1px solid var(--line-strong); padding: var(--s-3) 0 0; }
 .guide-line p { margin: 0; max-inline-size: 62ch; }
 
+/* Round 2: a refused or failed file hands the screen back to the
+   drop prompt instead of leaving an empty black box. */
+.appliance[data-state="no"] .idle-face { opacity: 1; pointer-events: auto; scale: 1 }
+/* Round 2: the rating plate text is readable. */
+.plate dt, .plate dd { font-size: .85rem }
+/* Round 2: the coverage lists fold into one closed details block. */
+.below-more summary { cursor: pointer; font: 600 .95rem / 1 var(--font-body); padding: 1rem 0; border-top: 1px solid var(--line-strong) }
+
 /* ============ MOTION: only state ============ */
 @media (prefers-reduced-motion: no-preference) {
   @view-transition { navigation: auto; }
@@ -244,3 +252,28 @@
   @starting-style { .q-card { opacity: 0; translate: 0 .5rem; } }
 }
 @keyframes blink { 50% { background: var(--lamp-off); } }
+
+/* Round 3: the result comes first. Once a file is in, its card sits
+   right under the title and the screen shrinks, so the download is
+   on the first screen instead of 1,100 px down the page. */
+.appliance:has(.q-card) {
+  grid-template-areas: "stamp stamp" "queue queue" "window window" "controls plate";
+}
+.appliance:has(.q-card) .screen { block-size: clamp(14rem, 38svh, 26rem); }
+@container appliance (width < 42rem) {
+  .appliance:has(.q-card) { grid-template-areas: "stamp" "queue" "window" "controls" "plate"; }
+}
+@media (max-width: 42rem) {
+  .appliance:has(.q-card) { grid-template-areas: "stamp" "queue" "window" "controls" "plate"; }
+}
+/* Round 3: coverage as plain rows, not a wall of boxes */
+.cov-table { inline-size: 100%; border-collapse: collapse; font: 400 .9rem/1.4 var(--font-body); }
+.cov-table th, .cov-table td { text-align: start; padding: .45rem .75rem .45rem 0; border-top: 1px solid var(--line); vertical-align: top; }
+.cov-table thead th { font: 600 .75rem/1.2 var(--font-body); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); border-top: 0; }
+.cov-table tbody th { font-weight: 600; inline-size: 34%; }
+.cov-table td:nth-child(2) { font: 400 .82rem/1.4 var(--font-readout); inline-size: 30%; }
+@media (max-width: 40rem) {
+  .cov-table thead { display: none; }
+  .cov-table tr { display: grid; padding: .4rem 0; border-top: 1px solid var(--line); }
+  .cov-table th, .cov-table td { border: 0; padding: .1rem 0; inline-size: auto !important; }
+}

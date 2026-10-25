@@ -80,7 +80,7 @@
   overflow-y: auto;
 }
 /* Secondary intakes sit in a quieter tier under the primary act:
-   system override, URL, BIOS. Same controls, lower voice. */
+   system override and BIOS. Same controls, lower voice. */
 .veil-more {
   display: grid; gap: 8px; justify-items: center;
   width: min(580px, 100%);
@@ -90,15 +90,15 @@
 .drop-veil h2 { font-family: var(--font-display); font-size: clamp(1.2rem, 2.6vw, 1.5rem); letter-spacing: -0.02em; }
 .drop-veil p { color: var(--ink-dim); font-size: var(--type-small); max-width: 520px; }
 .drop-veil p strong { color: var(--ink-2); }
-.file-input-row, .url-row {
+.file-input-row {
   display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center;
 }
-.url-row input[type="url"], .form-row input[type="text"] {
+.form-row input[type="text"] {
   min-height: 48px; padding: 0 15px; min-width: min(320px, 74vw);
   background: var(--surface); border: 1px solid var(--line-strong); border-radius: 12px;
   color: var(--ink);
 }
-.url-row input[type="url"]::placeholder, .form-row input::placeholder { color: var(--ink-faint); }
+.form-row input::placeholder { color: var(--ink-faint); }
 select {
   min-height: 48px; padding: 0 13px;
   background: var(--surface); border: 1px solid var(--line-strong); border-radius: 12px;
@@ -222,3 +222,17 @@ dialog::backdrop { background: rgba(3, 4, 6, 0.72); backdrop-filter: blur(4px); 
   .tools-grid { grid-template-columns: 1fr; }
   .ejs-stage, .dos-screen { aspect-ratio: 4 / 3.6; }
 }
+
+/* Round 2: readable prompt on the black screen (tested on a scratch
+   copy in the consult), plus the headline accent and kicker moved
+   off the low-contrast amber on cream. */
+.drop-veil h2 { color: #EDEAE2 }
+.drop-veil p { color: #B9BFB9 }
+.drop-veil p strong { color: #EDEAE2 }
+.kicker { color: var(--ink-2) }
+.page-head h1 .accent { color: var(--ink-2) }
+.drop-veil { color: #B9BFB9 }
+.drop-veil .btn-ghost { color: #EDEAE2; border-color: #4a524d }
+/* The System label inside the veil is a .veil-note, which carries its
+   own colour rule and would stay dark on black; lift it too. */
+.drop-veil .veil-note { color: #B9BFB9 }

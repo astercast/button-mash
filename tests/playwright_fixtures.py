@@ -40,7 +40,7 @@ from playwright.sync_api import sync_playwright
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 FIX = ROOT / "tests" / "homebrew-test-roms"
-PORT = 8931
+PORT = int(os.environ.get("BM_GATE_PORT", "8931"))
 
 GATE = ["fixture-nes.nes", "rkanoid-latest-demo.gba", "fixture-gb.gb",
         "fixture-snes.sfc", "fixture-genesis.md", "fixture-sms.sms",
@@ -145,6 +145,63 @@ def serve():
     return httpd
 
 
+class _HeadersHandler(http.server.SimpleHTTPRequestHandler):
+    """Serves the repo with the isolation headers vercel.json carries
+    on the player paths (COOP same-origin + COEP credentialless on the
+    pages, CORP cross-origin + ACAO * on the engine payload), so the
+    gate can prove crossOriginIsolated under the repo's own header
+    arrangement — the condition the PSP threads path needs. The plain
+    gate server sends no such headers, exactly like a preview without
+    them; this second server is the deploy checklist, locally."""
+
+    def end_headers(self):
+        p = self.path.split("?")[0]
+        if p in ("/", "/index.html", "/player.html", "/play-frame.html"):
+            self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+            self.send_header("Cross-Origin-Embedder-Policy", "credentialless")
+        if p.startswith("/assets/emulatorjs/"):
+            self.send_header("Cross-Origin-Resource-Policy", "cross-origin")
+            self.send_header("Access-Control-Allow-Origin", "*")
+        super().end_headers()
+
+    def log_message(self, *args):
+        pass
+
+
+def serve_with_headers(port):
+    handler = functools.partial(_HeadersHandler, directory=str(ROOT))
+    http.server.ThreadingHTTPServer.allow_reuse_address = True
+    httpd = http.server.ThreadingHTTPServer(("127.0.0.1", port), handler)
+    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+    return httpd
+
+
+def boot_player_fixture(page, name, timeout_s=45):
+    """The full player's real flow (evening consult test spec): file
+    input -> content detection -> play-frame boot. Returns
+    (title, canvas signal) once the console reports NOW PLAYING."""
+    import time
+    page.goto(f"http://127.0.0.1:{PORT}/player.html")
+    page.set_input_files("#rom-file", str(FIX / name))
+    page.wait_for_selector("#ejs-stage iframe", timeout=15000)
+    end = time.time() + timeout_s
+    title, sig = "", -1
+    while time.time() < end:
+        try:
+            title = page.inner_text("#console-title")
+        except Exception:
+            title = ""
+        if title.startswith("NOW PLAYING"):
+            try:
+                sig = canvas_signal(page.frames[-1])
+            except Exception:
+                sig = -1
+            if sig > 5000:
+                break
+        page.wait_for_timeout(1500)
+    return title, sig
+
+
 def canvas_signal(frame):
     """The extraction's own check: a black frame encodes very small."""
     return frame.evaluate("""() => {
@@ -209,9 +266,21 @@ def main():
         # below come from this context and share its routes.
         context = browser.new_context()
         page = context.new_page()
+        cdn_hits = None
         if MIRROR_DIR:
             mirror_setup()
             context.route(CDN_PREFIX + "**", mirror_route)
+        else:
+            # Bundle proof 2026-10-24: with the engine vendored and the
+            # version-ping shim in the play frame, a stage boot must make
+            # ZERO requests to the EmulatorJS CDN. Any attempt is aborted
+            # (so the boot also proves it survives the block) and counted;
+            # the count is asserted after the boot loop.
+            cdn_hits = []
+            def cdn_block(route):
+                cdn_hits.append(route.request.url)
+                route.abort()
+            context.route(CDN_PREFIX + "**", cdn_block)
 
         for name in names:
             # One retry per fixture: the pinned CDN flakes through
@@ -253,6 +322,10 @@ def main():
                 pass
             page = context.new_page()
 
+        if cdn_hits is not None:
+            results.append(("zero CDN requests during stage boots", len(cdn_hits) == 0,
+                            "none" if not cdn_hits else f"{len(cdn_hits)} attempted, first: {cdn_hits[0]}"))
+
         # Portable Light download (NES fixture card).
         try:
             if page.is_closed():
@@ -279,10 +352,61 @@ def main():
                 page.click("#queue a[download] >> nth=1")
             path = dl_info.value.path()
             text = pathlib.Path(path).read_text(errors="ignore")
-            ok = "BM_OFFLINE" in text and "fceumm-wasm.data" in text and "__BM_" not in text
+            # Bundle reconcile 2026-10-24: one build per core — fceumm's
+            # report selects the legacy build, so that is the core file
+            # the Offline edition must carry.
+            ok = "BM_OFFLINE" in text and "fceumm-legacy-wasm.data" in text and "__BM_" not in text
             results.append(("portable Offline download", ok, f"{len(text)} bytes"))
+            offline_html = text if ok else None
         except Exception as e:
             results.append(("portable Offline download", False, f"{type(e).__name__}: {e}"))
+            offline_html = None
+
+        # CDN-blocked standalone proof (bundle, 2026-10-24): the built
+        # Offline file must actually PLAY with every non-local request
+        # aborted — the download checks above only prove the bytes are
+        # inside. The file is served from a scratch directory on its own
+        # port; any request that is not that origin, a blob:, or a data:
+        # URL is aborted and counted.
+        if offline_html:
+            try:
+                import tempfile
+                odir = pathlib.Path(tempfile.mkdtemp(prefix="pp-offline-"))
+                (odir / "offline.html").write_text(offline_html)
+                ohandler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(odir))
+                ohttpd = http.server.ThreadingHTTPServer(("127.0.0.1", 8932), ohandler)
+                threading.Thread(target=ohttpd.serve_forever, daemon=True).start()
+                blocked = []
+                octx = browser.new_context()
+                def block_route(route):
+                    u = route.request.url
+                    if u.startswith("http://127.0.0.1:8932/") or u.startswith(("blob:", "data:", "about:")):
+                        route.continue_()
+                    else:
+                        blocked.append(u)
+                        route.abort()
+                octx.route("**/*", block_route)
+                opage = octx.new_page()
+                opage.goto("http://127.0.0.1:8932/offline.html")
+                import time as _t
+                end = _t.time() + 45
+                osig = -1
+                while _t.time() < end:
+                    try:
+                        osig = canvas_signal(opage)
+                    except Exception:
+                        osig = -1
+                    if osig > 5000:
+                        break
+                    opage.wait_for_timeout(1500)
+                octx.close()
+                ohttpd.shutdown()
+                ok = osig > 5000
+                results.append(("Offline edition boots standalone, network blocked", ok,
+                                f"canvas signal {osig}; blocked requests: {len(blocked)}"
+                                + (f" (first: {blocked[0]})" if blocked else "")))
+            except Exception as e:
+                results.append(("Offline edition boots standalone, network blocked", False, f"{type(e).__name__}: {e}"))
 
         # PP13 BIOS gate: a game for a BIOS-required system must be
         # stopped before any boot, with the BIOS file named. The gate
@@ -302,7 +426,88 @@ def main():
             except Exception as e:
                 results.append((f"PP13 BIOS gate ({label})", False, f"{type(e).__name__}: {e}"))
 
+        # Evening consult (2026-10-24): the full player boots through
+        # the same frame as the stage. Boot the consult's two named
+        # fixtures on player.html and assert the state reaches
+        # "playing" (the console title), the canvas is alive, and NO
+        # request fails — a failed request is a requestfailed event
+        # or an HTTP 4xx/5xx response, CDN attempts included.
+        for name in ("fixture-nes.nes", "rkanoid-latest-demo.gba"):
+            ppage = context.new_page()
+            bad_reqs = []
+            ppage.on("requestfailed", lambda r: bad_reqs.append(r.url + " :: " + str(r.failure)))
+            ppage.on("response", lambda r: bad_reqs.append(r.url + " :: HTTP " + str(r.status)) if r.status >= 400 else None)
+            try:
+                title, sig = boot_player_fixture(ppage, name)
+                ok = title.startswith("NOW PLAYING") and sig > 5000 and not bad_reqs
+                results.append((f"player boots {name} in the frame, no failed requests", ok,
+                                f"title {title!r}, canvas signal {sig}" +
+                                ("" if not bad_reqs else f", failed: {bad_reqs[:3]}")))
+            except Exception as e:
+                results.append((f"player boots {name} in the frame, no failed requests", False, f"{type(e).__name__}: {e}"))
+            finally:
+                try:
+                    ppage.close()
+                except Exception:
+                    pass
+
+        # Phone flow: a coarse-pointer context must get the touch pad
+        # inside the frame (the consult's pad, driven here with a real
+        # tap on the A button, spying on the engine's simulateInput).
+        try:
+            phone_ctx = browser.new_context(viewport={"width": 390, "height": 844},
+                                            has_touch=True, is_mobile=True)
+            ph = phone_ctx.new_page()
+            title, sig = boot_player_fixture(ph, "fixture-nes.nes")
+            frame = [f for f in ph.frames if "play-frame" in f.url][0]
+            pad_ok = frame.evaluate("""() => !!(
+              window.PP_PAD && document.querySelector('.pp-pad') &&
+              document.querySelector('.pp-dpad'))""")
+            frame.evaluate("""() => {
+              window.__ppPresses = [];
+              const gm = window.EJS_emulator.gameManager;
+              const orig = gm.simulateInput.bind(gm);
+              gm.simulateInput = (p, n, v) => { window.__ppPresses.push([n, v]); return orig(p, n, v); };
+            }""")
+            box = ph.frame_locator("#ejs-stage iframe").locator(".pp-btn", has_text="A").first.bounding_box()
+            ph.touchscreen.tap(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+            ph.wait_for_timeout(400)
+            presses = frame.evaluate("() => window.__ppPresses")
+            tap_ok = [8, 1] in presses and [8, 0] in presses
+            results.append(("phone touch pad mounts in the frame and a tap reaches simulateInput",
+                            bool(pad_ok and tap_ok and title.startswith("NOW PLAYING")),
+                            f"pad {pad_ok}, presses {presses}"))
+            phone_ctx.close()
+        except Exception as e:
+            results.append(("phone touch pad mounts in the frame and a tap reaches simulateInput",
+                            False, f"{type(e).__name__}: {e}"))
+
         browser.close()
+
+    # Deploy checklist, locally: crossOriginIsolated under the repo's
+    # own headers (the arrangement vercel.json ships), in the player
+    # page AND inside the play frame — the PSP threads precondition.
+    hhttpd = serve_with_headers(8933)
+    try:
+        with sync_playwright() as pw:
+            hbrowser = pw.chromium.launch(args=["--disable-dev-shm-usage"])
+            hpage = hbrowser.new_page()
+            hpage.goto("http://127.0.0.1:8933/player.html")
+            iso_page = hpage.evaluate("() => window.crossOriginIsolated === true")
+            hpage.set_input_files("#rom-file", str(FIX / "fixture-nes.nes"))
+            hpage.wait_for_selector("#ejs-stage iframe", timeout=15000)
+            hpage.wait_for_function(
+                "() => document.querySelector('#console-title').textContent.startsWith('NOW PLAYING')",
+                timeout=45000)
+            hframe = [f for f in hpage.frames if "play-frame" in f.url][0]
+            iso_frame = hframe.evaluate("() => window.crossOriginIsolated === true")
+            results.append(("crossOriginIsolated under the repo's own headers (page + frame)",
+                            bool(iso_page and iso_frame), f"page {iso_page}, frame {iso_frame}"))
+            hbrowser.close()
+    except Exception as e:
+        results.append(("crossOriginIsolated under the repo's own headers (page + frame)",
+                        False, f"{type(e).__name__}: {e}"))
+    hhttpd.shutdown()
     httpd.shutdown()
     failed = 0
     for name, ok, detail in results:

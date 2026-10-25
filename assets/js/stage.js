@@ -3,16 +3,19 @@
    its bytes (converter4-core), boots on this screen (EmulatorJS),
    and, for the cartridge systems the single-file converter proves,
    is also built into a portable HTML file in the background
-   (converter-core). Nothing uploads, ever; the only network fetch
-   is the emulator engine itself, from the EmulatorJS CDN, and the
-   game template, from this site. */
+   (converter-core). Nothing uploads, ever; the only network
+   fetches are same-site ones: the emulator engine itself, from
+   this site's vendored EmulatorJS payload
+   (assets/emulatorjs/data/, player fix 2026-10-24 — it used to
+   come from the EmulatorJS CDN, which was the live "network
+   error" at play time), and the game template, from this site. */
 (function () {
   'use strict';
 
   var C = window.ConverterCore;
   var C4 = window.Converter4Core;
   var UI = window.BMConv4;
-  var CFG = window.PORTPLAY || { name: 'PortPlay', engineVersion: '4.2.3', engineCdn: 'https://cdn.emulatorjs.org/4.2.3/data/' };
+  var CFG = window.PORTPLAY || { name: 'PortPlay', engineVersion: '4.2.3', engineCdn: 'assets/emulatorjs/data/' };
 
   var stage, screen, idleFace, fileInput, readoutText, readoutGame, filament, filamentFill, queueEl;
   var booted = false;
@@ -54,6 +57,15 @@
   function setReadout(text, game) {
     if (readoutText) readoutText.textContent = text;
     if (readoutGame) readoutGame.textContent = game || '';
+  }
+  /* The media slip (bundle, 2026-10-24): after a drop, what was found —
+     system, size, the file's real CRC32 — computed on-device by
+     slip.js. Never names the game; the file's own name only. */
+  function showSlip(file, system, plays, guideHref) {
+    if (!window.PortPlaySlip || !file) return;
+    var host = document.getElementById('media-slip');
+    if (host) window.PortPlaySlip.slipForFile(host, file,
+      { system: system, plays: plays, guideHref: guideHref });
   }
   function setProgress(pct) {
     if (pct == null) { filamentFill.style.width = '0%'; filament.setAttribute('aria-valuenow', '0'); return; }
@@ -148,6 +160,11 @@
     setState('reading');
     setReadout(need.label + ' needs its BIOS first', file.name);
     var card = addCard();
+    /* The play card filed just before this gate (routePlay boots first,
+       then files its card) claims the game is playing; while a BIOS is
+       still missing that claim is false, so remove it. */
+    var prev = card.previousElementSibling;
+    if (prev && prev.querySelector('.q-msg') && /Playing above/.test(prev.textContent)) prev.remove();
     cardMain(card, file.name, need.label + ' · BIOS needed before this can boot');
     cardMsg(card, '<strong>This system cannot start without its BIOS</strong> (one of: ' +
       need.files.map(esc).join(', ') + '), dumped from your own ' + esc(need.label) +
@@ -198,7 +215,15 @@
     frame.src = 'play-frame.html';
     frame.title = 'Game screen';
     frame.allow = 'autoplay; fullscreen; gamepad';
-    frame.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;z-index:2;background:#0E1110';
+    /* On phones the frame goes full-viewport (evening consult,
+       2026-10-24): the touch pad mounts inside the frame, so the
+       frame has to be the screen or the pad is crammed into the
+       small stage. The pad's Exit row posts 'portplay-exit' back. */
+    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
+      frame.style.cssText = 'position:fixed;inset:0;width:100%;height:100dvh;border:0;z-index:9999;background:#0E1110';
+    } else {
+      frame.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;z-index:2;background:#0E1110';
+    }
     frame.addEventListener('load', function () {
       frame.contentWindow.postMessage({
         t: 'portplay-boot',
@@ -237,7 +262,21 @@
     }
     if (d.t === 'portplay-error') {
       setState('no');
-      setReadout('The engine failed to load. Check your connection and drop the file again.');
+      if (d.v === 'start') {
+        var warn = document.createElement('p');
+        warn.className = 'q-msg';
+        warn.innerHTML = '<strong>Check before you keep it.</strong> The game did not start here, so a portable copy of the same file may not start either.';
+        var cards = queueEl.querySelectorAll('.q-card');
+        if (cards.length) cards[cards.length - 1].appendChild(warn);
+      }
+      setReadout(d.v === 'start' ? 'This file would not start. It may be damaged or not a real game.' : 'The engine failed to load. Reload the page and drop the file again.');
+      setProgress(null);
+    }
+    if (d.t === 'portplay-exit') {
+      /* The touch pad's Exit row: tear the frame down and reset. */
+      teardown();
+      setState('idle');
+      setReadout('Game closed', '');
       setProgress(null);
     }
   });
@@ -410,8 +449,13 @@
       dl.textContent = 'Download Light edition · ' + C.fmtBytes(blob.size);
       card.appendChild(dl);
       /* PP11 (technical fix G): the Offline edition embeds the pinned
-         engine itself (loader, emulator, stylesheet, this core and
-         its report), fetched once from the pinned CDN at build time.
+         engine itself (loader, emulator, stylesheet, this core, its
+         report, the en-US localization and the compression helpers
+         the engine decompresses cores with), fetched once from this
+         site's own vendored engine payload
+         at build time (CFG.engineCdn is the local
+         assets/emulatorjs/data/ path since the 2026-10-24 player
+         fix; before that this fetch went to the EmulatorJS CDN).
          A few MB bigger; afterwards it needs no internet, ever. */
       var offBtn = document.createElement('button');
       offBtn.className = 'btn btn-ghost btn-small'; offBtn.type = 'button';
@@ -429,23 +473,40 @@
           var fileCore = C4.coreFileFor ? C4.coreFileFor(profile.core) : ejsCore;
           var base = CFG.engineCdn;
           var want = ['emulator.min.js', 'emulator.min.css',
+            'localization/en-US.json',
+            /* The engine decompresses every core .data (a 7z
+               archive) with compression/extract7z.js, fetched from
+               the data path at boot — in an Offline edition that
+               fetch has nowhere to go unless the helpers ride
+               inside the file too. Without them the edition still
+               needed the network for its first core decompress,
+               which is exactly how the owner's offline file failed
+               (player fix 2026-10-24). extractzip/libunrar ride
+               along for the archive game files the engine accepts. */
+            'compression/extract7z.js', 'compression/extractzip.js',
+            'compression/libunrar.js', 'compression/libunrar.wasm',
             'cores/reports/' + fileCore + '.json',
             'cores/' + fileCore + '-wasm.data', 'cores/' + fileCore + '-legacy-wasm.data'];
-          var files = {};
+          var files = {}, gotCoreData = 0;
           for (var wi = 0; wi < want.length; wi++) {
             var res = await fetch(base + want[wi]);
+            var isData = /-wasm\.data$/.test(want[wi]);
             if (!res.ok) {
-              /* The threaded (-wasm) build does not exist for every
-                 core on the pinned CDN, and an offline page is never
-                 cross-origin isolated, so the legacy build is the one
-                 it actually runs: a missing threaded variant is
-                 skipped, never fatal. Every other file is required —
-                 an edition without them cannot boot. */
-              if (/-wasm\.data$/.test(want[wi]) && !/-legacy-wasm\.data$/.test(want[wi])) continue;
+              /* Core .data variants: since the bundle reconcile the
+                 vendored payload carries ONE build per core (the one
+                 its report's defaultWebGL2 flag selects; an offline
+                 page is never cross-origin isolated, and the loader
+                 falls back the same way), so a missing variant is
+                 skipped — but at least one must arrive, or the
+                 edition cannot boot and the build fails honestly.
+                 Every other file is required. */
+              if (isData) continue;
               throw new Error('Engine file ' + want[wi] + ' failed (HTTP ' + res.status + ').');
             }
+            if (isData) gotCoreData++;
             files[want[wi].split('/').pop()] = await bytesToBase64(new Uint8Array(await res.arrayBuffer()), 0, 0, function () {});
           }
+          if (!gotCoreData) throw new Error('No core file for ' + fileCore + ' is available.');
           var lres = await fetch(base + 'loader.js');
           if (!lres.ok) throw new Error('Engine loader failed (HTTP ' + lres.status + ').');
           var loaderB64 = await bytesToBase64(new Uint8Array(await lres.arrayBuffer()), 0, 0, function () {});
@@ -492,7 +553,7 @@
   function playCard(file, det) {
     var card = addCard();
     cardMain(card, file.name, (SYSTEM_LABELS[det.core] || det.system || det.core) + ' · identified by ' + (det.via || 'content'));
-    cardMsg(card, '<strong>Converted and playing above.</strong> Your file never left this device.');
+    cardMsg(card, '<strong>Playing above.</strong> Your file never left this device.');
     var again = document.createElement('button');
     again.className = 'btn btn-ghost btn-small';
     again.type = 'button';
@@ -503,6 +564,7 @@
   }
 
   async function routePlay(file, det) {
+    showSlip(file, SYSTEM_LABELS[det.core] || det.system || det.core, true);
     var profile = C.profileFor(file.name);
     var card = null;
     if (profile) {
@@ -525,6 +587,7 @@
        the COOP/COEP headers). Without isolation the honest decline
        card stands unchanged. */
     if (det.key === 'psp' && window.crossOriginIsolated) {
+      showSlip(file, 'PSP', true);
       setState('reading');
       setReadout('PSP, as a labelled beta', file.name);
       var bcard = addCard();
@@ -536,6 +599,7 @@
       bcard.appendChild(bb);
       return;
     }
+    showSlip(file, det.system || det.key || 'Game file', false, det.guide);
     setState('no');
     setReadout('That one cannot run in a browser', file.name);
     var card = UI.declineCard(det, file.name);
@@ -543,6 +607,7 @@
   }
 
   function routeDos(files, label) {
+    showSlip(files[0], 'DOS (PC)', true);
     var card = addCard();
     cardMain(card, label, 'DOS game');
     cardMsg(card, '<strong>A DOS game.</strong> DOS games get their own room here: your files are wrapped into a .jsdos bundle in this browser and booted under DOSBox. Nothing uploads; the bundle is built and kept on this device.');
@@ -657,12 +722,13 @@
         b.type = 'button';
         b.className = 'btn btn-small' + (i === 0 ? '' : ' btn-ghost');
         b.textContent = 'Boot as ' + (SYSTEM_LABELS[core] || core);
-        b.addEventListener('click', function () { noteGesture(); boot(file, core, det, true); card.remove(); });
+        b.addEventListener('click', function () { noteGesture(); showSlip(file, SYSTEM_LABELS[core] || core, true); boot(file, core, det, true); card.remove(); });
         card.appendChild(b);
       });
       return;
     }
     /* unknown */
+    showSlip(file, 'Not recognised', false, 'guide.html');
     setState('no');
     setReadout('That file is not one PortPlay recognises', file.name);
     var unk = addCard('warn');
@@ -679,26 +745,31 @@
 
   /* ---------- coverage (generated from the converter's own code) ---------- */
   function renderCoverage() {
+    /* Systems whose cores need a BIOS from the visitor's own console
+       (the list in player.js BIOS_CORES). Shown so nobody is surprised. */
+    var NEEDS_BIOS = { 'PlayStation (disc image)': 1, 'Sega CD (disc image)': 1, 'Commodore Amiga': 1, 'Atari Lynx': 1, 'ColecoVision': 1, 'Nintendo DS': 1 };
+    function sizeText(mb) { return mb == null ? '' : (mb < 1 ? 'Up to ' + Math.round(mb * 1024) + ' KB' : 'Up to ' + mb + ' MB'); }
+    function table(rows, head3) {
+      var t = '<table class="cov-table"><thead><tr><th scope="col">System</th><th scope="col">Files</th><th scope="col">' + head3 + '</th></tr></thead><tbody>';
+      rows.forEach(function (r) { t += '<tr><th scope="row">' + esc(r[0]) + '</th><td>' + esc(r[1]) + '</td><td>' + esc(r[2]) + '</td></tr>'; });
+      return t + '</tbody></table>';
+    }
     fetch('data/v1/coverage.json', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (cov) {
       if (!cov) return;
-      var groups = { convert: cov.convert, play: cov.play, guide: cov.guide };
-      Object.keys(groups).forEach(function (key) {
+      var rows = {
+        convert: (cov.convert || []).map(function (i) { return [i.name, (i.formats || []).join(' '), sizeText(i.max_mb)]; }),
+        play: (cov.play || []).map(function (i) { return [i.name, (i.formats || []).join(' '), NEEDS_BIOS[i.name] ? 'Needs a BIOS from your own console' : '']; }),
+        guide: (cov.guide || []).map(function (i) { return [i.name, '', i.note || '']; })
+      };
+      if (cov.dos) rows.convert.push([cov.dos.name, (cov.dos.formats || []).join(' '), 'Makes a .jsdos bundle, in the DOS room']);
+      var heads = { convert: 'Size limit', play: 'Note', guide: 'Status' };
+      Object.keys(rows).forEach(function (key) {
         var countEl = document.querySelector('[data-cov-count="' + key + '"]');
-        if (countEl) countEl.textContent = String((groups[key] || []).length);
+        if (countEl) countEl.textContent = String(rows[key].length);
         var host = document.querySelector('[data-cov="' + key + '"]');
-        if (!host) return;
-        host.innerHTML = '';
-        (groups[key] || []).forEach(function (item) {
-          var chip = document.createElement('span');
-          chip.className = 'chip';
-          chip.innerHTML = '<b>' + esc(item.name) + '</b>' + (item.note ? ' ' + esc(item.note) : '');
-          host.appendChild(chip);
-        });
+        if (host) host.innerHTML = table(rows[key], heads[key]);
       });
-    }).catch(function () { /* static fallback below stays */ });
-    /* Static fallback: rendered only if the fetch has not landed yet
-       is unnecessary complexity; the JSON is same-origin and fast.
-       If it fails, the groups stay labelled by their headings. */
+    }).catch(function () { /* the headings stay; the JSON is same-origin */ });
   }
 
   /* ---------- wiring ---------- */
@@ -709,6 +780,11 @@
     if (!stage || !C || !C4) return;
 
     kinetic();
+    /* Service worker: caches engine files for systems actually used
+       (sw.js is cache-on-request, never precached). */
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(function () { /* play works without it */ });
+    }
     renderCoverage();
 
     idleFace.addEventListener('click', function () { fileInput.click(); });

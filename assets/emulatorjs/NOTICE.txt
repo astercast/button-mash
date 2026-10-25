@@ -1,0 +1,19 @@
+EmulatorJS engine 4.2.3, served from this site (PortPlay).
+
+Engine: EmulatorJS, GNU General Public License v3 (full text in LICENSE next to this file).
+Source for exactly this version: https://github.com/EmulatorJS/EmulatorJS/tree/v4.2.3
+Project: https://emulatorjs.org
+
+Layout on this site: this folder (assets/emulatorjs/) holds LICENSE, this
+NOTICE, MANIFEST.sha256 and VENDORED.md; the engine payload itself is in
+data/ under it, mirroring the upstream data/ folder of the pinned release.
+
+Cores (data/cores/*.data): emulator cores compiled to WebAssembly by the EmulatorJS project.
+Build recipes and per-core source: https://github.com/EmulatorJS/build and
+https://github.com/EmulatorJS (one repository per core). Each core stays under the
+licence of its upstream emulator project. The files here are unmodified copies; their
+SHA-256 hashes are in MANIFEST.sha256 next to this file and match the official
+EmulatorJS 4.2.3 payload (the same bytes the pinned CDN serves and the npm packages
+@emulatorjs/emulatorjs and @emulatorjs/core-<name> carry at version 4.2.3).
+
+This site hosts no games. Players supply their own files, which are read on their own device.

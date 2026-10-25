@@ -1,0 +1,3 @@
+# Build output: scripts/build.py assembles the publishable site here
+# (vercel.json outputDirectory). Generated, never committed.
+site/

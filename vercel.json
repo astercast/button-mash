@@ -1,13 +1,29 @@
 {
  "$schema": "https://openapi.vercel.sh/vercel.json",
- "buildCommand": "python3 scripts/build.py",
+ "buildCommand": "python3 scripts/build.py && python3 scripts/write_health.py",
  "cleanUrls": true,
- "functions": {
-  "api/health.js": {
-   "maxDuration": 10
-  }
- },
  "headers": [
+  {
+   "source": "/assets/emulatorjs/(.*)",
+   "headers": [
+    {
+     "key": "Cache-Control",
+     "value": "public, max-age=31536000, immutable"
+    },
+    {
+     "key": "Access-Control-Allow-Origin",
+     "value": "*"
+    },
+    {
+     "key": "Cross-Origin-Resource-Policy",
+     "value": "cross-origin"
+    },
+    {
+     "key": "X-Content-Type-Options",
+     "value": "nosniff"
+    }
+   ]
+  },
   {
    "headers": [
     {
@@ -77,7 +93,7 @@
     },
     {
      "key": "Cross-Origin-Embedder-Policy",
-     "value": "require-corp"
+     "value": "credentialless"
     },
     {
      "key": "X-Content-Type-Options",
@@ -98,7 +114,7 @@
     },
     {
      "key": "Cross-Origin-Embedder-Policy",
-     "value": "require-corp"
+     "value": "credentialless"
     },
     {
      "key": "X-Content-Type-Options",
@@ -119,7 +135,7 @@
     },
     {
      "key": "Cross-Origin-Embedder-Policy",
-     "value": "require-corp"
+     "value": "credentialless"
     },
     {
      "key": "X-Content-Type-Options",
@@ -140,7 +156,7 @@
     },
     {
      "key": "Cross-Origin-Embedder-Policy",
-     "value": "require-corp"
+     "value": "credentialless"
     },
     {
      "key": "X-Content-Type-Options",
@@ -161,7 +177,7 @@
     },
     {
      "key": "Cross-Origin-Embedder-Policy",
-     "value": "require-corp"
+     "value": "credentialless"
     },
     {
      "key": "X-Content-Type-Options",
@@ -182,7 +198,7 @@
     },
     {
      "key": "Cross-Origin-Embedder-Policy",
-     "value": "require-corp"
+     "value": "credentialless"
     },
     {
      "key": "X-Content-Type-Options",
@@ -196,6 +212,6 @@
   }
  ],
  "installCommand": "echo 'no dependencies'",
- "outputDirectory": ".",
+ "outputDirectory": "site",
  "trailingSlash": false
 }

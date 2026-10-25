@@ -35,13 +35,13 @@
 
 <main id="main">
   <section class="appliance" id="stage" data-state="idle" aria-labelledby="tool-h">
-    <h1 class="stamp" id="tool-h">Drop a game you own. Play it here.</h1>
+    <h1 class="stamp" id="tool-h">Convert a game file you own</h1>
 
     <div class="window" id="aperture">
       <div class="screen" id="screen">
         <div class="idle-face" id="idle-face" role="button" tabindex="0" aria-label="Choose a game file, or drop one anywhere on this panel">
           <p class="idle-title">Drop your game</p>
-          <p class="idle-sub">A cartridge, disc image or DOS game you own. It plays right here.</p>
+          <p class="idle-sub">A cartridge, disc image or DOS game you own. Read on this device. Nothing uploads.</p>
           <span class="btn" aria-hidden="true">Choose a file</span>
         </div>
       </div>
@@ -61,9 +61,11 @@
     <dl class="plate" aria-label="What PortPlay does">
       <div><dt>In</dt><dd>A game file you own</dd></div>
       <div><dt>Reads</dt><dd>The bytes, not the name</dd></div>
-      <div><dt>Out</dt><dd>Plays here. Cartridges also as one file.</dd></div>
+      <div><dt>Out</dt><dd>One portable HTML file. It plays here first.</dd></div>
       <div><dt>Uploads</dt><dd>None</dd></div>
     </dl>
+
+    <div class="slip" id="media-slip" hidden aria-live="polite"></div>
 
     <div class="queue" id="queue" aria-live="polite"></div>
   </section>
@@ -71,6 +73,10 @@
   <div class="below">
     <section aria-label="What PortPlay handles">
       <h2>What it takes, and what it will not pretend to</h2>
+      <p class="probe-line" id="probe-line" role="status">Will this device run it? Probing this device…</p>
+      <p class="probe-caps" id="probe-caps"></p>
+      <details class="below-more">
+        <summary>Every system it handles</summary>
       <div class="cov-group">
         <h3>Makes a portable file (<span data-cov-count="convert"></span>) <span>one HTML file, plays anywhere</span></h3>
         <div class="cov-list" data-cov="convert"></div>
@@ -83,9 +89,17 @@
         <h3>Guide only (<span data-cov-count="guide"></span>) <span>no browser engine exists yet</span></h3>
         <div class="cov-list" data-cov="guide"></div>
       </div>
+      <div class="cov-group">
+        <h3>Not converted <span>said plainly</span></h3>
+        <table class="cov-table"><tbody>
+          <tr><th scope="row">Save files</th><td>.sav .srm</td><td>Not converted. The converter reads game files only.</td></tr>
+          <tr><th scope="row">Games you do not have</th><td></td><td>PortPlay never supplies a game or a BIOS.</td></tr>
+        </tbody></table>
+      </div>
       <div class="guide-line">
         <p>Some games need the workshop, not the stage: decompilations, recompilers, and your own cartridge dumps are covered in the <a href="guide.html">guide</a>.</p>
       </div>
+      </details>
     </section>
   </div>
 </main>
@@ -99,7 +113,7 @@
       <a href="dos.html">DOS</a>
       <a href="guide.html">Guide</a>
     </nav>
-    <p class="fineprint">PortPlay hosts no games, sells no games, and links to no game downloads. Play engines are EmulatorJS cores, pinned to one version and loaded from the EmulatorJS CDN; your files never leave your device.</p>
+    <p class="fineprint">PortPlay hosts no games, sells no games, and links to no game downloads. Play engines are EmulatorJS cores, pinned to one version and served from this site; your files never leave your device. Engine licence: <a href="assets/emulatorjs/LICENSE">EmulatorJS is GPL-3.0</a> (<a href="assets/emulatorjs/NOTICE.txt">notice and source</a>).</p>
   </div>
 </footer>
 
@@ -108,6 +122,10 @@
 <script src="assets/js/converter-core.js"></script>
 <script src="assets/js/converter4-core.js"></script>
 <script src="assets/js/converter4-ui.js"></script>
+<script src="assets/js/slip.js"></script>
+<script src="assets/js/probe.js"></script>
 <script src="assets/js/stage.js"></script>
+  <script src="assets/js/fleet-live.js"></script>
+  <script src="assets/js/fleet-bar.js" data-site="button-mash"></script>
 </body>
 </html>

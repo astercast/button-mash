@@ -134,7 +134,7 @@ check("FDS is BIOS-required in the C4 table (stage pattern)", !!C4.BIOS_REQUIRED
 check("player.js carries the system-keyed FDS table", /var BIOS_SYSTEMS = \{ fds: \['disksys\.rom'\] \};/.test(playerSrc), "agrees with C4.BIOS_REQUIRED.fds.files");
 check("player.js FDS gate refuses the boot before boot()", (() => {
   const gate = playerSrc.indexOf("if (isFdsFile(file, opts) && !fdsBiosAttached())");
-  const bootCall = playerSrc.indexOf("boot(currentBlobUrl, file.name, core)");
+  const bootCall = playerSrc.indexOf("boot(file, file.name, core)");
   return gate !== -1 && bootCall !== -1 && gate < bootCall;
 })(), "ask first, no crash");
 check("player.js gate states the ask, never supplies the BIOS", playerSrc.includes("DISK SYSTEM BIOS NEEDED FIRST") && playerSrc.includes("PortPlay does not provide BIOS files."), "disksys.rom named in the note");
@@ -347,6 +347,139 @@ for (const [key, d] of Object.entries(C4.DECLINES)) {
   check("PP12 frame disables engine databases", frameHtml.includes("EJS_disableDatabases = true"), "the 4.2.3 switch, verified in the pinned loader");
   check("PP10 stage prefers CompressionStream", stageJs.includes("CompressionStream('deflate')"), "pako is the fallback now");
   check("PP14 stage has the Start gesture gate", stageJs.includes("lastGestureAt") && stageJs.includes("Start"), "sound permission re-armed");
+
+  /* ---------- 4b. ROUND 2 consult fixes ---------- */
+  check("R2 frame reports a failed start instead of spinning forever",
+    frameHtml.includes("portplay-error") && frameHtml.includes("'start'") && frameHtml.includes("MutationObserver") && frameHtml.includes("setTimeout(fail, 60000)"),
+    "failure text watched, 60s cap");
+  check("R2 stage readout names a failed start honestly",
+    stageJs.includes("This file would not start. It may be damaged or not a real game."),
+    "no more Loading forever");
+  check("R2 play card no longer claims a conversion for play-only systems",
+    !stageJs.includes("Converted and playing above") && stageJs.includes("<strong>Playing above.</strong> Your file never left this device."),
+    "C64 and Amiga are play-only");
+  const playerHtml = fs.readFileSync(path.join(ROOT, "player.html"), "utf8");
+  const playerJs = fs.readFileSync(path.join(ROOT, "assets/js/player.js"), "utf8");
+  check("R2 Load URL box is gone from the player",
+    !playerHtml.includes("rom-url") && !playerHtml.includes("load-url-btn") && !playerJs.includes("handleUrl"),
+    "files arrive by drop or picker only");
+  check("R2 dead stage.css is deleted and unrequired",
+    !fs.existsSync(path.join(ROOT, "assets/css/stage.css")),
+    "linked by no page");
+  const vercelJson = JSON.parse(fs.readFileSync(path.join(ROOT, "vercel.json"), "utf8"));
+  check("R2 deploy publishes site/ only, not the whole repo",
+    vercelJson.outputDirectory === "site",
+    "WAVELOG, skills, scripts and test ROMs stay home");
+  check("R2 inner pages share the home header",
+    ["player.html", "dos.html", "guide.html"].every((p) => {
+      const h = fs.readFileSync(path.join(ROOT, p), "utf8");
+      return h.includes("assets/css/header.css") && h.includes('<a class="wordmark" href="index.html" aria-label="PortPlay home">PortPlay</a>');
+    }),
+    "one header everywhere");
+  check("R2 portable engine stays pinned to the versioned 4.2.3 path",
+    template.includes("https://cdn.emulatorjs.org/4.2.3/data/") && !template.includes("cdn.emulatorjs.org/stable"),
+    "no mutable stable channel");
+
+  /* ---------- 4b. BUNDLE 2026-10-24: engine reconcile + slip/probe ---------- */
+  const crypto = require("crypto");
+  const engDir = path.join(ROOT, "assets/emulatorjs");
+  const manLines = fs.readFileSync(path.join(engDir, "MANIFEST.sha256"), "utf8").trim().split("\n");
+  let manOk = true, manBytes = 0;
+  for (const line of manLines) {
+    const [h, rel] = line.split("  ");
+    const p = path.join(engDir, rel);
+    if (!fs.existsSync(p)) { manOk = false; break; }
+    const data = fs.readFileSync(p); manBytes += data.length;
+    if (crypto.createHash("sha256").update(data).digest("hex") !== h) { manOk = false; break; }
+  }
+  check("B24 engine manifest verifies", manOk, manLines.length + " files, " + manBytes + " bytes");
+  const coreData = fs.readdirSync(path.join(engDir, "data/cores")).filter((f) => f.endsWith(".data"));
+  const perCore = {};
+  coreData.forEach((f) => { const c = f.replace(/(-thread)?(-legacy)?-wasm\.data$/, ""); perCore[c] = (perCore[c] || 0) + 1; });
+  check("B24 one build per file core (threaded PSP excepted)",
+    Object.entries(perCore).every(([c, n]) => n === 1 || c === "ppsspp"),
+    Object.keys(perCore).length + " file cores");
+  check("B24 fbneo (manual Arcade core) is vendored",
+    fs.existsSync(path.join(engDir, "data/cores/fbneo-legacy-wasm.data")) &&
+    fs.existsSync(path.join(engDir, "data/cores/reports/fbneo.json")), "was missing in round 3");
+  check("B24 engine licence + notice ship beside the payload",
+    fs.readFileSync(path.join(engDir, "LICENSE"), "utf8").includes("GNU GENERAL PUBLIC LICENSE") &&
+    fs.readFileSync(path.join(engDir, "NOTICE.txt"), "utf8").includes("EmulatorJS"), "GPL-3.0");
+  const frameHtmlB = fs.readFileSync(path.join(ROOT, "play-frame.html"), "utf8");
+  check("B24 version-ping fetch shim in player + play frame + portable template",
+    playerJs.includes("stable\\/data\\/version\\.json") && frameHtmlB.includes("stable\\/data\\/version\\.json") &&
+    template.includes("stable\\/data\\/version\\.json"),
+    "zero CDN requests per play session, portable files included");
+  check("B24 Light template tries the site's own engine first, CDN fallback",
+    template.includes("button-mash-live.vercel.app/assets/emulatorjs/data/") &&
+    template.indexOf("button-mash-live.vercel.app/assets/emulatorjs/data/") < template.indexOf("https://cdn.emulatorjs.org/4.2.3/data/") &&
+    template.includes("EJS_disableAutoLang = false"), "BM_ENGINE_HOSTS order");
+  const slipJs = fs.readFileSync(path.join(ROOT, "assets/js/slip.js"), "utf8");
+  check("B24 slip computes a real CRC32 on-device and never names the game",
+    slipJs.includes("crc32Stream") && slipJs.includes("0xEDB88320") && stageJs.includes("showSlip(") &&
+    playerJs.includes("slipForFile") && slipJs.includes("No, see the Guide"), "slip wired on stage + player");
+  check("B24 probe + pad view + shelf export/import + service worker present",
+    fs.existsSync(path.join(ROOT, "assets/js/probe.js")) &&
+    fs.readFileSync(path.join(ROOT, "assets/js/probe.js"), "utf8").includes("Will this device run it?") &&
+    fs.existsSync(path.join(ROOT, "assets/js/pad.js")) &&
+    fs.readFileSync(path.join(ROOT, "assets/js/library.js"), "utf8").includes("portplay-shelf") &&
+    fs.readFileSync(path.join(ROOT, "sw.js"), "utf8").includes("/assets/emulatorjs/data/"),
+    "probe.js, pad.js, .portplay shelf, sw.js");
+  const playerSrcs = vercelJson.headers.filter((h) => ["/player.html", "/player", "/play-frame.html", "/play-frame"].includes(h.source));
+  check("B24 player pages carry COOP same-origin + COEP credentialless (preview-untested)",
+    playerSrcs.length === 4 && playerSrcs.every((h) =>
+      h.headers.some((x) => x.key === "Cross-Origin-Opener-Policy" && x.value === "same-origin") &&
+      h.headers.some((x) => x.key === "Cross-Origin-Embedder-Policy" && x.value === "credentialless")),
+    "flagged untested against the engine until a preview deploy");
+  const engRule = vercelJson.headers.find((h) => h.source === "/assets/emulatorjs/(.*)");
+  check("B24 engine payload headers: immutable cache + ACAO * + CORP cross-origin",
+    !!engRule && engRule.headers.some((x) => x.key === "Cache-Control" && x.value.includes("immutable")) &&
+    engRule.headers.some((x) => x.key === "Access-Control-Allow-Origin" && x.value === "*") &&
+    engRule.headers.some((x) => x.key === "Cross-Origin-Resource-Policy" && x.value === "cross-origin"),
+    "adapted from the consult's /engine/(.*) rule to the vendored path");
+
+  /* ---------- 4c. EVENING CONSULT 2026-10-24: player frame move + touch pad ---------- */
+  const padJs = fs.readFileSync(path.join(ROOT, "assets/js/touchpad.js"), "utf8");
+  check("B25 touch pad ships and drives the engine's own input call",
+    padJs.includes("gameManager.simulateInput") && padJs.includes("PortplayPad") &&
+    padJs.includes("toggleVirtualGamepad(false)"),
+    "the same simulateInput the engine's own pad makes");
+  check("B25 touch pad covers the consult schemes",
+    ["nes", "gb", "gba", "snes", "segaMD", "segaMS", "segaGG", "psx"].every((s) => padJs.includes(s + ":")),
+    "nes, gb, gba, snes, Genesis, Master System, Game Gear, PlayStation");
+  check("B25 touch pad stores only its own prefs",
+    padJs.includes('var PREF = "pp.pad.v1"') && padJs.includes("No game data") &&
+    !/localStorage\.setItem\((?!PREF)/.test(padJs),
+    "size, opacity, hand, haptics — nothing else");
+  check("B25 pad prefs never persist on the nothing-stored stage",
+    padJs.includes("opts.storePrefs !== false") && padJs.includes("function persist()") &&
+    frameHtmlB.includes("storePrefs: !!opts.keepDatabases"),
+    "the frame passes storePrefs only with keepDatabases (the full player); stage pad prefs are session-only");
+  check("B25 frame swallows the wake-lock refusal only",
+    frameHtmlB.includes("unhandledrejection") && frameHtmlB.includes("NotAllowedError"),
+    "the cores' screen wake lock, kept out of the error log");
+  check("B25 frame mounts the touch pad on coarse pointers",
+    frameHtmlB.includes("PortplayPad.mount") && frameHtmlB.includes("(pointer: coarse)") &&
+    frameHtmlB.includes("assets/js/touchpad.js") && frameHtmlB.includes("pp-touch") &&
+    frameHtmlB.includes("ejs_virtualGamepad_parent"),
+    "our pad replaces the engine's; the engine menu hides until asked back");
+  check("B25 full player boots through the frame, engine no longer in-page",
+    playerJs.includes("play-frame.html") && playerJs.includes("portplay-boot") &&
+    !playerJs.includes("EJS_pathtodata") && !playerJs.includes("data-ejs") &&
+    !playerJs.includes("URL.createObjectURL(file)"),
+    "the blob-URL teardown class behind the live network error is gone");
+  check("B25 frame databases: stage off, full player keeps its save slots",
+    frameHtmlB.includes("if (!opts.keepDatabases) window.EJS_disableDatabases = true") &&
+    playerJs.includes("keepDatabases: true"),
+    "PP12 promise kept per surface");
+  check("B25 player passes its cheats and BIOS file through the boot protocol",
+    playerJs.includes("cheats: getCheats()") && playerJs.includes("biosFile: biosFile") &&
+    frameHtmlB.includes("d.biosFile"),
+    "Player 2.0 cheats and the BIOS picker survive the frame move");
+  check("B25 phone frame fix + pad exit handled on both surfaces",
+    stageJs.includes("100dvh") && playerJs.includes("100dvh") &&
+    stageJs.includes("portplay-exit") && playerJs.includes("portplay-exit"),
+    "full-viewport frame on coarse pointers; Exit tears down and resets");
 
   /* ---------- 5. COVERAGE agrees with the engines ---------- */
   const cov = JSON.parse(fs.readFileSync(path.join(ROOT, "data/v1/coverage.json"), "utf8"));

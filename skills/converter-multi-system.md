@@ -23,7 +23,7 @@ Why exactly these five: the export template boots EmulatorJS with `EJS_core` set
 
 ## Procedure
 
-1. Confirm the files are the user's own: dumps of cartridges they physically own, homebrew, or public-domain releases. See `skills/legal-sourcing.md`. Never help convert ROMs the user doesn't own.
+1. Confirm the files are the user's own: dumps of cartridges they physically own, homebrew, or public-domain releases. Never help convert ROMs the user doesn't own, and never name or point to any place to download games or BIOS files — the only lanes this site has are the user's own dumps and homebrew that is freely licensed. (The old sourcing skill was deleted on purpose in Round 3; this refusal is the whole of what replaces it.)
 2. Point them at `converter.html`: drop files (multiple OK) or click to browse. Each file becomes a queue row: detected system, size, editable title.
 3. Options: compression level (None / Fast / Balanced / Best — see trade-offs below), optional cover art (one image for the whole batch, ≤2MB, embedded in every output).
 4. Convert: files process sequentially with per-file progress (bytes, throughput, ETA). One bad file never stops the batch; Cancel stops after the current file. Each finished game gets its own download (or Download all).

@@ -1,0 +1,1 @@
+af-FR.json ar-AR.json ben-BEN.json de-GER.json el-GR.json en-US.json es-ES.json fa-AF.json hi-HI.json it-IT.json ja-JA.json jv-JV.json ko-KO.json pt-BR.json retroarch.json ro-RO.json ru-RU.json tr-TR.json vi-VN.json zh-CN.json
